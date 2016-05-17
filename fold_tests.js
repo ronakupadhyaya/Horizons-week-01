@@ -1,13 +1,24 @@
 "use strict";
 
-describe("fold", function() {
-  it("fold", function() {
-    expect(towers.isArray('a')).toBe(false);
+describe("fold.contains(item, array)", function() {
+  beforeEach(function() {
+    spyOn(_, 'any').and.callThrough();
   });
-  it("towers.isArray(0) -> false", function() {
-    expect(towers.isArray(0)).toBe(false);
+
+  it("fold.contains([], 'a') should call _.any()", function() {
+    fold.contains([], 'a');
+    expect(_.any).toHaveBeenCalled();
   });
-  it("towers.isArray([]) -> true", function() {
-    expect(towers.isArray([])).toBe(true);
+
+  it("fold.contains([], 'a') -> false", function() {
+    expect(fold.contains([], 'a')).toBe(false);
+  });
+
+  it("fold.contains(['a'], 'a') -> true", function() {
+    expect(fold.contains(['a'], 'a')).toBe(true);
+  });
+
+  it("fold.contains(['a', 'b', 'c'], 1) -> false", function() {
+    expect(fold.contains(['a', 'b', 'c'], 1)).toBe(false);
   });
 });

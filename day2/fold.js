@@ -25,5 +25,7 @@ window.fold = {};
 //
 // Use _.any() to build fold.contains()
 fold.contains = function(array, item) {
-  // YOUR CODE HERE
+  return _.any(array, function(i) {
+    return i === item;
+  })
 };

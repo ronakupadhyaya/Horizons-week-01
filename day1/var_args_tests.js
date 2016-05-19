@@ -16,6 +16,20 @@ describe("varArgs.numArgs(...args)", function() {
   });
 });
 
+describe("varArgs.makeUser(...args)", function() {
+  it("varArgs.makeUser('Rex', 34) -> { 'name' : 'Rex', 'age' : 34 }", function() {
+    expect(varArgs.makeUser('Rex', 34)).toEqual({ 'name' : 'Rex', 'age' : 34 });
+  });
+
+  it("varArgs.makeUser('Bob') -> { 'name': 'Bob', 'age' : 12 }", function() {
+    expect(varArgs.makeUser('Bob')).toEqual({ 'name': 'Bob', 'age' : 12 });
+  });
+
+  it("varArgs.makeUser() -> { 'name': 'John Doe', 'age' : 24 }", function() {
+    expect(varArgs.makeUser()).toEqual({ 'name': 'John Doe', 'age' : 24 });
+  });
+});
+
 describe("varArgs.sum(...args)", function() {
   it("varArgs.sum() -> 0", function() {
     expect(varArgs.sum()).toBe(0);

@@ -17,9 +17,10 @@ varArgs.numArgs = function() {
 
 // Exercise 1. varArgs.sum(args...)
 // Write a function that takes any number of integers as arguments and computes their sum.
+// ex. varArgs.sum() -> 0
 // ex. varArgs.sum(1) -> 1
 // ex. varArgs.sum(1, 2, 4) -> 7
-// ex. varArgs.sum() -> 0
+// ex. varArgs.sum(1, -2, 4) -> 3
 //
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
@@ -27,9 +28,10 @@ varArgs.sum = function() {
 
 // Exercise 2. varArgs.product(args...)
 // Write a function that takes any number of integers as arguments and computes their product.
+// ex. varArgs.product() -> 0
 // ex. varArgs.product(1) -> 1
 // ex. varArgs.product(1, 2, 4) -> 8
-// ex. varArgs.product() -> 0
+// ex. varArgs.product(1, 2, 4) -> -8
 //
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
@@ -37,6 +39,7 @@ varArgs.product = function() {
 
 // Exercise 3. varArgs.joinWith(args...)
 // Write a function that takes a delimiter as the first argument and any number of strings for the rest of the arguments, and joins the distinct strings together in order with the delimiter in between.
+// ex. varArgs.joinWith(',') -> ''
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 //

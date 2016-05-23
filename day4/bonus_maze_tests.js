@@ -1,6 +1,6 @@
 "use strict";
 
-describe('Maze.isValidMove()', {
+describe('Maze.isValidMove()', function() {
   it("new Maze([['S', 'E']]).isValidMove(1, 0, 'right') -> false, invalid starting position", function() {
     expect(new Maze([['S', 'E']]).isValidMove(1, 0, 'right') ).toBe(false);
   });

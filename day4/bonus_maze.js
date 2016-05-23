@@ -9,7 +9,6 @@
 //  - Ending point, represented by 'E'
 //
 // A maze is represented by a 2-dimensional array.  Inner arrays represent rows
-// of the grid.
 //
 // Mazes are solved by finding a path from the starting point to the ending
 // point.
@@ -32,6 +31,8 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // Write a method isValidMove() that returns true if it's possible to move in
 // the given direction from the given position (row & column).
 //
+// The position 0, 0 represents the upper left corner of the maze.
+//
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
 //  - move ends on a cell that's a wall (represented by 'X')
@@ -39,12 +40,13 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 //    moving left from the leftmost column etc.)
 //
 // Parameters:
-//  - row & column: the position before the move
+//  - row: row before the move. 0 represents top row.
+//  - column: column before the move. 0 represents leftmost column.
 //  - direction: direction to try to move. Must be one of:
-//    - 'up': Move up
-//    - 'down': Move down
-//    - 'left': Move left
-//    - 'right': Move right
+//    - 'up': Move up i.e. decrement row
+//    - 'down': Move down i.e. increment row
+//    - 'left': Move left i.e. decrement column
+//    - 'right': Move right i.e. increment column
 //
 // ex. new Maze([['S', 'E']]).isValidMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
 // ex. new Maze([['S', 'E']]).isValidMove(1, 0, 'right') -> false, invalid starting position
@@ -67,8 +69,61 @@ Maze.prototype.isValidMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
 
-  // YOUR CODE HERE
+  function isPositionOnTheBoard() {
+    if (row < 0) {
+      return false;
+    }
+
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if position is on the board before move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return true;
 }
 
 // Write a method that returns true if this maze is solvable.

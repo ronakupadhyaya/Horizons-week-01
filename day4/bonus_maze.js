@@ -29,7 +29,7 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
-// Write a method isValidMove() that takes a position (row and column parameters)
+// Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
 //  - if the move is valid, a new position ([row, column])
 //  - if the move is invalid, false
@@ -48,26 +48,26 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 //    - 'left': Move left
 //    - 'right': Move right
 //
-// ex. new Maze([['S', 'E']]).isValidMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
-// ex. new Maze([['S', 'E']]).isValidMove(1, 0, 'right') -> false, invalid starting position
-// ex. new Maze([['S', 'E']]).isValidMove(0, 0, 'left') -> false, moves off the left side of board
-// ex. new Maze([['S', 'E']]).isValidMove(0, 0, 'up') -> false, moves off the top of the board
-// ex. new Maze([['S', 'E']]).isValidMove(0, 0, 'down') -> false, moves off the bottom of the board
-// ex. new Maze([['S', 'X', 'E']]).isValidMove(0, 0, 'right') -> false, moves into wall
-// ex. new Maze([['S', 'X', 'E']]).isValidMove(0, 2, 'left') -> false, moves into wall
-// ex. new Maze([['S'], ['E']]).isValidMove(0, 0, 'right') -> false, moves off right side of the board
-// ex. new Maze([['S'], ['X'], ['E']]).isValidMove(0, 0, 'down') -> false, moves into wall
-// ex. new Maze([['S'], ['X'], ['E']]).isValidMove(2, 0, 'up') -> false, moves into wall
+// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
+// ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
+// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
+// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board
+// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'down') -> false, moves off the bottom of the board
+// ex. new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right') -> false, moves into wall
+// ex. new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left') -> false, moves into wall
+// ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'right') -> false, moves off right side of the board
+// ex. new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down') -> false, moves into wall
+// ex. new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') -> false, moves into wall
 //
 //
-// ex. new Maze([['S'], ['E']]).isValidMove(0, 0, 'down') -> [1, 0]
-// ex. new Maze([['S'], ['E']]).isValidMove(1, 0, 'up') -> [0, 0]
-// ex. new Maze([['S', 'E']]).isValidMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') -> [0, 2]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') -> [0, 1]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).isValidMove(1, 2, 'up') -> [0, 2]
-Maze.prototype.isValidMove = function(row, column, direction) {
+// ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
+// ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
+// ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
+Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }

@@ -181,7 +181,7 @@ Maze.prototype.isSolvable = function() {
     // Check every direction for a valid move
     for (var i = 0; i < Maze.validDirections.length; i++) {
       var direction = Maze.validDirections[i];
-      var newPos = this.isValidMove(pos[0], pos[1], direction);
+      var newPos = this.tryMove(pos[0], pos[1], direction);
       // this is a valid move and we have not visited the new position yet
       if (newPos && ! this.visited[newPos[0]][newPos[1]]) {
         // Add new position to the list of positions to be visited

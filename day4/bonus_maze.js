@@ -71,6 +71,23 @@ Maze.prototype.isValidMove = function(row, column, direction) {
   // YOUR CODE HERE
 }
 
+// Return the coordinates of the starting position of the current maze.
+//
+// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
+// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
+Maze.prototype.getStartPosition = function() {
+  for (var row = 0; row < this.maze.length; row++) {
+    var curRow = this.maze[row];
+    for (var column = 0; column < curRow.length; column++) {
+      if (curRow[column] === 'S') {
+        return [row, column];
+      }
+    }
+  }
+  throw new Error("Maze has no starting point");
+}
+
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
@@ -80,6 +97,8 @@ Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
 }
 
+// Return a string representation of the current maze.
+// Empty spaces are represented by underscores '_'.
 Maze.prototype.toString = function() {
   return this.maze.map(function(row) {
     return row.map(function(cell) {

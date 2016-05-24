@@ -45,6 +45,17 @@ describe('Maze.isValidMove()', function() {
   });
 });
 
+describe("Maze.getStartPosition()", function() {
+  it("new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]", function() {
+    expect(new Maze([['S'], ['E']]).getStartPosition() ).toEqual([0, 0]);
+  });
+  it("new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]", function() {
+    expect(new Maze([['E'], ['S']]).getStartPosition() ).toEqual([1, 0]);
+  });
+  it("new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]", function() {
+    expect(new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() ).toEqual([1, 1]);
+  });
+});
 
 describe("Maze.isSolvable()", function() {
   var solvableMazes = [];
@@ -61,13 +72,13 @@ describe("Maze.isSolvable()", function() {
                       [" ", " ", " ", "X", " ", " ", " "]]);
 
   solvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
-                      [" ", " ", " ", " ", "X", " ", " "],
+                      [" ", " ", " ", " ", " ", " ", " "],
                       [" ", " ", " ", "X", " ", " ", "E"],
                       [" ", " ", " ", "X", " ", " ", " "]]);
 
-  solvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
+  solvableMazes.push([[" ", "E", " ", "X", " ", " ", " "],
                       [" ", " ", " ", " ", " ", " ", " "],
-                      [" ", " ", " ", "X", " ", " ", "E"],
+                      [" ", " ", " ", "X", " ", " ", "S"],
                       [" ", " ", " ", "X", " ", " ", " "]]);
 
   var unsolvableMazes = [];
@@ -78,6 +89,7 @@ describe("Maze.isSolvable()", function() {
   unsolvableMazes.push([["S", "X"],
                         ["X", " "],
                         ["E", " "]]);
+
   unsolvableMazes.push([["X", " ", " ", " ", " ", " ", " "],
                         [" ", "X", " ", " ", " ", " ", " "],
                         ["S", " ", "X", " ", " ", " ", "E"],
@@ -86,6 +98,11 @@ describe("Maze.isSolvable()", function() {
   unsolvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
                         [" ", " ", " ", " ", "X", " ", " "],
                         [" ", " ", " ", "X", " ", " ", "E"],
+                        [" ", " ", " ", "X", " ", " ", " "]]);
+
+  unsolvableMazes.push([[" ", "E", " ", "X", " ", " ", " "],
+                        [" ", " ", " ", " ", "X", " ", " "],
+                        [" ", " ", " ", "X", " ", " ", "S"],
                         [" ", " ", " ", "X", " ", " ", " "]]);
 
   solvableMazes.forEach(function(maze) {

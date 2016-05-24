@@ -134,3 +134,14 @@ Maze.prototype.isValidMove = function(row, column, direction) {
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
 }
+
+Maze.prototype.toString = function() {
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ') {
+        return '_';
+      }
+      return cell;
+    }).join('');
+  }).join('\n');
+}

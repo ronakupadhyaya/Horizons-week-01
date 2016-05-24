@@ -127,7 +127,7 @@ Maze.prototype.isValidMove = function(row, column, direction) {
     return false;
   }
 
-  return true;
+  return [row, column];
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -181,29 +181,11 @@ Maze.prototype.isSolvable = function() {
     // Check every direction for a valid move
     for (var i = 0; i < Maze.validDirections.length; i++) {
       var direction = Maze.validDirections[i];
-      if (this.isValidMove(pos[0], pos[1], direction)) {
-        var moves = {
-          up: function() {
-            return [pos[0] - 1, pos[1]];
-          },
-          down: function() {
-            return [pos[0] + 1, pos[1]];
-          },
-          left: function() {
-            return [pos[0], pos[1] - 1];
-          },
-          right: function() {
-            return [pos[0], pos[1] + 1];
-          }
-        }
-
-        // Calculate new position after move
-        var newPos = moves[direction]();
-        if (! this.visited[newPos[0]][newPos[1]]) {
-          // If new position has not yet been visited, add it to the stack
-          // to be visited
-          stack.push(newPos);
-        }
+      var newPos = this.isValidMove(pos[0], pos[1], direction);
+      // this is a valid move and we have not visited the new position yet
+      if (newPos && ! this.visited[newPos[0]][newPos[1]]) {
+        // Add new position to the list of positions to be visited
+        stack.push(newPos);
       }
     }
   }

@@ -28,20 +28,27 @@ describe('Maze.isValidMove()', function() {
   it("new Maze([['S'], ['X'], ['E']]).isValidMove(2, 0, 'up') -> false, moves into wall", function() {
     expect(new Maze([['S'], ['X'], ['E']]).isValidMove(2, 0, 'up') ).toBe(false);
   });
-  it("new Maze([['S'], ['E']]).isValidMove(0, 0, 'down') -> true", function() {
-    expect(new Maze([['S'], ['E']]).isValidMove(0, 0, 'down') ).toBe(true);
+
+  it("new Maze([['S'], ['E']]).isValidMove(0, 0, 'down') -> [1, 0]", function() {
+    expect(new Maze([['S'], ['E']]).isValidMove(0, 0, 'down') ).toEqual([1, 0]);
   });
-  it("new Maze([['S', 'E']]).isValidMove(0, 1, 'left') -> true", function() {
-    expect(new Maze([['S', 'E']]).isValidMove(0, 1, 'left') ).toBe(true);
+  it("new Maze([['S'], ['E']]).isValidMove(1, 0, 'up') -> [0, 0]", function() {
+    expect(new Maze([['S'], ['E']]).isValidMove(1, 0, 'up') ).toEqual([0, 0]);
   });
-  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') -> true", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') ).toBe(true);
+  it("new Maze([['S', 'E']]).isValidMove(0, 1, 'left') -> [0, 0]", function() {
+    expect(new Maze([['S', 'E']]).isValidMove(0, 1, 'left') ).toEqual([0, 0]);
   });
-  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') -> true", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') ).toBe(true);
+  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') -> [0, 0]", function() {
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') ).toEqual([0, 0]);
   });
-  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') -> true", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') ).toBe(true);
+  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') -> [0, 2]", function() {
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') ).toEqual([0, 2]);
+  });
+  it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') -> [0, 1]", function() {
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') ).toEqual([0, 1]);
+  });
+  it("new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).isValidMove(1, 2, 'up') -> [0, 2]", function() {
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).isValidMove(1, 2, 'up') ).toEqual([0, 2]);
   });
 });
 

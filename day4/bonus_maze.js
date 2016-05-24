@@ -66,7 +66,7 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'left') -> [0, 0]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 1, 'right') -> [0, 2]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(0, 0, 'right') -> [0, 1]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).isValidMove(2, 2, 'up') -> [1, 2]
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).isValidMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.isValidMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);

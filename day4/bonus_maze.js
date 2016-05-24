@@ -132,7 +132,63 @@ Maze.prototype.isValidMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  // create 2d array to track if each cell has been visited
+  // start with false, becase nothing has been visited yet
+  this.visited = this.maze.map(function(row) {
+    return row.map(_.constant(false));
+  });
+
+  var startPos = this.getStartPos();
+  var stack = [startPos];
+  // While stack is not empty
+  while (stack.length) {
+    // Get next position to try
+    var pos = stack.pop();
+    var curCell = this.maze[pos[0]][pos[1]];
+
+    if (curCell === 'X') {
+      throw new Error("Can't move into wall. Position: " + pos);
+    }
+
+    // Reached the ending position, return true!
+    if (curCell === 'E') {
+      return true;
+    }
+
+    // Mark position as visited
+    this.visited[pos[0]][pos[1]] = true;
+    // Check every direction for a valid move
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var direction = Maze.validDirections[i];
+      if (this.isValidMove(pos[0], pos[1], direction)) {
+        var moves = {
+          up: function() {
+            return [pos[0] - 1, pos[1]];
+          },
+          down: function() {
+            return [pos[0] + 1, pos[1]];
+          },
+          left: function() {
+            return [pos[0], pos[1] - 1];
+          },
+          right: function() {
+            return [pos[0], pos[1] + 1];
+          }
+        }
+
+        // Calculate new position after move
+        var newPos = moves[direction]();
+        if (! this.visited[newPos[0]][newPos[1]]) {
+          // If new position has not yet been visited, add it to the stack
+          // to be visited
+          stack.push(newPos);
+        }
+      }
+    }
+  }
+
+  // If run out of locations to try, then the maze is not solvable
+  return false;
 }
 
 Maze.prototype.toString = function() {

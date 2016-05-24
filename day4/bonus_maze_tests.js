@@ -45,6 +45,60 @@ describe('Maze.isValidMove()', function() {
   });
 });
 
-var solvableMazes = [];
 
-var unsolvableMazes = [];
+describe("Maze.isSolvable()", function() {
+  var solvableMazes = [];
+  solvableMazes.push([["S", "E"]]);
+  solvableMazes.push([["S"],
+                      ["E"]]);
+  solvableMazes.push([["X", "S", "E", "X"]]);
+  solvableMazes.push([["S", "X"],
+                      ["E", "X"]]);
+
+  solvableMazes.push([["X", "S", " ", " ", " ", " ", " "],
+                      [" ", "X", " ", " ", " ", " ", " "],
+                      [" ", " ", "X", " ", " ", " ", "E"],
+                      [" ", " ", " ", "X", " ", " ", " "]]);
+
+  solvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
+                      [" ", " ", " ", " ", "X", " ", " "],
+                      [" ", " ", " ", "X", " ", " ", "E"],
+                      [" ", " ", " ", "X", " ", " ", " "]]);
+
+  solvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
+                      [" ", " ", " ", " ", " ", " ", " "],
+                      [" ", " ", " ", "X", " ", " ", "E"],
+                      [" ", " ", " ", "X", " ", " ", " "]]);
+
+  var unsolvableMazes = [];
+  unsolvableMazes.push([["S", "X", "E"]]);
+  unsolvableMazes.push([["S"],
+                        ["X"],
+                        ["E"]]);
+  unsolvableMazes.push([["S", "X"],
+                        ["X", " "],
+                        ["E", " "]]);
+  unsolvableMazes.push([["X", " ", " ", " ", " ", " ", " "],
+                        [" ", "X", " ", " ", " ", " ", " "],
+                        ["S", " ", "X", " ", " ", " ", "E"],
+                        [" ", " ", " ", "X", " ", " ", " "]]);
+
+  unsolvableMazes.push([[" ", "S", " ", "X", " ", " ", " "],
+                        [" ", " ", " ", " ", "X", " ", " "],
+                        [" ", " ", " ", "X", " ", " ", "E"],
+                        [" ", " ", " ", "X", " ", " ", " "]]);
+
+  solvableMazes.forEach(function(maze) {
+    var m = new Maze(maze);
+    it("Maze should be solvable: " + m, function() {
+      expect(m.isSolvable()).toBe(true);
+    });
+  });
+
+  unsolvableMazes.forEach(function(maze) {
+    var m = new Maze(maze);
+    it("Maze should not be solvable: " + m, function() {
+      expect(m.isSolvable()).toBe(false);
+    });
+  });
+})

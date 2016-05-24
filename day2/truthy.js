@@ -12,7 +12,6 @@ window.truthy = {};
 // hint. !!true -> true
 truthy.is = function(thing) {
   // YOUR CODE HERE
-  return !!thing;
 };
 
 // Exercise 2. truthy.isEqual(a, b)
@@ -29,7 +28,6 @@ truthy.is = function(thing) {
 // hint. see: http://stackoverflow.com/questions/359494/does-it-matter-which-equals-operator-vs-i-use-in-javascript-comparisons
 truthy.isEqual = function(a, b) {
   // YOUR CODE HERE
-  return a == b;
 };
 
 // Exercise 3. truthy.max(a, b)
@@ -41,12 +39,6 @@ truthy.isEqual = function(a, b) {
 //
 truthy.max = function(a, b) {
   // YOUR CODE HERE
-  // regular conditional
-  if (a >= b) {
-    return a;
-  } else {
-    return b;
-  }
 };
 
 // Exercise 4.A truthy.and(a, b)
@@ -59,12 +51,6 @@ truthy.max = function(a, b) {
 // hint. think about the binary analogs of true and false => 1 and 0 respectively. 1 * 1 is 1; what about 1 * 0 or 0 * 0?
 truthy.and = function(a, b) {
   // YOUR CODE HERE
-  // if (a * b) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-  return (a * b) ? true : false;
 };
 
 // Exercise 4.B truthy.or(a, b)
@@ -77,12 +63,6 @@ truthy.and = function(a, b) {
 // hint. mthink about the binary analogs of true and false again! What kind of operator do you think you can use?
 truthy.or = function(a, b) {
   // YOUR CODE HERE
-  // if (a + b) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-  return (a + b) ? true : false;
 };
 
 // Exercise 5. truthy.compareStr(a<string>, b<string>)
@@ -94,7 +74,6 @@ truthy.or = function(a, b) {
 //
 truthy.compareStr = function(a, b) {
   // YOUR CODE HERE
-  return a === b;
 };
 
 // Exercise 6. truthy.compareNum(a<number>, b<number>)
@@ -105,5 +84,4 @@ truthy.compareStr = function(a, b) {
 //
 truthy.compareNum = function(a, b) {
   // YOUR CODE HERE
-  return a == b;
 };

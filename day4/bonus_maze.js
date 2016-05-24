@@ -155,7 +155,7 @@ Maze.prototype.isSolvable = function() {
     return row.map(_.constant(false));
   });
 
-  var startPos = this.getStartPos();
+  var startPos = this.getStartPosition();
   var stack = [startPos];
   // While stack is not empty
   while (stack.length) {

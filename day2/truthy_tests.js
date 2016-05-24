@@ -1,51 +1,51 @@
 "use strict";
 
-describe("truthy.is(thing)", function() {
-  it("truthy.is('a') -> true", function() {
-    expect(truthy.is('a')).toBe(true);
+describe("truthy.isTruthy(thing)", function() {
+  it("truthy.isTruthy('a') -> true", function() {
+    expect(truthy.isTruthy('a')).toBe(true);
   });
   
-  it("truthy.is('') -> false", function() {
-    expect(truthy.is('')).toBe(false);
+  it("truthy.isTruthy('') -> false", function() {
+    expect(truthy.isTruthy('')).toBe(false);
   });
   
-  it("truthy.is(113) -> true", function() {
-    expect(truthy.is(113)).toBe(true);
+  it("truthy.isTruthy(113) -> true", function() {
+    expect(truthy.isTruthy(113)).toBe(true);
   });
   
-  it("truthy.is(0) -> false", function() {
-    expect(truthy.is(0)).toBe(false);
+  it("truthy.isTruthy(0) -> false", function() {
+    expect(truthy.isTruthy(0)).toBe(false);
   });
   
 });
 
-describe("truthy.isEqual(a, b)", function() {
-  it("truthy.isEqual(1, 1) -> true", function() {
-    expect(truthy.isEqual(1, 1)).toBe(true);
+describe("truthy.isSortOfEqual(a, b)", function() {
+  it("truthy.isSortOfEqual(1, 1) -> true", function() {
+    expect(truthy.isSortOfEqual(1, 1)).toBe(true);
   });
   
-  it("truthy.isEqual(1, 0) -> false", function() {
-    expect(truthy.isEqual(1, 0)).toBe(false);
+  it("truthy.isSortOfEqual(1, 0) -> false", function() {
+    expect(truthy.isSortOfEqual(1, 0)).toBe(false);
   });
   
-  it("truthy.isEqual('1', 1) -> true", function() {
-    expect(truthy.isEqual('1', 1)).toBe(true);
+  it("truthy.isSortOfEqual('1', 1) -> true", function() {
+    expect(truthy.isSortOfEqual('1', 1)).toBe(true);
   });
   
-  it("truthy.isEqual('', ' ') -> false", function() {
-    expect(truthy.isEqual('', ' ')).toBe(false);
+  it("truthy.isSortOfEqual('', ' ') -> false", function() {
+    expect(truthy.isSortOfEqual('', ' ')).toBe(false);
   });
   
-  it("truthy.isEqual([ 'a', 'b' ], 'a') -> false", function() {
-    expect(truthy.isEqual([ 'a', 'b' ], 'a')).toBe(false);
+  it("truthy.isSortOfEqual([ 'a', 'b' ], 'a') -> false", function() {
+    expect(truthy.isSortOfEqual([ 'a', 'b' ], 'a')).toBe(false);
   });
   
-  it("truthy.isEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false", function() {
-    expect(truthy.isEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'})).toBe(false);
+  it("truthy.isSortOfEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false", function() {
+    expect(truthy.isSortOfEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'})).toBe(false);
   });
   
-  it("truthy.isEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false", function() {
-    expect(truthy.isEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'})).toBe(false);
+  it("truthy.isSortOfEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false", function() {
+    expect(truthy.isSortOfEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'})).toBe(false);
   });
   
 });
@@ -112,27 +112,32 @@ describe("truthy.or(a, b)", function() {
 
 describe("truthy.compareStr(a, b)", function() {
   
-  it("truthy.compareStr('john', 'John') -> false", function() {
-    expect(truthy.compareStr('john', 'John')).toBe(false);
-  });
-  
-  it("truthy.compareStr('xDvz7h$k', 'xDvz7h$k') -> true", function() {
-    expect(truthy.compareStr('xDvz7h$k', 'xDvz7h$k')).toBe(true);
-  });
 });
 
-describe("truthy.compareNum(a, b)", function() {
+describe("truthy.isReallyEquals(a, b)", function() {
   
-  it("truthy.compareNum(1, 1) -> true", function() {
-    expect(truthy.compareNum(1, 1)).toBe(true);
+  it("truthy.isReallyEquals('john', 'John') -> false", function() {
+    expect(truthy.isReallyEquals('john', 'John')).toBe(false);
   });
   
-  it("truthy.compareNum(1, 0) -> false", function() {
-    expect(truthy.compareNum(1, 0)).toBe(false);
+  it("truthy.isReallyEquals('xDvz7h$k', 'xDvz7h$k') -> true", function() {
+    expect(truthy.isReallyEquals('xDvz7h$k', 'xDvz7h$k')).toBe(true);
   });
   
-  it("truthy.compareNum(1, 1.000000000000000000000000000000001) -> true", function() {
-    expect(truthy.compareNum(1, 1.000000000000000000000000000000001)).toBe(true);
+  it("truthy.isReallyEquals('1', 1) -> true", function() {
+    expect(truthy.isReallyEquals('1', 1)).toBe(false);
+  });
+  
+  it("truthy.isReallyEquals(1, 1) -> true", function() {
+    expect(truthy.isReallyEquals(1, 1)).toBe(true);
+  });
+  
+  it("truthy.isReallyEquals(1, 0) -> false", function() {
+    expect(truthy.isReallyEquals(1, 0)).toBe(false);
+  });
+  
+  it("truthy.isReallyEquals(1, 1.000000000000000000000000000000001) -> true", function() {
+    expect(truthy.isReallyEquals(1, 1.000000000000000000000000000000001)).toBe(true);
   });
 
 });

@@ -2,31 +2,31 @@
 
 window.truthy = {};
 
-// Exercise 1. truthy.is(thing)
+// Exercise 1. truthy.isTruthy(thing)
 // Write a function that returns the boolean value of its input using the `!` operator
-// ex. truthy.is('a') -> true
-// ex. truthy.is('') -> false
-// ex. truthy.is(113) -> true
-// ex. truthy.is(0) -> false
+// ex. truthy.isTruthy('a') -> true
+// ex. truthy.isTruthy('') -> false
+// ex. truthy.isTruthy(113) -> true
+// ex. truthy.isTruthy(0) -> false
 //
 // hint. !!true -> true
-truthy.is = function(thing) {
+truthy.isTruthy = function(thing) {
   // YOUR CODE HERE
 };
 
-// Exercise 2. truthy.isEqual(a, b)
-// Write a function that takes two arguments, `a` and `b`, and returns true or false when a and b are equivalent.
-// ex. truthy.isEqual(1, 1) -> true
-// ex. truthy.isEqual(1, 0) -> false
-// ex. truthy.isEqual('1', 1) -> true
-// ex. truthy.isEqual('', ' ') -> false
-// ex. truthy.isEqual([ 'a', 'b' ], 'a') -> false
-// ex. truthy.isEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false
-// ex. truthy.isEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false
+// Exercise 2. truthy.isSortOfEqual(a, b)
+// Write a function that takes two arguments, `a` and `b`, and returns true or false when a and b are sort of the same.
+// ex. truthy.isSortOfEqual(1, 1) -> true
+// ex. truthy.isSortOfEqual(1, 0) -> false
+// ex. truthy.isSortOfEqual('1', 1) -> true
+// ex. truthy.isSortOfEqual('', ' ') -> false
+// ex. truthy.isSortOfEqual([ 'a', 'b' ], 'a') -> false
+// ex. truthy.isSortOfEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false
+// ex. truthy.isSortOfEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false
 ///
-// hint. maybe use `===`? `==`? 
+// hint. use `==` to compare
 // hint. see: http://stackoverflow.com/questions/359494/does-it-matter-which-equals-operator-vs-i-use-in-javascript-comparisons
-truthy.isEqual = function(a, b) {
+truthy.isSortOfEqual = function(a, b) {
   // YOUR CODE HERE
 };
 
@@ -65,23 +65,16 @@ truthy.or = function(a, b) {
   // YOUR CODE HERE
 };
 
-// Exercise 5. truthy.compareStr(a<string>, b<string>)
-// Write a function that takes two strings as arguments, `a` and `b`, and returns true or false when a and b are equal.
+
+// Exercise 5. truthy.isReallyEquals(a, b)
+// Write a function that takes two  arguments, `a` and `b`, and returns true or false when a and b are equal.
 // ex. truthy.compareStr('john', 'John') -> false
 // ex. truthy.compareStr('xDvz7h$k', 'xDvz7h$k') -> true
-// ex. var s = "To be or not to be, that is the question. Whether `tis nobler in the mind to suffer the slings and arrows of outrageous fortune..`";
-//  truhty.compareStr(s, s) -> true
+// ex. truthy.isReallyEquals('1', 1) -> false
+// ex. truthy.isReallyEquals(1, 1) -> true
+// ex. truthy.isReallyEquals(1, 0) -> false
+// ex. truthy.isReallyEquals(1, 1.000000000000000000000000000000001) -> true
 //
-truthy.compareStr = function(a, b) {
-  // YOUR CODE HERE
-};
-
-// Exercise 6. truthy.compareNum(a<number>, b<number>)
-// Write a function that takes two numbers as arguments, `a` and `b`, and returns true or false when a and b are equal.
-// ex. truthy.compareNum(1, 1) -> true
-// ex. truthy.compareNum(1, 0) -> false
-// ex. truthy.compareNum(1, 1.000000000000000000000000000000001) -> true
-//
-truthy.compareNum = function(a, b) {
+truthy.isReallyEquals = function(a, b) {
   // YOUR CODE HERE
 };

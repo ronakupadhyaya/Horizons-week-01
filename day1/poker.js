@@ -25,8 +25,6 @@
 //   - Four of a Kind: Four cards of the same value.
 //   - Straight Flush: All cards are consecutive values of same suit.
 //   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
-//   - The cards are valued in the order:
-//   - 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.
 //
 // The cards are valued in the order:
 // 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.

@@ -37,3 +37,21 @@ describe("fold.hasZeros(array)", function() {
     expect(fold.hasZeros([0]) ).toBe(true);
   });
 });
+
+describe("fold.any(array, fun)", function() {
+  function isTruthy(item) {
+    return !! item;
+  }
+  it("fold.any([], isTruthy) -> false", function() {
+    expect(fold.any([], isTruthy) ).toBeFalsy();
+  });
+  it("fold.any([0, 0], isTruthy) -> false", function() {
+    expect(fold.any([0, 0], isTruthy) ).toBe(false);
+  });
+  it("fold.any([0, 1, 0], isTruthy) -> true", function() {
+    expect(fold.any([0, 1, 0], isTruthy) ).toBe(true);
+  });
+  it("fold.any([1], isTruthy) -> true", function() {
+    expect(fold.any([1], isTruthy) ).toBe(true);
+  });
+});

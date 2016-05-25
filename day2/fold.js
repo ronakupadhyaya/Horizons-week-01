@@ -50,11 +50,33 @@ fold.contains = function(array, item) {
 // Underscore function _.reduce(array, fun)
 // This function is also called foldl, short for fold-left.
 //
+// XXX exmplain reduce
+//
 // Exercise XXX2. fold.any(array, fun)
 // Now let's implement our version of _.any()
+//
+// XXX explain how to do this
+//
+// Use: _.map() and _.reduce()
+//
+//
+// ex.
+//   function isTruthy(item) {
+//     return !! item;
+//   }
+//   fold.any([], isTruthy) -> false
+//   fold.any([0, 0], isTruthy) -> false
+//   fold.any([0, 1, 0], isTruthy) -> true
+//   fold.any([1], isTruthy) -> true
 fold.any = function(array, fun) {
+  // YOUR CODE HERE
+  function or(a, b) {
+    return a || b;
+  }
+
+  return _.reduce(_.map(array, fun), or);
 }
 
-// Un
+// Underscore function _.fold
 fold.fold = function(array, fun) {
 }

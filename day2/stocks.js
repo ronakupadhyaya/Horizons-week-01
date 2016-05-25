@@ -3,7 +3,7 @@
 window.stocks = {};
 
 // Preface:
-// You will be implementing several key functions for a stock analysis program. We are providing you with the data whose format is described in the next paragraph. You can view the data under data/transactions.json. Each function you implement will be tested with the data from that file.
+// You will be implementing several key functions for a stock analysis program. We are providing you with the data whose format is described in the next paragraph. You can view the data under data/transactions.js. Each function you implement will be tested with the data from that file.
 
 // Data:
 // The data that will be run through each function is an array of Transaction objects. Transaction objects have three properties: 'ticker', 'time' and 'price'.
@@ -15,15 +15,15 @@ window.stocks = {};
 // Exercise 1. stocks.biggestGainer(data<Transaction[]>)
 // Write a function that takes an array of Transaction objects. It should return the ticker of the biggest gainer of the given list of stock transactions (the stock that made the most that day)
 //
-// hint. use iterations
+// hint. use maybe doing exercise 3 first will help.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
-  return ''
 };
 
 // Exercise 2. stocks.biggestLoser(data<Transaction[]>)
 // Write a function that takes an array of Transaction objects. It should return the ticker of the biggest loser of the stocks (the stock that lost the most that day)
 //
+// hint. maybe doing exercise 3 and 1 will help.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
 };
@@ -46,6 +46,14 @@ stocks.widestTradingRange = function(data) {
 // [Bonus] Exercise 5. stocks.totalPortofolioValue(data<Transaction[]>, ticker<String>)
 // Write a function that takes an array of Transaction objects and a string corresponding to a ticker of a company in the transaction data. It should return the total portofolio value of the company you gave it.
 // 
-stocks.widestTradingRange = function(data, ticker) {
+// hint. exercise 3 can help!
+stocks.totalPortofolioValue = function(data, ticker) {
+  // YOUR CODE HERE
+};
+
+// [Bonus] Exercise 6. stocks.totalPortofolioGains(data<Transaction[]>, ticker<String>)
+// Write a function that takes an array of Transaction objects and a string corresponding to a ticker of a company in the transaction data. It should return the total portofolio value of the company you gave it.
+// 
+stocks.totalPortofolioGains = function(data, ticker) {
   // YOUR CODE HERE
 };

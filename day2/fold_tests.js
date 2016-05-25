@@ -55,3 +55,46 @@ describe("fold.any(array, fun)", function() {
     expect(fold.any([1], isTruthy) ).toBe(true);
   });
 });
+
+describe("fold.fold(array, fun)", function() {
+  function sum(a, b) {
+    return a + b;
+  }
+  it("fold.fold([1], sum) -> 1", function() {
+    expect(fold.fold([1], sum) ).toBe(1);
+  });
+  it("fold.fold([1, 2], sum) -> 3", function() {
+    expect(fold.fold([1, 2], sum) ).toBe(3);
+  });
+  it("fold.fold([1, 2, -3], sum) -> 0", function() {
+    expect(fold.fold([1, 2, -3], sum) ).toBe(0);
+  });
+  it("fold.fold([1, -1, 2, -3], sum) -> -1", function() {
+    expect(fold.fold([1, -1, 2, -3], sum) ).toBe(-1);
+  });
+  it("fold.fold([0], sum) -> 0", function() {
+    expect(fold.fold([0], sum) ).toBe(0);
+  });
+
+  function and(a, b) {
+    return a && b;
+  }
+  it("fold.fold([true], and) -> true", function() {
+    expect(fold.fold([true], and) ).toBe(true);
+  });
+  it("fold.fold([true, true, true], and) -> true", function() {
+    expect(fold.fold([true, true, true], and) ).toBe(true);
+  });
+  it("fold.fold([true, false], and) -> false", function() {
+    expect(fold.fold([true, false], and) ).toBe(false);
+  });
+  it("fold.fold([true, false, true, true], and) -> false", function() {
+    expect(fold.fold([true, false, true, true], and) ).toBe(false);
+  });
+  it("fold.fold([false], and) -> false", function() {
+    expect(fold.fold([false], and) ).toBe(false);
+  });
+  it("fold.fold([false, false], and) -> false", function() {
+    expect(fold.fold([false, false], and) ).toBe(false);
+  });
+});

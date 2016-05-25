@@ -78,5 +78,37 @@ fold.any = function(array, fun) {
 }
 
 // Underscore function _.fold
+// XXX explain fold
+//
+// ex.
+//  function sum(a, b) {
+//    return a + b;
+//  }
+//  fold.fold([1], sum) -> 1
+//  fold.fold([1, 2], sum) -> 3
+//  fold.fold([1, 2, -3], sum) -> 0
+//  fold.fold([1, -1, 2, -3], sum) -> -1
+//  fold.fold([0], sum) -> 0
+//
+// ex. _.all() using fold
+//  function and(a, b) {
+//    return a && b;
+//  }
+//  fold.fold([true], and) -> true
+//  fold.fold([true, true, true], and) -> true
+//  fold.fold([true, false], and) -> false
+//  fold.fold([true, false, true, true], and) -> false
+//  fold.fold([false], and) -> false
+//  fold.fold([false, false], and) -> false
 fold.fold = function(array, fun) {
+  // YOUR CODE HERE
+  if (! array.length) {
+    return;
+  }
+
+  var ret = array[0];
+  for (var i = 1; i < array.length; i++) {
+    ret = fun(ret, array[i]);
+  }
+  return ret;
 }

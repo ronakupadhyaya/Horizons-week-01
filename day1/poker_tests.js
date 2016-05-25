@@ -31,17 +31,17 @@ describe("compareStraightFlush()", function() {
 });
 
 describe("comparePair()", function() {
-  it("comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 2 has pair", function() {
-    expect(comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) ).toBe(2);
+  it("comparePair(['KD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) -> 2, 2 has pair", function() {
+    expect(comparePair(['KD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) ).toBe(2);
   });
-  it("comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) -> 1, 1 has higher pair", function() {
-    expect(comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) ).toBe(1);
+  it("comparePair(['AD', 'AS', '3H', '4H', '8H'], ['KD', 'KS', '3C', '4C', '8C']) -> 1, 1 has higher pair", function() {
+    expect(comparePair(['AD', 'AS', '3H', '4H', '8H'], ['KD', 'KS', '3C', '4C', '8C']) ).toBe(1);
   });
-  it("comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 9 kicker", function() {
-    expect(comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) ).toBe(2);
+  it("comparePair(['AD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) -> 2, 9 kicker", function() {
+    expect(comparePair(['AD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) ).toBe(2);
   });
-  it("comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) -> false, neither has pair", function() {
-    expect(comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) ).toBe(false);
+  it("comparePair(['KD', 'AS', '3H', '4H', '8H'], ['QD', 'AS', '9C', '4C', '8C']) -> false, neither has pair", function() {
+    expect(comparePair(['KD', 'AS', '3H', '4H', '8H'], ['QD', 'AS', '9C', '4C', '8C']) ).toBe(false);
   });
 });
 

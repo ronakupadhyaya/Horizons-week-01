@@ -216,10 +216,10 @@ function getCombo(n, hand) {
   return ret.length && ret;
 }
 
-// ex. comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 2 has pair
-// ex. comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) -> 1, 1 has higher pair
-// ex. comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 9 kicker
-// ex. comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) -> false, neither has pair
+// ex. comparePair(['KD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) -> 2, 2 has pair
+// ex. comparePair(['AD', 'AS', '3H', '4H', '8H'], ['KD', 'KS', '3C', '4C', '8C']) -> 1, 1 has higher pair
+// ex. comparePair(['AD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) -> 2, 9 kicker
+// ex. comparePair(['KD', 'AS', '3H', '4H', '8H'], ['QD', 'AS', '9C', '4C', '8C']) -> false, neither has pair
 function comparePair(hand1, hand2) {
   var pair1 = getCombo(2, hand1);
   var pair2 = getCombo(2, hand2);

@@ -98,3 +98,33 @@ function getStraight(hand) {
   }
   return false;
 }
+
+function getCombo(n, hand) {
+  console.log(hand);
+  var counts = _.countBy(_.map(hand, number), _.identity);
+
+  return _.pairs(counts).filter(function(item) {
+    var k = item[0], v = item[1];
+    return v === n;
+  }).map(function(item) {
+    return item[0];
+  });
+}
+
+function getPair(hand) {
+  return getCombo(2, hand);
+}
+
+function getThree(hand) {
+  return getCombo(3, hand);
+}
+
+function getFour(hand) {
+  var ret = getCombo(4, hand);
+  return ret.length && ret[0];
+}
+
+function getTwoPair(hand) {
+  var ret = getPair(hand);
+  return ret.length === 2 && ret;
+}

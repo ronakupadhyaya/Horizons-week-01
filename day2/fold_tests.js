@@ -22,3 +22,18 @@ describe("fold.contains(item, array)", function() {
     expect(fold.contains(['a', 'b', 'c'], 1)).toBe(false);
   });
 });
+
+describe("fold.hasZeros(array)", function() {
+  it("fold.hasZeros([]) -> false", function() {
+    expect(fold.hasZeros([]) ).toBe(false);
+  });
+  it("fold.hasZeros([1]) -> false", function() {
+    expect(fold.hasZeros([1]) ).toBe(false);
+  });
+  it("fold.hasZeros([1, 0, 0]) -> true", function() {
+    expect(fold.hasZeros([1, 0, 0]) ).toBe(true);
+  });
+  it("fold.hasZeros([0]) -> true", function() {
+    expect(fold.hasZeros([0]) ).toBe(true);
+  });
+});

@@ -46,10 +46,56 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var ranks = [getStraightFlush,
+               getFour,
+               getFullHouse,
+               getFlush,
+               getStraight,
+               getThree,
+               getTwoPair,
+               getPair,
+               getHighCard];
+
+  var rank;
+  var h1rank, h2rank;
+  for (var i = 0; i < ranks.length; i++) {
+    rank = ranks[i];
+    h1rank = rank(hand1);
+    h2rank = rank(hand2);
+    var rankName = functionName(rank);
+    console.log('Trying ranking', rankName);
+
+    if (! h1rank && ! h2rank) {
+      console.log('Neither hand has:', rankName);
+      continue;
+    }
+
+    if (h1rank && ! h2rank) {
+      console.log('Only hand 1 has %s, hand 1 wins', rankName);
+      return 1;
+    }
+
+    if (! h1rank && h2rank) {
+      console.log('Only hand 2 has %s, hand 2 wins', rankName);
+      return 2;
+    }
+
+    if (h1rank && h2rank) {
+      console.log('Both hands have %s. Hand 1 tie break: %o Hand 2 tie break: %o',
+                  rankName, h1rank, h2rank);
+      return compareHigh(h1rank, h2rank);
+    }
+  }
+
+  throw new Error('Tie');
 };
 
-var suites = ['S', 'C', 'H', 'D'];
+function functionName(fun) {
+  var ret = fun.toString();
+  ret = ret.substr('function '.length);
+  ret = ret.substr(0, ret.indexOf('('));
+  return ret;
+}
 
 // cards in increasing order
 var cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
@@ -62,14 +108,13 @@ function number(card) {
   return card.substring(0, card.length - 1);
 }
 
-function getRoyalFlush(hand) {
-  return getStraightFlush(hand) === 'A';
-}
-
 function getStraightFlush(hand) {
   var flush = getFlush(hand);
   var straight = getStraight(hand);
-  return flush && straight;
+  if (flush && straight) {
+    return [ straight + 'S' ]; // add fake suite so we can compare
+  }
+  return false;
 }
 
 function getFlush(hand) {
@@ -77,7 +122,11 @@ function getFlush(hand) {
     return a === b;
   }
 
-  return _.uniq(_.map(hand, suite)).length === 1;
+  var suites = _.uniq(_.map(hand, suite));
+  if (suites.length === 1) {
+    return [ 'A' + suites[0]]; // add fake number for comparison
+  }
+  return false;
 }
 
 function getStraight(hand) {
@@ -94,7 +143,7 @@ function getStraight(hand) {
   var cardsStr = cards.join(',');
   if (cardsStr.indexOf(hand) > -1) {
     hand = hand.split(',');
-    return hand[hand.length - 1];
+    return [ hand[hand.length - 1] + 'S' ]; // add fake suite for comparison
   }
   return false;
 }
@@ -106,7 +155,7 @@ function getCombo(n, hand) {
     var k = item[0], v = item[1];
     return v === n;
   }).map(function(item) {
-    return item[0];
+    return item[0] + 'S'; // add fake suite for comparison
   });
 }
 
@@ -135,4 +184,43 @@ function getFullHouse(hand) {
   if (pair.length && three) {
     return [three, pair[0]];
   }
+}
+
+// We rely on compareHigh to compare the two hands, so don't change anything.
+function getHighCard(hand) {
+  return hand;
+}
+
+// Compare two hands
+function compareHigh(hand1, hand2) {
+  if (hand1.length !== hand2.length) {
+    throw new Error("Can't compare two hands that are not the same length.");
+  }
+
+  // Order hand in decreasing order
+  function getHigh(hand) {
+    hand = _.sortBy(hand, function(card) {
+      return _.indexOf(cards, number(card)) * -1;
+    });
+    return hand;
+  }
+
+  function rank(card) {
+    return _.indexOf(cards, number(card));
+  }
+
+  hand1 = getHigh(hand1);
+  hand2 = getHigh(hand2);
+
+  for (var i = 0; i < hand1.length; i ++) {
+    var c1 = hand1[i], c2 = hand2[i];
+    if (rank(c1) > rank(c2)) {
+      return 1;
+    }
+    if (rank(c1) < rank(c2)) {
+      return 2;
+    }
+  }
+
+  return 0;
 }

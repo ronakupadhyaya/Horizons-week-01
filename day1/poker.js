@@ -226,41 +226,76 @@ function comparePair(hand1, hand2) {
 
 // ex. compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['AD', 'AS', '9C', 'AC', '8C']) -> 2, 2 has three of a kind
 // ex. compareThree(['AD', 'AS', 'AH', '4H', '8H'], ['KD', 'KS', 'KC', '4C', '8C']) -> 1, 1 has higher three of a kind
-// ex. compareThree(['AD', 'AS', '3H', 'AH', '8H'], ['AD', 'AS', '9C', '4C', 'AC']) -> 2, 9 kicker
+// ex. compareThree(['AD', 'AS', '3H', 'AH', '8H'], ['AD', 'AS', '9C', '4C', 'AC']) -> 2, same three of a kind 9 kicker
 // ex. compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['QD', 'AS', '9C', 'QC', '8C']) -> false, neither has three of a kind
 function compareThree(hand1, hand2) {
   return compareCombo(3, hand1, hand2);
 }
 
+// ex. compareFour(['KD', 'KS', 'AH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) -> 2, 2 has four of a kind
+// ex. compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) -> 1, 1 has higher 4 of a kind
+// ex. compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['KD', 'KS', '9C', 'KC', 'KC']) -> 2, same four of a kind 9 kicker
+// ex. compareFour(['AD', 'AS', 'AH', '4H', '8H'], ['QD', 'QS', '9C', 'QC', '8C']) -> false, neither has four of a kind
 function compareFour(hand1, hand2) {
   return compareCombo(4, hand1, hand2);
 }
 
 function compareCombo(n, hand1, hand2) {
+  // Get all n-of-a-kinds from both hands
   var combo1 = getCombo(n, hand1);
   var combo2 = getCombo(n, hand2);
 
+  // if neither hand has n-of-a-kind then then we don't determine a winner at the current step
   if (! combo1 && ! combo2) {
     return false;
   }
 
+  // if both hands have an n-of-a-kind then we have to tie break
   if (combo1 && combo2) {
+    // first we tie break by looking at the face value of the n-of-a-kind
     var comboRank = compareHigh(combo1, combo2);
     if (comboRank) {
       return comboRank;
     }
+    // then we look at the remainin cards (aka the kicker)
     return compareHigh(getCombo(1, hand1), getCombo(1, hand2));
   }
 
+  // only hand 1 has an n-of-a-kind, hand 1 wins
   if (combo1) {
     return 1;
   }
+  // only hand 2 has an n-of-a-kind, hand 2 wins
   return 2;
 }
 
-function getTwoPair(hand) {
-  var ret = getPair(hand);
-  return ret.length === 2 && ret;
+// ex. compareTwoPair(['2D', '2S', '4H', 'KH', '8H'], ['3D', '3S', '4C', '4C', '2C']) -> 2, 2 has two pair
+// ex. compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['3D', '3S', '4C', '4C', '2C']) -> 1, 1 has higher two pair
+// ex. compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['2D', '2S', '8C', '9C', '8C']) -> 2, same two pairs, 1 has higher card
+// ex. compareTwoPair(['2D', '2S', '4H', '8H', 'AH'], ['2D', '2S', 'KC', '9C', '8C']) -> false, neither has two pairs
+function compareTwoPair(hand1, hand2) {
+  var combo1 = getCombo(2, hand1);
+  var combo2 = getCombo(2, hand2);
+  var twoPair1 = combo1 && combo1.length === 2;
+  var twoPair2 = combo2 && combo2.length === 2;
+
+  if (! twoPair2 && ! twoPair2) {
+    return false;
+  }
+
+  if (twoPair1 && twoPair2) {
+    var twoPairRank = compareHigh(combo1, combo2);
+    if (twoPairRank) {
+      return twoPairRank;
+    }
+    // kicker
+    return compareHigh(getCombo(1, hand1), getCombo(1, hand2));
+  }
+
+  if (twoPair1) {
+    return 1;
+  }
+  return 2;
 }
 
 // ex. compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) -> 1, full house over 2 pair

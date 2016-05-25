@@ -98,3 +98,33 @@ describe("compareThree()", function() {
     expect(compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['QD', 'AS', '9C', 'QC', '8C']) ).toBe(false);
   });
 });
+
+describe("compareFour()", function() {
+  it("compareFour(['KD', 'KS', 'AH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) -> 2, 2 has four of a kind", function() {
+    expect(compareFour(['KD', 'KS', 'AH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) ).toBe(2);
+  });
+  it("compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) -> 1, 1 has higher 4 of a kind", function() {
+    expect(compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['2D', '2S', '9C', '2C', '2C']) ).toBe(1);
+  });
+  it("compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['KD', 'KS', '9C', 'KC', 'KC']) -> 2, same four of a kind 9 kicker", function() {
+    expect(compareFour(['KD', 'KS', 'KH', 'KH', '8H'], ['KD', 'KS', '9C', 'KC', 'KC']) ).toBe(2);
+  });
+  it("compareFour(['AD', 'AS', 'AH', '4H', '8H'], ['QD', 'QS', '9C', 'QC', '8C']) -> false, neither has four of a kind", function() {
+    expect(compareFour(['AD', 'AS', 'AH', '4H', '8H'], ['QD', 'QS', '9C', 'QC', '8C']) ).toBe(false);
+  });
+});
+
+describe("compareTwoPair()", function() {
+  it("compareTwoPair(['2D', '2S', '4H', 'KH', '8H'], ['3D', '3S', '4C', '4C', '2C']) -> 2, 2 has two pair", function() {
+    expect(compareTwoPair(['2D', '2S', '4H', 'KH', '8H'], ['3D', '3S', '4C', '4C', '2C']) ).toBe(2);
+  });
+  it("compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['3D', '3S', '4C', '4C', '2C']) -> 1, 1 has higher two pair", function() {
+    expect(compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['3D', '3S', '4C', '4C', '2C']) ).toBe(1);
+  });
+  it("compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['2D', '2S', '8C', '9C', '8C']) -> 2, same two pairs, 1 has higher card", function() {
+    expect(compareTwoPair(['2D', '2S', '4H', '8H', '8H'], ['2D', '2S', '8C', '9C', '8C']) ).toBe(2);
+  });
+  it("compareTwoPair(['2D', '2S', '4H', '8H', 'AH'], ['2D', '2S', 'KC', '9C', '8C']) -> false, neither has two pairs", function() {
+    expect(compareTwoPair(['2D', '2S', '4H', '8H', 'AH'], ['2D', '2S', 'KC', '9C', '8C']) ).toBe(false);
+  });
+});

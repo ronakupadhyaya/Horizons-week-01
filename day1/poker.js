@@ -108,25 +108,80 @@ function number(card) {
   return card.substring(0, card.length - 1);
 }
 
+// ex. compareStraightFlush(['KD', 'AD', '10D', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) -> 1, ace over king
+// ex. compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) -> 2, only 2 has straight flush
+// ex. compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10C', 'KS', 'QS', 'JS', '9S']) -> false, neither has straight flush
+function compareStraightFlush(hand1, hand2) {
+  hand1 = getStraightFlush(hand1);
+  hand2 = getStraightFlush(hand2);
+
+  if (! hand1 && ! hand2) {
+    return false;
+  }
+
+  if (hand1 && hand2) {
+    return compareHigh(hand1, hand2);
+  }
+
+  if (hand1) {
+    return 1
+  }
+  return 2;
+}
+
 function getStraightFlush(hand) {
   var flush = getFlush(hand);
   var straight = getStraight(hand);
   if (flush && straight) {
-    return [ straight + 'S' ]; // add fake suite so we can compare
+    return straight;
   }
   return false;
 }
 
-function getFlush(hand) {
-  function eq(a, b) {
-    return a === b;
+// ex. compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) -> 2, flush, ace over king
+// ex. compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> 1, 1 has flush
+// ex. compareFlush(['KC', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> false, neither side has a flush
+function compareFlush(hand1, hand2) {
+  var flush1 = getFlush(hand1);
+  var flush2 = getFlush(hand2);
+
+  if (! flush1 && ! flush2) {
+    return false;
   }
 
-  var suites = _.uniq(_.map(hand, suite));
-  if (suites.length === 1) {
-    return [ 'A' + suites[0]]; // add fake number for comparison
+  if (flush1 && flush2) {
+    return compareHigh(hand1, hand2);
   }
-  return false;
+
+  if (flush1) {
+    return 1
+  }
+  return 2;
+}
+
+function getFlush(hand) {
+  return _.uniq(_.map(hand, suite)).length === 1;
+}
+
+// ex. compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) -> 2, flush, ace over king
+// ex. compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> 1, 1 has flush
+// ex. compareFlush(['KC', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> false, neither side has a flush
+function compareStraight(hand1, hand2) {
+  hand1 = getStraight(hand1);
+  hand2 = getStraight(hand2);
+
+  if (! hand1 && ! hand2) {
+    return false;
+  }
+
+  if (hand1 && hand2) {
+    return compareHigh(hand1, hand2);
+  }
+
+  if (hand1) {
+    return 1
+  }
+  return 2;
 }
 
 function getStraight(hand) {
@@ -151,16 +206,46 @@ function getStraight(hand) {
 function getCombo(n, hand) {
   var counts = _.countBy(_.map(hand, number), _.identity);
 
-  return _.pairs(counts).filter(function(item) {
+  var ret = _.pairs(counts).filter(function(item) {
     var k = item[0], v = item[1];
     return v === n;
   }).map(function(item) {
     return item[0] + 'S'; // add fake suite for comparison
   });
+
+  return ret.length && ret;
 }
 
-function getPair(hand) {
-  return getCombo(2, hand);
+// ex. comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 2 has pair
+// ex. comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) -> 1, 1 has higher pair
+// ex. comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 9 kicker
+// ex. comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) -> false, neither has pair
+function comparePair(hand1, hand2) {
+  var pair1 = getCombo(2, hand1);
+  var pair2 = getCombo(2, hand2);
+
+  if (! pair1 && ! pair2) {
+    return false;
+  }
+
+  if (pair1 && pair2) {
+    var high1 = getCombo(1, pair1);
+    var high2 = getCombo(1, pair2);
+    var highPair = compareHigh(pair1, pair2);
+
+    if (highPair) {
+      return highPair;
+    }
+
+    var high1 = getCombo(1, hand1);
+    var high2 = getCombo(1, hand2);
+    return compareHigh(high1, high2);
+  }
+
+  if (pair1) {
+    return 1
+  }
+  return 2;
 }
 
 function getThree(hand) {

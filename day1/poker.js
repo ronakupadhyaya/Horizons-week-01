@@ -48,3 +48,48 @@
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
 };
+
+var suites = ['S', 'C', 'H', 'D'];
+
+// cards in increasing order
+var cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+function suite(card) {
+  return card[card.length - 1];
+}
+
+function number(card) {
+  return card.substring(0, card.length - 1);
+}
+
+function getRoyalFlush(hand) {
+  var flush = getFlush(hand);
+  var straight = getStraight(hand);
+  return flush && straight === 'A';
+}
+
+function getFlush(hand) {
+  function eq(a, b) {
+    return a === b;
+  }
+
+  return _.uniq(_.map(hand, suite)).length === 1;
+}
+
+function getStraight(hand) {
+  // Get the number of each card
+  hand = _.map(hand, number);
+  // Sort numbers in increasing order
+  hand = _.sortBy(hand, function(card) {
+    return _.indexOf(cards, card);
+  });
+
+  // Convert hand and all cards to strings we can use .indexOf() to
+  // find out if hand is is a subsequence (i.e. substring) of cards.
+  hand = hand.join(',');
+  var cardsStr = cards.join(',');
+  if (cardsStr.indexOf(hand) > -1) {
+    return hand.split(',');
+  }
+  return false;
+}

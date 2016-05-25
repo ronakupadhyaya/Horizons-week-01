@@ -100,7 +100,6 @@ function getStraight(hand) {
 }
 
 function getCombo(n, hand) {
-  console.log(hand);
   var counts = _.countBy(_.map(hand, number), _.identity);
 
   return _.pairs(counts).filter(function(item) {
@@ -116,7 +115,8 @@ function getPair(hand) {
 }
 
 function getThree(hand) {
-  return getCombo(3, hand);
+  var ret = getCombo(3, hand);
+  return ret.length && ret[0];
 }
 
 function getFour(hand) {
@@ -127,4 +127,12 @@ function getFour(hand) {
 function getTwoPair(hand) {
   var ret = getPair(hand);
   return ret.length === 2 && ret;
+}
+
+function getFullHouse(hand) {
+  var pair = getPair(hand);
+  var three = getThree(hand);
+  if (pair.length && three) {
+    return [three, pair[0]];
+  }
 }

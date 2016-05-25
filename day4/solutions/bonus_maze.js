@@ -73,8 +73,61 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
 
-  // YOUR CODE HERE
+  function isPositionOnTheBoard() {
+    if (row < 0) {
+      return false;
+    }
+
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if position is on the board before move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return [row, column];
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -100,7 +153,45 @@ Maze.prototype.getStartPosition = function() {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  // create 2d array to track if each cell has been visited
+  // start with false, becase nothing has been visited yet
+  this.visited = this.maze.map(function(row) {
+    return row.map(_.constant(false));
+  });
+
+  var startPos = this.getStartPosition();
+  var stack = [startPos];
+  // While stack is not empty
+  while (stack.length) {
+    // Get next position to try
+    var pos = stack.pop();
+    var curCell = this.maze[pos[0]][pos[1]];
+
+    if (curCell === 'X') {
+      throw new Error("Can't move into wall. Position: " + pos);
+    }
+
+    // Reached the ending position, return true!
+    if (curCell === 'E') {
+      return true;
+    }
+
+    // Mark position as visited
+    this.visited[pos[0]][pos[1]] = true;
+    // Check every direction for a valid move
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var direction = Maze.validDirections[i];
+      var newPos = this.tryMove(pos[0], pos[1], direction);
+      // this is a valid move and we have not visited the new position yet
+      if (newPos && ! this.visited[newPos[0]][newPos[1]]) {
+        // Add new position to the list of positions to be visited
+        stack.push(newPos);
+      }
+    }
+  }
+
+  // If run out of locations to try, then the maze is not solvable
+  return false;
 }
 
 // Return a string representation of the current maze.

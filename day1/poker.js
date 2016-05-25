@@ -5,9 +5,9 @@
 // the second hand is the winner this function should return 2.
 //
 // Each hand is represented by an array of 5 strings, each string representing
-// a card.  The first letter in each string represents the card number and the
-// second letter represents the card suite. For example, 5H is the 5 of hearts,
-// KS is the king of spades.
+// a card.  The the last letter of each card represents the suite, the
+// remaining letters represent the number.  For example, 5H is the 5 of hearts,
+// KS is the king of spades, 10D is the 10 of diamonds.
 //
 // Aces are represented by 'A', Kings by 'K', Queens by 'Q', and Jacks
 // by 'J'.

@@ -19,7 +19,7 @@ window.builtins = {};
 // ex. builtins.trim('  Horizons  ') -> 'Horizons'
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
-builtins.trim = function(string) {
+builtins.trim = function(str) {
   // YOUR CODE HERE
 };
 
@@ -58,7 +58,7 @@ builtins.search = function(sourceString, searchString) {
 // (or any other separator). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
-builtins.parseQuantity = function(string) {
+builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
 };
 
@@ -74,7 +74,7 @@ builtins.parseQuantity = function(string) {
 // ex. builtins.reverse([]) -> []
 // ex. builtins.reverse([123]) -> [123]
 
-builtins.reverse = function(array) {
+builtins.reverse = function(arr) {
   // YOUR CODE HERE
 };
 
@@ -109,7 +109,7 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome(['1', '2', '3', 2, 1]) -> false
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
-builtins.isPalindrome = function(a) {
+builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
 };
 
@@ -129,7 +129,7 @@ builtins.isPalindrome = function(a) {
 // behavior). See: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
-builtins.sortByValue = function(array) {
+builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
 };
 
@@ -146,7 +146,7 @@ builtins.sortByValue = function(array) {
 // Hint: Use the same Array sort() function - but think about what you're
 // comparing this time!
 
-builtins.sortByLength = function(array) {
+builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
 };
 
@@ -161,6 +161,6 @@ builtins.sortByLength = function(array) {
 // ex. builtins.flatten([[], [''], []]) -> ['']
 // ex. builtins.flatten([]) -> []
 
-builtins.flatten = function(array) {
+builtins.flatten = function(arr) {
   // YOUR CODE HERE
 };

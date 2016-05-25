@@ -77,8 +77,8 @@ fold.any = function(array, fun) {
   return _.reduce(_.map(array, fun), or);
 }
 
-// Underscore function _.fold
-// XXX explain fold
+// Underscore function _.reduce
+// XXX explain reduce
 //
 // ex.
 //  function sum(a, b) {
@@ -112,3 +112,104 @@ fold.fold = function(array, fun) {
   }
   return ret;
 }
+
+// Underscore function _.forEach()
+// JavaScript's built in .forEach() is useful for iterating over all items of an array.
+// _.forEach() allows us to do the same with objects
+//
+// _.forEach({a: 5, b: 11},
+//           function(value, key) { console.log(value, key) }) -> outputs: 5  a
+//
+// Exercise XXX: fold.keys(object)
+// Write a function using _.forEach() that takes an object and returns an array with
+// all the keys in that object.
+//
+// ex. fold.keys({}) -> []
+// ex. fold.keys({a: 1, hello: 10}) -> ['a', 'hello']
+fold.keys = function(object) {
+  // YOUR CODE HERE
+  var ret = [];
+  _.forEach(object, function(value, key) {
+    ret.push(key);
+  });
+  return ret;
+}
+
+// Exercise XXX: fold.values(object)
+// Write a function using _.forEach() that takes an object and returns an array with
+// all the values in that object.
+//
+// ex. fold.values({}) -> []
+// ex. fold.values({a: 1, hello: 10}) -> [1, 10]
+fold.values = function(object) {
+  // YOUR CODE HERE
+  var ret = [];
+  _.forEach(object, function(value, key) {
+    ret.push(value);
+  });
+  return ret;
+}
+
+// Exercise XXX: fold.pairs(object)
+// Write a function using _.forEach() that takes an object and returns an array with
+// all the key value pairs in that object.
+//
+// ex. fold.pairs({}) -> []
+// ex. fold.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
+fold.pairs = function(object) {
+  // YOUR CODE HERE
+  var ret = [];
+  _.forEach(object, function(value, key) {
+    ret.push([key, value]);
+  });
+  return ret;
+}
+
+// Underscore function _.groupBy()
+// Example XXX: groupByState(people)
+// This funciton takes an array of people objects and groups them by state
+// People objects have two properties: name and state.
+//
+// ex.
+//  var people = [
+//    {name: 'Darwish', state: 'GA'},
+//    {name: 'Moose', state: 'CA'},
+//    {name: 'Lane', state: 'PA'},
+//    {name: 'Ethan', state: 'CA'},
+//    {name: 'Josh', state: 'NJ'},
+//    {name: 'Edward', state: 'FR'},
+//    {name: 'Abhi', state: 'GA'}
+//  ];
+//
+//  groupByState(people) ->
+//      {
+//        "GA": [
+//          { "name": "Darwish", "state": "GA" },
+//          { "name": "Abhi", "state": "GA" }
+//        ],
+//        "CA": [
+//          { "name": "Moose", "state": "CA" },
+//          { "name": "Ethan", "state": "CA" }
+//        ],
+//        "PA": [
+//          { "name": "Lane", "state": "PA" }
+//        ],
+//        "NJ": [
+//          { "name": "Josh", "state": "NJ" }
+//        ],
+//        "FR": [
+//          { "name": "Edward", "state": "FR" }
+//        ]
+//      }
+function groupByState(people) {
+  return _.groupBy(people, function(person) {
+    return person.state;
+  });
+}
+
+//
+// Underscore function _.countBy
+// example
+//
+//
+// Exercise implement countBy using groupBy

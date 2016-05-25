@@ -39,9 +39,17 @@ describe("fold.hasZeros(array)", function() {
 });
 
 describe("fold.any(array, fun)", function() {
+  beforeEach(function() {
+    spyOn(_, 'reduce').and.callThrough();
+  });
+
   function isTruthy(item) {
     return !! item;
   }
+  it("fold.any([1], isTruthy) calls _.reduce()", function() {
+    fold.any([1], isTruthy);
+    expect(_.reduce).toHaveBeenCalled();
+  });
   it("fold.any([], isTruthy) -> false", function() {
     expect(fold.any([], isTruthy) ).toBeFalsy();
   });
@@ -96,5 +104,68 @@ describe("fold.fold(array, fun)", function() {
   });
   it("fold.fold([false, false], and) -> false", function() {
     expect(fold.fold([false, false], and) ).toBe(false);
+  });
+});
+
+describe("fold.keys(object)", function() {
+  it("fold.keys({}) -> []", function() {
+    expect(fold.keys({}) ).toEqual([]);
+  });
+  it("fold.keys({a: 1, hello: 10}) -> ['a', 'hello']", function() {
+    expect(fold.keys({a: 1, hello: 10}).length).toBe(['a', 'hello'].length);
+    expect(fold.keys({a: 1, hello: 10}) ).toEqual(jasmine.arrayContaining(['a', 'hello']));
+  });
+});
+
+describe("fold.values(object)", function() {
+  it("fold.values({}) -> []", function() {
+    expect(fold.values({}) ).toEqual([]);
+  });
+  it("fold.values({a: 1, hello: 10}) -> [1, 10]", function() {
+    expect(fold.values({a: 1, hello: 10}).length).toEqual([1, 10].length);
+    expect(fold.values({a: 1, hello: 10}) ).toEqual(jasmine.arrayContaining([1, 10]));
+  });
+});
+
+describe("fold.pairs(object)", function() {
+  it("fold.pairs({}) -> []", function() {
+    expect(fold.pairs({}) ).toEqual([]);
+  });
+  it("fold.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]", function() {
+    expect(fold.pairs({a: 1, hello: 10}).length ).toBe([['a', 1], ['hello', 10]].length);
+    expect(fold.pairs({a: 1, hello: 10}) ).toEqual(jasmine.arrayContaining([['a', 1], ['hello', 10]]));
+  });
+});
+
+describe("fold.groupByState(people)", function() {
+  it("groupByState(people)", function() {
+    var people = [
+    {name: 'Darwish', state: 'GA'},
+    {name: 'Moose', state: 'CA'},
+    {name: 'Lane', state: 'PA'},
+    {name: 'Ethan', state: 'CA'},
+    {name: 'Josh', state: 'NJ'},
+    {name: 'Edward', state: 'FR'},
+    {name: 'Abhi', state: 'GA'}
+    ];
+    expect(groupByState(people)).toEqual({
+      "GA": [
+      { "name": "Darwish", "state": "GA" },
+      { "name": "Abhi", "state": "GA" }
+      ],
+      "CA": [
+      { "name": "Moose", "state": "CA" },
+      { "name": "Ethan", "state": "CA" }
+      ],
+      "PA": [
+      { "name": "Lane", "state": "PA" }
+      ],
+      "NJ": [
+      { "name": "Josh", "state": "NJ" }
+      ],
+      "FR": [
+      { "name": "Edward", "state": "FR" }
+      ]
+    });
   });
 });

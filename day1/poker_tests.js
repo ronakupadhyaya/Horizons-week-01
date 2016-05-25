@@ -17,3 +17,54 @@ describe("rankPokerHand()", function() {
     expect(rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) ).toBe(1);
   });
 });
+
+describe("compareStraightFlush()", function() {
+  it("compareStraightFlush(['KD', 'AD', '10D', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) -> 1, ace over king", function() {
+    expect(compareStraightFlush(['KD', 'AD', '10D', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) ).toBe(1);
+  });
+  it("compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) -> 2, only 2 has straight flush", function() {
+    expect(compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']) ).toBe(2);
+  });
+  it("compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10C', 'KS', 'QS', 'JS', '9S']) -> false, neither has straight flush", function() {
+    expect(compareStraightFlush(['KD', 'AD', '10S', 'JD', 'QD'], ['10C', 'KS', 'QS', 'JS', '9S']) ).toBe(false);
+  });
+});
+
+describe("comparePair()", function() {
+  it("comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 2 has pair", function() {
+    expect(comparePair(['KD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) ).toBe(2);
+  });
+  it("comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) -> 1, 1 has higher pair", function() {
+    expect(comparePair(['AD', 'AS', '3A', '4A', '8A'], ['KD', 'KS', '3A', '4A', '8A']) ).toBe(1);
+  });
+  it("comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) -> 2, 9 kicker", function() {
+    expect(comparePair(['AD', 'AS', '3A', '4A', '8A'], ['AD', 'AS', '9A', '4A', '8A']) ).toBe(2);
+  });
+  it("comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) -> false, neither has pair", function() {
+    expect(comparePair(['KD', 'AS', '3A', '4A', '8A'], ['QD', 'AS', '9A', '4A', '8A']) ).toBe(false);
+  });
+});
+
+describe("compareFlush()", function() {
+  it("compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) -> 2, flush, ace over king", function() {
+    expect(compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) ).toBe(2);
+  });
+  it("compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> 1, 1 has flush", function() {
+    expect(compareFlush(['KD', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) ).toBe(1);
+  });
+  it("compareFlush(['KC', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> false, neither side has a flush", function() {
+    expect(compareFlush(['KC', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) ).toBe(false);
+  });
+});
+
+describe("compareStraight()", function() {
+  it("compareStraight(['KC', 'AD', '10D', 'JD', 'QD'], ['10S', 'KH', 'QS', 'JS', '9S']) -> 1, ace over king", function() {
+    expect(compareStraight(['KC', 'AD', '10D', 'JD', 'QD'], ['10S', 'KH', 'QS', 'JS', '9S']) ).toBe(1);
+  });
+  it("compareStraight(['KD', '2D', '10S', 'JD', 'QC'], ['10S', 'KH', 'QS', 'JS', '9S']) -> 2, only 2 has straight", function() {
+    expect(compareStraight(['KD', '2D', '10S', 'JD', 'QC'], ['10S', 'KH', 'QS', 'JS', '9S']) ).toBe(2);
+  });
+  it("compareStraight(['KD', 'AD', '9S', 'JD', 'QC'], ['10C', '2H', 'QS', 'JS', '9S']) -> false, neither has straight", function() {
+    expect(compareStraight(['KD', 'AD', '9S', 'JD', 'QC'], ['10C', '2H', 'QS', 'JS', '9S']) ).toBe(false);
+  });
+});

@@ -221,41 +221,37 @@ function getCombo(n, hand) {
 // ex. comparePair(['AD', 'AS', '3H', '4H', '8H'], ['AD', 'AS', '9C', '4C', '8C']) -> 2, 9 kicker
 // ex. comparePair(['KD', 'AS', '3H', '4H', '8H'], ['QD', 'AS', '9C', '4C', '8C']) -> false, neither has pair
 function comparePair(hand1, hand2) {
-  var pair1 = getCombo(2, hand1);
-  var pair2 = getCombo(2, hand2);
+  return compareCombo(2, hand1, hand2);
+}
 
-  if (! pair1 && ! pair2) {
+function compareThree(hand1, hand2) {
+  return compareCombo(3, hand1, hand2);
+}
+
+function compareFour(hand1, hand2) {
+  return compareCombo(4, hand1, hand2);
+}
+
+function compareCombo(n, hand1, hand2) {
+  var combo1 = getCombo(n, hand1);
+  var combo2 = getCombo(n, hand2);
+
+  if (! combo1 && ! combo2) {
     return false;
   }
 
-  if (pair1 && pair2) {
-    var high1 = getCombo(1, pair1);
-    var high2 = getCombo(1, pair2);
-    var highPair = compareHigh(pair1, pair2);
-
-    if (highPair) {
-      return highPair;
+  if (combo1 && combo2) {
+    var comboRank = compareHigh(combo1, combo2);
+    if (comboRank) {
+      return comboRank;
     }
-
-    var high1 = getCombo(1, hand1);
-    var high2 = getCombo(1, hand2);
-    return compareHigh(high1, high2);
+    return compareHigh(getCombo(1, hand1), getCombo(1, hand2));
   }
 
-  if (pair1) {
-    return 1
+  if (combo1) {
+    return 1;
   }
   return 2;
-}
-
-function getThree(hand) {
-  var ret = getCombo(3, hand);
-  return ret.length && ret[0];
-}
-
-function getFour(hand) {
-  var ret = getCombo(4, hand);
-  return ret.length && ret[0];
 }
 
 function getTwoPair(hand) {
@@ -263,17 +259,35 @@ function getTwoPair(hand) {
   return ret.length === 2 && ret;
 }
 
-function getFullHouse(hand) {
-  var pair = getPair(hand);
-  var three = getThree(hand);
-  if (pair.length && three) {
-    return [three, pair[0]];
-  }
-}
+// ex. compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) -> 1, full house over 2 pair
+// ex. compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', '4S', '4S', '5S', '5S']) -> 2, 4 over 2
+// ex. compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['2D', '2S', '2S', '5S', '5S']) -> 1, ace over 5
+// ex. compareFullHouse(['2S', '2D', '7C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) -> false, neither has full house
+function compareFullHouse(hand1, hand2) {
+  var two1 = getCombo(2, hand1);
+  var two2 = getCombo(2, hand2);
+  var three1 = getCombo(3, hand1);
+  var three2 = getCombo(3, hand2);
 
-// We rely on compareHigh to compare the two hands, so don't change anything.
-function getHighCard(hand) {
-  return hand;
+  var fh1 = two1 && three1;
+  var fh2 = two2 && three2;
+
+  if (! fh1 && ! fh2) {
+    return false;
+  }
+
+  if (fh1 && fh2) {
+    // Compare three of a kinds first
+    if (compareHigh(three1, three2)) {
+      return compareHigh(three1, three2);
+    }
+    return compareHigh(two1, two2);
+  }
+
+  if (fh1) {
+    return 1;
+  }
+  return 2;
 }
 
 // Compare two hands

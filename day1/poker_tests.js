@@ -68,3 +68,18 @@ describe("compareStraight()", function() {
     expect(compareStraight(['KD', 'AD', '9S', 'JD', 'QC'], ['10C', '2H', 'QS', 'JS', '9S']) ).toBe(false);
   });
 });
+
+describe("compareFullHouse()", function() {
+  it("compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) -> 1, full house over 2 pair", function() {
+    expect(compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) ).toBe(1);
+  });
+  it("compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', '4S', '4S', '5S', '5S']) -> 2, 4 over 2", function() {
+    expect(compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['4D', '4S', '4S', '5S', '5S']) ).toBe(2);
+  });
+  it("compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['2D', '2S', '2S', '5S', '5S']) -> 1, ace over 5", function() {
+    expect(compareFullHouse(['2S', '2D', '2C', 'AH', 'AS'], ['2D', '2S', '2S', '5S', '5S']) ).toBe(1);
+  });
+  it("compareFullHouse(['2S', '2D', '7C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) -> false, neither has full house", function() {
+    expect(compareFullHouse(['2S', '2D', '7C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) ).toBe(false);
+  });
+});

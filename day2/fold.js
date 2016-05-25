@@ -167,8 +167,8 @@ fold.pairs = function(object) {
 
 // Underscore function _.groupBy()
 // Example XXX: groupByState(people)
-// This funciton takes an array of people objects and groups them by state
-// People objects have two properties: name and state.
+// This funciton takes an array of people objects and groups them by their
+// state property. People objects have two properties: name and state.
 //
 // ex.
 //  var people = [
@@ -181,7 +181,7 @@ fold.pairs = function(object) {
 //    {name: 'Abhi', state: 'GA'}
 //  ];
 //
-//  groupByState(people) ->
+//  fold.groupByState(people) ->
 //      {
 //        "GA": [
 //          { "name": "Darwish", "state": "GA" },
@@ -201,15 +201,40 @@ fold.pairs = function(object) {
 //          { "name": "Edward", "state": "FR" }
 //        ]
 //      }
-function groupByState(people) {
+fold.groupByState = function(people) {
   return _.groupBy(people, function(person) {
     return person.state;
   });
 }
 
+// Underscore function _.countBy()
+// Example XXX
+//  ex. fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}
+//  ex. fold.countLetters('zaaaa') -> {a: 4, z: 1}
+fold.countLetters = function(string) {
+  // this turns a string into an array of letters
+  // 'hello' -> ['h', 'e', 'l', 'l', 'o']
+  var stringArray = string.split('');
+
+  // _.identity is a function that returns the argument that is passed to it without modification.
+  // Same as function(x) { return x; }
+  // When we call countBy with _.identity,
+  return _.countBy(stringArray, _.identity);
+}
+
+// Exercise XXX: fold.countBy(array, fun)
+// Implement _.countBy() using _.groupBy()
 //
-// Underscore function _.countBy
-// example
+// You may find _.mapObject() useful here.
+// http://underscorejs.org/#mapObject
 //
-//
-// Exercise implement countBy using groupBy
+// ex.
+//  var words = ['hello', 'great', 'foot', 'class', 'hi'];
+//  function wordLength(word) {
+//    return word.length;
+//  }
+//  fold.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
+fold.countBy = function(array, fun) {
+  // YOUR CODE HERE
+  return _.mapObject(_.groupBy(array, fun), function(v) { return v.length; });
+}

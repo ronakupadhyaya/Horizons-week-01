@@ -138,7 +138,7 @@ describe("fold.pairs(object)", function() {
 });
 
 describe("fold.groupByState(people)", function() {
-  it("groupByState(people)", function() {
+  it("fold.groupByState(people)", function() {
     var people = [
     {name: 'Darwish', state: 'GA'},
     {name: 'Moose', state: 'CA'},
@@ -148,7 +148,7 @@ describe("fold.groupByState(people)", function() {
     {name: 'Edward', state: 'FR'},
     {name: 'Abhi', state: 'GA'}
     ];
-    expect(groupByState(people)).toEqual({
+    expect(fold.groupByState(people)).toEqual({
       "GA": [
       { "name": "Darwish", "state": "GA" },
       { "name": "Abhi", "state": "GA" }
@@ -167,5 +167,25 @@ describe("fold.groupByState(people)", function() {
       { "name": "Edward", "state": "FR" }
       ]
     });
+  });
+});
+
+
+describe("fold.countLetters(string)", function() {
+  it("fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}", function() {
+    expect(fold.countLetters('hello') ).toEqual({h: 1, e: 1, l: 2, o: 1});
+  });
+  it("fold.countLetters('zaaaa') -> {a: 4, z: 1}", function() {
+    expect(fold.countLetters('zaaaa') ).toEqual({a: 4, z: 1});
+  });
+});
+
+describe("fold.countBy(array, fun)", function() {
+  it("fold.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}", function() {
+    var words = ['hello', 'great', 'foot', 'class', 'hi'];
+    function wordLength(word) {
+      return word.length;
+    }
+    expect(fold.countBy(words, wordLength) ).toEqual({4: 1, 5: 3, 2: 1});
   });
 });

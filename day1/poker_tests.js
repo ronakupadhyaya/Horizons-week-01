@@ -83,3 +83,18 @@ describe("compareFullHouse()", function() {
     expect(compareFullHouse(['2S', '2D', '7C', 'AH', 'AS'], ['4D', 'AS', '4S', '5S', '5S']) ).toBe(false);
   });
 });
+
+describe("compareThree()", function() {
+  it("compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['AD', 'AS', '9C', 'AC', '8C']) -> 2, 2 has three of a kind", function() {
+    expect(compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['AD', 'AS', '9C', 'AC', '8C']) ).toBe(2);
+  });
+  it("compareThree(['AD', 'AS', 'AH', '4H', '8H'], ['KD', 'KS', 'KC', '4C', '8C']) -> 1, 1 has higher three of a kind", function() {
+    expect(compareThree(['AD', 'AS', 'AH', '4H', '8H'], ['KD', 'KS', 'KC', '4C', '8C']) ).toBe(1);
+  });
+  it("compareThree(['AD', 'AS', '3H', 'AH', '8H'], ['AD', 'AS', '9C', '4C', 'AC']) -> 2, 9 kicker", function() {
+    expect(compareThree(['AD', 'AS', '3H', 'AH', '8H'], ['AD', 'AS', '9C', '4C', 'AC']) ).toBe(2);
+  });
+  it("compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['QD', 'AS', '9C', 'QC', '8C']) -> false, neither has three of a kind", function() {
+    expect(compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['QD', 'AS', '9C', 'QC', '8C']) ).toBe(false);
+  });
+});

@@ -224,6 +224,10 @@ function comparePair(hand1, hand2) {
   return compareCombo(2, hand1, hand2);
 }
 
+// ex. compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['AD', 'AS', '9C', 'AC', '8C']) -> 2, 2 has three of a kind
+// ex. compareThree(['AD', 'AS', 'AH', '4H', '8H'], ['KD', 'KS', 'KC', '4C', '8C']) -> 1, 1 has higher three of a kind
+// ex. compareThree(['AD', 'AS', '3H', 'AH', '8H'], ['AD', 'AS', '9C', '4C', 'AC']) -> 2, 9 kicker
+// ex. compareThree(['KD', 'AS', 'AH', '4H', '8H'], ['QD', 'AS', '9C', 'QC', '8C']) -> false, neither has three of a kind
 function compareThree(hand1, hand2) {
   return compareCombo(3, hand1, hand2);
 }

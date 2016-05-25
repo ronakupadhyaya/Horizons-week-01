@@ -63,9 +63,13 @@ function number(card) {
 }
 
 function getRoyalFlush(hand) {
+  return getStraightFlush(hand) === 'A';
+}
+
+function getStraightFlush(hand) {
   var flush = getFlush(hand);
   var straight = getStraight(hand);
-  return flush && straight === 'A';
+  return flush && straight;
 }
 
 function getFlush(hand) {
@@ -89,7 +93,8 @@ function getStraight(hand) {
   hand = hand.join(',');
   var cardsStr = cards.join(',');
   if (cardsStr.indexOf(hand) > -1) {
-    return hand.split(',');
+    hand = hand.split(',');
+    return hand[hand.length - 1];
   }
   return false;
 }

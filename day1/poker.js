@@ -46,44 +46,24 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  var ranks = [getStraightFlush,
-               getFour,
-               getFullHouse,
-               getFlush,
-               getStraight,
-               getThree,
-               getTwoPair,
-               getPair,
-               getHighCard];
+  var ranks = [compareStraightFlush,
+               compareFour,
+               compareFullHouse,
+               compareFlush,
+               compareStraight,
+               compareThree,
+               compareTwoPair,
+               comparePair,
+               compareHigh];
 
-  var rank;
-  var h1rank, h2rank;
   for (var i = 0; i < ranks.length; i++) {
-    rank = ranks[i];
-    h1rank = rank(hand1);
-    h2rank = rank(hand2);
+    var rank = ranks[i];
     var rankName = functionName(rank);
-    console.log('Trying ranking', rankName);
+    var winner = rank(hand1, hand2);
 
-    if (! h1rank && ! h2rank) {
-      console.log('Neither hand has:', rankName);
-      continue;
-    }
-
-    if (h1rank && ! h2rank) {
-      console.log('Only hand 1 has %s, hand 1 wins', rankName);
-      return 1;
-    }
-
-    if (! h1rank && h2rank) {
-      console.log('Only hand 2 has %s, hand 2 wins', rankName);
-      return 2;
-    }
-
-    if (h1rank && h2rank) {
-      console.log('Both hands have %s. Hand 1 tie break: %o Hand 2 tie break: %o',
-                  rankName, h1rank, h2rank);
-      return compareHigh(h1rank, h2rank);
+    if (winner) {
+      console.log('Hand %s wins with %s', winner, rankName);
+      return winner;
     }
   }
 

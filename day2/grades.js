@@ -27,7 +27,7 @@ grades.average = function(arr) {
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
-// Write a function that returns the student with the highest GPA
+// Write a function that takes an array of Student objects and returns the name of the student with the highest GPA
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
@@ -45,14 +45,17 @@ grades.highestGPA = function(data) {
   return best;
 }
 
-grades.highestGPAForMajor = function(data) {
-  // YOUR CODE HERE
-  dat
-};
-
+// Exercise 2. grades.highestGPA(data<Student[]>)
+// Write a function that takes an array of Student objects and returns the major of the student with the highest GPA
+//
+// hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-  return ' ';
+  var student = grades.highestGPA(data);
+  var student = data.filter(function(person) {
+    return (person.name === student);
+  })[0];
+  return student.major;
 };
 
 grades.avgGPA = function(data) {

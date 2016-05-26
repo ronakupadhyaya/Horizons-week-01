@@ -17,13 +17,6 @@ window.grades = {};
 // hint. use _.fold()
 grades.average = function(arr) {
   // YOUR CODE HERE
-  // not using _.fold()
-  if (arr.length == 0) {
-    return 0;
-  }
-  return (arr.reduce(function(prev, curr) {
-    return prev + curr;
-  }, 0) / arr.length);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -31,18 +24,6 @@ grades.average = function(arr) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
-  var highest = 0;
-  var best = '';
-  data.forEach(function(student) {
-    // calculate gpa
-    var gpa = (student.grades["class1"] + student.grades["class2"]) / 2;
-    if (highest < gpa) {
-      highest = gpa;
-      best = student.name;
-    }
-    
-  });
-  return best;
 }
 
 // Exercise 2. grades.highestGPA(data<Student[]>)
@@ -51,11 +32,6 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-  var student = grades.highestGPA(data);
-  var student = data.filter(function(person) {
-    return (person.name === student);
-  })[0];
-  return student.major;
 };
 
 // Exercise 2. grades.highestGPA(data<Student[]>)
@@ -65,18 +41,4 @@ grades.majorWithHighestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
-  var c1 = 0;
-  var c2 = 0;
-  
-  data.forEach(function(student) {
-    c1 += student.grades.class1;
-    c2 += student.grades.class2;
-  });
-  
-  console.log(c1);
-  c1 = c1 / data.length;
-  c2 = c2 / data.length;
-  
-  
-  return { "class1" : c1, "class2" : c2 };
 };

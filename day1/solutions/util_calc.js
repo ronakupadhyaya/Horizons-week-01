@@ -44,6 +44,7 @@ util.calc = function(op) {
   // we'll be jumping into precedence with multiplication
   // and division next!
 
+  /*
   while (ops.length > 0) {
     var result = util.calcOne(nums[0], nums[1], ops[0]);
 
@@ -51,6 +52,30 @@ util.calc = function(op) {
     ops = ops.slice(1);
 
     nums[0] = result;
+  }
+  */
+
+
+  // Complete Step 5 after Tests 1-19 pass.
+  // 5. Now that we've completed addition and subtraction, it's
+  // time to tackle operations with precedence (multiplication and division).
+
+  // Comment out the above while loop and rewrite the loop below,
+  // calcOne()'ing the multiplication and division parts first.
+  // Hint: Take advantage of indexOf() for finding your next operation
+  // to complete.
+
+  while (ops.length > 0) {
+    var nextOp = 0;
+    if (ops.indexOf('/') != -1) nextOp = ops.indexOf('/');
+    else if(ops.indexOf('*') != -1) nextOp = ops.indexOf('*');
+
+    var result = util.calcOne(nums[nextOp], nums[nextOp + 1], ops[nextOp]);
+
+    nums.splice(nextOp, 1);
+    ops.splice(nextOp, 1);
+
+    nums[nextOp] = result;
   }
 
   return result;
@@ -73,7 +98,7 @@ util.splitIntoParts = function(s) {
   var ops = [];
 
   for (var i = 0; i < tokens.length; i++) {
-    if (i % 2 == 0) nums.push(parseInt(tokens[i]));
+    if (i % 2 == 0) nums.push(parseFloat(tokens[i]));
     else ops.push(tokens[i]);
   }
 

@@ -44,7 +44,8 @@ Person.prototype.getName = function() {
 //    Fruit.call(this, 'yellow');
 //  };
 // 
-// Banana.prototype.constructor = Banana; // this is critical to make the Banana its own man
+// Student.prototype = Object.create(Person.prototype) // pass the functions and properties from Fruit to Banana
+// Banana.prototype.constructor = Banana; // make the Banana its own man again
 // 
 // Now, the strength (and beauty) of doing something like this is that you can now do:
 // var b = new Banana();
@@ -61,16 +62,19 @@ var Student = function(name, major, grades) {
   this.grades = grades;
 };
 
-// Exercise 3. (Overloading) Method definitions
-// Write a `getName` method for the `Student` class. If you've been following along, you might be wondering why you're doing this - I just told you it would already be defined because `Student` inherits from `Person`.
-// However, in this case, we're going to be *overloading* the method, and extending the functionality. We'll be adding a 'Student' designation to the return value.
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.construct = Student;
+
+// Exercise 3. Method definitions
+// Write a `getIdentity` method for the `Student` class. This method should use the `getName` function and prefix the return value of that function with "Student - ".
 // 
 // ex.
 //  var bart = new Student("Bart Simpson", "Tomfoolery", [0, -1]);
 //  bart.getName() -> "Student - Bart Simpson";
 // 
+// hint. It should return something like: "Student - " + name;
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-Student.prototype.getName = function() {
-  return ("Student - " + Person.call(this).getName());
+Student.prototype.getIdentity = function() {
+  return "Student - " + this.getName();
 };

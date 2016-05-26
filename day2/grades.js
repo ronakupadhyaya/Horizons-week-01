@@ -29,19 +29,17 @@ grades.summation = function(arr) {
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
   var highest = 0;
-  var student = '';
+  var best = '';
   data.forEach(function(student) {
     // calculate gpa
-    var gpa = (student.grades[class1] + student.grades[class2]) / 2;
-    console.log(gpa);
+    var gpa = (student.grades["class1"] + student.grades["class2"]) / 2;
     if (highest < gpa) {
       highest = gpa;
-      student = student.name;
+      best = student.name;
     }
     
   });
-  console.log(student);
-  return student;
+  return best;
 }
 
 grades.highestGPAForMajor = function(thing) {

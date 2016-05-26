@@ -28,12 +28,15 @@ describe("grades.highestGPA(thing)", function() {
       return student.name;
     });
     
-  //   expect(names.indexOf(grades.highestGPA(studentData))).not.toBe(-1);
-  //   
-  // });
+    expect(names.indexOf(grades.highestGPA(studentData))).not.toBe(-1);
+    
+  });
   
-  it("should be TODO", function() {
-    // TODO:
+  it("should say the student with the highest GPA is either Scott or Jane", function() {
+    var names = ["Scott", "Jane"];
+    
+    expect(names.indexOf(grades.highestGPA(studentData))).not.toBe(-1);
+    
   });
 
 });

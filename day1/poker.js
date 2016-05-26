@@ -1,6 +1,6 @@
 "use strict";
 
-// Write a function that takes two poker hands determines which hand is the
+// Write a function that takes two poker hands and determines which hand is the
 // winner. If the first hand is the winner, this function should return 1, if
 // the second hand is the winner this function should return 2.
 //

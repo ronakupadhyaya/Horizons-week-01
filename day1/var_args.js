@@ -24,7 +24,7 @@ varArgs.numArgs = function() {
 //
 // Look at test case 2 and 3. Huh? Describe what's happening there.
 varArgs.makeUser = function(name, age) {
-  // Lookie her
+  // Lookie here
   if (arguments.length == 1) {
     // args are sequential so if 1 arg was given, that means only the first (name) was given
     age = 12;

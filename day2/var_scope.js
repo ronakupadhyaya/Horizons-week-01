@@ -37,7 +37,7 @@ scope.changeGlobalArtist = function(artist) {
 };
 
 scope.changingGlobalVariables = function() {
-  changeGlobalArtist('Justin Bieber');
+  scope.changeGlobalArtist('Justin Bieber');
   // What's the value of 'globalArtist' after the other function has changed it?
   return globalArtist === 'Justin Bieber'; // XXX
 };
@@ -60,7 +60,7 @@ scope.localVariables = function() {
 // Changing local variables does not affect the value of global variables.
 scope.localVariablesWithGlobalNames = function() {
   // What's the global value of 'globalArtist' now?
-  return globalArtist === 'Kanye'; // XXX
+  return globalArtist === 'Justin Bieber'; // XXX
 };
 
 // Exercise NNN. Creating local variables

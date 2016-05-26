@@ -48,7 +48,19 @@ util.calc = function(op) {
     // YOUR CODE HERE
   }
 
-  return result;
+
+  // Complete Step 5 after Tests 1-19 pass.
+  // 5. Now that we've completed addition and subtraction, it's
+  // time to tackle operations with precedence (multiplication and division).
+
+  // Comment out the above while loop and rewrite the loop below,
+  // calcOne()'ing the multiplication and division parts first.
+  // Hint: Take advantage of indexOf() for finding your next operation
+  // to complete.
+  while (ops.length > 0) {
+    // YOUR CODE HERE
+    // Make sure to comment out your loop from Step 4 first!
+  }
 };
 
 

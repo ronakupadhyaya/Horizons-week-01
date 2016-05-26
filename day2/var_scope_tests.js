@@ -5,6 +5,7 @@ var functions = [
   "changingGlobalVariables",
   "localVariables",
   "localVariablesWithGlobalNames",
+  "uninitializedVariables",
   "creatingLocalVariables",
   "functionsInsideFunctions",
   "variablesInsideFunctionsInsideFunctions"

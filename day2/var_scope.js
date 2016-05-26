@@ -63,6 +63,15 @@ scope.localVariablesWithGlobalNames = function() {
   return globalArtist === 'YOUR CODE HERE';
 };
 
+// Example NNN. Uninitialized variables
+// If you declare a variable but don't set its value to anything it has a
+// special value called 'undefined'.
+// 'undefined' is a JavaScript keyword that indicates a value is missing.
+scope.uninitializedVariables = function() {
+  var variableWithNoValue;
+  return variableWithNoValue === undefined;
+}
+
 // Exercise NNN. Creating local variables
 // Creating local variables requires the 'var' keyword.
 // If you try to assign to a variable without first declaring it wth 'var',

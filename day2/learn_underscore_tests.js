@@ -64,46 +64,46 @@ describe("learn_underscore.any(array, fun)", function() {
   });
 });
 
-describe("learn_underscore.fold(array, fun)", function() {
+describe("learn_underscore.reduce(array, fun)", function() {
   function sum(a, b) {
     return a + b;
   }
-  it("learn_underscore.fold([1], sum) -> 1", function() {
-    expect(learn_underscore.fold([1], sum) ).toBe(1);
+  it("learn_underscore.reduce([1], sum) -> 1", function() {
+    expect(learn_underscore.reduce([1], sum) ).toBe(1);
   });
-  it("learn_underscore.fold([1, 2], sum) -> 3", function() {
-    expect(learn_underscore.fold([1, 2], sum) ).toBe(3);
+  it("learn_underscore.reduce([1, 2], sum) -> 3", function() {
+    expect(learn_underscore.reduce([1, 2], sum) ).toBe(3);
   });
-  it("learn_underscore.fold([1, 2, -3], sum) -> 0", function() {
-    expect(learn_underscore.fold([1, 2, -3], sum) ).toBe(0);
+  it("learn_underscore.reduce([1, 2, -3], sum) -> 0", function() {
+    expect(learn_underscore.reduce([1, 2, -3], sum) ).toBe(0);
   });
-  it("learn_underscore.fold([1, -1, 2, -3], sum) -> -1", function() {
-    expect(learn_underscore.fold([1, -1, 2, -3], sum) ).toBe(-1);
+  it("learn_underscore.reduce([1, -1, 2, -3], sum) -> -1", function() {
+    expect(learn_underscore.reduce([1, -1, 2, -3], sum) ).toBe(-1);
   });
-  it("learn_underscore.fold([0], sum) -> 0", function() {
-    expect(learn_underscore.fold([0], sum) ).toBe(0);
+  it("learn_underscore.reduce([0], sum) -> 0", function() {
+    expect(learn_underscore.reduce([0], sum) ).toBe(0);
   });
 
   function and(a, b) {
     return a && b;
   }
-  it("learn_underscore.fold([true], and) -> true", function() {
-    expect(learn_underscore.fold([true], and) ).toBe(true);
+  it("learn_underscore.reduce([true], and) -> true", function() {
+    expect(learn_underscore.reduce([true], and) ).toBe(true);
   });
-  it("learn_underscore.fold([true, true, true], and) -> true", function() {
-    expect(learn_underscore.fold([true, true, true], and) ).toBe(true);
+  it("learn_underscore.reduce([true, true, true], and) -> true", function() {
+    expect(learn_underscore.reduce([true, true, true], and) ).toBe(true);
   });
-  it("learn_underscore.fold([true, false], and) -> false", function() {
-    expect(learn_underscore.fold([true, false], and) ).toBe(false);
+  it("learn_underscore.reduce([true, false], and) -> false", function() {
+    expect(learn_underscore.reduce([true, false], and) ).toBe(false);
   });
-  it("learn_underscore.fold([true, false, true, true], and) -> false", function() {
-    expect(learn_underscore.fold([true, false, true, true], and) ).toBe(false);
+  it("learn_underscore.reduce([true, false, true, true], and) -> false", function() {
+    expect(learn_underscore.reduce([true, false, true, true], and) ).toBe(false);
   });
-  it("learn_underscore.fold([false], and) -> false", function() {
-    expect(learn_underscore.fold([false], and) ).toBe(false);
+  it("learn_underscore.reduce([false], and) -> false", function() {
+    expect(learn_underscore.reduce([false], and) ).toBe(false);
   });
-  it("learn_underscore.fold([false, false], and) -> false", function() {
-    expect(learn_underscore.fold([false, false], and) ).toBe(false);
+  it("learn_underscore.reduce([false, false], and) -> false", function() {
+    expect(learn_underscore.reduce([false, false], and) ).toBe(false);
   });
 });
 

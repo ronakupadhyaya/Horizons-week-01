@@ -18,7 +18,7 @@ window.scope = {};
 // Your task in this exercise is to fill in the places marked 'YOUR CODE HERE' with
 // the appropriate values of the variables.
 
-// Exercise NNN. Global variables
+// Exercise 1. Global variables
 // This declares a global variable 'globalArtist' with the value 'Kanye'
 var globalArtist = "Kanye";
 scope.globalVariables = function() {
@@ -26,7 +26,7 @@ scope.globalVariables = function() {
   return globalArtist === 'YOUR CODE HERE';
 };
 
-// Exercise NNN. Changing global variables
+// Exercise 2. Changing global variables
 // Global variables can be changed by any function, when this happens their
 // value changes for everyone.  This makes global variables potentially
 // dangerous. You never know when someone else is going to change their value.
@@ -42,7 +42,7 @@ scope.changingGlobalVariables = function() {
   return globalArtist === 'YOUR CODE HERE';
 };
 
-// Exercise NNN. Local variables
+// Exercise 3. Local variables
 // Local variables are variables declared inside functions.
 //
 // If a local variable shares the same name as a global variable, the local
@@ -63,7 +63,7 @@ scope.localVariablesWithGlobalNames = function() {
   return globalArtist === 'YOUR CODE HERE';
 };
 
-// Example NNN. Uninitialized variables
+// Example 4. Uninitialized variables
 // If you declare a variable but don't set its value to anything it has a
 // special value called 'undefined'.
 // 'undefined' is a JavaScript keyword that indicates a value is missing.
@@ -72,7 +72,7 @@ scope.uninitializedVariables = function() {
   return variableWithNoValue === undefined;
 }
 
-// Exercise NNN. Creating local variables
+// Exercise 5. Creating local variables
 // Creating local variables requires the 'var' keyword.
 // If you try to assign to a variable without first declaring it wth 'var',
 // JavaScript generate an error. This is great for catching errors caused by
@@ -87,7 +87,7 @@ scope.creatingLocalVariables = function() {
   return true;
 };
 
-// Exercise NNN. Functions inside functions
+// Exercise 6. Functions inside functions
 // Functions inside functions can access variables from the functions outside
 // them.
 scope.functionsInsideFunctions = function() {
@@ -100,7 +100,7 @@ scope.functionsInsideFunctions = function() {
   return innerFunction();
 };
 
-// Exercise NNN. Variables inside functions inside functions
+// Exercise 7. Variables inside functions inside functions
 // If you declare a local variable inside an inner function it's not visible in
 // the outer function. If two local variables share the same name, the
 // innermost local variable is used.

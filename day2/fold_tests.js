@@ -170,7 +170,6 @@ describe("fold.groupByState(people)", function() {
   });
 });
 
-
 describe("fold.countLetters(string)", function() {
   it("fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}", function() {
     expect(fold.countLetters('hello') ).toEqual({h: 1, e: 1, l: 2, o: 1});

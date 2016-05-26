@@ -3,9 +3,12 @@
 window.fold = {};
 
 // Underscore.js is a popular collection of JavaScript functions (aka a library).
-// http://underscorejs.org
+// Take a look here http://underscorejs.org
 //
-// XXX explain end goal of this exercise
+// In this exercise we will use functions from Underscore to build other functions.
+
+// Example 1. fold.hasZeros(array)
+// This is a function that returns true if the given array contains any 0s in it
 //
 // Underscore function _.any(array, fun) returns true if fun(item) returns true
 // for ANY item in an array.
@@ -17,9 +20,6 @@ window.fold = {};
 //  _.any([1], greaterThan1) -> true
 //  _.any([0, 1], greaterThan1) -> true
 //  _.any([0, -1, 0, -2], greaterThan1) -> false
-
-// Example XXX1. fold.hasZeros(array)
-// This is a function that returns true if the given array contains any 0s in it
 //
 // ex. fold.hasZeros([]) -> false
 // ex. fold.hasZeros([1]) -> false
@@ -31,15 +31,15 @@ fold.hasZeros = function(array) {
   });
 }
 
-// Exercise XXX1. fold.contains(array, item) using _.any()
+// Exercise 1. fold.contains(array, item) using _.any()
 // Write a function that takes an array and an item and returns true if item is
-// in array. Use the underscore.js function _.any() to build this.
+// in array.
+//
+// Use _.any() from Underscore to build this.
 //
 // ex. fold.contains([], 'a') -> false
 // ex. fold.contains(['a'], 'a') -> true
 // ex. fold.contains(['a', 'b', 'c'], 1) -> false
-//
-// Use _.any() to build fold.contains()
 fold.contains = function(array, item) {
   // YOUR CODE HERE
   return _.any(array, function(i) {
@@ -47,18 +47,54 @@ fold.contains = function(array, item) {
   })
 };
 
-// Underscore function _.reduce(array, fun)
-// This function is also called foldl, short for fold-left.
+// Exercise 3: fold.any(array, fun)
+// Write your own version of _.any() using _.reduce() and _.map();
 //
-// XXX exmplain reduce
+// _.map() works like Array.map(). It takes an array and a function
+// and transforms each item of th array by passing it to the given function.
 //
-// Exercise XXX2. fold.any(array, fun)
-// Now let's implement our version of _.any()
+// _.reduce() is a function that allows us to combine values in an array
+// into a single value, in effect "reducing" the array to a single piece of
+// data. _.reduce() does this by using a function called 'combiner' that
+// we pass in.
 //
-// XXX explain how to do this
+// For example, say we want to sum all numbers in an array. We could do this by
+// using a for loop and an accumulator variable:
+//
+//    var accumulator = 0;
+//    for (var i = 0; i < array.length; i++) {
+//      accumulator += array[i];
+//    }
+//    return accumulator;
+//
+// We can use _.reduce() to do the same thing:
+//
+//    function add(a, b) {
+//      return a + b;
+//    }
+//    return _.reduce(array, add)
+//
+// Reduce initializes 'accummulator' with the first item of the array, then
+// repeatedly calls 'combiner' with every other item of the array:
+//
+//    var accumulator = array[0];
+//    accumulator = combiner(accumulator, array[1]);
+//    accumulator = combiner(accumulator, array[2]);
+//    accumulator = combiner(accumulator, array[3]);
+//    and so on..
+//    return accumulator;
+//
+// Using reduce, we can combine basic operations into powerful algorithms.
+//
+// To build fold.any() you should first use _.map(array, fun) to convert
+// items in the array to true/false values.
+//
+// You should then combine the items in this array with _.reduce()
+// by giving it a function that takes two arguments and returns true
+// if either argument is true. You may find the or operator || useful
+// for this purpose.
 //
 // Use: _.map() and _.reduce()
-//
 //
 // ex.
 //   function isTruthy(item) {
@@ -77,8 +113,22 @@ fold.any = function(array, fun) {
   return _.reduce(_.map(array, fun), or);
 }
 
-// Underscore function _.reduce
-// XXX explain reduce
+// Exercise 4: fold.fold(array, fun)
+// Write the fold.fold() function. fold() takes two arguments, an array and a
+// function 'fun'.  'fun' is a function that takes two arguments.
+//
+// fold() should create a variable 'accummulator' and set
+// its value initially to the first item of the array. Then it should update
+// accumulator using 'fun' and every other item of the array:
+//
+//    var accumulator = array[0];
+//    accumulator = fun(accumulator, array[1]);
+//    accumulator = fun(accumulator, array[2]);
+//    accumulator = fun(accumulator, array[3]);
+//    and so on..
+//    return accumulator;
+//
+// You can use a for loop to do this.
 //
 // ex.
 //  function sum(a, b) {
@@ -113,19 +163,19 @@ fold.fold = function(array, fun) {
   return ret;
 }
 
-// Underscore function _.forEach()
-// JavaScript's built in .forEach() is useful for iterating over all items of an array.
-// _.forEach() allows us to do the same with objects
-//
-// _.forEach({a: 5, b: 11},
-//           function(value, key) { console.log(value, key) }) -> outputs: 5  a
-//
-// Exercise XXX: fold.keys(object)
+// Exercise 5: fold.keys(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the keys in that object.
 //
 // ex. fold.keys({}) -> []
 // ex. fold.keys({a: 1, hello: 10}) -> ['a', 'hello']
+//
+// Underscore function _.forEach() is similar to the Array.forEach() built-in function
+// but it can also operate on objects:
+//
+// ex.
+// _.forEach({a: 5, b: 11},
+//           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 fold.keys = function(object) {
   // YOUR CODE HERE
   var ret = [];
@@ -135,7 +185,7 @@ fold.keys = function(object) {
   return ret;
 }
 
-// Exercise XXX: fold.values(object)
+// Exercise 6: fold.values(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the values in that object.
 //
@@ -150,7 +200,7 @@ fold.values = function(object) {
   return ret;
 }
 
-// Exercise XXX: fold.pairs(object)
+// Exercise 7: fold.pairs(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the key value pairs in that object.
 //
@@ -165,10 +215,14 @@ fold.pairs = function(object) {
   return ret;
 }
 
-// Underscore function _.groupBy()
-// Example XXX: groupByState(people)
-// This funciton takes an array of people objects and groups them by their
+// Example 2: groupByState(people)
+// This function takes an array of people objects and groups them by their
 // state property. People objects have two properties: name and state.
+// It uses _.groupBy() to do this.
+//
+// Underscore function _.groupBy() is a function that takes an array and
+// a function 'fun'. It groups items in the given array based on the output
+// of calling fun(item) for each item in the array.
 //
 // ex.
 //  var people = [
@@ -207,10 +261,20 @@ fold.groupByState = function(people) {
   });
 }
 
-// Underscore function _.countBy()
-// Example XXX
-//  ex. fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}
-//  ex. fold.countLetters('zaaaa') -> {a: 4, z: 1}
+// Example 3: fold.countLetters(string)
+// This is a function that takes a string and returns an object that maps each
+// letter in that string to how many times the letter occurred in that string.
+// It uses _.countBy().
+//
+// Underscore function _.countBy() is a function that takes an array and a
+// function 'fun'. It calls 'fun' with each item of the given array and counts
+// the number of times each unique return value of 'fun' is encountered.
+// This is similar to _.groupBy() in that items are grouped based on the
+// output of fun(item) but the count of items is returned instead of an
+// array.
+//
+// ex. fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}
+// ex. fold.countLetters('zaaaa') -> {a: 4, z: 1}
 fold.countLetters = function(string) {
   // this turns a string into an array of letters
   // 'hello' -> ['h', 'e', 'l', 'l', 'o']
@@ -222,7 +286,7 @@ fold.countLetters = function(string) {
   return _.countBy(stringArray, _.identity);
 }
 
-// Exercise XXX: fold.countBy(array, fun)
+// Exercise 8: fold.countBy(array, fun)
 // Implement _.countBy() using _.groupBy()
 //
 // You may find _.mapObject() useful here.

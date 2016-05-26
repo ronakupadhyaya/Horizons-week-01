@@ -23,7 +23,7 @@ window.scope = {};
 var globalArtist = "Kanye";
 scope.globalVariables = function() {
   // What's the value of 'globalArtist' here?
-  return globalArtist === 'YOUR CODE HERE';
+  return globalArtist === 'Kanye'; // XXX
 };
 
 // Exercise NNN. Changing global variables
@@ -39,7 +39,7 @@ scope.changeGlobalArtist = function(artist) {
 scope.changingGlobalVariables = function() {
   scope.changeGlobalArtist('Justin Bieber');
   // What's the value of 'globalArtist' after the other function has changed it?
-  return globalArtist === 'YOUR CODE HERE';
+  return globalArtist === 'Justin Bieber'; // XXX
 };
 
 // Exercise NNN. Local variables
@@ -54,13 +54,13 @@ scope.localVariables = function() {
   // Change the value of the variable
   globalArtist = 'Beyonce';
   // What's its value?
-  return globalArtist === 'YOUR CODE HERE';
+  return globalArtist === 'Beyonce'; // XXX
 };
 
 // Changing local variables does not affect the value of global variables.
 scope.localVariablesWithGlobalNames = function() {
   // What's the global value of 'globalArtist' now?
-  return globalArtist === 'YOUR CODE HERE';
+  return globalArtist === 'Justin Bieber'; // XXX
 };
 
 // Exercise NNN. Creating local variables
@@ -74,7 +74,7 @@ scope.localVariablesWithGlobalNames = function() {
 // top of this file.
 scope.creatingLocalVariables = function() {
   // There's a keyword missing in the next line
-  localArtist = 'Kevin Hart';
+  var localArtist = 'Kevin Hart'; //XXX
   return true;
 };
 
@@ -85,7 +85,7 @@ scope.functionsInsideFunctions = function() {
   var localArtist = 'Kevin Hart';
 
   function innerFunction() {
-    return localArtist === 'YOUR CODE HERE';
+    return localArtist === 'Kevin Hart'; // XXX
   }
 
   return innerFunction();
@@ -101,9 +101,9 @@ scope.variablesInsideFunctionsInsideFunctions = function() {
   function innerFunction() {
     var localArtist = 'Will Smith';
     // What's 'localArtist' in the inner function?
-    return localArtist === 'YOUR CODE HERE';
+    return localArtist === 'Will Smith'; // XXX
   }
 
   // What's 'localArtist' in the other function?
-  return localArtist === 'YOUR CODE HERE' && innerFunction();
+  return localArtist === 'Kevin Hart' && innerFunction();
 };

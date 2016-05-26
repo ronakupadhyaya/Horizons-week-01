@@ -59,3 +59,20 @@ describe("grades.majorWithHighestGPA(thing)", function() {
   });
 
 });
+
+describe("grades.avgGPAPerClass(thing)", function() {
+  it("should return an object", function() {
+    expect(grades.avgGPAPerClass(studentData)).toEqual(jasmine.any(Object));
+  });
+  
+  it("should have two keys, `class1` and `class2`", function() {
+    expect(grades.avgGPAPerClass(studentData).class1).toBeDefined();
+    expect(grades.avgGPAPerClass(studentData).class2).toBeDefined();
+  });
+  
+  it("should be around 2.488 and 2.644 for class1 and class2 respectively", function() {
+    expect(grades.avgGPAPerClass(studentData).class1).toBe(112 / 45);
+    expect(grades.avgGPAPerClass(studentData).class2).toBe(119 / 45);
+  });
+
+});

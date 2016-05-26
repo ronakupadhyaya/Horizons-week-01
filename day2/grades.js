@@ -58,12 +58,25 @@ grades.majorWithHighestGPA = function(data) {
   return student.major;
 };
 
-grades.avgGPA = function(data) {
+// Exercise 2. grades.highestGPA(data<Student[]>)
+// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
+// It should look like: { 'class1': 2, 'class2' : 2 }
+//
+// hint. you can use highestGPA if you'd like.
+grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
-  return 0;
-};
-
-grades.avgGPAForClass = function(data) {
-  // YOUR CODE HERE
-  return 0;
+  var c1 = 0;
+  var c2 = 0;
+  
+  data.forEach(function(student) {
+    c1 += student.grades.class1;
+    c2 += student.grades.class2;
+  });
+  
+  console.log(c1);
+  c1 = c1 / data.length;
+  c2 = c2 / data.length;
+  
+  
+  return { "class1" : c1, "class2" : c2 };
 };

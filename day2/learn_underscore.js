@@ -1,13 +1,13 @@
 "use strict";
 
-window.fold = {};
+window.learn_underscore = {};
 
 // Underscore.js is a popular collection of JavaScript functions (aka a library).
 // Take a look here http://underscorejs.org
 //
 // In this exercise we will use functions from Underscore to build other functions.
 
-// Example 1. fold.hasZeros(array)
+// Example 1. learn_underscore.hasZeros(array)
 // This is a function that returns true if the given array contains any 0s in it
 //
 // Underscore function _.any(array, fun) returns true if fun(item) returns true
@@ -21,33 +21,33 @@ window.fold = {};
 //  _.any([0, 1], greaterThan1) -> true
 //  _.any([0, -1, 0, -2], greaterThan1) -> false
 //
-// ex. fold.hasZeros([]) -> false
-// ex. fold.hasZeros([1]) -> false
-// ex. fold.hasZeros([1, 0, 0]) -> true
-// ex. fold.hasZeros([0]) -> true
-fold.hasZeros = function(array) {
+// ex. learn_underscore.hasZeros([]) -> false
+// ex. learn_underscore.hasZeros([1]) -> false
+// ex. learn_underscore.hasZeros([1, 0, 0]) -> true
+// ex. learn_underscore.hasZeros([0]) -> true
+learn_underscore.hasZeros = function(array) {
   return _.any(array, function(item) {
     return item === 0;
   });
 }
 
-// Exercise 1. fold.contains(array, item) using _.any()
+// Exercise 1. learn_underscore.contains(array, item) using _.any()
 // Write a function that takes an array and an item and returns true if item is
 // in array.
 //
 // Use _.any() from Underscore to build this.
 //
-// ex. fold.contains([], 'a') -> false
-// ex. fold.contains(['a'], 'a') -> true
-// ex. fold.contains(['a', 'b', 'c'], 1) -> false
-fold.contains = function(array, item) {
+// ex. learn_underscore.contains([], 'a') -> false
+// ex. learn_underscore.contains(['a'], 'a') -> true
+// ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
+learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
   return _.any(array, function(i) {
     return i === item;
   })
 };
 
-// Exercise 3: fold.any(array, fun)
+// Exercise 3: learn_underscore.any(array, fun)
 // Write your own version of _.any() using _.reduce() and _.map();
 //
 // _.map() works like Array.map(). It takes an array and a function
@@ -86,7 +86,7 @@ fold.contains = function(array, item) {
 //
 // Using reduce, we can combine basic operations into powerful algorithms.
 //
-// To build fold.any() you should first use _.map(array, fun) to convert
+// To build learn_underscore.any() you should first use _.map(array, fun) to convert
 // items in the array to true/false values.
 //
 // You should then combine the items in this array with _.reduce()
@@ -100,11 +100,11 @@ fold.contains = function(array, item) {
 //   function isTruthy(item) {
 //     return !! item;
 //   }
-//   fold.any([], isTruthy) -> false
-//   fold.any([0, 0], isTruthy) -> false
-//   fold.any([0, 1, 0], isTruthy) -> true
-//   fold.any([1], isTruthy) -> true
-fold.any = function(array, fun) {
+//   learn_underscore.any([], isTruthy) -> false
+//   learn_underscore.any([0, 0], isTruthy) -> false
+//   learn_underscore.any([0, 1, 0], isTruthy) -> true
+//   learn_underscore.any([1], isTruthy) -> true
+learn_underscore.any = function(array, fun) {
   // YOUR CODE HERE
   function or(a, b) {
     return a || b;
@@ -113,8 +113,8 @@ fold.any = function(array, fun) {
   return _.reduce(_.map(array, fun), or);
 }
 
-// Exercise 4: fold.fold(array, fun)
-// Write the fold.fold() function. fold() takes two arguments, an array and a
+// Exercise 4: learn_underscore.fold(array, fun)
+// Write the learn_underscore.fold() function. fold() takes two arguments, an array and a
 // function 'fun'.  'fun' is a function that takes two arguments.
 //
 // fold() should create a variable 'accummulator' and set
@@ -134,23 +134,23 @@ fold.any = function(array, fun) {
 //  function sum(a, b) {
 //    return a + b;
 //  }
-//  fold.fold([1], sum) -> 1
-//  fold.fold([1, 2], sum) -> 3
-//  fold.fold([1, 2, -3], sum) -> 0
-//  fold.fold([1, -1, 2, -3], sum) -> -1
-//  fold.fold([0], sum) -> 0
+//  learn_underscore.fold([1], sum) -> 1
+//  learn_underscore.fold([1, 2], sum) -> 3
+//  learn_underscore.fold([1, 2, -3], sum) -> 0
+//  learn_underscore.fold([1, -1, 2, -3], sum) -> -1
+//  learn_underscore.fold([0], sum) -> 0
 //
 // ex. _.all() using fold
 //  function and(a, b) {
 //    return a && b;
 //  }
-//  fold.fold([true], and) -> true
-//  fold.fold([true, true, true], and) -> true
-//  fold.fold([true, false], and) -> false
-//  fold.fold([true, false, true, true], and) -> false
-//  fold.fold([false], and) -> false
-//  fold.fold([false, false], and) -> false
-fold.fold = function(array, fun) {
+//  learn_underscore.fold([true], and) -> true
+//  learn_underscore.fold([true, true, true], and) -> true
+//  learn_underscore.fold([true, false], and) -> false
+//  learn_underscore.fold([true, false, true, true], and) -> false
+//  learn_underscore.fold([false], and) -> false
+//  learn_underscore.fold([false, false], and) -> false
+learn_underscore.fold = function(array, fun) {
   // YOUR CODE HERE
   if (! array.length) {
     return;
@@ -163,12 +163,12 @@ fold.fold = function(array, fun) {
   return ret;
 }
 
-// Exercise 5: fold.keys(object)
+// Exercise 5: learn_underscore.keys(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the keys in that object.
 //
-// ex. fold.keys({}) -> []
-// ex. fold.keys({a: 1, hello: 10}) -> ['a', 'hello']
+// ex. learn_underscore.keys({}) -> []
+// ex. learn_underscore.keys({a: 1, hello: 10}) -> ['a', 'hello']
 //
 // Underscore function _.forEach() is similar to the Array.forEach() built-in function
 // but it can also operate on objects:
@@ -176,7 +176,7 @@ fold.fold = function(array, fun) {
 // ex.
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
-fold.keys = function(object) {
+learn_underscore.keys = function(object) {
   // YOUR CODE HERE
   var ret = [];
   _.forEach(object, function(value, key) {
@@ -185,13 +185,13 @@ fold.keys = function(object) {
   return ret;
 }
 
-// Exercise 6: fold.values(object)
+// Exercise 6: learn_underscore.values(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the values in that object.
 //
-// ex. fold.values({}) -> []
-// ex. fold.values({a: 1, hello: 10}) -> [1, 10]
-fold.values = function(object) {
+// ex. learn_underscore.values({}) -> []
+// ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
+learn_underscore.values = function(object) {
   // YOUR CODE HERE
   var ret = [];
   _.forEach(object, function(value, key) {
@@ -200,13 +200,13 @@ fold.values = function(object) {
   return ret;
 }
 
-// Exercise 7: fold.pairs(object)
+// Exercise 7: learn_underscore.pairs(object)
 // Write a function using _.forEach() that takes an object and returns an array with
 // all the key value pairs in that object.
 //
-// ex. fold.pairs({}) -> []
-// ex. fold.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
-fold.pairs = function(object) {
+// ex. learn_underscore.pairs({}) -> []
+// ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
+learn_underscore.pairs = function(object) {
   // YOUR CODE HERE
   var ret = [];
   _.forEach(object, function(value, key) {
@@ -235,7 +235,7 @@ fold.pairs = function(object) {
 //    {name: 'Abhi', state: 'GA'}
 //  ];
 //
-//  fold.groupByState(people) ->
+//  learn_underscore.groupByState(people) ->
 //      {
 //        "GA": [
 //          { "name": "Darwish", "state": "GA" },
@@ -255,13 +255,13 @@ fold.pairs = function(object) {
 //          { "name": "Edward", "state": "FR" }
 //        ]
 //      }
-fold.groupByState = function(people) {
+learn_underscore.groupByState = function(people) {
   return _.groupBy(people, function(person) {
     return person.state;
   });
 }
 
-// Example 3: fold.countLetters(string)
+// Example 3: learn_underscore.countLetters(string)
 // This is a function that takes a string and returns an object that maps each
 // letter in that string to how many times the letter occurred in that string.
 // It uses _.countBy().
@@ -273,9 +273,9 @@ fold.groupByState = function(people) {
 // output of fun(item) but the count of items is returned instead of an
 // array.
 //
-// ex. fold.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}
-// ex. fold.countLetters('zaaaa') -> {a: 4, z: 1}
-fold.countLetters = function(string) {
+// ex. learn_underscore.countLetters('hello') -> {h: 1, e: 1, l: 2, o: 1}
+// ex. learn_underscore.countLetters('zaaaa') -> {a: 4, z: 1}
+learn_underscore.countLetters = function(string) {
   // this turns a string into an array of letters
   // 'hello' -> ['h', 'e', 'l', 'l', 'o']
   var stringArray = string.split('');
@@ -286,7 +286,7 @@ fold.countLetters = function(string) {
   return _.countBy(stringArray, _.identity);
 }
 
-// Exercise 8: fold.countBy(array, fun)
+// Exercise 8: learn_underscore.countBy(array, fun)
 // Implement _.countBy() using _.groupBy()
 //
 // You may find _.mapObject() useful here.
@@ -297,8 +297,8 @@ fold.countLetters = function(string) {
 //  function wordLength(word) {
 //    return word.length;
 //  }
-//  fold.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
-fold.countBy = function(array, fun) {
+//  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
+learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
   return _.mapObject(_.groupBy(array, fun), function(v) { return v.length; });
 }

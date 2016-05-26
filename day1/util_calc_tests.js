@@ -63,3 +63,20 @@ describe("util.calcOne(a, b, op)", function() {
     expect(util.calcOne(5, 9, "-")).toEqual(-4);
   });
 });
+describe("util.calc(opWithPrecedence)", function() {
+  it("util.calc('1 * 3 / 5 + 2') -> 2.6", function() {
+    expect(util.calc('1 * 3 / 5 + 2')).toEqual(2.6);
+  });
+  it("util.calc('1 + 3 / 2 - 5') -> -2.5", function() {
+    expect(util.calc('1 + 3 / 2 - 5')).toEqual(-2.5);
+  });
+  it("util.calc('5 * 6 + 8 / 9 * 4.5') -> 34", function() {
+    expect(util.calc('5 * 6 + 8 / 9 * 4.5')).toEqual(34);
+  });
+  it("util.calc('1 / 0 + 1 * 0') -> Infinity", function() {
+    expect(util.calc('0 + 1 / 0 * 0')).toEqual(Infinity);
+  });
+  it("util.calc('1 / 0 * 0 + 1') -> NaN", function() {
+    expect(util.calc('1 / 0 * 0 + 1')).toEqual(NaN);
+  });
+})

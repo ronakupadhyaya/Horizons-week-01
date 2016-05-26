@@ -11,15 +11,12 @@
 // TODO: put your `Person` class code over here!
 // Constructor & Properties
 
-var Person = function(name, age) {
-  this.name = name;
-};
+
+
 
 // Method declarations
 
-Person.prototype.getName = function() {
-  return this.name;
-};
+
 
 // Exercise 2. (Sub) Class constructor for `Student`
 
@@ -55,15 +52,7 @@ Person.prototype.getName = function() {
 
 // TODO: put your constructor for student right here
 
-var Student = function(name, major, grades) {
-  Person.call(this, name);
-  
-  this.major = major;
-  this.grades = grades;
-};
 
-Student.prototype = Object.create(Person.prototype);
-Student.prototype.construct = Student;
 
 // Exercise 3. Method definitions
 // Write a `getIdentity` method for the `Student` class. This method should use the `getName` function and prefix the return value of that function with "Student - ".
@@ -75,6 +64,4 @@ Student.prototype.construct = Student;
 // hint. It should return something like: "Student - " + name;
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-Student.prototype.getIdentity = function() {
-  return "Student - " + this.getName();
-};
+// TODO: write your `getIdentity` method defintions here

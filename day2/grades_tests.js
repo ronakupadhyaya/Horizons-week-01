@@ -18,7 +18,19 @@ describe("grades.average(arr)", function() {
   });
 });
 
-describe("grades.highestGPA(thing)", function() {
+describe("grades.getGPA(student)", function() {
+  it("should return a number", function() {
+    expect(grades.getGPA(studentData[0])).toEqual(jasmine.any(Number));
+  });
+  
+  it("should properly calculate student GPA", function() {
+    expect(grades.getGPA(studentData[0])).toEqual(2);
+    expect(grades.getGPA(studentData[1])).toEqual(2.5);
+    expect(grades.getGPA(studentData[2])).toEqual(1.5);
+  });
+});
+
+describe("grades.highestGPA(data)", function() {
   it("should return a string", function() {
     expect(grades.highestGPA(studentData)).toEqual(jasmine.any(String));
   });
@@ -39,7 +51,7 @@ describe("grades.highestGPA(thing)", function() {
 
 });
 
-describe("grades.majorWithHighestGPA(thing)", function() {
+describe("grades.majorWithHighestGPA(data)", function() {
   it("should return a string", function() {
     expect(grades.majorWithHighestGPA(studentData)).toEqual(jasmine.any(String));
   });
@@ -60,7 +72,7 @@ describe("grades.majorWithHighestGPA(thing)", function() {
 
 });
 
-describe("grades.avgGPAPerClass(thing)", function() {
+describe("grades.avgGPAPerClass(data)", function() {
   it("should return an object", function() {
     expect(grades.avgGPAPerClass(studentData)).toEqual(jasmine.any(Object));
   });

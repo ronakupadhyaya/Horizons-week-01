@@ -1,20 +1,20 @@
 "use strict";
 
-describe("grades.summation(arr)", function() {
+describe("grades.average(arr)", function() {
   it("should return a number", function() {
-    expect(grades.summation([0, 2, 3, -1])).toEqual(jasmine.any(Number));
+    expect(grades.average([0, 2, 3, -1])).toEqual(jasmine.any(Number));
   });
   
   it("should return 0 with an empty array", function() {
-    expect(grades.summation([])).toBe(0);
+    expect(grades.average([])).toBe(0);
   });
   
-  it("should return 4 for [1, 2, 1]", function() {
-    expect(grades.summation([1, 2, 1])).toBe(4);
+  it("should return 4/3 for [1, 2, 1]", function() {
+    expect(grades.average([1, 2, 1])).toEqual(4/3);
   });
   
-  it("should return -7 for [-12, 9, -4]", function() {
-    expect(grades.summation([-12, 9, -4])).toBe(-7);
+  it("should return -7/3 for [-12, 9, -4]", function() {
+    expect(grades.average([-12, 9, -4])).toEqual(-7/3);
   });
 });
 

@@ -11,16 +11,19 @@ window.grades = {};
 // 'major', a string indicating the user's major (there are only 4 majors)
 // 'grades', an object with two keys, 'class1' and 'class2', whose values are integers from 1 to 4 indicating that students performance in the class.
 
-// [Helper] Exercise 0. grades.summation(arr<Number[]>)
+// [Helper] Exercise 0. grades.average(arr<Number[]>)
 // Write a function that takes an array of numbers and returns the sum of all of them.
 //
 // hint. use _.fold()
-grades.summation = function(arr) {
+grades.average = function(arr) {
   // YOUR CODE HERE
   // not using _.fold()
-  return arr.reduce(function(prev, curr) {
+  if (arr.length == 0) {
+    return 0;
+  }
+  return (arr.reduce(function(prev, curr) {
     return prev + curr;
-  }, 0);
+  }, 0) / arr.length);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -42,22 +45,22 @@ grades.highestGPA = function(data) {
   return best;
 }
 
-grades.highestGPAForMajor = function(thing) {
+grades.highestGPAForMajor = function(data) {
   // YOUR CODE HERE
-  return 0;
+  dat
 };
 
-grades.majorWithHighestGPA = function(thing) {
+grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
   return ' ';
 };
 
-grades.avgGPA = function(thing) {
+grades.avgGPA = function(data) {
   // YOUR CODE HERE
   return 0;
 };
 
-grades.avgGPAForClass = function(thing) {
+grades.avgGPAForClass = function(data) {
   // YOUR CODE HERE
   return 0;
 };

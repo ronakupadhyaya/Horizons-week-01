@@ -1,56 +1,70 @@
 "use strict";
 
-////////////////////////////////////////////////////////////////////////////////
-// IMPLEMENTATION //////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
 window.scope = {};
 
-// Exercise 1. scope.defineGlobalVariables(obj<object>)
-// This function that takes no arguments but instead prints a globally-defined variable
-//
-// hint. see http://www.w3schools.com/js/js_scope.asp
-var artist = "Kanye";
-scope.getValueOfThing = function() {
-  var returnVal = artist;
-  artist = "Jay-Z";
-  return returnVal;
+// XXX
+
+// Exercise NNN. Global variables
+// XXX
+var globalArtist = "Kanye";
+scope.globalVariables = function() {
+  return globalArtist === 'Kanye'; // XXX
 };
 
-// Exercise 2. scope.setGlobal(v)
-// This function takes an argument, sets it to a global variable 'k', and then  returns the global variable.
-//
-// hint. "use_strict"
-// hint. http://www.w3schools.com/js/js_strict.asp
-scope.setGlobal = function(v) {
-  // "use strict";
-  k = v;
-  return k;
+// Exercise NNN. Changing global variables
+// Note XXX
+scope.changeGlobalArtist = function(artist) {
+  globalArtist = artist;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// TESTS ///////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
+scope.changingGlobalVariables = function() {
+  changeGlobalArtist('Justin Bieber');
+  return globalArtist === 'Justin Bieber'; // XXX
+};
 
-describe("scope.getValueOfThing()", function() {
-  it("scope.getValueOfThing() -> 'Kanye'", function() {
-    // TODO: What do you expect the return value of scope.getValueOfThing to be when it's called?
-    // Replace `null` with what you think it is.
-    expect(scope.getValueOfThing()).toBe(null);
-  });
-  
-  it("scope.getValueOfThing() -> 'Jay-Z'", function() {
-    // TODO: What do you expect the return value of scope.getValueOfThing to be when it's called the SECOND time around?
-    // Replace `null` with what you think it is.
-    expect(scope.getValueOfThing()).toBe(null);
-  });
-  
-});
+// Exercise NNN. Local variables
+// XXX
+scope.localVariables = function() {
+  var globalArtist;
+  globalArtist = 'Beyonce';
+  return globalArtist === 'Beyonce'; // XXX
+};
 
-describe("scope.setGlobal(v)", function() {
-  it("scope.setGlobal('good') -> 'good'", function() {
-    // TODO: What's wrong with this test and/or function? Can you point it out?
-    // What happens if you comment out the "use_strict" keyword at the start of this file?
-    expect(scope.setGlobal('good')).toBe('good');
-  });
-});
+// XXX
+scope.localVariablesWithGlobalNames = function() {
+  return globalArtist === 'Kanye'; // XXX
+};
+
+// Exercise NNN. Creating local variables
+// See "use strict" XXX
+// XXX
+scope.creatingLocalVariables = function() {
+  // There's a keyword missing at the beginning of the next line.
+  var localArtist = 'Kevin Hart'; //XXX
+  return true;
+};
+
+// Exercise NNN. Functions inside functions
+// XXX
+scope.functionsInsideFunctions = function() {
+  var localArtist = 'Kevin Hart';
+
+  function innerFunction() {
+    return localArtist === 'Kevin Hart'; // XXX
+  }
+
+  return innerFunction();
+};
+
+// Exercise NNN. Variables inside functions inside functions
+// XXX
+scope.variablesInsideFunctionsInsideFunctions = function() {
+  var localArtist = 'Kevin Hart';
+
+  function innerFunction() {
+    var localArtist = 'Will Smith';
+    return localArtist === 'Will Smith'; // XXX
+  }
+
+  return localArtist === 'Kevin Hart' && innerFunction();
+};

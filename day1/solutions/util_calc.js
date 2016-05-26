@@ -84,6 +84,11 @@ util.calc = function(op) {
 // a two-dimensional array: the first array with all the parsed
 // numbers and the second array with all the operators as strings.
 
+// Hint: Make sure you are using parseFloat() to convert your strings to numbers
+// you can calculate!
+// See this for examples of parseFloat():
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
+
 // ex. util.splitIntoParts('3 + 2') -> [[3, 2], ['+']]
 // ex. util.splitIntoParts('3 + 8 + 2 + 1') -> [[3, 8, 2, 1], ['+', '+', '+']]
 // ex. util.splitIntoParts('2 - 1 + 5 + 6') -> [[2, 1, 5, 6], ['-', '+', '+']]

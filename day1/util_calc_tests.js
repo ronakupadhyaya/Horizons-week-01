@@ -63,7 +63,7 @@ describe("util.calcOne(a, b, op)", function() {
     expect(util.calcOne(5, 9, "-")).toEqual(-4);
   });
 });
-describe("util.calc(opWithPrecedence)", function() {
+describe("Bonus! util.calc(opWithPrecedence)", function() {
   it("util.calc('1 * 3 / 5 + 2') -> 2.6", function() {
     expect(util.calc('1 * 3 / 5 + 2')).toEqual(2.6);
   });

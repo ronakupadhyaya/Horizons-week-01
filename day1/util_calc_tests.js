@@ -74,7 +74,7 @@ describe("util.calc(opWithPrecedence)", function() {
     expect(util.calc('5 * 6 + 8 / 9 * 4.5')).toEqual(34);
   });
   it("util.calc('1 / 0 + 1 * 0') -> Infinity", function() {
-    expect(util.calc('0 + 1 / 0 * 0')).toEqual(Infinity);
+    expect(util.calc('1 / 0 + 1 * 0')).toEqual(Infinity);
   });
   it("util.calc('1 / 0 * 0 + 1') -> NaN", function() {
     expect(util.calc('1 / 0 * 0 + 1')).toEqual(NaN);

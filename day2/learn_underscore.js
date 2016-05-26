@@ -48,7 +48,7 @@ learn_underscore.contains = function(array, item) {
 // Write your own version of _.any() using _.reduce() and _.map();
 //
 // _.map() works like Array.map(). It takes an array and a function
-// and transforms each item of th array by passing it to the given function.
+// and transforms each item of the array by passing it to the given function.
 //
 // _.reduce() is a function that allows us to combine values in an array
 // into a single value, in effect "reducing" the array to a single piece of

@@ -113,11 +113,11 @@ learn_underscore.any = function(array, fun) {
   return _.reduce(_.map(array, fun), or);
 }
 
-// Exercise 4: learn_underscore.fold(array, fun)
-// Write the learn_underscore.fold() function. fold() takes two arguments, an array and a
+// Exercise 4: learn_underscore.reduce(array, fun)
+// Write the learn_underscore.reduce() function. reduce() takes two arguments, an array and a
 // function 'fun'.  'fun' is a function that takes two arguments.
 //
-// fold() should create a variable 'accummulator' and set
+// reduce() should create a variable 'accummulator' and set
 // its value initially to the first item of the array. Then it should update
 // accumulator using 'fun' and every other item of the array:
 //
@@ -134,23 +134,23 @@ learn_underscore.any = function(array, fun) {
 //  function sum(a, b) {
 //    return a + b;
 //  }
-//  learn_underscore.fold([1], sum) -> 1
-//  learn_underscore.fold([1, 2], sum) -> 3
-//  learn_underscore.fold([1, 2, -3], sum) -> 0
-//  learn_underscore.fold([1, -1, 2, -3], sum) -> -1
-//  learn_underscore.fold([0], sum) -> 0
+//  learn_underscore.reduce([1], sum) -> 1
+//  learn_underscore.reduce([1, 2], sum) -> 3
+//  learn_underscore.reduce([1, 2, -3], sum) -> 0
+//  learn_underscore.reduce([1, -1, 2, -3], sum) -> -1
+//  learn_underscore.reduce([0], sum) -> 0
 //
-// ex. _.all() using fold
+// ex. _.all() using reduce
 //  function and(a, b) {
 //    return a && b;
 //  }
-//  learn_underscore.fold([true], and) -> true
-//  learn_underscore.fold([true, true, true], and) -> true
-//  learn_underscore.fold([true, false], and) -> false
-//  learn_underscore.fold([true, false, true, true], and) -> false
-//  learn_underscore.fold([false], and) -> false
-//  learn_underscore.fold([false, false], and) -> false
-learn_underscore.fold = function(array, fun) {
+//  learn_underscore.reduce([true], and) -> true
+//  learn_underscore.reduce([true, true, true], and) -> true
+//  learn_underscore.reduce([true, false], and) -> false
+//  learn_underscore.reduce([true, false, true, true], and) -> false
+//  learn_underscore.reduce([false], and) -> false
+//  learn_underscore.reduce([false, false], and) -> false
+learn_underscore.reduce = function(array, fun) {
   // YOUR CODE HERE
   if (! array.length) {
     return;

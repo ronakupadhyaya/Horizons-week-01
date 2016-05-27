@@ -1,6 +1,5 @@
 "use strict";
 
-// XXX
 // "RPN" stands for "Reverse Polish Notation".
 // See http://en.wikipedia.org/wiki/Reverse_Polish_notation for more information on this colorful term
 //
@@ -21,22 +20,27 @@
 //     1 2 3 * + => 1 + (2 * 3)
 //
 // Another advantage is that you can represent any mathematical formula
-// using a simple and elegant data structure, called a
-// stack http://en.wikipedia.org/wiki/Stack_(data_structure)
+// using a simple and elegant data structure, called a stack.
+// http://en.wikipedia.org/wiki/Stack_(data_structure)
 //
+// To calculate an RPN string:
+//  - split the string into parts using .split(' ')
+//  - for each part of the string
+//    - if it's a number, parse it into a number and .push() to stack
+//    - if it's an operator, .pop() two items from the stack and apply the
+//      operator, push the result back
+
 // Write a function that takes an RPN Math expression and returns the value of it.
-//
-// If the expression is not valid you should throw an error
-//
-// XXX
+// If the expression is not valid you should throw an error.
 //
 // ex. rpnCalculator('0') -> 0
 // ex. rpnCalculator('1 2 +') -> 3
 // ex. rpnCalculator('1 2 + 8 *') -> 24
-// ex. rpnCalculator('1 2 8 + *') -> 24
-// ex. rpnCalculator('0 1') -> Error
-// ex. rpnCalculator('*') -> Error
-// ex. rpnCalculator('1 *') -> Error
+// ex. rpnCalculator('1 2 - -1 * 2 /') -> 0.5
+//
+// ex. rpnCalculator('0 1') -> Error, too many numbers
+// ex. rpnCalculator('*') -> Error, too many operations
+// ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
   var ops = {

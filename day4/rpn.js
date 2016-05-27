@@ -24,7 +24,20 @@
 // using a simple and elegant data structure, called a
 // stack http://en.wikipedia.org/wiki/Stack_(data_structure)
 //
-// Write a function that takes a
+// Write a function that takes an RPN Math expression and returns the value of it.
+//
+// If the expression is not valid you should throw an error
+//
+// XXX
+//
+// ex. rpnCalculator('0') -> 0
+// ex. rpnCalculator('1 2 +') -> 3
+// ex. rpnCalculator('1 2 + 8 *') -> 24
+// ex. rpnCalculator('1 2 8 + *') -> 24
+// ex. rpnCalculator('0 1') -> Error
+// ex. rpnCalculator('*') -> Error
+// ex. rpnCalculator('1 *') -> Error
 window.rpnCalculator function(rpnString) {
+  // YOUR CODE HERE
 }
 

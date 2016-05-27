@@ -78,7 +78,7 @@ Queue.prototype.peek = function() {
   return null;
 }
 
-// XXX
+// Bonus: XXX
 Queue.prototype.forEach = function(fun) {
   // YOUR CODE HERE
   var next = this.head;
@@ -102,6 +102,16 @@ describe("Queue", function() {
       out.push(q.pop());
     }
     expect(input).toEqual(out);
+  });
+  it("Push and pop the same 2 items 10 times, check if queue is empty", function() {
+    var q = new Queue();
+    _.forEach(_.range(10), function() {
+      q.push('x');
+      q.push('y');
+      expect(q.pop()).toBe('x');
+      expect(q.pop()).toBe('y');
+    })
+    expect(q.isEmpty()).toBe(true);
   });
 });
 

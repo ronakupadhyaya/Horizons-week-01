@@ -2,7 +2,6 @@
 
 // XXX
 window.Queue = function() {
-  // YOUR CODE HERE
   this.head = null;
   this.tail = null;
   this.size = 0;
@@ -16,6 +15,11 @@ window.Item = function(value, next) {
   this.value = value;
   // The next item (which should also be a Queue.Item
   this.next = next;
+}
+
+// XXX
+Queue.prototype.isEmpty = function() {
+  return ! this.size;
 }
 
 // Exercise XXX
@@ -94,7 +98,7 @@ describe("Queue", function() {
       q.push(item);
     });
     var out = [];
-    while (q.size) {
+    while (! q.isEmpty()) {
       out.push(q.pop());
     }
     expect(input).toEqual(out);
@@ -105,6 +109,6 @@ describe("Queue.pop()", function() {
   // YOUR CODE HERE
 })
 
-describe("Queue.addToEnd()", function() {
+describe("Queue.push()", function() {
   // YOUR CODE HERE
 })

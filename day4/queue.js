@@ -218,23 +218,23 @@ describe("Queue end-to-end", function() {
   });
 
   it("Bonus: queue should be faster than an array for adding to the beginning", function() {
-    // Run a function 10,000 times and measure time taken
+    // Run a function multiple times and measure time taken to run
     function time(fun) {
       var start = Date.now();
-      _.range(10000).map(fun);
+      _.range(1000).map(fun);
       return Date.now() - start;
     }
 
     function array() {
       var array = [];
-      _.range(100).forEach(function(item) {
+      _.range(1000).forEach(function(item) {
         array.unshift(item);
       });
     }
 
     function queue() {
       var q = new Queue();
-      _.range(100).forEach(function(item) {
+      _.range(1000).forEach(function(item) {
         q.push(item);
       });
     }

@@ -83,6 +83,7 @@ Queue.prototype.isEmpty = function() {
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
   // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -91,6 +92,16 @@ Queue.prototype.getSize = function() {
 // tail) of the queue.
 Queue.prototype.push = function(value) {
   // YOUR CODE HERE
+  var item = new Item(value);
+  if (! this.head) {
+    // queue is empty, set head and tail
+    this.head = this.tail = item;
+  } else {
+    // add item to the tail
+    this.tail.next = item;
+    this.tail = item;
+  }
+  this.size++;
 }
 
 // Exercise: Queue.pop()
@@ -103,6 +114,18 @@ Queue.prototype.push = function(value) {
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
   // YOUR CODE HERE
+  if (this.size === 0) {
+    throw new Error("Can't pop from an empty queue");
+  }
+  var ret = this.head.value;
+  if (this.head === this.tail) {
+    // Removing last item
+    this.head = this.tail = null;
+  } else {
+    this.head = this.head.next;
+  }
+  this.size--;
+  return ret;
 }
 
 // Exercise: Queue.contains()
@@ -112,6 +135,14 @@ Queue.prototype.pop = function() {
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
   // YOUR CODE HERE
+  var next = this.head;
+  while (next) {
+    if (value === next.value) {
+      return true;
+    }
+    next = next.next;
+  }
+  return false;
 }
 
 // Exercise: Queue.peek()
@@ -121,6 +152,10 @@ Queue.prototype.contains = function(value) {
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
   // YOUR CODE HERE
+  if (this.head) {
+    return this.head.value;
+  }
+  return null;
 }
 
 // Bonus exercise: Queue.forEach(fun)
@@ -128,6 +163,11 @@ Queue.prototype.peek = function() {
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
   // YOUR CODE HERE
+  var next = this.head;
+  while (next) {
+    fun(next.value);
+    next = next.next;
+  }
 }
 
 // --------------------TESTS--------------------

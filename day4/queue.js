@@ -23,13 +23,28 @@
 //    array.pop(); // -> 2
 //    array.pop(); // -> 1
 //
-// We can remove items from the beginning of JavaScript arrays with the .unshift()
-// function but this function is slow.
+// We can remove items from the beginning of JavaScript arrays with the
+// .unshift() function but this function has to shift all the other items in
+// the array back by one space. So if the array is big, this operation
+// can take a long time.
 //
 // We can build fast Queues using a linked lists.
 //
-// In a linked list, each item in the list has a pointer (i.e. a link or a
-// reference) to the next item.
+// In a linked list, each Item in the Queue has a pointer (i.e. a link or a
+// reference) to the next Item, called the 'next' pointer. The Queue itself has
+// a pointer to the first and the last Item. We call the pointer to the first
+// Item the 'head' pointer the pointer to the last Item the 'tail' pointer.
+//
+// To add an value to the end of a Queue we:
+//  - create new Item with value set to new value
+//  - set the next pointer of the last Item to new Item
+//  - set the tail pointer to the new Item
+//
+// To remove an item from the beginning of a queue we:
+//  - Move the head pointer of the Queue to the next Item
+//
+// The remove operation is always as fast no matter how big tha Queue gets
+// because it only takes one step.
 window.Queue = function() {
   // The queue starts out empty so this is null.
   // When the queue is not empty, this should point to the first <Item> in the

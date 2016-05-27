@@ -1,6 +1,35 @@
 "use strict";
 
-// XXX
+// --------------------Queues--------------------
+// A Queue is a data structure that keeps track of items and allows them to be
+// processed (i.e. removed from the queue) in the order they have been added.
+// This ordering is known FIFO (First-in-first-out).
+//
+// More info on JavaScript arrays:
+// https://en.wikipedia.org/wiki/Queue_(abstract_data_type)
+//
+// Stacks, on the other hand, track items in REVERSE order.  Stack ordering is
+// also known as LIFO (Last-in-first-out).
+//
+// JavaScript arrays are good (i.e. fast) for stacks. push() and pop()
+// remove items from the end of an array.
+//
+// ex.
+//    var array = [];
+//    array.push(1);
+//    array.push(2);
+//    array.push(3);
+//    array.pop(); // -> 3, note reverse order
+//    array.pop(); // -> 2
+//    array.pop(); // -> 1
+//
+// We can remove items from the beginning of JavaScript arrays with the .unshift()
+// function but this function is slow.
+//
+// We can build fast Queues using a linked lists.
+//
+// In a linked list, each item in the list has a pointer (i.e. a link or a
+// reference) to the next item.
 window.Queue = function() {
   // The queue starts out empty so this is null.
   // When the queue is not empty, this should point to the first <Item> in the
@@ -15,14 +44,14 @@ window.Queue = function() {
 }
 
 // A linked list is made up of items that have pointers (aka links or references)
-// to eachother.
+// to the next item.
 // The pointer to the next item is called 'next';
 window.Item = function(value, next) {
   // The value of the current item
   this.value = value;
-  // The next item (which should also be a Queue.Item
+  // The next item (which should also be a Queue.Item)
+  // If this is the last item in the list, next will be null
   this.next = next;
-  // The next item (which should also be a Queue.Item
 }
 
 // Example: Queue.isEmpty()

@@ -23,61 +23,34 @@ describe("RPN Calculator", function() {
   it("rpnCalculator('10') -> 0", function() {
     expect(rpnCalculator("0") ).toBe(0);
   });
-  it("rpnCalculator('-8 8 -') -> 0", function() {
-    expect(rpnCalculator('-8 8 -') ).toBe(0);
+  it("rpnCalculator('-8 8 -') -> -16", function() {
+    expect(rpnCalculator('-8 8 -') ).toBe(-16);
   });
-  it("rpnCalculator('-6 -6 / -1 -8 +') -> 0", function() {
-    expect(rpnCalculator('-6 -6 / -1 -8 +') ).toBe(0);
+  it("rpnCalculator('-10 1 /') -> -10", function() {
+    expect(rpnCalculator('-10 1 /') ).toBe(-10);
   });
-  it("rpnCalculator('-6 -6 -1 -8 / +') -> 0", function() {
-    expect(rpnCalculator('-6 -6 -1 -8 / +') ).toBe(0);
+  it("rpnCalculator('3 1 /') -> 3", function() {
+    expect(rpnCalculator('3 1 /') ).toBe(3);
   });
-  it("rpnCalculator('5 -5 / 1 3 - 6 4 *') -> 0", function() {
-    expect(rpnCalculator('5 -5 / 1 3 - 6 4 *') ).toBe(0);
+  it("rpnCalculator('-8 -2 - 8 /') -> -0.75", function() {
+    expect(rpnCalculator('-8 -2 - 8 /') ).toBe(-0.75);
   });
-  it("rpnCalculator('5 -5 1 3 6 4 / - *') -> 0", function() {
-    expect(rpnCalculator('5 -5 1 3 6 4 / - *') ).toBe(0);
+  it("rpnCalculator('2 -2 8 - /') -> -0.2", function() {
+    expect(rpnCalculator('2 -2 8 - /') ).toBe(-0.2);
   });
-  it("rpnCalculator('9 -5 - -10 9 / 5 -8 * 5 -6 -') -> 0", function() {
-    expect(rpnCalculator('9 -5 - -10 9 / 5 -8 * 5 -6 -') ).toBe(0);
+  it("rpnCalculator('3 -3 + 6 - 2 * -9 +') -> -21", function() {
+    expect(rpnCalculator('3 -3 + 6 - 2 * -9 +') ).toBe(-21);
   });
-  it("rpnCalculator('9 -5 -10 9 5 -8 5 -6 - / * -') -> 0", function() {
-    expect(rpnCalculator('9 -5 -10 9 5 -8 5 -6 - / * -') ).toBe(0);
+  it("rpnCalculator('1 -3 6 2 -9 + - * +') -> -38", function() {
+    expect(rpnCalculator('1 -3 6 2 -9 + - * +') ).toBe(-38);
   });
-  it("rpnCalculator('-7 -5 / -1 6 / -7 -4 / -10 -7 + -10 4 /') -> 0", function() {
-    expect(rpnCalculator('-7 -5 / -1 6 / -7 -4 / -10 -7 + -10 4 /') ).toBe(0);
+  it("rpnCalculator('4 9 + -4 * 8 / 10 - 2 + 2 + 3 + 3 + -4 /') -> 1.625", function() {
+    expect(rpnCalculator('4 9 + -4 * 8 / 10 - 2 + 2 + 3 + 3 + -4 /') ).toBe(1.625);
   });
-  it("rpnCalculator('-7 -5 -1 6 -7 -4 -10 -7 -10 4 / / / + /') -> 0", function() {
-    expect(rpnCalculator('-7 -5 -1 6 -7 -4 -10 -7 -10 4 / / / + /') ).toBe(0);
+  it("rpnCalculator('1 7 - -7 + -9 - 7 - -5 + 7 * 1 * -10 * 1 * -6 *') -> -6720", function() {
+    expect(rpnCalculator('1 7 - -7 + -9 - 7 - -5 + 7 * 1 * -10 * 1 * -6 *') ).toBe(-6720);
   });
-  it("rpnCalculator('9 0 / -6 7 + -1 3 + 10 7 + -6 4 / 3 7 *') -> 0", function() {
-    expect(rpnCalculator('9 0 / -6 7 + -1 3 + 10 7 + -6 4 / 3 7 *') ).toBe(0);
-  });
-  it("rpnCalculator('9 0 -6 7 -1 3 10 7 -6 4 3 7 / + + + / *') -> 0", function() {
-    expect(rpnCalculator('9 0 -6 7 -1 3 10 7 -6 4 3 7 / + + + / *') ).toBe(0);
-  });
-  it("rpnCalculator('-4 9 - -3 2 / -10 2 * 0 6 - 3 -3 * -8 -6 * -9 6 +') -> 0", function() {
-    expect(rpnCalculator('-4 9 - -3 2 / -10 2 * 0 6 - 3 -3 * -8 -6 * -9 6 +') ).toBe(0);
-  });
-  it("rpnCalculator('-4 9 -3 2 -10 2 0 6 3 -3 -8 -6 -9 6 - / * - * * +') -> 0", function() {
-    expect(rpnCalculator('-4 9 -3 2 -10 2 0 6 3 -3 -8 -6 -9 6 - / * - * * +') ).toBe(0);
-  });
-  it("rpnCalculator('-4 -9 * -9 -9 / -3 -9 + 8 7 - 4 -1 * -1 -2 / 5 0 - 9 3 -') -> 0", function() {
-    expect(rpnCalculator('-4 -9 * -9 -9 / -3 -9 + 8 7 - 4 -1 * -1 -2 / 5 0 - 9 3 -') ).toBe(0);
-  });
-  it("rpnCalculator('-4 -9 -9 -9 -3 -9 8 7 4 -1 -1 -2 5 0 9 3 * / + - * / - -') -> 0", function() {
-    expect(rpnCalculator('-4 -9 -9 -9 -3 -9 8 7 4 -1 -1 -2 5 0 9 3 * / + - * / - -') ).toBe(0);
-  });
-  it("rpnCalculator('-6 4 * 7 -8 - 5 -10 - -9 10 + -4 8 + -6 7 - -9 -7 / -9 -9 * 6 8 *') -> 0", function() {
-    expect(rpnCalculator('-6 4 * 7 -8 - 5 -10 - -9 10 + -4 8 + -6 7 - -9 -7 / -9 -9 * 6 8 *') ).toBe(0);
-  });
-  it("rpnCalculator('-6 4 7 -8 5 -10 -9 10 -4 8 -6 7 -9 -7 -9 -9 6 8 * - - + + - / * *') -> 0", function() {
-    expect(rpnCalculator('-6 4 7 -8 5 -10 -9 10 -4 8 -6 7 -9 -7 -9 -9 6 8 * - - + + - / * *') ).toBe(0);
-  });
-  it("rpnCalculator('-1 9 * -5 3 + -7 -7 + -10 6 * -6 7 / -5 -6 + -2 4 * 10 9 / 0 -6 - 6 6 -') -> 0", function() {
-    expect(rpnCalculator('-1 9 * -5 3 + -7 -7 + -10 6 * -6 7 / -5 -6 + -2 4 * 10 9 / 0 -6 - 6 6 -') ).toBe(0);
-  });
-  it("rpnCalculator('-1 9 -5 3 -7 -7 -10 6 -6 7 -5 -6 -2 4 10 9 0 -6 6 6 * + + * / + * / - -') -> 0", function() {
-    expect(rpnCalculator('-1 9 -5 3 -7 -7 -10 6 -6 7 -5 -6 -2 4 10 9 0 -6 6 6 * + + * / + * / - -') ).toBe(0);
+  it("rpnCalculator('-6 7 -7 -9 7 -5 7 1 -10 1 -6 - + - - + * * * * *') -> 37044", function() {
+    expect(rpnCalculator('-6 7 -7 -9 7 -5 7 1 -10 1 -6 - + - - + * * * * *') ).toBe(37044);
   });
 });

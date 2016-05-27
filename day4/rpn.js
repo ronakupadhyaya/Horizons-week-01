@@ -37,7 +37,47 @@
 // ex. rpnCalculator('0 1') -> Error
 // ex. rpnCalculator('*') -> Error
 // ex. rpnCalculator('1 *') -> Error
-window.rpnCalculator function(rpnString) {
+window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var ops = {
+    '-': function(a, b) {
+      return a - b;
+    },
+    '+': function(a, b) {
+      return a + b;
+    },
+    '*': function(a, b) {
+      return a * b;
+    },
+    '/': function(a, b) {
+      return a / b;
+    }
+  };
+
+  var stack = [];
+  rpnString.split(' ').forEach(function(token) {
+    if (isNumStr(token)) {
+      stack.push(parseFloat(token));
+    } else {
+      if (! _.has(ops, token)) {
+        throw 'Invalid operator: ' + token;
+      }
+      var op = ops[token];
+      if (stack.length < 2) {
+        throw 'Invalid expression. Too few numbers';
+      }
+      var b = stack.pop();
+      var a = stack.pop();
+      stack.push(op(a, b));
+    }
+  });
+
+  if (stack.length === 1) {
+    return stack[0];
+  }
+  throw "Invalid expression.";
 }
 
+function isNumStr(str) {
+  return ! isNaN(str);
+}

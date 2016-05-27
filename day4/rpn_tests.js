@@ -54,3 +54,30 @@ describe("RPN Calculator", function() {
     expect(rpnCalculator('-6 7 -7 -9 7 -5 7 1 -10 1 -6 - + - - + * * * * *') ).toBe(37044);
   });
 });
+
+describe("isNumberString()", function() {
+  it("isNumberString('') -> false", function() {
+    expect(isNumberString('') ).toBe(false);
+  });
+  it("isNumberString('a') -> false", function() {
+    expect(isNumberString('a') ).toBe(false);
+  });
+  it("isNumberString('1a') -> false", function() {
+    expect(isNumberString('1a') ).toBe(false);
+  });
+  it("isNumberString('*') -> false", function() {
+    expect(isNumberString('*') ).toBe(false);
+  });
+  it("isNumberString('0.1') -> true", function() {
+    expect(isNumberString('0.1') ).toBe(true);
+  });
+  it("isNumberString('-1') -> true", function() {
+    expect(isNumberString('-1') ).toBe(true);
+  });
+  it("isNumberString('0') -> true", function() {
+    expect(isNumberString('0') ).toBe(true);
+  });
+  it("isNumberString('-0.4') -> true", function() {
+    expect(isNumberString('-0.4') ).toBe(true);
+  });
+});

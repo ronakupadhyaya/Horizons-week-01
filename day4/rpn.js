@@ -60,7 +60,7 @@ window.rpnCalculator = function(rpnString) {
 
   var stack = [];
   rpnString.split(' ').forEach(function(token) {
-    if (isNumStr(token)) {
+    if (isNumberString(token)) {
       stack.push(parseFloat(token));
     } else {
       if (! _.has(ops, token)) {
@@ -82,6 +82,26 @@ window.rpnCalculator = function(rpnString) {
   throw "Invalid expression.";
 }
 
-function isNumStr(str) {
+// This function returns true if given string represents a valid number.
+//
+// ex. isNumberString('a') -> false
+// ex. isNumberString('*') -> false
+// ex. isNumberString('0.1') -> true
+// ex. isNumberString('-1') -> true
+// ex. isNumberString('0') -> true
+// ex. isNumberString('-0.4') -> true
+function isNumberString(str) {
+  if (_.isNumber(str)) {
+    return str;
+  }
+
+  if (! _.isString(str)) {
+    return false;
+  }
+
+  if (! str.length) {
+    return false;
+  }
+
   return ! isNaN(str);
 }

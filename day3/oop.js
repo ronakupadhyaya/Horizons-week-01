@@ -54,26 +54,13 @@
 // johnny.getName() -> "John Cena";
 
 
-// TODO: put your `Student` class code over here!
 // Constructor & Properties
 
-var Student = function(name, grades, major) {
-  this.name = name;
-  this.grades = grades;
-  this.major = major;
-};
-
-Student.prototype.getGPA = function() {
-  if (this.grades.length === 0) {
-    return 0;
-  }
-  return (this.grades.reduce(function(prev, cur) {
-    return prev + cur;
-  }, 0) / this.grades.length);
-};
+// YOUR CODE HERE
 
 // Methods Declarations
 
+// YOUR CODE HERE
 
 // Exercise 4. Using Objects - sortByGPA(students<Student[]>)
 // Write a function that takes an array of the <Student> objects you've implemented and return an array of the students sorted from lowest to highest.
@@ -88,15 +75,5 @@ Student.prototype.getGPA = function() {
 // 
 // hint. this will be similar to how you sorted objects in previous lessons.
 var sortByGPA = function(students) {
-  // TODO: this part right here
-  return students.sort(function(a, b) {
-    var ag = a.getGPA();
-    var bg = b.getGPA();
-    if (ag > bg) {
-      return 1;
-    } else if (ag < bg) {
-      return -1;
-    }
-    return 0;
-  });
+  // YOUR CODE HERE
 };

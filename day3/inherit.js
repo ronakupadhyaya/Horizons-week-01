@@ -29,7 +29,7 @@ var Fruit = function(color) {
   this.color = color;
 };
 
-Fruit.prototype.getColor = funtion() {
+Fruit.prototype.getColor = function() {
   return this.color;
 };
 

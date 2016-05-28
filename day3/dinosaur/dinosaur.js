@@ -103,10 +103,7 @@ game.Mob.prototype = {
 			console.log("My pos,", myPos);
 			console.log("Their pos,", otherPos);
 		};
-		
-		// Line-based collision (check if player's bottom pos is within other's hieght)
 		return (isCollision);
-		
 	},
 	// `update(t<Number>)` method
 	// Main state update loop for the mob object

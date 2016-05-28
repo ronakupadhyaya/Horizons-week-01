@@ -44,6 +44,9 @@ game.Mob = function(initialX, initialY) {
 	this.hasCollided = false;
 	this.collideTime = null;
 	this.shapeColor = "#e44e44";
+	
+	// Admin stuff
+	this.hasCalledUpdate = false;
 };
 
 game.Mob.prototype = {
@@ -110,6 +113,10 @@ game.Mob.prototype = {
 	update: function(t) {
 		// Move (check conditions first)
 		this.move(t);
+		
+		if (!this.hasCalledUpdate) {
+			this.hasCalledUpdate = true;
+		}
 
 	},
 	// `render(ctx<canvasObject>)` method

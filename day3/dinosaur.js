@@ -94,19 +94,6 @@ game.Mob.prototype = {
 	// hint. use can also use game.comparePositions as well.
 	isCollidingWith: function(other) {
 		// YOUR CODE HERE
-		if (this.hasCollided) return false;
-		var myPos = this.getPosition();
-		var otherPos = other.getPosition();
-		// Point-based collision (bottom-left)
-		// return game.comparePositions(this.getPosition(), other.getPosition());
-		var isCollision = game.comparePositions(myPos, otherPos);
-		if (isCollision) {
-			this.hasCollided = true;
-			this.collideTime = Date.now();
-			// console.log("My pos,", myPos);
-			// console.log("Their pos,", otherPos);
-		};
-		return (isCollision);
 	},
 	// `update(t<Number>)` method
 	// Main state update loop for the mob object

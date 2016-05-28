@@ -8,8 +8,7 @@ describe("<Dinosaur> Class", function() {
     dino = new game.Dinosaur(0, 0);
     ob1 = new game.Obstacle(20, 40);
     ob2 = new game.Obstacle(0, 40);
-  })
-  
+  });
   
   describe("the isCollidingWith method", function() {
     it("should have exist", function() {

@@ -3,6 +3,22 @@
 window.game = window.game || {};
 
 
+// [Helper] `comparePositions(a<Number[]>,b<Number[]>)` method
+// Takes two position arrays and compares them.
+game.comparePositions = function(a, b) {
+	var eps = 5;
+	// var eps = 10;
+	if (a.length != b.length) return false;
+	
+	for (var i = 0; i < a.length; i++) {
+		if (Math.abs(a[i] - b[i]) > eps ) {
+			return false;
+		}
+	}
+	return true;
+};
+
+
 // [Helper] `Mob(initialX, initialY)` class
 // This class is responsible for a lot of the moving-object (mobb) functionality.
 
@@ -12,7 +28,7 @@ game.Mob = function(initialX, initialY) {
 	this.animated = true;
 	this.animationSpeed = 1;
 	
-	// position
+	// position (bottom-left vertex)
 	this.x = initialX;
 	this.y = initialY;
 	
@@ -26,6 +42,8 @@ game.Mob = function(initialX, initialY) {
 	// offset & collisions
 	this.width = 25;
 	this.height = 50;
+	this.hasCollided = false;
+	this.collideTime = null;
 	this.shapeColor = "#e44e44";
 };
 
@@ -34,8 +52,6 @@ game.Mob.prototype = {
 	// Given a time step t (mathematically, a time difference or delta-t), move will update the internal velocity and position states of the instance.
 	// 
 	move: function(t) {
-		// console.log(t);
-		
 		// update velocities w/ gravity
 		this.vel = this.vel.map(function(vel, i) {
 			var newVel = (vel + this.accel[i]);
@@ -54,15 +70,43 @@ game.Mob.prototype = {
 		
 	},
 	// `setPosition(x<Number>, y<Number>)` method
-	// Sets the position of the object given an numerical X & Y coordinates
+	// Sets the position of the bottom-left vertext of the object given numerical X & Y coordinates
 	setPosition: function(x, y) {
 		this.x = x;
 		this.y = y;
 	},
 	// `getPosition()` method
-	// returns the position of the object in an array of the format: [xPosition<Number>, yPosition<Number>]
+	// returns the position of the bottom-left vertex of the object in an array of the format: [xPosition<Number>, yPosition<Number>]
 	getPosition: function() {
 		return [this.x, this.y];
+	},
+	// `isCollidingWith(other<Mob>)` method
+	// Write a function that will take another `Mob` object and return true if this instance and the other obejct are colliding.
+	// If the (this.hasCollided) property is true, then return false - there's a 'refactory period' between collisions
+	// There are many different ways to do this. You can treat the objects as a single points, and check to see if the two points are the same.
+	// You can treat the objects as lines or boundaries, and check if any of the boundaries intersect with each other.
+	// Finally, you can also treat each
+	// 
+	// hint. use `getPosition`!
+	// hint. the .width and .height properties come in useful too.
+	// hint. use can also use game.comparePositions as well.
+	isCollidingWith: function(other) {
+		if (this.hasCollided) return false;
+		var myPos = this.getPosition();
+		var otherPos = other.getPosition();
+		// Point-based collision (bottom-left)
+		// return game.comparePositions(this.getPosition(), other.getPosition());
+		var isCollision = game.comparePositions(myPos, otherPos);
+		if (isCollision) {
+			this.hasCollided = true;
+			this.collideTime = Date.now();
+			console.log("My pos,", myPos);
+			console.log("Their pos,", otherPos);
+		};
+		
+		// Line-based collision (check if player's bottom pos is within other's hieght)
+		return (isCollision);
+		
 	},
 	// `update(t<Number>)` method
 	// Main state update loop for the mob object
@@ -76,7 +120,10 @@ game.Mob.prototype = {
 	render: function(ctx) {
 		// draw image at position
 		ctx.fillStyle = this.shapeColor;
-		ctx.fillRect(this.x - this.width, this.y - this.height, this.width, this.height);
+		ctx.fillRect(this.x, this.y - this.height, this.width, this.height);
+		ctx.beginPath();
+		ctx.arc(this.x, this.y, 5, 0,2*Math.PI);
+		ctx.stroke();
 	}
 };
 
@@ -85,7 +132,7 @@ game.Mob.prototype = {
 game.Dinosaur = function(initialX, initialY) {
 	game.Mob.call(this, initialX, initialY);
 	
-	this.gravity *= this.gravity * 0.75;
+	this.gravity *= 0.25;
 	this.jumpHeight = 2 * this.height;
 };
 

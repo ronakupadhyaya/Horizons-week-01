@@ -80,7 +80,7 @@ game.Mob.prototype = {
 	getPosition: function() {
 		return [this.x, this.y];
 	},
-	// `isCollidingWith(other<Mob>)` method
+	// Exercise 1.`isCollidingWith(other<Mob>)` method
 	// Write a function that will take another `Mob` object and return true if this instance and the other obejct are colliding.
 	// If the (this.hasCollided) property is true, then return false - there's a 'refactory period' between collisions
 	// There are many different ways to do this. You can treat the objects as a single points, and check to see if the two points are the same.

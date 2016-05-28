@@ -91,10 +91,6 @@ window.rpnCalculator = function(rpnString) {
 // ex. isNumberString('0') -> true
 // ex. isNumberString('-0.4') -> true
 function isNumberString(str) {
-  if (_.isNumber(str)) {
-    return str;
-  }
-
   if (! _.isString(str)) {
     return false;
   }
@@ -103,5 +99,8 @@ function isNumberString(str) {
     return false;
   }
 
+  // isNaN() is a built-in JavaScript function that stands for is-Not-A-Number()
+  // It works on strings too. Read more about it here:
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
   return ! isNaN(str);
 }

@@ -22,7 +22,11 @@ game.Game.prototype = {
 		this.tick = Date.now();
 		
 		// create game objects
+		// create player
+		this.gameObjects = [];
 		this.player = new game.Dinosaur(154, cv.height - 50);
+		
+		this.gameObjects.push(new game.Obstacle(this.width - 75, this.height));
 		
 		// add controls
 		var that = this;
@@ -36,9 +40,11 @@ game.Game.prototype = {
 		// use this.tick as time
 		this.tick = (Date.now() - this.tick) / 1000000000000.0;
 		
-		
 		// update game objects
 		this.player.update(this.tick);
+		this.gameObjects.forEach(function(gObj) {
+			gObj.update(this.tick);
+		}, this);
 		
 		// bound player
 		var pPos = this.player.getPosition();
@@ -51,6 +57,12 @@ game.Game.prototype = {
 			this.player.setPosition(pPos[0], this.height);
 		}
 		
+		this.gameObjects.forEach(function(gObj) {
+			if (gObj.getPosition()[0] < 0) {
+				gObj.setPosition(this.width + gObj.width, gObj.getPosition()[1]);
+			}
+		}, this);
+		
 	},
 	render: function() {
 		// update game state
@@ -62,6 +74,9 @@ game.Game.prototype = {
 		
 		// re-render game objects
 		this.player.render(this.ctx);
+		this.gameObjects.forEach(function(gObj) {
+			gObj.render(this.ctx);
+		}, this);
 		
 		requestAnimationFrame(this.render.bind(this));
 	}

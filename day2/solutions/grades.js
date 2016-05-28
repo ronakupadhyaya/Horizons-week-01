@@ -5,7 +5,7 @@ window.grades = {};
 // In this exercise, you will be implementing functions that will help in analyzing a class (such as yourself). We have provided you with an example dataset under `data/grades.js` that you can peruse by yourself as you wish.
 
 // Data Format:
-// The data that will be run through each program is an array of studen objects (<Student[]>)
+// The data that will be run through each program is an array of student objects (<Student[]>)
 // The student object is comprised of these keys:
 // 'name', a string for the student's first name (warning - not unique!)
 // 'major', a string indicating the user's major (there are only 4 majors)

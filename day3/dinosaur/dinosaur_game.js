@@ -23,10 +23,11 @@ game.Game.prototype = {
 		
 		// create game objects
 		// create player
-		this.gameObjects = [];
+		this.obstacles = [];
 		this.player = new game.Dinosaur(154, cv.height - 50);
+		console.log("playerObject created", this.player);
 		// add objects
-		this.gameObjects.push(new game.Obstacle(this.width - 75, this.height));
+		this.obstacles.push(new game.Obstacle(this.width - 75, this.height));
 		
 		// add controls
 		var that = this;
@@ -49,7 +50,7 @@ game.Game.prototype = {
 		// hint. use `.update()`!
 		// YOUR CODE HERE
 		this.player.update(this.tick);
-		this.gameObjects.forEach(function(gObj) {
+		this.obstacles.forEach(function(gObj) {
 			gObj.update(this.tick);
 		}, this);
 		
@@ -64,9 +65,9 @@ game.Game.prototype = {
 			this.player.setPosition(pPos[0], this.height);
 		}
 		
-		this.gameObjects.forEach(function(gObj) {
+		this.obstacles.forEach(function(gObj) {
 			// Exercise 2.B Bound Player & Collision Detection | Bound Obstacles
-			// Write a block of code that resets the position of the object game obstacles.
+			// Write a block of code that resets the position of the game obstacles.
 			// The obstacle(s) always move to the left, so when the object is fully past the left border, move it back to the right side.
 			// 
 			// hint. use `getPosition` and `setPosition`
@@ -77,7 +78,7 @@ game.Game.prototype = {
 			}
 			
 			// Exercise 2.C Bound Player & Collision Detection | Check Collisions
-			// Write a block of code that calls `this.exit` if a game object has collided with the player object.
+			// Write a block of code that calls `this.exit` if an obstacle has collided with the player object.
 			// 
 			// hint. use `gObj.isCollidingWith` but you'll need to implement it first! Check out `dinosaur.js`.
 			// YOUR CODE HERE
@@ -109,7 +110,7 @@ game.Game.prototype = {
 		
 		// re-render game objects
 		this.player.render(this.ctx);
-		this.gameObjects.forEach(function(gObj) {
+		this.obstacles.forEach(function(gObj) {
 			gObj.render(this.ctx);
 		}, this);
 		

@@ -26,6 +26,7 @@ game.Mob = function(initialX, initialY) {
 	// offset & collisions
 	this.width = 25;
 	this.height = 50;
+	this.shapeColor = "#e44e44";
 };
 
 game.Mob.prototype = {
@@ -74,22 +75,21 @@ game.Mob.prototype = {
 	// Render the object's image to the the canvas
 	render: function(ctx) {
 		// draw image at position
-		ctx.fillStyle = "#e44e44";
+		ctx.fillStyle = this.shapeColor;
 		ctx.fillRect(this.x - this.width, this.y - this.height, this.width, this.height);
 	}
 };
 
 // [Helper] `Dinosaur` Class
 // This `Dinosaur` class inherits a majority of its functions from Mob
-
 game.Dinosaur = function(initialX, initialY) {
 	game.Mob.call(this, initialX, initialY);
 	
+	this.gravity *= this.gravity * 0.75;
 	this.jumpHeight = 2 * this.height;
 };
 
 // Inherit from Mob
-
 game.Dinosaur.prototype = Object.create(game.Mob.prototype);
 game.Dinosaur.prototype.constructor = game.Dinosaur;
 
@@ -103,3 +103,19 @@ game.Dinosaur.prototype.jump = function() {
 			this.inAir = true;
 		}
 };
+
+// [Helper] `Obstacle` Class
+
+game.Obstacle = function(initialX, initialY) {
+	game.Mob.call(this, initialX, initialY);
+	
+	this.inAir = false;
+	this.vel[0] = -3;
+	this.width = 50;
+	this.height = 20;
+	this.shapeColor = "#ccc";
+}
+
+// Inherit from Mob
+game.Obstacle.prototype = Object.create(game.Mob.prototype);
+game.Obstacle.prototype.constructor = game.Obstacle;

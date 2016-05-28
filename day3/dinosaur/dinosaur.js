@@ -7,7 +7,6 @@ window.game = window.game || {};
 // Takes two position arrays and compares them.
 game.comparePositions = function(a, b) {
 	var eps = 5;
-	// var eps = 10;
 	if (a.length != b.length) return false;
 	
 	for (var i = 0; i < a.length; i++) {
@@ -91,6 +90,7 @@ game.Mob.prototype = {
 	// hint. the .width and .height properties come in useful too.
 	// hint. use can also use game.comparePositions as well.
 	isCollidingWith: function(other) {
+		// YOUR CODE HERE
 		if (this.hasCollided) return false;
 		var myPos = this.getPosition();
 		var otherPos = other.getPosition();
@@ -100,8 +100,8 @@ game.Mob.prototype = {
 		if (isCollision) {
 			this.hasCollided = true;
 			this.collideTime = Date.now();
-			console.log("My pos,", myPos);
-			console.log("Their pos,", otherPos);
+			// console.log("My pos,", myPos);
+			// console.log("Their pos,", otherPos);
 		};
 		return (isCollision);
 	},

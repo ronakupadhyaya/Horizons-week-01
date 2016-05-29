@@ -14,14 +14,12 @@ function functionThatReturnsTrue() { // XXX
 // ex. firstWord('abcd') -> 'abcd'
 // ex. firstWord('abc d') -> 'abc'
 // ex. firstWord('abc d  e') -> 'abc'
-function firstWord(string) { // XXX
-  var i;
-
-  for (i = 0; i < string.length; i++) {
-    if (string[0] !== ' ') {
-      break;
+function firstWord(string) {
+  for (var i = 0; i < string.length; i++) {
+    if (string[i] === ' ') { // XXX
+      return string.substring(0, i);
     }
   }
 
-  return string.substring(0, i);
+  return string;
 }

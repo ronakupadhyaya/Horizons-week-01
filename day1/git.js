@@ -1,7 +1,8 @@
 "use strict";
 
-describe("Git setup", function() {
-  it("Git is setup correctly", function() {
+describe("Inline exercise", function() {
+  it("Fix this test", function() {
+    throw "Delete me!"; // Delete this line!
     expect(true).toBe(true);
   });
 });

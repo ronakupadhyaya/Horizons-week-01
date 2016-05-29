@@ -12,6 +12,15 @@
   <script src="../lib/jasmine/boot.js"></script>
 
   <!-- Our files -->
+  <script>
+jasmine.getEnv().addReporter({
+  specDone: function(result) {
+    if (result.status == 'passed') {
+      document.getElementById('success').style = '';
+    }
+  }
+});
+  </script>
   <script src="git.js"></script>
 </head>
 
@@ -22,6 +31,9 @@
 </style>
 
 <body>
-  <h2>Congrats &#127881;! You have set up Git.</h2>
+  <div id="success" style="display: none">
+    <h2> Congrats &#127881;! You have fixed the test.</h2>
+    <p><strong>Next, "sync" back your branch.</strong>
+  </div>
 </body>
 </html>

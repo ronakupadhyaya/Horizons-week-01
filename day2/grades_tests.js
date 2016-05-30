@@ -31,22 +31,12 @@ describe("grades.getGPA(student)", function() {
 });
 
 describe("grades.highestGPA(data)", function() {
-  it("should return a string", function() {
-    expect(grades.highestGPA(studentData)).toEqual(jasmine.any(String));
+  it("should return an object", function() {
+    expect(grades.highestGPA(studentData)).toEqual(jasmine.any(Object));
   });
   
-  it("should correspond to a student in the class", function() {
-    var names = studentData.map(function(student) {
-      return student.name;
-    });    
-    expect(names.indexOf(grades.highestGPA(studentData))).not.toBe(-1);
-
-  });
-  
-  it("should say the student with the highest GPA is either Scott or Jane", function() {
-    var names = ["Scott", "Jane"];
-    expect(names.indexOf(grades.highestGPA(studentData))).not.toBe(-1);
-    
+  it("should say the student with the highest GPA is Scott", function() {
+    expect(grades.highestGPA(studentData).name).toBe("Scott");
   });
 
 });
@@ -64,10 +54,8 @@ describe("grades.majorWithHighestGPA(data)", function() {
 
   });
   
-  it("should say the major with the highest GPA is either Economics or Film Studies", function() {
-    var majors = ["Economics", "Film Studies"];
-    expect(majors.indexOf(grades.majorWithHighestGPA(studentData))).not.toBe(-1);
-    
+  it("should say the major with the highest GPA is Film Studies", function() {
+    expect(grades.majorWithHighestGPA(studentData)).toBe("Film Studies");
   });
 
 });

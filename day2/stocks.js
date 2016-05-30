@@ -27,7 +27,7 @@ window.stocks = {};
 // with all the stock tickers as keys, and the values as an array with the first value being
 // the total gain and the second being the total loss. Keep in mind that each object in the
 // passed in data is either a gain or a loss based on the 'price' property.
-// It should look like this: { "AMZN": [500, -25], ... }
+// The return object should look like this: { "AMZN": [500, -25], ... }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
 };

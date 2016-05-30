@@ -3,9 +3,9 @@
 window.game = {};
 
 game.Game = function() {
-	this.tick;
-	
-	this.initialize();
+  this.tick;
+  
+  this.initialize();
 };
 
 game.Game.prototype = {

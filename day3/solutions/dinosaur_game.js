@@ -78,13 +78,16 @@ game.Game.prototype = {
 			}
 			
 			// Exercise 2.C Bound Player & Collision Detection | Check Collisions
-			// Write a block of code that calls `this.exit` if an obstacle has collided with the player object.
+			// Write a block of code that calls `this.exit` if an obstacle has collided with the player object. The obstacle and the player object should also be frozen upon collision.
 			// 
 			// hint. use `gObj.isCollidingWith` but you'll need to implement it first! Check out `dinosaur.js`.
+			// hint. use `.freeze()`
 			// YOUR CODE HERE
 			// check if hit player
 			if (gObj.isCollidingWith(this.player)) {
 				// end the game!
+				gObj.freeze();
+				this.player.freeze();
 				this.exit();
 			}
 			

@@ -27,11 +27,11 @@ util.calc = function(op) {
   var nums = tokens[0];
   var ops = tokens[1];
 
-  // 4. See util.calcOne()! 
+  // 4. See util.calcOne()!
 
   // Hint: create a way to iterate through the arrays of
   // numbers and operations and calculate the collective result.
-  // Use util.calcOne() for each operation! 
+  // Use util.calcOne() for each operation!
 
   // Only worry about addition and subtraction for now -
   // you can jump into operation precedence with multiplication
@@ -48,10 +48,9 @@ util.calc = function(op) {
   }
   */
 
-  // Bonus Step! Attempt after Tests 1-19 pass.
-  // Now that we've completed addition and subtraction, it's
+  // 5. Now that we've completed addition and subtraction, it's
   // time to tackle operations with precedence (multiplication and division).
-  // Rewrite the work you did in Step 4, calcOne()'ing the 
+  // Rewrite the work you did in Step 4, calcOne()'ing the
   // multiplication and division parts first.
 
   // Hint: Take advantage of indexOf() for finding your next operation
@@ -109,7 +108,7 @@ util.splitIntoParts = function(s) {
 
 // ----------------------------------------------------------------------------
 
-// 3. validateExpression() returns true if the operation resulting from 
+// 3. validateExpression() returns true if the operation resulting from
 // running our calc() function with the given nums and ops array is valid.
 // Otherwise, it should throw an exception.
 

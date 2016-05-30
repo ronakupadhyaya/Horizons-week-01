@@ -10,14 +10,17 @@ window.varArgs = {};
 // ex. varArgs.numArgs() -> 0
 //
 // Try to insert, pop or push another 'argument' inside the function into the list of arguements. What happens?
-// Hint: see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments> for details about the `arguments` data structure
+// Hint: see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments>
+// for details about the `arguments` data structure.
 varArgs.numArgs = function() {
   return arguments.length;
 };
 
 // Exercise 0.B varArgs.numArgs(args...)
-// Write a functionthat creates a user object. It takes a name and age and returns it  as an object with keys 'name' and keys 'age' to the respe tive arugments
-// We've did this for you, check it out.
+// Write a function that creates a user object. It takes a name and age and
+// returns it as an object with keys 'name' and keys 'age' to the respective arguments.
+
+// We've done this for you, check it out.
 // ex. varArgs.makeUser('Rex',34) -> { 'name' : 'Rex', 'age' : 34 }
 // ex. varArgs.makeUser('Bob') -> { 'name': 'Bob', 'age' : 12 }
 // ex. varArgs.makeUser() -> { 'name': 'John Doe', 'age' : 24 }
@@ -38,11 +41,11 @@ varArgs.makeUser = function(name, age) {
 
 // Exercise 1. varArgs.sum(args...)
 // Write a function that takes any number of integers as arguments and computes their sum.
+
 // ex. varArgs.sum() -> 0
 // ex. varArgs.sum(1) -> 1
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
-//
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
   if (arguments.length == 0) {
@@ -64,11 +67,11 @@ varArgs.sum = function() {
 
 // Exercise 2. varArgs.product(args...)
 // Write a function that takes any number of integers as arguments and computes their product.
+
 // ex. varArgs.product(1) -> 1
 // ex. varArgs.product(1, 2, 4) -> 8
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
-//
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
   
@@ -86,11 +89,13 @@ varArgs.product = function() {
 };
 
 // Exercise 3. varArgs.joinWith(args...)
-// Write a function that takes a delimiter as the first argument and any number of strings for the rest of the arguments, and joins the distinct strings together in order with the delimiter in between.
+// Write a function that takes a delimiter as the first argument and any number of
+// strings for the rest of the arguments, and joins the distinct strings together
+// in order with the delimiter in between.
+
 // ex. varArgs.joinWith(',') -> ''
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
-//
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
   if (arguments.length == 0) {

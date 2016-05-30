@@ -27,11 +27,11 @@ varArgs.numArgs = function() {
 //
 // Look at test case 2 and 3. Huh? Describe what's happening there.
 varArgs.makeUser = function(name, age) {
-  // Lookie here
+  // Lookie her
   if (arguments.length == 1) {
     // args are sequential so if 1 arg was given, that means only the first (name) was given
     age = 12;
-  } else if (arguments.length === 0) {
+  } else if (arguments.length == 0) {
     // didn't give it anything, man.
     name = "John Doe";
     age = 24;
@@ -48,6 +48,21 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  if (arguments.length == 0) {
+    return 0;
+  }
+  
+  // 1. iterative
+  var sum = 0;
+  for (var i = 0; i < arguments.length; i++) {
+    sum += arguments[i];
+  }
+  return sum;
+  
+  // 2. functional-ish
+  // return Array.prototype.slice.call(arguments).reduce(function(a, b) {
+  //   return a + b;
+  // }, 0);
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -59,6 +74,18 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  
+  // 1. iterative
+  var prod = 1;
+  for (var i = 0; i < arguments.length; i++) {
+    prod *= arguments[i];
+  }
+  return prod;
+  
+  // 2. functional-ish
+  // return Array.prototype.slice.call(arguments).reduce(function(a, b) {
+  //   return a * b;
+  // }, 1);
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -71,4 +98,25 @@ varArgs.product = function() {
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
+  if (arguments.length == 0) {
+    return '';
+  }
+  
+  // 1. iterative
+  var delimiter = arguments[0];
+  var word = "";
+  for (var i = 1; i < arguments.length; i++) {
+    word += arguments[i];
+    if (i != arguments.length - 1) {
+      word += delimiter;
+    }
+  }
+  return word;
+  
+  // 3. functional-ish
+  // var args = Array.prototype.slice.call(arguments);
+  // var delim = args[0];
+  // return args.reduce(function(a, b) {
+  //   return a + delim + b;
+  // }, 1);
 };

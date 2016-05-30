@@ -13,7 +13,9 @@ window.stocks = {};
 // Transaction objects have three properties: 'ticker', 'time' and 'price'.
 // The 'ticker' property is the name of the company to which the transaction refers to.
 // The 'time' property is the time of the transaction on 5/17/2016.
-// The 'price' property is the value of the transaction - can be negative.
+// The 'price' property is the change in price of the stock of 'ticker' at 'time'.
+// Be careful! 'price' indicates the delta of the stock price, not the stock price itself.
+// Also keep in mind that 'price' will be negative to indicate a drop in the stock price.
 // You can access these properties the usual ways, like (assuming a given item is called `trans`): 
 // `var price = trans["price"];` or `var ticker = trans.ticker`
 // So, the data's gonna look something like:
@@ -22,9 +24,10 @@ window.stocks = {};
 
 // Exercise 1. stocks.gainAndLoss(data<Transaction[]>)
 // Write a function that takes an array of Transaction objects. It should return an object 
-// with all the stocks as keys, and their values being an array with the first value being
-// the total gain and the second being the total loss.
-// It should look like this: { "AMZN": [500, -25], ... }
+// with all the stock tickers as keys, and the values as an array with the first value being
+// the total gain and the second being the total loss. Keep in mind that each object in the
+// passed in data is either a gain or a loss based on the 'price' property.
+// The return object should look like this: { "AMZN": [500, -25], ... }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
   // console.log(data);

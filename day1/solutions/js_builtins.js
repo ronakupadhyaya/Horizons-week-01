@@ -20,6 +20,11 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(string) {
+  // Notice how this for loop is constructed without an iterating
+  // statement like an incrementing operator (i++) - this is because
+  // each time we are taking the substring, the indices are shifting
+  // to the left - if we incremented i after this, we would miss
+  // some spaces!
   for (var i = 0; i < string.length;) {
     if (string[i] === " ") {
       string = string.substring(i + 1);

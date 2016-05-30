@@ -83,7 +83,7 @@ game.Mob.prototype = {
 		return [this.x, this.y];
 	},
 	// Exercise 1.`isCollidingWith(other<Mob>)` method
-	// Write a function that will take another `Mob` object and return true if this instance and the other obejct are colliding.
+	// Write a function that will take another `Mob` object and return true if this instance and the other object are colliding.
 	// If the (this.hasCollided) property is true, then return false - there's a 'refactory period' between collisions
 	// There are many different ways to do this. You can treat the objects as a single points, and check to see if the two points are the same.
 	// You can treat the objects as lines or boundaries, and check if any of the boundaries intersect with each other.
@@ -94,6 +94,12 @@ game.Mob.prototype = {
 	// hint. use can also use game.comparePositions as well.
 	isCollidingWith: function(other) {
 		// YOUR CODE HERE
+	},
+	// `freeze()` method
+	// Stops the object from moving
+	freeze: function() {
+		this.inAir = false;
+		this.vel = [0, 0];
 	},
 	// `update(t<Number>)` method
 	// Main state update loop for the mob object

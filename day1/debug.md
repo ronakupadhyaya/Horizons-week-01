@@ -51,7 +51,7 @@ break points.
   ![](img/debug resume.png)
 1. Check the value of `i` again. Has it changed?
 1. You can also step through code line by line using the Step Over button.
-  ![](img/debug resume.png)
+  ![](img/debug step.png)
 1. Use the debugger to find out why this test is failing!
 
 Questions to answer:

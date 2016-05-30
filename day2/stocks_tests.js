@@ -81,18 +81,18 @@ describe("stocks.widestTradingRange(data)", function() {
   
 });
 
-describe("stocks.totalPortofolioValue(data)", function() {
+describe("stocks.totalPortfolioValue(data)", function() {
   
   it("should return a number", function() {
-    expect(stocks.totalPortofolioValue(stockData, 'GOOG')).toEqual(jasmine.any(Number));
+    expect(stocks.totalPortfolioValue(stockData, 'GOOG')).toEqual(jasmine.any(Number));
   });
   
 });
 
-describe("stocks.totalPortofolioGains(data)", function() {
+describe("stocks.totalPortfolioGains(data)", function() {
   
   it("should return a number", function() {
-    expect(stocks.totalPortofolioGains(stockData, 'GOOG')).toEqual(jasmine.any(Number));
+    expect(stocks.totalPortfolioGains(stockData, 'GOOG')).toEqual(jasmine.any(Number));
   });
   
 });

@@ -37,14 +37,14 @@ grades.getGPA = function(student) {
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
-// Write a function that takes an array of Student objects and returns the name of the student with the highest GPA
+// Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
-// Write a function that takes an array of Student objects and returns the major of the student with the highest GPA
+// Write a function that takes an array of Student objects and returns the major with the highest GPA
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {

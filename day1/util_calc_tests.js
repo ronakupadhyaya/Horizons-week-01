@@ -85,14 +85,11 @@ describe("Bonus: implement sqrt", function() {
   it("util.calc('sqrt 4') -> 2", function() {
     expect(util.calc('sqrt 4') ).toBe(2);
   });
-  it("util.calc('sqrt 4 - 3') -> -2", function() {
-    expect(util.calc('sqrt 4 - 3') ).toBe(-2);
+  it("util.calc('sqrt 4 - 3') -> -1", function() {
+    expect(util.calc('sqrt 4 - 3') ).toBe(-1);
   });
-  it("util.calc('-1 * sqrt 4 - 3') -> -2", function() {
-    expect(util.calc('-1 * sqrt 4 - 3') ).toBe(-2);
-  });
-  it("util.calc('-1 * sqrt 4 - 3') -> 2", function() {
-    expect(util.calc('-1 * sqrt 4 - 3') ).toBe(2);
+  it("util.calc('-1 * sqrt 4 - 3') -> -5", function() {
+    expect(util.calc('-1 * sqrt 4 - 3') ).toBe(-5);
   });
   it("util.calc('sqrt 9 - 3 * 10') -> -27", function() {
     expect(util.calc('sqrt 9 - 3 * 10') ).toBe(-27);
@@ -100,11 +97,9 @@ describe("Bonus: implement sqrt", function() {
   it("util.calc('sqrt 9 * 10') -> 30", function() {
     expect(util.calc('sqrt 9 * 10') ).toBe(30);
   });
-
-  it("util.calc('sqrt 9 * 10') -> 30", function() {
+  it("util.calc('sqrt 9 * 10 / 2 - 1') -> 14", function() {
     expect(util.calc('sqrt 9 * 10 / 2 - 1') ).toBe(14);
   });
-
   it("util.calc('10 * sqrt 9') -> 30", function() {
     expect(util.calc('10 * sqrt 9') ).toBe(30);
   });

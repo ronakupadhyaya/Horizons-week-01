@@ -97,5 +97,5 @@ truthy.or = function(a, b) {
 //
 truthy.isReallyEquals = function(a, b) {
   // YOUR CODE HERE
-  return a == b;
+  return a === b;
 };

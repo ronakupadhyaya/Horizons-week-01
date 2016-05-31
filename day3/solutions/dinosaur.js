@@ -50,7 +50,6 @@ game.Mob = function(initialX, initialY) {
 };
 
 game.Mob.prototype = {
-<<<<<<< HEAD
 	// `Move(t<Number>)` method
 	// Given a time step t (mathematically, a time difference or delta-t), move will update the internal velocity and position states of the instance.
 	// 

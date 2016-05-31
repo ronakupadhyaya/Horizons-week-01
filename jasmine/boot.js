@@ -131,7 +131,24 @@
 
 (function() {
   var suites = [];
-  var currentSuite;
+  // Remove stuff after ? and # on the url
+  var exercise = window.location.href.split(/#|\?/);
+  exercise = exercise[0];
+  // Take the last three path segments
+  exercise = exercise.split('/');
+  if (exercise.length > 3) {
+    exercise = exercise.slice(exercise.length - 3).join('/')
+  } else {
+    exercise = '';
+  }
+
+  var currentSuite = {
+    passed: 0,
+    failed: 0,
+    fullName: 'Null test suite ' + exercise
+  };
+  suites.push(currentSuite);
+
   var done = false;
   var callbacks = [];
 
@@ -166,7 +183,8 @@
       ret[suite.fullName] = {
         name: suite.fullName,
         failed: suite.failed,
-        passed: suite.passed
+        passed: suite.passed,
+        group: exercise
       };
     });
     return ret;
@@ -229,33 +247,67 @@
   }
 
   function isValidEmail(email){
-    return ["kitchena@wharton.upenn.edu", "isabaez@seas.upenn.edu",
-    "spark4@wellesley.edu", "eyinghang@gmail.com",
-    "tylerscott.sullivan@outlook.com", "brendan_woo@brown.edu",
-    "joostkamermans1@gmail.com", "lmandelbaum1@babson.edu",
-    "vtaneja@middlebury.edu", "push0216@gmail.com", "cllop1@swarthmore.edu",
-    "samlee@brandeis.edu", "jmccarthy2@babson.edu", "rubinca@sas.upenn.edu",
-    "mshen2@wellesley.edu", "aschugart@college.harvard.edu",
-    "virginiavankeuren2017@u.northwestern.edu", "zl2da@virginia.edu",
-    "christophermak777@gmail.com", "orodriguez19@cmc.edu",
-    "bsack@sas.upenn.edu", "steven.lin@stern.nyu.edu",
-    "austinhawkins70@yahoo.com", "sadikiw@princeton.edu",
-    "jonku@seas.upenn.edu", "paseung@sas.upenn.edu", "ha.helio@gmail.com",
-    "igong@sas.upenn.edu", "crellison@middlebury.edu",
-    "seanpark8181@gmail.com", "youngan@sas.upenn.edu",
-    "rebagley@haverford.edu", "anirudhramesh1@gmail.com", "ewu1@babson.edu",
-    "shuaihe2018@u.northwestern.edu", "taycon@seas.upenn.edu",
-    "swoodwa5@villanova.edu", "amarti40@villanova.edu", "ikapadia@umich.edu",
-    "willyoo@wharton.upenn.edu", "Pleeplace@gmail.com", "louisbiret@gmail.com",
-    "tomeng728@gmail.com", "mullinsjulian@gmail.com",
-    "dargani123@gmail.com"].indexOf(email) > -1;
+    return ["kitchena@wharton.upenn.edu",
+      "isabaez@seas.upenn.edu",
+      "spark4@wellesley.edu",
+      "eyinghang@gmail.com",
+      "tylerscott.sullivan@outlook.com",
+      "brendan_woo@brown.edu",
+      "joostkamermans1@gmail.com",
+      "lmandelbaum1@babson.edu",
+      "vtaneja@middlebury.edu",
+      "push0216@gmail.com",
+      "cllop1@swarthmore.edu",
+      "samlee@brandeis.edu",
+      "jmccarthy2@babson.edu",
+      "rubinca@sas.upenn.edu",
+      "mshen2@wellesley.edu",
+      "aschugart@college.harvard.edu",
+      "virginiavankeuren2017@u.northwestern.edu",
+      "zl2da@virginia.edu",
+      "christophermak777@gmail.com",
+      "orodriguez19@cmc.edu",
+      "bsack@sas.upenn.edu",
+      "steven.lin@stern.nyu.edu",
+      "austinhawkins70@yahoo.com",
+      "sadikiw@princeton.edu",
+      "jonku@seas.upenn.edu",
+      "paseung@sas.upenn.edu",
+      "ha.helio@gmail.com",
+      "igong@sas.upenn.edu",
+      "crellison@middlebury.edu",
+      "seanpark8181@gmail.com",
+      "youngan@sas.upenn.edu",
+      "rebagley@haverford.edu",
+      "anirudhramesh1@gmail.com",
+      "ewu1@babson.edu",
+      "shuaihe2018@u.northwestern.edu",
+      "taycon@seas.upenn.edu",
+      "swoodwa5@villanova.edu",
+      "amarti40@villanova.edu",
+      "ikapadia@umich.edu",
+      "willyoo@wharton.upenn.edu",
+      "Pleeplace@gmail.com",
+      "louisbiret@gmail.com",
+      "tomeng728@gmail.com",
+      "mullinsjulian@gmail.com",
+      // Staff
+      "dargani123@gmail.com",
+      "moose@joinhorizons.com",
+      "edward@joinhorizons.com",
+      "darwish@joinhorizons.com",
+      "abhi@joinhorizons.com",
+      "lane@joinhorizons.com",
+      "josh@joinhorizons.com",
+      "ethan@joinhorizons.com"
+    ].indexOf(email) > -1;
   }
 
   function runUserNameDetector(){
     var email = localStorage.getItem("email");
     while(!isValidEmail(email)){
       email = prompt("Please enter your email address (this should be the same one you use to log into Horizons");
-      console.log("Received " + email);
+      // console.log("Received " + email);
       localStorage.setItem("email", email);
     }
   }
@@ -264,7 +316,7 @@
   if (! /\/solutions\//.exec(window.location.href)) {
     horizons.getTestResult(function(result) {
       crossDomainPost(result);
-      console.log('tests finised running', result);
+      // console.log('tests finised running', result);
     });
   }
 })();

@@ -63,7 +63,7 @@ describe("util.calcOne(a, b, op)", function() {
     expect(util.calcOne(5, 9, "-")).toEqual(-4);
   });
 });
-describe("Bonus! util.calc(opWithPrecedence)", function() {
+describe("util.calc(opWithPrecedence)", function() {
   it("util.calc('1 * 3 / 5 + 2') -> 2.6", function() {
     expect(util.calc('1 * 3 / 5 + 2')).toEqual(2.6);
   });
@@ -80,3 +80,32 @@ describe("Bonus! util.calc(opWithPrecedence)", function() {
     expect(util.calc('1 / 0 * 0 + 1')).toEqual(NaN);
   });
 })
+
+describe("Bonus: implement sqrt", function() {
+  it("util.calc('sqrt 4') -> 2", function() {
+    expect(util.calc('sqrt 4') ).toBe(2);
+  });
+  it("util.calc('sqrt 4 - 3') -> -2", function() {
+    expect(util.calc('sqrt 4 - 3') ).toBe(-2);
+  });
+  it("util.calc('-1 * sqrt 4 - 3') -> -2", function() {
+    expect(util.calc('-1 * sqrt 4 - 3') ).toBe(-2);
+  });
+  it("util.calc('-1 * sqrt 4 - 3') -> 2", function() {
+    expect(util.calc('-1 * sqrt 4 - 3') ).toBe(2);
+  });
+  it("util.calc('sqrt 9 - 3 * 10') -> -27", function() {
+    expect(util.calc('sqrt 9 - 3 * 10') ).toBe(-27);
+  });
+  it("util.calc('sqrt 9 * 10') -> 30", function() {
+    expect(util.calc('sqrt 9 * 10') ).toBe(30);
+  });
+
+  it("util.calc('sqrt 9 * 10') -> 30", function() {
+    expect(util.calc('sqrt 9 * 10 / 2 - 1') ).toBe(14);
+  });
+
+  it("util.calc('10 * sqrt 9') -> 30", function() {
+    expect(util.calc('10 * sqrt 9') ).toBe(30);
+  });
+});

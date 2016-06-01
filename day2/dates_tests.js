@@ -76,11 +76,11 @@ describe("dates.isTheFuture(d)", function() {
 });
 
 describe("dates.incrementDay(d)", function() {
-  it("should return strings", function() {
-    expect(dates.getUTCString(new Date('2015-03-25T12:00:00'))).toEqual(jasmine.any(String));
+  it("should return a date object", function() {
+    expect(dates.incrementDay(new Date('2015-03-25T12:00:00'))).toEqual(jasmine.any(Object));
   });
   
-  it("should create date strings from properly-formatted input dates strings", function() {
+  it("dates.incrementDay(new Date('May 17, 2016 9:00:00')) -> new Date('May 18, 2016 9:00:00')", function() {
     expect(dates.getUTCString(new Date('May 17, 2016 9:00:00'))).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0).toUTCString());
   });
 });

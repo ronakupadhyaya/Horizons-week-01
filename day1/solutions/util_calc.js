@@ -18,8 +18,26 @@ util.calc = function(op) {
 
   op = op.trim(); // Use builtins.trim() instead!
 
+  // Make one pass through the data to handle sqrt 
+  var tokens = op.split(' ');
+  var tokens2 = [];
+  var found = false;
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i];
+    if (token === 'sqrt') {
+      found = true;
+      tokens2.push(Math.sqrt(parseFloat(tokens[++i])));
+    } else {
+      tokens2.push(token);
+    }
+  }
+
+  if (found && tokens2.length === 1) {
+    return tokens2[0];
+  }
+
   // 2. See util.splitIntoParts()!
-  var tokens = util.splitIntoParts(op);
+  tokens = util.splitIntoParts(tokens2.join(' '));
 
   // 3. See util.validateExpression()!
   util.validateExpression(tokens[0], tokens[1]);
@@ -98,10 +116,13 @@ util.splitIntoParts = function(s) {
   var nums = [];
   var ops = [];
 
-  for (var i = 0; i < tokens.length; i++) {
-    if (i % 2 == 0) nums.push(parseFloat(tokens[i]));
-    else ops.push(tokens[i]);
-  }
+  tokens.forEach(function(token) {
+    if (isNaN(token)) {
+      ops.push(token);
+    } else {
+      nums.push(parseFloat(token));
+    }
+  });
 
   return [nums, ops];
 };

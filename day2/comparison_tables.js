@@ -36,7 +36,15 @@ var valuesToCheck = function() {
 // should use double quotes. Be careful with this!
 
 // Having trouble starting? Here's an idea for implementing testLooseEquality:
-// First, 
+
+// First, create a 2D array for each of the valuesToCheck with the following
+// subarrays: [true, true], [true, false], [true, 1], ...
+
+// Next, find a way to evaluate the loose boolean equality comparison between
+// index 0 and index 1 of the subarrays and determine how to map the result
+// to an object with the format specified above.
+
+// Good luck!
 
 comp.testLooseEquality = function() {
     // YOUR CODE HERE

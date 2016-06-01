@@ -3,7 +3,7 @@
 window.dates = {};
 
 // Exercise 1. dates.createDate(dateStr)
-// Write a function that takes a properly-formmatted date string and returns a JS Date Object from a properly formatted date string.
+// Write a function that takes a properly-formatted date string and returns a JS Date Object from a properly formatted date string.
 // ex. dates.createDate('May 17, 2016 9:00:00') -> Date(2016, 4, 17, 9, 0, 0, 0)
 // ex. dates.createDate('2015-03-25') -> Date('2015-03-25')
 // ex. dates.createDate('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00')
@@ -45,13 +45,16 @@ dates.isSameDayOfWeek = function(d, c) {
 // Exercise 3.B dates.isSameTimeOfDay(d<Date>, c<Date>)
 // Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same time of day (both at 3:03 AM, etc.), false otherwise
 // ex. dates.isSameDayOfWeek(new Date('2015-03-25 02:00:00'), new Date('2015-03-25 02:00:00')) -> true
-// ex. dates.isSameDayOfWeek(new Date('2015-03-25'), new Date('2015-10-25')) -> true
-// ex. dates.isSameDayOfWeek(new Date('2015-03-25'), new Date('2015-04-25')) -> false
+// ex. dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00')) -> false
+// ex. dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11T03:00:00')) -> false
 // 
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.isSameTimeOfDay = function(d, c) {
   // YOUR CODE HERE
   return ((d.getHours() === c.getHours()) && (d.getMinutes() === c.getMinutes()) && (d.getSeconds() === c.getSeconds()));
+
+  // Alternate Solution
+  return d.toTimeString() === c.toTimeString();
 };
 
 // Exercise 3.C dates.isTheFuture(d<Date>)
@@ -62,20 +65,19 @@ dates.isSameTimeOfDay = function(d, c) {
 dates.isTheFuture = function(d) {
   // YOUR CODE HERE
   var n = new Date();
-  console.log("current date", n);
-  // return (new Date() < d);
-  console.log(n < d);
   return (n < d);
 };
 
 // Exercise 4. dates.incrementDay(d<Date>)
-// Write a function that takes a Date Object and treturns the UTC time string.
-// ex. dates.incrementDay() -> false
+// Write a function that takes a Date object and returns the Date object of the next day.
+// ex. dates.incrementDay(new Date('May 17, 2016 9:00:00')) -> new Date('May 18, 2016 9:00:00')
 // 
 // hint. don't worry about overflow!
 // hint. see 'getDate' and 'setDate'
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(d) {
   // YOUR CODE HERE
-  return (new Date(d.toUTCString).setDate(d.getDate() + 1));
+  // Careful about the return value of setDate()!
+  d.setDate(d.getDate() + 1);
+  return d;
 };

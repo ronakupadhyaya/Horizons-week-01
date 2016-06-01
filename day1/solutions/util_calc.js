@@ -98,10 +98,13 @@ util.splitIntoParts = function(s) {
   var nums = [];
   var ops = [];
 
-  for (var i = 0; i < tokens.length; i++) {
-    if (i % 2 == 0) nums.push(parseFloat(tokens[i]));
-    else ops.push(tokens[i]);
-  }
+  tokens.forEach(function(token) {
+    if (isNaN(token)) {
+      ops.push(token);
+    } else {
+      nums.push(parseFloat(token));
+    }
+  });
 
   return [nums, ops];
 };

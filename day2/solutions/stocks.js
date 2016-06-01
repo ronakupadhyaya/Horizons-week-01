@@ -30,6 +30,15 @@ window.stocks = {};
 // The return object should look like this: { "AMZN": [500, -25], ... }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var ret = {};
+  _.forEach(data, function(trans) {
+    ret[trans.ticker] = ret[trans.ticker] || [0, 0];
+    ret[trans.ticker][+(trans.price < 0)] += trans.price;
+  });
+  return ret;
+
+  // ------------------------------------------------------
+  // Alternate Solution without Underscore
   var cos = {};
   data.forEach(function(trans) {
     // check if in cos, if not, create
@@ -43,7 +52,6 @@ stocks.gainAndLoss = function(data) {
     
     cos[trans.ticker][ind] += trans.price;
   });
-  // console.log(cos);
   return cos;
 };
 

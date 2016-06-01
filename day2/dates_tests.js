@@ -81,6 +81,6 @@ describe("dates.incrementDay(d)", function() {
   });
   
   it("dates.incrementDay(new Date('May 17, 2016 9:00:00')) -> new Date('May 18, 2016 9:00:00')", function() {
-    expect(dates.getUTCString(new Date('May 17, 2016 9:00:00'))).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0).toUTCString());
+    expect(dates.incrementDay(new Date('May 17, 2016 9:00:00'))).toEqual(new Date(2016, 4, 18, 9, 0, 0, 0));
   });
 });

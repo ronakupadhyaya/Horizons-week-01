@@ -52,6 +52,9 @@ dates.isSameDayOfWeek = function(d, c) {
 dates.isSameTimeOfDay = function(d, c) {
   // YOUR CODE HERE
   return ((d.getHours() === c.getHours()) && (d.getMinutes() === c.getMinutes()) && (d.getSeconds() === c.getSeconds()));
+
+  // Alternate Solution
+  return d.toTimeString() === c.toTimeString();
 };
 
 // Exercise 3.C dates.isTheFuture(d<Date>)
@@ -62,9 +65,6 @@ dates.isSameTimeOfDay = function(d, c) {
 dates.isTheFuture = function(d) {
   // YOUR CODE HERE
   var n = new Date();
-  console.log("current date", n);
-  // return (new Date() < d);
-  console.log(n < d);
   return (n < d);
 };
 

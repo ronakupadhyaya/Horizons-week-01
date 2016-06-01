@@ -81,12 +81,14 @@ describe("stocks.widestTradingRange(data)", function() {
   
 });
 
-describe("stocks.totalPortfolioValue(data)", function() {
+describe("stocks.totalPortfolioValue(data, ticker)", function() {
   
   it("should return a number", function() {
     expect(stocks.totalPortfolioValue(stockData, 'GOOG')).toEqual(jasmine.any(Number));
   });
-  
+  it("stocks.totalPortfolioValue(data, 'GOOG') should be between 538.94 and 538.96", function() {
+    expect(stocks.totalPortfolioValue(stockData, 'GOOG') > 538.94 && stocks.totalPortfolioValue(stockData, 'GOOG') < 538.96).toBeTruthy();
+  });
 });
 
 describe("stocks.totalPortfolioGains(data)", function() {

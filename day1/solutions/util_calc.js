@@ -142,8 +142,8 @@ util.splitIntoParts = function(s) {
 // ex. util.validateExpression([2, 1, 5, 6], ['-', '+', '+']) -> true
 // ex. util.validateExpression([-1, 3, 2, 5], ['+', '-', '+']) -> true
 // ex. util.validateExpression([0, 3, 4], ['-', '+', '/']) -> Exception thrown: "Too many or too few operations"
-// ex. util.validateExpression([], []) -> Exception thrown: "Too many or two few operations"
-// ex. util.validateExpression([1], []) -> Exception thrown: "Too many or two few operations"
+// ex. util.validateExpression([], []) -> Exception thrown: "Too many or too few operations"
+// ex. util.validateExpression([1], []) -> Exception thrown: "Too many or too few operations"
 // ex. util.validateExpression(['+', '-', '*'], [1, 2]) -> Exception thrown: "Expected number, got +"
 
 util.validateExpression = function(nums, ops) {

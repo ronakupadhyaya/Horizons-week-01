@@ -42,10 +42,10 @@ describe("util.validateExpression(nums, ops)", function() {
   it("util.validateExpression([0, 3, 4], ['-', '+', '/']) -> Exception thrown: 'Too many or too few operations'", function() {
     expect(function() { util.validateExpression([0, 3, 4], ['-', '+', '/']) }).toThrow("Too many or too few operations");
   });
-  it("util.validateExpression([], []) -> Exception thrown: 'Too many or two few operations'", function() {
+  it("util.validateExpression([], []) -> Exception thrown: 'Too many or too few operations'", function() {
     expect(function() { util.validateExpression([], []) }).toThrow("Too many or too few operations");
   });
-  it("util.validateExpression([1], []) -> Exception thrown: 'Too many or two few operations'", function() {
+  it("util.validateExpression([1], []) -> Exception thrown: 'Too many or too few operations'", function() {
     expect(function() { util.validateExpression([1], []) }).toThrow("Too many or too few operations");
   });
   it("util.validateExpression(['+', '-', '*'], [1, 2, 3, 4]) -> Exception thrown: 'Expected number, got +'", function() {

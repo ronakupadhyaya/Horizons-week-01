@@ -3,8 +3,8 @@
 ## Inline Exercises
 
 1. [Equality (Warmup)](1_warmup_equality.md)
-1. [Truthiness inline](2_inline_truthiness.md)
-1. [Variable scoping inline](3_inline_var_scope.md)
+1. [Truthiness](2_inline_truthiness.md)
+1. [Variable scoping](3_inline_var_scope.md)
 
 ## Pair Programming Exercises
 

@@ -5,7 +5,7 @@ describe("dates.createDate(dateStr)", function() {
     expect(dates.createDate('2015-03-25T12:00:00')).toEqual(jasmine.any(Date));
   });
   
-  it("should create dates from properly-formmatted date strings", function() {
+  it("should create dates from properly-formatted date strings", function() {
     expect(dates.createDate('May 17, 2016 9:00:00')).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0));
     
     expect(dates.createDate('2015-03-25')).toEqual(new Date('2015-03-25'));
@@ -19,7 +19,7 @@ describe("dates.getUTCString(d, c)", function() {
     expect(dates.getUTCString(new Date('2015-03-25T12:00:00'))).toEqual(jasmine.any(String));
   });
   
-  it("should create date strings from properly-formmatted input dates strings", function() {
+  it("should create date strings from properly-formatted input dates strings", function() {
     expect(dates.getUTCString(new Date('May 17, 2016 9:00:00'))).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0).toUTCString());
     
     expect(dates.getUTCString(new Date('2015-03-25'))).toEqual(new Date('2015-03-25').toUTCString());
@@ -57,8 +57,7 @@ describe("dates.isSameTimeOfDay(d, c)", function() {
   
   it("should return false for dates that occur on a different time of day", function() {
     expect(dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00'))).toBe(false);
-    
-    expect(dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-02-26T16:00:00'))).toBe(false);
+    expect(dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11T03:00:00'))).toBe(false);
   });
 });
 
@@ -67,7 +66,7 @@ describe("dates.isTheFuture(d)", function() {
     expect(dates.isTheFuture(new Date('2015-03-25T12:00:00'))).toEqual(jasmine.any(Boolean));
   });
   
-  it("should create date strings from properly-formmatted input dates strings", function() {
+  it("should create date strings from properly-formatted input dates strings", function() {
     expect(dates.isTheFuture(new Date('May 17, 2016 9:00:00'))).toBe(false);
     
     expect(dates.isTheFuture(new Date('2016-06-25'))).toBe(true);
@@ -81,7 +80,7 @@ describe("dates.incrementDay(d)", function() {
     expect(dates.getUTCString(new Date('2015-03-25T12:00:00'))).toEqual(jasmine.any(String));
   });
   
-  it("should create date strings from properly-formmatted input dates strings", function() {
+  it("should create date strings from properly-formatted input dates strings", function() {
     expect(dates.getUTCString(new Date('May 17, 2016 9:00:00'))).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0).toUTCString());
   });
 });

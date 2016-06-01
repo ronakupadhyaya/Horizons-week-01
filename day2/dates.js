@@ -3,7 +3,7 @@
 window.dates = {};
 
 // Exercise 1. dates.createDate(dateStr)
-// Write a function that takes a properly-formmatted date string and returns a JS Date Object from a properly formatted date string.
+// Write a function that takes a properly-formatted date string and returns a JS Date Object from a properly formatted date string.
 // ex. dates.createDate('May 17, 2016 9:00:00') -> Date(2016, 4, 17, 9, 0, 0, 0)
 // ex. dates.createDate('2015-03-25') -> Date('2015-03-25')
 // ex. dates.createDate('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00')
@@ -41,7 +41,8 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same time of day (both at 3:03 AM, etc.), false otherwise
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25 02:00:00'), new Date('2015-03-25 02:00:00')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25'), new Date('2015-10-25')) -> true
-// ex. dates.isSameTimeOfDay(new Date('2015-03-25'), new Date('2015-04-25')) -> false
+// ex. dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00')) -> false
+// ex. dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11T03:00:00')) -> false
 //
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours

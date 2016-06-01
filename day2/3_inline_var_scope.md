@@ -1,11 +1,9 @@
-# Pair Programming Exercise: Variable Scoping
+# Inline Exercise: Variable Scoping
 
-## Goal
-
-The goal of this exercise is to learn how variables in JavaScript behave.
+## Time limit: 10 minutes
 
 ## Instructions
 
-1. Open `week01/day2/var_scope.js` in your text editor. Exercise details are listed there.
-1. Open `week01/day2/var_scope.html` in your browser to run tests.
+1. Open `week01/day2/3_inline_var_scope.js` in your text editor. Exercise details are listed there.
+1. Open `week01/day2/3_inline_var_scope.html` in your browser to run tests.
 1. Write necessary functions to make all the tests pass.

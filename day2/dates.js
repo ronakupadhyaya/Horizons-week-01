@@ -35,7 +35,6 @@ dates.getUTCString = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
-  return dateObj.getDay() === otherDateObj.getDay();
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -43,7 +42,7 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25 02:00:00'), new Date('2015-03-25 02:00:00')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25'), new Date('2015-10-25')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25'), new Date('2015-04-25')) -> false
-// 
+//
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
@@ -52,7 +51,7 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
 // Write a function that takes a Date object as an argument and returns true if it specifies a date in the future or false if it is a time that has already passed
-// 
+//
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   // YOUR CODE HERE
@@ -61,7 +60,7 @@ dates.isTheFuture = function(dateObj) {
 // Exercise 4. dates.incrementDay(dateObj<Date>)
 // Write a function that takes a Date Object and treturns the UTC time string.
 // ex. dates.incrementDay() -> false
-// 
+//
 // hint. don't worry about overflow!
 // hint. see 'getDate' and 'setDate'
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate

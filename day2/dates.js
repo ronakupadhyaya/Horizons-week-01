@@ -62,7 +62,6 @@ dates.isTheFuture = function(dateObj) {
 // ex. dates.incrementDay() -> false
 //
 // hint. don't worry about overflow!
-// hint. see 'getDate' and 'setDate'
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE

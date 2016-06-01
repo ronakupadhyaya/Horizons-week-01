@@ -8,8 +8,6 @@ window.truthy = {};
 // ex. truthy.isTruthy('') -> false
 // ex. truthy.isTruthy(113) -> true
 // ex. truthy.isTruthy(0) -> false
-//
-// hint. !!true -> true
 truthy.isTruthy = function(thing) {
   // YOUR CODE HERE
 };
@@ -23,9 +21,6 @@ truthy.isTruthy = function(thing) {
 // ex. truthy.isSortOfEqual([ 'a', 'b' ], 'a') -> false
 // ex. truthy.isSortOfEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false
 // ex. truthy.isSortOfEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false
-///
-// hint. use `==` to compare
-// hint. see: http://stackoverflow.com/questions/359494/does-it-matter-which-equals-operator-vs-i-use-in-javascript-comparisons
 truthy.isSortOfEqual = function(a, b) {
   // YOUR CODE HERE
 };
@@ -47,8 +42,6 @@ truthy.max = function(a, b) {
 // ex. truthy.and(1, 0) -> false
 // ex. truthy.and(false, 1) -> false
 // ex. truthy.and(true, '') -> false
-//
-// hint. think about the binary analogs of true and false => 1 and 0 respectively. 1 * 1 is 1; what about 1 * 0 or 0 * 0?
 truthy.and = function(a, b) {
   // YOUR CODE HERE
 };
@@ -59,8 +52,6 @@ truthy.and = function(a, b) {
 // ex. truthy.or(1, 0) -> true
 // ex. truthy.or(false, 1) -> true
 // ex. truthy.or(true, '') -> true
-//
-// hint. mthink about the binary analogs of true and false again! What kind of operator do you think you can use?
 truthy.or = function(a, b) {
   // YOUR CODE HERE
 };
@@ -74,7 +65,6 @@ truthy.or = function(a, b) {
 // ex. truthy.isReallyEquals(1, 1) -> true
 // ex. truthy.isReallyEquals(1, 0) -> false
 // ex. truthy.isReallyEquals(1, 1.000000000000000000000000000000001) -> true
-//
 truthy.isReallyEquals = function(a, b) {
   // YOUR CODE HERE
 };

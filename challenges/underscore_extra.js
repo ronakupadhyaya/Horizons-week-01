@@ -1,21 +1,22 @@
-// Week 1 Challenge Problem
+// Week 1 challenge: more functions from underscore.
+//
+// Implement the following functions from the underscore library.
+// You'll need to use the 'arguments' object and function.apply()
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
 
-// function allArgs() {
-//  return _.toArray(arguments);
-// }
-// ex. partial(allArgs)() -> []
-// ex. partial(allArgs)(0, 1, 2, 3, 4) -> [0, 1, 2, 3, 4]
-// ex. partial(allArgs, 'x')() -> ['x']
-// ex. partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]
-// ex. partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]
+// http://underscorejs.org/#partial
 function partial() {
   var args = _.toArray(arguments);
+  if (! args.length) {
+    throw "Insufficient arguments";
+  }
   var fn = args.shift();
   return function() {
     return fn.apply(null, args.concat(_.toArray(arguments)));
   }
 }
 
+// http://underscorejs.org/#compose
 function compose() {
   var args = _.toArray(arguments);
   var start = args.length - 1;
@@ -29,6 +30,7 @@ function compose() {
   };
 }
 
+// http://underscorejs.org/#memoize
 function memoize(func) {
   var memoize = function(key) {
     var cache = memoize.cache;

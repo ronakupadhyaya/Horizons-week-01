@@ -5,6 +5,9 @@ describe('partial()', function() {
     return _.toArray(arguments);
   }
 
+  it("partial() -> Error", function() {
+    expect(_.partial(partial)).toThrow();
+  });
   it("partial(allArgs)() -> []", function() {
     expect(partial(allArgs)() ).toEqual([]);
   });
@@ -32,6 +35,7 @@ describe('partial()', function() {
     expect(partial.apply(null, args).apply(null, _.range(500))).toEqual(_.range(500).concat(_.range(500)));
   });
 });
+
 
 describe('compose()', function() {
   it("f(g(h(x, y, z)))", function() {

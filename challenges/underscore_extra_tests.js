@@ -7,17 +7,17 @@ describe('partial()', function() {
   it("partial(allArgs)() -> []", function() {
     expect(partial(allArgs)() ).toEqual([]);
   });
-  it("partial(allArgs)(0, 1, 2, 3) -> [0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs)(0, 1, 2, 3) ).toEqual([0, 1, 2, 3, 4]);
+  it("partial(allArgs)(0, 1, 2, 3, 4) -> [0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs)(0, 1, 2, 3, 4) ).toEqual([0, 1, 2, 3, 4]);
   });
   it("partial(allArgs, 'x')() -> ['x']", function() {
     expect(partial(allArgs, 'x')() ).toEqual(['x']);
   });
-  it("partial(allArgs, 'x')(0, 1, 2, 3) -> ['x', 0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs, 'x')(0, 1, 2, 3) ).toEqual(['x', 0, 1, 2, 3, 4]);
+  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
   });
-  it("partial(allArgs, 'x')(0, 1, 2, 3) -> ['x', 0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs, 'x')(0, 1, 2, 3) ).toEqual(['x', 0, 1, 2, 3, 4]);
+  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
   });
   it("handle 500 arguments from partial", function() {
     var args = [allArgs].concat(_.range(500));

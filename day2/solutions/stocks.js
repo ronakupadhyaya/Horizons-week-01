@@ -30,7 +30,6 @@ window.stocks = {};
 // The return object should look like this: { "AMZN": [500, -25], ... }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
-  // console.log(data);
   var cos = {};
   data.forEach(function(trans) {
     // check if in cos, if not, create
@@ -110,7 +109,8 @@ stocks.widestTradingRange = function(data) {
   });
 
   var comps = {};
-  
+
+  // ------------------------------------------------------
   // Alternate Solution without Underscore
   // Figure out biggest transaction ammounts for buy & sell
   data.forEach(function(trans) {
@@ -149,6 +149,12 @@ stocks.widestTradingRange = function(data) {
 // hint. exercise 3 can help!
 stocks.totalPortfolioValue = function(data, ticker) {
   // YOUR CODE HERE
+  return _.reduce(stocks.gainAndLoss(data)[ticker], function(a, b) {
+    return a + b;
+  });
+
+  // ------------------------------------------------------
+  // Alternate Solution without Underscore
   // can do some input validation
   var comps = stocks.gainAndLoss(data);
   var val = comps[ticker][0] + comps[ticker][1];

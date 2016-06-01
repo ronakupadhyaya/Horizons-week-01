@@ -59,7 +59,7 @@ dates.isTheFuture = function(dateObj) {
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
-// Write a function that takes a Date Object and returns the UTC time string.
+// Write a function that takes a Date object and returns the Date object of the next day.
 // ex. dates.incrementDay(new Date('May 17, 2016 9:00:00')) -> new Date('May 18, 2016 9:00:00')
 //
 // hint. don't worry about overflow!

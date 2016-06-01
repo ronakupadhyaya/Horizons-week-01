@@ -8,7 +8,6 @@
 
 ## Pair Programming Exercises
 
-1. [Truthiness](truthy.md)
 1. [Date and time in JavaScript](dates.md)
 1. [Learning Underscore.js](learn_underscore.md)
 1. [Student Grades](grades.md)

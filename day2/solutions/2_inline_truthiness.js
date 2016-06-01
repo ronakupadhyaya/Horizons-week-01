@@ -12,22 +12,7 @@ window.truthy = {};
 // hint. !!true -> true
 truthy.isTruthy = function(thing) {
   // YOUR CODE HERE
-};
-
-// Exercise 2. truthy.isSortOfEqual(a, b)
-// Write a function that takes two arguments, `a` and `b`, and returns true or false when a and b are sort of the same.
-// ex. truthy.isSortOfEqual(1, 1) -> true
-// ex. truthy.isSortOfEqual(1, 0) -> false
-// ex. truthy.isSortOfEqual('1', 1) -> true
-// ex. truthy.isSortOfEqual('', ' ') -> false
-// ex. truthy.isSortOfEqual([ 'a', 'b' ], 'a') -> false
-// ex. truthy.isSortOfEqual([ 'a', 'b' ], { 0: 'a', 1: 'b'}) -> false
-// ex. truthy.isSortOfEqual({ 0: 'a', 1: 'b'}, { 0: 'a', 1: 'b'}) -> false
-///
-// hint. use `==` to compare
-// hint. see: http://stackoverflow.com/questions/359494/does-it-matter-which-equals-operator-vs-i-use-in-javascript-comparisons
-truthy.isSortOfEqual = function(a, b) {
-  // YOUR CODE HERE
+  return !!thing;
 };
 
 // Exercise 3. truthy.max(a, b)
@@ -39,6 +24,12 @@ truthy.isSortOfEqual = function(a, b) {
 //
 truthy.max = function(a, b) {
   // YOUR CODE HERE
+  // regular conditional
+  if (a >= b) {
+    return a;
+  } else {
+    return b;
+  }
 };
 
 // Exercise 4.A truthy.and(a, b)
@@ -51,6 +42,12 @@ truthy.max = function(a, b) {
 // hint. think about the binary analogs of true and false => 1 and 0 respectively. 1 * 1 is 1; what about 1 * 0 or 0 * 0?
 truthy.and = function(a, b) {
   // YOUR CODE HERE
+  // if (a * b) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  return (a * b) ? true : false;
 };
 
 // Exercise 4.B truthy.or(a, b)
@@ -63,18 +60,10 @@ truthy.and = function(a, b) {
 // hint. mthink about the binary analogs of true and false again! What kind of operator do you think you can use?
 truthy.or = function(a, b) {
   // YOUR CODE HERE
-};
-
-
-// Exercise 5. truthy.isReallyEquals(a, b)
-// Write a function that takes two  arguments, `a` and `b`, and returns true or false when a and b are equal.
-// ex. truthy.compareStr('john', 'John') -> false
-// ex. truthy.compareStr('xDvz7h$k', 'xDvz7h$k') -> true
-// ex. truthy.isReallyEquals('1', 1) -> false
-// ex. truthy.isReallyEquals(1, 1) -> true
-// ex. truthy.isReallyEquals(1, 0) -> false
-// ex. truthy.isReallyEquals(1, 1.000000000000000000000000000000001) -> true
-//
-truthy.isReallyEquals = function(a, b) {
-  // YOUR CODE HERE
+  // if (a + b) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  return (a + b) ? true : false;
 };

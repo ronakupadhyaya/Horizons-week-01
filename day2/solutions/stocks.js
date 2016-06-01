@@ -96,8 +96,22 @@ stocks.biggestLoser = function(data) {
 // 
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+
+  var comps = stocks.gainAndLoss(data);
+  var max = 0;
+  _.forEach(comps, function(comp) {
+    if((comp[0] - comp[1]) > max) {
+      max = comp[0] - comp[1]
+    }
+  });
+  return _.findKey(comps, function(v) {
+    console.log(v)
+    return max === v[0] - v[1];
+  });
+
   var comps = {};
   
+  // Alternate Solution without Underscore
   // Figure out biggest transaction ammounts for buy & sell
   data.forEach(function(trans) {
     // check if in cos, if not, create

@@ -6,40 +6,15 @@
 
 // http://underscorejs.org/#partial
 function partial() {
-  var args = _.toArray(arguments);
-  if (! args.length) {
-    throw "Insufficient arguments";
-  }
-  var fn = args.shift();
-  return function() {
-    return fn.apply(null, args.concat(_.toArray(arguments)));
-  }
+  // YOUR CODE HERE
 }
 
 // http://underscorejs.org/#compose
 function compose() {
-  var args = _.toArray(arguments);
-  var start = args.length - 1;
-  return function() {
-    var i = start;
-    var result = args[start].apply(this, arguments);
-    while (i--) {
-      result = args[i].call(this, result);
-    }
-    return result;
-  };
+  // YOUR CODE HERE
 }
 
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  var memoize = function(key) {
-    var cache = memoize.cache;
-    var address = '' + key;
-    if (!_.has(cache, address)) {
-      cache[address] = func.apply(null, arguments);
-    }
-    return cache[address];
-  };
-  memoize.cache = {};
-  return memoize;
+  // YOUR CODE HERE
 };

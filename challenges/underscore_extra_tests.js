@@ -51,3 +51,19 @@ describe('compose()', function() {
     expect(composed(1, 2, 3)).toBe(12);
   });
 });
+
+describe("memoize()", function() {
+  it("calling 10 times with same 100 arguments calls only once", function() {
+    var called = [];
+    var fun = memoize(function(i) {
+      expect(called[i]).toBeFalsy();
+      called[i] = true;
+    });
+
+    _.range(10).forEach(function() {
+      _.range(100).forEach(fun);
+    });
+    expect(called.length).toBe(100);
+    expect(_.all(called, _.identity)).toBe(true);
+  });
+});

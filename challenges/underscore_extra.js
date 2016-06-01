@@ -28,3 +28,16 @@ function compose() {
     return result;
   };
 }
+
+function memoize(func) {
+  var memoize = function(key) {
+    var cache = memoize.cache;
+    var address = '' + key;
+    if (!_.has(cache, address)) {
+      cache[address] = func.apply(null, arguments);
+    }
+    return cache[address];
+  };
+  memoize.cache = {};
+  return memoize;
+};

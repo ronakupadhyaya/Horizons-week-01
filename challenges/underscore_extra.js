@@ -15,3 +15,16 @@ function partial() {
     return fn.apply(null, args.concat(_.toArray(arguments)));
   }
 }
+
+function compose() {
+  var args = _.toArray(arguments);
+  var start = args.length - 1;
+  return function() {
+    var i = start;
+    var result = args[start].apply(this, arguments);
+    while (i--) {
+      result = args[i].call(this, result);
+    }
+    return result;
+  };
+}

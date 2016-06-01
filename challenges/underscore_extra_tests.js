@@ -1,3 +1,4 @@
+"use strict";
 
 describe('partial()', function() {
   function allArgs() {
@@ -29,5 +30,24 @@ describe('partial()', function() {
   it("handle 500 arguments from and after partial", function() {
     var args = [allArgs].concat(_.range(500));
     expect(partial.apply(null, args).apply(null, _.range(500))).toEqual(_.range(500).concat(_.range(500)));
+  });
+});
+
+describe('compose()', function() {
+  it("f(g(h(x, y, z)))", function() {
+    function h(x, y, z) {
+      expect(arguments.length).toBe(3);
+      return z * y;
+    }
+    function g(x) {
+      expect(arguments.length).toBe(1);
+      return x;
+    }
+    function f(x) {
+      expect(arguments.length).toBe(1);
+      return x * 2;
+    }
+    var composed = compose(f, g, h);
+    expect(composed(1, 2, 3)).toBe(12);
   });
 });

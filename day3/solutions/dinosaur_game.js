@@ -33,10 +33,20 @@ game.CanvasWrapper.prototype = {
 		this.ctx.stroke();
 	},
   drawDinosaur: function(x, y) {
-    
+		var dino = [25, 50, "#e44e44"];
+		this.ctx.fillStyle = dino[2];
+    this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, 5, 0,2*Math.PI);
+    this.ctx.stroke();
   },
   drawObstacle: function(x, y) {
-    
+		var obs = [40, 20, "#ccc"];
+		this.ctx.fillStyle = obs[2];
+    this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, 5, 0,2*Math.PI);
+    this.ctx.stroke();
   }
 };
 
@@ -164,9 +174,11 @@ game.Game.prototype = {
 		this.cw.drawLine(0, this.floorHeight, this.gameWidth, this.floorHeight);
 		
 		// Render game objects
-		this.player.render(this.cw.ctx);
+		var dinoPos = this.player.getPosition();
+		this.cw.drawDinosaur(dinoPos[0], dinoPos[1])
 		this.obstacles.forEach(function(gObj) {
-			gObj.render(this.cw.ctx);
+			var obsPos = gObj.getPosition();
+			this.cw.drawObstacle(obsPos[0], obsPos[1]);
 		}, this);
 		
 		requestAnimationFrame(this.render.bind(this));

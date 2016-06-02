@@ -188,7 +188,7 @@ You'll need to somehow get the position data from either of the classes into the
 
 Write the `Obstacle` class in `dinosaur.js`, and remember to include it in the game namespace.
 
-## 3. Saw VIII
+## 3. Saw VIII (Would you like to play a game?)
 
 **Tasks**
 
@@ -223,3 +223,5 @@ Do your work in `dinosaur_game.js`, and remember to stop using your old update l
 http://www.w3schools.com/jsref/met_win_setinterval.asp
 
 https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+
+https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection

@@ -70,6 +70,7 @@ stocks.biggestGainer = function(data) {
   data = stocks.gainAndLoss(data);
   for (var co in data) {
     if (data[co][0] > highest) {
+      highest = data[co][0];
       gainer = co;
     } 
   };
@@ -89,7 +90,8 @@ stocks.biggestLoser = function(data) {
   var lowest = 0;
   data = stocks.gainAndLoss(data);
   for (var co in data) {
-    if (data[co][0] > lowest) {
+    if (data[co][1] < lowest) {
+      lowest = data[co][1];
       loser = co;
     } 
   };
@@ -112,7 +114,6 @@ stocks.widestTradingRange = function(data) {
     }
   });
   return _.findKey(comps, function(v) {
-    console.log(v)
     return max === v[0] - v[1];
   });
 

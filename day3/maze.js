@@ -83,14 +83,8 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  for (var row = 0; row < this.maze.length; row++) {
-    var curRow = this.maze[row];
-    for (var column = 0; column < curRow.length; column++) {
-      if (curRow[column] === 'S') {
-        return [row, column];
-      }
-    }
-  }
+  // YOUR CODE HERE
+
   throw new Error("Maze has no starting point");
 }
 
@@ -106,12 +100,6 @@ Maze.prototype.isSolvable = function() {
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_'.
 Maze.prototype.toString = function() {
-  return this.maze.map(function(row) {
-    return row.map(function(cell) {
-      if (cell === ' ') {
-        return '_';
-      }
-      return cell;
-    }).join('');
-  }).join('\n');
+  // YOUR CODE HERE
+  // Hint: See Array.prototype.join()!
 }

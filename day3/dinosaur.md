@@ -20,7 +20,7 @@ Well, sort of. We're going to show you how to apply the skills you've learned th
 
 <img src="new_dino.png" />
 
-The **goal** of this game will to be avoid hitting the obstacle that comes for you.
+The **goal** of this game will to be avoid hitting the obstacle that comes running at you.
 
 --- 
 
@@ -29,10 +29,6 @@ The **goal** of this game will to be avoid hitting the obstacle that comes for y
 To make the game, we're providing you with a class to make interacting with HTML `canvas` elements easier (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dino_game.js`. `Canvas` is an HTML element used for displaying graphics in the browser. 
 
 There are only a few methods implemented but they make your life a lot easier:
-
-##### `CanvasWrapper.prototype.attachTo(canvasId<String>)`
-
-This method takes a string representing the ID of a canvas element present in the DOM. It then fetches the 'context' of the canvas, which allows to draw on it. This part will be done for you, so you don't have to worry about it to much.
 
 ##### `CanvasWrapper.prototype.clear()`
 
@@ -52,9 +48,13 @@ This method draws the `Dinosaur` object to the screen. Really, it's just an oran
 
 This method draws an `Obstacle` object to the screen, much like `.drawDinosaur`. However, the obstacle is instead drawn from its bottom-left corner, rather than the bottom-right, like `Dinosaur`.
 
-##### `CanvasWrapper.prototype.callOnSpace(fun<Function>)`
+##### `CanvasWrapper.prototype.drawText(text<String>)`
 
-This method takes a function and executes the function on.
+This method draws text. However, the obstacle is instead drawn from its bottom-left corner, rather than the bottom-right, like `Dinosaur`.
+
+##### `CanvasWrapper.prototype.callOnUp(fun<Function>)`
+
+This method takes a function and starts listening for the 'UP' key. It will execute the given function when it detects that the `UP` key has been pressed. This will come in useful later on for detecting input.
 
 #### Usage
 
@@ -65,9 +65,8 @@ You can use CanvasWrapper like this:
 // Instantiating a new CanvasWrapper object
 var width = 1768;
 var height = 60;
-var canvasId = 'some-canvas'
-var cw = new CanvasWrapper(width, height, 'some-canvas');
-// this line creates a new CanvasWrapper object, giving it control of a canvas with an id equal to `some-canvas`, and sets the width and height of it.
+var cw = new CanvasWrapper(width, height);
+// this line creates a new CanvasWrapper object and sets the width and height of it.
 
 // drawing
 cw.drawDinosaur(200, 75);
@@ -75,11 +74,16 @@ cw.drawDinosaur(200, 75);
 // NOTE: the canvas coordinate system is a bit strange. Positive y values are actually negative, which means (200, 75) would be in Quadrant IV of the cartesian coordinate system.
 
 // clearing the canvas
-cw.clear()
-// Alright, you should have a 
-
+cw.clear();
+// this line resets the canvas so that you can re-draw the positions of your game objects
 
 ```
+
+Now, before you begin, there's something you should know about Canvases - the coordinate system is a little weird. Positive X's are right and negative X's are left, just like usual, but positive Y's are down, rather than up. This picture might describe it best for you:
+
+<img src="http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2013/05/Hannah/canvas1.jpg" />
+
+So the bigger your Y value, the farther down you'll be!
 
 ---
 
@@ -100,7 +104,7 @@ Use your knowledge of getters and setter methods to make your life easier. For j
 
 Remember the **Pythagorean Theorem**? Wonder when you wondered where you can use it? Well, it's pretty useful for comparing the distance between two points - just putting that out there. Might be useful, if you wanted to check if two points are *"close enough"* to each other.
 
-Furthermore, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnSpace` to execute a function when it detects that the `SPACE` bar has been pressed in the site.
+Furthermore, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnSpace` to execute a function when it detects that the `UP` key has been pressed in the site.
 
 This is how you use it:
  
@@ -109,7 +113,7 @@ This is how you use it:
 var cw = new CanvasWrapper(...)
 
 // 'start listening' for a space
-cw.callOnSpace(funcion(){
+cw.callOnUp(funcion(){
 	console.log("You pressed space!");
 })
 
@@ -128,7 +132,7 @@ In this our case, I'm going to suggest you implement an `event loop` in the form
 var me = new Robot();
 
 // update them - positions, etc.
-var eventLoop = function() {
+var update = function() {
 	me.eat();
 	me.doHorizons();
 	me.eat();
@@ -137,11 +141,11 @@ var eventLoop = function() {
 };
 
 // keep on chugging
-setInterval(eventLoop, 1000*60*60*24);
+setInterval(update, 1000*60*60*24);
 
 ```
 
-Write your `Dinosaur` class in `dinosaur.js` and put your event loop under the `CanvasWrapper` code in `dinosaur_game.js`.
+Write your `Dinosaur` class in `dinosaur.js` and put your event loop under the `CanvasWrapper` code in `dinosaur_game.js`. Remember to put them in the `game` namespace, i.e. `game.Dinosaur = ...`
 
 By the end of this part, you should have a game that draws your dinosaur at a certain position and responds to keyboard presses by jumping, and a simple event loop to update the object.
 
@@ -155,16 +159,32 @@ Next up, you're going to be designing an `Obstacle` class for the `Dinosaur` cla
 + You also want to probably bound it inside the canvas - that is, if it ever goes outside, bring it right back to where it started
 + Make sure it's position is just as accessible as `Dinosaurs!` You're going to need to check to see if `Dinosaur` has collided with it, so being able to get the position is key
 
+So, continuous movement seems a little tricky. Where do you think it should be handled? You can use 
+
 Bounding is an interesting topic. If you think about it, is it _really_ Obstacle's responsibility? How do you 'bound' something? You need to know what the limits are so you can be corrected if you overshoot them, correct? But an `Obstacle` doesn't know about how big the game it is in. Where would be an apt place to constantly watch and handle repositioning and updating an Obstacle if it ever leaves the canvas?
 
-TODO: And now a word about collisions
+Now a word about collisions: Since you should have two objects that will be colliding with each other here, what kind of interface should you build to detect that?
+I suggest writing a method (something like `isCollidingWith(dino, obstacle)`) for either of the classes, that you can evaluate during the event loop to see if they are indeed colliding with each other.
+You'll need to somehow get the position data from either of the classes into the other, so think about how you want to do that - do you want to pass in the entire object, or maybe just an (x, y) Array, or even separate x, y arguments? Any of these design choices are viable and it's up to you what you'd like to use.
+
+Write the `Obstacle` class in `dinosaur.js`, and remember to include it in the game namespace.
 
 ## 3. Saw VIII
 
-Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a pretty decently-sized event loop. To organize our event loop and really solidify our web game application, we're going to create a top-level game object to self-contain game state and better organize our code.
+Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a moderately-sized event loop. 
+To organize our event loop and really solidify our web game application, we're going to create a top-level game object to separate game state and global state and better organize our code.
 
-+ a better event loop
-+ score
+Here's what we want our `Game` object to do:
+
++ Construct and instantiate everything you need for the game - `CanvasWrapper`, `Dinosaur`, etc. in a method - something like `initializeAndStartGame`.
+  + This is probably where you want to repeatedly call the update loop too
++ Maintain the event loop - so do everything you were dong before with `update` function (or whatever you called), but instead do it within an `update` method in Game class
++ Let's start keeping track of score too! You'll need to initialize the score at the start of the game and update it during the event loop
++ Now, we also want the game to end. We want to call a method to write the text "Game Over" to the screen once a collision is detected.
+
+To draw the text, you can use `CanvasWrapper.prototype.drawText`. However, you have to remember the update loop - you're going to be clearing the canvas very fast, so you probably wont see the text on the screen - unless you kept track of when a `gameOver` is and keep drawing the text afterwards.
+
+Do your work in `dinosaur_game.js`, and remember to stop using your old update loop function when you create the game object's! Also, remember to put your `Game` object in the `game` namespace (a little confusing, but there won't be an issue - `game.Game = function() {...` is totally fine). 
 
 # Resources
 

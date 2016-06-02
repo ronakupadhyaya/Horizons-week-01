@@ -28,6 +28,21 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
+// Return a string representation of the current maze.
+// Empty spaces are represented by underscores '_',
+// and new rows are separated by newlines (\n in a string).
+
+// Use this for your logging purposes!
+
+// ex. new Maze(['S', ' ', 'E']).toString() -> "S_E"
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).toString() -> "_E\n_S"
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
+
+Maze.prototype.toString = function() {
+  // YOUR CODE HERE
+  // Hint: See Array.prototype.join()!
+}
+
 // Return the coordinates of the starting position of the current maze.
 //
 // ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
@@ -38,14 +53,6 @@ Maze.prototype.getStartPosition = function() {
 
   throw new Error("Maze has no starting point");
 }
-
-// Return a string representation of the current maze.
-// Empty spaces are represented by underscores '_'.
-Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
-}
-
 
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:

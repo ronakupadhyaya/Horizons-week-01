@@ -1,22 +1,75 @@
-"use strict";
+window.game = window.game || {};
 
-window.game = {};
+// [Helper] CanvasWrapperObject
+
+game.CanvasWrapper = function(width, height, canvasId) {
+	this.width = width;
+  this.height = height;
+	this.canvasId = canvasId;
+  
+  this.cv;
+  this.ctx;
+  
+  this.attachTo(canvasId);
+  console.log("Initalizing");
+};
+
+game.CanvasWrapper.prototype = {
+	attachTo: function(canvasId) {
+		this.cv = document.querySelector("#" + canvasId);
+		this.ctx = this.cv.getContext("2d");
+		
+		this.cv.width = this.width;
+		this.cv.height = this.height;
+	},
+  clear: function() {
+    this.ctx.fillStyle = "#5873fd";
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  },
+	drawLine: function(x, y, xp, yp) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(x,y);
+		this.ctx.lineTo(xp, yp);
+		this.ctx.stroke();
+	},
+  drawDinosaur: function(x, y) {
+    
+  },
+  drawObstacle: function(x, y) {
+    
+  }
+};
+
+// [Helper] `comparePositions(a<Number[]>,b<Number[]>)` method
+// Takes two position arrays and compares them.
+// 
+// hint. remember the Pythagorean Theorem? Yeah, you need that.
+game.comparePositions = function(a, b) {
+  if (a.length !== b.length) {
+    return false;
+  }
+  var eps = 5;
+  
+  // Pythagorean Theorem
+  return (Math.sqrt(_.reduce(_.map(_.zip(a, b), function(dim) {
+    var diff = dim[0] - dim[1]; 
+    return (diff * diff);
+  }), function(prev, curr) {
+    return (prev + curr);
+  }), 0) <= eps);
+};
 
 game.Game = function() {
-  this.tick;
-  
   this.initialize();
 };
 
 game.Game.prototype = {
 	initialize: function() {
-		// create canvas
-		var cv = document.createElement("canvas");
-		this.ctx = cv.getContext("2d");
-		
-		this.width = cv.width = 768;
-		this.height = cv.height = 240;
-		document.body.appendChild(cv);
+		// create canvas wrapper
+		this.gameWidth = 550;
+		this.gameHeight = 250;
+		this.floorHeight = this.gameHeight - 20;
+		this.cw = new game.CanvasWrapper(this.gameWidth, this.gameHeight, "dinosaur-panel");
 		
 		// game state
 		this.tick = Date.now();
@@ -24,16 +77,13 @@ game.Game.prototype = {
 		// create game objects
 		// create player
 		this.obstacles = [];
-		this.player = new game.Dinosaur(154, cv.height - 50);
+		this.player = new game.Dinosaur(154, this.floorHeight - 100);
 		console.log("playerObject created", this.player);
 		// add objects
-		this.obstacles.push(new game.Obstacle(this.width - 75, this.height));
+		this.obstacles.push(new game.Obstacle(this.gameWidth - 75, this.floorHeight));
 		
 		// add controls
-		var that = this;
-		document.addEventListener('keydown', function(evt) {
-			that.player.jump();
-		}, false);
+		$(document).on('keydown', this.player.jump.bind(this.player));
 		
 		this.render();
 	},
@@ -55,14 +105,14 @@ game.Game.prototype = {
 		}, this);
 		
 		// Exercise 2.A Bound Player & Collision Detection | Player Care	
-		// Write a few lines that check if the player's position is under the canvas.The bottom border of the canvas is at position y =`this.height`, and the top level is y = 0. The player's position is accessible via `.getPosition()`
-		// If the player is under the canvas, stop the player from falling by setting its inAir property to false and setting it's position to the same x-point but vertically positioned ("stopped") the bottom border, `this.height`.
+		// Write a few lines that check if the player's position is under the canvas.The bottom border of the canvas is at position y =`this.gameHeight`, and the top level is y = 0. The player's position is accessible via `.getPosition()`
+		// If the player is under the canvas, stop the player from falling by setting its inAir property to false and setting it's position to the same x-point but vertically positioned ("stopped") the bottom border, `this.gameHeight`.
 		// 
 		// YOUR CODE HERE
 		var pPos = this.player.getPosition();
-		if (pPos[1] >= this.height) {
+		if (pPos[1] >= this.floorHeight) {
 			this.player.inAir = false;
-			this.player.setPosition(pPos[0], this.height);
+			this.player.setPosition(pPos[0], this.floorHeight);
 		}
 		
 		this.obstacles.forEach(function(gObj) {
@@ -74,7 +124,7 @@ game.Game.prototype = {
 			// hint. the left border of the canvas is at x = 0;
 			var objPos = gObj.getPosition();
 			if (objPos[0] < 0) {
-				gObj.setPosition(this.width + gObj.width, objPos[1]);
+				gObj.setPosition(this.gameWidth + gObj.width, objPos[1]);
 			}
 			
 			// Exercise 2.C Bound Player & Collision Detection | Check Collisions
@@ -84,18 +134,18 @@ game.Game.prototype = {
 			// hint. use `.freeze()`
 			// YOUR CODE HERE
 			// check if hit player
-			if (gObj.isCollidingWith(this.player)) {
+			if (this.player.isCollidingWith(gObj)) {
 				// end the game!
-				gObj.freeze();
 				this.player.freeze();
+				gObj.freeze();
 				this.exit();
 			}
 			
 			// [helper] collideTime
 			// if collided and after 3 seconds, clear it
-			if (gObj.hasCollided && (Date.now() - gObj.collideTime) > 3000.0) {
-				gObj.hasCollided = false;
-				gObj.collideTime = null;
+			if (this.player.hasCollided && (Date.now() - this.player.collideTime) > 3000.0) {
+				this.player.hasCollided = false;
+				this.player.collideTime = null;
 			}
 		}, this);
 		
@@ -107,14 +157,16 @@ game.Game.prototype = {
 		// update game state
 		this.update();
 		
-		// clear canvas
-		this.ctx.fillStyle = "#5873fd";
-		this.ctx.fillRect(0, 0, this.width, this.height);
+		// Clear the canvas
+		this.cw.clear();
 		
-		// re-render game objects
-		this.player.render(this.ctx);
+		// Draw the floor
+		this.cw.drawLine(0, this.floorHeight, this.gameWidth, this.floorHeight);
+		
+		// Render game objects
+		this.player.render(this.cw.ctx);
 		this.obstacles.forEach(function(gObj) {
-			gObj.render(this.ctx);
+			gObj.render(this.cw.ctx);
 		}, this);
 		
 		requestAnimationFrame(this.render.bind(this));

@@ -1,22 +1,6 @@
-"use strict";
+// "use strict";
 
 window.game = window.game || {};
-
-
-// [Helper] `comparePositions(a<Number[]>,b<Number[]>)` method
-// Takes two position arrays and compares them.
-game.comparePositions = function(a, b) {
-  var eps = 5;
-  if (a.length != b.length) return false;
-  
-  for (var i = 0; i < a.length; i++) {
-    if (Math.abs(a[i] - b[i]) > eps ) {
-      return false;
-    }
-  }
-  return true;
-};
-
 
 // [Helper] `Mob(initialX, initialY)` class
 // This class is responsible for a lot of the moving-object (mobb) functionality.
@@ -35,7 +19,8 @@ game.Mob = function(initialX, initialY) {
   this.vel = [0, 0];
   
   // acceleration
-  this.gravity = 0.98;
+  this.gravity = 0.33;
+	this.jumpHeight = 2 * this.height;
   this.accel = [0, this.gravity];
   
   // offset & collisions
@@ -81,6 +66,14 @@ game.Mob.prototype = {
 	// returns the position of the bottom-left vertex of the object in an array of the format: [xPosition<Number>, yPosition<Number>]
 	getPosition: function() {
 		return [this.x, this.y];
+	},
+	jump: function() {
+	    // calculate acceleration necessary to reach height:
+	    if (!this.inAir) {
+	      var velApply = Math.sqrt(2 * (this.accel[1]) * this.jumpHeight);
+	      this.vel[1] = -velApply;
+	      this.inAir = true;
+	    }
 	},
 	// Exercise 1.`isCollidingWith(other<Mob>)` method
 	// Write a function that will take another `Mob` object and return true if this instance and the other object are colliding.
@@ -141,24 +134,10 @@ game.Mob.prototype = {
 game.Dinosaur = function(initialX, initialY) {
   game.Mob.call(this, initialX, initialY);
   
-  this.gravity *= 0.25;
-  this.jumpHeight = 2 * this.height;
 };
 
 // Inherit from Mob
-game.Dinosaur.prototype = Object.create(game.Mob.prototype);
-game.Dinosaur.prototype.constructor = game.Dinosaur;
-
-game.Dinosaur.prototype.jump = function() {
-    // calculate acceleration necessary to reach height:
-    if (!this.inAir) {
-      // console.log("yAccel", this.accel[1]);
-      // console.log("jumpHeight", this.jumpHeight);
-      var velApply = Math.sqrt(2 * (this.accel[1]) * this.jumpHeight);
-      this.vel[1] = -velApply;
-      this.inAir = true;
-    }
-};
+game.Dinosaur.prototype = new game.Mob();
 
 // [Helper] `Obstacle` Class
 
@@ -170,7 +149,7 @@ game.Obstacle = function(initialX, initialY) {
   this.width = 50;
   this.height = 20;
   this.shapeColor = "#ccc";
-}
+};
 
 // Inherit from Mob
 game.Obstacle.prototype = Object.create(game.Mob.prototype);

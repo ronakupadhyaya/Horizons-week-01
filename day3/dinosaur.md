@@ -56,6 +56,14 @@ This method draws text. However, the obstacle is instead drawn from its bottom-l
 
 This method takes a function and starts listening for the 'UP' key. It will execute the given function when it detects that the `UP` key has been pressed. This will come in useful later on for detecting input.
 
+##### `CanvasWrapper.prototype.getHeight()`
+
+This method with return the height of the canvas. This might come in useful for bounding, later on.
+
+##### `CanvasWrapper.prototype.getWidth()`
+
+This method with return the width of the canvas. This might come in useful for bounding, later on.
+
 #### Usage
 
 You can use CanvasWrapper like this:
@@ -63,9 +71,7 @@ You can use CanvasWrapper like this:
 ```javascript
 
 // Instantiating a new CanvasWrapper object
-var width = 1768;
-var height = 60;
-var cw = new CanvasWrapper(width, height);
+var cw = new game.CanvasWrapper();
 // this line creates a new CanvasWrapper object and sets the width and height of it.
 
 // drawing

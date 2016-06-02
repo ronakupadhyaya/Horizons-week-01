@@ -96,8 +96,7 @@ describe('Maze.toString()', function () {
         }
       }).join('')
     }).join('\n');
-    console.log(ans);
-    it("new Maze(" + JSON.stringify(m) + ").toString() ->", function() {
+    it("new Maze(" + JSON.stringify(m) + ").toString() -> " + ans.replace(/\n/g, "\\n"), function() {
       expect(maze.toString()).toEqual(ans);
     });
   });

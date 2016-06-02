@@ -10,7 +10,8 @@
 
 1. Inheritance <br>
    Files: `week01/day3/inherit.js` and `week01/day3/inherit.html`
-1. [Dinosaur Game](dinosaur.md)
+1. Maze Solver <br>
+   Files: `week01/day3/maze.js` and `week01/day3/maze.html`
 1. **Bonus:** Crossword puzzle <br>
    Files: `week01/challenges/crossword.js` and `week01/challenges/crossword.html`
 1. **Bonus:** Edit distance <br>

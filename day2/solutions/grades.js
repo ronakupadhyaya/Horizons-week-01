@@ -26,9 +26,9 @@ grades.average = function(arr) {
   if (arr.length === 0) {
     return 0;
   }
-  return (arr.reduce(function(prev, curr) {
+  return _.reduce(arr, function(prev, curr) {
     return prev + curr;
-  }, 0) / arr.length);
+  }) / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)

@@ -26,7 +26,7 @@ The **goal** of this game will to be avoid hitting the obstacle that comes for y
 
 ### `CanvasWrapper`
 
-To make the game, we're providing you with a class to make interacting with HTML `canvas` elements either (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dino_game.js`.
+To make the game, we're providing you with a class to make interacting with HTML `canvas` elements easier (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dino_game.js`. `Canvas` is an HTML element used for displaying graphics in the browser. 
 
 There are only a few methods implemented but they make your life a lot easier:
 
@@ -46,7 +46,7 @@ So, when you want to move objects, you have to clear the canvas before you do, o
 
 ##### `CanvasWrapper.prototype.drawDinosaur(x<Number>, y<Number>)`
 
-This method draws the `Dinosaur` object to the screen. Really, it's just an orange-redish (coral?) rectangle, but it's the though that counts. It will draw a rectangle at point (x, y), with the given arguments being the bottom right vertex of the `Dinosaur` rectangle.
+This method draws the `Dinosaur` object to the screen. Really, it's just an orange-redish (coral?) rectangle, but it's the thought that counts. It will draw a rectangle at point (x, y), with the given arguments being the bottom right vertex of the `Dinosaur` rectangle.
 
 ##### `CanvasWrapper.prototype.drawObstacle(x<Number>, y<Number>)`
 
@@ -89,7 +89,7 @@ Alright, now we can get started! The first thing you're going to be doing is imp
 
 ## 1. Jurassic Park
 
-First off, you're going to be creating the `Dinosaur` object! Up until now, you've been implementing this we've designed for you. However, now you ave the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are things we know for sure:
+First off, you're going to be creating the `Dinosaur` object! Up until now, you've been implementing things we've designed for you. However, now you have the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are things we know for sure:
 
 + We want to track the `position` of the `Dinosaur`, so that we can draw it and determine if an obstacle has hit it
 + We want to write a `jump` mechanism so that the `Dinosaur` position changes vertically when that function is called

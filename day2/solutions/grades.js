@@ -51,7 +51,7 @@ grades.highestGPA = function(data) {
   // YOUR CODE HERE
   var highest = 0;
   var best;
-  data.forEach(function(student) {
+  _.forEach(data, function(student) {
     var gpa = grades.getGPA(student);
     if (highest < gpa) {
       highest = gpa;

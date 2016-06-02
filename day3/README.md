@@ -16,4 +16,6 @@
    Files: `week01/challenges/crossword.js` and `week01/challenges/crossword.html`
 1. **Bonus:** Edit distance <br>
    Files: `week01/challenges/edit_distance.js` and `week01/challenges/edit_distance.html`
+1. **Bonus:** Roman numerals <br>
+   Files: `week01/challenges/roman.js` and `week01/challenges/roman.html`
 

@@ -6,8 +6,11 @@
 // - delete a single item
 // - replace a single item with another item
 //
-// Edit distance is otherwise known as Levenshtein distance.
-// https://en.wikipedia.org/wiki/Levenshtein_distance
+// Edit distance is otherwise known as Levenshtein distance.  This is a good
+// explanation of how to implement this algorithm efficiently:
+// http://odur.let.rug.nl/kleiweg/lev/levenshtein.html
+//
+// NOTE: Inefficient solutions may take a long time to run!
 //
 // Adapted from 4clojure
 // https://www.4clojure.com/problem/101

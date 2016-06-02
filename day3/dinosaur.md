@@ -99,7 +99,14 @@ Alright, now we can get started! The first thing you're going to be doing is imp
 
 ## 1. Jurassic Park
 
-First off, you're going to be creating the `Dinosaur` object! Up until now, you've been implementing things we've designed for you. However, now you have the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are things we know for sure:
+**Tasks**
+
+1. Create an object that draws itself on the canvas using CanvasWrapper
+1. Create a `jump` method on the Object that will make it 'jump' (set the position up) and then bring it back down
+1. Create a function that updates and draws the game objects
+1. At the end of this, you should have a game that draws your dinosaur at a certain position and responds to keyboard presses by jumping, and a simple event loop to update the object and draw it onscreen.
+
+Up until now, you've been implementing things we've designed for you. However, now you have the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are things we know for sure:
 
 + We want to track the `position` of the `Dinosaur`, so that we can draw it and determine if an obstacle has hit it
 + We want to write a `jump` mechanism so that the `Dinosaur` position changes vertically when that function is called
@@ -128,6 +135,8 @@ cw.callOnUp(funcion(){
 
 ```
 
+##### Event Loop
+
 Now, there's one critical part of games that you need to know about as well: the `event loop`. No, this isn't another function or method, but rather a design pattern - a way to structure the programs you build to make them more **flexible** and/or more **suitable for a task**. An `event loop` is responsible for making sure your objects are updated regularly and re-drawn on screen.
 
 In our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setInterval` or `requestAnimationFrame`.
@@ -153,13 +162,17 @@ setInterval(update, 1000*60*60*24);
 
 Write your `Dinosaur` class in `dinosaur.js` and put your event loop under the `CanvasWrapper` code in `dinosaur_game.js`. Remember to put them in the `game` namespace, i.e. `game.Dinosaur = ...`
 
-By the end of this part, you should have a game that draws your dinosaur at a certain position and responds to keyboard presses by jumping, and a simple event loop to update the object.
-
 ---
 
 ## 2. American Ninja
 
-Next up, you're going to be designing an `Obstacle` class for the `Dinosaur` class to vault over. Let's start again by formulating what kinds of responsibilities the Obstacle class has:
+**Tasks**
+
+1. Create an `Obstacle` object that always moves left
+2. Implement a function that detects if the `Dinosaur` and the `Obstacle` have collided
+3. By the end of this, you should have an `Obstacle` that is always moving left and drawn on the screen. When the obstacle moves off the screen, it should be brought back to the far right. When the obstacle and dinosaur have collided, print a message to the conole.
+
+You're going to be designing an `Obstacle` class for the `Dinosaur` class to vault over. Let's start again by formulating what kinds of responsibilities the Obstacle class has:
 
 + For sure, it has to support continuous left-ward movement
 + You also want to probably bound it inside the canvas - that is, if it ever goes outside, bring it right back to where it started
@@ -176,6 +189,19 @@ You'll need to somehow get the position data from either of the classes into the
 Write the `Obstacle` class in `dinosaur.js`, and remember to include it in the game namespace.
 
 ## 3. Saw VIII
+
+**Tasks**
+
+1. Create a simple `Game` object to keep track of score and game state (in progress vs. over)
+1. Make a function to instantiate and create all the game stuff.
+1. When the player presses up for the first time, start the game.
+1. Move all your event loop logic to the Game object
+1. When the game is over, print a score that shows hows long the game has run.
+1. Allow a player to restart the game by pressing up when the game is over.
+1. Keep track of high scores, and when you beat the high score, draw a special message on the screen
+1. By the end of this, you should have a fully-playable game that lets you start and restart it.
+1. [Optional] Improve collision detcetion logic (instead of point-to-point comparisons, do [bounding boxes](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection))
+1. [Optional] Improve jump animation by using physics 
 
 Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a moderately-sized event loop. 
 To organize our event loop and really solidify our web game application, we're going to create a top-level game object to separate game state and global state and better organize our code.

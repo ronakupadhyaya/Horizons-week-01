@@ -88,6 +88,13 @@ Maze.prototype.getStartPosition = function() {
   throw new Error("Maze has no starting point");
 }
 
+// Return a string representation of the current maze.
+// Empty spaces are represented by underscores '_'.
+Maze.prototype.toString = function() {
+  // YOUR CODE HERE
+  // Hint: See Array.prototype.join()!
+}
+
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
@@ -95,11 +102,4 @@ Maze.prototype.getStartPosition = function() {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
-}
-
-// Return a string representation of the current maze.
-// Empty spaces are represented by underscores '_'.
-Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
 }

@@ -1,0 +1,35 @@
+"use strict";
+
+// In this exercise we're going to play around with the "this" keyword.
+// You should replace the parts that say YOUR CODE HERE.
+window.dis = {}
+
+// Let's just create an empty object to attach things to.
+dis.object1 = {}
+dis.object2 = {}
+
+// This is a function that returns this.
+function getThis() {
+  return this;
+}
+
+dis.getThis = getThis;
+
+dis.simpleGetThis = function() {
+  return dis.getThis() === dis /* YOUR CODE HERE */;
+};
+
+dis.assignGetThis = function() {
+  dis.object2.getThis = getThis;
+  return dis.object2.getThis() === dis.object2 /* YOUR CODE HERE */;
+};
+
+dis.callGetThis = function() {
+  return dis.getThis.call(dis.object1) === dis.object1 /* YOUR CODE HERE */;
+}
+
+dis.boundGetThis = dis.getThis.bind(dis.object2);
+
+dis.callBoundGetThis = function() {
+  return dis.boundGetThis.call(dis.object1) === dis.object2 /* YOUR CODE HERE */
+}

@@ -103,6 +103,9 @@ describe("stocks.totalPortfolioValue(data, ticker)", function() {
   });
   it("stocks.totalPortfolioValue(data, 'GOOG') should be between 538.94 and 538.96", function() {
     expect(stocks.totalPortfolioValue(stockData, 'GOOG') > 538.94 && stocks.totalPortfolioValue(stockData, 'GOOG') < 538.96).toBeTruthy();
+  }); 
+  it("stocks.totalPortfolioValue(data, 'AMZN') should be between -1339.44 and -1339.48", function() {
+    expect(stocks.totalPortfolioValue(stockData, 'AMZN') < -1339.44 && stocks.totalPortfolioValue(stockData, 'AMZN') > -1339.48).toBeTruthy();
   });
 });
 
@@ -111,5 +114,10 @@ describe("stocks.totalPortfolioGains(data)", function() {
   it("should return a number", function() {
     expect(stocks.totalPortfolioGains(stockData, 'GOOG')).toEqual(jasmine.any(Number));
   });
-  
+  it("stocks.totalPortfolioGains(data, 'GOOG') -> 9982.371482823233", function() {
+    expect(stocks.totalPortfolioGains(stockData, 'GOOG')).toEqual(ans.GOOG[0]);
+  });
+  it("stocks.totalPortfolioGains(data, 'AMZN') -> 6497.906748663934", function() {
+    expect(stocks.totalPortfolioGains(stockData, 'AMZN')).toEqual(ans.AMZN[0]);
+  });
 });

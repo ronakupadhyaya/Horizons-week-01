@@ -93,10 +93,10 @@ game.Game = function() {
 game.Game.prototype = {
 	initialize: function() {
 		// create canvas wrapper
-		this.gameWidth = 550;
-		this.gameHeight = 250;
+		this.cw = new game.CanvasWrapper();
+		this.gameWidth = this.cw.getWidth();
+		this.gameHeight = this.cw.getHeight();
 		this.floorHeight = this.gameHeight - 20;
-		this.cw = new game.CanvasWrapper(this.gameWidth, this.gameHeight, "dinosaur-panel");
 		this.gameOver = false;
 		
 		// game state

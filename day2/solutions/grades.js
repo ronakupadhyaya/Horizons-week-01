@@ -26,9 +26,9 @@ grades.average = function(arr) {
   if (arr.length === 0) {
     return 0;
   }
-  return (arr.reduce(function(prev, curr) {
+  return _.reduce(arr, function(prev, curr) {
     return prev + curr;
-  }, 0) / arr.length);
+  }) / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -51,7 +51,7 @@ grades.highestGPA = function(data) {
   // YOUR CODE HERE
   var highest = 0;
   var best;
-  data.forEach(function(student) {
+  _.forEach(data, function(student) {
     var gpa = grades.getGPA(student);
     if (highest < gpa) {
       highest = gpa;
@@ -68,8 +68,8 @@ grades.highestGPA = function(data) {
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
   var majors = {};
-  data.forEach(function(student) {
-    if (! majors.hasOwnProperty(student.major)) {
+  _.forEach(data, function(student) {
+    if (_.isUndefined(majors[student.major])) {
       // First number: Total GPA
       // Second number: Total students
       // We'll use these for averages!
@@ -95,7 +95,7 @@ grades.avgGPAPerClass = function(data) {
   var c1 = 0;
   var c2 = 0;
   
-  data.forEach(function(student) {
+  _.forEach(data, function(student) {
     c1 += student.grades.class1;
     c2 += student.grades.class2;
   });

@@ -1,4 +1,30 @@
-// "use strict";
+"use strict";
+var ans = {
+  "MSFT": [
+    598.1629067169766,
+    -496.44962268214647
+  ],
+  "NFLX": [
+    1726.1701380307977,
+    -1125.4095882724923
+  ],
+  "NVDA": [
+    265.78877247700655,
+    -385.9930718778983
+  ],
+  "AMZN": [
+    6497.906748663934,
+    -7837.375462256928
+  ],
+  "FB": [
+    841.6178512506741,
+    -851.7130028790667
+  ],
+  "GOOG": [
+    9982.371482823233,
+    -9443.41186187807
+  ]
+};
 
 describe("stocks.biggestGainer(data)", function() {
   
@@ -46,21 +72,10 @@ describe("stocks.gainAndLoss(data)", function() {
       expect(comps.indexOf(co) != -1).toEqual(true);
     }
   });
-  
-});
 
-describe("stocks.gainAndLoss(data)", function() {
-  
-  it("should return an object", function() {
-    expect(stocks.gainAndLoss(stockData)).toEqual(jasmine.any(Object));
-  });
-  
-  it("should have the companies in the dataset in the returned object", function() {
-    var comps = ["GOOG", "AMZN", "FB", "NFLX", "MSFT", "NVDA"];
-    for (var co in stocks.gainAndLoss(stockData)) {
-      expect(comps.indexOf(co) != -1).toEqual(true);
-    }
-  });
+  it("should return the object with the correct data", function() {
+    expect(stocks.gainAndLoss(stockData)).toEqual(ans);
+  })
   
 });
 

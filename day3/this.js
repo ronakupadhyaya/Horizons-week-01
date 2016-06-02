@@ -13,6 +13,7 @@ function getThis() {
   return this;
 }
 
+// Let's put getThis on dis
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
@@ -28,6 +29,7 @@ dis.callGetThis = function() {
   return dis.getThis.call(dis.object1) === dis.object1 /* YOUR CODE HERE */;
 }
 
+// Let's bind getThis to object2
 dis.boundGetThis = dis.getThis.bind(dis.object2);
 
 dis.callBoundGetThis = function() {

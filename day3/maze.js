@@ -28,6 +28,32 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
+// Return a string representation of the current maze.
+// Empty spaces are represented by underscores '_',
+// and new rows are separated by newlines (\n in a string).
+
+// Use this for your logging purposes!
+
+// ex. new Maze(['S', ' ', 'E']).toString() -> "S_E"
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).toString() -> "_E\n_S"
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
+
+Maze.prototype.toString = function() {
+  // YOUR CODE HERE
+  // Hint: See Array.prototype.join()!
+}
+
+// Return the coordinates of the starting position of the current maze.
+//
+// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
+// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
+Maze.prototype.getStartPosition = function() {
+  // YOUR CODE HERE
+
+  throw new Error("Maze has no starting point");
+}
+
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
 //  - if the move is valid, a new position ([row, column])
@@ -77,23 +103,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
   // YOUR CODE HERE
 }
 
-// Return the coordinates of the starting position of the current maze.
-//
-// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
-// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
-// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
-Maze.prototype.getStartPosition = function() {
-  for (var row = 0; row < this.maze.length; row++) {
-    var curRow = this.maze[row];
-    for (var column = 0; column < curRow.length; column++) {
-      if (curRow[column] === 'S') {
-        return [row, column];
-      }
-    }
-  }
-  throw new Error("Maze has no starting point");
-}
-
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
@@ -101,17 +110,4 @@ Maze.prototype.getStartPosition = function() {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
-}
-
-// Return a string representation of the current maze.
-// Empty spaces are represented by underscores '_'.
-Maze.prototype.toString = function() {
-  return this.maze.map(function(row) {
-    return row.map(function(cell) {
-      if (cell === ' ') {
-        return '_';
-      }
-      return cell;
-    }).join('');
-  }).join('\n');
 }

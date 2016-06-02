@@ -28,6 +28,45 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
+// Return a string representation of the current maze.
+// Empty spaces are represented by underscores '_',
+// and new rows are separated by newlines (\n in a string).
+
+// Use this for your logging purposes!
+
+// ex. new Maze(['S', ' ', 'E']).toString() -> "S_E"
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).toString() -> "_E\n_S"
+// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
+
+Maze.prototype.toString = function() {
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ') {
+        return '_';
+      }
+      return cell;
+    }).join('');
+  }).join('\n');
+}
+
+
+// Return the coordinates of the starting position of the current maze.
+//
+// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
+// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
+// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
+Maze.prototype.getStartPosition = function() {
+  for (var row = 0; row < this.maze.length; row++) {
+    var curRow = this.maze[row];
+    for (var column = 0; column < curRow.length; column++) {
+      if (curRow[column] === 'S') {
+        return [row, column];
+      }
+    }
+  }
+  throw new Error("Maze has no starting point");
+}
+
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
 //  - if the move is valid, a new position ([row, column])
@@ -130,22 +169,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
   return [row, column];
 }
 
-// Return the coordinates of the starting position of the current maze.
-//
-// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
-// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
-// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
-Maze.prototype.getStartPosition = function() {
-  for (var row = 0; row < this.maze.length; row++) {
-    var curRow = this.maze[row];
-    for (var column = 0; column < curRow.length; column++) {
-      if (curRow[column] === 'S') {
-        return [row, column];
-      }
-    }
-  }
-  throw new Error("Maze has no starting point");
-}
 
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
@@ -192,17 +215,4 @@ Maze.prototype.isSolvable = function() {
 
   // If run out of locations to try, then the maze is not solvable
   return false;
-}
-
-// Return a string representation of the current maze.
-// Empty spaces are represented by underscores '_'.
-Maze.prototype.toString = function() {
-  return this.maze.map(function(row) {
-    return row.map(function(cell) {
-      if (cell === ' ') {
-        return '_';
-      }
-      return cell;
-    }).join('');
-  }).join('\n');
 }

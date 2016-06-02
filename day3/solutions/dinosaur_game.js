@@ -2,21 +2,21 @@ window.game = window.game || {};
 
 // [Helper] CanvasWrapperObject
 
-game.CanvasWrapper = function(width, height, canvasId) {
+game.CanvasWrapper = function(width, height) {
 	this.width = width;
   this.height = height;
-	this.canvasId = canvasId;
+	this.canvasId = "dinosaur-panel";
   
   this.cv;
   this.ctx;
   
-  this.attachTo(canvasId);
+  this.attachTo();
   console.log("Initalizing");
 };
 
 game.CanvasWrapper.prototype = {
-	attachTo: function(canvasId) {
-		this.cv = document.querySelector("#" + canvasId);
+	attachTo: function() {
+		this.cv = document.querySelector("#" + this.canvasId);
 		this.ctx = this.cv.getContext("2d");
 		
 		this.cv.width = this.width;
@@ -26,6 +26,10 @@ game.CanvasWrapper.prototype = {
     this.ctx.fillStyle = "#5873fd";
     this.ctx.fillRect(0, 0, this.width, this.height);
   },
+	drawText: function(text) {
+		this.ctx.font = "36px Helvetica";
+		this.ctx.fillText(text, this.width / 2, this.height / 2);
+	},
 	drawLine: function(x, y, xp, yp) {
 		this.ctx.beginPath();
 		this.ctx.moveTo(x,y);
@@ -47,7 +51,14 @@ game.CanvasWrapper.prototype = {
     this.ctx.beginPath();
     this.ctx.arc(x, y, 5, 0,2*Math.PI);
     this.ctx.stroke();
-  }
+  },
+	callOnUp: function(fun) {
+		window.addEventListener('keydown', function(evt) {
+			if (evt.which === 38 || evt.keyCode === 38) {
+				fun();
+			}
+		});
+	}
 };
 
 // [Helper] `comparePositions(a<Number[]>,b<Number[]>)` method
@@ -80,6 +91,7 @@ game.Game.prototype = {
 		this.gameHeight = 250;
 		this.floorHeight = this.gameHeight - 20;
 		this.cw = new game.CanvasWrapper(this.gameWidth, this.gameHeight, "dinosaur-panel");
+		this.gameOver = false;
 		
 		// game state
 		this.tick = Date.now();
@@ -93,7 +105,7 @@ game.Game.prototype = {
 		this.obstacles.push(new game.Obstacle(this.gameWidth - 75, this.floorHeight));
 		
 		// add controls
-		$(document).on('keydown', this.player.jump.bind(this.player));
+		this.cw.callOnUp(this.player.jump.bind(this.player));
 		
 		this.render();
 	},
@@ -161,14 +173,17 @@ game.Game.prototype = {
 		
 	},
 	exit: function() {
-		console.log("Game over!");
+		this.cw.drawText("Game over!");
+		this.gameOver = true;
 	},
 	render: function() {
 		// update game state
 		this.update();
 		
 		// Clear the canvas
-		this.cw.clear();
+		if (!this.gameOver) {
+			this.cw.clear();
+		}
 		
 		// Draw the floor
 		this.cw.drawLine(0, this.floorHeight, this.gameWidth, this.floorHeight);

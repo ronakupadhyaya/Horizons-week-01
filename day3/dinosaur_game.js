@@ -4,9 +4,9 @@ window.game = window.game || {};
 
 // [Helper] `game.CanvasWrapper`
 
-game.CanvasWrapper = function(width, height) {
-	this.width = width;
-  this.height = height;
+game.CanvasWrapper = function() {
+	this.width = 550;
+  this.height = 250;
 	this.canvasId = "dinosaur-panel";
   
   this.cv;
@@ -17,6 +17,12 @@ game.CanvasWrapper = function(width, height) {
 };
 
 game.CanvasWrapper.prototype = {
+	getHeight: function() {
+		return this.height;
+	},
+	getWidth: function() {
+		return this.width;
+	},
 	attachTo: function() {
 		this.cv = document.querySelector("#" + this.canvasId);
 		this.ctx = this.cv.getContext("2d");
@@ -62,6 +68,7 @@ game.CanvasWrapper.prototype = {
 		});
 	}
 };
+
 
 
 // Put your Event Loop here for parts 1 & 2!

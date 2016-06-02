@@ -102,9 +102,9 @@ Additionally, we probably want to give `Dinosaur` a method to check if it is col
 
 Use your knowledge of getters and setter methods to make your life easier. For jumping, you don't have to worry about gravity and physics if you don't want to. Try to break it into two parts - `jumpStart` and `jumpEnd`, if it helps. The former should put the `Dinosaur` into the air, and the latter should bring it back down.
 
-Remember the **Pythagorean Theorem**? Wonder when you wondered where you can use it? Well, it's pretty useful for comparing the distance between two points - just putting that out there. Might be useful, if you wanted to check if two points are *"close enough"* to each other.
+Remember the **Pythagorean Theorem**? Well, it [might be useful](http://strd6.com/2010/06/circular-collision-detection-in-javascript/) for comparing the distance between two points - just putting that out there.
 
-Furthermore, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnSpace` to execute a function when it detects that the `UP` key has been pressed in the site.
+Next, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnUp` to execute a function when it detects that the `UP` key has been pressed in the site.
 
 This is how you use it:
  
@@ -124,7 +124,7 @@ cw.callOnUp(funcion(){
 
 Now, there's one critical part of games that you need to know about as well: the `event loop`. No, this isn't another function or method, but rather a design pattern - a way to structure the programs you build to make them more **flexible** and/or more **suitable for a task**. An `event loop` is responsible for making sure your objects are updated regularly and re-drawn on screen.
 
-In this our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setInterval` or `requestAnimationFrame`.
+In our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setInterval` or `requestAnimationFrame`.
  
 ```javascript
 
@@ -157,7 +157,7 @@ Next up, you're going to be designing an `Obstacle` class for the `Dinosaur` cla
 
 + For sure, it has to support continuous left-ward movement
 + You also want to probably bound it inside the canvas - that is, if it ever goes outside, bring it right back to where it started
-+ Make sure it's position is just as accessible as `Dinosaurs!` You're going to need to check to see if `Dinosaur` has collided with it, so being able to get the position is key
++ Make sure its position is just as accessible as `Dinosaurs!` You're going to need to check to see if `Dinosaur` has collided with it, so being able to get the position is key
 
 So, continuous movement seems a little tricky. Where do you think it should be handled? You can use 
 

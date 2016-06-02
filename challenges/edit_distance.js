@@ -11,6 +11,6 @@
 //
 // Adapted from 4clojure
 // https://www.4clojure.com/problem/101
-function editDistance() {
+function editDistance(str1, str2) {
   // YOUR CODE HERE
 }

@@ -46,6 +46,20 @@ describe("learn_underscore.any(array, fun)", function() {
   function isTruthy(item) {
     return !! item;
   }
+
+  function isEven(item) {
+    return item % 2 === 0;
+  }
+
+  function isPrime(item) {
+    if (!isFinite(item) || item % 1 || item < 2) return false; 
+    var m = Math.sqrt(item);
+    for (var i = 2; i <= m; i++) {
+      if (item % i == 0) return false;
+    }
+    return true;
+  }
+
   it("learn_underscore.any([1], isTruthy) calls _.reduce()", function() {
     learn_underscore.any([1], isTruthy);
     expect(_.reduce).toHaveBeenCalled();
@@ -61,6 +75,18 @@ describe("learn_underscore.any(array, fun)", function() {
   });
   it("learn_underscore.any([1], isTruthy) -> true", function() {
     expect(learn_underscore.any([1], isTruthy) ).toBe(true);
+  });
+  it("learn_underscore.any([1, 3, 5, 7], isEven) -> false", function() {
+    expect(learn_underscore.any([1, 3, 5, 7], isEven)).toBe(false);
+  });
+  it("learn_underscore.any([1, 3, 5, 2, 7], isEven) -> true", function() {
+    expect(learn_underscore.any([1, 3, 5, 7, 2], isEven)).toBe(true);
+  });
+  it("learn_underscore.any([40, 90, 1, 8, 20], isPrime) -> false", function() {
+    expect(learn_underscore.any([40, 90, 1, 8, 20], isPrime)).toBe(false);
+  });
+  it("learn_underscore.any([40, 90, 1, 5, 8, 20], isPrime) -> true", function() {
+    expect(learn_underscore.any([40, 90, 1, 5, 8, 20], isPrime)).toBe(true);
   });
 });
 

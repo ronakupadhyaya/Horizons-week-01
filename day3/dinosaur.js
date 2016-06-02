@@ -1,5 +1,7 @@
 "use strict";
 
+window.game = window.game || {}
+
 // `Dinosaur` Class
 // YOUR CODE HERE
 

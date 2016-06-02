@@ -64,12 +64,11 @@ describe("<Game> Class", function() {
   });
   
   it("should properly call exit upon collision", function() {
-    setTimeout(function() {
-      timerCallback();
-    }, 1000);
-    
+    // setTimeout(function() {
+    //   // timerCallback();
+    // }, 1000);
+    // 
     jasmine.clock().tick(1001);
     expect(timerCallback).toHaveBeenCalled();
-    
   });
 });

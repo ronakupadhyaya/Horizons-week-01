@@ -52,6 +52,10 @@ This method draws the `Dinosaur` object to the screen. Really, it's just an oran
 
 This method draws an `Obstacle` object to the screen, much like `.drawDinosaur`. However, the obstacle is instead drawn from its bottom-left corner, rather than the bottom-right, like `Dinosaur`.
 
+##### `CanvasWrapper.prototype.callOnSpace(fun<Function>)`
+
+This method takes a function and executes the function on.
+
 #### Usage
 
 You can use CanvasWrapper like this:
@@ -85,80 +89,85 @@ Alright, now we can get started! The first thing you're going to be doing is imp
 
 ## 1. Jurassic Park
 
-First off, you're going to be creating the `Dinosaur` object! Up until now, you've been implementing this we've designed for you. However, now you ave the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are thingss we know for sure:
+First off, you're going to be creating the `Dinosaur` object! Up until now, you've been implementing this we've designed for you. However, now you ave the freedom to make your own design choices. What kind of properties should our `Dinosaur` object have? Methods? Here are things we know for sure:
 
 + We want to track the `position` of the `Dinosaur`, so that we can draw it and determine if an obstacle has hit it
 + We want to write a `jump` mechanism so that the `Dinosaur` position changes vertically when that function is called
 
-Additionally, we probably want to give `Dinosaur` a method to check if it has collided with another object (an `Obstacle`), something that we're going to be implementing later.
+Additionally, we probably want to give `Dinosaur` a method to check if it is colliding with another object (an `Obstacle`). For simplicity, you can use a point-based collision model, in which two objects are colliding if they are at the exact same position or not that far away from each other.
 
 Use your knowledge of getters and setter methods to make your life easier. For jumping, you don't have to worry about gravity and physics if you don't want to. Try to break it into two parts - `jumpStart` and `jumpEnd`, if it helps. The former should put the `Dinosaur` into the air, and the latter should bring it back down.
 
-Remember the **Pythagoran Theorem**? Wonder when you wondered where you can use it? Well, it's pretty useful for comparing the distance between two points - just putting that out there. Might be useful, if you wanted to check if two points are *"close enough"* to each other.
+Remember the **Pythagorean Theorem**? Wonder when you wondered where you can use it? Well, it's pretty useful for comparing the distance between two points - just putting that out there. Might be useful, if you wanted to check if two points are *"close enough"* to each other.
 
-Furthermore, a game is nothing without its controller and its inputs. You guys haven't officially learned it yet, so I'll drop a little golden nugget in your laps: `document.addEventListen( event<String> , fun<Function>)`.
-
-What `document.addEventListener` does is very simple: It listens for an input `event` (like clicking an item, or typing on your keyboard) and executes a `function` when it knows the event its listening for has happened.
+Furthermore, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnSpace` to execute a function when it detects that the `SPACE` bar has been pressed in the site.
 
 This is how you use it:
  
 ```javascript
 
-// listening for an event
-// elementToListenOn.addEventListener('eventIWantToWatchFor', thingIWantToDo)
-document.addEventListener('click', function() {
- console.log("You clicked on the document!");
-});
+var cw = new CanvasWrapper(...)
 
-// Paste that into the console, then click on the website and see what happens!
-// There are a few other events you can listen for as well, like 'keydown', 'keyup', 'mouseenter', etc..
-// Check out the developer documentation to learn more!
+// 'start listening' for a space
+cw.callOnSpace(funcion(){
+	console.log("You pressed space!");
+})
+
+// Paste that into the console, then press `space` on the website and see what happens!
+// You should see the log being shown in the console. It's kinda magical, frankly.
 
 ```
- 
-Check out [the developer documentation](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) for more information on what it does, what kinds of events there are, and other ways you can use it.
 
 Now, there's one critical part of games that you need to know about as well: the `event loop`. No, this isn't another function or method, but rather a design pattern - a way to structure the programs you build to make them more **flexible** and/or more **suitable for a task**. An `event loop` is responsible for making sure your objects are updated regularly and re-drawn on screen.
 
-In this our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setTimeout` or `requestAnimationFrame`.
+In this our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setInterval` or `requestAnimationFrame`.
  
 ```javascript
 
+// create all the objects i need to work with
+var me = new Robot();
+
+// update them - positions, etc.
 var eventLoop = function() {
-	// eat
-	// horizons
-	// eat
-	// horizons
-	// sleep
+	me.eat();
+	me.doHorizons();
+	me.eat();
+	me.doHorizons();
+	me.sleep();
 };
 
-setTimeout(eventLoop, 1000*60*60*24);
+// keep on chugging
+setInterval(eventLoop, 1000*60*60*24);
 
 ```
 
+Write your `Dinosaur` class in `dinosaur.js` and put your event loop under the `CanvasWrapper` code in `dinosaur_game.js`.
+
 By the end of this part, you should have a game that draws your dinosaur at a certain position and responds to keyboard presses by jumping, and a simple event loop to update the object.
 
-- simple getter/setters
-- collisions
-- jumping
-- event handling
-- simple event loop
+---
 
 ## 2. American Ninja
 
-Next up, you're going to be designing an `Obstacle` class for the `Dinosaur` class to vault over
+Next up, you're going to be designing an `Obstacle` class for the `Dinosaur` class to vault over. Let's start again by formulating what kinds of responsibilities the Obstacle class has:
 
-+ continuous movement
-+ bounding
++ For sure, it has to support continuous left-ward movement
++ You also want to probably bound it inside the canvas - that is, if it ever goes outside, bring it right back to where it started
++ Make sure it's position is just as accessible as `Dinosaurs!` You're going to need to check to see if `Dinosaur` has collided with it, so being able to get the position is key
+
+Bounding is an interesting topic. If you think about it, is it _really_ Obstacle's responsibility? How do you 'bound' something? You need to know what the limits are so you can be corrected if you overshoot them, correct? But an `Obstacle` doesn't know about how big the game it is in. Where would be an apt place to constantly watch and handle repositioning and updating an Obstacle if it ever leaves the canvas?
+
+TODO: And now a word about collisions
 
 ## 3. Saw VIII
 
-Alright, we're almost there!
+Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a pretty decently-sized event loop. To organize our event loop and really solidify our web game application, we're going to create a top-level game object to self-contain game state and better organize our code.
 
 + a better event loop
++ score
 
 # Resources
 
-https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+http://www.w3schools.com/jsref/met_win_setinterval.asp
 
 https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame

@@ -44,10 +44,6 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-//
-// ex. solveCrossword("joy", ["_ _ _ # j o y",
-//                            "_ _ o _ _ _ _",
-//                            "_ _ f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
 }

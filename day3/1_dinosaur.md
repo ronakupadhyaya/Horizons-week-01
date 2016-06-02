@@ -26,7 +26,7 @@ The **goal** of this game will to be avoid hitting the obstacle that comes for y
 
 ### `CanvasWrapper`
 
-To make the game, we're providing you with a class to make interacting with HTML `canvas` elements either (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dino_game.js`.
+To make the game, we're providing you with a class to make interacting with HTML `canvas` elements easier (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dino_game.js`. `Canvas` is an HTML element used for displaying graphics in the browser. 
 
 There are only a few methods implemented but they make your life a lot easier:
 

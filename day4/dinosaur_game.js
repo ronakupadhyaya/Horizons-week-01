@@ -73,4 +73,12 @@ game.CanvasWrapper.prototype = {
 
 // Put your Event Loop here for parts 1 & 2!
 
+var update = function() {
+	
+	requestAnimationFrame(update); // remember recursion? This is kind of like that - it makes sures this function is called again and again!
+}
+
+// Uncomment this to start it off!
+// update();
+
 // Put your `Game` object here for part 3!

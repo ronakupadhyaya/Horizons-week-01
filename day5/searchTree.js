@@ -3,9 +3,14 @@
 function SearchTree(value, left, right) {
   // Call the Tree constructor with this object here
   // YOUR CODE HERE
+  if (value === undefined) {
+    throw new Error('Each tree node must have value');
+  }
+  Tree.call(this, value, left, right);
 }
 
 // Inherit from Tree here!
+SearchTree.prototype = new Tree(); // XXX
 
 SearchTree.prototype.contains = function(n) {
   // YOUR CODE HERE
@@ -66,6 +71,17 @@ SearchTree.prototype.add = function(n) {
   }
 }
 
+// Return true if n is in this tree.
+SearchTree.prototype.search = function(n) {
+  if (this.value === n) {
+    return true;
+  }
+  if (n < this.value) {
+    return !! (this.left && this.left.search(n));
+  }
+  return !! (this.right && this.right.search(n));
+}
+
 // Return true if n is found, false otherwise.
 SearchTree.prototype.remove = function(n, parent) {
   // YOUR CODE HERE
@@ -78,6 +94,16 @@ SearchTree.prototype.remove = function(n, parent) {
       // 2 children
       this.value = this.right.min();
       this.right.remove(this.value, this);
+    } else if (! parent) { // this is the root
+      if (this.left) {
+        this.value = this.left.value;
+        this.right = this.left.right;
+        this.left = this.left.left;
+      } else if (this.right) {
+        this.value = this.right.value;
+        this.left = this.right.left;
+        this.right = this.right.right;
+      }
     } else if (parent.left === this) {
       parent.left = this.left || this.right;
     } else if (parent.right === this) {
@@ -90,3 +116,4 @@ SearchTree.prototype.remove = function(n, parent) {
 SearchTree.prototype.rebalance = function() {
   // YOUR CODE HERE
 }
+

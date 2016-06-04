@@ -8,12 +8,15 @@ function Tree(value, left, right) {
 
 Tree.prototype.getSize = function() {
   // YOUR CODE HERE
+  if (this.value === undefined) {
+    return 0;
+  }
   var ret = 1;
   if (this.left) {
     ret += this.left.getSize();
   }
   if (this.right) {
-    ret += this.right.getSize();
+   ret += this.right.getSize();
   }
   return ret;
 };
@@ -72,4 +75,14 @@ Tree.prototype.postOrder = function(fn) {
     this.right.inOrder(fn);
   }
   fn(this.value);
+};
+
+// Return true if both trees have the same shape
+// and same items. False otherwise.
+Tree.prototype.equals = function(tree) {
+  // YOUR CODE HERE
+  return tree &&
+    this.value === tree.value &&
+    (!this.left || this.left.equals(tree.left)) &&
+    (!this.right || this.right.equals(tree.right));
 };

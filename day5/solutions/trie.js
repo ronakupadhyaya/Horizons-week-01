@@ -36,11 +36,27 @@ function Trie(letter) {
 // exact given word has been inserted before.
 Trie.prototype.search = function(word) {
   // YOUR CODE HERE
+  if (word.length === 0) {
+    return this.terminal;
+  }
+
+  return _.has(this.children, word[0]) &&
+    this.children[word[0]].search(word.substring(1));
 }
 
 // Write a function that inserts given word into the trie.
 Trie.prototype.insert = function(word) {
   // YOUR CODE HERE
+  if (word.length === 0) {
+    this.terminal = true;
+    return;
+  }
+
+  if (! _.has(this.children, word[0])) {
+    this.children[word[0]] = new Trie(word[0]);
+  }
+
+  this.children[word[0]].insert(word.substring(1));
 }
 
 // Write a function that removes given word from the trie.
@@ -51,6 +67,13 @@ Trie.prototype.insert = function(word) {
 // used.
 Trie.prototype.remove = function(word) {
   // YOUR CODE HERE
+  if (word.length === 0) {
+    this.terminal = false;
+  }
+
+  if (_.has(this.children, word[0])) {
+    this.children[word[0]].remove(word.substring(1));
+  }
 }
 
 // Write a function that counts all the words in this trie and
@@ -59,10 +82,23 @@ Trie.prototype.remove = function(word) {
 // Only nodes that are terminals should counted.
 Trie.prototype.countWords = function() {
   // YOUR CODE HERE
+  var ret = 0;
+  if (this.terminal) {
+    ret++;
+  }
+
+  _.each(this.children, function(child) {
+    ret += child.countWords();
+  });
+
+  return ret;
 }
 
 // Write a method that takes a string and returns the number of words
 // that start with that prefix.
 Trie.prototype.searchPrefix = function(prefix) {
   // YOUR CODE HERE
+  if (prefix.length === 0) {
+    return this.countWords();
+  }
 }

@@ -1,4 +1,4 @@
-# Horizons Week 1 Day 3 Exercises
+# Horizons Week 1 Day 4 Exercises
 
 ## Inline Exercises
 

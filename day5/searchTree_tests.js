@@ -11,7 +11,7 @@ describe("Test SearchTree() with manual data", function() {
     expect(t.remove(1)).toBe(false);
   });
 
-  it("add 5,1,8,12 ", function() {
+  it("add 5,1,8,12 and check size remove 5 check size remove -1 check size", function() {
     var t = new SearchTree(5);
     t.add(5);
     t.add(1);

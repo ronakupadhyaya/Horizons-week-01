@@ -96,9 +96,9 @@ SearchTree.prototype.search = function(n) {
 SearchTree.prototype.remove = function(n, parent) {
   // YOUR CODE HERE
   if (n < this.value) { // item is to the left
-    return this.left && this.left.remove(n, this);
+    return !! (this.left && this.left.remove(n, this));
   } else if (n > this.value) { // item is to the right
-    return this.right && this.right.remove(n, this);
+    return !! (this.right && this.right.remove(n, this));
   } else { // found item, n === this.value
     if (this.left && this.right) {
       // 2 children

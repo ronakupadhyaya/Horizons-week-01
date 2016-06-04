@@ -94,20 +94,23 @@ SearchTree.prototype.remove = function(n, parent) {
       // 2 children
       this.value = this.right.min();
       this.right.remove(this.value, this);
-    } else if (! parent) { // this is the root
-      if (this.left) {
-        this.value = this.left.value;
-        this.right = this.left.right;
-        this.left = this.left.left;
-      } else if (this.right) {
-        this.value = this.right.value;
-        this.left = this.right.left;
-        this.right = this.right.right;
+    } if (this.left) {
+      this.value = this.left.value;
+      this.right = this.left.right;
+      this.left = this.left.left;
+    } if (this.right) {
+      this.value = this.right.value;
+      this.left = this.right.left;
+      this.right = this.right.right;
+    } else { // leaf node
+      if (! parent) {
+        throw new Error("Don't handle removing the last item from a tree.");
       }
-    } else if (parent.left === this) {
-      parent.left = this.left || this.right;
-    } else if (parent.right === this) {
-      parent.right = this.left || this.right;
+      if (parent.left === this) {
+        parent.left = null;
+      } else if (parent.right === this) {
+        parent.right = null;
+      }
     }
     return true;
   }

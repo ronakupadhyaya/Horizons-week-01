@@ -3,9 +3,6 @@
 function SearchTree(value, left, right) {
   // Call the Tree constructor with this object here
   // YOUR CODE HERE
-  if (value === undefined) {
-    throw new Error('Each tree node must have value');
-  }
   Tree.call(this, value, left, right);
 }
 
@@ -32,7 +29,7 @@ SearchTree.prototype.contains = function(n) {
 SearchTree.prototype.min = function(n) {
   // YOUR CODE HERE
   if (this.left) {
-    return this.left.max();
+    return this.left.min();
   }
   return this.value;
 }
@@ -45,9 +42,20 @@ SearchTree.prototype.max = function(n) {
   return this.value;
 }
 
-// Return true if n is already stored, false otherwise.
+// Add given item to this tree.
+// Return true if n was already stored in this tree before insertion, false
+// otherwise.
+//
+// ex.
+//  var t = new SearchTree();
+//  t.add(1) -> false
+//  t.add(1) -> true
 SearchTree.prototype.add = function(n) {
   // YOUR CODE HERE
+  if (this.value === null) {
+    this.value = n;
+    return false;
+  }
   if (n === this.value) {
     return true;
   }
@@ -71,7 +79,8 @@ SearchTree.prototype.add = function(n) {
   }
 }
 
-// Return true if n is in this tree.
+// Search for given item item in this tree.  Return true if item is found,
+// false otherwise.
 SearchTree.prototype.search = function(n) {
   if (this.value === n) {
     return true;
@@ -82,14 +91,15 @@ SearchTree.prototype.search = function(n) {
   return !! (this.right && this.right.search(n));
 }
 
-// Return true if n is found, false otherwise.
+// Remove given item from this tree.
+// Return true if item was found and removed and false if item was not found.
 SearchTree.prototype.remove = function(n, parent) {
   // YOUR CODE HERE
-  if (n < this.value) {
+  if (n < this.value) { // item is to the left
     return this.left && this.left.remove(n, this);
-  } else if (n > this.value) {
+  } else if (n > this.value) { // item is to the right
     return this.right && this.right.remove(n, this);
-  } else { // n === this.value
+  } else { // found item, n === this.value
     if (this.left && this.right) {
       // 2 children
       this.value = this.right.min();
@@ -104,9 +114,8 @@ SearchTree.prototype.remove = function(n, parent) {
       this.right = this.right.right;
     } else { // leaf node
       if (! parent) {
-        throw new Error("Don't handle removing the last item from a tree.");
-      }
-      if (parent.left === this) {
+        this.value = null;
+      } else if (parent.left === this) {
         parent.left = null;
       } else if (parent.right === this) {
         parent.right = null;
@@ -115,8 +124,3 @@ SearchTree.prototype.remove = function(n, parent) {
     return true;
   }
 }
-
-SearchTree.prototype.rebalance = function() {
-  // YOUR CODE HERE
-}
-

@@ -5,6 +5,12 @@ function randomNumbers(n) {
 }
 
 describe("Test SearchTree() with manual data", function() {
+  it("empty tree", function() {
+    var t = new SearchTree();
+    expect(t.search(1)).toBe(false);
+    expect(t.remove(1)).toBe(false);
+  });
+
   it("add 5,1,8,12 ", function() {
     var t = new SearchTree(5);
     t.add(5);
@@ -62,7 +68,7 @@ describe("Test SearchTree() with randomly generated data", function() {
     expect(t1.getSize()).toBe(rand.length);
   });
 
-  it(".add() .remove() .search()", function() {
+  it(".add() .remove()", function() {
     var rand = randomNumbers(500);
     var t1 = new SearchTree(rand[0]);
     rand.forEach(function(item) {
@@ -100,5 +106,32 @@ describe("Test SearchTree() with randomly generated data", function() {
     expect(_.all(rand, function(item) {
       return t1.search(item);
     })).toBe(true);
+  });
+
+  it(".add() .min() .max()", function() {
+    var rand = randomNumbers(500);
+    var t1 = new SearchTree(rand[0]);
+    rand.forEach(function(item) {
+      t1.add(item);
+    });
+
+    var min = _.min(rand);
+    var max = _.max(rand);
+    expect(t1.min()).toBe(min);
+    expect(t1.max()).toBe(max);
+  });
+
+  it(".add() .getSize()", function() {
+    var rand = randomNumbers(500);
+    var t1 = new SearchTree(rand[0]);
+    var count = 0;
+    rand.forEach(function(item) {
+      if (! t1.add(item)) {
+        count++;
+      }
+    });
+
+    expect(t1.getSize()).toBe(_.uniq(rand).length);
+    expect(t1.getSize()).toBe(count);
   });
 });

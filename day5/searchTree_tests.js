@@ -23,7 +23,10 @@ describe("Test SearchTree() with manual data", function() {
     expect(t.getSize()).toBe(4);
     expect(t.remove(5)).toBe(true);
     expect(t.getSize()).toBe(3);
+    expect(t.remove(-1)).toBe(false);
+    expect(t.getSize()).toBe(3);
   });
+
   it("add 5,1,8,12 ", function() {
     var t = new SearchTree(5);
     t.add(1);
@@ -124,7 +127,7 @@ describe("Test SearchTree() with randomly generated data", function() {
   it(".add() .getSize()", function() {
     var rand = randomNumbers(500);
     var t1 = new SearchTree(rand[0]);
-    var count = 0;
+    var count = 1;
     rand.forEach(function(item) {
       if (! t1.add(item)) {
         count++;

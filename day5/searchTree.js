@@ -104,11 +104,11 @@ SearchTree.prototype.remove = function(n, parent) {
       // 2 children
       this.value = this.right.min();
       this.right.remove(this.value, this);
-    } if (this.left) {
+    } else if (this.left) {
       this.value = this.left.value;
       this.right = this.left.right;
       this.left = this.left.left;
-    } if (this.right) {
+    } else if (this.right) {
       this.value = this.right.value;
       this.left = this.right.left;
       this.right = this.right.right;

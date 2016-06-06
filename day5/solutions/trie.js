@@ -101,4 +101,36 @@ Trie.prototype.searchPrefix = function(prefix) {
   if (prefix.length === 0) {
     return this.countWords();
   }
+  if (_.has(this.children, word[0])) {
+    return this.children[word[0]].searchPrefix(word.substring(1));
+  }
+
+  return 0;
+}
+
+Trie.prototype.forEachPrefix = function(searchPrefix, fn, prefix) {
+  prefix = prefix || [];
+
+  if (searchPrefix.length === 0) {
+    this.forEach(fn, prefix);
+    return;
+  }
+
+  if (_.has(this.children, searchPrefix[0])) {
+    this.children[searchPrefix[0]].forEachPrefix(searchPrefix.substring(1), fn, prefix.concat([searchPrefix[0]]));
+  }
+}
+
+Trie.prototype.forEach = function(fn, prefix) {
+  if (! prefix) {
+    prefix = [];
+  }
+
+  if (this.terminal) {
+    fn(prefix.join(''));
+  }
+
+  _.each(this.children, function(child, letter) {
+    child.forEach(fn, prefix.concat([letter]));
+  });
 }

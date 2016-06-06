@@ -16,6 +16,8 @@ describe("Trie.prototype.searchPrefix", function() {
   // YOUR CODE HERE
 });
 
+describe("Trie.prototype.forEachPrefix", function() {
+});
 
 function randomWords(n) {
   return _.shuffle(words).slice(0, n);

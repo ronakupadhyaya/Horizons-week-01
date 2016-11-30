@@ -84,7 +84,7 @@ var stockData = [
   {"ticker":"MSFT","price":266.32,"time":"2016-06-10T00:00:00.000Z"},
   {"ticker":"NFLX","price":101.64,"time":"2016-06-04T00:00:00.000Z"},
   {"ticker":"AMZN","price":348.62,"time":"2016-06-11T00:00:00.000Z"},
-  {"ticker":"GOOG","price":36.91,"time":"2016-06-30T00:00:00.000Z"}
+  {"ticker":"GOOG","price":36.91,"time":"2016-06-30T00:00:00.000Z"},
   {"ticker":"GOOG","price":30.25,"time":"2016-06-18T00:00:00.000Z"},
   {"ticker":"FB","price":72.78,"time":"2016-06-21T00:00:00.000Z"},
   {"ticker":"MSFT","price":307.42,"time":"2016-06-02T00:00:00.000Z"},

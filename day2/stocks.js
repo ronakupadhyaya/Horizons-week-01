@@ -67,14 +67,21 @@ stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
 };
 
-// [Bonus] Exercise 5. stocks.marketTop(data)
+// Exercise 5. stocks.portfolioValue(data, date, portfolio)
+// Write a function that calculates the value of a stock portfolio at a given
+// date.
 //
-// Write a function that finds the day when all the stocks were d
-// to a ticker of a company in the transaction data. It should return the total portfolio
-// value of the given company at day's end.
+// Arguments:
+//  - date: a JavaScript Date object indicating which point in time to calculate
+//    the value of the portfolio for
+//  - portfolio: an object mapping tickers to number of shares owned
 //
-// hint. exercise 3 can help!
-stocks.totalPortfolioValue = function(data, ticker) {
+// ex.
+// stocks.totalPortfolioValue(data,
+//                            new Date('2016-06-30T00:00:00.000Z'),
+//                            {NFLX: 1, GOOG: 10})
+//    -> 513.31
+stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
 };
 

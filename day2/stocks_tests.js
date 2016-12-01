@@ -46,16 +46,17 @@ describe("stocks.widestTradingRange(data)", function() {
   });
 });
 
-describe("stocks.totalPortfolioValue(data, ticker)", function() {
+describe("stocks.portfolioValue(data, date, ticker)", function() {
+  it("stocks.portfolioValue(data, new Date('2016-06-30T00:00:00.000Z'), {NFLX: 1, GOOG: 0, FB: 0}) -> 144.21", function() {
+    expect(stocks.portfolioValue(stockData, new Date('2016-06-30T00:00:00.000Z'), {NFLX: 1, GOOG: 0, FB: 0})).toBeCloseTo(144.21);
+  });
 
-  it("should return a number", function() {
-    expect(stocks.totalPortfolioValue(stockData, 'GOOG')).toEqual(jasmine.any(Number));
+  it("stocks.portfolioValue(data, new Date('2016-06-30T00:00:00.000Z'), {NFLX: 1, GOOG: 10}) -> 513.31", function() {
+    expect(stocks.portfolioValue(stockData, new Date('2016-06-30T00:00:00.000Z'), {NFLX: 1, GOOG: 10})).toBeCloseTo(513.31);
   });
-  it("stocks.totalPortfolioValue(data, 'GOOG') should be between 538.94 and 538.96", function() {
-    expect(stocks.totalPortfolioValue(stockData, 'GOOG') > 538.94 && stocks.totalPortfolioValue(stockData, 'GOOG') < 538.96).toBeTruthy();
-  });
-  it("stocks.totalPortfolioValue(data, 'AMZN') should be between -1339.44 and -1339.48", function() {
-    expect(stocks.totalPortfolioValue(stockData, 'AMZN') < -1339.44 && stocks.totalPortfolioValue(stockData, 'AMZN') > -1339.48).toBeTruthy();
+
+  it("stocks.portfolioValue(data, new Date('2016-06-10T00:00:00.000Z'), {NFLX: 0, AMZN: 0, GOOG: 0}) -> 0", function() {
+    expect(stocks.portfolioValue(stockData, new Date('2016-06-10T00:00:00.000Z'), {NFLX: 0, AMZN: 0, GOOG: 0})).toBeCloseTo(0);
   });
 });
 

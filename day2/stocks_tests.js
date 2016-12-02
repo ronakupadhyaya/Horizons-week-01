@@ -60,15 +60,22 @@ describe("stocks.portfolioValue(data, date, ticker)", function() {
   });
 });
 
-describe("stocks.totalPortfolioGains(data)", function() {
 
-  it("should return a number", function() {
-    expect(stocks.totalPortfolioGains(stockData, 'GOOG')).toEqual(jasmine.any(Number));
+describe("stocks.bestTrade(data, ticker)", function() {
+  it("stocks.bestTrade(stockData, 'GOOG') -> [new Date('2016-06-19T00:00:00.000Z'), new Date('2016-06-28T00:00:00.000Z'), 9.78]", function() {
+    expect(stocks.bestTrade(stockData, 'GOOG').slice(0, 2)).toEqual([new Date('2016-06-19T00:00:00.000Z'), new Date('2016-06-28T00:00:00.000Z')]);
+    expect(stocks.bestTrade(stockData, 'GOOG')[2]).toBeCloseTo(9.78)
   });
-  it("stocks.totalPortfolioGains(data, 'GOOG') -> 9982.371482823233", function() {
-    expect(stocks.totalPortfolioGains(stockData, 'GOOG')).toEqual(ans.GOOG[0]);
+
+  it("stocks.bestTrade(stockData, 'NVDA') -> [new Date('2016-06-02:00:00.000Z'), new Date('2016-06-28T00:00:00.000Z'), 39.11]", function() {
+    expect(stocks.bestTrade(stockData, 'NVDA').slice(0, 2)).toEqual([new Date('2016-06-02:00:00.000Z'), new Date('2016-06-28T00:00:00.000Z')]);
+    expect(stocks.bestTrade(stockData, 'NVDA')[2]).toBeCloseTo(39.11);
   });
-  it("stocks.totalPortfolioGains(data, 'AMZN') -> 6497.906748663934", function() {
-    expect(stocks.totalPortfolioGains(stockData, 'AMZN')).toEqual(ans.AMZN[0]);
+});
+
+describe("stocks.bestTradeEver(data)", function() {
+  it("stocks.bestTradeEver(data) ->  ['AMZN', new Date('2016-06-02:00:00.000Z'), new Date('2016-06-24:00:00.000Z'), 369.51]", function() {
+    expect(stocks.bestTradeEver(stockData).slice(0, 3)).toEqual(['AMZN', new Date("2016-06-02:00:00.000Z"), new Date("2016-06-24:00:00.000Z")]);
+    expect(stocks.bestTradeEver(stockData)[3]).toBeCloseTo(369.51);
   });
 });

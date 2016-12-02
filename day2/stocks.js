@@ -28,41 +28,65 @@ window.stocks = {};
 // Write a function that calculates the total loss or gain for each ticker/company.
 // This function should return an object with stock tickers as keys and the total
 // gain or loss for the given stock as the values.
-// Total gain or loss is defined as latest price of the company - earliest
+//
+// Total gain or loss is defined as latest price of the company minus earliest
 // price of the company.
-// The return object should look like this: { "AMZN": 11.4, ...}
+//
+// Example.
+// stocks.gainAndLoss(data) -> {
+//   GOOG: -32.36,
+//   NFLX: 43.44,
+//   FB: -47.36,
+//   MSFT: -16.21,
+//   AMZN: 299.04,
+//   NVDA: 17.5
+// }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
 };
 
 // Exercise 2. stocks.biggestGainer(data)
 //
-// Write a function that takes an array of Transaction objects. It should return the ticker
-// of the biggest gainer of the given list of stock transactions (the stock that made the most that day)
+// Write a function that finds the stock that went up in price the most
+// in absolute terms (i.e. not percentage-wise) over the lifetime of
+// the given data.
 //
-// ex. stocks.biggestGainer(stockData) -> 'AMZN'
+// Total gain is defined as latest price of the company minus earliest
+// price of the company.
 //
-// hint. use maybe doing `gainAndLoss` first will help.
+// Example.
+// stocks.biggestGainer(stockData) -> 'AMZN'
+//
+// You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
 };
 
 // Exercise 3. stocks.biggestLoser(data)
 //
-// Write a function that takes an array of Transaction objects. It should return the ticker of
-// the biggest loser of the stocks (the stock that lost the most that day)
+// Write a function that finds the stock that went up in price the most
+// in absolute terms (i.e. not percentage-wise) over the lifetime of
+// the given data.
 //
-// ex. stocks.biggestLoser(stockData) -> 'GOOG'
+// Total loss is defined as latest price of the company minus earliest
+// price of the company.
 //
-// hint. maybe doing `gainAndLoss` and `biggestGainer` will help.
+// Example.
+// stocks.biggestLoser(stockData) -> 'GOOG'
+//
+// You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
 //
-// Write a function that takes an array of Transaction objects. It should return the
-// ticker of the stock with the widest trading range (biggest variance in transaction price)
+// Write a function that finds the ticker of the stock with the widest trading
+// range (biggest difference between the lowest and the highest stock price)
+// over the lifetime of the given dataset.
+//
+// Example.
+// stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
 };
@@ -85,12 +109,46 @@ stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
 };
 
-// [Super Duper Bonus] Exercise 6. stocks.getRichQuick(data)
+// [Super Bonus] Exercise 6. stocks.bestTrade(data, ticker)
+// Write a function to figure out the best time to buy and sell a given
+// stock/ticker/company.
 //
-// Write a function that takes an array of Transaction objects and a string corresponding
-// to a ticker of a company in the transaction data. It should return the total portfolio
-// value of the company at day's end.
+//  - You can only buy the stock once and sell it once.
+//  - You need to buy the stock before you sell it.
 //
-stocks.totalPortfolioGains = function(data, ticker) {
+// You should return an array containing three items:
+//  1. buy date (a Date object)
+//  2. sell date (a Date object)
+//  3. amount of money made in trade i.e. selling price minus buying price (a number)
+//
+// Example.
+// stocks.bestTrade(stockData, 'GOOG') ->
+//  [new Date('2016-06-19T00:00:00.000Z'),
+//   new Date('2016-06-28T00:00:00.000Z'),
+//   55.54]
+stocks.bestTrade = function(data, ticker) {
+  // YOUR CODE HERE
+
+// [Super Duper Bonus] Exercise 8. stocks.bestTradeEver(data)
+// Write a function to figure out the best stock to buy and when to
+// buy and sell it.
+//
+//  - You can only buy one stock.
+//  - You can only buy the stock once and sell it once.
+//  - You need to buy the stock before you sell it.
+//
+// You should return an array containing four items:
+//  1. ticker (a string)
+//  2. buy date (a Date object)
+//  3. sell date (a Date object)
+//  4. amount of money made in trade i.e. selling price minus buying price (a number)
+//
+// Example.
+// stocks.bestTradeEver(data) ->
+//  ['AMZN',
+//   new Date('2016-06-02:00:00.000Z'),
+//   new Date('2016-06-24:00:00.000Z'),
+//   55.54]
+stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
 };

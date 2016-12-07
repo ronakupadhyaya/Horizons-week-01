@@ -3,7 +3,7 @@
 
 (function() {
   // TODO
-  function GameBoard() {
+  function Game() {
     this.width = 550;
     this.height = 250;
 
@@ -16,10 +16,10 @@
     this.canvasId = "dinosaur-panel";
 
     this.attachTo();
-    console.log("Initialized");
+    console.log("Dinosaur game initialized");
   };
 
-  GameBoard.prototype = {
+  Game.prototype = {
     attachTo: function() {
       this.cv = document.querySelector("#" + this.canvasId);
       this.ctx = this.cv.getContext("2d");
@@ -74,8 +74,17 @@
     },
     onReady: function(fun) {
       document.addEventListener("DOMContentLoaded", fun);
+    },
+    saveHighScore: function(score) {
+      localStorage.setItem('dinosaurHiScore', score || 0);
+    },
+    getHighScore: function() {
+      localStorage.getItem('dinosaurHiScore') || 0;
+    },
+    clearHighScore: function() {
+      localStorage.removeItem('dinosaurHiScore');
     }
   };
 
-  window.game = new GameBoard();
+  window.game = new Game();
 })();

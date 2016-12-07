@@ -1,38 +1,243 @@
 # Dinosaur Game
 
-## Preface
+## Introduction
 
-You guys have been making some pretty complicated things these past few days, so let's do something fun today!
+When Google Chrome is unable to connect to the internet it
+displays this screen.
 
-There's no doubt that you've experienced how terrible the wi-fi connection can get at Horizons HQ, and quite a few of you are greeted with the "no w-fi" dinosaur in Chrome. Did you know that it's also a mini-game? If you didn't, try it out now: turn off your wi-fi radio and try navigating to a web-page in chrome.
+![Google Chrome offline screenshot](img/chrome_offline.jpg)
 
-You should see a dinosaur, and if you press the `SPACE` key, you'll end up starting the game.
+If you hit the <kbd>Space</kbd> it turns into a game.
 
-<img src="http://d0od.wpengine.netdna-cdn.com/wp-content/uploads/2015/06/chrome-dinosaur-game.png"/>
+![Google Chrome dinosaur game](img/chrome_game.png)
 
-_(You can go ahead and play through that for a bit)_
+For this exercise, we're re-make this game.
+[Go ahead and try it!](http://apps.thecodepost.org/trex/trex.html)
 
-So, what's the exercise for today, you ask?
+## Your `Canvas`
 
-You're gonna be building that very game!
+We will be drawing our game in a box 550 pixels wide and 250 pixels high.
+This box is backed by a browser element called `canvas`. The coordinate
+system for canvases is slightly different than what you may have seen
+before. Positive X's are right and negative X's are left, just like usual,
+but positive Y's are down, rather than up. This picture might describe it
+best for you:
 
-Well, sort of. We're going to show you how to apply the skills you've learned thus far to create a simple game similar to the No-Wifi Dinosaur adventure. At the end of it, it will probably look a little something like this:
+![](img/canvas.jpg)
 
-<img src="new_dino.png" />
+So the bigger your Y value, the farther down you'll be!
 
-The **goal** of this game will to be avoid hitting the obstacle that comes running at you.
+## Your tasks
 
---- 
+### Part 0: Getting started
 
-### `CanvasWrapper`
+1. Open `dinosaur.js` in your text editor, your code will go here.
+1. Open `dinosaur_game.js` in your text editor, these are the functions you will use to build the game. (See *All in the `game`* below for full documentation.)
+1. Open `dinosaur.html` in your browser.
 
-To make the game, we're providing you with a class to make interacting with HTML `canvas` elements easier (that way you won't have to know too much to use it!). It's called `CanvasWrapper,` and you can find it in `dinosaur_game.js`. `Canvas` is an HTML element used for displaying graphics in the browser. 
+When you're done you should see this:
+
+![](img/dino_part0.png)
+
+### Part 1: Moving obstacle
+
+#### You will need
+
+- [setInterval()](http://www.w3schools.com/jsref/met_win_setinterval.asp)
+- `game.clear()`
+- `game.drawObstacle()`
+- `game.width`
+
+#### Steps
+
+1. Write a function called `eventLoop()` that clears the screen with
+  `game.clear()` and draws the obstacle 10 pixels to the left of where it used
+  to be. You'll need to remember use a variable outside the function to remember
+  the location of the obstacle so you can recalculate its new location.
+
+  ```javascript
+  game.onReady(function() {
+    var obstacleX = 450;
+    function eventLoop() {
+      obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
+      // clear screen
+      // draw obstacle again
+    }
+  });
+  ```
+
+1. Use`setInterval()` to run this loop run every 100ms (i.e. 10 times/second).
+
+  ```javascript
+  setInterval(eventLoop, 100);
+  ```
+1. Inside `eventLoop()`, when the obstacle reaches the leftmost side of the screen
+  (x coordinate of `0`), move it to the rightmost side of the screen (x
+  coordinate of `game.width`).
+
+When you're done you should see this:
+
+![](https://cl.ly/3i1O0h0w3a3Y/Screen%20Recording%202016-12-07%20at%2012.00%20PM.gif)
+
+### Part 3: Jumping dinosaur
+
+#### You will need
+
+- `game.drawDinosaur()`
+- `game.onUpArrow()`
+
+#### Steps
+
+1. Create a variable outside `eventLoop()` called `dinosaurY` and set it to 200.
+  Use this variable to draw the Dinosaur inside `eventLoop` with
+  `game.drawDinosaur(100, dinosaurY)`
+1. Create a variable outside `eventLoop()` called `dinosaurVelocity` and set
+  it to 0. Inside `eventLoop()` subtract the value of `dinosaurVelocity` from
+  `dinosaurY`. (Y coordinates grow as you go further down the page.)
+
+  ```javascript
+  dinosaurY = dinosaurY - dinosaurVelocity;
+  ```
+
+1. When the user presses the up arrow, set `dinosaurVelocity` to `10`. Watch
+  your dinosaur fly.
+
+  ```javascript
+  game.onUpArrow(function() {
+    dinosaurVelocity = 10;
+  });
+  ```
+
+1. Now bring your dinosaur back to earth. Inside `eventLoop()`, if
+  `dinosaurY` is less than `100`, set `dinosaurVelocity` to `-10`.
+1. Now prevent your dinosaur from going underground. Inside `eventLoop`,
+  if `dinosaurY` is greater than `200`, set `dinosaurVelocity` to `0` and
+  `dinosaurY` to `200`;
+
+When you're done you should see this:
+
+![](https://cl.ly/0B1l1p0F011r/Screen%20Recording%202016-12-07%20at%2012.41%20PM.gif)
+
+### Part 3: Dinosaur collision
+
+#### You will need
+
+- [clearInterval()](http://www.w3schools.com/jsref/met_win_clearinterval.asp)
+- `game.drawText()`
+
+#### Steps
+
+1. Create a variable and save the return value of the `setInterval()` call
+  you made earlier.
+
+  ```javascript
+  var interval = setInterval(eventLoop, 100);
+  ```
+
+1. Inside `eventLoop()`, if the x, y coordinates of the dinosaur and
+  the obstacle are the same, then display a message telling the user
+  they have lost with `game.drawText('You lose :(')` and stop the game
+  with `clearInterval(interval)`.
+
+When you're done you should see this:
+
+![](https://cl.ly/1o0S150h0Y18/Screen%20Recording%202016-12-07%20at%2012.54%20PM.gif)
+
+### Part 4: Keeping score
+
+#### You will need
+
+- `game.drawScore()`
+
+#### Steps
+
+1. Create a variable outside `eventLoop()` called `score` and initialize it to
+  `0`.
+1. Each time `eventLoop()` is called increase `score` by 1 and display it
+  using `game.drawScore()`.
+
+TODO
+
+### Part 5: Restarting games
+
+If the user presses up when the game is over (i.e. after dinosaur and
+obstacle have collided), restart the game by resetting the score, the
+coordinates of the dinosaur and the obstacle and then running `setInterval()`
+again.
+
+TODO
+
+### Part 6: High score
+
+#### You will need
+
+- `game.drawHighScore()`
+- `game.getHighScore()`
+- `game.saveHighScore()`
+
+#### Steps
+
+1. Outside `eventLoop()`, look up the last high score with `game.getHighScore()`
+  and save it in a variable `highScore`.
+1. Inside `eventLoop()` if `score` is greater than `highScore` update `highScore`
+  and save it with `game.saveHighScore()`.
+1. Inside `eventLoop()` display the high score with `drawHighScore()`.
+
+TODO
+
+### (Bonus) Part 6: Better collisions
+
+Right now we only detect collisions if the lower-left corner of the dinosaur
+and the obstacle are in exact the same spot. We should detect if dinosaur and
+obstacle are colliding by checking if their rectangles overlap at all.
+Use the
+[Axis Aligned Bounding Box algorithm](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection)
+to do this.
+
+### (Bonus) Part 5: Basic physics
+
+Make the dinosaur decelerate smoothly when it's in the air. You can achieve
+this effect by checking if `dinosaurY` is less than `200` and reducing
+`dinosaurVelocity` at each step.
+
+Experiment with gravity by changing the initial speed and the acceleration factor.
+
+### (Bonus) Part 7: Smoother animations
+
+Use the browser built-in `requestAnimationFrame()` function to make the
+animations more smooth.
+[This link](http://creativejs.com/resources/requestanimationframe/) explains
+how!
+
+---
+
+### All in the `game`
+
+To make the game, we're providing you with functions to make interacting with
+the browser easier. These functions are available under the global object
+`game`. They are found in the file `dinosaur_game.js`.
 
 There are only a few methods implemented but they make your life a lot easier:
 
+##### `CanvasWrapper.prototype.height`
+
+This number represents the height of the game board in pixels.
+
+##### `CanvasWrapper.prototype.width`
+
+This number represents the width of the game board in pixels.
+
+##### `CanvasWrapper.prototype.dinosaurHeight`
+
+This number represents the height of a dinosaur in pixels.
+
+##### `CanvasWrapper.prototype.dinosaurWidth`
+
+This number represents the width of a dinosaur in pixels.
+
 ##### `CanvasWrapper.prototype.clear()`
 
-This method resets the canvas. The Canvas Element works like a real canvas - once you've painted something, it will stay there. That feature is annoying if you're building a game and want to move things around - the old image will stay where you drew it last, and so you see a 'lagging' sort of effect.
+This method clear the canvas. The Canvas Element works like a real canvas - once you've painted something, it will stay there. That feature is annoying if you're building a game and want to move things around - the old image will stay where you drew it last, and so you see a 'lagging' sort of effect.
 
 Kind of like this:
 
@@ -48,21 +253,14 @@ This method draws the `Dinosaur` object to the screen. Really, it's just an oran
 
 This method draws an `Obstacle` object to the screen, much like `.drawDinosaur`. However, the obstacle is instead drawn from its bottom-left corner, rather than the bottom-right, like `Dinosaur`.
 
-##### `CanvasWrapper.prototype.drawText(text<String>)`
+##### `CanvasWrapper.prototype.drawMessage(text<String>)`
 
-This method draws text. However, the obstacle is instead drawn from its bottom-left corner, rather than the bottom-right, like `Dinosaur`.
+This method draws a large message in the middle of the board for the user to
+see.
 
-##### `CanvasWrapper.prototype.callOnUp(fun<Function>)`
+##### `CanvasWrapper.prototype.onUpArrow(fun<Function>)`
 
 This method takes a function and starts listening for the 'UP' key. It will execute the given function when it detects that the `UP` key has been pressed. This will come in useful later on for detecting input.
-
-##### `CanvasWrapper.prototype.getHeight()`
-
-This method with return the height of the canvas. This might come in useful for bounding, later on.
-
-##### `CanvasWrapper.prototype.getWidth()`
-
-This method with return the width of the canvas. This might come in useful for bounding, later on.
 
 #### Usage
 
@@ -84,12 +282,6 @@ cw.clear();
 // this line resets the canvas so that you can re-draw the positions of your game objects
 
 ```
-
-Now, before you begin, there's something you should know about Canvases - the coordinate system is a little weird. Positive X's are right and negative X's are left, just like usual, but positive Y's are down, rather than up. This picture might describe it best for you:
-
-<img src="http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2013/05/Hannah/canvas1.jpg" />
-
-So the bigger your Y value, the farther down you'll be!
 
 ---
 
@@ -120,7 +312,7 @@ Remember the **Pythagorean Theorem**? Well, it [might be useful](http://strd6.co
 Next, a game is nothing without its controller and its inputs. You can use `CanvasWrapper.prototype.callOnUp` to execute a function when it detects that the `UP` key has been pressed in the site.
 
 This is how you use it:
- 
+
 ```javascript
 
 var cw = new CanvasWrapper(...)
@@ -140,7 +332,7 @@ cw.callOnUp(funcion(){
 Now, there's one critical part of games that you need to know about as well: the `event loop`. No, this isn't another function or method, but rather a design pattern - a way to structure the programs you build to make them more **flexible** and/or more **suitable for a task**. An `event loop` is responsible for making sure your objects are updated regularly and re-drawn on screen.
 
 In our case, I'm going to suggest you implement an `event loop` in the form of a function that can just be called over and over again, using `setInterval` or `requestAnimationFrame`.
- 
+
 ```javascript
 
 // create all the objects i need to work with
@@ -178,7 +370,7 @@ You're going to be designing an `Obstacle` class for the `Dinosaur` class to vau
 + You also want to probably bound it inside the canvas - that is, if it ever goes outside, bring it right back to where it started
 + Make sure its position is just as accessible as `Dinosaurs!` You're going to need to check to see if `Dinosaur` has collided with it, so being able to get the position is key
 
-So, continuous movement seems a little tricky. Where do you think it should be handled? You can use 
+So, continuous movement seems a little tricky. Where do you think it should be handled? You can use
 
 Bounding is an interesting topic. If you think about it, is it _really_ Obstacle's responsibility? How do you 'bound' something? You need to know what the limits are so you can be corrected if you overshoot them, correct? But an `Obstacle` doesn't know about how big the game it is in. Where would be an apt place to constantly watch and handle repositioning and updating an Obstacle if it ever leaves the canvas?
 
@@ -201,9 +393,9 @@ Write the `Obstacle` class in `dinosaur.js`, and remember to include it in the g
 1. Keep track of high scores, and when you beat the high score, draw a special message on the screen
 1. By the end of this, you should have a fully-playable game that lets you start and restart it.
 1. [Optional] Improve collision detcetion logic (instead of point-to-point comparisons, do [bounding boxes](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection))
-1. [Optional] Improve jump animation by using physics 
+1. [Optional] Improve jump animation by using physics
 
-Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a moderately-sized event loop. 
+Alright, we're almost there! It's been a while, but by now you should have something pretty decent running, with a moderately-sized event loop.
 To organize our event loop and really solidify our web game application, we're going to create a top-level game object to separate game state and global state and better organize our code.
 
 Here's what we want our `Game` object to do:
@@ -216,12 +408,6 @@ Here's what we want our `Game` object to do:
 
 To draw the text, you can use `CanvasWrapper.prototype.drawText`. However, you have to remember the update loop - you're going to be clearing the canvas very fast, so you probably wont see the text on the screen - unless you kept track of when a `gameOver` is and keep drawing the text afterwards.
 
-Do your work in `dinosaur_game.js`, and remember to stop using your old update loop function when you create the game object's! Also, remember to put your `Game` object in the `game` namespace (a little confusing, but there won't be an issue - `game.Game = function() {...` is totally fine). 
-
-# Resources
-
-http://www.w3schools.com/jsref/met_win_setinterval.asp
+Do your work in `dinosaur_game.js`, and remember to stop using your old update loop function when you create the game object's! Also, remember to put your `Game` object in the `game` namespace (a little confusing, but there won't be an issue - `game.Game = function() {...` is totally fine).
 
 https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-
-https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection

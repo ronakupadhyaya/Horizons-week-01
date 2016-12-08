@@ -2,6 +2,8 @@
 
 ## Exercises
 
+1. Queues/Linked lists
+   Files: `week01/day4/queue.js` and `week01/day4/queue.html`
 1. `Tree`: Implement a binary tree <br>
    Source: `week01/day5/tree.js` <br>
    Run tests: `week01/day5/tree.html`

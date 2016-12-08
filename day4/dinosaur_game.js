@@ -2,7 +2,6 @@
 
 
 (function() {
-  // TODO
   function Game() {
     this.width = 550;
     this.height = 250;
@@ -79,7 +78,7 @@
       localStorage.setItem('dinosaurHiScore', score || 0);
     },
     getHighScore: function() {
-      localStorage.getItem('dinosaurHiScore') || 0;
+      return localStorage.getItem('dinosaurHiScore') || 0;
     },
     clearHighScore: function() {
       localStorage.removeItem('dinosaurHiScore');

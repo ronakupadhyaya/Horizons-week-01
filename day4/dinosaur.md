@@ -228,6 +228,20 @@ animations more smooth.
 how!
 
 [Live demo](http://s.codepen.io/moose-horizons/debug/pNKjRP)
+
+### Super bonus zone
+
+For additional fun try implementing these improvements in your dinosaur
+game:
+
+- Increase obstacle speed as the score goes higher, so the game becomes more
+  difficult as it progresses.
+- Implement "double-jump," allow the user to jump one more time when the
+  dinosaur is in the air.
+- Display 2 obstacles on the screen at a time.
+- Permit the dinosaur to land on top of obstacle like in Mario. In this case
+  the dinosaur only dies if it hits the leading edge of the obstacle.
+
 ---
 
 ### All in the `game`

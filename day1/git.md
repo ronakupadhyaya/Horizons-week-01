@@ -2,22 +2,95 @@
 
 ## Goal
 
-The goal of this exercise to get setup with Git and GitHub. You need Git and GitHub to access Horizons course materials and share your work with us.
+The goal of this exercise to get setup with Git and GitHub. You need Git and
+GitHub to access Horizons course materials and share your work with us.
 
-## Instructions
+## Mac Instructions
 
-1. [Install GitHub Desktop Client](https://desktop.github.com/)
-1. Login with your GitHub username and password
-   ![](img/git login.png)
-1. Clone the repository `week01`
-   ![](img/git clone.png)
-1. Create a branch with your GitHub username
-   ![](img/git checkout.png)
-1. Open `week01/day1/git.html` and see test failure
+1. Open your Terminal, it's located in `/Applications/Utilities/Terminal.app`
+1. [Download and install Git for Mac](https://git-scm.com/download/mac)
+1. [Create a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#platform-mac)
+1. [Add the SSH key to your GitHub account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-mac)
+1. Clone the `week01` repository
+
+  ```bash
+  git clone git@github.com:horizons-school-of-technology/week01.git
+  ```
+
+1. Create your own branch
+
+  ```bash
+  git checkout -b your-branch-name-here
+  ```
+
+1. Set-up your Git environment
+
+  ```bash
+  bash setup.sh
+  ```
+
+1. Push your branch to GitHub
+
+  ```bash
+  git push origin
+  ```
+
 1. Open `week01/day1/git.js` in and fix the code
-1. `commit` your changes to Git
-   ![](img/git commit.png)
-1. Sync (i.e. `push`) your changes to GitHub
-   ![](img/git push.png)
+1. Commit your changes
 
-Congratulations! You've completed your first inline assignment.
+  ```bash
+  git commit -am "Fix code"
+  ```
+
+1. Push your changes again
+
+  ```bash
+  git commit -am "Fix code"
+  ```
+
+Congratulations! You're ready to complete Horizons exercises.
+
+## Windows Instructions
+
+1. [Download and install Git for Windows](https://git-for-windows.github.io/)
+1. Open Git Bash
+1. [Create a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#platform-windows)
+1. [Add the SSH key to your GitHub account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-windows)
+1. Clone the `week01` repository
+
+  ```bash
+  git clone git@github.com:horizons-school-of-technology/week01.git
+  ```
+
+1. Create your own branch
+
+  ```bash
+  git checkout -b your-branch-name-here
+  ```
+
+1. Set-up your Git environment
+
+  ```bash
+  bash setup.sh
+  ```
+
+1. Push your branch to GitHub
+
+  ```bash
+  git push origin
+  ```
+
+1. Open `week01/day1/git.js` in and fix the code
+1. Commit your changes
+
+  ```bash
+  git commit -am "Fix code"
+  ```
+
+1. Push your changes again
+
+  ```bash
+  git commit -am "Fix code"
+  ```
+
+Congratulations! You're ready to complete Horizons exercises.

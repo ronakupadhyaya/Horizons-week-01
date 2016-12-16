@@ -21,6 +21,8 @@ if [ -z "`git config --global --get user.email`" ]; then
     git config --global user.email "$email"
 fi
 
-# Copy pre-commit hooks
-echo "Update commit hooks"
-cp -f pre-commit .git/hooks/pre-commit
+GITDIR=${GITDIR:-.git}
+if [ -d "$GITDIR" ] ; then
+    echo "Update commit hooks in $GITDIR"
+    cp -f pre-commit .git/hooks/pre-commit
+fi

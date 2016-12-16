@@ -32,7 +32,7 @@ GitHub to access Horizons course materials and share your work with us.
 1. Push your branch to GitHub
 
   ```bash
-  git push origin
+  git push -u origin
   ```
 
 1. Open `week01/day1/git.js` in and fix the code
@@ -45,7 +45,7 @@ GitHub to access Horizons course materials and share your work with us.
 1. Push your changes again
 
   ```bash
-  git commit -am "Fix code"
+  git push origin
   ```
 
 Congratulations! You're ready to complete Horizons exercises.
@@ -77,7 +77,7 @@ Congratulations! You're ready to complete Horizons exercises.
 1. Push your branch to GitHub
 
   ```bash
-  git push origin
+  git push -u origin
   ```
 
 1. Open `week01/day1/git.js` in and fix the code
@@ -90,7 +90,7 @@ Congratulations! You're ready to complete Horizons exercises.
 1. Push your changes again
 
   ```bash
-  git commit -am "Fix code"
+  git push origin
   ```
 
-Congratulations! You're ready to complete Horizons exercises.
+Congratulations! You're now ready to work on Horizons exercises.

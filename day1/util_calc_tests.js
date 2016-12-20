@@ -1,69 +1,52 @@
-describe("util.calc(op)", function() {
+describe("Part 1: Invalid expressions throw an exception", function() {
+  it("util.calc('') -> Error, empty expression", function() {
+    expect(function() { util.calc('')  }).toThrow();
+  });
+  it("util.calc('1 2') -> Error, mission operator", function() {
+    expect(function() { util.calc('1 2')  }).toThrow();
+  });
+  it("util.calc('-') -> Error, no numbers", function() {
+    expect(function() { util.calc('-')  }).toThrow();
+  });
+  it("util.calc('1 2 +') -> Error, operator at the wrong spot", function() {
+    expect(function() { util.calc('1 2 +')  }).toThrow();
+  });
+  it("util.calc('+ 1 -18') -> Error, operator at the wrong spot", function() {
+    expect(function() { util.calc('+ 1 -18')  }).toThrow();
+  });
+  it("util.calc('1 + 55 -2') -> Error, too many numbers", function() {
+    expect(function() { util.calc('1 + 55 -2')  }).toThrow();
+  });
+  it("util.calc('29 + + 1') -> Error, too many operators", function() {
+    expect(function() { util.calc('29 + + 1')  }).toThrow();
+  });
+  it("util.calc('29 + 1 +') -> Error, too many operators", function() {
+    expect(function() { util.calc('29 + 1 +')  }).toThrow();
+  });
+});
+
+describe("Part 2: Support addition and subtraction", function() {
+  it("util.calc('1') -> 1", function() {
+    expect(util.calc('1') ).toBe(1);
+  });
+  it("util.calc('-12') -> -12", function() {
+    expect(util.calc('-12') ).toBe(-12);
+  });
   it("util.calc('3 + 2') -> 5", function() {
     expect(util.calc('3 + 2')).toEqual(5);
   });
-  it("util.calc('3 + 8 + 2 + 1    ') -> 14", function() {
-    expect(util.calc('3 + 8 + 2 + 1    ')).toEqual(14);
+  it("util.calc('3 + 8 + 2 + 1') -> 14", function() {
+    expect(util.calc('3 + 8 + 2 + 1')).toEqual(14);
   });
   it("util.calc('2 - 1 + 5 + 6') -> 12", function() {
     expect(util.calc('2 - 1 + 5 + 6')).toEqual(12);
   });
-  it("util.calc('    -1 + 3 - 2 + 5') -> 1", function() {
-    expect(util.calc('    -1 + 3 - 2 + 5')).toEqual(5);
+  it("util.calc('-1 + 3 - 2 + 5') -> 1", function() {
+    expect(util.calc('-1 + 3 - 2 + 5')).toEqual(5);
   });
 });
-describe("util.splitIntoParts(s)", function() {
-  it("util.splitIntoParts('3 + 2') -> [[3, 2], ['+']]", function() {
-    expect(util.splitIntoParts('3 + 2')).toEqual([[3, 2], ['+']]);
-  });
-  it("util.splitIntoParts('3 + 8 + 2 + 1') -> [[3, 8, 2, 1], ['+', '+', '+']]", function() {
-    expect(util.splitIntoParts('3 + 8 + 2 + 1')).toEqual([[3, 8, 2, 1], ['+', '+', '+']]);
-  });
-  it("util.splitIntoParts('2 - 1 + 5 + 6') -> [[2, 1, 5, 6], ['-', '+', '+']]", function() {
-    expect(util.splitIntoParts('2 - 1 + 5 + 6')).toEqual([[2, 1, 5, 6], ['-', '+', '+']]);
-  });
-  it("util.splitIntoParts('-1 + 3 - 2 + 5') -> [[-1, 3, 2, 5], ['+', '-', '+']]", function() {
-    expect(util.splitIntoParts('-1 + 3 - 2 + 5')).toEqual([[-1, 3, 2, 5], ['+', '-', '+']]);
-  });
-});
-describe("util.validateExpression(nums, ops)", function() {
-  it("util.validateExpression([3, 2], ['+']) -> true", function() {
-    expect(util.validateExpression([3, 2], ['+'])).toEqual(true);
-  });
-  it("util.validateExpression([3, 8, 2, 1], ['+', '+', '+']) -> true", function() {
-    expect(util.validateExpression([3, 8, 2, 1], ['+', '+', '+'])).toEqual(true);
-  });
-  it("util.validateExpression([2, 1, 5, 6], ['-', '+', '+']) -> true", function() {
-    expect(util.validateExpression([2, 1, 5, 6], ['-', '+', '+'])).toEqual(true);
-  });
-  it("util.validateExpression([-1, 3, 2, 5], ['+', '-', '+']) -> true", function() {
-    expect(util.validateExpression([-1, 3, 2, 5], ['+', '-', '+'])).toEqual(true);
-  });
-  it("util.validateExpression([0, 3, 4], ['-', '+', '/']) -> Exception thrown: 'Too many or too few operations'", function() {
-    expect(function() { util.validateExpression([0, 3, 4], ['-', '+', '/']) }).toThrow("Too many or too few operations");
-  });
-  it("util.validateExpression([], []) -> Exception thrown: 'Too many or too few operations'", function() {
-    expect(function() { util.validateExpression([], []) }).toThrow("Too many or too few operations");
-  });
-  it("util.validateExpression([1], []) -> Exception thrown: 'Too many or too few operations'", function() {
-    expect(function() { util.validateExpression([1], []) }).toThrow("Too many or too few operations");
-  });
-  it("util.validateExpression(['+', '-', '*'], [1, 2, 3, 4]) -> Exception thrown: 'Expected number, got +'", function() {
-    expect(function() { util.validateExpression(['+', '-', '*'], [1, 2]) }).toThrow("Expected number, got +");
-  });
-});
-describe("util.calcOne(a, b, op)", function() {
-  it("util.calcOne(3, 4, '+') -> 7", function() {
-    expect(util.calcOne(3, 4, "+")).toEqual(7);
-  });
-  it("util.calcOne(3, 0, '/') -> Infinity", function() {
-    expect(util.calcOne(3, 0, "/")).toEqual(Infinity);
-  });
-  it("util.calcOne(5, 9, '-') -> -4", function() {
-    expect(util.calcOne(5, 9, "-")).toEqual(-4);
-  });
-});
-describe("util.calc(opWithPrecedence)", function() {
+
+describe("Part 3. Support multiplication and division", function() {
   it("util.calc('1 * 3 / 5 + 2') -> 2.6", function() {
     expect(util.calc('1 * 3 / 5 + 2')).toEqual(2.6);
   });
@@ -82,7 +65,7 @@ describe("util.calc(opWithPrecedence)", function() {
 })
 
 describe("Bonus: implement sqrt", function() {
-  it("util.calc('sqrt 4') -> 2", function() {
+  it("util.calc('sqrt 4') -> 2, same as Math.sqrt(4)", function() {
     expect(util.calc('sqrt 4') ).toBe(2);
   });
   it("util.calc('sqrt 4 - 3') -> -1", function() {
@@ -94,13 +77,7 @@ describe("Bonus: implement sqrt", function() {
   it("util.calc('sqrt 9 - 3 * 10') -> -27", function() {
     expect(util.calc('sqrt 9 - 3 * 10') ).toBe(-27);
   });
-  it("util.calc('sqrt 9 * 10') -> 30", function() {
-    expect(util.calc('sqrt 9 * 10') ).toBe(30);
-  });
-  it("util.calc('sqrt 9 * 10 / 2 - 1') -> 14", function() {
-    expect(util.calc('sqrt 9 * 10 / 2 - 1') ).toBe(14);
-  });
-  it("util.calc('10 * sqrt 9') -> 30", function() {
-    expect(util.calc('10 * sqrt 9') ).toBe(30);
+  it("util.calc('10 * sqrt 81') -> 90", function() {
+    expect(util.calc('10 * sqrt 81') ).toBe(90);
   });
 });

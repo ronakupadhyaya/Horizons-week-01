@@ -10,7 +10,7 @@
 1. `SearchTree`: Implement binary search tree on top of `Tree`<br>
    Source: `week01/day5/searchTree.js` <br>
    Run tests: `week01/day5/searchTree.html`
-1. `Trie`: Implement a trie and **write your own tests for it**<br>
+1. (Bonus) `Trie`: Implement a trie and **write your own tests for it**<br>
    Source: `week01/day5/trie.js` <br>
    Tests: `week01/day5/trie_tests.js` <br>
    Run tests: `week01/day5/trie.html` <br>

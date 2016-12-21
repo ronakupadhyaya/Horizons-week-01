@@ -12,11 +12,11 @@
    Files: `week01/day3/inherit.js` and `week01/day3/inherit.html`
 1. Maze Solver <br>
    Files: `week01/day3/maze.js` and `week01/day3/maze.html`
-1. **Bonus:** Crossword puzzle <br>
-   Files: `week01/challenges/crossword.js` and `week01/challenges/crossword.html`
-1. **Bonus:** Edit distance <br>
-   Files: `week01/challenges/edit_distance.js` and `week01/challenges/edit_distance.html`
-1. **Bonus:** Roman numerals <br>
-   Files: `week01/challenges/roman.js` and `week01/challenges/roman.html`
 1. [**Bonus:** Maze.getShortestPath()](maze_bonus.md)
+1. **Bonus:** Crossword puzzle <br>
+   Files: `week01/day3/crossword.js` and `week01/day3/crossword.html`
+1. **Bonus:** Roman numerals <br>
+   Files: `week01/day3/roman.js` and `week01/day3/roman.html`
+1. **Bonus:** Edit distance <br>
+   Files: `week01/day3/edit_distance.js` and `week01/day3/edit_distance.html`
 

@@ -1,4 +1,4 @@
-# Inline Exercise: Debugging
+# Pair Programming Exercise: Debugging
 
 ## Goal
 

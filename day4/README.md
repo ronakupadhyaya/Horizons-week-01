@@ -7,10 +7,12 @@
 
 ## Pair Programming Exercises
 
-1. RPN Calculator
+1. RPN Calculator <br>
    Files: `week01/day4/rpn.js` and `week01/day4/rpn.html`
-1. Queues
+1. Queues <br>
    Files: `week01/day4/queue.js` and `week01/day4/queue.html`
 1. [Dinosaur Game](dinosaur.md)
+1. (Bonus) Advanced functional programming with Underscore<br>
+   Files: `week01/day4/underscore_extra.js` and `week01/day4/underscore_extra.html`
 
 

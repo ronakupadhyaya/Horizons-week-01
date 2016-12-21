@@ -2,14 +2,19 @@
 
 window.grades = {};
 
-// In this exercise, you will be implementing functions that will help in analyzing a class (such as yourself). We have provided you with an example dataset under `data/grades.js` that you can peruse by yourself as you wish.
+// In this exercise, you will be implementing functions that will help in
+// analyzing a class of students.
+// You can find the data under `data/grades.js`
 
 // Data Format:
-// The data that will be run through each program is an array of studen objects (<Student[]>)
+//
+// The data that will be run through each program is an array of student objects.
 // The student object is comprised of these keys:
-// 'name', a string for the student's first name (warning - not unique!)
-// 'major', a string indicating the user's major (there are only 4 majors)
-// 'grades', an object with two keys, 'class1' and 'class2', whose values are integers from 1 to 4 indicating that students performance in the class.
+//  - 'name', a string for the student's first name (warning - not unique!)
+//  - 'major', a string indicating the user's major (there are only 4 majors)
+//  - 'grades', an object with two keys, 'class1' and 'class2', whose values
+//     are integers from 1 to 4 indicating that students performance in the
+//     class.
 
 // [Helper] Exercise 0.A grades.average(arr<Number[]>)
 // Write a function that takes an array of numbers and returns the average of all of them.

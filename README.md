@@ -11,6 +11,32 @@
     1. [Calculator](day1/util_calc.md)
     1. [Bonus: Poker Hands](day1/poker.md)
 1. [Day 2](day2/README.md)
+  1. Inline Exercises
+    1. [Equality (Warmup)](day2/1_warmup_equality.md)
+    1. [Truthiness](day2/2_inline_truthiness.md)
+    1. [Variable scoping](day2/3_inline_var_scope.md)
+  1. Pair Programming Exercises
+    1. [Date and time in JavaScript](day2/dates.md)
+    1. [Learning Underscore.js](day2/learn_underscore.md)
+    1. [Student Grades](day2/grades.md)
+    1. [Managing a Stock Portfolio](day2/stocks.md)
+    1. [Bonus: Truth Comparison Tables](day2/comparison_tables.md)
 1. [Day 3](day3/README.md)
+  1. Inline Exercises
+    1. [The `this` keyword (warmup)](day3/this.md)
+    1. [Exceptions](day3/exception.md)
+    1. [Object Oriented Programming](day3/oop.md)
+  1. Pair Programming Exercises
+    1. Inheritance <br>
+       Files: `week01/day3/inherit.js` and `week01/day3/inherit.html`
+    1. Maze Solver <br>
+       Files: `week01/day3/maze.js` and `week01/day3/maze.html`
+    1. [**Bonus:** Maze.getShortestPath()](day3/maze_bonus.md)
+    1. **Bonus:** Crossword puzzle <br>
+       Files: `week01/day3/crossword.js` and `week01/day3/crossword.html`
+    1. **Bonus:** Roman numerals <br>
+       Files: `week01/day3/roman.js` and `week01/day3/roman.html`
+    1. **Bonus:** Edit distance <br>
+       Files: `week01/day3/edit_distance.js` and `week01/day3/edit_distance.html`
 1. [Day 4](day4/README.md)
 1. [Day 5](day5/README.md)

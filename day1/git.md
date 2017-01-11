@@ -3,6 +3,11 @@
 ## What is Git
 Git is a tool used for collaborating on text files (i.e. source code) by keeping track of all changes. All of the information for the repository (commit history) is stored in a folder named `.git` at the root of your project. A git repository can be hosted on your local computer or even online (i.e. on Github).
 
+## Glossary
+- **Repository**: a Git project
+- **Branch**: a workspace within a project, allows independent work
+- **Commit**: Git tracks the history of a projects as a series of commits. A single commit is a group of changes to files in the repository.
+
 # Inline Exercise: Setting up Git and GitHub
 
 ## Goal
@@ -239,3 +244,8 @@ This message shows up when you are making changes to the master branch rather th
   ```bash
   git commit -am "commit-message-here"
   ```
+### `remote: error: GH006: Protected branch update failed for refs/heads/master.`
+You may also see the following error message:
+`! [remote rejected] master -> master (protected branch hook declined)`
+
+This means that you have committed your changes to master instead of your own branch. Please ask an instructor to help move your commits to the correct place.

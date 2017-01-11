@@ -110,7 +110,7 @@ GitHub to access Horizons course materials and share your work with us.
   git commit -am "Fix code"
   ```
 
-Locally saves the changes you made to `week01/day1/git.js` and titles the commit 'Fix Code'
+  Locally saves the changes you made to `week01/day1/git.js` and titles the commit 'Fix Code'
 
 1. Check Repository Status
 

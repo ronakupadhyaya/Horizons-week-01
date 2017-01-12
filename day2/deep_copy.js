@@ -59,3 +59,21 @@ copyToolbox.deepObjectCopy = function(obj) {
   }
   return obj;
 };
+
+copyToolbox.deepCopy = function(obj) {
+  if (obj instanceof Array) {
+    var ret = [];
+    for (var i = 0; i < obj.length; i++ ) {
+      ret[i] = copyToolbox.deepArrayCopy(obj[i]);
+    }
+    return ret;
+  }
+  else if (obj instanceof Object) {
+    var out = {}
+    for (var key in obj ) {
+      out[key] = copyToolbox.deepCopy(obj[key]);
+    }
+    return out;
+  }
+  return obj;
+};

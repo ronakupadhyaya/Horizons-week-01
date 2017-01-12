@@ -20,8 +20,9 @@ describe("Deep Array Copy", function() {
 });
 
 describe("Deep Object Copy", function() {
+  var personA;
   beforeEach(function(){
-    var personA = {
+    personA = {
       name: "Ethan",
       title: "instructor",
       school: {
@@ -31,7 +32,7 @@ describe("Deep Object Copy", function() {
     }
   })
   it("copyToolbox.deepObjectCopy(personA) -> copy contains same names+values", function() {
-  var personA = {
+    personA = {
       ethan: "sebastian",
       title: "instructor"
     }
@@ -48,6 +49,42 @@ describe("Deep Object Copy", function() {
   it("Sub-objects on copies are not the same as on the original", function() {
     var personB = copyToolbox.deepObjectCopy(personA)
     expect(personA.school).not.toBe(personB.school);
+  });
+
+});
+
+
+describe("Bonus: Deep Object+Array Copy", function() {
+  var personA;
+  beforeEach(function(){
+   personA = {
+      name: "Ethan",
+      title: "instructor",
+      exercises: ['a', 'b',[['c']]],
+      school: {
+        name: "horizons",
+        address: "3879 23rd street, San Francisco, California 94114",
+        students: ["Mark", "Alex", ["Jamie", ["Abhi"]]]
+      }
+    }
+  })
+  it("copyToolbox.deepCopy(personA) -> The copy should contain an exact copy of the original", function() {
+
+    console.log( copyToolbox.deepCopy(personA) )
+    expect( copyToolbox.deepCopy(personA) ).toEqual(personA);
+  });
+  it("Modyfing a sub-object on the copy should't modify the original", function() {
+    var personB = copyToolbox.deepCopy(personA)
+    personB.school.name = "some random school";
+    expect(personA.school.name).toEqual("horizons");
+    personB.school.students[2][0] = "some random student";
+    expect(personA.school.students[2][0]).toEqual("Jamie");
+  });
+  it("Sub-objects and sub-arrays on copies are not the same as on the original", function() {
+    var personB = copyToolbox.deepCopy(personA)
+    expect(personA.school).not.toBe(personB.school);
+    expect(personA.school.students).not.toBe(personB.school.students);
+    expect(personA.exercises[2][0]).not.toBe(personB.exercises[2][0]);
   });
 
 });

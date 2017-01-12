@@ -60,7 +60,7 @@ describe("Bonus: Deep Object+Array Copy", function() {
    personA = {
       name: "Ethan",
       title: "instructor",
-      exercises: ['a', 'b',[['c']]],
+      exercises: ['a', 'b',[['c', {foo: "bar"}]]],
       school: {
         name: "horizons",
         address: "3879 23rd street, San Francisco, California 94114",
@@ -72,7 +72,7 @@ describe("Bonus: Deep Object+Array Copy", function() {
     expect( copyToolbox.deepCopy(personA) ).toEqual(personA);
   });
   it("copyToolbox.deepCopy(personA) -> The copy should contain an exact copy of the original array", function() {
-    expect( copyToolbox.deepArrayCopy([1, 2, [personA, 1]])).toEqual([1, 2, [personA, 1]]);
+    expect( copyToolbox.deepCopy([1, 2, [personA, 1]])).toEqual([1, 2, [personA, 1]]);
   });
   it("Modyfing a sub-object on the copy should't modify the original", function() {
     var personB = copyToolbox.deepCopy(personA)

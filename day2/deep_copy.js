@@ -42,7 +42,10 @@ window.copyToolbox = {};
 //     deepArrayCopy(3) -> returns 3
 
 copyToolbox.deepArrayCopy = function(arr) {
-  // YOUR CODE HERE
+  if (Array.isArray(arr)) {
+    return arr.map(copyToolbox.deepArrayCopy)
+  }
+  return arr;
 };
 
 // Exercise 2: Deep Object Copy
@@ -69,7 +72,16 @@ copyToolbox.deepArrayCopy = function(arr) {
 // - Sub-objects on copies on the copy shouldn't be the same as on the original
 
 copyToolbox.deepObjectCopy = function(obj) {
-  // YOUR CODE HERE
+  if (obj instanceof Object) {
+    var ret = {}
+    var keys = Object.keys(obj);
+    for (var i = 0; i<keys.length; i++){
+      var key = keys[i];
+      ret[key] = copyToolbox.deepObjectCopy(obj[key]);
+    }
+    return ret;
+  }
+  return obj;
 };
 
 
@@ -101,6 +113,24 @@ copyToolbox.deepObjectCopy = function(obj) {
 // Hint: Be extra careful when deciding what is an object and an array in JS!
 // arrays are objects in JS and may result in unexpected behavior!
 
+
+/*
+copyToolbox.deepArrayCopy = function(arr) {
+
+};
+*/
 copyToolbox.deepCopy = function(obj) {
-  // YOUR CODE HERE
+  if (obj instanceof Array) {
+    return obj.map(copyToolbox.deepCopy)
+  }
+  if (obj instanceof Object) {
+    var ret = {}
+    var keys = Object.keys(obj);
+    for (var i = 0; i<keys.length; i++){
+      var key = keys[i];
+      ret[key] = copyToolbox.deepCopy(obj[key]);
+    }
+    return ret;
+  }
+  return obj;
 };

@@ -20,46 +20,33 @@ describe("Deep Array Copy", function() {
 });
 
 describe("Deep Object Copy", function() {
-  it("copyToolbox.deepObjectCopy(personA) -> copy contains same names+values", function() {
+  beforeEach(function(){
     var personA = {
-      ethan: sebastian,
-      title: instructor
-    }
-    expect( copyToolbox.deepObjectCopy(personA) ).toEqual(personA);
-  });
-  it("copyToolbox.deepObjectCopy(personA) -> The copy should contain a copy of the original's nested objects", function() {
-    var personA = {
-      ethan: sebastian,
-      title: instructor,
-      school: {
-        name:horizons,
-        address: "3879 23rd street, San Francisco, California 94114"
-      }
-    }
-    expect( copyToolbox.deepObjectCopy(personA) ).toEqual(personA);
-  });
-  it("Modyfing a sub-object on the copy should't modify the original", function() {
-    var personA = {
-      ethan: sebastian,
-      title: instructor,
+      name: "Ethan",
+      title: "instructor",
       school: {
         name: "horizons",
         address: "3879 23rd street, San Francisco, California 94114"
       }
     }
+  })
+  it("copyToolbox.deepObjectCopy(personA) -> copy contains same names+values", function() {
+    personA = {
+      ethan: "sebastian",
+      title: "instructor"
+    }
+    console.log(personA)
+    expect( copyToolbox.deepObjectCopy(personA)).toEqual(personA);
+  });
+  it("copyToolbox.deepObjectCopy(personA) -> The copy should contain a copy of the original's nested objects", function() {
+    expect( copyToolbox.deepObjectCopy(personA) ).toEqual(personA);
+  });
+  it("Modyfing a sub-object on the copy should't modify the original", function() {
     var personB = copyToolbox.deepObjectCopy(personA)
     personB.school.name = "some random school";
     expect(personA.school.name).toEqual("horizons");
   });
   it("Sub-objects on copies are not the same as on the original", function() {
-    var personA = {
-      ethan: sebastian,
-      title: instructor,
-      school: {
-        name: "horizons",
-        address: "3879 23rd street, San Francisco, California 94114"
-      }
-    }
     var personB = copyToolbox.deepObjectCopy(personA)
     expect(personA.school).not.toBe(personB.school);
   });

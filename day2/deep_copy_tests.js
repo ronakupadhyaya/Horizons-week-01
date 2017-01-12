@@ -68,10 +68,11 @@ describe("Bonus: Deep Object+Array Copy", function() {
       }
     }
   })
-  it("copyToolbox.deepCopy(personA) -> The copy should contain an exact copy of the original", function() {
-
-    console.log( copyToolbox.deepCopy(personA) )
+  it("copyToolbox.deepCopy(personA) -> The copy should contain an exact copy of the original object", function() {
     expect( copyToolbox.deepCopy(personA) ).toEqual(personA);
+  });
+  it("copyToolbox.deepCopy(personA) -> The copy should contain an exact copy of the original array", function() {
+    expect( copyToolbox.deepArrayCopy([1, 2, [personA, 1]])).toEqual([1, 2, [personA, 1]]);
   });
   it("Modyfing a sub-object on the copy should't modify the original", function() {
     var personB = copyToolbox.deepCopy(personA)

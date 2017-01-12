@@ -34,14 +34,14 @@ copyToolbox.deepArrayCopy = function(arr) {
 // create a function that copies the arrays and their nested arrays so changes on
 // one never affect the other. We have the following person object:
 
-var personA = {
-  name: "Ethan",
-  title: "instructor",
-  school: {
-    name: "horizons",
-    address: "3879 23rd street, San Francisco, California 94114"
-  }
-}
+// var personA = {
+//   name: "Ethan",
+//   title: "instructor",
+//   school: {
+//     name: "horizons",
+//     address: "3879 23rd street, San Francisco, California 94114"
+//   }
+// }
 
 // When doing copyToolbox.deepObjectCopy(personA)
 // The copy should contain the same names+values
@@ -57,8 +57,5 @@ copyToolbox.deepObjectCopy = function(obj) {
     }
     return out;
   }
-  //console.log(obj)
   return obj;
 };
-
-copyToolbox.deepObjectCopy(personA)

@@ -31,11 +31,10 @@ describe("Deep Object Copy", function() {
     }
   })
   it("copyToolbox.deepObjectCopy(personA) -> copy contains same names+values", function() {
-    personA = {
+  var personA = {
       ethan: "sebastian",
       title: "instructor"
     }
-    console.log(personA)
     expect( copyToolbox.deepObjectCopy(personA)).toEqual(personA);
   });
   it("copyToolbox.deepObjectCopy(personA) -> The copy should contain a copy of the original's nested objects", function() {

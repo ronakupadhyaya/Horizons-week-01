@@ -109,7 +109,7 @@ b.d.c = "nothing";
 // var personA = {
 //   name: "Ethan",
 //   title: "instructor",
-//   exercises: ['a', 'b',[['c']]],
+//   exercises: ['a', 'b',[['c', {foo: "bar"}]]],
 //   school: {
 //     name: "horizons",
 //     address: "3879 23rd street, San Francisco, California 94114",

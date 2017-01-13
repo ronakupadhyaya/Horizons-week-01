@@ -1,6 +1,6 @@
 "use strict";
 
-window.copyToolbox = {};
+window.copyToolbox = {
 
 
 // On this exercise, you will be implementing functions that will deep copy arrays
@@ -14,6 +14,13 @@ window.copyToolbox = {};
 // ex. copyToolbox.deepArrayCopy([0, 1, 2, 3]) -> [0, 1, 2, 3]
 // ex. copyToolbox.deepArrayCopy([1, 2, [4, 1]]) -> [1, 2, [4, 1]]]
 // ex. copyToolbox.deepArrayCopy([[[1]]) -> [[[1]]]
+
+// Test it out!
+// var a = [1, 2, [3, 4]];
+// var b = copyToolbox.deepArrayCopy(a);
+// b[2][0] = 0;
+// b should be modified -> [0, 2, [ 0, 4 ]]
+// a shouldnt be modified -> [ 1, 2, [0, 4]]
 
 
 // Hint: Recurssive solution.
@@ -41,12 +48,12 @@ window.copyToolbox = {};
 //     deepArrayCopy(2) -> returns 2
 //     deepArrayCopy(3) -> returns 3
 
-copyToolbox.deepArrayCopy = function(arr) {
-  if (Array.isArray(arr)) {
-    return arr.map(copyToolbox.deepArrayCopy)
-  }
-  return arr;
-};
+  deepArrayCopy: function(arr) {
+    if (Array.isArray(arr)) {
+      return arr.map(copyToolbox.deepArrayCopy)
+    }
+    return arr;
+  },
 
 // Exercise 2: Deep Object Copy
 
@@ -64,6 +71,13 @@ copyToolbox.deepArrayCopy = function(arr) {
 //   }
 // }
 
+// Test it out yourself!
+var a = { b: "b", d: { c:{ f: "f"} } }
+var b = copyToolbox.deepObjectCopy(a);
+b.d.c = "nothing";
+// a shouldnt be modified -> { b: 'b', d: { c: { f: 'f' } } }
+// b should be modified -> { b: 'b', d: { c: 'nothing' } }
+
 // Tests
 // When doing copyToolbox.deepObjectCopy(personA):
 // - The copy should contain the same names+values
@@ -71,18 +85,18 @@ copyToolbox.deepArrayCopy = function(arr) {
 // - The copy should contain a copy of the original's nested objects
 // - Sub-objects on copies on the copy shouldn't be the same as on the original
 
-copyToolbox.deepObjectCopy = function(obj) {
-  if (obj instanceof Object) {
-    var ret = {}
-    var keys = Object.keys(obj);
-    for (var i = 0; i<keys.length; i++){
-      var key = keys[i];
-      ret[key] = copyToolbox.deepObjectCopy(obj[key]);
+  deepObjectCopy: function(obj) {
+    if (obj instanceof Object) {
+      var ret = {}
+      var keys = Object.keys(obj);
+      for (var i = 0; i<keys.length; i++){
+        var key = keys[i];
+        ret[key] = copyToolbox.deepObjectCopy(obj[key]);
+      }
+      return ret;
     }
-    return ret;
-  }
-  return obj;
-};
+    return obj;
+  },
 
 
 // Bonus Exercise: Deep Object & Array Copy
@@ -113,13 +127,7 @@ copyToolbox.deepObjectCopy = function(obj) {
 // Hint: Be extra careful when deciding what is an object and an array in JS!
 // arrays are objects in JS and may result in unexpected behavior!
 
-
-/*
-copyToolbox.deepArrayCopy = function(arr) {
-
-};
-*/
-copyToolbox.deepCopy = function(obj) {
+deepCopy: function(obj) {
   if (obj instanceof Array) {
     return obj.map(copyToolbox.deepCopy)
   }
@@ -133,4 +141,6 @@ copyToolbox.deepCopy = function(obj) {
     return ret;
   }
   return obj;
+}
+
 };

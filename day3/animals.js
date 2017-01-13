@@ -1,18 +1,20 @@
-// This function will set window.lion to a
-// string called 'lion'. When changing the code
-// you are not allowed to alter the existing code
-// in any way.
+//
+// IMPORTANT -- PLEASE READ BEFORE YOU BEGIN
+//
+// Wrap the following code in IIFEs (immediately-invoked
+// function expression) such that window.lion
+// equals 'lion' and window.tiger equals
+// 'tiger'. Keep in mind that we can
+// use IIFEs to create new namespaces.
+//
+// Do not edit, reorder or delete any of the existing code.
+//
 
 function getAnimal() {
   return 'lion';
 }
 
 window.lion = getAnimal();
-
-// This function will set window.tiger to a
-// string called 'tiger'. When changing the code
-// you are not allowed to alter the existing code
-// in any way.
 
 function getAnimal() {
   return 'tiger';

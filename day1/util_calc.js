@@ -54,5 +54,49 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var expressionArr = expression.split(' ');
+  var operators = ['+', '-', '*', '/'];
+  var operatorCount = 0;
+  var numberCount = 0;
+
+  // check for empty expression
+  if (expressionArr.length < 3) throw 'Error, insufficient expression';
+
+  // verify that beginning and ending elements are not operands
+  if (isNaN(expressionArr[0]) || isNaN(expressionArr[expressionArr.length-1]))
+    throw 'Error, operator at the wrong spot';
+
+  for (var i=0; i<expressionArr.length; i++) {
+    // verify there is no garbage items in string
+    if (isNaN(expressionArr[i])
+      && operators.includes(expressionArr[i]) === false) {
+      throw 'Invalid input';
+    }
+
+    // verify there are no consecutive operators
+    if (operators.includes(expressionArr[i])) {
+      if (i+1 < expressionArr.length
+        && operators.includes(expressionArr[i+1])) {
+        throw 'Error, too many operators';
+      }
+
+      // valid operator
+      operatorCount++;
+    }
+
+    // verify there are no consecutive numbers
+    if (isNaN(expressionArr[i]) == false) {
+      if (i+1 < expressionArr.length
+        && isNaN(expressionArr[i+1]) === false) {
+        throw 'Error, missing operator';
+      }
+
+      numberCount++;
+    }
+  }
+
+  // verify valid number of operators
+  if (operatorCount !== numberCount - 1) throw 'Error, invalid';
+
+
 };

@@ -55,4 +55,63 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if (!expression) {
+    throw new Error("Empty expression");
+  }
+  var tokens = expression.split(" "); //tokenize the string into #s and operations
+
+  var i = 0; // currentrent index
+  var nextNum = num();
+  var total = 0;
+
+  function next() {
+    return tokens[i++];
+  }
+
+  function num() { //gets the next number in the token array
+    var current = next();
+    if (current === "sqrt") {
+      return Math.sqrt(num());
+    }
+
+    if (!isNumber(current)) {
+      throw new Error("Expected number, got " + current);
+    }
+    // return current;
+    return +current;
+  }
+
+  function op() {
+    var current = next(); //get the next token
+
+    if (["-", "+", "/", "*", "sqrt"].indexOf(current) < 0) { //if it's not in the array, it"s not an operator
+      throw new Error("Expected operator, got " + current);
+    }
+    return current;
+  }
+
+  while (i < tokens.length) {
+    var oper = op();
+
+    if (oper === "+") {
+      total += nextNum;
+      nextNum = num();
+    } else if (oper === "-") {
+      total += nextNum;
+      nextNum = -num();
+    } else if (oper === "*") {
+      nextNum *= num();
+    } else if (oper === "/") {
+      nextNum /= num();
+    }
+  }
+
+  return total + nextNum;
+
+
 };
+
+
+function isNumber(a) {
+  return !isNaN(a);
+}

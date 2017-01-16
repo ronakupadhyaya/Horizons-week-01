@@ -109,7 +109,7 @@ stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
 };
 
-// [Super Bonus] Exercise 6. stocks.bestTrade(data, ticker)
+// [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
 // Write a function to figure out the best time to buy and sell a given
 // stock/ticker/company.
 //
@@ -128,8 +128,9 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+};
 
-// [Super Duper Bonus] Exercise 8. stocks.bestTradeEver(data)
+// [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
 // Write a function to figure out the best stock to buy and when to
 // buy and sell it.
 //

@@ -23,8 +23,8 @@ window.grades = {};
 // ex. grades.average([1, 2, 4, 1]) -> 2
 // ex. grades.average([]) -> 0
 // ex. grades.average([0, 0]) -> 0
-// 
-// hint. use _.fold()
+//
+// hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
 };
@@ -35,7 +35,7 @@ grades.average = function(arr) {
 //
 // ex. grades.getGPA() -> 1.5
 // ex. grades.getGPA([0, 0]) -> 0
-// 
+//
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE

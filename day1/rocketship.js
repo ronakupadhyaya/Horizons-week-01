@@ -50,17 +50,35 @@
  */
 
 var Rocketship = {
+  // key is coords
+  // value is dictionary xy
   coords: {x: 0, y: 0},
   up: function() {
     // YOUR CODE HERE
+
+    // method chain
+    // must return this because when you change it by incrementing
+      // you now have an undefined. Thus when you try .up.up, the
+      // first up works but not the second. Solve by returning this
+      // because you want an object to chain upon.
+
+    this.coords.y ++;
+    return this;
+
   },
   down: function() {
     // YOUR CODE HERE
+    this.coords.y --;
+    return this;
   },
   left: function() {
     // YOUR CODE HERE
+    this.coords.x --;
+    return this;
   },
   right: function() {
     // YOUR CODE HERE
+    this.coords.x ++;
+    return this;
   },
 };

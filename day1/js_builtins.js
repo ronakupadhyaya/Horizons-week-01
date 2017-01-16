@@ -179,7 +179,11 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  arr.sort(function(a, b) {
+    return a-b;
+  });
+
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -196,7 +200,11 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  arr.sort(function(a, b) {
+    return a.length-b.length;
+  });
+
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -211,5 +219,11 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var masterArr = [];
+
+  for (var i=0; i<arr.length; i++) {
+    masterArr = masterArr.concat(arr[i]);
+  }
+
+  return masterArr;
 };

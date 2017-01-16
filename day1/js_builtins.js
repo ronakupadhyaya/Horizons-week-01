@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -21,7 +21,32 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+
+  // turn str into array so we can do stuff
+  //*****
+  var newStr = str.split('');
+  // loop thru BEGINNING
+  while (newStr[0] === ' '){
+      // splice out the space
+    newStr.splice(0,1);
+  }
+    // loop thru ENDING
+  while (newStr[newStr.length-1] === ' '){
+      // splice out the space
+    newStr.splice(newStr.length-1,1);
+  }
+  // change back to string
+  //*****
+  return newStr.join('');
+
 };
+
+// loop
+// find char
+// get charIndex
+// so we know where the word starts!
+// splice beginning to word starts
+
 
 // ----------------------------------------------------------------------------
 
@@ -47,7 +72,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -126,7 +151,7 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {

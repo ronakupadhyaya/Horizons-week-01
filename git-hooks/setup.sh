@@ -21,6 +21,11 @@ if [ -z "`git config --global --get user.email`" ]; then
     git config --global user.email "$email"
 fi
 
+if [ -z "`git config --global --get core.mergeoptions`" ]; then
+  git config --global core.mergeoptions --no-edit
+  echo "Updated Git config core.mergeoptions"
+fi
+
 GITDIR=${GITDIR:-.git}
 if [ -d "$GITDIR" ] ; then
     echo "Update commit hooks in $GITDIR"

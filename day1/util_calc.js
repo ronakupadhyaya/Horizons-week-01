@@ -54,5 +54,98 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+//PART 1
+  var checkArray = expression.split(" ");
+
+  var newArray = [];
+  var numberArray = [];
+  var operatorArray = [];
+  var parseArray = function () {
+    for (var x = 0; x<checkArray.length; x++) {
+        var push = parseFloat(checkArray[x]);
+        newArray.push(push);
+    }
+  }
+  parseArray();
+  var checkEven = function () {
+    var test = true
+    for (var x = 0; x<checkArray.length; x+=2) {
+      numberArray.push(checkArray[x]);
+      if (isNaN(checkArray[x])) {
+        test = false;
+      }
+    }
+  //  console.log(numberArray.length);
+    return test;
+  }
+
+  var checkOdd = function () {
+    var test = true;
+
+    for (var x = 1; x<checkArray.length; x+=2) {
+      operatorArray.push(checkArray[x])
+      if (!isNaN(checkArray[x])) {
+        test = false;
+      }
+    }
+    return test
+
+  }
+
+  if (typeof newArray[0] !== "number" || isNaN(newArray[0] )) {
+    throw "Error, empty expression"
+  }
+  else if (!checkOdd() || !checkEven()) {
+    throw "Error, operators at the wrong spot"
+  }
+  else if (typeof newArray[newArray.length-1] !== "number") {
+    throw "Error, too many operators"
+  }
+
+  else if(isNaN(newArray[newArray.length-1])){
+    throw "Error"
+  }
+
+
+
+  var answer = 0;
+
+  var calcAnswer = function () {
+    answer = parseFloat(numberArray[0]);
+    for (var c = 0; c<operatorArray.length ; c++) {
+      if (operatorArray[c] === "+") {
+
+        answer = answer + parseFloat(numberArray[c+1]);
+      }
+      else if (operatorArray[c] === "-") {
+
+        answer = answer - parseFloat(numberArray[c+1]);
+      }
+    }
+    console.log(answer)
+    return answer
+  }
+  return calcAnswer();
+
+
+
+}
+
+//PART 2
+
+
+
+
+
+
+
+    /*switch(newArray[i]){
+      case "+":
+        newArray[i] = +;
+        break;
+      case "-":
+        newArray[i] = -;
+      case "*":
+        newArray[i] = *;
+      case "/":
+        newArray[i] = /*/

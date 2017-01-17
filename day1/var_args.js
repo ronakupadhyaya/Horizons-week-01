@@ -3,13 +3,15 @@
 window.varArgs = {};
 
 // Exercise 0.A varArgs.numArgs(args...)
-// Write a function that takes any number of arguments and returns the number of arguments you gave it.
+// Write a function that takes any number of arguments and returns t
+//he number of arguments you gave it.
 // This is done for you, give it a look-see.
 // ex. varArgs.numArgs(1, 5, 'a', { 'x': 13}) -> 4
 // ex. varArgs.numArgs(1, 8) -> 2
 // ex. varArgs.numArgs() -> 0
 //
-// Try to insert, pop or push another 'argument' inside the function into the list of arguements. What happens?
+// Try to insert, pop or push another 'argument' inside the function into the list of arguements
+//. What happens?
 // Hint: see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments>
 // for details about the `arguments` data structure.
 varArgs.numArgs = function() {
@@ -47,7 +49,14 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
+  if (arguments.length === 0) {return 0}
+  else {
+    var x = 0
+    for (var y = 0; y<arguments.length; y++) {
+      x+=arguments[y]
+    }
+    return x
+  }
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -58,7 +67,14 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
+  if (arguments.length === 0) {return 1}
+  else {
+    var x = 1
+    for (var y = 0; y<arguments.length; y++) {
+      x*=arguments[y]
+    }
+    return x
+  }
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -70,5 +86,29 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
+  var joiner = arguments[0];
+  var newArray = [];
+  if (arguments.length ===1 ) {
+    return ''
+  }
+  else {
+    for (var x = 1; x<arguments.length; x++) {
+      newArray.push(arguments[x])
+    }
+    return newArray.join(joiner)
+  }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

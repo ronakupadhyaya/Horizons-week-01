@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -20,7 +20,17 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var x = str.split(" ")
+  var newarr = [];
+  // console.log(x)
+  for (var i=0; i<x.length; i++)
+    // var a = x[i] == " "
+    if (x[i] !== "") {
+      newarr.push(x[i])
+    }
+  return newarr.join(" ");
+
+  // var spaces = (str[i] == " ").length
 };
 
 // ----------------------------------------------------------------------------
@@ -39,15 +49,53 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  // return sourceString.includes(searchString);
+
+  if (sourceString.indexOf(searchString) < 0 ) {
+    return false
+  }
+
+  else if (sourceString.indexOf(searchString) > 0 ) {
+    return true
+  }
+
+  else {
+    return true
+  }
+// var source = sourceString.split("")
+// var search = searchString.split("")
+//
+// for (var i=0; i<sourceString; i++)
+// if source == search
 };
+
+//create two separate arrays (source & search)
+//create two separate variables for source & search
+//use index of
+//looop through source
+
+// var y = searchString.split("")
+// var z = sourceString.split("")
+//   for (var i=0; i < sourceString.length - 1; i++) {
+//     if (searchString.length == 1)
+//       if (y == z[i]) {
+//           return true
+//         }
+//         else {
+//           return false
+//         }
+//     else if (searchString.length == 0) {
+//       return true
+//     }
+//   }
+// };
 
 // ----------------------------------------------------------------------------
 
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,7 +107,8 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var x = str.split(" ")
+  return parseInt(x[0]);
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +124,11 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+  var newArr = [];
+  for (var i = arr.length - 1; i >= 0; i--) {
+    newArr.push(arr[i]);
+  }
+  return newArr
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +146,21 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+  if (a.length > b.length) {
+    return false
+  } else if (b.length > a.length) {
+    return false
+  } else if ((a[0]) === (b[0])) {
+    for (var i = 0; i <= a.length; i++) {
+      if (a[i] == b[i]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } else {
+    return false
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +177,13 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+for (var i=0; i<arr.length; i++)
+  if (arr[0] === arr[arr.length-1]) {
+    return true
+  }
+  else {
+    return false
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -126,13 +199,30 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  return arr.sort(function(a,b) {
+    return a - b;
+  })
 };
+//   var newArr = [];
+//   for (var i=0; i<arr.length; i++) {
+//     if (i <arr.length) {
+//       var x = Math.min.apply(null, arr) //item is not being removed from array
+//       newArr.push(x);
+//     }
+//   }
+//   return newArr;
+// };
 
+// for (var i=0; i<arr.length-1; i++) {
+//   for (var j=0; j<arr.length; j++) {
+//     if (arr[i] > arr [j])
+//   }
+// }
+//   if (arr[i] > arr [i+1]) {}
 // ----------------------------------------------------------------------------
 
 // Exercise 8. Sorting a 2D array based on the length of its subarrays.
@@ -147,7 +237,18 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  // if (arr[0].length > 2) {
+  return arr.sort(function(a,b) {
+    return (a.length - b.length)
+  })
+  // }
+  // else {
+  //   arr.sort();
+  // }
+
+  //sort from greatest to least
+  //create a new array in which we reverse the array
+  //return the array
 };
 
 // ----------------------------------------------------------------------------
@@ -162,5 +263,6 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var y = arr.join();
+  var z = y.split();
 };

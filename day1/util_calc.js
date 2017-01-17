@@ -12,7 +12,7 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
+// ex. util.calc('1 2') -> Error, missing operator
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
@@ -54,5 +54,25 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if (expression.length === 0) {
+    throw "Error."
+  }
+  var plus = '+'
+  else if (plus > 1) {
+    throw "Error."
+  }
+ else {
+
+ }
+
+ if(arr[1]==="+"){
+
+ }else if(arr[1]==="-"){
+
+ }
 };
+
+// var plus = '+'
+// else if (x > 2) {
+//   throw "Error."
+// }

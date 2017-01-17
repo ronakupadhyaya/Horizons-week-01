@@ -59,7 +59,16 @@ var arrayOp = ["+", "-", "/", "*", "sqrt"];
 
 util.calc = function(expression) {
   // YOUR CODE HERE
-
+  var string = expression.split(" ");
+   if (expression.indexOf("sqrt") !== -1) {
+     var x = string.indexOf("sqrt") + 1
+     var equation = expression.replace("sqrt", "Math.sqrt(x)");
+     var equation = equation.replace("x", string[x]);
+     var string1 = equation.split(" ");
+     string1.splice(x, 1);
+     var expression = string1.join(" ");
+     return eval(expression);
+   }
   var stringArray = expression.split(" ");
   var opCounter = countOps(stringArray, arrayOp);
   var numCounter = countNums(stringArray);

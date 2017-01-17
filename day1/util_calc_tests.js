@@ -17,9 +17,9 @@ describe("Part 1: Invalid expressions throw an exception", function() {
   it("util.calc('1 + 55 -2') -> Error, too many numbers", function() {
     expect(function() { util.calc('1 + 55 -2')  }).toThrow();
   });
-  it("util.calc('29 + + 1') -> Error, too many operators", function() {
-    expect(function() { util.calc('29 + + 1')  }).toThrow();
-  });
+   it("util.calc('29 + + 1') -> Error, too many operators", function() {
+     expect(function() { util.calc('29 + + 1')  }).toThrow();
+   });
   it("util.calc('29 + 1 +') -> Error, too many operators", function() {
     expect(function() { util.calc('29 + 1 +')  }).toThrow();
   });

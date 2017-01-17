@@ -19,7 +19,8 @@ window.util = {};
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
-//
+
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -28,7 +29,10 @@ window.util = {};
 // ex. util.calc('3 + 8 + 2 + 1    ') -> 14
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
-//
+
+
+
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -54,5 +58,59 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if(expression.length===0) throw "empty expression"
+  expression = expression.split(" ");
+  var operators = ['+','-','*','/'];
+  for(var j=0; j<operators.length;j++){
+    if(expression.indexOf(operators[j])===0) throw "Error, operator at the wrong spot"
+    if(operators[j]===(expression[expression.length-1])) throw "Error, operator at the wrong spot"
+}
+
+  debugger;
+  for(var i=0; i< expression.length; i++){
+    //  var checkIfExist = operators.indexOf(expression[i])===-1;
+    //  if((checkIfExist&&(i<expression.length-1)&&(operators.indexOf(expression[i+1])===-1)) throw "Error, No operator"
+    //  if((operators.indexOf(expression[i])>0)&&(i<expression.length-1)&&(operators.indexOf(expression[i+1])>0)) throw "Error, To many operator"
+     var isNum = isNaN(expression[i]);
+     console.log(isNum);
+     if ((i%2===1)&&(!isNum)) throw "Error Doesnt matter";
+     if ((i%2===0)&&(isNum)) throw "Error Doesnt matter";
+
+  }
+
+  for(var k=0; k< expression.length; k++){
+    var indexMult = expression.indexOf('*');
+    if(indexMult>=0){
+      var value = parseFloat(expression[indexMult-1]) * parseFloat(expression[indexMult+1]);
+      expression[indexMult]= value;
+      expression.splice(indexMult-1, indexMult);
+      expression.splice(indexMult, indexMult);
+      continue;
+    }
+    var indexdiv = expression.indexOf('/');
+    if(indexdiv>=0){
+      var value = parseFloat(expression[indexdiv-1]) / parseFloat(expression[indexdiv+1]);
+      expression[indexdiv]= value;
+      expression.splice(indexdiv-1,indexdiv);
+      expression.splice(indexdiv,indexdiv);
+      continue;
+    }
+    var indexadd = expression.indexOf('+');
+    if(indexadd>=0){
+      var value = parseFloat(expression[indexadd-1]) + parseFloat(expression[indexadd+1]);
+      expression[indexadd]= value;
+      expression.splice(indexadd-1,indexadd);
+      expression.splice(indexadd,indexadd);
+      continue;
+    }
+    var indexsub = expression.indexOf('-');
+    if(indexsub>=0){
+      var value = parseFloat(expression[indexsub-1]) - parseFloat(expression[indexsub+1]);
+      expression[indexsub]= value;
+      expression.slice(indexsub-1,indexsub);
+      expression.slice(indexsub,indexsub);
+      continue;
+    }
+  }
+  return expression[0];
 };

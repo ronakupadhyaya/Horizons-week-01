@@ -110,7 +110,8 @@ learn_underscore.any = function(array, fun) {
 // creates a array of booleans
   var newArr = array.map(fun);
   //return newArr.reduce(fun);
-  return newArr.reduce(
+
+  return _.reduce(newArr,
     function(a,b){
       if (!!a || !!b){
         return true;
@@ -159,6 +160,13 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
   // YOUR CODE HERE
+  var accumulator = array[0];
+
+  for (var i = 1; i < array.length; i++){
+    accumulator = fun(accumulator, array[i]);
+  }
+
+  return accumulator;
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -176,6 +184,13 @@ learn_underscore.reduce = function(array, fun) {
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
   // YOUR CODE HERE
+  var newArr = [];
+
+  _.forEach(object, function(value, key){
+    newArr.push(key);
+  });
+  return newArr;
+
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -186,6 +201,13 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
   // YOUR CODE HERE
+
+  var newArr = [];
+
+  _.forEach(object, function(value){
+    newArr.push(value);
+  });
+  return newArr;
 }
 
 // Exercise 7: learn_underscore.pairs(object)
@@ -196,6 +218,15 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
   // YOUR CODE HERE
+
+  var newArr = [];
+
+  _.forEach(object, function(value, key){
+    var innerArr = [key,value];
+    newArr.push(innerArr);
+  });
+  return newArr;
+
 }
 
 // Example 2: groupByState(people)
@@ -283,4 +314,7 @@ learn_underscore.countLetters = function(string) {
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+  return _.mapObject(_.groupBy(array, fun), function(val){
+    return val.length;
+  });
 }

@@ -104,12 +104,15 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  function truth(a, b) {
+
+  function or(a, b) {
     if (a || b) {
       return true;
     }
+    return false;
+    // return a || b; works too
   }
-  _.reduce(array, truth);
+  return _.reduce(_.map(array, fun), or);
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)

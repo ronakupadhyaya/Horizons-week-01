@@ -153,7 +153,11 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false], and) -> false
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
-  // YOUR CODE HERE
+  var x = array[0];
+  for (var i = 1; i < array.length; i++) {
+    x = fun(x, array[i]); //returns first element and the next
+  }
+  return x;
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -170,7 +174,11 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value, key) {
+    array.push(key);
+  });
+  return array;
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -180,7 +188,11 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({}) -> []
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
-  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value, key) {
+    array.push(value);
+  });
+  return array;
 }
 
 // Exercise 7: learn_underscore.pairs(object)
@@ -190,7 +202,12 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({}) -> []
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
-  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value, key) {
+    array.push([key, value]);
+  });
+  // console.log(array);
+  return array;
 }
 
 // Example 2: groupByState(people)
@@ -271,11 +288,14 @@ learn_underscore.countLetters = function(string) {
 // http://underscorejs.org/#mapObject
 //
 // ex.
+//                5         5         4       5     2
 //  var words = ['hello', 'great', 'foot', 'class', 'hi'];
 //  function wordLength(word) {
 //    return word.length;
 //  }
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
-  // YOUR CODE HERE
+  return _.mapObject(_.groupBy(array, fun), function(word) {
+    return word.length;
+  });
 }

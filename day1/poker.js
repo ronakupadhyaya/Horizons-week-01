@@ -47,4 +47,85 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  function getSuit(card) {
+    card.substring(card.length - 1);
+  }
+
+  function getNumber(card) {
+    return card.substring(0, card.length - 1);
+  }
+
+  function getHandType(hand) {
+    //royal flush
+    //check if all the same suit
+
+    if (checkSameSuit(hand) && checkFlushCards(hand)) {
+      return 9;
+    }
+
+
+  }
+
+  //straight flush
+  return 8;
+
+  //four of a kind
+  return 7;
+
+  //full house
+  return 6;
+
+  //flush
+  return 5;
+
+  //straight
+  return 4;
+
+
+  //threeofakind
+  return 3;
+
+
+  //two pairs
+  return 2;
+
+  //one pair
+  return 1;
+
+  //high card
+  return 0;
+
+
+
+
+
+  function checkSameSuit(hand) {
+    for (var i = 0; i < hand.length; i++) {
+      for (var j = 1; j < hand.length; j++) {
+        if (hand[i] != hand[j]) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  //check if 10, J, Q, K, A are in hand
+  function checkFlushCards(hand) {
+    var cardArray = [];
+
+    for (var i = 0; i < hand.length; i++) {
+      cardArray.push(getNumber(hand[i]));
+    }
+
+    if (cardArray.includes("10") &&
+      cardArray.includes("J") &&
+      cardArray.includes("Q") &&
+      cardArray.includes("K") &&
+      cardArray.includes("A")) {
+      return true;
+    }
+  }
+
+
 }

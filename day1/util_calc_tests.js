@@ -1,27 +1,27 @@
 describe("Part 1: Invalid expressions throw an exception", function() {
   it("util.calc('') -> Error, empty expression", function() {
-    expect(function() { util.calc('')  }).toThrow();
+    expect(function() { util.calc('')  }).toThrow("Error, empty expression");
   });
-  it("util.calc('1 2') -> Error, mission operator", function() {
-    expect(function() { util.calc('1 2')  }).toThrow();
+  it("util.calc('1 2') -> Error, missing operator", function() {
+    expect(function() { util.calc('1 2')  }).toThrow("Error, missing operator");
   });
   it("util.calc('-') -> Error, no numbers", function() {
-    expect(function() { util.calc('-')  }).toThrow();
+    expect(function() { util.calc('-')  }).toThrow("Error, no numbers");
   });
   it("util.calc('1 2 +') -> Error, operator at the wrong spot", function() {
-    expect(function() { util.calc('1 2 +')  }).toThrow();
+    expect(function() { util.calc('1 2 +')  }).toThrow("Error, operator at the wrong spot");
   });
   it("util.calc('+ 1 -18') -> Error, operator at the wrong spot", function() {
-    expect(function() { util.calc('+ 1 -18')  }).toThrow();
+    expect(function() { util.calc('+ 1 -18')  }).toThrow("Error, operator at the wrong spot");
   });
   it("util.calc('1 + 55 -2') -> Error, too many numbers", function() {
-    expect(function() { util.calc('1 + 55 -2')  }).toThrow();
+    expect(function() { util.calc('1 + 55 -2')  }).toThrow("Error, too many numbers");
   });
   it("util.calc('29 + + 1') -> Error, too many operators", function() {
-    expect(function() { util.calc('29 + + 1')  }).toThrow();
+    expect(function() { util.calc('29 + + 1')  }).toThrow("Error, too many operators");
   });
   it("util.calc('29 + 1 +') -> Error, too many operators", function() {
-    expect(function() { util.calc('29 + 1 +')  }).toThrow();
+    expect(function() { util.calc('29 + 1 +')  }).toThrow("Error, too many operators");
   });
 });
 

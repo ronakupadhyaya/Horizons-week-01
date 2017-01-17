@@ -11,14 +11,14 @@ window.util = {};
 //
 // Part 1. If an invalid expression is given, throw an exception.
 //
-// ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
-// ex. util.calc('-') -> Error, no numbers
+// ex. util.calc('') -> Error, empty expression DONE
+// ex. util.calc('1 2') -> Error, mission operator DONE
+// ex. util.calc('-') -> Error, no numbers DONE
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
-// ex. util.calc('1 + 55 -2') -> Error, too many numbers
-// ex. util.calc('29 + + 1') -> Error, too many operators
-// ex. util.calc('29 + 1 +') -> Error, too many operators
+// ex. util.calc('1 + 55 -2') -> Error, too many numbers DONE
+// ex. util.calc('29 + + 1') -> Error, too many operators DONE
+// ex. util.calc('29 + 1 +') -> Error, too many operators DONE
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -55,4 +55,34 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var stringArray = expression.split(" ");
+  var opCounter = 0;
+  var numCounter = 0;
+
+  for (var i = 0; i < stringArray.length; i++) {
+    if(isOperator(stringArray[i])) {
+      opCounter++;
+      //if(stringArray[i].indexOf % 2 != 0) throw "Error, operator at the wrong spot";
+    } else if(!isNaN(stringArray[i])) {
+      numCounter++;
+    }
+
+  }
+  if(stringArray[0] === '') throw "Error, empty expression";
+  if(opCounter === 0) throw "Error, missing operator";
+  if(numCounter === 0) throw "Error, no numbers";
+  if(opCounter >= numCounter) throw "Error, too many operators";
+
+  // console.log("opCounter " + opCounter + ";" + "numCounter " + numCounter);
+  //else if(stringArray.length % 2 == 0) throw "Incorrect expression";
+
+  //return eval(expression);
 };
+
+isOperator = function(arg) {
+  var arrayOp = ["+", "-", "/", "*"];
+  for(var i = 0; i < arrayOp.length; i++) {
+    if(arrayOp[i] === arg) return true;
+  }
+  return false;
+}

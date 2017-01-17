@@ -3,13 +3,15 @@
 window.varArgs = {};
 
 // Exercise 0.A varArgs.numArgs(args...)
-// Write a function that takes any number of arguments and returns the number of arguments you gave it.
+// Write a function that takes any number of arguments and
+// returns the number of arguments you gave it.
 // This is done for you, give it a look-see.
 // ex. varArgs.numArgs(1, 5, 'a', { 'x': 13}) -> 4
 // ex. varArgs.numArgs(1, 8) -> 2
 // ex. varArgs.numArgs() -> 0
 //
-// Try to insert, pop or push another 'argument' inside the function into the list of arguements. What happens?
+// Try to insert, pop or push another 'argument' inside the function
+// into the list of arguements. What happens?
 // Hint: see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments>
 // for details about the `arguments` data structure.
 varArgs.numArgs = function() {
@@ -48,6 +50,11 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  var returnSum = 0;
+  for (var i = 0; i < arguments.length; i++) {
+    returnSum = returnSum + arguments[i];
+  }
+  return returnSum;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -59,6 +66,11 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  var product = 1;
+  for (var i = 0; i < arguments.length; i++) {
+    product *= arguments[i];
+  }
+  return product;
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -71,4 +83,6 @@ varArgs.product = function() {
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
+  var newArray = Array.prototype.slice.call(arguments, 1);
+  return newArray.join(arguments[0]);
 };

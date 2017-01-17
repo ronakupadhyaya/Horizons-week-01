@@ -69,7 +69,7 @@ util.calc = function(expression) {
   }
 
   function num() {
-    var cur = next();
+    var cur = next(); // current
     if (cur === 'sqrt') {
       return Math.sqrt(num());
     }

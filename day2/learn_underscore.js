@@ -112,7 +112,7 @@ learn_underscore.any = function(array, fun) {
     return false;
     // return a || b; works too
   }
-  return _.reduce(_.map(array, fun), or);
+  return _.reduce(_.map(array, fun), or); //map to fun() first, then reduce to boolean for any to return
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)

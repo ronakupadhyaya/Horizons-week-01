@@ -47,6 +47,17 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var ranks = [ // create an object containing
+    straightFlush,
+    fourKind,
+    fullHouse,
+    flush,
+    straight,
+    threePair,
+    twoPair,
+    pair,
+    high];
+
 
 
   for(var i = 0; i < 5; i++) {
@@ -55,7 +66,7 @@ window.rankPokerHand = function(hand1, hand2) {
 }
 
 sortFunction = function(hand1, hand2) {
-  function compareValues = (a, b) 
+  function compareValues = (a, b)
   var J = 11, Q = 12, K = 13, A = 14;
 
 }

@@ -53,22 +53,22 @@ var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
     // YOUR CODE HERE
-    Rocketship.coords.y++;
-        return Rocketship.coords;
+    this.coords.y++;
+    return this;
   },
   down: function() {
     // YOUR CODE HERE
-    Rocketship.coords.y--;
-        return Rocketship.coords;
+    this.coords.y--;
+    return this;
   },
   left: function() {
     // YOUR CODE HERE
-    Rocketship.coords.x--;
-    return Rocketship.coords;
+    this.coords.x--;
+    return this;
   },
   right: function() {
     // YOUR CODE HERE
-    Rocketship.coords['x']++;
-        return Rocketship.coords;
+    Rocketship.coords.x++;
+    return this;
   },
 };

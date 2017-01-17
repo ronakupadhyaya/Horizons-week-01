@@ -104,14 +104,6 @@ window.checkRoyalFlush = function(hand) {
 
 window.checkStraightFlush = function(hand) {
   var lastSuit = hand[0].suit;
-
-  var valueWeight = {
-    'J': 11,
-    'Q': 12,
-    'K': 13,
-    'A': 14
-  }
-
   var valuesSeen = [];
 
   for(var i=0; i<hand.length; i++) {
@@ -136,8 +128,27 @@ window.checkStraightFlush = function(hand) {
     lastConsecutiveValue = valuesSeen[i];
   }
 
-  console.log("straight flush", hand);
   return true;
+}
+
+window.checkFourOfAKind = function(hand) {
+  var valObj = {};
+
+  for(var i=0; i<hand.length; i++) {
+    if (hand[i].value in valObj) {
+      valObj[hand[i].value]++;
+    } else {
+      valObj[hand[i].value] = 1;
+    }
+  }
+
+  for (var value in valObj) {
+    if (valObj[value] === 4) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 window.rankPokerHand = function(hand1, hand2) {
@@ -151,13 +162,4 @@ window.rankPokerHand = function(hand1, hand2) {
   for(var i=0; i<hand2.length; i++) {
     hand2Arr.push(breakCardApart(hand2[i]));
   }
-
-
-  // checkRoyalFlush(hand1Arr);
-  // checkRoyalFlush(hand2Arr);
-  checkStraightFlush(hand1Arr);
-  checkStraightFlush(hand2Arr);
-
-
-
 }

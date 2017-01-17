@@ -55,4 +55,95 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+//ERRORS
+  var newExp = expression.split(' ');
+  console.log(newExp);
+  if(newExp.length % 2 === 0) {
+    throw "Even number of items";
+  }
+
+  if (expression.length===0){
+    throw "Empty expression";
+  }
+
+  for (var i = 0; i<newExp.length; i+=2){
+    if(isNaN(newExp[i])){
+      throw "NaN";
+    } else {
+      newExp[i]= parseFloat(newExp[i]);
+    }
+  }
+
+  for (var z = 1; z < newExp.length; z+=2){
+    if((newExp[z] != '+') && (newExp[z] != '-') && (newExp[z] != '*') && (newExp[z] != '/')) {
+      throw "Not an operator";
+    }
+  }
+console.log(newExp);
+
+ /*var finalExp = [];
+ for (var i = 0; i<newExp.length; i++){
+   if (i%2===0){
+     finalExp.push(parseFloat(newExp[i]));
+   } else {
+     finalExp.push(newExp[i]);
+   }
+ }
+ console.log (finalExp);*/
+//MULTIPLICATION AND DIVISION
+  /*var firstMult = newExp.indexOf("*");
+  var firstDiv = newExp.indexOf("/");
+
+  while (firstMult !== firstDiv) {
+    if (firstMult < firstDiv) {
+      var firstArray = [];
+      firstArray.push(newExp.slice(0, firstMult));
+      firstArray.push(newExp[firstMult-1]*newExp[firstMult+1]);
+      firstArray.push(newExp.slice(firstMult+1, newExp.length));
+      newExp = firstArray.slice(0); //check
+    } else if (firstDiv < firstMult) {
+      var firstArray = [];
+      firstArray.push(newExp.slice(0, firstDiv));
+      firstArray.push(newExp[firstDiv-1]*newExp[firstDiv+1]);
+      firstArray.push(newExp.slice(firstDiv+1, newExp.length));
+      newExp = firstArray.slice(0); //check
+    }
+  }*/
+
+//ADDITION AND SUBTRACTION
+  var lastOperator = "+";
+  var sum = 0;
+  sum += newExp[0];
+  for (var i = 1; i < newExp.length; i+=2) {
+    lastOperator = newExp[i];
+    switch (lastOperator) {
+      case "+": sum += newExp[i+1];
+      break;
+
+      case "-": sum -= newExp[i+1];
+      break;
+    }
+  }
+  return sum;
+
+
+  /*var firstAdd = newExp.indexOf("+");
+  var firstSub = newExp.indexOf("-");
+  while (firstAdd !== firstSub) {
+    if (firstAdd < firstSub) {
+      var firstArray = [];
+      firstArray.push(newExp.slice(0, firstAdd));
+      firstArray.push(newExp[firstAdd-1]*newExp[firstAdd+1]);
+      firstArray.push(newExp.slice(firstAdd+1, newExp.length));
+      newExp = firstArray.slice(0); //check
+    } else if (firstSub < firstAdd) {
+      var firstArray = [];
+      firstArray.push(newExp.slice(0, firstSub));
+      firstArray.push(newExp[firstSub-1]*newExp[firstSub+1]);
+      firstArray.push(newExp.slice(firstSub+1, newExp.length));
+      newExp = firstArray.slice(0); //check
+    }
+  }
+  return newExp[0];*/
 };

@@ -12,7 +12,7 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
+// ex. util.calc('1 2') -> Error, missing operator
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
@@ -55,4 +55,8 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if (expression.length === 0) {
+    throw "Error, empty expression"
+  }
+  return expression.sum; 
 };

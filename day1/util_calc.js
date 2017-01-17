@@ -54,5 +54,56 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if (expression.length === 0) throw "Error, empty expression";
+
+  var terms = expression.split(" ");
+  var termsTemp = terms.slice();
+  while (termsTemp.indexOf("sqrt") > -1) {
+    termsTemp.splice(termsTemp.indexOf("sqrt"), 1);
+  }
+  if (termsTemp.length % 2 === 0) throw "Error, not enough operators";
+  for (var i = 0; i < termsTemp.length; i++) {
+    var term = parseInt(termsTemp[i]);
+    if (i % 2 === 0) {
+      if (isNaN(term)) throw "Error, operator at the wrong spot";
+    } else {
+      if (!isNaN(term)) throw "Error, mission operator";
+    }
+  }
+
+  //after check
+  var tempVal = 1;
+  var index = 1;
+  var sqrtIndex = 0;
+  var size = terms.length;
+  for (var i = 0; i < size; i++) {
+
+    if (terms[sqrtIndex] === "sqrt") {
+      tempVal = Math.sqrt(parseFloat(terms[sqrtIndex + 1]));
+      terms.splice(sqrtIndex, 2, tempVal);
+    } else {
+      sqrtIndex++;
+    }
+
+  }
+  for (var i = 1; i < size; i += 2) {
+    if (terms[index] === "*") {
+      tempVal = parseFloat(terms[index - 1]) * parseFloat(terms[index + 1]);
+      terms.splice(index - 1, 3, tempVal);
+    } else if (terms[index] === "/") {
+      tempVal = parseFloat(terms[index - 1]) / parseFloat(terms[index + 1]);
+      terms.splice(index - 1, 3, tempVal);
+    } else {
+      index += 2;
+    }
+  }
+  while (terms.length > 1) {
+    if (terms[1] === "+") {
+      tempVal = parseFloat(terms[0]) + parseFloat(terms[2]);
+    } else if (terms[1] === "-") {
+      tempVal = parseFloat(terms[0]) - parseFloat(terms[2]);
+    }
+    terms.splice(0, 3, tempVal);
+  }
+  return parseFloat(terms[0]);
 };

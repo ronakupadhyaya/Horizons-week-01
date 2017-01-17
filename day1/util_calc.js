@@ -72,7 +72,6 @@ util.calc = function(expression) {
     //  if((checkIfExist&&(i<expression.length-1)&&(operators.indexOf(expression[i+1])===-1)) throw "Error, No operator"
     //  if((operators.indexOf(expression[i])>0)&&(i<expression.length-1)&&(operators.indexOf(expression[i+1])>0)) throw "Error, To many operator"
      var isNum = isNaN(expression[i]);
-     console.log(isNum);
      if ((i%2===1)&&(!isNum)) throw "Error Doesnt matter";
      if ((i%2===0)&&(isNum)) throw "Error Doesnt matter";
 

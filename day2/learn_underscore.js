@@ -41,7 +41,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a'], 'a') -> true
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
-  // YOUR CODE HERE
+  return _.any(array, function(x) {
+    return x === item;
+  })
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -102,7 +104,11 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  // YOUR CODE HERE
+  var newArray = _.map(array, fun);
+  function truth(a,b) {
+    return a || b ? true : false;
+  }
+  return _.reduce(newArray, truth);
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)
@@ -143,7 +149,11 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false], and) -> false
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
-  // YOUR CODE HERE
+  var accumulator = array[0]
+  for (var i=1;i<array.length;i++) {
+    accumulator = fun(accumulator, array[i])
+  }
+  return accumulator;
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -160,7 +170,14 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-  // YOUR CODE HERE
+  var array =[];
+  function returnz(x) {
+    for (x in object) {
+      array.push(x)
+    }
+  }
+  _.forEach(object, returnz)
+  return array;
 }
 
 // Exercise 6: learn_underscore.values(object)

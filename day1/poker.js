@@ -46,6 +46,9 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
+
+  var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
+
   // YOUR CODE HERE
   function getSuit(card) {
     card.substring(card.length - 1);
@@ -58,48 +61,25 @@ window.rankPokerHand = function(hand1, hand2) {
   function getHandType(hand) {
     //royal flush
     //check if all the same suit
-
-    if (checkSameSuit(hand) && checkFlushCards(hand)) {
+    if (CheckSameSuit(hand) && CheckFlushCards(hand)) {
       return 9;
-    }
+    } else if (CheckSameSuit(hand) && CheckConsecutiveValues(hand)) {
+      return 8;    //straight flush
+    } else if (Check)
+
 
 
   }
 
-  //straight flush
-  return 8;
-
-  //four of a kind
-  return 7;
-
-  //full house
-  return 6;
-
-  //flush
-  return 5;
-
-  //straight
-  return 4;
-
-
-  //threeofakind
-  return 3;
-
-
-  //two pairs
-  return 2;
-
-  //one pair
-  return 1;
-
-  //high card
-  return 0;
 
 
 
 
 
-  function checkSameSuit(hand) {
+
+
+
+  function CheckSameSuit(hand) {
     for (var i = 0; i < hand.length; i++) {
       for (var j = 1; j < hand.length; j++) {
         if (hand[i] != hand[j]) {
@@ -111,13 +91,8 @@ window.rankPokerHand = function(hand1, hand2) {
   }
 
   //check if 10, J, Q, K, A are in hand
-  function checkFlushCards(hand) {
-    var cardArray = [];
-
-    for (var i = 0; i < hand.length; i++) {
-      cardArray.push(getNumber(hand[i]));
-    }
-
+  function CheckFlushCards(hand) {
+    var cardArray = getCardArray(hand);
     if (cardArray.includes("10") &&
       cardArray.includes("J") &&
       cardArray.includes("Q") &&
@@ -125,6 +100,29 @@ window.rankPokerHand = function(hand1, hand2) {
       cardArray.includes("A")) {
       return true;
     }
+    return false;
+  }
+
+  function CheckConsecutiveValues(hand) {
+    var cardArray = getCardArray(hand);
+    cardArray.sort();
+    for (var i = 0; i < hand.length; i++) {
+
+    }
+  }
+
+  function getHigh(hand) {
+    hand.sort();
+    return hand[hand.length - 1];
+  }
+
+  function getCardArray(hand) {
+    var cardArray = [];
+
+    for (var i = 0; i < hand.length; i++) {
+      cardArray.push(getNumber(hand[i]));
+    }
+    return cardArray;
   }
 
 

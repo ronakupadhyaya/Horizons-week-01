@@ -43,15 +43,31 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
-  console.log(data);
-  var stock = {};
-  _.forEach(data, function(stock) {
-    if (_isUndefined(stock.ticker)) {
 
-    }
-  });
-  console.log(stock);
-  return gainObj;
+  // var stocktracker = {};
+  // _.sortBy(data, function(info){
+  //   return info.time;
+  // });
+  // return gainObj;
+
+  console.log(data[0]);
+
+  // for (var i = 0; i < data.length; i++) {
+  // data[i].jsTime = new Date(data[i].time);
+  // data[i].jsTime = data[i].time;
+
+  // }
+  var sorted = _.sortBy(data, "time"); // sort by date
+  console.log(sorted);
+
+  var unique = {};
+  for (var i = 0; i < data.length; i++) {
+    console.log(data[i].ticker);
+    // if (!unique[data[i].ticker]) { //if it doesn't exist
+    //   unique.data[i].ticker= data[i].ticker;
+    // }
+  }
+  console.log(unique);
 };
 
 // Exercise 2. stocks.biggestGainer(data)

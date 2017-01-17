@@ -55,22 +55,84 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+// util.calc = function(expression) {
+//
+//   // checks to see that expression contains stuff
+//   if (! expression) {
+//     //loop that finds the operator and checks to the left and to the right
+//     throw new Error ('Empty Expression');
+//   }
+//
+//   // fucntion to check that stuff are numbers
+//   // true for num; false otherwise
+//   function isNumber(n){
+//     return ! isNaN(n);
+//   }
+//   // treat the expression as an array
+//   var parts = expresions.split(' ');
+//   var opparray = ['+', '-', '/', '*'];
+//
+//
+// };
 util.calc = function(expression) {
+  var parts = expression.split(" ");
+  // ["2", "+", "3"]
 
-  // checks to see that expression contains stuff
-  if (! expression) {
-    //loop that finds the operator and checks to the left and to the right
-    throw new Error ('Empty Expression');
+ // check length of parts, bc only num are good
+  if (parts.length === 1){
+    // if not NaN
+    if (parseInt(parts[0]) !== NaN){
+      throw new Error('error');
+    }
   }
 
-  // fucntion to check that stuff are numbers
-  // true for num; false otherwise
-  function isNumber(n){
-    return ! isNaN(n);
+ // error, missing operator
+  var opArray = ["+","-","/","*","sqrt"];
+
+ for (var i = 0; i < opArray.length; i++){
+    var foundOp = false;
+    // found the thing
+    if (parts.indexOf(opArray[i]) !== -1){
+      foundOp = true;
+      break;
+    }
   }
-  // treat the expression as an array
-  var parts = expresions.split(' ');
-  var opparray = ['+', '-', '/', '*'];
+  if (!foundOp){
+    throw new Error('missing operator');
+  }
 
+ // if even args then error
+  if (parts.length%2===0){
+    throw new Error('even args');
+    // if odd args
+  } else {
 
-};
+   // odd op
+    // even num
+
+   // even stuff
+    // check that everything even is a number
+    for (var i = 0; i < parts.length; i+=2){
+      // check to see that thing is
+      if (parseInt(parts[i]) ===NaN){
+        throw new Error('even not num');
+      }
+    }
+
+   // odd stuff
+    // check that everything odd is an operator
+    for (var i=1; i < parts.length; i +=2){
+      if (parts.indexOf(opArray[i++]) !== -1){
+        throw new Error('odd not opp');
+      }
+    }
+
+   throw new Error('operator at wrong spot')
+  }
+
+ // 1 2 +
+  // + 1 -18
+
+}
+
+[12:29]

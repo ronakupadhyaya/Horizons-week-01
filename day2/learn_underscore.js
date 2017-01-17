@@ -17,7 +17,7 @@ window.learn_underscore = {};
 //    return item > 1;
 //  }
 //  _.any([], greaterThan1) -> false
-//  _.any([1], greaterThan1) -> true
+//  _.any([1], greaterThan1) -> true // ??
 //  _.any([0, 1], greaterThan1) -> true
 //  _.any([0, -1, 0, -2], greaterThan1) -> false
 //
@@ -42,6 +42,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
+  return _.any(array, function(thing) {
+    return thing === item;
+  });
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -103,6 +106,18 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
   // YOUR CODE HERE
+
+// creates a array of booleans
+  var newArr = array.map(fun);
+  //return newArr.reduce(fun);
+  return newArr.reduce(
+    function(a,b){
+      if (!!a || !!b){
+        return true;
+      }
+      return false;
+    }
+  )
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)

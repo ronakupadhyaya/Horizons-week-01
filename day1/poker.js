@@ -47,4 +47,94 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  // One Pair:
+  isOnePair = function(hand){
+    var Properties = {
+    isOnePair = false;
+    OnePairValue = '0';
+    OnePairColor = 'S';
+    HighestValue = '0'
+    HighestValueColor = 'S'}
+
+    var countSame = 0;
+    var countDif = 0;
+    for (var i = 0; i < 5; i++){
+      for (var j = i+1; j < 5; j++){
+        if (hand[i][0]===hand[j][0]){
+          countSame++;
+
+        }
+        if (hand[i][0]!=hand[j][0]){
+          countDif++;
+        }
+
+      }
+    }
+
+
+
+    if (countDif === 9 && countSame === 1){
+      Properties.OnePairValue = hand[i][0];
+      Properties.OnePairColor = hand[i][1];
+      Properties.isOnePair = true;
+      return Properties;
+    } else {
+      return false;
+    }
+  }
+
+  var dummy1 = {};
+  var dummy2 = {};
+  dummy1=isOnePair(hand1);
+  dummy2=isOnePair(hand2);
+  if (dummy1.isOnePair===true && dummy2.isOnePair === false){
+    return 1;
+  }
+  else (return 2;)
+  isThreeOfAKind = function (hand){
+    var Properties = {
+      isThreeOfAKind = true;
+      highestCard =
+      colorOfHighest =
+    }
+    var countSame = 0;
+    var countDif = 0;
+    for (var i = 0; i < 5; i++){
+      for (var j = i+1; j < 5; j++){
+        if (hand[i][0]===hand[j][0]){
+          countSame++;
+        }
+        if (hand[i][0]!=hand[j][0]){
+          countDif++;
+        }
+      }
+    }
+    if (countDif === 7 && countSame === 3){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isFourOfAKind = function(hand){
+    var countSame = 0;
+    var countDif = 0;
+    for (var i = 0; i < 5; i++){
+      for (var j = i+1; j < 5; j++){
+        if (hand[i][0]===hand[j][0]){
+          countSame++;
+        }
+        if (hand[i][0]!=hand[j][0]){
+          countDif++;
+        }
+      }
+    }
+    if (countDif === 9 && countSame === 1){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 }

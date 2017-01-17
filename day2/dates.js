@@ -10,7 +10,7 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
-  // YOUR CODE HERE
+  return new Date(dateStr);
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -23,7 +23,7 @@ dates.createDate = function(dateStr) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
-  // YOUR CODE HERE
+
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)

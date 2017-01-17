@@ -54,5 +54,13 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var firstNumber = parseInt(newArray[0])
+  for(var i = 1; i < newArray.length; i++){
+    if(newArray[i] === "*" && newArray[i+1] !== undefined){
+      firstNumber *= parseInt(newArray[i+1])
+    }
+    if(newArray[i] === "/" && newArray[i+1] !== undefined){
+      firstNumber /= parseInt(newArray[i+1])
+    }
+  }
 };

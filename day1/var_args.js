@@ -47,7 +47,9 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
+  return function(m){
+    return m = m + arguments;
+  }
 };
 
 // Exercise 2. varArgs.product(args...)

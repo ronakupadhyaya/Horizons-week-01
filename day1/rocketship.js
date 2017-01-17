@@ -48,19 +48,19 @@
  * ex. Rocketship.left().up().right().left().left() -> Rocketship.coords == {x: -2, y: 1}
  *
  */
-
+debugger;
 var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
-    // YOUR CODE HERE
+    this.y += 1;
   },
   down: function() {
-    // YOUR CODE HERE
+    this.y -= 1;
   },
   left: function() {
-    // YOUR CODE HERE
+    this.coords.x -= 2;
   },
   right: function() {
-    // YOUR CODE HERE
+    this.coords.x += 1;
   },
 };

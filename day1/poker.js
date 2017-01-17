@@ -73,6 +73,8 @@ window.breakCardApart = function(card) {
 
 }
 
+
+
 window.checkRoyalFlush = function(hand) {
 
   var valObj = {
@@ -122,13 +124,13 @@ window.checkStraightFlush = function(hand) {
 
   for (var i=1; i<valuesSeen.length; i++) {
     if (valuesSeen[i] !== lastConsecutiveValue + 1) {
-      return false;
+      return [false, ''];
     }
 
     lastConsecutiveValue = valuesSeen[i];
   }
 
-  return true;
+  return [true, valuesSeen[valuesSeen.length - 1]];
 }
 
 window.checkFourOfAKind = function(hand) {
@@ -144,12 +146,181 @@ window.checkFourOfAKind = function(hand) {
 
   for (var value in valObj) {
     if (valObj[value] === 4) {
-      return true;
+      return [true, value];
     }
   }
 
-  return false;
+  return [false, ''];
 }
+
+window.checkFullHouse = function(hand) {
+  var valObj = {};
+
+  for(var i=0; i<hand.length; i++) {
+    if (hand[i].value in valObj) {
+      valObj[hand[i].value]++;
+    } else {
+      valObj[hand[i].value] = 1;
+    }
+  }
+
+  var isPair = false;
+  var isThreeOfAKind = false;
+  var threeKindVal;
+  var twoKindVal;
+
+  for (var value in valObj) {
+    if (valObj[value] === 3) {
+      isThreeOfAKind = true;
+      threeKindVal = value;
+    }
+    if (valObj[value] === 2) {
+      isPair = true;
+      twoKindVal = value;
+    }
+  }
+
+  if (isThreeOfAKind && isPair) {
+    return [true, [twoKindVal, threeKindVal]];
+  } else {
+    return [false, ''];
+  }
+}
+
+window.checkFlush = function(hand) {
+  var lastSuit = hand[0].suit;
+
+  var valuesSeen = [];
+
+  for(var i=0; i<hand.length; i++) {
+    if(hand[i].suit != lastSuit) return [false, ''];
+
+    valuesSeen.push(hand[i].value);
+  }
+
+  valuesSeen.sort(function(a, b) {
+    return a-b;
+  });
+
+  return [true, valuesSeen[valuesSeen.length - 1]];
+}
+
+window.checkStraight = function(hand) {
+  var valuesSeen = [];
+
+  for(var i=0; i<hand.length; i++) {
+    valuesSeen.push(hand[i].value);
+  }
+
+  // sort values to check that all values are consecutive
+  valuesSeen.sort(function(a, b) {
+    return a-b;
+  });
+
+  // check for consecutive values in hand
+  var lastConsecutiveValue = valuesSeen[0];
+
+  for (var i=1; i<valuesSeen.length; i++) {
+    if (valuesSeen[i] !== lastConsecutiveValue + 1) {
+      return [false, ''];
+    }
+
+    lastConsecutiveValue = valuesSeen[i];
+  }
+
+  // console.log('straight', hand);
+  return [true, valuesSeen[valuesSeen.length - 1]];
+}
+
+window.checkThreeOfAKind = function(hand) {
+  var valObj = {};
+
+  for(var i=0; i<hand.length; i++) {
+    if (hand[i].value in valObj) {
+      valObj[hand[i].value]++;
+    } else {
+      valObj[hand[i].value] = 1;
+    }
+  }
+
+  for (var value in valObj) {
+    if (valObj[value] === 3) {
+      return [true, value];
+    }
+  }
+
+  return [false, ''];
+}
+
+window.checkTwoPairs = function(hand) {
+  var valObj = {};
+
+  for(var i=0; i<hand.length; i++) {
+    if (hand[i].value in valObj) {
+      valObj[hand[i].value]++;
+    } else {
+      valObj[hand[i].value] = 1;
+    }
+  }
+
+  var isPair1 = false;
+  var isPair2 = false;
+
+  var pairValues = [];
+
+  for (var value in valObj) {
+    if (!isPair1 && valObj[value] === 2) {
+      pairValues.push(value);
+      isPair1 = true;
+    } else if (isPair1 && valObj[value] === 2) {
+      pairValues.push(value);
+      isPair2 = true;
+    }
+  }
+
+  if (isPair1 && isPair2) {
+    console.log('two pairs', hand);
+    return [true, pairValues];
+  } else {
+    return [false, []];
+  }
+}
+
+window.checkOnePair = function(hand) {
+  var valObj = {};
+
+  for(var i=0; i<hand.length; i++) {
+    if (hand[i].value in valObj) {
+      valObj[hand[i].value]++;
+    } else {
+      valObj[hand[i].value] = 1;
+    }
+  }
+
+  for (var value in valObj) {
+    if (valObj[value] === 2) {
+      return [true, value];
+    }
+  }
+
+  return [false, value];
+}
+
+window.checkHighCard = function(hand) {
+  var valuesSeen = [];
+
+  for(var i=0; i<hand.length; i++) {
+    valuesSeen.push(hand[i].value);
+  }
+
+  // sort values to check that all values are consecutive
+  valuesSeen.sort(function(a, b) {
+    return a-b;
+  });
+
+  return [true, valuesSeen[valuesSeen.length-1]];
+}
+
 
 window.rankPokerHand = function(hand1, hand2) {
 
@@ -162,4 +333,48 @@ window.rankPokerHand = function(hand1, hand2) {
   for(var i=0; i<hand2.length; i++) {
     hand2Arr.push(breakCardApart(hand2[i]));
   }
+
+  var handCheckFunctions = [
+    checkRoyalFlush,
+    checkStraightFlush,
+    checkFourOfAKind,
+    checkFullHouse,
+    checkFlush,
+    checkStraight,
+    checkThreeOfAKind,
+    checkTwoPairs,
+    checkOnePair,
+    checkHighCard
+  ];
+
+  // hand1
+  var playerOneScore;
+  var playerOneData;
+  for (var i=0; i<handCheckFunctions.length; i++) {
+    var data = handCheckFunctions[i](hand1Arr);
+
+    if (data[0] === true) {
+      playerOneScore = i;
+    }
+  }
+
+  // hand2
+  var playerTwoScore;
+  var playerTwoData;
+  for (var i=0; i<handCheckFunctions.length; i++) {
+    var data = handCheckFunctions[i](hand1Arr);
+
+    if (data[0] === true) {
+      playerTwoScore = i;
+    }
+  }
+
+  // // check winner
+  // if (playerOneScore < playerTwoScore) {
+  //   return 1;
+  // } else if (playerOneScore > playerTwoScore) {
+  //   return 2;
+  // } else {
+  //   console.log("tie", handCheckFunctions[playerOneScore].name);
+  // }
 }

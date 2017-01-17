@@ -107,7 +107,6 @@ util.calc = function(expression) {
       }
     }
 
-
     throw new Error('operator at wrong spot')
   }
 

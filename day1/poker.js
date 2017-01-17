@@ -55,6 +55,7 @@ window.rankPokerHand = function(hand1, hand2) {
 }
 
 sortFunction = function(hand1, hand2) {
+  function compareValues = (a, b) 
   var J = 11, Q = 12, K = 13, A = 14;
-  
+
 }

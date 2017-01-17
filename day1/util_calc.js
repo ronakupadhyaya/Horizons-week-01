@@ -53,36 +53,94 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+// list of operators
+var arrayOp = ["+", "-", "/", "*", "sqrt"];
+
 util.calc = function(expression) {
   // YOUR CODE HERE
+
   var stringArray = expression.split(" ");
-  var opCounter = 0;
-  var numCounter = 0;
+  var opCounter = countOps(stringArray, arrayOp);
+  var numCounter = countNums(stringArray);
+  var opCountNoSqrt = countOps(stringArray, ["+", "-", "/", "*"]);
 
-  for (var i = 0; i < stringArray.length; i++) {
-    if(isOperator(stringArray[i])) {
-      opCounter++;
-      //if(stringArray[i].indexOf % 2 != 0) throw "Error, operator at the wrong spot";
-    } else if(!isNaN(stringArray[i])) {
-      numCounter++;
-    }
-
-  }
   if(stringArray[0] === '') throw "Error, empty expression";
+  if(arguments.length === 1 && !isNaN(arguments[0])) {
+    return arguments[0] - "0";
+  }
   if(opCounter === 0) throw "Error, missing operator";
   if(numCounter === 0) throw "Error, no numbers";
   if(opCounter >= numCounter) throw "Error, too many operators";
 
+  // console.log('stringArray: ' + stringArray);
+  // console.log('opCounter: ' + opCounter);
+  // console.log('numCounter: ' + numCounter);
+  // console.log('opCountNoSqrt: ' + opCountNoSqrt);
+
+  if(isOperator(stringArray[stringArray.length - 1], arrayOp) ||
+     isOperator(stringArray[0], ["+", "-", "/", "*"])) {
+    // checks if last elem is operator
+
+    // check if too many operators
+    if (numCounter - 1 != opCountNoSqrt) {
+      throw "Error, too many operators";
+    } else {
+      // check if operator in the wrong spot
+      throw "Error, operator at the wrong spot";
+    }
+  }
+
+  for (var i = 0; i < stringArray.length-1; i++) {
+    if (isOperator(stringArray[i], arrayOp) === isOperator(stringArray[i+1], arrayOp)) {
+      // check if too many numbers
+      if(!isOperator(stringArray[i], arrayOp)) {
+        // stringArray[i] AND stringArray[i+1] are numbers
+        if (!(numCounter - 1 != opCountNoSqrt)) {
+          throw "Error, operator at the wrong spot";
+        } else {
+          throw "Error, too many numbers";
+        }
+      }  else { // check if too many operators
+        throw "Error, too many operators";
+      }
+
+    }
+    // if(isOperator(stringArray[i])) {
+    //   opCounter++;
+    //   if(i % 2 != 0) throw "Error, operator at the wrong spot";
+    // } else if(!isNaN(stringArray[i])) {
+    //   numCounter++;
+    // }
+  }
+
   // console.log("opCounter " + opCounter + ";" + "numCounter " + numCounter);
   //else if(stringArray.length % 2 == 0) throw "Incorrect expression";
 
-  //return eval(expression);
+  return eval(expression);
 };
 
-isOperator = function(arg) {
-  var arrayOp = ["+", "-", "/", "*"];
-  for(var i = 0; i < arrayOp.length; i++) {
-    if(arrayOp[i] === arg) return true;
+isOperator = function(arg, operatorArray) {
+  for(var i = 0; i < operatorArray.length; i++) {
+    if(operatorArray[i] === arg) return true;
   }
   return false;
 }
+
+var countOps = function(arr, operatorArray) {
+  var count = 0;
+  for(var i = 0; i < arr.length; i++) {
+    if(operatorArray.indexOf(arr[i]) != -1) count++;
+  }
+  return count;
+}
+
+var countNums = function(arr) {
+  var count = 0;
+  for(var i = 0; i < arr.length; i++) {
+    if (!isNaN(arr[i])) {
+      count++;
+    }
+  }
+  return count;
+};

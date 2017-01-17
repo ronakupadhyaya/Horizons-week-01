@@ -54,5 +54,75 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var newArray = expression.split(" ");
+  if (expression.length === 0) throw "0";
+  if(isNaN(newArray[0])) throw "1"
+  if(isNaN(newArray[newArray.length - 1])) throw "2"
+  if(newArray.length > 1 &&
+    newArray.indexOf('-') === -1 &&
+    newArray.indexOf('+') === -1 &&
+    newArray.indexOf('*') === -1 &&
+    newArray.indexOf('/') === -1) {
+    throw "3"
+  }
+  for(var i = 0; i < newArray.length; i++) {
+    if(newArray[i] === newArray[i - 1]) throw "4"
+  }
+
+  for(var i = 0; i < newArray.length; i++) {
+    if(!isNaN(parseInt(newArray[i])) === !isNaN(parseInt(newArray[i - 1]))) throw "5"
+  }
+
+
+  var postMult = [];
+  for (var i = 0; i < newArray.length; i++) {
+    if(newArray[i] !== "/" &&
+      newArray[i] !== "*" &&
+      newArray[i - 1] !== "*" &&
+      newArray[i + 1] !== "*" &&
+      newArray[i - 1] !== "/" &&
+      newArray[i + 1] !== "/") {
+      postMult.push(newArray[i])
+    }
+    if(newArray[i] === "*" && newArray[i - 2] !== "*" && newArray[i - 2] !== "/" ) {
+      var mult = newArray[i - 1] * newArray[i + 1];
+      if(newArray[i + 2] === "*") {
+        postMult.push(mult * newArray[i + 3])
+      }
+      if(newArray[i + 2] === "/") {
+        postMult.push(mult / newArray[i + 3])
+      }
+      postMult.push(mult);
+    }
+    if(newArray[i] === "/" && newArray[i - 2] !== "*" && newArray[i - 2] !== "/") {
+      var divide = newArray[i - 1] / newArray[i + 1];
+      if(newArray[i + 2] === "*") {
+        postMult.push(divide * newArray[i + 3])
+      }
+      if(newArray[i + 2] === "/") {
+        postMult.push(divide / newArray[i + 3])
+      }
+      postMult.push(divide);
+    }
+  }
+  var firstNumber = parseFloat(postMult[0])
+  for (var i = 1; i < postMult.length; i++) {
+    if(postMult[i] === "+" && postMult[i + 1] !== undefined) {
+      firstNumber += parseFloat(postMult[i + 1])
+    }
+    if(postMult[i] === "-" && postMult[i + 1] !== undefined) {
+      firstNumber -= parseFloat(postMult[i + 1])
+    }
+  }
+  return firstNumber
+
+
+
+
+
+
+
+
+
+
 };

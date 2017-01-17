@@ -47,4 +47,40 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var rankings = ['high card', 'one pair', 'two pairs', 'three of a kind', 'straight', 'flush', 'full house', 'four of a kind', 'straight flush' ]
+//REPLACE FACE CARDS
+  for(var i = 0; i < hand1.length; i++){
+    hand1[i].replace('T', '10');
+    hand2[i].replace('T','10');
+    hand1[i].replace('J', '11');
+    hand2[i].replace('J','11');
+    hand1[i].replace('Q', '12');
+    hand2[i].replace('Q','12');
+    hand1[i].replace('K', '13');
+    hand2[i].replace('K','13');
+    hand1[i].replace('A', '14');
+    hand2[i].replace('A','14');
+  }
+  function flush(hand){
+    var suit = hand[0][hand[0].length-1];
+    flag = true;
+    hand.forEach(function(item){
+      if (item[item.length-1] !== suit){
+        flag = false;
+      }
+    })
+    return flag;
+  }
+  function straight(hand){
+    var flag1 = true;
+    var min = hand[0];
+    for(var j = 1; j < hand.length; j++){
+      if(hand[j] === min+1){
+        min++
+      } else{
+        flag1 = false;
+      }
+    } return flag1;
+  }
+
 }

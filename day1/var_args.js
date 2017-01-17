@@ -47,7 +47,11 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
+  var sumTotal = 0;
+  for (var i = 0; i < arguments.length; i++) {
+    sumTotal += arguments[i];
+  }
+  return sumTotal;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -58,9 +62,12 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
+var productTotal = 1;
+  for (var i = 0; i < arguments.length; i++) {
+    var productTotal = productTotal * arguments[i];
+  }
+  return productTotal;
 };
-
 // Exercise 3. varArgs.joinWith(args...)
 // Write a function that takes a delimiter as the first argument and any number of
 // strings for the rest of the arguments, and joins the distinct strings together
@@ -70,5 +77,8 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
+  var newString = '';
+  var delimiter = arguments[0];
+  newsString += aruguments[i];
+  
 };

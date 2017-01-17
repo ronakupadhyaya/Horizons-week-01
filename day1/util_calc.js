@@ -10,7 +10,9 @@ window.util = {};
 // space.
 //
 // Part 1. If an invalid expression is given, throw an exception.
-//
+ if (arguments === "") {
+   throw "Error, empty expression";
+ }
 // ex. util.calc('') -> Error, empty expression
 // ex. util.calc('1 2') -> Error, mission operator
 // ex. util.calc('-') -> Error, no numbers
@@ -54,5 +56,21 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+
+  // checks to see that expression contains stuff
+  if (! expression) {
+    //loop that finds the operator and checks to the left and to the right
+    throw new Error ('Empty Expression');
+  }
+
+  // fucntion to check that stuff are numbers
+  // true for num; false otherwise
+  function isNumber(n){
+    return ! isNaN(n);
+  }
+  // treat the expression as an array
+  var parts = expresions.split(' ');
+  var opparray = ['+', '-', '/', '*'];
+
+
 };

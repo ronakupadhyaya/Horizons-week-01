@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -20,6 +20,7 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
+  return str.replace(/^\s+|\s+$/g, '')
   // YOUR CODE HERE
 };
 
@@ -39,6 +40,10 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
+  if(sourceString.indexOf(searchString)>=0){
+    return true
+  }
+  return false
   // YOUR CODE HERE
 };
 
@@ -47,7 +52,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,6 +64,7 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
+  return parseInt(str)
   // YOUR CODE HERE
 };
 
@@ -75,6 +81,7 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
+  return arr.reverse()
   // YOUR CODE HERE
 };
 
@@ -93,12 +100,13 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
+  return JSON.stringify(a)==JSON.stringify(b)
   // YOUR CODE HERE
 };
 
 // ----------------------------------------------------------------------------
 
-// Exercise 6. Checking if an array is a palindrome (forward order is the same
+// Eexercise 6. Checking if an array is a palindrome (forward order is the same
 // as reversed order).
 
 // Write a function that takes an array a and checks if the order of its contents
@@ -110,6 +118,8 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
+
+   return JSON.stringify(arr)==JSON.stringify(arr.reverse())
   // YOUR CODE HERE
 };
 
@@ -126,10 +136,12 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
+
+return  arr.sort(function(a,b){ return a>b})
   // YOUR CODE HERE
 };
 
@@ -147,6 +159,7 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
+  return arr.sort(function(a,b) {return a.length>b.length})
   // YOUR CODE HERE
 };
 
@@ -161,6 +174,11 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([[], [''], []]) -> ['']
 // ex. builtins.flatten([]) -> []
 
+
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
-};
+  var array=[]
+for(var i=0;i<arr.length;i++) {
+  array=array.concat(arr[i])
+}
+return array
+}

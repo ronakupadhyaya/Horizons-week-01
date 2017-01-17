@@ -46,5 +46,244 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+
+  var hand1rank=0
+  var hand2rank=0
+  var handnum1 = []
+  var handnum2 = []
+  var hand1mode = []
+  var hand2mode = []
+
+  var flush1 = [];
+  var flush2 = [];
+  for(var i = 0; i<hand1.length; i++){
+    flush1.push(hand1[i].charAt(hand1[i].length-1))
+  }
+  for(var i = 0; i<hand2.length; i++){
+    flush2.push(hand2[i].charAt(hand2[i].length-1))
+  }
+
+  flush1 = getMode(flush1)
+  flush2 = getMode(flush2)
+
+  if(flush1[1] == 5) {
+    hand1rank=5
+  }
+
+  if(flush2[1] == 5 ){
+    hand2rank=5
+  }
+
+for(var i=0;i<5;i++) {
+  if(hand1[i].indexOf('A')!=-1) {
+    hand1[i]="14"
+  }
+  if(hand2[i].indexOf('A')!=-1) {
+    hand2[i]="14"
+  }
+}
+for(var i=0;i<5;i++) {
+  if(hand1[i].indexOf('K')!=-1) {
+    hand1[i]="13"
+  }
+  if(hand2[i].indexOf('K')!=-1) {
+    hand2[i]="13"
+  }
+}
+for(var m=0;m<5;m++) {
+  if(hand1[m].indexOf('Q')!=-1) {
+    hand1[m]="12"
+  }
+  if(hand2[m].indexOf('Q')!=-1) {
+    hand2[m]="12"
+  }
+}
+for(var t=0;t<5;t++) {
+  if(hand1[t].indexOf('J')!=-1) {
+    hand1[t]="11"
+  }
+  if(hand2[t].indexOf('J')!=-1) {
+    hand2[t]="11"
+  }
+}
+
+  for(var i = 0; i<hand1.length; i++){
+  handnum1.push(parseInt(hand1[i]))
+  }
+  for(var i = 0; i<hand2.length; i++){
+  handnum2.push(parseInt(hand2[i]))
+  }
+  debugger;
+  handnum1 = handnum1.sort(function(a,b){return b<a})
+  handnum2 = handnum2.sort(function(a,b){return b<a})
+  hand1mode = getMode(handnum1)
+  hand2mode = getMode(handnum2)
+  hand1rank = rankduplicate(hand1mode, handnum1)
+  hand2rank = rankduplicate(hand2mode, handnum2)
+
+
+
+  if(handnum1[4]-1===handnum1[3]&&handnum1[3]-1===handnum1[2]&&handnum1[1]-1===handnum1[0] && hand1rank < 4) {
+    hand1rank = 4
+  }else if(handnum1[4]-1===handnum1[3]&&handnum1[3]-1===handnum1[2]&&handnum1[1]-1===handnum1[0] && hand1rank == 5){
+    hand1rank = 8
+  }
+
+  if(handnum2[4]-1===handnum2[3]&&handnum2[3]-1===handnum2[2]&&handnum2[1]-1===handnum2[0] && hand2rank < 4) {
+    hand2rank=4
+  }else if(handnum2[4]-1===handnum2[3]&&handnum2[3]-1===handnum2[2]&&handnum2[1]-1===handnum2[0] && hand2rank == 5){
+    hand2rank = 8
+  }
+  if(hand1rank > hand2rank){
+    return 1;
+  }else if (hand2rank > hand1rank) {
+    return 2;
+  }else{
+    if(hand1rank===8&&hand2rank===8) {
+      if(handnum1[4]>handnum2[4]) {
+        return 1
+      } else if(handnum1[4]<handnum2[4]) {
+        return 2
+      } else {
+        return 0
+      }
+    }
+    else if(hand1rank===7&&hand2rank===7) {
+      if(hand1mode[0]>hand2mode[0]) {
+        return 1
+      } else if(hand2mode[0]>hand1mode[0]) {
+        return 2
+      } else {
+        return 0
+      }
+    }
+    else if(hand1rank===6&&hand2rank===6) {
+      if(hand1mode[0]>hand2mode[0]) {
+        return 1
+      } else if(hand2mode[0]>hand1mode[0]) {
+        return 2
+      } else {
+        return 0
+      }
+    }
+      else if(hand1rank===5&&hand2rank===5) {
+        if(handnum1[4]>handnum2[4]) {
+          return 1
+        } else if(handnum1[4]<handnum2[4]) {
+          return 2
+        } else {
+          return 0
+        }
+      }
+      else if(hand1rank===4&&hand2rank===4) {
+        if(handnum1[4]>handnum2[4]) {
+          return 1
+        } else if(handnum1[4]<handnum2[4]) {
+          return 2
+        } else {
+          return 0
+        }
+      }
+      else if(hand1rank===3&&hand2rank===3) {
+        if(hand1mode[0]>hand2mode[0]) {
+          return 1
+        } else if(hand2mode[0]>hand1mode[0]) {
+          return 2
+        } else {
+          return 0
+        }
+      }
+      else if(hand1rank===2&&hand2rank===2) {
+        if(hand1mode[0]>hand2mode[0]) {
+          return 1
+        } else if(hand2mode[0]>hand1mode[0]) {
+          return 2
+        }else if(hand2mode[0] == hand1mode[0]) {
+          if(handnum1[4]>handnum2[4]) {
+            return 1
+          } else if(handnum2[4]>handnum1[4]) {
+            return 2
+          } else{
+            return 0
+          }
+        }
+      }
+      else if(hand1rank===1&&hand2rank===1) {
+        if(hand1mode[0]>hand2mode[0]) {
+          return 1
+        } else if(hand2mode[0]>hand1mode[0]) {
+          return 2
+        }else if(hand2mode[0] == hand1mode[0]) {
+          if(handnum1[4]>handnum2[4]) {
+            return 1
+          } else if(handnum2[4]>handnum1[4]) {
+            return 2
+          } else{
+            return 0
+          }
+        }
+      }else {
+        if(handnum1[4]>handnum2[4]) {
+          return 1
+        } else if(handnum2[4]>handnum1[4]) {
+          return 2
+        } else{
+          return 0
+        }
+      }
+
+    }
+}
+
+function getMode(arr) {
+    var o = {}, maxCount = 0, maxValue, m;
+    for (var i=0, iLen=arr.length; i<iLen; i++) {
+        m = arr[i];
+        if (!o.hasOwnProperty(m)) {
+            o[m] = 0;
+        }
+        ++o[m];
+        if (o[m] > maxCount) {
+            maxCount = o[m];
+            maxValue = m;
+        }
+    }
+    return [maxValue, maxCount];
+}
+function rankduplicate(arr, array1){
+	var handrank =[]
+	var rank1 = 0
+	var placement = array1
+	var checkmorepair = []
+
+	if(arr[1] == 4){
+    return 7;
+	}else if(arr[1] == 3){
+			for(var i = placement.length - 1; i >= 0; i--) {
+		    if(parseInt(placement[i]) == arr[0]) {
+		       placement.splice(i, 1);
+		    }
+			}
+			checkmorepair = getMode(placement)
+			if(checkmorepair[1] == 2){
+			return 6
+			}else{
+			return 3
+			}
+
+	}else if (arr[1] == 2) {
+    for(var i = placement.length - 1; i >= 0; i--) {
+        if(parseInt(placement[i]) == arr[0]) {
+           placement.splice(i, 1);
+        }
+      }
+      checkmorepair = getMode(placement)
+      if(checkmorepair[1] == 2){
+      return 2
+      }else{
+      return 1;
+      }
+	}else {
+	return 0;
+	}
 }

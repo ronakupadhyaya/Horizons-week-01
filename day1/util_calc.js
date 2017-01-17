@@ -54,5 +54,87 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
+  var x = expression.split(' ')
+  var total = 0
+  var total1 =''
+  for(var i = 0; i<x.length; i++){
+    debugger;
+    if(x[i] == "sqrt"){
+      total = total + Math.sqrt(x[i+1])
+      total1 = total.toString()
+      x.splice(x.indexOf("sqrt"), 0, total1)
+      x.splice(x.indexOf("sqrt"), 2)
+      total=0
+      i=0
+    }
+  }
+
+  if ((x.length) % 2 == 0 || isNaN(parseFloat(x[0]))) {
+    throw "Statement"
+  }else if (x.length == 1) {
+    return parseFloat(x[0])
+  }
+
+
+  for(var i = 0; i<x.length; i++){
+    if(x[i] == "*"){
+    if (!isNaN(parseFloat(x[x.indexOf("*")-1])) && !isNaN(parseFloat(x[x.indexOf("*")+1]))) {
+      total = total + parseFloat(x[i-1]) * parseFloat(x[i+1])
+      total1 = total.toString()
+      x.splice(x.indexOf("*")-1, 0, total1)
+      x.splice(x.indexOf("*")-1, 3)
+      total=0
+      i=0
+    }else{
+      throw "Statement"
+    }
+    }
+    else if(x[i] == "/"){
+    if (!isNaN(parseFloat(x[x.indexOf("/")-1])) && !isNaN(parseFloat(x[x.indexOf("/")+1]))) {
+      total = total + parseFloat(x[i-1]) / parseFloat(x[i+1])
+      total1 = total.toString()
+      x.splice(x.indexOf("/")-1, 0, total1)
+      x.splice(x.indexOf("/")-1, 3)
+      total=0
+      i=0
+    }else{
+      throw "Statement"
+    }
+    }
+  }
+
+  for(var i = 0; i<x.length; i++){
+    if(x[i]=="NaN"){
+      return parseFloat(x[i])
+    }
+    if(x[i] == "+"){
+    if (!isNaN(parseFloat(x[x.indexOf("+")-1])) && !isNaN(parseFloat(x[x.indexOf("+")+1]))) {
+      total = total + parseFloat(x[i-1]) + parseFloat(x[i+1])
+      total1 = total.toString()
+      x.splice(x.indexOf("+")-1, 0, total1)
+      x.splice(x.indexOf("+")-1, 3)
+      total=0
+      i=0
+    }else{
+      throw "Statement"
+    }
+    }
+
+    if(x[i] == "-"){
+    if (!isNaN(parseFloat(x[x.indexOf("-")-1])) && !isNaN(parseFloat(x[x.indexOf("-")+1]))) {
+      total = total + parseFloat(x[i-1]) - parseFloat(x[i+1])
+      total1 = total.toString()
+      x.splice(x.indexOf("-")-1, 0, total1)
+      x.splice(x.indexOf("-")-1, 3)
+      total=0
+      i=0
+    }else{
+      throw "Statement"
+    }
+    }
+  }
+
+
+  return parseFloat(x[0])
   // YOUR CODE HERE
 };

@@ -39,10 +39,9 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
   if(dateObj.getDay() === otherDateObj.getDay()){
     return true;
-  } else{
-    return false;
   }
-};
+  return false;
+  };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
 // Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same time of day (both at 3:03 AM, etc.), false otherwise
@@ -67,7 +66,8 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   // YOUR CODE HERE
-  if()
+  var curDate = new Date();
+  return curDate < dateObj;
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -78,4 +78,7 @@ dates.isTheFuture = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
+  dateObj.setDate(dateObj.getDate() + 1);
+  console.log(dateObj.getDate());
+  return dateObj;
 };

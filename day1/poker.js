@@ -45,6 +45,101 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+window.isFlush = function(hand) {
+  var first = hand[0];
+  var suit = first[1];
+  for (var i = 1; i < hand.length; i++) {
+    var next = hand[i];
+    if (next[1] !== suit) {
+      return false;
+    }
+  }
+  return true;
+}
+
+window.isRoyalFlush = function (hand) {
+
+  var ten = 0;
+  var j = 0;
+  var q = 0;
+  var k = 0;
+  var a = 0;
+
+  for (var i = 0; i < hand.length; i++) {
+    var number = null;
+    var suit = null;
+    console.log(hand[i][0]);
+    if (hand[i][0] === '1') {
+      number = hand[i].substring(0,2);
+      suit = hand[i][2];
+    } else {
+      number = hand[i][0];
+      suit = hand[i][1];
+    }
+    if (number === '10') {
+      ten++;
+    } else if (number === 'J') {
+      j++;
+    } else if (number === 'Q') {
+      q++;
+    } else if (number === 'K') {
+      k++;
+    } else if (number === 'A') {
+      a++;
+    }
+  }
+  return ten === 1 && j === 1 && q === 1 && k === 1 && a === 1;
+}
+
+window.isStraightFlush = function (hand) {
+  if (!windows.isFlush(hand)) {
+    return false;
+  }
+  hand.sort();
+  var save = 0;
+  for (var i = 0; i < hand.length; i++) {
+    var number = null;
+    var suit = null;
+    if (hand[i][0] === '1') {
+
+      number = parseInt(hand[i].substring(0,2));
+      save = number;
+      suit = hand[i][2];
+    } else {
+      number = parseInt(hand[i][0]);
+      save = number;
+      suit = hand[i][1];
+    }
+
+    if (number - save != 1) {
+      return false;
+    }
+  }
+}
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+
+  for (var j = 0; j < hand1.length; j++) {
+    if (hand[i][0] === 'J') {
+      hand[i] = '11' + hand[i][1];
+    } else if (hand[i][0] === 'Q') {
+      hand[i] = '12' + hand[i][1];
+    } else if (hand[i][0] === 'K') {
+      hand[i] = '13' + hand[i][1];
+    }
+  }
+
+  for (var i = 0; i < hand1.length; i++) {
+    var number = null;
+    var suit = null;
+    if (hand[i][0] === '1') {
+      number = hand[i].substring(0,2);
+      suit = hand[i][2];
+    } else {
+      number = hand[i][0];
+      suit = hand[i][1];
+    }
+  }
+  window.isRoyalFlush(hand1);
 }

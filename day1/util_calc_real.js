@@ -60,13 +60,8 @@ util.calc = function(expression) {
 
   if (expression.length === 0) {
     throw "empty";
-  }
-  if (keep.length === 1) {
-    if (operators.includes(arr[0]) || arr[0] === 'sqrt') {
-      throw "first is not number";
-    } else {
-      return parseFloat(keep[0]);
-    }
+  } else if (arr.length === 1) {
+    throw "bad";
   }
   while (arr.length > 1) {
     var first = arr.shift();
@@ -91,67 +86,20 @@ util.calc = function(expression) {
 
 //now that the array is correctly formatted
   var temp = null;
-
-  for (var k = 0; k < keep.length; k++) {
-    console.log("HI");
-    if (keep[k] === 'sqrt') {
-      temp = Math.sqrt(keep[k+1]);
-      keep[k] = temp;
-      keep.splice(k+1, 1);
-      i = 0;
-      console.log(keep);
-    }
-  }
-  temp = null;
-
-  for (var i = 0; i < keep.length; i++) {
-    console.log("HI");
-    if (keep[i] === '*') {
-      temp = parseFloat(keep[i-1]) * parseFloat(keep[i+1]);
-      keep[i-1] = temp;
-      keep.splice(i, 2);
-      i = 0;
-      console.log(keep);
-    } else if (keep[i] === '/') {
-      temp = parseFloat(keep[i-1]) / parseFloat(keep[i+1]);
-      keep[i-1] = temp;
-      keep.splice(i, 2);
-      i = 0;
-      console.log(keep);
-    }
-  }
-  temp = null;
-
-  for (var j = 0; j < keep.length; j++) {
-    if (keep[j] === '+') {
-      temp = parseFloat(keep[j-1]) + parseFloat(keep[j+1]);
-      keep[j-1] = temp;
-      keep.splice(j, 2);
-      j = 0;
-      console.log(keep);
-    } else if (keep[j] === '-') {
-      temp = parseFloat(keep[j-1]) - parseFloat(keep[j+1]);
-      keep[j-1] = temp;
-      keep.splice(j, 2);
-      j = 0;
-      console.log(keep);
-    }
-  }
 /*
   while (keep.length > 1) {
     if (temp === null) {
-      first = parseFloat(keep.shift());
+      first = arr.pop();
       temp = first;
     }
-    symbol = keep.shift();
-    second = keep.shift();
+    symbol = arr.pop();
+    second = arr.pop();
     if (symbol === '+') {
-      temp = temp + parseFloat(second);
+      temp = temp + parseInt(second);
     } else if (symbol === '-') {
-      temp = temp - parseFloat(second);
+      temp = temp - parseInt(second);
     }
   }
 */
-  console.log(keep);
-  return keep[0];
+  return temp;
 };

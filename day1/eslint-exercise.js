@@ -1,5 +1,6 @@
 /**
- * This document has common linting errors that you may come across. Your job is to go through the document
+ * This document has common linting errors that you may come across.
+ // Your job is to go through the document
  * and fix them.
 **/
 

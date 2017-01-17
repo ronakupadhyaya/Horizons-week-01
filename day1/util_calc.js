@@ -54,5 +54,45 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var string = expression.split(" ");
+  if (expression.indexOf("sqrt") !== -1) {
+    var x = string.indexOf("sqrt") + 1
+    var equation = expression.replace("sqrt", "Math.sqrt(x)");
+    var equation = equation.replace("x", string[x]);
+    var string1 = equation.split(" ");
+    string1.splice(x, 1);
+    var expression = string1.join(" ");
+  }
+  var string = expression.split(" ");
+  var operators = ["+", "-", "*", "/"];
+  var opCounter = 0;
+  var numCounter = 0;
+  if (expression === '') {
+    throw "Error, empty expression";
+  }
+  for (var i = 0; i <string.length; i++) {
+    if(operators.includes(string[i])) {
+      opCounter += 1;
+    } else {
+      numCounter +=1;
+    }
+  }
+  if (numCounter > 1 && opCounter === 0) {
+    throw "Error, missing operator";
+  }
+  if (numCounter === 0) {
+    throw "Error, no numbers";
+  }
+  if (numCounter > opCounter + 1) {
+    throw "Error, too many numbers";
+  }
+  if (opCounter >= numCounter) {
+    throw "Error, too many operators";
+  }
+  for (var i = 0; i < string.length; i += 2) {
+    if (operators.includes(string[i])) {
+      throw "Error, operator at the wrong spot";
+    }
+  }
+  return eval(expression);
 };

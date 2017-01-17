@@ -41,13 +41,6 @@ builtins.trim = function(str) {
 
 };
 
-// loop
-// find char
-// get charIndex
-// so we know where the word starts!
-// splice beginning to word starts
-
-
 // ----------------------------------------------------------------------------
 
 // Exercise 2. contains() using indexOf()
@@ -63,10 +56,16 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', '') -> true
 // ex. builtins.search('Horizons', 'h') -> false
 
+// SKIP
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
-};
+  var a = sourceString.indexOf(searchString);
+  if (a < 0) {
+    return false;
+  } else {
+    return true;
+  };
 
+}
 // ----------------------------------------------------------------------------
 
 // Exercise 3. Parsing the first number of a string
@@ -85,6 +84,12 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+
+  // convert str to array
+  var newStr = str.split('');
+  // convert n from str to number
+  return parseInt(newStr[0]);
+
 };
 
 // ----------------------------------------------------------------------------
@@ -101,6 +106,15 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+
+  // new array to hold stuff
+  var newArr = [];
+
+  // so long as arr has stuff, push into newArr the thing you popped
+  while (arr.length > 0){
+    newArr.push(arr.pop());
+  }
+  return newArr;
 };
 
 // ----------------------------------------------------------------------------
@@ -119,6 +133,19 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+
+  // check length
+  if (a.length !== b.length){
+    return false;
+  }
+
+  // loop through
+  for (var i = 0; i < a.length; i ++){
+    if (a[i]!==b[i]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -135,7 +162,12 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+
+// if first and last are diff, false
+  if (arr[0]!==arr[arr.length-1]){
+    return false;
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -156,6 +188,10 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  var sorted = arr.sort(function(a,b){
+    return a-b;
+  });
+  return sorted;
 };
 
 // ----------------------------------------------------------------------------
@@ -173,6 +209,10 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  var sorted = arr.sort(function(a,b){
+    return a.length - b.length;
+  });
+  return sorted;
 };
 
 // ----------------------------------------------------------------------------

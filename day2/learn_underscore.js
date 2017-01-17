@@ -42,6 +42,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
+  return _.any(array, function(element) {
+    return element === item;
+  });
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -102,7 +105,17 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  // YOUR CODE HERE
+  // YOUR CODE HERE\\
+  var isTruthy = function(value){
+    return !!value;
+  };
+
+  var mappedArr = _.map(array, fun);
+  console.log(mappedArr);
+  return _.reduce(mappedArr, function(accum, item){
+    return accum || !!item;
+  });
+
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)

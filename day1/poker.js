@@ -47,7 +47,7 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
 
-  var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
+  var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
 
   // YOUR CODE HERE
   function getSuit(card) {
@@ -58,16 +58,63 @@ window.rankPokerHand = function(hand1, hand2) {
     return card.substring(0, card.length - 1);
   }
 
+  var type1 = getHandType(hand1);
+  var type2 = getHandtype(hand2);
+
+  if (type1 > type2) {
+    return 1;
+  } else if (type2 > type1) {
+    return 2;
+  } else {
+    // do same checking here
+  }
+
   function getHandType(hand) {
     //royal flush
     //check if all the same suit
     if (CheckSameSuit(hand) && CheckFlushCards(hand)) {
       return 9;
     } else if (CheckSameSuit(hand) && CheckConsecutiveValues(hand)) {
-      return 8;    //straight flush
-    } else if (Check)
+      return 8; //straight flush
+    } else if (CheckSame(4, hand)) {
+      return 7;
+    } else if (CheckSame(3, hand)) {
+      //Full house
+      var element = CheckSame(3, hand);
+      var tempHand = remove(element, hand);
+      if (CheckSame(2, tempHand)) {
+        return 6; //if also 2 pair after removing the same 3
+      }
+    } else if (CheckSameSuit(hand)) {
+      //Flush
+      return 5;
+    } else if (CheckConsecutiveValues(hand)) {
+      //Straight
+      return 4;
+
+    } else if (CheckSame(3, hand)) {
+      //Three of a Kind
+      return 3;
+    } else if (CheckSame(2, hand)) {
+      //Two pair
+
+      return 2; //if two pairs after removal of the first pair
+      //if only one pair, do nothing
+
+    } else if (CheckSame(2, hand)) {
+      return 1;
+    } else {
+      return 0; //high card
+    }
 
 
+    function remove(array, item){
+      for (var i=0; i<array.length; i++){
+        if (array[i] = item){
+          array.splice(i, 1);
+        }
+      }
+    }
 
   }
 
@@ -76,8 +123,35 @@ window.rankPokerHand = function(hand1, hand2) {
 
 
 
+  function CheckSame(n, hand) { //takes an int and the hand
+    // returns element if true, false if not
+    var result = popular(hand.sort());
+    if (result[1] === n){
+      return result[0];
+    } else {
+      return false;
+    }
+
+    function popular(array) {
+      if (array.length == 0) return [null, 0];
+      var n = max = 1,
+        maxNum = array[0],
+        pv, cv;
+
+      for (var i = 0; i < array.length; i++, pv = array[i - 1], cv = array[i]) {
+        if (pv == cv) {
+          if (++n >= max) {
+            max = n;
+            maxNum = cv;
+          }
+        } else n = 1;
+      }
+
+      return [maxNum, max];
+    }
 
 
+  }
 
   function CheckSameSuit(hand) {
     for (var i = 0; i < hand.length; i++) {
@@ -105,10 +179,14 @@ window.rankPokerHand = function(hand1, hand2) {
 
   function CheckConsecutiveValues(hand) {
     var cardArray = getCardArray(hand);
-    cardArray.sort();
-    for (var i = 0; i < hand.length; i++) {
-
+    cardArray.sort(); //TODO: need to sort according to the cards[] 
+    var index = cards.indexOf(hand[0]);
+    for (var i = 0; i < cardArray.length; i++) {
+      if (cardArray[i] != cards[index+i]){
+        return false;
+      }
     }
+    return true;
   }
 
   function getHigh(hand) {
@@ -116,7 +194,7 @@ window.rankPokerHand = function(hand1, hand2) {
     return hand[hand.length - 1];
   }
 
-  function getCardArray(hand) {
+  function getCardArray(hand) { //disregards suits
     var cardArray = [];
 
     for (var i = 0; i < hand.length; i++) {

@@ -59,8 +59,12 @@ util.calc = function(expression) {
   var operatorCount = 0;
   var numberCount = 0;
 
+
   // check for empty expression
-  if (expressionArr.length < 3) throw 'Error, insufficient expression';
+  if (expression.length === 0) throw 'Error, insufficient expression';
+
+  // check for invalid expression of 2 items
+  if (expressionArr.length === 2) throw 'Error, insufficient expression';
 
   // verify that beginning and ending elements are not operands
   if (isNaN(expressionArr[0]) || isNaN(expressionArr[expressionArr.length-1]))
@@ -97,6 +101,57 @@ util.calc = function(expression) {
 
   // verify valid number of operators
   if (operatorCount !== numberCount - 1) throw 'Error, invalid';
+
+  /////////////////Begin expression evaluation //////////////////
+
+  //Each element of expressionArr is a valid number or operator
+
+  // For a single element and no operator
+  if(expressionArr.length === 1) return parseInt(expressionArr[0]);
+
+  // first pass where multiplication and division is executed
+  for (var i=0; i < expressionArr.length; i++) {
+    console.log(expressionArr, expressionArr.length, expressionArr[i]);
+    if (expressionArr[i] === '*') {
+      newVal = parseFloat(expressionArr[i-1]) * parseFloat(expressionArr[i+1]);
+      expressionArr.splice(i-1, 3, newVal);
+      i--;
+    } else if (expressionArr[i] === '/') {
+      newVal = parseFloat(expressionArr[i-1]) / parseFloat(expressionArr[i+1]);
+      expressionArr.splice(i-1, 3, newVal);
+      i--;
+    }
+  }
+
+  console.log(expressionArr, expressionArr.length);
+
+  // For an indefinite number of numbers
+  var masterTotal = 0; // for addition and subtraction
+  var lastOperator = '+'; // initialize the last operator
+  for(var i =0; i < expressionArr.length; i++) {
+
+    // the item is an operator
+    if(operators.includes(expressionArr[i])) {
+      lastOperator = expressionArr[i];
+    } else {
+      switch(lastOperator) {
+      case '+':
+        var num = parseFloat(expressionArr[i]);
+        masterTotal += num;
+        break;
+      case '-':
+        var num = parseFloat(expressionArr[i]);
+        masterTotal -= num;
+        break;
+
+      }
+
+    }
+
+  }
+
+  return masterTotal;
+
 
 
 };

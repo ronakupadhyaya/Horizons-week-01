@@ -54,5 +54,108 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var expressionArr = expression.split(' ');
+  var operators = ['+', '-', '*', '/'];
+  var operatorCount = 0;
+  var numberCount = 0;
+
+
+  // check for empty expression
+  if (expression.length === 0) throw 'Error, insufficient expression';
+
+  // verify that beginning and ending elements are not operands
+  if (operators.includes(expressionArr[0]) ||
+      operators.includes(expressionArr[expressionArr.length-1]))
+    throw 'Error, operator at the wrong spot';
+
+  for (var i=0; i<expressionArr.length; i++) {
+    // verify there is no garbage items in string
+    if (expressionArr[i] != 'sqrt' && isNaN(expressionArr[i])
+      && operators.includes(expressionArr[i]) === false) {
+      throw 'Invalid input';
+    }
+
+    // verify there are no consecutive operators
+    if (operators.includes(expressionArr[i])) {
+      if (i+1 < expressionArr.length
+        && operators.includes(expressionArr[i+1])) {
+        throw 'Error, too many operators';
+      }
+
+      // valid operator
+      operatorCount++;
+    }
+
+    // verify there are no consecutive numbers
+    if (isNaN(expressionArr[i]) == false) {
+      if (i+1 < expressionArr.length
+        && isNaN(expressionArr[i+1]) === false) {
+        throw 'Error, missing operator';
+      }
+
+      numberCount++;
+    }
+  }
+
+  // verify valid number of operators
+  if (operatorCount !== numberCount - 1) throw 'Error, invalid';
+
+  /////////////////Begin expression evaluation //////////////////
+
+  //Each element of expressionArr is a valid number or operator
+
+  // For a single element and no operator
+  if(expressionArr.length === 1) return parseInt(expressionArr[0]);
+
+  // first pass to compute square root
+  for (var i=0; i< expressionArr.length; i++) {
+    console.log(expressionArr);
+    if (expressionArr[i] === 'sqrt') {
+      newVal = Math.sqrt(parseFloat(expressionArr[i+1]));
+      expressionArr.splice(i, 2, newVal);
+    }
+  }
+
+  // second pass where multiplication and division is executed
+  for (var i=0; i < expressionArr.length; i++) {
+    if (expressionArr[i] === '*') {
+      newVal = parseFloat(expressionArr[i-1]) * parseFloat(expressionArr[i+1]);
+      expressionArr.splice(i-1, 3, newVal);
+      i--;
+    } else if (expressionArr[i] === '/') {
+      newVal = parseFloat(expressionArr[i-1]) / parseFloat(expressionArr[i+1]);
+      expressionArr.splice(i-1, 3, newVal);
+      i--;
+    }
+  }
+
+  // For an indefinite number of numbers
+  var masterTotal = 0; // for addition and subtraction
+  var lastOperator = '+'; // initialize the last operator
+  for(var i =0; i < expressionArr.length; i++) {
+
+    // the item is an operator
+    if(operators.includes(expressionArr[i])) {
+      lastOperator = expressionArr[i];
+    } else {
+      switch(lastOperator) {
+      case '+':
+        var num = parseFloat(expressionArr[i]);
+        masterTotal += num;
+        break;
+      case '-':
+        var num = parseFloat(expressionArr[i]);
+        masterTotal -= num;
+        break;
+
+      }
+
+    }
+
+  }
+
+  return masterTotal;
+
+
+
 };

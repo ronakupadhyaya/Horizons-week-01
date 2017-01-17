@@ -59,6 +59,7 @@ util.calc = function(expression) {
   var operators = 0;
   var returnValue = 0;
   var addition = true;
+  var multiArray = [];
   for (var i=0; i<num.length; i++) {
     if (isNaN(num[i])) {
       operators++
@@ -69,8 +70,8 @@ util.calc = function(expression) {
   if (numbers !== operators+1) {
     throw 'Error: Too many numbers/operators'
   }
-  if (isNaN(parseInt(num[0])) ||
-      isNaN(parseInt(num[num.length - 1]))) {
+  if (isNaN(parseFloat(num[0])) ||
+      isNaN(parseFloat(num[num.length - 1]))) {
     throw 'Error: Wrong Spot';
   }
   if (num.indexOf('+') === -1 &&
@@ -81,26 +82,58 @@ util.calc = function(expression) {
     throw 'Error: No operators';
   }
 
-  if (!isNaN(num[0]) && num.length === 1) {
-    return parseInt(num[0]);
+  for (var c=0;c<num.length;c++) {
+    if(!isNaN(num[c])) {
+      multiArray.push(parseFloat(num[c]))
+    } else {
+      multiArray.push(num[c])
+    }
   }
-  for (var a=0;a<num.length;a++) {
-    if(!isNaN(num[a])) {
+
+  for (var b=0;b<multiArray.length;b++) {
+    if(multiArray[b] === '/') {
+      multiArray[b-1] = multiArray[b-1] / multiArray[b+1];
+      multiArray.splice(b,2)
+      b=0
+      console.log(multiArray)
+      continue;
+    }
+    if(multiArray[b] === '*') {
+      multiArray[b-1] = multiArray[b-1]*multiArray[b+1];
+      multiArray.splice(b,2)
+      b=0
+      console.log(multiArray)
+    }
+  }
+
+/*addition/subtraction*/
+  if (!isNaN(multiArray[0]) && multiArray.length === 1) {
+    return parseFloat(multiArray[0]);
+  }
+  for (var a=0;a<multiArray.length;a++) {
+    if(!isNaN(multiArray[a])) {
       if(addition) {
-        returnValue += parseInt(num[a]);
+        if(isNaN(multiArray[a])) {
+          return multiArray[a]
+        }
+        returnValue += parseFloat(multiArray[a]);
       }
       else {
-        returnValue -= parseInt(num[a]);
+        returnValue -= parseFloat(multiArray[a]);
       }
     }
-    if(num[a] === '+') {
+    if(multiArray[a] === '+') {
       addition = true;
+      if(isNaN(multiArray[a-1])) {
+        return multiArray[a-1]
+      }
     }
-    else if(num[a] === '-') {
+    else if(multiArray[a] === '-') {
       addition = false;
+      if(isNaN(multiArray[a-1])) {
+        return multiArray[a-1]
+      }
     }
   }
   return returnValue;
-
-
 };

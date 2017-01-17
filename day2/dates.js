@@ -3,14 +3,22 @@
 window.dates = {};
 
 // Exercise 1. dates.createDate(dateStr)
-// Write a function that takes a properly-formatted date string and returns a JS Date Object from a properly formatted date string.
-// ex. dates.createDate('May 17, 2016 9:00:00') -> Date(2016, 4, 17, 9, 0, 0, 0)
-// ex. dates.createDate('2015-03-25') -> Date('2015-03-25')
-// ex. dates.createDate('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00')
+// Write a function that takes a properly-formatted date string and returns a
+// JS Date Object from a properly formatted date string.
+// ex. dates.createDate('May 17, 2016 9:00:00') ->
+// Date(2016, 4, 17, 9, 0, 0, 0)
+// ex. dates.createDate('2015-03-25') ->
+// Date('2015-03-25')
+// ex. dates.createDate('2015-03-25T12:00:00') ->
+// Date('2015-03-25T12:00:00')
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
   // YOUR CODE HERE
+
+  // hint
+  // new Date(year, month, day, hours, minutes, seconds, milliseconds)
+  return new Date(dateStr);
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -24,10 +32,12 @@ dates.createDate = function(dateStr) {
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
   // YOUR CODE HERE
+  return dateObj.toUTCString();
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
-// Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same day of the week (both on Tuesdays, etc.), false otherwise
+// Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same day
+// of the week (both on Tuesdays, etc.), false otherwise
 // ex. dates.isSameDayOfWeek(new Date('2015-03-25'), new Date('2015-03-25')) -> true
 // ex. dates.isSameDayOfWeek(new Date('2015-03-25'), new Date('2015-10-25')) -> true
 // ex. dates.isSameDayOfWeek(new Date('2015-03-25'), new Date('2015-04-25')) -> false
@@ -35,6 +45,10 @@ dates.getUTCString = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  if (dateObj === otherDateObj){
+    return true;
+  }
+  return false;
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)

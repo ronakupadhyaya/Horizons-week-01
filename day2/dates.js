@@ -45,14 +45,15 @@ dates.getUTCString = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
-  if (dateObj === otherDateObj){
+  if (dateObj.getDay() === otherDateObj.getDay()){
     return true;
   }
   return false;
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
-// Write a function that takes two Date Objects as arguments and returns true if both dates occur on the same time of day (both at 3:03 AM, etc.), false otherwise
+// Write a function that takes two Date Objects as arguments and returns true if both dates occur on the
+// same time of day (both at 3:03 AM, etc.), false otherwise
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25 02:00:00'), new Date('2015-03-25 02:00:00')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25'), new Date('2015-10-25')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00')) -> false
@@ -62,14 +63,24 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  if (dateObj.getHours() === otherDateObj.getHours()){
+    return true;
+  }
+  return false;
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
-// Write a function that takes a Date object as an argument and returns true if it specifies a date in the future or false if it is a time that has already passed
+// Write a function that takes a Date object as an argument and returns true if it specifies a date
+// in the future or false if it is a time that has already passed
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   // YOUR CODE HERE
+  var current = new Date();
+  if (dateObj > current){
+    return true;
+  }
+  return false;
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -80,4 +91,10 @@ dates.isTheFuture = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
+
+  // get the day
+  var newDate = dateObj.getDate() +1;
+  // increment
+  return new Date(dateObj.setDate(newDate));
+
 };

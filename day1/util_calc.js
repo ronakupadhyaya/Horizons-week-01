@@ -63,16 +63,14 @@ util.calc = function(expression) {
   // check for empty expression
   if (expression.length === 0) throw 'Error, insufficient expression';
 
-  // check for invalid expression of 2 items
-  if (expressionArr.length === 2) throw 'Error, insufficient expression';
-
   // verify that beginning and ending elements are not operands
-  if (isNaN(expressionArr[0]) || isNaN(expressionArr[expressionArr.length-1]))
+  if (operators.includes(expressionArr[0]) ||
+      operators.includes(expressionArr[expressionArr.length-1]))
     throw 'Error, operator at the wrong spot';
 
   for (var i=0; i<expressionArr.length; i++) {
     // verify there is no garbage items in string
-    if (isNaN(expressionArr[i])
+    if (expressionArr[i] != 'sqrt' && isNaN(expressionArr[i])
       && operators.includes(expressionArr[i]) === false) {
       throw 'Invalid input';
     }
@@ -109,9 +107,17 @@ util.calc = function(expression) {
   // For a single element and no operator
   if(expressionArr.length === 1) return parseInt(expressionArr[0]);
 
-  // first pass where multiplication and division is executed
+  // first pass to compute square root
+  for (var i=0; i< expressionArr.length; i++) {
+    console.log(expressionArr);
+    if (expressionArr[i] === 'sqrt') {
+      newVal = Math.sqrt(parseFloat(expressionArr[i+1]));
+      expressionArr.splice(i, 2, newVal);
+    }
+  }
+
+  // second pass where multiplication and division is executed
   for (var i=0; i < expressionArr.length; i++) {
-    console.log(expressionArr, expressionArr.length, expressionArr[i]);
     if (expressionArr[i] === '*') {
       newVal = parseFloat(expressionArr[i-1]) * parseFloat(expressionArr[i+1]);
       expressionArr.splice(i-1, 3, newVal);
@@ -122,8 +128,6 @@ util.calc = function(expression) {
       i--;
     }
   }
-
-  console.log(expressionArr, expressionArr.length);
 
   // For an indefinite number of numbers
   var masterTotal = 0; // for addition and subtraction

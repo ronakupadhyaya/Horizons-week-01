@@ -101,10 +101,19 @@ grades.majorWithHighestGPA = function(data) {
     return value[0] / value[1]; //GPA
   });
 
-  return _.findKey(majors, function(major){
-    return major === _.max(majors);
-  });
+  var majorArray = Object.keys(majors); //["Economics", "Art History", "Film Studies", "Computer Science"]
+  // console.log(majorArray);
 
+  var highestMajor = majorArray[0];
+  var highestGPA = majors[majorArray[0]];
+
+  for (var i = 1; i < majorArray.length; i++) {
+    if (majors[majorArray[i]] > highestGPA) {
+      highestGPA = majors[majorArray[i]];
+      highestMajor = majorArray[i];
+    }
+  }
+  return highestMajor;
 }
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -113,12 +122,16 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // console.log(data);
-  var class1 = 0, class2 = 0;
+  var class1 = 0,
+    class2 = 0;
 
   _.forEach(data, function(student) {
     class1 += student.grades.class1;
     class2 += student.grades.class2;
   })
-  return {"class1" : class1/data.length, "class2" : class2/data.length}
+  return {
+    "class1": class1 / data.length,
+    "class2": class2 / data.length
+  }
 
 };

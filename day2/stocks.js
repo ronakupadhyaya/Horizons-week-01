@@ -43,6 +43,15 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  console.log(data);
+  var stock = {};
+  _.forEach(data, function(stock) {
+    if (_isUndefined(stock.ticker)) {
+
+    }
+  });
+  console.log(stock);
+  return gainObj;
 };
 
 // Exercise 2. stocks.biggestGainer(data)

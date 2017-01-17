@@ -88,20 +88,20 @@ window.rankPokerHand = function(hand1, hand2) {
     } else if (CheckSameSuit(hand)) {
       //Flush
       return 5;
-    } else if (CheckConsecutiveValues(hand)) {
+    } else if (CheckConsecutiveValues(getCardArray(hand))) {
       //Straight
       return 4;
 
-    } else if (CheckSame(3, hand)) {
+    } else if (CheckSame(3, getCardArray(hand))) {
       //Three of a Kind
       return 3;
-    } else if (CheckSame(2, hand)) {
+    } else if (CheckSame(2, getCardArray(hand))) {
       //Two pair
 
       return 2; //if two pairs after removal of the first pair
       //if only one pair, do nothing
 
-    } else if (CheckSame(2, hand)) {
+    } else if (CheckSame(2, getCardArray(hand))) {
       return 1;
     } else {
       return 0; //high card
@@ -179,7 +179,7 @@ window.rankPokerHand = function(hand1, hand2) {
 
   function CheckConsecutiveValues(hand) {
     var cardArray = getCardArray(hand);
-    cardArray.sort(); //TODO: need to sort according to the cards[] 
+    cardArray.sort(); //TODO: need to sort according to the cards[]
     var index = cards.indexOf(hand[0]);
     for (var i = 0; i < cardArray.length; i++) {
       if (cardArray[i] != cards[index+i]){

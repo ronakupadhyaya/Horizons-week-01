@@ -107,6 +107,7 @@ util.calc = function(expression) {
         break;
       case "/":
         numbers[i] = numbers[i] / numbers[i + 1];
+        console.log(numbers[i]);
         numbers.splice(i + 1, 1);
         opArray.splice(i,1);
         console.log("I divided");

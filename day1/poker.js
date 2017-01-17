@@ -79,21 +79,39 @@ window.rankPokerHand = function(hand1, hand2) {
   // }else{
   //   return 2;
   // }
+  console.log(isFlush(hand2));
+
+}
+
+var isRoyalFlush = function(hand){
+  if(!isFlush){
+    return false;
+  }
+  var king = false;
+  var queen = false;
+  var jack = false;
+  var ten = false;
+  var ace = false;
 
 
-  //Find highest combination for player1
-  
+  if(isFlush(hand)){
+    //get rid of all the suits
+    for(var i = 0; i < hand.length; i++){
+      hand[i] = hand[i].substring(0, substring.length())
+    }
 
+  }
 
+}
 
-
-
-
-
-
-
-
-
-
-
+var isFlush = function(hand){
+  if(hand[0][hand[0].length - 1] === hand[1][hand[1].length - 1] &&
+    hand[0][hand[0].length - 1] === hand[2][hand[2].length - 1] &&
+    hand[0][hand[0].length - 1] === hand[3][hand[3].length - 1] &&
+    hand[0][hand[0].length - 1] === hand[4][hand[4].length - 1]){
+    console.log("Flush of " + hand[0][2]);
+    return true;
+  }else{
+    return false;
+  }
 }

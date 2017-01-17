@@ -1,9 +1,10 @@
 "use strict";
 
 // There's syntax error in this function, use the DevTools Console to find it.
-function functionThatReturnsTrue( {
+function functionThatReturnsTrue() {
   return true;
 }
+
 
 // This function should return the first word of a string but it doesn't work.
 // Let's find the bug in it and fix it
@@ -16,7 +17,8 @@ function functionThatReturnsTrue( {
 // ex. firstWord('abc d  e') -> 'abc'
 function firstWord(string) {
   for (var i = 0; i < string.length; i++) {
-    if (string[0] === ' ') {
+    debugger;
+    if (string[i] === ' ') {
       return string.substring(0, i);
     }
   }

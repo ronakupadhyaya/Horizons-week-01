@@ -46,5 +46,54 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  // var hand1Num = [];
+  // var hand2Num = [];
+  // var maxHand1 = 0;
+  // var maxHand2 = 0;
+  // for(var i = 0; i < hand1.length; i++){
+  //   if(hand1[i].charAt(0)  === 'A'){
+  //     hand1Num.push(14);
+  //   }else if(hand1[i].charAt(0) === 'J'){
+  //     hand1Num.push(11);
+  //   }else if(hand1[i].charAt(0)  === 'Q'){
+  //     hand1Num.push(12);
+  //   }else if(hand1[i].charAt(0)  === 'K'){
+  //     hand1Num.push(13);
+  //   } else hand1Num.push(parseInt(hand1[i][0]));
+  // }
+  // for(var i = 0; i < hand2.length; i++){
+  //   if(hand2[i].charAt(0)  === 'A'){
+  //     hand2Num.push(14);
+  //   }else if(hand2[i].charAt(0)  === 'J'){
+  //     hand2Num.push(11);
+  //   }else if(hand2[i].charAt(0)  === 'Q'){
+  //     hand2Num.push(12);
+  //   }else if(hand2[i].charAt(0)  === 'K'){
+  //     hand2Num.push(13);
+  //   } else hand2Num.push(parseInt(hand2[i][0]));
+  // }
+  // maxHand1 = Math.max.apply(hand1Num);
+  // maxHand2 = Math.max.apply(hand2Num);
+  // if (maxHand1 > maxHand2){
+  //   return 1;
+  // }else{
+  //   return 2;
+  // }
+
+
+  //Find highest combination for player1
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

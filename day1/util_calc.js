@@ -54,5 +54,124 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  // if empty
+  if(expression.length < 1){
+    console.log("Empty expression");
+    throw "err";
+  }
+  var temp = [];
+  var numbers = [];
+  var opArray = [];
+  temp = expression.split(" ");
+
+  for(var i = 0; i < temp.length; i += 2){
+
+    numbers.push(parseFloat(temp[i]));
+    if(!util.isNumber(temp[i])){
+      console.log("Not a number");
+      throw "err";
+    }
+  }
+  for(var j = 1; j < temp.length; j += 2){
+    opArray.push(temp[j]);
+    if(!util.isOperator(temp[j])){
+      console.log("Not a operator");
+      throw "err";
+    }
+  }
+  if(numbers.length === 1 && opArray.length === 0){
+    console.log("Dumb case");
+    console.log(numbers[0]);
+    return numbers[0];
+  }
+
+  if(numbers.length != opArray.length + 1){
+    console.log("Too many operators or too many numbers");
+    throw "err";
+  }
+  console.log(opArray);
+  console.log(numbers);
+
+
+  for(var i = 0; i < opArray.length; i++){
+    if(opArray[i] === '*' || opArray[i] === '/'){
+
+
+      switch (opArray[i]) {
+      case "*":
+        numbers[i] = numbers[i] * numbers[i + 1];
+        numbers.splice(i + 1, 1);
+        opArray.splice(i, 1);
+        console.log("I multiplied");
+        i--;
+        break;
+      case "/":
+        numbers[i] = numbers[i] / numbers[i + 1];
+        numbers.splice(i + 1, 1);
+        opArray.splice(i,1);
+        console.log("I divided");
+        i--;
+        break;
+      default:
+
+      }
+
+    }
+  }
+  console.log(numbers);
+  console.log(opArray);
+  var answer = numbers.shift();
+  while(opArray.length > 0){
+    switch(opArray.shift()) {
+    case "+":
+      answer = answer + numbers.shift();
+      break;
+    case "-":
+      answer = answer - numbers.shift();
+      break;
+    default:
+      console.log("s");
+    }
+  }
+
+  console.log(answer);
+  return answer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+util.isOperator = function(x){
+  if(x === '*' || x === '+'|| x === '-' || x === '/'){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+util.isNumber = function(y){
+  if(isNaN(y)){
+    return false;
+  }else{
+    return true;
+  }
+}
+
+util.isSpace = function(z){
+  if(z === " "){
+    return true;
+  }else{
+    return false;
+  }
+}

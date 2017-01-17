@@ -61,16 +61,19 @@ util.calc = function(expression) {
   var addition = true;
   var multiArray = [];
   for (var i=0; i<num.length; i++) {
-    if (isNaN(num[i])) {
+    if (isNaN(num[i]) && num[i] !== 'sqrt') {
       operators++
-    } else {
+    } else if (!isNaN(num[i])) {
       numbers++
     }
   }
+  console.log(operators)
+  console.log(numbers)
   if (numbers !== operators+1) {
     throw 'Error: Too many numbers/operators'
   }
-  if (isNaN(parseFloat(num[0])) ||
+  if (isNaN(parseFloat(num[0])) &&
+      num[0] !== 'sqrt' ||
       isNaN(parseFloat(num[num.length - 1]))) {
     throw 'Error: Wrong Spot';
   }
@@ -78,6 +81,7 @@ util.calc = function(expression) {
       num.indexOf('-') === -1 &&
       num.indexOf('/') === -1 &&
       num.indexOf('*') === -1 &&
+      num.indexOf('sqrt') === -1 &&
       num.length > 1) {
     throw 'Error: No operators';
   }
@@ -87,6 +91,13 @@ util.calc = function(expression) {
       multiArray.push(parseFloat(num[c]))
     } else {
       multiArray.push(num[c])
+    }
+  }
+
+  for (var d=0;d<multiArray.length;d++) {
+    if(multiArray[d] === 'sqrt') {
+      multiArray[d] = Math.sqrt(multiArray[d+1]);
+      multiArray.splice(d+1,1)
     }
   }
 

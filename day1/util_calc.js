@@ -10,7 +10,8 @@ window.util = {};
 // space.
 //
 // Part 1. If an invalid expression is given, throw an exception.
-//
+
+
 // ex. util.calc('') -> Error, empty expression
 // ex. util.calc('1 2') -> Error, mission operator
 // ex. util.calc('-') -> Error, no numbers
@@ -54,5 +55,54 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  var newString = expression.split(" ");
+  var arrayOp= ["+","-", "/", "*"];
+  var opcounter = 0;
+  var numcounter = 0
+
+  for(var j = 0; j < newString.length; j++){
+    if(arrayOp.includes(newString[j])){
+      opcounter += 1;
+    } else {
+      numcounter += 1;
+    }
+  }
+
+console.log(opcounter);
+console.log(numcounter);
+if (numcounter > 1 && opcounter == 0){
+  throw "error, missing operator"
+}
+
+  if(opcounter >= numcounter){
+    throw "error: too many operators!"
+  }
+
+  if(numcounter - 1 > opcounter){
+    throw "error: too many numbers!"
+  } else if (numcounter - 1 < opcounter)
+    throw "error! Not enough numbers"
+
+  if (expression === ""){
+    throw "error: empty expression!"
+  }
+
+  for(var i = 0; i < newString.length; i += 2){
+      if(arrayOp.includes(newString[i])){
+        throw "error: operator in the wrong spot!"
+      }
+  }
+
+  return eval(expression);
+}
+
+
+//   var arrayOp= ["+","-", "/", "*"];
+//  var newString = expression.split(" ");
+//  console.log(newString);
+//  for(var i = 0; i < newString.length; i += 2){
+//    if (arrayOp.includes(newString[i]){
+//      throw "error";
+//    }
+// }
+// };

@@ -19,8 +19,8 @@ describe("Rocketship", function() {
     expect(Rocketship.coords).toEqual({x: 0, y: -1});
   });
   it("left function", function() {
-    Rocketship.left().left();
-    expect(Rocketship.coords).toEqual({x: -2, y: 0});
+    Rocketship.left();
+    expect(Rocketship.coords).toEqual({x: -1, y: 0});
   });
   it("object method chaining - up and right", function() {
     Rocketship.up()
@@ -40,5 +40,12 @@ describe("Rocketship", function() {
       .left()
       .left();
     expect(Rocketship.coords).toEqual({x: -3, y: -5});
+  });
+  it("object method chaining - up, right, down and left", function() {
+    Rocketship.up()
+      .right()
+      .down()
+      .left()
+    expect(Rocketship.coords).toEqual({x: 0, y: 0});
   });
 });

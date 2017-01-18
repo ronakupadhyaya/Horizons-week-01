@@ -13,13 +13,14 @@ dates.createDate = function(dateStr) {
   var d = new Date(dateStr);
   return d;
 
+
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
 // Write a function that takes a Date Object and returns the UTC time string.
 // ex. dates.getUTCString('May 17, 2016 9:00:00') -> Date(2016, 4, 17, 9, 0, 0, 0).toUTCString()
 // ex. dates.getUTCString('2015-03-25') -> Date('2015-03-25').toUTCString()
-// ex. dates.getUTCString('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00').toUTCString()
+// ex. dates.getUTCwString('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00').toUTCString()
 //
 // note. UTC is kiiiinda like GMT - it's just another format of time
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
@@ -39,7 +40,6 @@ dates.getUTCString = function(dateObj) {
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
   return dateObj.getDay() === otherDateObj.getDay();
 };
 
@@ -53,7 +53,6 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
   return dateObj.getHours() === otherDateObj.getHours();
 };
 
@@ -62,8 +61,6 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
-  // YOUR CODE HERE
-  //console.log(Date.dateObj());
   return dateObj.getTime() > Date.now();
 };
 
@@ -77,6 +74,5 @@ dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
   var dayValue = dateObj.getDate();
   return new Date(dateObj.setDate(dayValue + 1));
-
 
 };

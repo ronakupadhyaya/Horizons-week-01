@@ -26,11 +26,15 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  if(arr.length === 0) return 0;
-  var arrSum = _.reduce(arr, function(a, b) {
+
+  // YOUR CODE HERE
+  if(arr.length === 0) {
+    return 0;
+  }
+  var retArr = _.reduce(arr, function (a, b) {
     return a + b;
   });
-  return arrSum / arr.length;
+  return retArr/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -42,8 +46,9 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
-  var arr = grades.getValues(student.grades);
+
+  var arr = [];
+  arr.push(student.grades.class1, student.grades.class2);
   return grades.average(arr);
 };
 
@@ -78,6 +83,7 @@ grades.getKeys = function(object) {
     arr.push(key);
   });
   return arr;
+
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -103,6 +109,7 @@ grades.majorWithHighestGPA = function(data) {
       return key;
     }
   }
+
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)

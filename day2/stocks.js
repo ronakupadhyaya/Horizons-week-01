@@ -42,7 +42,21 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var groupStocks = _.groupBy(data, function(item) {
+    return item.ticker;
+  });
+  var sortedTime = _.mapObject(groupStocks, function(item) {
+    var sorted = item.sort(function(a, b) {
+      var aTemp = new Date(a.time);
+      var bTemp = new Date(b.time);
+      return aTemp.getTime() - bTemp.getTime();
+    });
+    return sorted;
+  });
+  var gainLoss = _.mapObject(sortedTime, function(item) {
+    return item[item.length - 1].price - item[0].price;
+  });
+  return gainLoss;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,9 +73,24 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var highest = _.reduce(stocks.getValues(obj), function(a, b) {
+    return a > b ? a : b;
+  })
+  for (var key in obj) {
+    if (highest === obj[key]) {
+      return key;
+    }
+  }
 };
 
+stocks.getValues = function(object) {
+  var arr = [];
+  _.forEach(object, function(value, key) {
+    arr.push(value);
+  });
+  return arr;
+}
 // Exercise 3. stocks.biggestLoser(data)
 //
 // Write a function that finds the stock that went up in price the most
@@ -76,7 +105,15 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var lowest = _.reduce(stocks.getValues(obj), function(a, b) {
+    return a < b ? a : b;
+  })
+  for (var key in obj) {
+    if (lowest === obj[key]) {
+      return key;
+    }
+  }
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +125,26 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var groupStocks = _.groupBy(data, function(item) {
+    return item.ticker;
+  });
+  var sortedPrice = _.mapObject(groupStocks, function(item) {
+    var sorted = item.sort(function(a, b) {
+      return a.price - b.price;
+    });
+    return sorted;
+  });
+  var gainLoss = _.mapObject(sortedPrice, function(item) {
+    return item[item.length - 1].price - item[0].price;
+  });
+  var lowest = _.reduce(gainLoss, function(a, b) {
+    return a > b ? a : b;
+  })
+  for (var key in gainLoss) {
+    if (lowest === gainLoss[key]) {
+      return key;
+    }
+  }
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +162,23 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var groupStocks = _.groupBy(data, function(item) {
+    return item.ticker;
+  });
+  var prices = {};
+  for (var key in groupStocks) {
+    for (var i = 0; i < groupStocks[key].length; i++) {
+      var dateTemp = new Date(groupStocks[key][i].time);
+      if (date.getTime() === dateTemp.getTime()) {
+        prices[key] = groupStocks[key][i].price;
+      }
+    }
+  }
+  var sum = 0;
+  for (var key in portfolio) {
+    sum += portfolio[key] * prices[key];
+  }
+  return sum;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +199,43 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var items = [];
+  //sorts into the company names
+  var groupStocks = _.groupBy(data, function(item) {
+    return item.ticker;
+  });
+
+  //sorts the arrays by price
+  //ACTUALLY PRICE!!
+  var sortedDate = _.mapObject(groupStocks, function(item) {
+    var sorted = item.sort(function(a, b) {
+      return a.price - b.price;
+    });
+    return sorted;
+  });
+
+  //take the array sorted by price, then check
+  for (var i = 0; i < sortedDate[ticker].length; i++) {
+    var breaker = false;
+    for (var j = sortedDate[ticker].length - 1; j >= 0; j--) {
+      if (sortedDate[ticker][j].time > sortedDate[ticker][i].time) {
+        items.push(new Date(sortedDate[ticker][i].time));
+        items.push(new Date(sortedDate[ticker][j].time));
+        items.push(sortedDate[ticker][j].price - sortedDate[ticker][i].price);
+        breaker = true;
+        break;
+      }
+      if (breaker) {
+        break;
+      }
+    }
+    return items;
+  }
+  items.push(new Date(sortedPrice[ticker][0].time));
+  items.push(new Date(sortedPrice[ticker][sortedPrice[ticker].length - 1].time));
+  items.push(sortedPrice[ticker][sortedPrice[ticker].length - 1].price -
+    sortedPrice[ticker][0].price);
+  return items;
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +259,50 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var items = [];
+  //sorts into the company names
+  var groupStocks = _.groupBy(data, function(item) {
+    return item.ticker;
+  });
+
+  //sorts the arrays by price
+  //ACTUALLY PRICE!!
+  var sortedDate = _.mapObject(groupStocks, function(item) {
+    var sorted = item.sort(function(a, b) {
+      return a.price - b.price;
+    });
+    return sorted;
+  });
+  var prices = {};
+  //take the array sorted by price, then check
+  for (var key in sortedDate) {
+    for (var i = 0; i < sortedDate[key].length; i++) {
+      var breaker = false;
+      for (var j = sortedDate[key].length - 1; j >= 0; j--) {
+        if (sortedDate[key][j].time > sortedDate[key][i].time) {
+          items.push(key);
+          items.push(new Date(sortedDate[key][i].time));
+          items.push(new Date(sortedDate[key][j].time));
+          items.push(sortedDate[key][j].price - sortedDate[key][i].price);
+          prices[key] = items;
+          breaker = true;
+          items = [];
+          break;
+        }
+      }
+      if (breaker) {
+        break;
+      }
+    }
+  }
+
+  var keys = Object.keys(prices);
+  var temp = prices[keys[0]];
+  for (var i = 1; i < keys.length; i++) {
+    console.log(prices[keys[i]][3]);
+    if (temp[3] < prices[keys[i]][3]) {
+      temp = prices[keys[i]];
+    }
+  }
+  return temp;
 };

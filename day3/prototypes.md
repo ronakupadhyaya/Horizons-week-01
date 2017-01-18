@@ -18,7 +18,7 @@ var macBook = {
 console.log(macBook) // -> { ram: '8gb', processor: 'i3', color: 'Light Gray' }
 ```
 
-Awesome! now we are going to need a macBookPro model that has a better processor and comes in "Space gray". Instead of duplicating all the properties, we only list the new ones:
+Awesome! Now we are going to need a macBookPro model that has a better processor and comes in "Space gray". Instead of duplicating all the properties, we only list the new ones:
 
 ```javascript
 var macBookPro = {
@@ -113,9 +113,9 @@ Looking for a property in JS takes a couple of steps:
 
 ### Instructions
 
-1. Open `week01/day2/prototypes.js` in your text editor. Exercise details are listed there.
+1. Open `week01/day3/prototypes.js` in your text editor. Exercise details are listed there.
 
-2. Open `week01/day2/prototypes.html` in your browser to run tests.
+2. Open `week01/day3/prototypes.html` in your browser to run tests.
 
 3. Write necessary functions to make all the tests pass.
 
@@ -124,9 +124,9 @@ Looking for a property in JS takes a couple of steps:
 
 ### Instructions
 
-1. Open `week01/day2/prototypes_2.js` in your text editor. Exercise details are listed there.
+1. Open `week01/day3/prototypes_2.js` in your text editor. Exercise details are listed there.
 
-2. Open `week01/day2/prototypes_2.html` in your browser to run tests.
+2. Open `week01/day3/prototypes_2.html` in your browser to run tests.
 
 3. Write necessary functions to make all the tests pass.
    ​

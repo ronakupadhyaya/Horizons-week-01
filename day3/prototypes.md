@@ -15,10 +15,10 @@ var macBook = {
   color: "Light Gray"
 }
 
-console.log(macBook) // -> { ram: '8gb', processor: 'i3' }
+console.log(macBook) // -> { ram: '8gb', processor: 'i3', color: 'Light Gray' }
 ```
 
-Awesome! now we are going to need a macBookPro model that has a better processor and comes in "Space gray". Instead of duplicating all the properties, we only first the new ones:
+Awesome! now we are going to need a macBookPro model that has a better processor and comes in "Space gray". Instead of duplicating all the properties, we only list the new ones:
 
 ```javascript
 var macBookPro = {
@@ -31,10 +31,10 @@ Right now, the macBookPro object will only have 2 properties: `processor` and `c
 
 ```javascript
 console.log(macBookPro) // -> { processor: 'i5', color: 'Space gray' }
-console.log(macBookPro.ram); // Searching for ram on macBookPro will return undefined.
+console.log(macBookPro.ram); // -> undefined.
 ```
 
-Then, we are going to set up a link to search for the ones that are already on the standard macBook. We add the link from macBook to macBookPro by setting the prototype `__proto__`
+Then, we are going to set up a link to search for the ones that are already on the standard macBook. We add the link from macBook to macBookPro by setting  `__proto__`.
 
 ```javascript
 macBookPro.__proto__ = macBook;
@@ -60,7 +60,7 @@ var touchBarMacbook = {
   extras: "touchBar"
 };
 
-Object.setPrototypeOf(touchBarMacbook, macBookPro);
+touchBarMacbook.__proto__ = macBookPro;
 console.log(macBookPro.ram);
 console.log(touchBarMacbook.extras);
 ```
@@ -88,7 +88,7 @@ Looking for a property in JS takes a couple of steps:
    But what happens if it doesn't find the property on the object?
 
 
-2. It will follow the ```__proto__``` link to the next object and find it there. `color` is an not "own" property of touchBarMacbook, but it is an "own" property of `macBookPro`!
+2. It will follow the ```__proto__``` link to the next object and find it there. `color` is not an "own" property of `touchBarMacbook`, but it is an "own" property of `macBookPro`!
 
    ```javas
    console.log(touchBarMacbook.color); // -> "Space gray"

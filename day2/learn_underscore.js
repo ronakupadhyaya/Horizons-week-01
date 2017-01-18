@@ -10,6 +10,7 @@ window.learn_underscore = {};
 // Example 1. learn_underscore.hasZeros(array)
 // This is a function that returns true if the given array contains any 0s in it
 //
+// Use _.any() from Underscore to build this.
 // Underscore function _.any(array, fun) returns true if fun(item) returns true
 // for ANY item in an array.
 // ex.
@@ -17,8 +18,8 @@ window.learn_underscore = {};
 //    return item > 1;
 //  }
 //  _.any([], greaterThan1) -> false
-//  _.any([1], greaterThan1) -> true // ??
-//  _.any([0, 1], greaterThan1) -> true
+//  _.any([2], greaterThan1) -> true
+//  _.any([0, 2], greaterThan1) -> true
 //  _.any([0, -1, 0, -2], greaterThan1) -> false
 //
 // ex. learn_underscore.hasZeros([]) -> false

@@ -17,16 +17,16 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === null /* YOUR CODE HERE */;
+  return dis.getThis() === dis ;
 };
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === null /* YOUR CODE HERE */;
+  return dis.object2.getThis() === dis.object2; /* YOUR CODE HERE */;
 };
 
 dis.callGetThis = function() {
-  return dis.getThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  return dis.getThis.call(dis.object1) === dis.object1;/* YOUR CODE HERE */;
 }
 
 // Let's bind getThis to object2

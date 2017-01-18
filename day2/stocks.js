@@ -42,7 +42,23 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  //Sort Dates
+  var sortedObj = _.sortBy(data, "time");
+  var obj = _.groupBy(sortedObj, function(trans){
+    return trans["ticker"];
+  })
+  //Make new object with keys assigned to NULL values
+  var keys = Object.keys(obj);
+  var value = {};
+  for(var i = 0; i < keys.length; i++){
+    value[keys[i]] = null;
+  }
+  //Do the math
+  for(var item in obj){
+    value[item] = obj[item][obj[item].length -1]["price"] - obj[item][0]["price"]
+  }
+  return value;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +76,20 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var keys = Object.keys(obj);
+  var answer = keys[0];
+  var price = obj[keys[0]];
+
+
+  for(var i = 0; i < keys.length; i++){
+    if(obj[keys[i]] > price){
+      answer = keys[i];
+      price = obj[keys[i]];
+    }
+  }
+
+  return answer;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +107,20 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var keys = Object.keys(obj);
+  var answer = keys[0];
+  var price = obj[keys[0]];
+
+
+  for(var i = 0; i < keys.length; i++){
+    if(obj[keys[i]] < price){
+      answer = keys[i];
+      price = obj[keys[i]];
+    }
+  }
+
+  return answer;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +133,25 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var sortedObj = _.sortBy(data, "price");
+  var obj = _.groupBy(sortedObj, function(trans){
+    return trans["ticker"];
+  })
+  //Get keys
+  var keys = Object.keys(obj);
+  var biggestChange = -Infinity;
+  var comp = keys[0];
+  var temp = 0;
+  //Do the math
+  for(var item in obj){
+    temp = obj[item][obj[item].length -1]["price"] - obj[item][0]["price"]
+    if(temp > biggestChange){
+      biggestChange = temp;
+      comp = item;
+    }
+  }
+  return comp;
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +170,28 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  console.log(portfolio)
+  date = new Date(date)
+  date = date.toUTCString()
+
+  for(var i = 0; i < data.length; i++){
+    data[i]["time"] = new Date(data[i]["time"]);
+    data[i]["time"] = data[i]["time"].toUTCString();
+  }
+  // var sortedObj = _.sortBy(data, "time");
+  var value = 0;
+  var keys = Object.keys(portfolio);
+
+  for(var j = 0; j < data.length; j++){
+    for(var k = 0; k < keys.length; k++){
+      if(data[j]["time"] === date && keys[k] === data[j]["ticker"]){
+        value = value + data[j]["price"]*portfolio[keys[k]]
+      }
+    }
+  }
+  return value;
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

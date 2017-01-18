@@ -46,5 +46,46 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var handValue = [
+    'HighCard',
+    'OnePair',
+    'TwoPair',
+    'ThreeOfAKind',
+    'Straight',
+    'Flush',
+    'FullHouse',
+    'FourOfAKind',
+    'StraightFlush',
+    'RoyalStraightFlush']
+  var hand1Card = []
+  var hand2Card = []
+
+  for (var i = 0; i < hand1.length; i++) {
+    var hand1Num = hand1[i].slice(0, hand1[i].length - 1)
+    if (hand1Num === 'J') {
+      var hand1Num = 10;
+    } else if (hand1Num === 'Q') {
+      var hand1Num = 11;
+    } else if (hand1Num === 'K') {
+      var hand1Num = 12;
+    } else if (hand1Num === 'A') {
+      var hand1Num = 13;
+    }
+    var hand1Suit = hand1[i].slice(hand1[i].length - 1, hand1[i].length)
+    hand1Card.push([hand1Num, hand1Suit])
+  }
+  for (var i = 0; i < hand2.length; i++) {
+    var hand2Num = hand1[i].slice(0, hand1[i].length - 1)
+    if (hand2Num === 'J') {
+      var hand2Num = 10;
+    } else if (hand2Num === 'Q') {
+      var hand2Num = 11;
+    } else if (hand2Num === 'K') {
+      var hand2Num = 12;
+    } else if (hand2Num === 'A') {
+      var hand2Num = 13;
+    }
+    var hand2Suit = hand2[i].slice(hand2[i].length - 1, hand2[i].length)
+    hand1Card.push([hand2Num, hand2Suit])
+  }
 }

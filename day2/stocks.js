@@ -149,7 +149,6 @@ stocks.portfolioValue = function(data, date, portfolio) {
       }
     }
   });
-  console.log(dayprice)
   for (var variable in portfolio) {
     for (var variable2 in dayprice) {
       if (variable === variable2) {
@@ -157,7 +156,6 @@ stocks.portfolioValue = function(data, date, portfolio) {
       }
     }
   }
-  console.log(value)
   return value;
 };
 
@@ -179,7 +177,24 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var array = []
+  var byDates = _.sortBy(data, "time");
+  for (var obj in byDates) {
+    for (var obj2 in byDates) {
+      if (new Date(byDates[obj].time) > new Date(byDates[obj2].time) && byDates[obj].ticker === byDates[obj2].ticker) {
+        array.push([new Date(byDates[obj2].time), new Date(byDates[obj].time), byDates[obj].price - byDates[obj2].price, byDates[obj].ticker])
+      }
+    }
+  }
+  array.sort(function(a, b) {
+    return a[2] - b[2]
+  })
+  for (var i = array.length - 1; i >= 0; i--) {
+    if (ticker === array[i][3]) {
+      array[i].pop()
+      return array[i]
+    }
+  }
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -203,5 +218,14 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var tickerArray = ['GOOG', 'NFLX', 'FB', 'MSFT', 'AMZN', 'NVDA']
+  var bestPerCompany = []
+  for (var i = 0; i < tickerArray.length; i++) {
+    bestPerCompany.push(stocks.bestTrade(data, tickerArray[i]))
+    bestPerCompany[i].unshift(tickerArray[i])
+  }
+  bestPerCompany.sort(function(a, b) {
+    return a[3] - b[3]
+  })
+  return bestPerCompany[bestPerCompany.length - 1]
 };

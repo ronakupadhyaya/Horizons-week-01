@@ -2,7 +2,7 @@
 
 ## Goal
 
-The goal of this exercise is to get you started on prototypes. This exercise will contain 4 parts. 
+The goal of this exercise is to get you started on prototypes. This exercise will contain 4 parts.
 
 ## Part 1: Intro
 
@@ -71,7 +71,7 @@ console.log(touchBarMacbook.extras);
 
 Looking for a property in JS takes a couple of steps:
 
-1. It will check for "own" properties of an object. These are the properties that are declared within an object. If you console.log() an object. The properties that appear are the own ones. 
+1. It will check for "own" properties of an object. These are the properties that are declared within an object. If you console.log() an object. The properties that appear are the own ones.
 
    If we have the following object:
 
@@ -109,7 +109,7 @@ Looking for a property in JS takes a couple of steps:
 
 
 
-## Part 3: Implementation
+## Part 3: Iterating
 
 ### Instructions
 
@@ -119,5 +119,14 @@ Looking for a property in JS takes a couple of steps:
 
 3. Write necessary functions to make all the tests pass.
 
-   ​
 
+## Part 4: Adding methods to collections
+
+### Instructions
+
+1. Open `week01/day2/prototypes_2.js` in your text editor. Exercise details are listed there.
+
+2. Open `week01/day2/prototypes_2.html` in your browser to run tests.
+
+3. Write necessary functions to make all the tests pass.
+   ​

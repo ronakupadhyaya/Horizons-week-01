@@ -21,3 +21,14 @@ function getAnimal() {
 }
 
 window.tiger = getAnimal();
+
+// (function () {
+//      // your code here
+// })();
+
+//vs
+
+// var foo = (function () {
+//      // your code here
+// });
+// foo();

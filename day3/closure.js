@@ -81,12 +81,14 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
+  var x; //the value you get when you call f(), f.apply() will run f()
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+    if (!called) { // if f hasn't been called yet
+      x = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
+    return x;
   }
 }
 
@@ -116,11 +118,16 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray[index] = (function(i){
+      return function() {
+        return i;
+      }
+    }(i));
+
+
+    index++;
   }
 
   return functionArray;
@@ -134,7 +141,7 @@ var functionFactory = function(num1, num2) {
 // the numbers in the label.
 //
 // DO NOT CHANGE THIS FUNCTION
-var counter = function () {
+var counter = function() {
   var num1 = parseInt(document.getElementById('num1').value);
   var num2 = parseInt(document.getElementById('num2').value);
 
@@ -208,13 +215,13 @@ describe("once()", function() {
 
 describe("functionFactory()", function() {
   it("functionFactory(0,2) -> [function, function, function]", function() {
-    functionFactory(0,2).forEach(function(fun, i) {
+    functionFactory(0, 2).forEach(function(fun, i) {
       expect(fun()).toEqual(i);
     });
   });
   it("negative numbers functionFactory(-5, 15)", function() {
     functionFactory(-5, 15).forEach(function(fun, i) {
-      expect(fun()).toEqual(i-5);
+      expect(fun()).toEqual(i - 5);
     });
   });
 });

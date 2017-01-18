@@ -1,53 +1,5 @@
 "use strict";
 
- describe("allKeys(obj)", function() {
-
-   var macBook = {
-     ram: "8gb",
-     processor: "i3",
-     color: "Light Gray"
-   }
-   var macBookPro = {
-     processor: "i5",
-     color: "Space gray",
-     extras: "touchBar"
-   };
-   macBookPro.__proto__ = macBook;
-
-console.log(prototypes.allKeys(macBook))
-   it("should return all the keys on an object, that doesn't inherit.", function() {
-     expect(prototypes.allKeys(macBook)).toEqual(["ram", "processor", "color"]);
-   });
-   it("should return all the keys on an object. Including the parent's keys", function() {
-     expect(prototypes.allKeys(macBookPro)).toEqual(["processor", "color", "extras", "ram"]);
-   });
-
- });
-
-
-
-  describe("keys(obj)", function() {
-
-    var macBook = {
-      ram: "8gb",
-      processor: "i3",
-      color: "Light Gray"
-    }
-    var macBookPro = {
-      processor: "i5",
-      color: "Space gray",
-      extras: "touchBar"
-    };
-    macBookPro.__proto__ = macBook;
-
-    it("should return all the keys on an object, that doesn't inherit.", function() {
-      expect(prototypes.keys(macBookPro)).toEqual(["processor", "color", "extras"]);
-    });
-    it("should return all the keys on an object that has inheritance.", function() {
-      expect(prototypes.keys(macBookPro)).toEqual(["processor", "color", "extras"]);
-    });
-  });
-
   describe("Array hasEqualContent", function() {
 
     it("[3, 2, 1].hasEqualContent([1, 2, 3])", function() {
@@ -65,10 +17,24 @@ console.log(prototypes.allKeys(macBook))
     it("[1, 2, 4].hasEqualContent([1, 3, 4]) -> [] false", function() {
       expect([1, 2, 4].hasEqualContent([1, 3, 4])).toBe(false);
     });
+  })
 
-    // We want our is equal function to compare that 2 arrays contain the same things,
-    // without necessarily having the same order.
+  describe("Object hasEqualContent", function() {
 
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, b:2, c:3} -> true)", function() {
+      expect({a:1, b:2, c:3}.hasEqualContent({a:1, b:2, c:3})).toBe(true);
+    });
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3, b:2}) -> [] true", function() {
+      expect({a:1, b:2, c:3}.hasEqualContent({a:1, c:3, b:2})).toBe(true);
+    });
+    it("{}.hasEqualContent({}) -> true", function() {
+      expect({}.hasEqualContent({})).toBe(true);
+    });
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3}) -> [] false", function() {
+      expect({a:1, b:2, c:3}.hasEqualContent({a:1, c:3})).toBe(false);
+    });
+    it("{a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3}) -> [] false", function() {
+      expect({a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3})).toBe(false);
+    });
 
-    [3, 2, 1].hasEqualContent([1, 2, 3])
   })

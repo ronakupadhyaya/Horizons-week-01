@@ -2,38 +2,12 @@
 
 window.prototypes = {};
 
-// In this exercise, you will be implementing functions that will allow you to
-// iterate through objects keys.
-
-// Part 3. Iterating over own.
-
-
-prototypes.allKeys = function(obj){
-  var arr = [];
-  for (var key in obj){
-    arr.push(key)
-  }
-  return arr;
-}
-
-prototypes.keys = function(obj){
-  var arr = [];
-  for (var key in obj){
-    if(obj.hasOwnProperty(key)){
-      arr.push(key)
-    }
-  }
-  return arr;
-}
-
-// STANDARD LIBRARY SECTION
+// Part 3. Adding methods to collections
 
 //the fisrt thing you have to figure out is what is array 1 inside if the function.
 Array.prototype.hasEqualContent = function(array2){
-
   // We want our is equal function to compare that 2 arrays contain the same things,
   // without necessarily having the same order.
-  
   if(this.length !== array2.length){
     return false;
   }
@@ -48,72 +22,27 @@ Array.prototype.hasEqualContent = function(array2){
 }
 
 //Bonus.
-Object.prototype.hasEqualContent = function(){
-  // use keys from above
-  // same #of keys
-  // sort.
-  // check same keys+values.
-  // Test for supersets + keys in different order.
+// use keys from above
+// same #of keys
+// sort.
+// check same keys+values.
+// Test for supersets + keys in different order.
+//remember that the valeues must be on the same keys sob{a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3}) is invalid
+Object.prototype.hasEqualContent = function(array2){
+  var keys1 = Object.keys(this)
+  var keys2 = Object.keys(array2)
+  var values1 = Object.values(this)
+  var values2 = Object.values(array2)
+
+if (!keys1.hasEqualContent(keys2) || !values1.hasEqualContent(values2)){
+  return false
 }
-
-
-
-// Quiz section.
-
-
-
-//--------------------------------------------------------
-
-// A student that completes this exercise should have:
-
-// experienced property lookups going up one level on the prototype chain
-// (obj1.prop1 doesnt exist as an 'own' property but does exist on a object up the prototype chain)
-// [Using it. I setup the object.]
-// [{} set with .prototype, object.create as alternative, commented]
-
-// been introduced to Object.HasOwnProperty and reviewed Object.keys
-
-// used a few methods on different prototypes (create an object and setup the prototype behind the scenes and/or find common
-// use cases and explore them)
-// .slice
-
-
-// the ability to talk about the prototype chain and the difference between "own property" vs property received from the
-// prototype chain
-
-
-
-
-// FOR REFERENCE OF DESCRIPTIONS. NOT FROM THIS EX.
-// DONT READ FROM HERE ON.
-
-// In this exercise, you will be implementing functions that will help in
-// analyzing a class of students.
-// You can find the data under `data/grades.js`
-
-// Data Format:
-//
-// The data that will be run through each program is an array of student objects.
-// The student object is comprised of these keys:
-//  - 'name', a string for the student's first name (warning - not unique!)
-//  - 'major', a string indicating the user's major (there are only 4 majors)
-//  - 'grades', an object with two keys, 'class1' and 'class2', whose values
-//     are integers from 1 to 4 indicating that students performance in the
-//     class.
-
-// [Helper] Exercise 0.A grades.average(arr<Number[]>)
-// Write a function that takes an array of numbers and returns the average of all of them.
-//
-// ex. grades.average([0, 1, 2, 3]) -> 1.5
-// ex. grades.average([1, 2, 4, 1]) -> 2
-// ex. grades.average([]) -> 0
-// ex. grades.average([0, 0]) -> 0
-//
-// hint. use _.reduce()
-
-
-
-
-
-
-//all keys, pairs
+console.log(values1)
+  for (var i = 0; i<values1.length; i++){
+    if(this[keys2[i]]!==array2[keys2[i]]){
+      console.log(values1[i])
+      return false
+    }
+  }
+  return true
+}

@@ -42,7 +42,12 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var byDates = _.sortBy(data, "time");
+  var byTicker = _.groupBy(byDates, "ticker");
+  var change = _. mapObject(byTicker, function(item) {
+    return item[29].price - item[0].price;
+  });
+  return change;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +64,15 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var sorted = [];
+  var gal = stocks.gainAndLoss(data)
+  for (var change in gal) {
+    sorted.push([change, gal[change]])
+  }
+  sorted.sort(function (a, b) {
+    return a[1] - b[1];
+  });
+  return sorted[sorted.length-1][0]
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +89,15 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var sorted = [];
+  var gal = stocks.gainAndLoss(data)
+  for (var change in gal) {
+    sorted.push([change, gal[change]])
+  }
+  sorted.sort(function (a, b) {
+    return a[1] - b[1];
+  });
+  return sorted[0][0]
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +109,19 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var byPrice = _.sortBy(data, "price");
+  var byTicker = _.groupBy(byPrice, "ticker");
+  var variance = _. mapObject(byTicker, function(item) {
+    return item[29].price - item[0].price;
+  })
+  var sorted = [];
+  for (var change in variance) {
+    sorted.push([change, variance[change]])
+  }
+  sorted.sort(function (a, b) {
+    return a[1] - b[1];
+  });
+  return sorted[sorted.length - 1][0]
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +139,26 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var value = 0
+  var byDates = _.sortBy(data, "time");
+  var byTicker = _.groupBy(byDates, "ticker");
+  var dayprice = _. mapObject(byTicker, function(item) {
+    for (var i = 0; i < Object.keys(byDates).length; i++) {
+      if (item[i].time === date.toISOString()) {
+        return item[i].price;
+      }
+    }
+  });
+  console.log(dayprice)
+  for (var variable in portfolio) {
+    for (var variable2 in dayprice) {
+      if (variable === variable2) {
+        value += portfolio[variable] * dayprice[variable2]
+      }
+    }
+  }
+  console.log(value)
+  return value;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

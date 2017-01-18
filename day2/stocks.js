@@ -157,15 +157,14 @@ stocks.portfolioValue = function(data, date, portfolio) {
   var keys = Object.keys(portfolio)
   for (var x = 0; x<keys.length; x++) {
     var price = 0
-      for (var i = 0; i < grouped[newDate].length; i++) {
-        if (grouped[newDate][i].ticker === keys[x]) {
-          price = grouped[newDate][i].price
-        }
+    for (var i = 0; i < grouped[newDate].length; i++) {
+      if (grouped[newDate][i].ticker === keys[x]) {
+        price = grouped[newDate][i].price
       }
-      var onevalue = price*portfolio[keys[x]]
-      amounts.push(onevalue)
+    }
+    var onevalue = price * portfolio[keys[x]]
+    amounts.push(onevalue)
   }
-  debugger;
   var answer = 0
   answer = amounts.reduce(function(x,y) {
     return x+y

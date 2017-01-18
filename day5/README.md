@@ -4,6 +4,7 @@
 
 1. Queues/Linked lists
    Files: `week01/day5/queue.js` and `week01/day5/queue.html`
+1. [Dinosaur Game](dinosaur.md)
 1. `Tree`: Implement a binary tree <br>
    Source: `week01/day5/tree.js` <br>
    Run tests: `week01/day5/tree.html`

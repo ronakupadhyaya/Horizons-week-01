@@ -42,6 +42,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
+  return _.any(array, function(value) {
+    return item === value;
+  });
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -102,7 +105,10 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  // YOUR CODE HERE
+  // use .map() to convert binary #s/whatever into true/false
+  // use .reduce() to work through array and return true when item is found
+  var newArr = _.map
+
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)

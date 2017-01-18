@@ -26,7 +26,11 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if(arr.length === 0) return 0;
+  var arrSum = _.reduce(arr, function(a, b) {
+    return a + b;
+  });
+  return arrSum / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,13 +43,41 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var arr = grades.getValues(student.grades);
+  return grades.average(arr);
 };
+
+grades.getValues = function(object) {
+  var arr = [];
+  _.forEach(object, function (value, key) {
+    arr.push(value);
+  });
+  return arr;
+}
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var arrObj = _.groupBy(data, function(person) {
+    return grades.getGPA(person);
+  });
+  var keys = grades.getKeys(arrObj);
+  //console.log(keys);
+  var highestGPA = _.reduce(keys, function(a, b) {
+    return a > b ? a : b;
+  });
+  highestGPA = highestGPA + "";
+  return arrObj[highestGPA][0];
+}
+// helper function
+grades.getKeys = function(object) {
+  var arr = [];
+  _.forEach(object, function (value, key) {
+    arr.push(key);
+  });
+  return arr;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,13 +85,53 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var arrObj = _.groupBy(data, function(person) {
+    return person.major;
+  });
+  //console.log(arrObj);
+  var majorGPA = _.mapObject(arrObj, function(value, key) {
+    var gpaArray = _.map(value, grades.getGPA);
+    return grades.average(gpaArray);
+  });
+  // console.log(majorGPA);
+  var highestGPA = _.reduce(grades.getValues(majorGPA), function(a, b) {
+    return a > b ? a : b;
+  });
+
+  for(var key in majorGPA) {
+    if(highestGPA === majorGPA[key]) {
+      return key;
+    }
+  }
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
-// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
+// Write a function that takes an array of Student objects and returns an
+// object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+
+  var dataCopy = data.slice();
+  var first = dataCopy.shift();
+  var class1 = _.reduce(dataCopy, function(a, b) {
+    return a + b['grades']['class1'];
+  }, first['grades']['class1']);
+  var class1GPA = class1 / (dataCopy.length + 1);
+
+  var class2 = _.reduce(dataCopy, function(a, b) {
+    return a + b['grades']['class2'];
+  }, first['grades']['class2']);
+  // we still need to divide class1/#students
+  var class2GPA = class2 / (dataCopy.length + 1);
+
+  console.log(dataCopy.length);
+
+  // create object to return containing avg GPAs of class 1 // class 2
+  var retObj = {
+    class1: class1GPA,
+    class2: class2GPA
+  };
+  return retObj;
+
 };

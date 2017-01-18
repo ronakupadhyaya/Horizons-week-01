@@ -112,7 +112,7 @@ learn_underscore.any = function(array, fun) {
   };
 
   var mappedArr = _.map(array, fun);
-  console.log(mappedArr);
+  //console.log(mappedArr);
   return _.reduce(mappedArr, function(accum, item){
     return accum || !!item;
   });
@@ -282,4 +282,10 @@ learn_underscore.countLetters = function(string) {
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+  var groupedObj = _.groupBy(array, fun);
+  //console.log(groupedObj);
+  return groupedObj = _.mapObject(groupedObj, function(array, key){
+    return array.length;
+  });
+
 }

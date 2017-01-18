@@ -5,20 +5,26 @@
    var macBook = {
      ram: "8gb",
      processor: "i3",
-     color: "Light Gray"
    }
    var macBookPro = {
      processor: "i5",
-     color: "Space gray",
+     color: "Space gray"
+   }
+   var touchBarMacbook = {
      extras: "touchBar"
    };
+
    macBookPro.__proto__ = macBook;
+   touchBarMacbook.__proto__ = macBookPro;
 
    it("should return all the keys on an object, that doesn't inherit.", function() {
-     expect(prototypes.allKeys(macBook)).toEqual(["ram", "processor", "color"]);
+     expect(prototypes.allKeys(macBook)).toEqual(["ram", "processor"]);
    });
    it("should return all the keys on an object. Including the parent's keys", function() {
-     expect(prototypes.allKeys(macBookPro)).toEqual(["processor", "color", "extras", "ram"]);
+     expect(prototypes.allKeys(macBookPro)).toEqual(["processor", "color", "ram"]);
+   });
+   it("should return all the keys on an object. Including the parent's keys", function() {
+     expect(prototypes.allKeys(touchBarMacbook)).toEqual(["extras", "processor", "color", "ram"]);
    });
 
  });

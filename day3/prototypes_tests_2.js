@@ -36,5 +36,8 @@
     it("{a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3}) -> [] false", function() {
       expect({a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3})).toBe(false);
     });
+    it("{}.hasEqualContent({a:1, b:2, c:3}) -> [] false", function() {
+      expect({}.hasEqualContent({a:1, b:2, c:3})).toBe(false);
+    });
 
   })

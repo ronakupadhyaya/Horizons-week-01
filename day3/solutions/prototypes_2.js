@@ -16,7 +16,17 @@ window.prototypes = {};
 // Hint: the fisrt thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  if(this.length !== array2.length){
+    return false;
+  }
+  this.sort()
+  array2.sort()
+  for(var i=0; i<this.length; i++){
+    if(this[i]!==array2[i]){
+      return false
+    }
+  }
+  return true;
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -32,5 +42,20 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  var keys1 = Object.keys(this)
+  var keys2 = Object.keys(array2)
+  var values1 = Object.values(this)
+  var values2 = Object.values(array2)
+
+  if (!keys1.hasEqualContent(keys2) || !values1.hasEqualContent(values2)){
+    return false
+  }
+  console.log(values1)
+  for (var i = 0; i<values1.length; i++){
+    if(this[keys2[i]]!==array2[keys2[i]]){
+      console.log(values1[i])
+      return false
+    }
+  }
+  return true
 }

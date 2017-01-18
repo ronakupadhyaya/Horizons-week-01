@@ -27,6 +27,13 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  // not using _.fold()
+  if (arr.length === 0) {
+    return 0;
+  }
+  return _.reduce(arr, function(prev, curr) {
+    return prev + curr;
+  }) / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +46,7 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +54,16 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var highest = 0;
+  var best;
+  _.forEach(data, function(student) {
+    var gpa = grades.getGPA(student);
+    if (highest < gpa) {
+      highest = gpa;
+      best = student;
+    }
+  });
+  return best;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,6 +72,23 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var majors = {};
+  _.forEach(data, function(student) {
+    if (_.isUndefined(majors[student.major])) {
+      // First number: Total GPA
+      // Second number: Total students
+      // We'll use these for averages!
+      majors[student.major] = [0, 0];
+    }
+    majors[student.major][0] += grades.getGPA(student);
+    majors[student.major][1]++;
+  });
+  majors = _.mapObject(majors, function(val, key) {
+    return val[0] / val[1]; // Average GPA of major
+  });
+  return _.findKey(majors, function(major) {
+    return major === _.max(majors);
+  });
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -62,4 +97,16 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var c1 = 0;
+  var c2 = 0;
+
+  _.forEach(data, function(student) {
+    c1 += student.grades.class1;
+    c2 += student.grades.class2;
+  });
+
+  c1 = c1 / data.length;
+  c2 = c2 / data.length;
+
+  return { "class1" : c1, "class2" : c2 };
 };

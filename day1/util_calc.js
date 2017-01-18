@@ -54,5 +54,53 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var num = expression.split(" ");
+  var numbers = 0;
+  var operators = 0;
+  var returnValue = 0;
+  var addition = true;
+  for (var i=0; i<num.length; i++) {
+    if (isNaN(num[i])) {
+      operators++
+    } else {
+      numbers++
+    }
+  }
+  if (numbers !== operators+1) {
+    throw 'Error: Too many numbers/operators'
+  }
+  if (isNaN(parseInt(num[0])) ||
+      isNaN(parseInt(num[num.length - 1]))) {
+    throw 'Error: Wrong Spot';
+  }
+  if (num.indexOf('+') === -1 &&
+      num.indexOf('-') === -1 &&
+      num.indexOf('/') === -1 &&
+      num.indexOf('*') === -1 &&
+      num.length > 1) {
+    throw 'Error: No operators';
+  }
+
+  if (!isNaN(num[0]) && num.length === 1) {
+    return parseInt(num[0]);
+  }
+  for (var a=0;a<num.length;a++) {
+    if(!isNaN(num[a])) {
+      if(addition) {
+        returnValue += parseInt(num[a]);
+      }
+      else {
+        returnValue -= parseInt(num[a]);
+      }
+    }
+    if(num[a] === '+') {
+      addition = true;
+    }
+    else if(num[a] === '-') {
+      addition = false;
+    }
+  }
+  return returnValue;
+
+
 };

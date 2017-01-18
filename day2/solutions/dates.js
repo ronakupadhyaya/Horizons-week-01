@@ -47,7 +47,7 @@ dates.isSameDayOfWeek = function(d, c) {
 // ex. dates.isSameDayOfWeek(new Date('2015-03-25 02:00:00'), new Date('2015-03-25 02:00:00')) -> true
 // ex. dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00')) -> false
 // ex. dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11T03:00:00')) -> false
-// 
+//
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.isSameTimeOfDay = function(d, c) {
   // YOUR CODE HERE
@@ -59,7 +59,7 @@ dates.isSameTimeOfDay = function(d, c) {
 
 // Exercise 3.C dates.isTheFuture(d<Date>)
 // Write a function that takes a Date object as an argument and returns true if it specifies a date in the future or false if it is a time that has already passed
-// 
+//
 // hint. see Date.now() and parseInt
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.isTheFuture = function(d) {
@@ -71,7 +71,7 @@ dates.isTheFuture = function(d) {
 // Exercise 4. dates.incrementDay(d<Date>)
 // Write a function that takes a Date object and returns the Date object of the next day.
 // ex. dates.incrementDay(new Date('May 17, 2016 9:00:00')) -> new Date('May 18, 2016 9:00:00')
-// 
+//
 // hint. don't worry about overflow!
 // hint. see 'getDate' and 'setDate'
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate

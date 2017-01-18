@@ -27,6 +27,16 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0;
+  } else{
+    var sum = function (a,b){
+      return a + b;
+    }
+
+    var total = _.reduce(arr, sum);
+    return total/ (arr.length);
+  }
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,14 +49,56 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var c1 = student.grades.class1;
+  var c2= student.grades.class2;
+  var array =[c1,c2]
+  return grades.average(array);
 };
+
+
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var highGPA = 0;
+  var bestStudent = data[0];
+
+  _.forEach(data, function(student) {
+    var gpa = grades.getGPA(student);
+    if (gpa > highGPA) {
+      highGPA = gpa;
+      bestStudent = student;
+    }
+  });
+
+  return bestStudent;
 }
+  // YOUR CODE HERE
+  // loop through an array to find the average gpa.
+
+  /* var gpa = [];
+  for(var i = 0; i< data.length; i++){
+    gpa.push(grades.getGPA(data[i])); // pop the gpa in
+  }
+
+  console.log(gpa)
+  //compared the gpas and see which one is the highest
+  var sortedList = gpa.sort(function(a, b) {
+    return a - b;
+  });
+
+  // Because both the GPA array and the Data array are of the same length,
+  //return the index of the object based on the array
+
+  var highest = sortedList[0]
+  var answer = data.indexOf(highest)
+
+  return data[answer];
+
+}*/
+
+//2 variables: studentobject =
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the highest GPA
@@ -54,6 +106,8 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  //return GPA for each student
+
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)

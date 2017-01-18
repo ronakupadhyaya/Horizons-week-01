@@ -1,30 +1,35 @@
 describe("Part 1: Invalid expressions throw an exception", function() {
-  it("util.calc('') -> Error, empty expression", function() {
-    expect(function() { util.calc('')  }).toThrow();
-  });
-  it("util.calc('1 2') -> Error, mission operator", function() {
-    expect(function() { util.calc('1 2')  }).toThrow();
-  });
-  it("util.calc('-') -> Error, no numbers", function() {
-    expect(function() { util.calc('-')  }).toThrow();
-  });
-  it("util.calc('1 2 +') -> Error, operator at the wrong spot", function() {
-    expect(function() { util.calc('1 2 +')  }).toThrow();
-  });
-  it("util.calc('+ 1 -18') -> Error, operator at the wrong spot", function() {
-    expect(function() { util.calc('+ 1 -18')  }).toThrow();
-  });
-  it("util.calc('1 + 55 -2') -> Error, too many numbers", function() {
-    expect(function() { util.calc('1 + 55 -2')  }).toThrow();
-  });
-  it("util.calc('29 + + 1') -> Error, too many operators", function() {
-    expect(function() { util.calc('29 + + 1')  }).toThrow();
-  });
-  it("util.calc('29 + 1 +') -> Error, too many operators", function() {
-    expect(function() { util.calc('29 + 1 +')  }).toThrow();
-  });
+  // it("util.calc('') -> Error, empty expression", function() {
+  //   expect(function() { util.calc('')  }).toThrow();
+  // });
+  // it("util.calc('1 2') -> Error, mission operator", function() {
+  //   expect(function() { util.calc('1 2')  }).toThrow();
+  // });
+  // it("util.calc('-') -> Error, no numbers", function() {
+  //   expect(function() { util.calc('-')  }).toThrow();
+  // });
+  // it("util.calc('1 2 +') -> Error, operator at the wrong spot", function() {
+  //   expect(function() { util.calc('1 2 +')  }).toThrow();
+  // });
+  // it("util.calc('+ 1 -18') -> Error, operator at the wrong spot", function() {
+  //   expect(function() { util.calc('+ 1 -18')  }).toThrow();
+  // });
+  // it("util.calc('1 + 55 -2') -> Error, too many numbers", function() {
+  //   expect(function() { util.calc('1 + 55 -2')  }).toThrow();
+  // });
+  // it("util.calc('29 + + 1') -> Error, too many operators", function() {
+  //   expect(function() { util.calc('29 + + 1')  }).toThrow();
+  // });
+  // it("util.calc('30 + + 1') -> Error, too many operators", function() {
+  //   expect(function() { util.calc('29 + + 1')  }).toThrow();
+  // });
+  //
+  // it("util.calc('29 + 1 +') -> Error, too many operators", function() {
+  //   expect(function() { util.calc('29 + 1 +')  }).toThrow();
+  // });
 });
 
+<<<<<<< HEAD
   describe("Part 2: Support addition and subtraction", function() {
     it("util.calc('1') -> 1", function() {
       expect(util.calc('1') ).toBe(1);
@@ -45,6 +50,28 @@ describe("Part 1: Invalid expressions throw an exception", function() {
       expect(util.calc('-1 + 3 - 2 + 5')).toEqual(5);
     });
   });
+=======
+describe("Part 2: Support addition and subtraction", function() {
+  // it("util.calc('1') -> 1", function() {
+  //   expect(util.calc('1') ).toBe(1);
+  // });
+  // it("util.calc('-12') -> -12", function() {
+  //   expect(util.calc('-12') ).toBe(-12);
+  // });
+  // it("util.calc('3 + 2') -> 5", function() {
+  //   expect(util.calc('3 + 2')).toEqual(5);
+  // });
+  // it("util.calc('3 + 8 + 2 + 1') -> 14", function() {
+  //   expect(util.calc('3 + 8 + 2 + 1')).toEqual(14);
+  // });
+  // it("util.calc('2 - 1 + 5 + 6') -> 12", function() {
+  //   expect(util.calc('2 - 1 + 5 + 6')).toEqual(12);
+  // });
+  // it("util.calc('-1 + 3 - 2 + 5') -> 1", function() {
+  //   expect(util.calc('-1 + 3 - 2 + 5')).toEqual(5);
+  // });
+});
+>>>>>>> 4e9ae83083d625dc2e4614e518c61b846aafebc0
 
   describe("Part 3. Support multiplication and division", function() {
     it("util.calc('1 * 3 / 5 + 2') -> 2.6", function() {

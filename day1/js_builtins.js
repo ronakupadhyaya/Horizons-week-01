@@ -80,6 +80,7 @@ builtins.search = function(sourceString, searchString) {
 builtins.parseQuantity = function(str) {
   var array = str.split(" ")
   return parseInt(array[0]);
+
 };
 
 // ----------------------------------------------------------------------------
@@ -100,6 +101,7 @@ builtins.reverse = function(arr) {
     newArray.push(arr[x]);
   }
   return newArray;
+
 };
 
 // ----------------------------------------------------------------------------
@@ -129,6 +131,7 @@ builtins.isEqual = function(a, b) {
   else {return false}
 }
 
+
 // ----------------------------------------------------------------------------
 
 // Exercise 6. Checking if an array is a palindrome (forward order is the same
@@ -151,6 +154,7 @@ builtins.isPalindrome = function(arr) {
   else{
     return false;
   }
+
 };
 
 // ----------------------------------------------------------------------------
@@ -175,6 +179,7 @@ builtins.sortByValue = function(arr) {
     return a-b;
   })
   return arr;
+
 };
 
 // ----------------------------------------------------------------------------
@@ -195,6 +200,7 @@ builtins.sortByLength = function(arr) {
     return a.length-b.length;
   })
   return arr;
+
 };
 
 // ----------------------------------------------------------------------------
@@ -210,4 +216,5 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+
 };

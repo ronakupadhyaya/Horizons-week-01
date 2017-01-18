@@ -134,11 +134,6 @@ util.calc = function(expression) {
 //PART 2
 
 
-
-
-
-
-
     /*switch(newArray[i]){
       case "+":
         newArray[i] = +;

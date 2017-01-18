@@ -42,8 +42,36 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  // var netGains = {GOOG: [], NFLX: [], FB: [], MSFT: [], AMZN: [], NVDA: []};
+
+  var tickerObj = _.groupBy(data, function(item, index){
+    return item.ticker;
+    // return grades.getGPA()
+  })
+
+return _.mapObject(tickerObj, function(txArr, key){
+  var minTx;
+  var minTime = Infinity;
+  var maxTx;
+  var maxTime = -Infinity;
+
+
+_.forEach(txArr, function(txObj, index){
+  var curTime = (new Date(txObj.time)).getTime();
+  if(curTime < minTime){
+    minTime = curTime;
+    minTx = index;
+  } else if (curTime > maxTime){
+    maxTime = curTime;
+    maxTx = index;
+  }
+});
+
+return txArr[maxTx].price - txArr[minTx].price;
+})
+
 };
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,8 +87,22 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
-};
+
+  var objectOfStocks = stocks.gainAndLoss(data);
+
+  var max = -Infinity;
+var winner = "fds";
+  _.forEach(objectOfStocks, function(value, key){
+    if (value > max){
+      max = value;
+    winner = key;
+  }
+})
+
+
+  return winner;
+}
+
 
 // Exercise 3. stocks.biggestLoser(data)
 //
@@ -76,8 +118,19 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
-};
+
+    var objectOfStocks = stocks.gainAndLoss(data);
+
+    var min = Infinity;
+  var loser = "fds";
+    _.forEach(objectOfStocks, function(value, key){
+      if (value < min){
+        min = value;
+      loser = key;
+    }
+  })
+    return loser;
+  }
 
 // Exercise 4. stocks.widestTradingRange(data)
 //
@@ -88,8 +141,15 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
-};
+var potentialWin = stocks.biggestGainer(data);
+var potentialLoss = stocks.biggestLoser(data);
+
+if((0 - potentialLoss) < (0 - potentialWin)) {
+  return potentialLoss;
+} else {
+  return potentialWin;
+}
+}
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
 // Write a function that calculates the value of a stock portfolio at a given
@@ -106,8 +166,31 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
-};
+
+  var sortedByDate = _.groupBy(data, function(item){
+    return item.time;
+    // return grades.getGPA()
+  })
+var newdate = date.toISOString();
+  // console.log(sortedByDate[newdate]);
+  // console.log(newdate);
+
+  console.log(sortedByDate);
+  // console.log(sortedByDate[newdate][2]);
+var sum = 0;
+ for(var key in portfolio){
+  for(var i = 0; i < sortedByDate[newdate].length; i++){
+   if(sortedByDate[newdate][i].ticker === key){
+     sum += portfolio[key] * sortedByDate[newdate][i].price
+    //  console.log(sum);
+   }
+ }
+ }
+ console.log(sum);
+ return sum;
+ }
+  //  console.log(sortedByDate[newdate][]);
+
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
 // Write a function to figure out the best time to buy and sell a given

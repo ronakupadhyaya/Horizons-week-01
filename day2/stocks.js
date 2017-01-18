@@ -42,31 +42,17 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-
   var sorted = getSorted(data);
-  // console.log(sorted);
-
-  console.log(getUnique(sorted));
-  var unique = {};
-  unique = getUnique(sorted);
-  console.log(unique);
+  var unique = new getUnique(sorted);
+  // console.log(unique);
   //set the lastIndex variable in object
   var tickerArray = Object.keys(unique);
+  var returnObj = {}; //create returnobj from unique obj
   for (var i = 0; i < tickerArray.length; i++) {
-    // tickerArray[i] is the ticker name
-    // unique.tickerArray[i] is the stock in the unique object
-    // console.log(unique[tickerArray[i]]);
-    // var lastLog = ;
-    unique[tickerArray[i]].endPrice = sorted[unique[tickerArray[i]].lastIndex].price;
+    returnObj[tickerArray[i]] = unique[tickerArray[i]].gainAndLoss;
   }
 
-  var returnObj = {};
-  for (var i = 0; i < tickerArray.length; i++) {
-    console.log()
-    returnObj[tickerArray[i]] = unique[tickerArray[i]].endPrice - unique[tickerArray[i]].startPrice;
-  }
-  console.log(returnObj);
+  // console.log(returnObj);
   return returnObj;
 };
 
@@ -84,7 +70,21 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var obj = {};
+  obj = stocks.gainAndLoss(data);
+  // console.log(obj);
+  var tickers = Object.keys(obj);
+  var highestTicker = tickers[0];
+  var highestAmount = obj[tickers[0]];
+  for (var i = 0; i < tickers.length; i++) {
+    if (highestAmount < obj[tickers[i]]) {
+      highestTicker = tickers[i];
+      highestAmount = obj[tickers[i]];
+    }
+    // console.log(tickers[i] + obj[tickers[i]]);
+  }
+  return highestTicker;
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -102,6 +102,20 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var obj = {};
+  obj = stocks.gainAndLoss(data);
+  // console.log(obj);
+  var tickers = Object.keys(obj);
+  var highestTicker = tickers[0];
+  var highestVar = obj[tickers[0]];
+
+  for (var i = 0; i < tickers.length; i++) {
+    if (highestVar > obj[tickers[i]]) {
+      highestTicker = tickers[i];
+      highestVar = obj[tickers[i]];
+    }
+  }
+  return highestTicker;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -114,6 +128,24 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+
+  var obj = {};
+  obj = getUnique(data);
+
+  var tickers = Object.keys(obj);
+  // console.log(tickers); //["GOOG", "NFLX", "FB", "MSFT", "AMZN", "NVDA"]
+
+  var highestTicker = tickers[0];
+  var highestAmount = obj[tickers[0]].variance;
+  // console.log(obj[tickers[i]].variance);
+  for (var i = 0; i < tickers.length; i++) {
+    if (highestAmount < obj[tickers[i]].variance) {
+      highestTicker = tickers[i];
+      highestAmount = obj[tickers[i]].variance;
+    }
+  }
+  // console.log(highestTicker);
+  return highestTicker;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -131,7 +163,23 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  // console.log(data);
+  // console.log(date);
+  // console.log(portfolio);
+  var sorted = getSorted(data);
+  console.log(portfolio);
+  var index;
+  var array = [];
+
+  for (var i=0; i<sorted.length; i++){
+    if (date === sorted[i].time && isInPortfolio(ticker)){
+      array.push(sorted[i].price);
+    }
+  }
+
+  //all the values we care about are before the index
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -186,7 +234,7 @@ function getSorted(data) {
 
 function getUnique(arr) {
   var obj = {};
-  console.log(arr);
+  // console.log(arr);
   for (var i = 0; i < arr.length; i++) {
     if (!obj[arr[i].ticker]) {
       obj[arr[i].ticker] = {
@@ -198,5 +246,88 @@ function getUnique(arr) {
       obj[arr[i].ticker].lastIndex = i;
     }
   }
+  // console.log(obj);
+
+  var tickerArray = Object.keys(obj);
+  for (var i = 0; i < tickerArray.length; i++) {
+    // tickerArray[i] is the ticker name
+    // console.log(obj[tickerArray[i]]);
+    var index = obj[tickerArray[i]].lastIndex;
+    obj[tickerArray[i]].endPrice = arr[index].price;
+  }
+  // console.log(obj);
+
+
+  //gainAndLoss
+  for (var i = 0; i < tickerArray.length; i++) {
+    obj[tickerArray[i]].gainAndLoss = obj[tickerArray[i]].endPrice - obj[tickerArray[i]].startPrice;
+  }
+  // for (var i = 0; i < tickerArray.length; i++) {
+  // }
+
+
+
+  //lowest, highest amounts ever recorded
+  // console.log(arr);
+
+
+  for (var i = 0; i < tickerArray.length; i++) { //find highest and lowest amount for each stock
+
+    // console.log(obj[tickerArray[i]]);
+    var currentTicker = obj[tickerArray[i]];
+    // console.log(currentTicker);
+    currentTicker.lowest = getLowest(tickerArray[i], arr);
+    currentTicker.highest = getHighest(tickerArray[i], arr);
+    // obj[tickerArray[i]].lowest = getLowest(tickerArray[i]);
+    currentTicker.variance = Math.abs(getDiff(currentTicker.highest, currentTicker.lowest));
+  }
+  // console.log(obj);
+
   return obj;
+}
+
+function getLowest(tick, array) {
+  //set lowest to first found
+  var price;
+  for (var i = 0; i < array.length; i++) {
+    if (tick === array[i].ticker) {
+      price = array[i].price;
+      break;
+    }
+  }
+
+  //check lowest
+  for (var i = 0; i < array.length; i++) {
+    if (tick === array[i].ticker) {
+      if (array[i].price < price) {
+        price = array[i].price;
+      }
+    }
+  }
+  return price;
+}
+
+function getHighest(tick, array) {
+  //set highest to first found
+  var price;
+  for (var i = 0; i < array.length; i++) {
+    if (tick === array[i].ticker) {
+      price = array[i].price;
+      break;
+    }
+  }
+
+  //check highest
+  for (var i = 0; i < array.length; i++) {
+    if (tick === array[i].ticker) {
+      if (array[i].price > price) {
+        price = array[i].price;
+      }
+    }
+  }
+  return price;
+}
+
+function getDiff(price1, price2) {
+  return price2 - price1;
 }

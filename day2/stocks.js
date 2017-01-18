@@ -42,7 +42,25 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var netGains={};
+  var timeDifference = _.groupBy(data, function(stocks) {
+    return stocks.ticker;
+  })
+  var timer = _.mapObject(timeDifference, function(arr, key) {
+    for (var i=0;i<arr.length;i++) {
+      arr[i].time = new Date(arr[i].time);
+    }
+    return arr;
+  })
+  _.forEach(timer, function(val, key) {
+    val.sort(function(a,b) {
+      return a.time - b.time;
+    })
+  })
+  _.forEach(timer, function(val, key) {
+    netGains[key] = val[val.length - 1].price - val[0].price
+  })
+  return netGains;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +77,16 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var companies = stocks.gainAndLoss(data);
+  var maxVal = 0;
+  var maxTx;
+  _.forEach(companies, function(val, key) {
+    if(val > maxVal) {
+      maxVal = val;
+      maxTx = key;
+    }
+  })
+  return maxTx;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +103,16 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var companies = stocks.gainAndLoss(data);
+  var minVal = Infinity;
+  var minTx;
+  _.forEach(companies, function(val, key) {
+    if(val < minVal) {
+      minVal = val;
+      minTx = key;
+    }
+  })
+  return minTx;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +124,27 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var tradingRange={};
+  var priceDifference = _.groupBy(data, function(stocks) {
+    return stocks.ticker;
+  })
+  _.forEach(priceDifference, function(val, key) {
+    val.sort(function(a,b) {
+      return a.price - b.price;
+    })
+  })
+  _.forEach(priceDifference, function(val, key) {
+    tradingRange[key] = val[val.length - 1].price - val[0].price
+  })
+  var maxVal = 0;
+  var maxTx;
+  _.forEach(tradingRange, function(val, key) {
+    if(val > maxVal) {
+      maxVal = val;
+      maxTx = key;
+    }
+  })
+  return maxTx;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +162,27 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var timeDifference = _.groupBy(data, function(stocks) {
+    return stocks.time;
+  })
+  var timer = _.mapObject(timeDifference, function(arr, key) {
+    for (var i=0;i<arr.length;i++) {
+      arr[i].time = new Date(arr[i].time);
+    }
+    return arr;
+  })
+  console.log(timeDifference)
+  var portVal = 0;
+  _.forEach(portfolio, function(val, key) {
+    for(var a=0;a<timeDifference[date].length;a++) {
+      console.log(key)
+      console.log(timeDifference[date][a].ticker)
+      if(key === timeDifference[date][a].ticker) {
+        portVal += timeDifference[date][a].price*portfolio[key]
+      }
+    }
+  })
+  return portVal;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

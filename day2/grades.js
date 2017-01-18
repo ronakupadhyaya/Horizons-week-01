@@ -26,26 +26,36 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  var sum = function(a,b) {
+    return a + b;
+  }
+  if (arr.length > 0) {
+    return (arr.reduce(sum))/arr.length
+  }
+  return 0;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
 // Write a function that takes an Student object and returns its GPA
 // note. remember that the student object has a .grades property, with two keys: 'class1' and 'class2'
 //
-// ex. grades.getGPA() -> 1.5
+// ex. grades.getGPA({name: 'Holly', 'horizons': 4, 'ycombinator': 4}) -> 4
 // ex. grades.getGPA([0, 0]) -> 0
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var newObj = _.values(student.grades)
+  return grades.average(newObj);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var best = _.max(data, function(student) {
+    return grades.getGPA(student);
+  });
+  return best;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +63,17 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majors = _.groupBy(data, function(student) {
+    return student.major
+  })
+  var new1 = _.mapObject(majors, function(students, major) {
+    var gpaofStudents = _.map(students, grades.getGPA)
+    return grades.average(gpaofStudents)
+  })
+  var bestmajor = Object.keys(new1).reduce(function(a,b) {
+    return new1[a] > new1[b] ? a : b;
+  })
+  return bestmajor;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +81,18 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var ourObject = {
+    class1 : [],
+    class2 : []
+  };
+
+  function returnClasses(student) {
+    ourObject.class1.push(student.grades.class1)
+    ourObject.class2.push(student.grades.class2)
+  }
+  data.forEach(returnClasses)
+  var answer = _.mapObject(ourObject, function(values) {
+    return grades.average(values)
+  })
+  return answer;
 };

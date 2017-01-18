@@ -17,11 +17,18 @@ function vault(password) {
   // YOUR CODE HERE
 }
 
-// DO NOT MODIFY THIS FUNCTION
+// This function returns an object that leaks private information!
+// See if you can fix this.
 var createUser = function(username, password) {
   return {
     username: username,
-    login: vault(password)
+    // Delete privatePassword and use vault()
+    // to implement the login function
+    // YOUR CODE HERE
+    privatePassword: password,
+    login: function(attempt) {
+      return this.privatePassword === attempt;
+    }
   }
 }
 

@@ -1,43 +1,5 @@
 "use strict";
 
-// Underscore function functions (aka Functional Underscore)
-//
-// Implement the following functions from the underscore library.
-// You'll need to use the 'arguments' object and function.apply()
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
-
-// Write a function called 'once' that takes a function 'fn' and
-// returns a new function that will call through to 'fn' at
-// most once.
-// Repeated calls to the new function will have no effect.
-//
-// When you call 'fn' be sure to pass in all arguments
-//
-// Example.
-// function sayHi(name) {
-//  console.log('hi ', name);
-//  return name;
-// }
-// var f = once(sayHi);
-// f('moose'); // -> logs 'hi moose', returns 'moose'
-// f(); // -> logs nothing, returns 'moose'
-// f(); // -> logs nothing, returns 'moose'
-// f(); // -> logs nothing, returns 'moose'
-//
-// This is http://underscorejs.org/#once
-function once(fn) {
-  var called = false;
-  var ret;
-  return function() {
-    if (! called) {
-      called = true;
-      ret = fn.apply(null, arguments);
-    }
-    return ret
-  }
-}
-
-
 // Write a function called 'memoize' that takes a function 'fn' and returns
 // a new function 'memoizedFn' that caches previously computed return values.
 //
@@ -61,14 +23,15 @@ function once(fn) {
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func, hashFunction) {
   var cache = {};
-  return function(num) {
-    if (cache.hasOwnProperty(num)) {
-      return cache[num];
+  return function() {
+    var hash = hashFunction ? hashFunction.apply(null, arguments) : arguments[0];
+    if (cache.hasOwnProperty(hash)) {
+      return cache[hash];
     }
-    cache[num] = func(num);
-    return cache[num];
+    cache[hash] = func.apply(null, arguments);
+    return cache[hash];
   }
 };
 
@@ -77,6 +40,47 @@ function memoize(func) {
 function partial(fn) {
   arguments[0] = null;
   return fn.bind.apply(fn, arguments);
+}
+
+// Exercise 3: composeBasic()
+// Write a function that takes two functions 'fun1' and 'fun2' and returns
+// a new function 'composedFn' that calls fun1(fun2()).
+//
+// When 'composedFn' is called it should call 'fun2' with all arguments,
+// after that it should call 'fun1' with the return value of calling 'fun2'.
+//
+// ex.
+// function double(n) {
+//  return n * 2;
+// }
+// function add1(n) {
+//  return n + 1;
+// }
+// var doubleThenPlus1 = composeBasic(add1, double);
+// doubleThenPlus1(3) // -> 7
+// doubleThenPlus1(0) // -> 1
+//
+// var plus1ThenDouble = composeBasic(double, add1);
+// plus1ThenDouble(3) // -> 8
+// plus1ThenDouble(0) // -> 2
+//
+// ex.
+// function sum(a, b) {
+//  return a + b;
+// }
+// function isEven(n) {
+//  return (n % 2) === 0;
+// }
+// var isSumEven = composeBasic(isEven, sum);
+// isSumEven(1, 1) // -> true
+// isSumEven(0, 1) // -> false
+// isSumEven(0, 22) // -> true
+// isSumEven(8, 11) // -> false
+// isSumEven(71, 387) // -> true
+function composeBasic(fun1, fun2) {
+  return function() {
+    return fun1(fun2.apply(null, arguments));
+  }
 }
 
 // Bonus: Implement _.compose()

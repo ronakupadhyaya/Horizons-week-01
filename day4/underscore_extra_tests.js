@@ -1,49 +1,5 @@
 "use strict";
 
-describe('once()', function() {
-  var called, onceFn;
-  function fn() {
-    called++;
-    return 'fn return value';
-  }
-
-  beforeEach(function() {
-    called = 0;
-    onceFn = once(fn);
-  });
-
-
-  it('should return a function', function() {
-    expect(onceFn).toEqual(jasmine.any(Function));
-  });
-  it('if onceFn is not called, then fn is not called', function() {
-    expect(called).toBe(0);
-  });
-  it('if onceFn is called 1 time, then fn is called 1 time', function() {
-    onceFn();
-    expect(called).toBe(1);
-  });
-  it('if onceFn is called 4 times, then fn is called 1 time', function() {
-    for (var i = 0; i < 4; i++) {
-      onceFn();
-    }
-    expect(called).toBe(1);
-  });
-  it('onceFn always returns the value fn returned', function() {
-    for (var i = 0; i < 4; i++) {
-      expect(onceFn()).toBe('fn return value');
-    }
-  });
-  it('arguments to onceFn are passed on to', function() {
-    var args = ['a', null, undefined, 123, -1, 'another str'];
-    function getArgs() {
-      return Array.from(arguments);
-    }
-    var onceGetArgs = once(getArgs);
-    expect(onceGetArgs.apply(null, args)).toEqual(args);
-  });
-});
-
 describe("memoize()", function() {
   var called, memoizedDouble;
   function double(number) {
@@ -144,7 +100,76 @@ describe('partial()', function() {
   });
 });
 
-describe('compose()', function() {
+describe('composeBasic()', function() {
+  function double(n) {
+    return n * 2;
+  }
+
+  function add1(n) {
+    return n + 1;
+  }
+
+  it("composeBasic(add1, double) -> add1(double())", function() {
+    var doubleThenPlus1 = composeBasic(add1, double);
+    expect(doubleThenPlus1(3)).toBe(7);
+    expect(doubleThenPlus1(0)).toBe(1);
+  });
+
+  it("composeBasic(double, add1) -> double(add1())", function() {
+    var doubleThenPlus1 = composeBasic(double, add1);
+    expect(doubleThenPlus1(3)).toBe(8);
+    expect(doubleThenPlus1(0)).toBe(2);
+  });
+
+  it("composeBasic(isEven, sum) -> isEven(sum())", function() {
+    function sum(a, b) {
+      return a + b;
+    }
+    function isEven(n) {
+      return (n % 2) === 0;
+    }
+    var isSumEven = composeBasic(isEven, sum);
+    expect(isSumEven(1, 1)).toBe(true);
+    expect(isSumEven(0, 1)).toBe(false);
+    expect(isSumEven(0, 22)).toBe(true);
+    expect(isSumEven(8, 11)).toBe(false);
+    expect(isSumEven(71, 387)).toBe(true);
+  });
+});
+
+describe("Bonus: memoize() with hashFunction", function() {
+  var called;
+  var hashCalled;
+  var memoizedSum;
+
+  beforeEach(function() {
+    called = 0;
+    hashCalled = 0;
+    memoizedSum = memoize(sum, hash);
+  });
+
+  function sum() {
+    called++;
+    return Array.from(arguments).reduce(function(a, b) {
+      return a + b;
+    });
+  }
+
+  function hash() {
+    hashCalled++;
+    return Array.from(arguments).join(',');
+  }
+
+  it("calling memoized function 4 times calls hash function each time", function() {
+    for (var i = 0; i < 4; i++) {
+      expect(memoizedSum(-31, 22, 8)).toBe(-1);
+    }
+    expect(called).toBe(1);
+    expect(hashCalled).toBe(4);
+  });
+});
+
+describe('Bonus: compose()', function() {
   it("compose(f, g, h) -> f(g(h(x, y, z)))", function() {
     function h(x, y, z) {
       expect(arguments.length).toBe(3);

@@ -42,9 +42,15 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
 
+  var x=_.groupBy(data,function(comp) {
+    return comp.ticker
+  })
+return _.groupBy(x, function(date) {
+            return date.time
+})
+
+}
 // Exercise 2. stocks.biggestGainer(data)
 //
 // Write a function that finds the stock that went up in price the most

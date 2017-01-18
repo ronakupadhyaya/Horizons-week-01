@@ -10,6 +10,9 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
+  return new Date(dateStr);
+
+
   // YOUR CODE HERE
 };
 
@@ -23,6 +26,9 @@ dates.createDate = function(dateStr) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
+  var date=new Date(dateObj);
+
+  return date.toUTCString();
   // YOUR CODE HERE
 };
 
@@ -34,7 +40,14 @@ dates.getUTCString = function(dateObj) {
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+
+   var day1=dateObj.getDay();
+   var day2=otherDateObj.getDay();
+   if(day1===day2) {
+     return true
+   }
+   return false
+    // YOUR CODE HERE
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -47,6 +60,12 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
+  var hour1=dateObj.getHours();
+  var hour2=otherDateObj.getHours();
+  if(hour1===hour2) {
+    return true
+  }
+  return false
   // YOUR CODE HERE
 };
 
@@ -55,6 +74,14 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
+
+  var today=new Date()
+  var date= new Date(dateObj)
+
+  if(date>today) {
+    return true
+  }
+  return false
   // YOUR CODE HERE
 };
 
@@ -65,5 +92,12 @@ dates.isTheFuture = function(dateObj) {
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
+
+  var date=dateObj
+  var day=date.getDate()
+  date.setDate(day+1)
+  
+return date
+
   // YOUR CODE HERE
 };

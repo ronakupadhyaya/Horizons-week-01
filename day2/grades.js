@@ -26,6 +26,15 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
+  if(arr.length===0) {
+    return 0
+  }
+
+  var sum=_.reduce(arr, function(a,b) {
+            return a+b
+  })
+  var avr=sum/arr.length
+  return avr
   // YOUR CODE HERE
 };
 
@@ -38,6 +47,11 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
+
+  var grade1=student.grades['class1']
+  var grade2=student.grades['class2']
+  return (grade1+grade2)/2
+
   // YOUR CODE HERE
 };
 
@@ -45,6 +59,12 @@ grades.getGPA = function(student) {
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
+
+
+data.sort(function(a,b) {
+return (b.grades.class1+b.grades.class2)/2-(a.grades.class1+a.grades.class2)/2
+})
+return data[0]
   // YOUR CODE HERE
 }
 
@@ -53,6 +73,65 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
+  var awnser=[]
+  var econ=[]
+  var art=[]
+  var film=[]
+  var compsci=[]
+
+  for(var i=0;i<data.length;i++)
+    if(data[i].major==='Economics') {
+      econ.unshift((data[i].grades.class1+data[i].grades.class2)/2)
+    }
+
+  for(var i=0;i<data.length;i++)
+    if(data[i].major==='Film Studies') {
+      film.unshift((data[i].grades.class1+data[i].grades.class2)/2)
+    }
+  for(var i=0;i<data.length;i++)
+    if(data[i].major==='Art History') {
+      art.unshift((data[i].grades.class1+data[i].grades.class2)/2)
+    }
+  for(var i=0;i<data.length;i++)
+    if(data[i].major==='Computer Science') {
+      compsci.unshift((data[i].grades.class1+data[i].grades.class2)/2)
+    }
+
+
+
+  var sumEcon= (_.reduce(econ, function(a,b) {
+    return a+b
+  }))/econ.length
+
+  var sumArt=( _.reduce(art, function(a,b) {
+    return a+b
+  }))/art.length
+
+  var sumComp= (_.reduce(compsci, function(a,b) {
+    return a+b
+  }))/compsci.length
+
+  var sumFilm= (_.reduce(film, function(a,b) {
+    return a+b
+  }))/film.length
+
+
+var array=[sumFilm,sumComp,sumArt,sumEcon]
+var array1=[sumFilm,sumComp,sumArt,sumEcon]
+
+array.sort(function(a,b) {
+  return (b-a)
+})
+
+for( var i=0;i<array.length;i++) {
+  if(array[0]===array1[i]){
+    awnser.push('Film Studies')
+  }
+}
+
+return awnser.toString()
+
+
   // YOUR CODE HERE
 };
 
@@ -61,5 +140,21 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
+
+  var averages={};
+  averages.class1=0;
+  averages.class2=0;
+
+  _.forEach(data, function(a) {
+      averages.class1+=a.grades.class1;
+      averages.class2+=a.grades.class2;
+    });
+averages.class1=averages.class1/data.length;
+averages.class2=averages.class2/data.length;
+
+return averages
+
+
+
   // YOUR CODE HERE
 };

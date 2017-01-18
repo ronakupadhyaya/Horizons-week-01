@@ -5,6 +5,7 @@ function functionThatReturnsTrue() {
   return true;
 }
 
+
 // This function should return the first word of a string but it doesn't work.
 // Let's find the bug in it and fix it
 //

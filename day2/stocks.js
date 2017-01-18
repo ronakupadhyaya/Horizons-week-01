@@ -42,7 +42,26 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var sortedObj = _.sortBy(data, "time");
+  var companies = _.groupBy(sortedObj, function(trans){
+    return trans["ticker"];
+  });
+  var answer = {'GOOG': null,
+    'NFLX': null,
+    'FB': null,
+    'MSFT': null,
+    'AMZN': null,
+    'NVDA': null
+  }
+  for (var prop in companies) {
+    //accessing right company in answer object to change value
+    answer[companies[prop][0]["ticker"]] =
+    //highest price for company
+      companies[prop][companies[prop].length - 1]["price"] -
+      //lowest price for company
+      companies[prop][0]["price"];
+  }
+  return answer;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +78,15 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var profit = stocks.gainAndLoss(data);
+  var maxGain = _.max(profit);
+  var answer;
+  _.forEach(profit, function(value, key) {
+    if (maxGain === value) {
+      answer = key;
+    }
+  });
+  return answer;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +103,15 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var profit = stocks.gainAndLoss(data);
+  var maxLoss = _.min(profit);
+  var answer;
+  _.forEach(profit, function(value, key) {
+    if (maxLoss === value) {
+      answer = key;
+    }
+  });
+  return answer;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +123,33 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var sortedObj = _.sortBy(data, "price");
+  var companies = _.groupBy(sortedObj, function(trans){
+    return trans["ticker"];
+  });
+  var answer = {'GOOG': null,
+    'NFLX': null,
+    'FB': null,
+    'MSFT': null,
+    'AMZN': null,
+    'NVDA': null
+  }
+  for (var prop in companies) {
+    //accessing right company in answer object to change value
+    answer[companies[prop][0]["ticker"]] =
+    //highest price for company
+      companies[prop][companies[prop].length - 1]["price"] -
+      //lowest price for company
+      companies[prop][0]["price"];
+  }
+  var maxGain = _.max(answer);
+  var ans;
+  _.forEach(answer, function(value, key) {
+    if (maxGain === value) {
+      ans = key;
+    }
+  });
+  return ans;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +167,25 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var milli = date.getTime();
+  var arr = [];
+  var port = Object.keys(portfolio);
+  var num = Object.values(portfolio);
+  var names = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = new Date(data[i]['time']);
+    data[i]['time'] = d.getTime();
+    if (data[i]['time'] === milli) {
+      if (port.includes(data[i]['ticker'])){
+        arr.push(data[i]['price']);
+      }
+    }
+  }
+  var ans = 0;
+  for (var m = 0; m < port.length; m++) {
+    ans += num[m] * arr[m];
+  }
+  return ans;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

@@ -193,7 +193,6 @@ stocks.portfolioValue = function(data, date, portfolio) {
 
   // for/in loops through the properties of an object
   for (var x in dateList){
-    // value =
     dateList[ new Date(x).toUTCString() ] = dateList[x];
     delete dateList[x];
   }

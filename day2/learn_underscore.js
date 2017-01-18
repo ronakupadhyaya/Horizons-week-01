@@ -112,7 +112,6 @@ learn_underscore.any = function(array, fun) {
   };
 
   var mappedArr = _.map(array, fun);
-  //console.log(mappedArr);
   return _.reduce(mappedArr, function(accum, item){
     return accum || !!item;
   });
@@ -157,7 +156,19 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false], and) -> false
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
-  // YOUR CODE HERE
+
+  var accummulator = array[0];
+
+  // console.log("HELLO WORD");
+
+  for(var i=1; i<array.length; i++) {
+
+    accummulator = fun(accummulator, array[i]);
+
+  }
+
+  return accummulator;
+
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -175,6 +186,15 @@ learn_underscore.reduce = function(array, fun) {
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
   // YOUR CODE HERE
+  var arr = [];
+
+  _.forEach(object, function(value, key){
+
+    arr.push(key);
+
+  });
+
+  return arr;
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -185,6 +205,16 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
   // YOUR CODE HERE
+
+  var arr = [];
+
+  _.forEach(object, function(value, key){
+
+    arr.push(value);
+
+  });
+
+  return arr;
 }
 
 // Exercise 7: learn_underscore.pairs(object)
@@ -195,6 +225,16 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
   // YOUR CODE HERE
+  var arr = [];
+
+  _.forEach(object, function(value, key){
+
+    arr.push([key, value]);
+
+  });
+
+  return arr;
+
 }
 
 // Example 2: groupByState(people)
@@ -282,10 +322,13 @@ learn_underscore.countLetters = function(string) {
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+
+
   var groupedObj = _.groupBy(array, fun);
-  //console.log(groupedObj);
-  return groupedObj = _.mapObject(groupedObj, function(array, key){
-    return array.length;
+
+  return _.mapObject(groupedObj, function(arr, key){
+    return arr.length;
+
   });
 
 }

@@ -42,9 +42,22 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var sorted = _.sortBy(data, "time")
+  var grouped = _.groupBy(sorted, "ticker")
+  var final = {"GOOG": 0, "NFLX":0, "FB": 0, "MSFT":0, "AMZN":0, "NVDA":0}
+  final.GOOG = grouped["GOOG"][29].price - grouped["GOOG"][0].price;
+  final.NFLX = grouped["NFLX"][29].price - grouped["NFLX"][0].price;
+  final.FB = grouped["FB"][29].price - grouped["FB"][0].price;
+  final.MSFT = grouped["MSFT"][29].price - grouped["MSFT"][0].price;
+  final.AMZN = grouped["AMZN"][29].price - grouped["AMZN"][0].price;
+  final.NVDA = grouped["NVDA"][29].price - grouped["NVDA"][0].price;
+  return final
 };
-
+//NFLX: 43.44,
+//   FB: -47.36,
+//   MSFT: -16.21,
+//   AMZN: 299.04,
+//   NVDA: 17.5
 // Exercise 2. stocks.biggestGainer(data)
 //
 // Write a function that finds the stock that went up in price the most
@@ -59,7 +72,14 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var names = Object.keys(gains);
+  var diffs = [];
+  for (var x = 0; x<names.length; x++) {
+    diffs.push(gains[names[x]])
+  }
+  var index = diffs.indexOf(Math.max.apply(null, diffs));
+  return names[index];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +96,14 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var names = Object.keys(gains);
+  var diffs = [];
+  for (var x = 0; x<names.length; x++) {
+    diffs.push(gains[names[x]])
+  }
+  var index = diffs.indexOf(Math.min.apply(null, diffs));
+  return names[index];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +115,24 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var sorted = _.sortBy(data, "price")
+  var grouped = _.groupBy(sorted, "ticker")
+  var final = {"GOOG": 0, "NFLX":0, "FB": 0, "MSFT":0, "AMZN":0, "NVDA":0}
+  final.GOOG = grouped["GOOG"][29].price - grouped["GOOG"][0].price;
+  final.NFLX = grouped["NFLX"][29].price - grouped["NFLX"][0].price;
+  final.FB = grouped["FB"][29].price - grouped["FB"][0].price;
+  final.MSFT = grouped["MSFT"][29].price - grouped["MSFT"][0].price;
+  final.AMZN = grouped["AMZN"][29].price - grouped["AMZN"][0].price;
+  final.NVDA = grouped["NVDA"][29].price - grouped["NVDA"][0].price;
+
+  var gains = final;
+  var names = Object.keys(gains);
+  var diffs = [];
+  for (var x = 0; x<names.length; x++) {
+    diffs.push(gains[names[x]])
+  }
+  var index = diffs.indexOf(Math.max.apply(null, diffs));
+  return names[index];
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +150,27 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var grouped = _.groupBy(data, "time")
+  var value = 0;
+  var amounts = [];
+  var newDate = date.toISOString();
+  var keys = Object.keys(portfolio)
+  for (var x = 0; x<keys.length; x++) {
+    var price = 0
+      for (var i = 0; i < grouped[newDate].length; i++) {
+        if (grouped[newDate][i].ticker === keys[x]) {
+          price = grouped[newDate][i].price
+        }
+      }
+      var onevalue = price*portfolio[keys[x]]
+      amounts.push(onevalue)
+  }
+  debugger;
+  var answer = 0
+  answer = amounts.reduce(function(x,y) {
+    return x+y
+  })
+  return answer
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

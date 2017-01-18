@@ -62,17 +62,39 @@ function once(fn) {
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var cache = {};
+  return function(num) {
+    if (cache.hasOwnProperty(num)) {
+      return cache[num];
+    }
+    cache[num] = func(num);
+    return cache[num];
+  }
 };
 
 // Implement _.partial()
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  arguments[0] = null;
+  return fn.bind.apply(fn, arguments);
 }
 
 // Bonus: Implement _.compose()
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var fns = arguments;
+  return function() {
+    var first = true;
+    var lastRet;
+    for (var i = fns.length - 1; i >= 0; i--) {
+      var fn = fns[i];
+      if (first) {
+        lastRet = fn.apply(null, arguments);
+      } else {
+        lastRet = fn(lastRet);
+      }
+      first = false;
+    }
+    return lastRet;
+  }
 }

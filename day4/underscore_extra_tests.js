@@ -1,57 +1,46 @@
 "use strict";
 
-describe('partial()', function() {
-  function allArgs() {
-    return _.toArray(arguments);
+describe('once()', function() {
+  var called, onceFn;
+  function fn() {
+    called++;
+    return 'fn return value';
   }
 
-  it("partial() -> Error", function() {
-    expect(_.partial(partial)).toThrow();
+  beforeEach(function() {
+    called = 0;
+    onceFn = once(fn);
   });
-  it("partial(allArgs)() -> []", function() {
-    expect(partial(allArgs)() ).toEqual([]);
-  });
-  it("partial(allArgs)(0, 1, 2, 3, 4) -> [0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs)(0, 1, 2, 3, 4) ).toEqual([0, 1, 2, 3, 4]);
-  });
-  it("partial(allArgs, 'x')() -> ['x']", function() {
-    expect(partial(allArgs, 'x')() ).toEqual(['x']);
-  });
-  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
-  });
-  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
-    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
-  });
-  it("handle 500 arguments from partial", function() {
-    var args = [allArgs].concat(_.range(500));
-    expect(partial.apply(null, args)()).toEqual(_.range(500));
-  });
-  it("handle 500 arguments after partial", function() {
-    expect(partial(allArgs).apply(null, _.range(500))).toEqual(_.range(500));
-  });
-  it("handle 500 arguments from and after partial", function() {
-    var args = [allArgs].concat(_.range(500));
-    expect(partial.apply(null, args).apply(null, _.range(500))).toEqual(_.range(500).concat(_.range(500)));
-  });
-});
 
-describe('compose()', function() {
-  it("compose(f, g, h) -> f(g(h(x, y, z)))", function() {
-    function h(x, y, z) {
-      expect(arguments.length).toBe(3);
-      return x * z * y;
+
+  it('should return a function', function() {
+    expect(onceFn).toEqual(jasmine.any(Function));
+  });
+  it('if onceFn is not called, then fn is not called', function() {
+    expect(called).toBe(0);
+  });
+  it('if onceFn is called 1 time, then fn is called 1 time', function() {
+    onceFn();
+    expect(called).toBe(1);
+  });
+  it('if onceFn is called 4 times, then fn is called 1 time', function() {
+    for (var i = 0; i < 4; i++) {
+      onceFn();
     }
-    function g(x) {
-      expect(arguments.length).toBe(1);
-      return x / 3;
+    expect(called).toBe(1);
+  });
+  it('onceFn always returns the value fn returned', function() {
+    for (var i = 0; i < 4; i++) {
+      expect(onceFn()).toBe('fn return value');
     }
-    function f(x) {
-      expect(arguments.length).toBe(1);
-      return x * 2;
+  });
+  it('arguments to onceFn are passed on to', function() {
+    var args = ['a', null, undefined, 123, -1, 'another str'];
+    function getArgs() {
+      return Array.from(arguments);
     }
-    var composed = compose(f, g, h);
-    expect(composed(2, 3, 5)).toBe(20);
+    var onceGetArgs = once(getArgs);
+    expect(onceGetArgs.apply(null, args)).toEqual(args);
   });
 });
 
@@ -116,5 +105,60 @@ describe("memoize()", function() {
     });
     expect(called.length).toBe(100);
     expect(_.all(called, _.identity)).toBe(true);
+  });
+});
+
+describe('partial()', function() {
+  function allArgs() {
+    return _.toArray(arguments);
+  }
+
+  it("partial() -> Error", function() {
+    expect(_.partial(partial)).toThrow();
+  });
+  it("partial(allArgs)() -> []", function() {
+    expect(partial(allArgs)() ).toEqual([]);
+  });
+  it("partial(allArgs)(0, 1, 2, 3, 4) -> [0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs)(0, 1, 2, 3, 4) ).toEqual([0, 1, 2, 3, 4]);
+  });
+  it("partial(allArgs, 'x')() -> ['x']", function() {
+    expect(partial(allArgs, 'x')() ).toEqual(['x']);
+  });
+  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
+  });
+  it("partial(allArgs, 'x')(0, 1, 2, 3, 4) -> ['x', 0, 1, 2, 3, 4]", function() {
+    expect(partial(allArgs, 'x')(0, 1, 2, 3, 4) ).toEqual(['x', 0, 1, 2, 3, 4]);
+  });
+  it("handle 500 arguments from partial", function() {
+    var args = [allArgs].concat(_.range(500));
+    expect(partial.apply(null, args)()).toEqual(_.range(500));
+  });
+  it("handle 500 arguments after partial", function() {
+    expect(partial(allArgs).apply(null, _.range(500))).toEqual(_.range(500));
+  });
+  it("handle 500 arguments from and after partial", function() {
+    var args = [allArgs].concat(_.range(500));
+    expect(partial.apply(null, args).apply(null, _.range(500))).toEqual(_.range(500).concat(_.range(500)));
+  });
+});
+
+describe('compose()', function() {
+  it("compose(f, g, h) -> f(g(h(x, y, z)))", function() {
+    function h(x, y, z) {
+      expect(arguments.length).toBe(3);
+      return x * z * y;
+    }
+    function g(x) {
+      expect(arguments.length).toBe(1);
+      return x / 3;
+    }
+    function f(x) {
+      expect(arguments.length).toBe(1);
+      return x * 2;
+    }
+    var composed = compose(f, g, h);
+    expect(composed(2, 3, 5)).toBe(20);
   });
 });

@@ -41,7 +41,7 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a'], 'a') -> true
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
-  // YOUR CODE HERE
+  return _.any(array, )
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -160,7 +160,7 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-  // YOUR CODE HERE
+
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -267,5 +267,5 @@ learn_underscore.countLetters = function(string) {
 //  }
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
-  // YOUR CODE HERE
+  
 }

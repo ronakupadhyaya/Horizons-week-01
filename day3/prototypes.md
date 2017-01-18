@@ -121,6 +121,3 @@ Looking for a property in JS takes a couple of steps:
 
    ​
 
-## Part 4 Quiz!
-
-Go to ____. 

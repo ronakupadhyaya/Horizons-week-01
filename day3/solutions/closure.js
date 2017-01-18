@@ -6,25 +6,25 @@
 // the account has a login command. When you have multiple
 // users it is important to note that the passwords for
 // each user must be kept separate (only available in the
-// local scope of the function), or else users might have
+// local scope of the login function), or else users might have
 // access to passwords of their fellow users.
+//
+// Implement a function vault() that returns a function fn.
+// fn takes in a string called attempt and returns true or false
+// based on whether the attempt matches password. The purpose of
+// this function is to hide the password from prying eyes.
+function vault(password) {
+  // YOUR CODE HERE
+  return function(attempt) {
+    return attempt === password;
+  }
+}
 
-// This function takes in a username and a password and
-// returns an object that contains those two properties
-// along with a login function.
+// DO NOT MODIFY THIS FUNCTION
 var createUser = function(username, password) {
   return {
     username: username,
-    // This function takes in a password attempt
-    // and returns true if the password is correct
-    // and returns false if the password is incorrect.
-    login: function(attempt) {
-      // any variables declared in this area area
-      // are only available for use within the login
-      // function.
-      var privatePassword = password;
-      return attempt === privatePassword ? true : false;
-    }
+    login: vault(password)
   }
 }
 
@@ -40,7 +40,6 @@ var once = function(f) {
     if (! called) { // if f hasn't been called yet
       ret = f.apply(null, arguments);
       called = true; // mark f as called
-      return f.apply(null, arguments); // call f
     }
     return ret;
   }

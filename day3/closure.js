@@ -6,27 +6,22 @@
 // the account has a login command. When you have multiple
 // users it is important to note that the passwords for
 // each user must be kept separate (only available in the
-// local scope of the function), or else users might have
+// local scope of the login function), or else users might have
 // access to passwords of their fellow users.
+//
+// Implement a function vault() that returns a function fn.
+// fn takes in a string called attempt and returns true or false
+// based on whether the attempt matches password. The purpose of
+// this function is to hide the password from prying eyes.
+function vault(password) {
+  // YOUR CODE HERE
+}
 
-// This function takes in a username and a password and
-// returns an object that contains those two properties
-// along with a login function.
+// DO NOT MODIFY THIS FUNCTION
 var createUser = function(username, password) {
   return {
     username: username,
-    privatePassword: password, // move this to a location
-    // that would make it inaccessible outside this object.
-    //
-    // This function takes in a password attempt
-    // and returns true if the password is correct
-    // and returns false if the password is incorrect.
-    login: function(attempt) {
-      // any variables declared in this area area
-      // are only available for use within the login
-      // function.
-      return attempt === this.privatePassword ? true : false;
-    }
+    login: vault(password)
   }
 }
 
@@ -42,9 +37,13 @@ var horizons = createUser('horizons', 'horizonites');
 // The once function takes in a function f
 // and returns a function that takes in
 // an arbitrary number of arguments and
-// calls f given the args. The returned function
-// should bind the first argument passed to
-// the inner function. So given a function
+// calls f given the args. The return function
+// should call f at most once, and remember the
+// return value in order to keep returning it
+// in all subsequent calls.
+// Repeated calls to the return function
+// should reuturn whatever f returned
+// the first time it was called.
 //
 // var square = function(x) {
 //   return x * x;
@@ -65,7 +64,7 @@ var horizons = createUser('horizons', 'horizonites');
 //
 // calling squareNum(3) should make it so that
 // every later call of squareNum will always
-// output 9. See below.
+// output 9 (regardless of the arguments). See below.
 //
 // ex. squareNum(3) -> 9
 // ex. squareNum(4) -> 9
@@ -144,16 +143,11 @@ var counter = function () {
 }
 // DO NOT CHANGE THIS FUNCTION
 
-
-
 // TESTS PAST THIS LINE
 describe("horizons.password()", function() {
   function beforeEach() {
     var horizons = createUser('horizons', 'horizonites');
   }
-  it("should not be accessible", function() {
-    expect(horizons.privatePassword).toBe(undefined);
-  });
   it("horizons.login('horizonites') -> true", function() {
     expect(horizons.login('horizonites')).toBe(true);
   });

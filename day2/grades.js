@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length === 0) {
+    return 0;
+  }
+  return _.reduce(arr, function(first, second) {
+    return first + second;
+  }) / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,13 +43,22 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
+  var highestGPA = 0;
+  var highestGPAStudent;
+  _.forEach(data, function(student) {
+    if (highestGPA < grades.getGPA(student)){
+      highestGPA = grades.getGPA(student);
+      highestGPAStudent = student;
+    }
+  });
+return highestGPAStudent;
   // YOUR CODE HERE
 }
 
@@ -53,6 +67,16 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
+  var highestGPA = 0;
+  var highestGPAStudent;
+  var highestGPAStudentMajor;
+  _.forEach(data, function(student) {
+    if (highestGPA < grades.getGPA(student)){
+      highestGPA = grades.getGPA(student);
+      highestGPAStudent = student.major;
+    }
+  });
+return highestGPAStudent;
   // YOUR CODE HERE
 };
 
@@ -61,5 +85,14 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
+  var classKey1 =0;
+  var classKey2=0;
+  _.forEach(data, function(student){
+    classKey1 = classKey1 + student.grades.class1;
+    classKey2 = classKey2 + student.grades.class2;
+  });
+  //classKey1 = classKey1/data.length;
+  classKey2 = classKey2/data.length;
+  return {"class1" : (classKey1/data.length), "class2" : (classKey2/data.length)};
   // YOUR CODE HERE
 };

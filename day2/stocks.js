@@ -42,6 +42,16 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
+  var sort = _.sortBy(data, 'time')
+  var groupTicker = _.groupBy(sort, 'ticker')
+  var answer = {'AMZN': 0, 'FB': 0, 'GOOG': 0, 'MSFT': 0, 'NFLX': 0, "NVDA": 0}
+  answer.AMZN = groupTicker.AMZN[29].price - groupTicker.AMZN[0].price;
+  answer.FB = groupTicker.FB[29].price - groupTicker.FB[0].price;
+  answer.GOOG = groupTicker.GOOG[29].price - groupTicker.GOOG[0].price;
+  answer.MSFT = groupTicker.MSFT[29].price - groupTicker.MSFT[0].price;
+  answer.NFLX = groupTicker.NFLX[29].price - groupTicker.NFLX[0].price;
+  answer.NVDA = groupTicker.NVDA[29].price - groupTicker.NVDA[0].price;
+  return answer;
   // YOUR CODE HERE
 };
 
@@ -59,6 +69,15 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
+  var arr=[];
+  var data1 = stocks.gainAndLoss(data);
+  for (var key in data1){
+    arr.push([key, data1[key]])
+  }
+  arr.sort(function(a, b){
+    return b[1] - a[1]
+  })
+  return arr[0][0]
   // YOUR CODE HERE
 };
 
@@ -76,6 +95,15 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
+  var arr=[];
+  var data1 = stocks.gainAndLoss(data);
+  for (var key in data1){
+    arr.push([key, data1[key]]);
+  }
+  arr.sort(function(a, b){
+    return a[1] - b[1];
+  })
+  return arr[0][0];
   // YOUR CODE HERE
 };
 
@@ -88,6 +116,23 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
+  var sort = _.sortBy(data, 'price')
+  var groupTicker = _.groupBy(sort, 'ticker')
+  var answer = {'AMZN': 0, 'FB': 0, 'GOOG': 0, 'MSFT': 0, 'NFLX': 0, "NVDA": 0}
+  answer.AMZN = groupTicker.AMZN[29].price - groupTicker.AMZN[0].price;
+  answer.FB = groupTicker.FB[29].price - groupTicker.FB[0].price;
+  answer.GOOG = groupTicker.GOOG[29].price - groupTicker.GOOG[0].price;
+  answer.MSFT = groupTicker.MSFT[29].price - groupTicker.MSFT[0].price;
+  answer.NFLX = groupTicker.NFLX[29].price - groupTicker.NFLX[0].price;
+  answer.NVDA = groupTicker.NVDA[29].price - groupTicker.NVDA[0].price;
+  var arr=[];
+  for (var key in answer){
+    arr.push([key, answer[key]])
+  }
+  arr.sort(function(a, b){
+    return b[1] - a[1]
+  })
+  return arr[0][0]
   // YOUR CODE HERE
 };
 
@@ -106,6 +151,25 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
+  var groupByDate = _.groupBy(data, "time");
+  var value = 0;
+  var amounts = [];
+  var newDate = date.toISOString();
+  var keyList = Object.keys(portfolio);
+  for (var x = 0; x < keyList.length; x++) {
+    var price = 0;
+    for (var i = 0; i < groupByDate[newDate].length; i++) {
+      if (groupByDate[newDate][i].ticker === keyList[x]) {
+        price = groupByDate[newDate][i].price;
+      }
+    }
+    var oneValue = price * portfolio[keyList[x]];
+    amounts.push(oneValue);
+  }
+  value = amounts.reduce(function(a,b) {
+    return a + b;
+  });
+  return value;
   // YOUR CODE HERE
 };
 

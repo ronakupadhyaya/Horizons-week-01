@@ -27,6 +27,7 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -46,6 +47,13 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var gradeArr = [];
+  _.forEach(data, function(value, student, data){
+    gradeArr.push(getGPA(student))
+  })
+  _.reduce(gradeArr, function(a,b){
+    return a>b;
+  })
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)

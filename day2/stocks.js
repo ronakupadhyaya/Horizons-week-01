@@ -43,6 +43,32 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var sortedData = _.sortBy(data, "time");
+  var sortedCompanies = _.groupBy(sortedData, 'ticker')
+  return _.mapObject(sortedCompanies, function(transaction){
+    var numberOfDays = transaction.length-1;
+    return transaction[numberOfDays].price-transaction[0].price;
+  })
+
+
+//   for (var key in sortedCompanies){
+//     var numberOfDays = sortedCompanies[key].length-1;
+//
+//
+//     sortedCompanies[key] = (sortedCompanies[key][numberOfDays]['price'] - sortedCompanies[key][0]['price']);
+//
+//   }
+// console.log(sortedCompanies)
+// return sortedCompanies;
+
+
+  // var stockReturns = _.map(companiesNames, function(value,key,list){
+  //   key
+
+
+  // console.log(stockReturns);
+  // console.log(typeof(stockData[0].time));
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +86,13 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  return _.findKey(obj,function(value){
+    return value === _.max(obj);
+  })
+  // var obj1 = _.sortBy(obj, obj.keys);
+  // console.log(obj1);
+  // return _.findKey(obj,key === obj1[obj.keys.length-1])
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +110,10 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  return _.findKey(obj,function(value){
+    return value === _.min(obj);
+  })
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +126,16 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var sortedData = _.sortBy(data, 'price');
+  var sortedCompanies = _.groupBy(sortedData, 'ticker');
+  var mappedCompanies = _.mapObject(sortedCompanies, function(transaction){
+        var numberOfDays = transaction.length-1;
+        return transaction[29].price - transaction[0].price;
+  })
+    return _.findKey(mappedCompanies, function(value){
+    return value === _.max(mappedCompanies);
+  })
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +154,7 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

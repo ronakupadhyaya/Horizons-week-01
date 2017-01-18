@@ -144,6 +144,11 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
   // YOUR CODE HERE
+var accumulator = array [0];
+for (var i = 1; i<array.length; i++){
+  accumulator = fun (accumulator, array[i]);
+}
+return accumulator;
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -160,7 +165,7 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-  // YOUR CODE HERE
+  // YOUR CODE HERE1
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -268,4 +273,7 @@ learn_underscore.countLetters = function(string) {
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+var arr = [];
+arr = _.groupBy(array,fun);
+console.log(arr);
 }

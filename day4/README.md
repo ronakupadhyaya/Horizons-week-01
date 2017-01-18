@@ -7,10 +7,13 @@
 
 ## Pair Programming Exercises
 
+1. Inheritance <br>
+   Files: `week01/day4/inherit.js` and `week01/day4/inherit.html`
 1. RPN Calculator <br>
    Files: `week01/day4/rpn.js` and `week01/day4/rpn.html`
-1. [Dinosaur Game](dinosaur.md)
-1. **Bonus:** Advanced functional programming with Underscore<br>
-   Files: `week01/day4/underscore_extra.js` and `week01/day4/underscore_extra.html`
-
+1. Maze Solver <br>
+   Files: `week01/day4/maze.js` and `week01/day4/maze.html`
+1. [**Bonus:** Maze.getShortestPath()](maze_bonus.md)
+1. **Bonus:** Edit distance <br>
+   Files: `week01/day4/edit_distance.js` and `week01/day4/edit_distance.html`
 

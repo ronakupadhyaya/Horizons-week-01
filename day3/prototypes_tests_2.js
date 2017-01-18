@@ -5,16 +5,16 @@
     it("[3, 2, 1].hasEqualContent([1, 2, 3])", function() {
       expect([3, 2, 1].hasEqualContent([1, 2, 3])).toBe(true);
     });
-    it("[1, 2, 3].hasEqualContent([1, 2, 3]) -> [] true", function() {
+    it("[1, 2, 3].hasEqualContent([1, 2, 3]) -> true", function() {
       expect([1, 2, 3].hasEqualContent([1, 2, 3])).toBe(true);
     });
     it("[].hasEqualContent([]) -> true", function() {
       expect([].hasEqualContent([])).toBe(true);
     });
-    it("[1, 3, 4].hasEqualContent([1, 3, 4, 5]) -> [] false", function() {
+    it("[1, 3, 4].hasEqualContent([1, 3, 4, 5]) -> false", function() {
       expect([1, 3, 4].hasEqualContent([1, 3, 4, 5])).toBe(false);
     });
-    it("[1, 2, 4].hasEqualContent([1, 3, 4]) -> [] false", function() {
+    it("[1, 2, 4].hasEqualContent([1, 3, 4]) -> false", function() {
       expect([1, 2, 4].hasEqualContent([1, 3, 4])).toBe(false);
     });
   })

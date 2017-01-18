@@ -171,12 +171,9 @@ stocks.portfolioValue = function(data, date, portfolio) {
     }
     return arr;
   })
-  console.log(timeDifference)
   var portVal = 0;
   _.forEach(portfolio, function(val, key) {
     for(var a=0;a<timeDifference[date].length;a++) {
-      console.log(key)
-      console.log(timeDifference[date][a].ticker)
       if(key === timeDifference[date][a].ticker) {
         portVal += timeDifference[date][a].price*portfolio[key]
       }
@@ -203,7 +200,39 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var timeDifference = _.groupBy(data, function(stocks) {
+    return stocks.ticker;
+  })
+  var timer = _.mapObject(timeDifference, function(arr, key) {
+    for (var i=0;i<arr.length;i++) {
+      arr[i].time = new Date(arr[i].time);
+    }
+    return arr;
+  })
+  _.forEach(timer, function(val, key) {
+    val.sort(function(a,b) {
+      return a.time - b.time;
+    })
+  })
+  console.log(timer)
+  var valDiff = 0;
+  var buyDate;
+  var sellDate;
+  var bestTrade = [];
+  for(var i=0;i<timer[ticker].length;i++) {
+    for(var x=i;x<timer[ticker].length;x++) {
+      if(timer[ticker][x].price - timer[ticker][i].price > valDiff) {
+        buyDate = timer[ticker][i].time
+        sellDate = timer[ticker][x].time
+        valDiff = timer[ticker][x].price - timer[ticker][i].price
+      }
+    }
+  }
+  bestTrade.push(buyDate)
+  bestTrade.push(sellDate)
+  bestTrade.push(valDiff)
+  console.log(bestTrade);
+  return bestTrade;
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -227,5 +256,18 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var comp = ['GOOG', 'NFLX', 'FB', 'MSFT', 'AMZN', 'NVDA']
+  var bestVal =[];
+  var bestTradeEvr =[];
+  var tempVal = 0;
+  for(var i=0;i<comp.length;i++) {
+    bestVal.push(stocks.bestTrade(data,comp[i]))
+  }
+  console.log(bestVal);
+  for (var x=0;x<bestVal.length;x++) {
+    if (bestVal[x][2] > tempVal) {
+      tempVal = bestVal[x][2]
+    }
+  }
+  console.log(tempVal)
 };

@@ -15,6 +15,7 @@ window.prototypes = {};
 
 // Hint: the fisrt thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
+
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
 }

@@ -44,30 +44,30 @@ window.stocks = {};
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
 
-  // var stocktracker = {};
-  // _.sortBy(data, function(info){
-  //   return info.time;
-  // });
-  // return gainObj;
+  var sorted = getSorted(data);
+  // console.log(sorted);
 
-  console.log(data[0]);
-
-  // for (var i = 0; i < data.length; i++) {
-  // data[i].jsTime = new Date(data[i].time);
-  // data[i].jsTime = data[i].time;
-
-  // }
-  var sorted = _.sortBy(data, "time"); // sort by date
-  console.log(sorted);
-
+  console.log(getUnique(sorted));
   var unique = {};
-  for (var i = 0; i < data.length; i++) {
-    console.log(data[i].ticker);
-    // if (!unique[data[i].ticker]) { //if it doesn't exist
-    //   unique.data[i].ticker= data[i].ticker;
-    // }
-  }
+  unique = getUnique(sorted);
   console.log(unique);
+  //set the lastIndex variable in object
+  var tickerArray = Object.keys(unique);
+  for (var i = 0; i < tickerArray.length; i++) {
+    // tickerArray[i] is the ticker name
+    // unique.tickerArray[i] is the stock in the unique object
+    // console.log(unique[tickerArray[i]]);
+    // var lastLog = ;
+    unique[tickerArray[i]].endPrice = sorted[unique[tickerArray[i]].lastIndex].price;
+  }
+
+  var returnObj = {};
+  for (var i = 0; i < tickerArray.length; i++) {
+    console.log()
+    returnObj[tickerArray[i]] = unique[tickerArray[i]].endPrice - unique[tickerArray[i]].startPrice;
+  }
+  console.log(returnObj);
+  return returnObj;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -178,3 +178,25 @@ stocks.bestTrade = function(data, ticker) {
 stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
 };
+
+function getSorted(data) {
+  var sorted = _.sortBy(data, "time"); // sort by date
+  return sorted;
+}
+
+function getUnique(arr) {
+  var obj = {};
+  console.log(arr);
+  for (var i = 0; i < arr.length; i++) {
+    if (!obj[arr[i].ticker]) {
+      obj[arr[i].ticker] = {
+        startPrice: arr[i].price,
+        endPrice: undefined,
+        lastIndex: undefined
+      }
+    } else {
+      obj[arr[i].ticker].lastIndex = i;
+    }
+  }
+  return obj;
+}

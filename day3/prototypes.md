@@ -2,10 +2,11 @@
 
 ## Goal
 
-In this exercises we are going to work with prototypes. You can think of a prototype
-as a link from the current object to another object that may contain more information.
-In this case we are going to build software for an computer store. To begin, we'll
-have a default basic macBook that most people will buy.
+The goal of this exercise is to get you started on prototypes. This exercise will contain 4 parts. 
+
+## Part 1: Intro
+
+You can think of a prototype as a link from the current object to another object that may contain more information. In this case we are going to build software for an computer store. To begin, we'll have a default basic macBook that most people will buy.
 
 ```javascript
 var macBook = {
@@ -17,10 +18,7 @@ var macBook = {
 console.log(macBook) // -> { ram: '8gb', processor: 'i3' }
 ```
 
-Awesome, now we are going to need a macBookPro model that has a better processor
-and comes in "Space gray". Instead of duplicating all the properties, we only set
-the old ones and set up a link to search for the ones that are already on the standard
-macBook.
+Awesome! now we are going to need a macBookPro model that has a better processor and comes in "Space gray". Instead of duplicating all the properties, we only first the new ones:
 
 ```javascript
 var macBookPro = {
@@ -29,24 +27,25 @@ var macBookPro = {
 }
 ```
 
-Right now the macBookPro will only have 2 properties
+Right now, the macBookPro object will only have 2 properties: `processor` and `color`.
 
 ```javascript
 console.log(macBookPro) // -> { processor: 'i5', color: 'Space gray' }
-console.log(macBookPro.ram); // Searching for ram on macBookPro will be undefined.
+console.log(macBookPro.ram); // Searching for ram on macBookPro will return undefined.
 ```
 
-We add the link from macBook to macBookPro by setting the prototype (__proto__)
+Then, we are going to set up a link to search for the ones that are already on the standard macBook. We add the link from macBook to macBookPro by setting the prototype `__proto__`
+
 ```javascript
 macBookPro.__proto__ = macBook;
 ```
 
-Logging macBookPro will still give us the same results as it hasn't been changed. It's properties remain the same.
+Logging macBookPro will give us the same results as the object and it's own properties haven't been changed:
 ```javascript
 console.log(macBookPro) // -> { processor: 'i5', color: 'Space gray' }
 ```
 
-But now, accessing macBookPro.ram actually finds the default ram. And looking for
+But now accessing `macBookPro.ram` finds the value for `ram`. And looking for
 color (that is in both objects), will return the correct color for the macBookPro.
 
 ```javascript
@@ -54,7 +53,7 @@ console.log(macBookPro.ram);
 console.log(macBookPro.color);
 ```
 
-You can even make a chain of objects that contain more and more properties!
+You can even make a chain of objects! In this case, it will be `touchBarMacbook` -> `BarMacbookPro` -> `touchBar`
 
 ```javascript
 var touchBarMacbook = {
@@ -66,37 +65,62 @@ console.log(macBookPro.ram);
 console.log(touchBarMacbook.extras);
 ```
 
-So, how does all of this work?
+
+
+## Part 2: How does property lookup work?
+
 Looking for a property in JS takes a couple of steps:
-1. It will check for "own" properties of an object.These are the properties that
-are declared within an object,
-    and that appear when you console.log() that object
-    For example:
+
+1. It will check for "own" properties of an object. These are the properties that are declared within an object. If you console.log() an object. The properties that appear are the own ones. 
+
+   If we have the following object:
+
+   ```javasc
     console.log(touchBarMacbook); // { extras: 'touchBar' }
-    Doing     
-    console.log(touchBarMacbook.extras) will look for the property in touchBarMacbook, find it and return it.
+   ```
 
-But what happens if it doesn't find the property on the object?
+   Looking for the extras property in touchBarMacbook, will find it in the object and return it.
 
-2. It will follow the __proto__ link to the next object and find it there. "Color" is an not "own" property of touchBarMacbook,
-    but it is an "own" property of macBookPro!
+   ```javas
+    console.log(touchBarMacbook.extras) // 'touchbar'
+   ```
+
+   But what happens if it doesn't find the property on the object?
+
+
+2. It will follow the ```__proto__``` link to the next object and find it there. `color` is an not "own" property of touchBarMacbook, but it is an "own" property of `macBookPro`!
+
+   ```javas
+   console.log(touchBarMacbook.color); // -> "Space gray"
+   ```
+
+   What happens if it still doesn't find it on macBookPro like in the case of `console.log(touchBarMacbook.ram)`?
+
+3. It will continue looking through the object's prototypes (that make up a chain) until it finds them.
     For example:
-    console.log(touchBarMacbook.color); // -> "Space gray"
 
-What happens if it still doesn't find it on macBookPro like in the case of console.log(touchBarMacbook)?
-3. It will continue looking through the prototypes of objects (that make up a chain) until it finds them.
-    For example:
-    console.log(touchBarMacbook.ram); // -> "Space gray"
-    Will look for 'ram' on touchBarMacbook. It won't find it as it is not an "own" property of touchBarMacbook.
-    It will follow the __proto__ one level up to -> macBookPro.
-    Will look for 'ram' on macBookPro. It won't find it as it is not an "own" property of macBookPro.
-    It will follow the __proto__ one level up to -> macBook.
-    Will look for 'ram' on macBook. It will find it as an "own" property of macBook and return it.
+   ```console.log(touchBarMacbook.ram);```
+    Will look for 'ram' on touchBarMacbook. It won't find it as it is not an "own" property of touchBarMacbook. So, it will follow the ```__proto__``` one level up to -> `macBookPro` and look for 'ram' on `macBookPro`. It won't find it as it is not an "own" property of `macBookPro`. It will follow the ```__proto__``` one level up to -> `macBook` and look for 'ram' on `macBook`. It will find it as an "own" property of `macBook` and return it.
+
+   ```javas
     -> "8gb" success!
+   ```
 
 
-## Instructions
+
+
+## Part 3: Implementation
+
+### Instructions
 
 1. Open `week01/day2/prototypes.js` in your text editor. Exercise details are listed there.
-1. Open `week01/day2/prototypes.html` in your browser to run tests.
-1. Write necessary functions to make all the tests pass.
+
+2. Open `week01/day2/prototypes.html` in your browser to run tests.
+
+3. Write necessary functions to make all the tests pass.
+
+   ​
+
+## Part 4 Quiz!
+
+Go to ____. 

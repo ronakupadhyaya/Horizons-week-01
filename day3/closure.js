@@ -215,13 +215,17 @@ describe("once()", function() {
 
 describe("functionFactory()", function() {
   it("functionFactory(0,2) -> [function, function, function]", function() {
-    functionFactory(0, 2).forEach(function(fun, i) {
+    var funs = functionFactory(0,2);
+    expect(funs.length).toBe(3);
+    funs.forEach(function(fun, i) {
       expect(fun()).toEqual(i);
     });
   });
   it("negative numbers functionFactory(-5, 15)", function() {
-    functionFactory(-5, 15).forEach(function(fun, i) {
-      expect(fun()).toEqual(i - 5);
+    var funs = functionFactory(-5, 15);
+    expect(funs.length).toBe(21);
+    funs.forEach(function(fun, i) {
+      expect(fun()).toEqual(i-5);
     });
   });
 });

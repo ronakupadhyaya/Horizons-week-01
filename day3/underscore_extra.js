@@ -80,8 +80,8 @@ function memoize(fn) {
 function partial(fn) {
   var old = arguments;
   return fn.bind.apply(fn, old);
-    // console.log(args); //args is allArgs();
-    // return fn.apply(args, Array.from(arguments).splice(1));
+  // console.log(args); //args is allArgs();
+  // return fn.apply(args, Array.from(arguments).splice(1));
   // }
 
 }
@@ -123,6 +123,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn() {
+    return fun1(fun2.apply(fun2, arguments));
+  }
 }
 
 
@@ -166,4 +169,5 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+
 }

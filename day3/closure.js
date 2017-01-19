@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+    return attempt===password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +28,9 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: (function(attempt) {
+      return vault(password);
+    }())
   }
 }
 
@@ -83,12 +85,23 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var func;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
-    }
+    called = true; // mark f as called
+
+    func = f.apply(null, arguments);
+    return func;
+    // func = f();
+
+    // func = function(){
+    //   return f();
+    // }()
+  }else{
+    return func;
   }
+
+}
 }
 
 // ex. 1.3
@@ -117,15 +130,19 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray.push(
+      function () {
+        var x = i;
+        return function() {return x};
+      }()
+    );
   }
 
   return functionArray;
 }
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels
@@ -140,7 +157,7 @@ var counter = function () {
   var num2 = parseInt(document.getElementById('num2').value);
 
   var functionArray = functionFactory(num1, num2);
-
+  // i = 11
   // lets call the functions in the function array
   document.getElementById('numbers').innerHTML = ""; // clear label
   functionArray.forEach(function(fun) {

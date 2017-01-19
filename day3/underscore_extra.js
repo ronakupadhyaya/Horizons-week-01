@@ -30,9 +30,28 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
+function memoize(fn) {
+  var memo = {};
+
+  function f(n) {
+    var value;
+
+    if (n in memo) {
+      // console.log(n);
+      // console.log(value);
+      value = memo[n];
+    } else {
+      value = fn(n);
+      memo[n] = value;
+    }
+
+    // console.log(value);
+    return value;
+  }
+  // console.log(f);
+  return f;
+}
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +78,12 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  var old = arguments;
+  return fn.bind.apply(fn, old);
+    // console.log(args); //args is allArgs();
+    // return fn.apply(args, Array.from(arguments).splice(1));
+  // }
+
 }
 
 // Exercise 3: composeBasic()

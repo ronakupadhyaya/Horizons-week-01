@@ -24,8 +24,11 @@ function Person(name) {
 
 // YOUR CODE HERE
 function Student(name, major, grades) {
-
+  this.name = name;
+  this.major = major;
+  this.grades = grades;
 }
+
 Student.prototype = new Person();
 
 // Exercise 2. (Sub) Class constructor for `Student`
@@ -73,4 +76,7 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
+  function getIdentity() {
+    return "Student - " + getName();
+  }
 };

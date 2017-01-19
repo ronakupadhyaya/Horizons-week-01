@@ -70,5 +70,5 @@ Student.prototype = new Person();
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
 Student.prototype.getIdentity = function() {
-  // YOUR CODE HERE
+  return "Student - " + this.getName()
 };

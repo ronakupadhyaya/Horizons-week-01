@@ -269,5 +269,13 @@ stocks.bestTradeEver = function(data) {
       tempVal = bestVal[x][2]
     }
   }
-  console.log(tempVal)
+  for(y=0;y<bestVal.length;y++) {
+    if(bestVal[i][2] === tempVal) {
+      bestTradeEvr.push(comp[y])
+      for (var a=0;a<3;a++) {
+        bestTradeEvr.push(bestVal)
+      }
+    }
+  }
+
 };

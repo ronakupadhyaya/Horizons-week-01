@@ -36,7 +36,8 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var array = string.split('');
+  console.log(array)
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.

@@ -30,14 +30,25 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+function memoize(func,hashFunction) {
+  debugger;
+  var cached = {}
+  return function(){
+    var item = hashFunction.apply(null,arguments)
+    if(cached.hasOwnProperty(item)){
+      return cached[item];
+    }
+    var value = Array.prototype.slice.call(arguments)
+
+    cached[item] = func.apply(null,value);
+    return cached[item];
+  }
 };
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
-// the argumenst that were initially provided to partial().
+// the argumenst that were initially provided to partial() + the arguments being passed out to partial fn
 //
 // ex.
 // function greaterThan(a, b) {
@@ -59,7 +70,13 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  // if(fn===undefined) throw "Error ERROR"
+  // var array = Array.prototype.slice.call(arguments);
+  // var array2 = array.shift();
+  // console.log(array);
+  // console.log(array2);
+  //  debugger;
+  return fn.bind.apply(fn,arguments) //bind will bind original arguments from fn and argumnts when the return function are called
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +115,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function(){
+
+    return fun1(fun2.apply(null,arguments));
+  }
 }
 
 
@@ -139,7 +159,25 @@ function composeBasic(fun1, fun2) {
 // number of arguments.
 //
 // This is _.compose() from underscore
-// http://underscorejs.org/#compose
+// http://underscorejs.org/#composeà
+// function composeBasic(fun1, fun2) {
+//   return function(){
+//     return fun1(fun2.apply(null,arguments));
+//   }
+// }
 function compose() {
-  // YOUR CODE HERE
+//  console.log(typeof arguments[0]);
+  var input = Array.prototype.slice.call(arguments)
+  return function(){
+    var array2 = Array.prototype.slice.call(arguments)
+    var temp = 0;
+    debugger;
+    temp=input[(input.length-1)].apply(null,array2);
+    for(var i=(input.length-2);i>=0;i--){
+        console.log(temp)
+      temp=input[i](temp);
+    }
+    return temp;
+  }
+
 }

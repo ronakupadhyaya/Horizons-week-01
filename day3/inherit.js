@@ -10,17 +10,22 @@
 
 // Constructor & Properties
 
-// YOUR CODE HERE
+function Person(name){
+	this.name = name;
+}
 
 // Method declarations
 
-// YOUR CODE HERE
+Person.prototype.getName = function() {
+	return this.name;
+}
 
 // Exercise 2. (Sub) Class constructor for `Student`
 
 // Write a constructor for the `Student` class that *inherits* from the `Person` Class.
 // The contructor for `Student` should take three arguments, just like before - `name`, `major` and `grades`.
-// note. "Inheritance" will allow the `Student` class to get all the properties and methods defined on the `Person` class while also allowing you to overload them.  This allows you to re-use code implemented elsewhere and provides a good way to  separate your logic.
+// note. "Inheritance" will allow the `Student` class to get all the properties and methods defined on the `Person` class while also allowing you to overload them.  
+//This allows you to re-use code implemented elsewhere and provides a good way to  separate your logic.
 // 
 // hint. the syntax for defining a class that inherits from another (sometimes called a *sub-class* or *child-class*) is as such:
 // 
@@ -46,6 +51,14 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 // Even though getColor was not defined in the `Banana` class, it was defined on the `Fruit` class, which `Banana` inherits from, which it can then use.
 
 // YOUR CODE HERE
+function student(name, major, grades){
+	this.major = major;
+	this.grades = grades;
+	Person.call(this, name);
+}
+
+student.prototype = new Person();
+
 
 
 
@@ -61,4 +74,5 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
+  return "student - " + this.getName()
 };

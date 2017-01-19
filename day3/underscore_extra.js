@@ -30,28 +30,61 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
 
+function memoize(func) {
+  var hashflag = false;
+  var hash;
+  if(arguments.length > 1){
+    hashflag = true;
+    hash = arguments[1];
+  }
 
   var results = {};
 
   return function(){
-
-    // var argString = JSON.stringify(arguments);
     var argString = arguments[0];
+    if(hashflag){
+      //var argString = JSON.stringify(arguments);
+
+      var hashedVal = hash(argString);
+    }
 
     if(argString in results) {
       return results[argString];
     } else{
 
-      var funcResults = func(arguments[0]);
-
+      var funcResults = func.apply(null, arguments);
+      console.log(argString, funcResults);
       results[argString] = funcResults;
 
       return funcResults;
     }
   };
-};
+}
+
+
+// function memoize(func) {
+//
+//
+//   var results = {};
+//
+//   return function(){
+//
+//     // var argString = JSON.stringify(arguments);
+//     var argString = arguments[0];
+//
+//     if(argString in results) {
+//       return results[argString];
+//     } else{
+//
+//       var funcResults = func(arguments[0]);
+//
+//       results[argString] = funcResults;
+//
+//       return funcResults;
+//     }
+//   };
+// };
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -92,7 +125,7 @@ function partial(fn) {
     for(var i=0; i<arguments.length; i++) {
       args.push(arguments[i]);
     }
-    console.log(args);
+    //console.log(args);
     return fn.apply(self, args);
   };
 
@@ -135,11 +168,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
 
-
-
   return function(){
     var res2 = fun2.apply(null, arguments);
-    console.log(res2);
+    //console.log(res2);
     return fun1(res2);
   };
 
@@ -186,4 +217,24 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var arr = [];
+
+  for(var i = arguments.length-1; i >= 0; i--){
+    arr.push(arguments[i]);
+  }
+  return function(){
+
+    var result;
+    for( var j = 0; j < arr.length; j++){
+      if(j ==0){
+        result = arr[j].apply(null,arguments);
+      }else{
+        result = arr[j].call(null,result);
+      }
+    }
+
+    return result;
+  }
+
+
 }

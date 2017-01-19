@@ -45,6 +45,19 @@ Array.prototype.hasEqualContent = function(array2){
 Object.prototype.hasEqualContent = function(obj2){
  // YOUR CODE HERE
   var obj1 = this;
+  // var keyCheck = Array.prototype.hasEqualContent(Object.keys(obj1), Object.keys(obj2))
+  // if(keyCheck){
+  //   Object.keys(obj1).forEach(function(item){
+  //     if(obj1[item] !== obj2[item]) {
+  //       return false
+  //     }
+  //   })
+  //   return true;
+  // }else{
+  //   return false;
+  // }
+
+
   if (Object.keys(obj2).length !== Object.keys(this).length) {
     return false;
   }
@@ -57,6 +70,10 @@ Object.prototype.hasEqualContent = function(obj2){
   _.forEach(obj2, function(value, key) {
     arr2[0] = value;
     arr2[1] = key;
+    {
+      value: value,
+      key
+    }
     arr1[1] = key;
     arr1[0] = obj1[key];
     console.log(arr2);
@@ -64,7 +81,7 @@ Object.prototype.hasEqualContent = function(obj2){
     var truth = arr1.hasEqualContent(arr2);
     console.log(!truth);
     if (!truth) {
-      result = truth;
+      return result = truth;
     }
     arr2 = [];
     arr1 = [];

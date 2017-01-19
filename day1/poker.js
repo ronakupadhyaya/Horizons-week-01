@@ -79,11 +79,89 @@ window.rankPokerHand = function(hand1, hand2) {
   // }else{
   //   return 2;
   // }
-  console.log(isFlush(hand2));
+  console.log(isFullHouse(hand1));
 
 }
 
-var isRoyalFlush = function(hand){
+
+
+
+
+
+
+
+
+function convertToInt(hand){
+}
+
+
+
+
+
+
+
+
+
+function isFullHouse(hand){
+  hand = removeSuits(hand);
+  hand.sort();
+  var truth = false;
+  if(hand[0] === hand[1] && hand[2] === hand[3] && hand[3] === hand[4]){
+    console.log("You have a full house with 3" + hand[3] + "'s and 2" + hand[0] + "'s");
+    truth = true;
+  }
+  if(hand[0] === hand[1] && hand[0] === hand[2] && hand[3] === hand[4]){
+    console.log("You have a full house with 3 " + hand[0] + "'s and 2 " + hand[3] + "'s");
+    truth = true;
+  }
+  return truth;
+}
+
+function isThreeKind(hand){
+  hand = removeSuits(hand);
+  hand.sort();
+  var truth = false;
+  for(var i = 0; i < hand.length - 2; i++){
+    if(hand[i] === hand[i+1] && hand[i] === hand[i+2]){
+      console.log("Has three "+ hand[i] + "'s")
+      truth = true
+    }
+  }
+  return truth;
+}
+
+
+function isTwoPairs(hand){
+  hand = removeSuits(hand);
+  hand.sort();
+  var count = 0;
+  for(var i = 0; i < hand.length - 1; i++){
+    if(hand[i] === hand[i+1]){
+      console.log("There is a pair of " + hand[i])
+      count++;
+      i++;
+    }
+  }
+  if(count === 2){
+    return true;
+  }
+  return false;
+}
+
+function isPair(hand){
+  hand = removeSuits(hand);
+  hand.sort()
+  var pair = false;
+  for(var i = 0; i < hand.length - 1; i++){
+    if(hand[i] === hand[i+1]){
+      console.log("There is a pair of " + hand[i])
+      pair = true;
+    }
+  }
+  return pair;
+}
+
+function isRoyalFlush(hand){
   if(!isFlush){
     return false;
   }
@@ -93,18 +171,38 @@ var isRoyalFlush = function(hand){
   var ten = false;
   var ace = false;
 
-
   if(isFlush(hand)){
-    //get rid of all the suits
+    hand = removeSuits(hand);
     for(var i = 0; i < hand.length; i++){
-      hand[i] = hand[i].substring(0, substring.length())
+      if(hand[i] === "10"){
+        ten = true;
+      }
+      if(hand[i] === "A"){
+        ace = true;
+      }
+      if(hand[i] === "K"){
+        king = true;
+      }
+      if(hand[i] === "Q"){
+        queen = true;
+      }
+      if(hand[i] === "J"){
+        jack = true;
+      }
     }
-
   }
-
+  if(king && queen && jack && ten && ace){
+    console.log("Royal Flush")
+    return true;
+  }
+  return false;
 }
 
-var isFlush = function(hand){
+
+
+
+
+function isFlush(hand){
   if(hand[0][hand[0].length - 1] === hand[1][hand[1].length - 1] &&
     hand[0][hand[0].length - 1] === hand[2][hand[2].length - 1] &&
     hand[0][hand[0].length - 1] === hand[3][hand[3].length - 1] &&
@@ -114,4 +212,11 @@ var isFlush = function(hand){
   }else{
     return false;
   }
+}
+
+function removeSuits(hand){
+  for(var i = 0; i < hand.length; i++){
+    hand[i] = hand[i].substring(0, hand[i].length - 1)
+  }
+  return hand;
 }

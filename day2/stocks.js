@@ -212,7 +212,27 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  //Get an array of objects with correct ticker
+  var tempArr = _.sortBy(data, "time");
+  var tempObj = _.groupBy(tempArr, function(arr){
+    return arr["ticker"];
+  })
+  var arr = tempObj[ticker];
+  //convert all dates to UTC string
+  for(var i = 0; i < arr.length; i++){
+    arr[i]["time"] = new Date(arr[i]["time"]);
+    arr[i]["time"] = arr[i]["time"].toUTCString();
+  }
+  var buyDate = null;
+  var sellDate = null;
+  var moneyMade = null;
+  var tempSellDate = null;
+  var tempBuyDate = null;
+
+
+
+
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

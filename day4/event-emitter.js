@@ -46,28 +46,17 @@ class EventEmitter {
     var listeners = this.listeners[eventName];
     if (listeners && listeners.length) {
       listeners.forEach(function (l) {l(arg);});
-      return true;
     }
 
-    return false;
+    return this;
   }
 
   removeListener(eventName, fn) {
-    var listeners = this.listeners[eventName];
+    this.listeners[eventName] = this.listeners[eventName].filter(function(listener) {
+      return listener != fn;
+    });
 
-    if (listeners.length) {
-        var index = listeners.reduce(function (i, listener, index) {
-          return ((typeof(listener) == 'function' &&
-                 listener === fn) ? index : i);
-        }, -1);
-
-        if (index > -1) {
-            listeners.splice(index, 1);
-            this.listeners[eventName] = listeners;
-            return true;
-        }
-    }
-    return false;
+    return this;
   }
 }
 

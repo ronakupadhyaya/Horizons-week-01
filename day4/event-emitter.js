@@ -43,13 +43,13 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  var called = false;
-  return function() {
-    if (! called) {
-      fn();
-      called = true;
-    }
-  }
+  // var called = false;
+  // return function() {
+  //   if (! called) {
+  //     fn();
+  //     called = true;
+  //   }
+  // }
 }
 
 // Takes is a string "eventName" and a callback function "fn"

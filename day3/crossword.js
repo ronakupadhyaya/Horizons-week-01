@@ -45,5 +45,5 @@
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
-  // YOUR CODE HERE
+  
 }

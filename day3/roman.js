@@ -37,8 +37,19 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   var array = string.split('');
-  console.log(array)
+  var roman = ['I','V','X','L','D','M'];
+
 };
+
+
+function Product(name,price){
+  this.name = name;
+  this.price = price;
+  this.isExpensive = function(){
+    return this.price > 100;
+  }
+}
+var product1 = new Product('MacBook Pro',1499.99);p
 
 // Write a function that takes an integer and converts it to a roman numeral.
 //

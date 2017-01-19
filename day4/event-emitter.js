@@ -80,15 +80,5 @@ var observers = [
 function submitMsg(type) {
   var msg = document.getElementById(type+"-input").value;
   if (!msg) return;
-  switch (type) {
-    case "iphone":
-      myEventEmitter.emit('send', msg);
-      break;
-    case "ipad":
-      myEventEmitter.emit('send', msg);
-      break;
-    case "mac":
-      myEventEmitter.emit('send', msg);
-      break;
-  }
+  myEventEmitter.emit('send', msg);
 }

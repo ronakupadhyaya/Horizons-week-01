@@ -7,67 +7,60 @@
 // send a message on one device, it will be available on all
 // other devices.
 
-class EventEmitter {
-
-  // this will run when you create a new instance
-  // of the EventEmitter class. it will create a
-  // listeners object
-  constructor() {
-    this.listeners = {};
-  }
-
-  once(eventName, fn) {
-    if (!(eventName in this.listeners)) this.listeners[eventName] = [];
-    var called = false;
-    var self = this;
-
-    function inner() {
-      self.removeListener(eventName, inner);
-
-      if (!called) {
-        called = true;
-        fn.apply(this, arguments);
-      }
-    }
-
-    inner.listener = fn;
-    this.on(eventName, inner);
-    return this;
-  }
-
-  // add a listener to the listeners property in EventEmitter
-  on(eventName, fn) {
-    if (!(eventName in this.listeners)) this.listeners[eventName] = [];
-    this.listeners[eventName].push(fn);
-  }
-
-
-  emit(eventName, arg) {
-    var listeners = this.listeners[eventName];
-    if (listeners && listeners.length) {
-      listeners.forEach(function (l) {l(arg);});
-    }
-
-    return this;
-  }
-
-  removeListener(eventName, fn) {
-    this.listeners[eventName] = this.listeners[eventName].filter(function(listener) {
-      return listener != fn;
-    });
-
-    return this;
-  }
+function EventEmitter() {
+  this.listeners = {};
 }
 
-class Observer {
-  constructor (name, myEventEmitter) {
-    this.name = name; this.myEventEmitter = myEventEmitter;
-    this.myEventEmitter.on("send", this.onSend.bind(this));
+EventEmitter.prototype.once = function(eventName, fn) {
+  if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+  var called = false;
+  var self = this;
+
+  function inner() {
+    self.removeListener(eventName, inner);
+
+    if (!called) {
+      called = true;
+      fn.apply(this, arguments);
+    }
   }
-  onSend(m) {
-    document.getElementById(this.name).innerHTML += m + `<br/>`;
+
+  inner.listener = fn;
+  this.on(eventName, inner);
+  return this;
+}
+
+// add a listener to the listeners property in EventEmitter
+EventEmitter.prototype.on = function(eventName, fn) {
+  if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+  this.listeners[eventName].push(fn);
+}
+
+
+EventEmitter.prototype.emit = function(eventName, arg) {
+  var listeners = this.listeners[eventName];
+  if (listeners && listeners.length) {
+    listeners.forEach(function (l) {l(arg);});
   }
+
+  return this;
+}
+
+EventEmitter.prototype.removeListener = function(eventName, fn) {
+  this.listeners[eventName] = this.listeners[eventName].filter(function(listener) {
+    return listener != fn;
+  });
+
+  return this;
+}
+
+function Observer(name, myEventEmitter) {
+  this.name = name; this.myEventEmitter = myEventEmitter;
+  this.myEventEmitter.on("send", this.onSend.bind(this));
+}
+
+Observer.prototype.onSend = function(m) {
+  document.getElementById(this.name).innerHTML += m + `<br/>`;
 }
 
 var myEventEmitter = new EventEmitter();

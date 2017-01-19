@@ -14,7 +14,19 @@
 // You need to give EventEmitter a property called listeners. it will
 // be an object where the keys are names for the event, and values
 // are arrays containing the listener functions
+//
+// Example.
+// var emitter = new EventEmitter();
+//
+// function f1() {}
+// function f2() {}
+//
+// emitter.on('someEventName', f1);
+// emitter.on('someEventName', f2);
+// emitter.on('otherEventName', f2);
+// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
+  this.listeners = {};
   // YOUR CODE HERE
 }
 

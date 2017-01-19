@@ -17,7 +17,16 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  var arr = this
+  var test = []
+  if (arr.length !== array2.length) {return false}
+  for (var x =0; x<arr.length; x++) {
+    for (var i =0; i<arr.length; i++) {
+      if(arr[x] === array2[i]) {test.push(1)}
+    }
+  }
+  if (test.length === arr.length) {return true}
+  else {return false}
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -33,5 +42,54 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  var lol = [];
+  var sos = [];
+  var obj = this;
+  for (var key in obj) {
+    var tempArr = [];
+    tempArr.push(key)
+    tempArr.push(obj[key])
+    lol.push(tempArr)
+  };
+  for (var key in array2) {
+    var tempArr = [];
+    tempArr.push(key)
+    tempArr.push(array2[key])
+    sos.push(tempArr)
+  };
+  var test = [];
+  if (lol.length !== sos.length) {return false};
+  for (var x =0; x<lol.length; x++) {
+    for (var i =0; i<sos.length; i++) {
+      var equality = function () {
+        for (var y = 0; y<2; y++) {
+          if (lol[x][y] === sos[i][y] && lol[x][y] === sos[i][y]) {return true}
+          else {return false}
+        }
+      };
+      if(equality()) {test.push(1)};
+    };
+  };
+  if (test.length === lol.length) {return true}
+  else {return false};
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var arrKey = Object.keys(array2)
+// var arrKey2 = this

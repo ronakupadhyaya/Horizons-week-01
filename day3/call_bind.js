@@ -21,15 +21,21 @@
 // }
 // returnThis.myCall({key: 'value'}) // -> {key: 'value'}
 //
-// ex.
+// ex.  c
 // function min(a, b) {
 //  return a < b ? a : b;
 // }
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
-  // YOUR CODE HERE
+  var array= [];
+  for (var x = 0; x<arguments.length; x++) {
+    array.push(arguments[x])
+  };
+  array.shift();
+  return this.apply(newThis, array);
 }
+
 
 // Bonus exercise: Function.prototype.myBind()
 //

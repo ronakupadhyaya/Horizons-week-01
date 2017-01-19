@@ -42,13 +42,10 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a'], 'a') -> true
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
-<<<<<<< HEAD
-  return _.any(array, )
-=======
+
   return _.any(array, function(arr) {
     return arr === item;
   });
->>>>>>> 4e9ae83083d625dc2e4614e518c61b846aafebc0
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -173,15 +170,12 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-<<<<<<< HEAD
 
-=======
   var newArray = [];
   _.forEach(Object.keys(object), function(x) {
     newArray.push(x)
   })
   return newArray;
->>>>>>> 4e9ae83083d625dc2e4614e518c61b846aafebc0
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -298,9 +292,6 @@ learn_underscore.countLetters = function(string) {
 //  }
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
-<<<<<<< HEAD
-  
-=======
 
   var tempObject = _.groupBy(array, fun);
   var objectAnswer = {};
@@ -309,5 +300,4 @@ learn_underscore.countBy = function(array, fun) {
     objectAnswer[keys[x]] = tempObject[keys[x]].length
   }
   return objectAnswer;
->>>>>>> 4e9ae83083d625dc2e4614e518c61b846aafebc0
 }

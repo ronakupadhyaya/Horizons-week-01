@@ -124,12 +124,14 @@ var previous = 0
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var counter=0;
   for (var i = num1; i <= num2; i++) {
-    functionArray.push(function() {
-
-      return i;
-    })
-
+    functionArray[counter] = (function(i) {
+      return function(){
+        return i;
+      }
+    }(i));
+    counter++
   }
   return functionArray;
 }

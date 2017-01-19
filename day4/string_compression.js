@@ -18,5 +18,25 @@
 // Adapted from:
 // https://www.hackerrank.com/challenges/string-compression
 function compressString(string) {
-  // YOUR CODE HERE
+  var compressedString = '';
+  var curChar = string[0];
+  var curCounter = 1;
+
+  if (string.length === 0) return '';
+
+  for (var i=1; i<string.length; i++) {
+    if (string[i] === curChar) {
+      console.log(string[i]);
+      curCounter++;
+    } else {
+      compressedString += curCounter === 1 ? curChar : curChar + curCounter;
+      curChar = string[i];
+      curCounter = 1;
+    }
+  }
+
+  // add the last item
+  compressedString += curCounter === 1 ? curChar : curChar + curCounter;
+
+  return compressedString;
 }

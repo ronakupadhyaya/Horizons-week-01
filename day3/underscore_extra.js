@@ -30,9 +30,29 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
+function memoize(func, hashFunction) {
+  // capture
+  var cache = {};
+
+  // inner function
+  return function() {
+    // "caching"
+    var stringArg;
+    if (hashFunction) {
+      stringArg = hashFunction(arguments);
+    } else {
+      stringArg = JSON.stringify(arguments);
+    }
+
+    if (!(stringArg in cache)) {
+      var result = func.apply(this, arguments);
+      cache[stringArg] = result;
+      return result;
+    }
+
+    return cache[stringArg];
+  };
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +79,15 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (!fn) throw 'it dont work';
+
+  var initialArgs = Array.prototype.slice.call(arguments);
+  initialArgs.shift();
+
+  return function() {
+    var newArgs = initialArgs.concat(Array.prototype.slice.call(arguments));
+    return fn.apply(this, newArgs);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +127,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function() {
+    return fun1(fun2.apply(this, arguments));
+  }
 }
 
 
@@ -139,7 +170,26 @@ function composeBasic(fun1, fun2) {
 // number of arguments.
 //
 // This is _.compose() from underscore
-// http://underscorejs.org/#compose
+// T
 function compose() {
-  // YOUR CODE HERE
+  var funcs = Array.prototype.slice.call(arguments);
+
+  // var i = 0;
+  // while(i < arguments.length && typeof arguments[i] === 'function') {
+  //   funcs.push(arguments[i]);
+  //   i++;
+  // }
+  //
+  // otherArgs = Array.prototype.slice.call(arguments, i); // arguments.slice(i)
+
+  return function() {
+    var otherArgs = Array.prototype.slice.call(arguments);
+    var lastEval = funcs[funcs.length-1].apply(this,otherArgs);
+
+    for (var j=funcs.length-2; j>=0; j--) {
+      lastEval = funcs[j](lastEval);
+    }
+
+    return lastEval;
+  }
 }

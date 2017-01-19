@@ -10,14 +10,22 @@
 // Do not edit, reorder or delete any of the existing code.
 //
 
-function getAnimal() {
-  return 'lion';
-}
+// window.tiger = global object
 
-window.lion = getAnimal();
 
-function getAnimal() {
-  return 'tiger';
-}
+  (function (){
+    function getAnimal() { // part 1
+      return 'lion';
+    }
 
-window.tiger = getAnimal();
+    window.lion = getAnimal(); // part 1
+  }());
+
+
+
+  function getAnimal() { // part 2
+    return 'tiger';
+  }
+
+
+  window.tiger = getAnimal(); // part 2

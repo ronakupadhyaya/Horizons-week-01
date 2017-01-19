@@ -17,8 +17,38 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  // var count =3;
+  // var a = this.sort();
+  // var b = array2.sort();
+  // console.log(b.indexOf(a))
+  // for (var i=0; i<3; i++){
+  //   if (this.indexOf(array2[i]) >=0){
+  //     count--;
+  //   }
+  // }
+  // if (count ===0){
+  //   return true;
+  // }
+  // return false;
+
+//   Array.prototype.hasEqualContent = function(array2){
+for(var i=0;i< this.length; i++){
+var allExist = false;
+  for(var j=0;j<array2.length;j++){
+    if(this[i] === array2[j]) allExist =  true;
+  }
+  if(!allExist) return false;
 }
+for(var i=0;i< array2.length; i++){
+var allExist = false;
+  for(var j=0;j<this.length;j++){
+    if(this[i] === array2[j]) allExist =  true;
+  }
+  if(!allExist) return false;
+}
+return true;
+}
+
 
 // You are going to implement a function that compares if two Objects have the same
 // key-value pairs.
@@ -33,5 +63,17 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  var key1 = Object.keys(this);
+  var key2 = Object.keys(array2);
+  var value1 = Object.values(this);
+  var value2 = Object.values(array2);
+  if (!key1.hasEqualContent(key2) || !value1.hasEqualContent(value2)){
+    return false;
+  }
+  for (var i = 0; i<value1.length; i++){
+    if(this[key2[i]]!==array2[key2[i]]){
+      return false;
+    }
+  }
+  return true
 }

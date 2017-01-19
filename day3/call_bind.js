@@ -28,8 +28,13 @@
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
-  // YOUR CODE HERE
-}
+  var something = Array.from(arguments); //this turns arguments into a real arguments
+  var somethingNew = something.splice(0,1);
+  console.log(something); //so now "something" has been spliced and you can just use "something"
+
+    return this.apply(newThis, something);
+  }
+
 
 // Bonus exercise: Function.prototype.myBind()
 //

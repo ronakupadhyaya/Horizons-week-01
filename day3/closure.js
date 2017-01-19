@@ -14,7 +14,10 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt){
+    if(attempt === password){ return true
+    return false}
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,9 +28,10 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
+    // login: vault(attempt),
+    vault: vault(password),
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      return this.vault(attempt);
     }
   }
 }
@@ -81,13 +85,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
-var once = function(f) {
+var once = function(f) { //f is "square" and has inputs
   var called = false; // Let's create a local variable to track if f has been called
+  var previous = 0;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      previous = f.apply(null, arguments);
       called = true; // mark f as called
-    }
+    }   console.log(previous);
+      return previous;
   }
 }
 
@@ -116,16 +122,30 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
+  // var arr = [1, 2, 3]
+  // arr.map(function(i) {
+  //   return function() {
+  //     return i;
+  //   }
+  // });
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+  var index = 0;
+  for (var i = num1; i <= num2; i++){
+    functionArray[index] = (function(i){
+      return function(){
+        return i;
+      }
+    }(i));
+    index++;
   }
-
   return functionArray;
 }
+
+
+  // }
+  // console.log(functionArray);
+  // return functionArray;
+// }
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

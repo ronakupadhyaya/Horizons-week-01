@@ -10,11 +10,34 @@
 // Do not edit, reorder or delete any of the existing code.
 //
 
-function getAnimal() {
-  return 'lion';
-}
+// (var tree = function getAnimal() {
+//   return 'lion';
+//   window.lion = getAnimal();
+// })();
 
-window.lion = getAnimal();
+// var tree = function getAnimal(){
+//   return 'lion';
+//   window.lion = getAnimal();
+// }
+//
+// console.log(tree);
+window.lion = (function getAnimal(){
+  return 'lion';
+})();
+
+window.tiger = (function getAnimal(){
+  return 'tiger';
+})();
+// (function getAnimal() {
+//   return 'lion';
+// })
+//
+// (function(i){
+//   return function(){
+//     return i;
+//   }
+// }(i));
+// window.lion = getAnimal();
 
 function getAnimal() {
   return 'tiger';

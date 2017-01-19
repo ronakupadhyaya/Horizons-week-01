@@ -31,8 +31,18 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
-};
+      var values = {};
+  return function memoizedFn(arg) {
+    var answer = 0;
+    if(!values.hasOwnProperty(arg)){
+      answer = func(arg);
+    // console.log(someValue);
+      values[arg] = answer
+    }
+
+  return values[arg];
+}
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +69,18 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if(arguments.length === 0){
+    throw "error";
+  }
+  var firstArg = Array.from(arguments);
+  firstArg.splice(0,1); //firstArg is now just 'x'
+  return function partialFn(){
+    var args = Array.from(arguments)
+    for(var i = 0; i < args.length; i++){
+      firstArg.push(args[i]);
+    }
+    return fn.apply(null,firstArg);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +119,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() { // this is isSumEven
+    var val = fun2.apply(null, arguments)
+    // console.log(val)
+    return fun1.call(null, val);
+  }
 }
 
 

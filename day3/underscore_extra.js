@@ -32,7 +32,18 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
-};
+  var ansObject = {}
+  // console.log(ansObj);
+  return function memoizeFn(arg){
+    // console.log(arg);
+    if (!! ansObject[arg]){
+      return ansObject[arg];
+    } else{
+      ansObject[arg] = func(arg);
+      return ansObject[arg];
+    }
+  };
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -60,6 +71,8 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  arguments[0] = null;
+  return fn.bind.apply(fn, arguments);
 }
 
 // Exercise 3: composeBasic()

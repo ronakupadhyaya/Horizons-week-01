@@ -30,14 +30,16 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func, hashFun) {
   var args = {};
   return function () {
-    if(arguments[0] in args) {
-      return args[arguments[0]]
+    var val = hashFun.apply(null,arguments);
+    if(val in args) {
+      return args[val]
     }
-    args[arguments[0]] = func(arguments[0]);
-    return args[arguments[0]]
+    args[val] = func.apply(null, arguments);
+    console.log(args)
+    return args[val]
   }
 };
 
@@ -154,7 +156,6 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
-
 // Double Bonus Exercise: compose()
 //
 // Write a more powerful version composeBasic() that can take any
@@ -163,5 +164,13 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var func = Array.from(arguments)
+  return function() {
+    console.log(arguments)
+    var val = func[i].apply(null, arguments)
+    for (var i=arguments.length -2;i=0;i--) {
+      var newVal = func[i](val)
+    }
+    return newVal;
+  }
 }

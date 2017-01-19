@@ -53,7 +53,7 @@ Function.prototype.myCall = function() {
 // };
 // var secondObj = {
 //  name: 'second',
-//  returnThis: returnThis.myBind(secondObj)
+//  returnThis: returnThis.myBind(firstObj)
 // };
 // secondObj.returnThis() // -> {name: 'first'}
 //

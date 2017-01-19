@@ -10,11 +10,18 @@
 
 // Constructor & Properties
 
-// YOUR CODE HERE
+function Person(name) {
+  this.name = name;
+}
 
 // Method declarations
 
-// YOUR CODE HERE
+Person.prototype.getName = function() {
+  return this.name;
+}
+
+// var me = new Person("andrew");
+// console.log(me);
 
 // Exercise 2. (Sub) Class constructor for `Student`
 

@@ -44,6 +44,58 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
+function solveCrossword(str, puzzle) {
   // YOUR CODE HERE
+  var trimmedPuzzle = []
+  for(var k = 0; k < puzzle.length; k++){
+    trimmedPuzzle.push(puzzle[k].replace(/ /g,''));
+  }
+  console.log(trimmedPuzzle);
+  for(var i = 0; i < trimmedPuzzle.length; i ++){
+    if(canFitHorizontally(trimmedPuzzle[i], str)){
+      return true;
+    }
+  }
+  var columns = horizontalize(trimmedPuzzle);
+  for(var i = 0; i < columns.length; i ++){
+    if(canFitHorizontally(columns[i], str)){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+function canFitHorizontally(row, str){
+  var splitRows = row.split('#');
+  for(var i = 0; i < splitRows.length; i ++){
+    if(splitRows[i].length !== str.length){
+      continue;
+    }
+
+    var flagInner = true;
+    for(var j = 0; j < splitRows[i].length;  j++){
+      console.log(splitRows[i][j], str[j]);
+      if(splitRows[i][j] === '_' || splitRows[i][j] === str[j]){
+        continue;
+      }
+      flagInner = false;
+      break;
+    }
+    if(flagInner) return true;
+  }
+  return false;
+}
+
+
+function horizontalize(puzzle){
+  var horizontalizedColumns = [];
+  for(var i = 0; i < puzzle[0].length; i++){
+    var str = '';
+    for(var j = 0; j < puzzle.length; j++){
+      str += puzzle[j][i];
+    }
+    horizontalizedColumns.push(str);
+  }
+  return horizontalizedColumns;
 }

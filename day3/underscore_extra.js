@@ -32,7 +32,20 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
-};
+  var cache = {};
+  return function(){
+    var arr = Array.prototype.slice.call(arguments)
+    if(cache.hasOwnProperty(arr)){
+      return cache[arr];
+    } else{
+      var output = func.apply(null,arguments);
+      cache[arr] = output;
+      console.log(cache);
+      return output;
+    }
+  }
+
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -60,6 +73,15 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  if(fn === undefined){
+    throw 'Error';
+  }
+  var copy = Array.prototype.slice.call(arguments, 1, arguments.length);
+  console.log(copy);
+  return function partialFn(){
+    var combined = copy.concat(Array.prototype.slice.call(arguments));
+    return fn.apply(null, combined);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +121,10 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(){
+    return fun1.call(null,fun2.apply(null, arguments));
+  }
+
 }
 
 
@@ -132,7 +158,21 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
-
+function memoize(func, hashFunction) {
+  // YOUR CODE HERE
+  var cache = {};
+  return function(){
+    var key = hashFunction.apply(null, arguments)
+    if(cache.hasOwnProperty(key)){
+      return cache[key];
+    } else{
+      var output = func.apply(null,arguments);
+      cache[key] = output;
+      console.log(cache);
+      return output;
+    }
+  }
+}
 // Double Bonus Exercise: compose()
 //
 // Write a more powerful version composeBasic() that can take any
@@ -142,4 +182,12 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var copy = Array.prototype.slice.call(arguments);
+  return function(){
+    var firstResult = copy[arguments.length-1].apply(null, arguments)
+    for(var i = arguments.length - 2; i >=0; i--){
+      firstResult = copy[i].call(null,firstResult);
+    }
+    return firstResult;
+  }
 }

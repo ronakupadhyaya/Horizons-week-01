@@ -77,5 +77,6 @@ console.log(student1.getName());
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
+  console.log("Student - " + this.getName());
   return "Student - " + this.getName();
 };

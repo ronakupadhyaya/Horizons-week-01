@@ -50,12 +50,15 @@ Function.prototype.myCall = function(newThis) {
 // };
 // var secondObj = {
 //  name: 'second',
-//  returnThis: returnThis.myBind(secondObj)
+//  returnThis: returnThis.myBind(firstObj)
 // };
 // secondObj.returnThis() // -> {name: 'first'}
 //
 // This is a simplified version of .bind() that only binds 'this'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 Function.prototype.myBind = function(newThis) {
-  // YOUR CODE HERE
+  var temp = this;
+  return function () {
+    return temp.apply(newThis, arguments)
+  }
 }

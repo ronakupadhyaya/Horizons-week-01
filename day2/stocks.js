@@ -263,19 +263,19 @@ stocks.bestTradeEver = function(data) {
   for(var i=0;i<comp.length;i++) {
     bestVal.push(stocks.bestTrade(data,comp[i]))
   }
-  console.log(bestVal);
   for (var x=0;x<bestVal.length;x++) {
     if (bestVal[x][2] > tempVal) {
       tempVal = bestVal[x][2]
     }
   }
-  for(y=0;y<bestVal.length;y++) {
-    if(bestVal[i][2] === tempVal) {
+  for(var y=0;y<bestVal.length;y++) {
+    if(bestVal[y][2] === tempVal) {
       bestTradeEvr.push(comp[y])
       for (var a=0;a<3;a++) {
-        bestTradeEvr.push(bestVal)
+        bestTradeEvr.push(bestVal[y][a])
       }
     }
   }
-
+  console.log(bestTradeEvr)
+  return bestTradeEvr;
 };

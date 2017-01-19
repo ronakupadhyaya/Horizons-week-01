@@ -18,7 +18,7 @@
 //     1 + (2 * 3)
 //     1 2 + 3 * => (1 + 2) * 3
 //     1 2 3 * + => 1 + (2 * 3)
-//
+
 // Another advantage is that you can represent any mathematical formula
 // using a simple and elegant data structure, called a stack.
 // http://en.wikipedia.org/wiki/Stack_(data_structure)
@@ -37,12 +37,58 @@
 // ex. rpnCalculator('1 2 +') -> 3
 // ex. rpnCalculator('1 2 + 8 *') -> 24
 // ex. rpnCalculator('1 2 - -1 * 2 /') -> 0.5
+// (1-2) -1 * = 1
 //
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+
+  var expr= rpnString.split(' ');
+  var stack =[];
+  //console.log(expr);
+  function rpn(expr, stack){
+    //console.log(expr, stack);
+
+    if(expr.length===0){
+      console.log('return: ',stack[0]);
+      if(stack.length !==1)
+        throw "Error";
+      else
+        return stack[0];
+    }
+    else{
+      var item = expr.shift();
+      if(!isNaN(item)){ //is a number
+        stack.push(parseFloat(item));
+      }
+      else{ //is an operator
+        if(stack.length < 2)
+          throw "Error";
+        var b = stack.pop();
+        var a = stack.pop();
+
+        if(item === '+'){
+          stack.push(a+b);
+        }
+        else if(item === '-'){
+          stack.push(a-b);
+        }
+        else if(item === '*'){
+          stack.push(a*b);
+        }
+        else if(item === '/'){
+          stack.push(a/b);
+        }
+      }
+      return rpn(expr,stack);
+    }
+  }
+  return rpn(expr, stack);
+
+
+
 }
 
 // This function returns true if given string represents a valid number.

@@ -35,7 +35,15 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var arr = [];
+
+  for(var key in obj){
+    arr.push(key);
+  }
+
+  return arr;
 }
+
 
 // Exercise 2 prototypes.keys()
 // Write a function that receives an object and returns an array of all the keys
@@ -47,4 +55,18 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
+
+  obj.__proto__ = {};
+  console.log(obj)
+  var array = [];
+  for(var elem in obj){
+    array.push(elem)
+  }
+
+  console.log(array);
+
+  return array
+
+  // if(Object.keys(Object.getPrototypeOf(obj)).length === 0)
+
 }

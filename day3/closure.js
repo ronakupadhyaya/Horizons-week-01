@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function(attempt) {
+      return password === attempt;
+    }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +28,7 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password)
   }
 }
 
@@ -81,14 +81,19 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+   // Let's create a local variable to track if f has been called
+   var called = false;
+   var answer = 0;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      answer = f.apply(null,arguments); // call f
       called = true; // mark f as called
     }
+    return answer;
   }
+
 }
 
 // ex. 1.3
@@ -117,11 +122,15 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+    functionArray[index] = (function(i) {
       // function that returns i
-      return i;
-    }
+      return function(){
+        return i;
+      }
+    }(i));
+    index ++;
   }
 
   return functionArray;
@@ -209,16 +218,12 @@ describe("once()", function() {
 
 describe("functionFactory()", function() {
   it("functionFactory(0,2) -> [function, function, function]", function() {
-    var funs = functionFactory(0,2);
-    expect(funs.length).toBe(3);
-    funs.forEach(function(fun, i) {
+    functionFactory(0,2).forEach(function(fun, i) {
       expect(fun()).toEqual(i);
     });
   });
   it("negative numbers functionFactory(-5, 15)", function() {
-    var funs = functionFactory(-5, 15);
-    expect(funs.length).toBe(21);
-    funs.forEach(function(fun, i) {
+    functionFactory(-5, 15).forEach(function(fun, i) {
       expect(fun()).toEqual(i-5);
     });
   });

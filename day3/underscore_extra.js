@@ -30,8 +30,22 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(fn, hashFunction) {
   // YOUR CODE HERE
+  var memo = {};
+
+  return function(){
+  	var hash = hashFunction ? hashFunction.apply(null, arguments) : arguments[0];
+  
+
+  	if (memo.hasOwnProperty(hash)) {
+  		console.log("iaosdhasdh")
+      return memo[hash];
+    }
+    memo[hash] = fn.apply(null, arguments);
+    return memo[hash];
+  }
+
 };
 
 // Exercise 2: partial()
@@ -58,9 +72,15 @@ function memoize(func) {
 //
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
+
+
 function partial(fn) {
-  // YOUR CODE HERE
+	var old = arguments;
+    return (function partialFn(){
+  		return fn.bind.apply(fn, old);
+  	}());
 }
+
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns
@@ -97,8 +117,13 @@ function partial(fn) {
 // isSumEven(0, 22) // -> true
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
+
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  var a = arguments;
+  return function composedFn() {
+    return fun1(fun2.apply(fun2, arguments));
+  }
 }
 
 
@@ -142,4 +167,19 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var fun = arguments;
+ 	
+  return function composed() {
+  	var lastfn;
+  	for(var i = fun.length-1; i>=0;i--){
+  		 if(i>1){
+			lastfn = fun[i].apply(null, arguments);
+  		 }else{
+  		 	lastfn = fun[i](lastfn);
+  		 }	
+  };
+return lastfn;
+}
+  
+
 }

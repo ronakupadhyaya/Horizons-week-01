@@ -17,36 +17,21 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
-  // var count =3;
-  // var a = this.sort();
-  // var b = array2.sort();
-  // console.log(b.indexOf(a))
-  // for (var i=0; i<3; i++){
-  //   if (this.indexOf(array2[i]) >=0){
-  //     count--;
-  //   }
-  // }
-  // if (count ===0){
-  //   return true;
-  // }
-  // return false;
-
-//   Array.prototype.hasEqualContent = function(array2){
-for(var i=0;i< this.length; i++){
-var allExist = false;
-  for(var j=0;j<array2.length;j++){
-    if(this[i] === array2[j]) allExist =  true;
+  for(var i=0;i< this.length; i++){
+    var allExist = false;
+    for(var j=0;j<array2.length;j++){
+      if(this[i] === array2[j]) allExist =  true;
+    }
+    if(!allExist) return false;
   }
-  if(!allExist) return false;
-}
-for(var i=0;i< array2.length; i++){
-var allExist = false;
-  for(var j=0;j<this.length;j++){
-    if(this[i] === array2[j]) allExist =  true;
+  for(var i=0;i< array2.length; i++){
+    var allExist = false;
+    for(var j=0;j<this.length;j++){
+      if(this[i] === array2[j]) allExist =  true;
+    }
+    if(!allExist) return false;
   }
-  if(!allExist) return false;
-}
-return true;
+  return true;
 }
 
 
@@ -75,5 +60,5 @@ Object.prototype.hasEqualContent = function(array2){
       return false;
     }
   }
-  return true
+  return true;
 }

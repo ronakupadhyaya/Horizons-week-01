@@ -40,6 +40,9 @@ function memoize(func) {
     return obj[item];
   }
 }
+fucntion memoize(func, hashFunction){
+
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -149,5 +152,6 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
+
   // YOUR CODE HERE
 }

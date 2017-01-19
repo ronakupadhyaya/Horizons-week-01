@@ -30,9 +30,19 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(fn) {
+  var called=false
+  var ret
+  return function memoizedFn(x) {
+    if(!called) {
+      console.log('called')
+      ret=fn(x);
+      return ret
+    }
+    return ret
+  }
   // YOUR CODE HERE
-};
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

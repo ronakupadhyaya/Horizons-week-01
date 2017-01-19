@@ -22,12 +22,21 @@
 // returnThis.myCall({key: 'value'}) // -> {key: 'value'}
 //
 // ex.
-// function min(a, b) {
+// function min(a, b){
 //  return a < b ? a : b;
 // }
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
+var arr=[]
+  for(var i=0;i<arguments.length;i++) {
+    arr.push(arguments[i])
+  }
+
+ arr.shift()
+
+      return this.apply(newThis,arr)
+
   // YOUR CODE HERE
 }
 

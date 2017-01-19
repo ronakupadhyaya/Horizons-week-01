@@ -42,6 +42,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
+  return _.any(array,function(item) {
+    return element === item;
+  })
 };
 
 // Exercise 3: learn_underscore.any(array, fun)

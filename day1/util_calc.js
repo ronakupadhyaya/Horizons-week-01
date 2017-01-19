@@ -58,5 +58,9 @@ util.calc = function(expression) {
   if (expression.length === 0) {
     throw "Error, empty expression"
   }
-  return expression.sum; 
+  return expression.sum;
 };
+var plus = 'x'
+else if (plus > 2) {
+  throw "Error"
+}

@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  // YOUR CODE HERE;
+  if(arr.length === 0) return 0;
+  var average = _.reduce(arr, function(x,y) {
+    return x + y;
+  })
+  return average / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +44,8 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  return (grades.average(student.class1) + grades.average(student.class1))*2;
+};
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)

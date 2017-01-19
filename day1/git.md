@@ -51,7 +51,7 @@ The goal of this exercise to get setup with Git and GitHub. You need Git and Git
   ```bash
   cd week01
   ```
-
+cd week01
 1. Create your own branch. We suggest using your Github username as the branch name.
 
   ```bash

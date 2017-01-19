@@ -14,7 +14,6 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
   return function(attempt) {
     return attempt === password;
   }

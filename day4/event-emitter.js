@@ -16,17 +16,34 @@ class EventEmitter {
     this.listeners = {};
   }
 
-  once() {}
+  once(eventName, fn) {
+    if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+    var called = false;
+    var self = this;
+
+    function inner() {
+      self.removeListener(eventName, inner);
+
+      if (!called) {
+        called = true;
+        fn.apply(this, arguments);
+      }
+    }
+
+    inner.listener = fn;
+    this.on(eventName, inner);
+    return this;
+  }
 
   // add a listener to the listeners property in EventEmitter
-  on(label, fn) {
-    if (!(label in this.listeners)) this.listeners[label] = [];
-    this.listeners[label].push(fn);
+  on(eventName, fn) {
+    if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
   }
 
 
-  emit(label, ...args) {
-    var listeners = this.listeners[label];
+  emit(eventName, ...args) {
+    var listeners = this.listeners[eventName];
     if (listeners && listeners.length) {
       listeners.forEach(function (l) {l(...args);});
       return true;
@@ -35,19 +52,18 @@ class EventEmitter {
     return false;
   }
 
-  removeListener(label, fn) {
-    var listeners = this.listeners[label];
+  removeListener(eventName, fn) {
+    var listeners = this.listeners[eventName];
 
     if (listeners.length) {
         var index = listeners.reduce(function (i, listener, index) {
           return ((typeof(listener) == 'function' &&
                  listener === fn) ? index : i);
         }, -1);
-        console.log(index);
 
         if (index > -1) {
             listeners.splice(index, 1);
-            this.listeners[label] = listeners;
+            this.listeners[eventName] = listeners;
             return true;
         }
     }

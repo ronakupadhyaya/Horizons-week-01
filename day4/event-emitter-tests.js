@@ -3,13 +3,13 @@ describe("EventEmitter", function() {
     var testEmitter = new EventEmitter;
     var ten = 10, hundred = 100, thousand = 1000;
     var testFn10 = function () {
-      return ten;
+      return ten++;
     }
     var testFn100 = function () {
-      return hundred;
+      return hundred++;
     }
     var testFn1000 = function () {
-      return thousand;
+      return thousand++;
     }
 
     var observers = [
@@ -17,13 +17,13 @@ describe("EventEmitter", function() {
       new Observer('testObserver2', testEmitter),
       new Observer('testObserver3', testEmitter)
     ]
-
-    observers.on('test1', testFn10);
-    observers.on('test1', testFn100);
-    observers.on('test2', testFn1000);
   });
 
-  it("on", function() {
-    //TODO
+  it("once(eventName, fn)", function() {
+    var ret1; var arr = [(arg) => ret1 += arg];
+    myEventEmitter.once('connection', arr[0])
+    expect(myEventEmitter.listeners['connection']).toEqual([jasmine.any(Function)]);
+    myEventEmitter.emit('connection', 100)
+    expect(myEventEmitter.listeners['connection']).toEqual([])
   });
 });

@@ -28,7 +28,9 @@
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
-  // YOUR CODE HERE
+
+  var arg = Array.from(arguments).slice(1);
+  return this.apply(newThis, arg);
 }
 
 // Bonus exercise: Function.prototype.myBind()

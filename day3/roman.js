@@ -37,6 +37,20 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var result = 0;
+ // the result is now a number, not a string
+  var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+  var roman = ["M", "CM","D","CD","C", "XC", "L", "XL", "X","IX","V","IV","I"];
+  for (var i = 0;i<=decimal.length;i++) {
+    while (string.indexOf(roman[i]) === 0){
+   //checking for the first characters in the string
+      result += decimal[i];
+     //adding the decimal value to our result counter
+      string = string.replace(roman[i],'');
+     //remove the matched Roman letter from the beginning
+    }
+  }
+  return result;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -73,4 +87,12 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},roman = '',i;
+  for ( i in lookup ) {
+    while ( number >= lookup[i] ) {
+      roman += i;
+      number -= lookup[i];
+    }
+  }
+  return roman;
 };

@@ -18,5 +18,31 @@
 // Adapted from:
 // https://www.hackerrank.com/challenges/string-compression
 function compressString(string) {
-  // YOUR CODE HERE
+  var current = 0;
+  var prev = 0;
+  var ret = "";
+  while (current < string.length) {
+    var prev = current;
+    current = nextDiffLetter(current, string);
+    console.log(prev, current);
+    var math = current - prev;
+    console.log(string[prev] + math);
+    if (math > 1) {
+      ret += string[prev] + math;
+    } else {
+      ret += string[prev];
+    }
+
+  }
+  return ret;
+  
+  function nextDiffLetter(currentIndex, string) {
+    var current = currentIndex;
+    var counter = 0;
+    while (string[currentIndex] === string[current]) {
+      current++;
+      counter++;
+    }
+    return currentIndex + counter;
+  }
 }

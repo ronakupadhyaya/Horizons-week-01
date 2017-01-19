@@ -30,9 +30,18 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
+// function memoize(func) {
+//   var mem = {};
+//   return function (arg) {
+//     if (arg in mem) {
+//       console.log("called");
+//       return mem[arg];
+//     } else {
+//       mem[arg] = func(arg);
+//       return mem[arg];
+//     }
+//   }
+// };
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +68,19 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (fn === undefined) {
+    throw "Error";
+  }
+  var arr = [];
+  for (var i = 1; i < arguments.length; i++) {
+    arr.push(arguments[i]);
+  }
+  return function temp() {
+    for (var i = 0; i < arguments.length; i++) {
+      arr.push(arguments[i]);
+    }
+    return fn.apply(null, arr);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +119,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() {
+    var value = fun2.apply(null, arguments);
+    return fun1.call(null, value);
+  }
 }
 
 
@@ -131,6 +155,27 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+function memoize(func, hashFunction) {
+  var mem = {};
+  return function () {
+    if(!hashFunction){
+      if (arguments[0] in mem) {
+        return mem[arguments[0]];
+      } else {
+        mem[arguments[0]] = func(arguments[0]);
+        return mem[arguments[0]];
+      }
+    }
+
+    var arg = hashFunction.apply(null, arguments);
+    if (arg in mem) {
+      return mem[arg];
+    }else {
+      mem[arg] = func.apply(null, arguments);
+      return mem[arg];
+    }
+  }
+}
 
 
 // Double Bonus Exercise: compose()
@@ -142,4 +187,15 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var array = arguments;
+  console.log(arguments);
+  return function loop(){
+    var value = null;
+    value = array[array.length - 1].apply(null, arguments);
+    for(var i = array.length - 2; i >= 0; i--){
+      value = array[i].call(null, value);
+    }
+
+    return value;
+  }
 }

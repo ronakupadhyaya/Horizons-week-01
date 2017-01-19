@@ -83,20 +83,18 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  var used;
+  var used; // variable to track the first arg ever given
   return function() {
-    var argLength = arguments.length;
     // first time it's called
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      // used = Array.prototype.slice.call(arguments);
       used = arguments;
-      // bind to object (this)
-      f.apply(this, arguments);
       called = true; // mark f as called
+      // bind to object (this)
+      return f.apply(this, used);
     // after first time it's called
     } else {
-      f(); // call f
-      f.apply(this, used);
+      return f.apply(this, used);
     }
   }
 }
@@ -126,16 +124,22 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
-  var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
+  var length = num2 - num1 + 1;
+  var functionArray = Array(length);
 
+  for (var i = 0; i < length; i++) {
+    functionArray[i] = (function() {
+      // function that returns position in range
+      var j = i;
+      return function() {
+        return num1 + j;
+      };
+    }());
+  }
+  console.log(functionArray[0]());
   return functionArray;
 }
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

@@ -13,7 +13,8 @@
 //
 // You need to give EventEmitter a property called listeners. it will
 // be an object where the keys are names for the event, and values
-// are arrays containing the listener functions
+// are arrays containing listener functions ("fn"). These functions will
+// run when their corresponding event ("eventName") is emitted.
 //
 // Example.
 // var emitter = new EventEmitter();

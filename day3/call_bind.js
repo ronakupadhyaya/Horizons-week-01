@@ -19,16 +19,21 @@
 // function returnThis() {
 //  return this;
 // }
-// returnThis.myCall({key: 'value'}) // -> {key: 'value'}
+ returnThis.myCall({key: 'value'}) // -> {key: 'value'}
 //
 // ex.
 // function min(a, b) {
 //  return a < b ? a : b;
 // }
-// min.myCall(null, 8, 2) // -> 2
+ min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
-Function.prototype.myCall = function(newThis) {
-  // YOUR CODE HERE
+Function.prototype.myCall = function() {
+  var args = Array.prototype.slice.call(arguments)
+  var newargs = args.slice(1)
+  return this.apply(arguments[0], newargs)
+--------------------------------------------------
+   var args = Array.prototype.slice.call(arguments)
+  return this.call(...args)
 }
 
 // Bonus exercise: Function.prototype.myBind()

@@ -4,6 +4,8 @@ window.prototypes = {};
 
 // Part 3: Iteration.
 
+// *To go to part 4: -> week01/day3/prototypes_2.html
+
 // In this exercise, you will be implementing functions that will allow you to
 // iterate through objects keys.
 
@@ -32,11 +34,15 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
+<<<<<<< HEAD
   var arr = [];
   for(var key in obj){
     arr.push(key);
   }
   return arr;
+=======
+  // YOUR CODE HERE
+>>>>>>> master
 }
 
 // Exercise 2 prototypes.keys()
@@ -44,8 +50,9 @@ prototypes.allKeys = function(obj){
 // in that object ONLY. It should't return properties of objects up its protoype
 // chain. In the macbook example:
 
-// keys(macBookPro) should return ["processor", "color", "extras"])
 
+// keys(macBook)) -> ["ram", "processor"];
+// keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   var arr = [];
   for(var key in obj){

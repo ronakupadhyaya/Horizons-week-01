@@ -9,6 +9,8 @@
 
 1. Inheritance <br>
    Files: `week01/day4/inherit.js` and `week01/day4/inherit.html`
+1. Event Emitter <br>
+   Files: `week01/day4/event-emitter.js` and `week01/day4/event-emitter.html`
 1. RPN Calculator <br>
    Files: `week01/day4/rpn.js` and `week01/day4/rpn.html`
 1. Maze Solver <br>

@@ -15,6 +15,14 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  var pw='';
+  if(!pw)
+    pw = password;
+  return function fn(){
+    if (pw === password)
+      return true;
+    return false;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +33,12 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password)
+
+    // privatePassword: password,
+    // login: function(attempt) {
+    //   return this.privatePassword === attempt;
+    // }
   }
 }
 
@@ -81,13 +91,18 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+//once(console.log)(1,2,3)
+
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var results;
   return function() {
+
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      results = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
+    return results;
   }
 }
 
@@ -117,15 +132,31 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
 
+  for (var i = num1; i <= num2; i++) {
+    if(num1 >=0){
+      (function(x){
+        functionArray[x] = function() {
+          // function that returns i
+          return x;
+        }
+
+        //index++;
+      }(i))
+    }
+    else{
+      var adder = Math.abs(num1);
+      (function(x,y){
+        functionArray[x] = function() {
+          return y;
+        }
+      }(i+adder,i))
+    }
+
+  }
   return functionArray;
 }
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

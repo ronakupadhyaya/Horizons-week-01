@@ -63,9 +63,7 @@ class EventEmitter {
 class Observer {
   constructor (name, myEventEmitter) {
     this.name = name; this.myEventEmitter = myEventEmitter;
-
-    var self = this;
-    this.myEventEmitter.on("send", function (m) {self.onSend(m)});
+    this.myEventEmitter.on("send", this.onSend.bind(this));
   }
   onSend(m) {
     document.getElementById(this.name).innerHTML += m + `<br/>`;

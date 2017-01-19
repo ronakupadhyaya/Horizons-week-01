@@ -42,10 +42,10 @@ class EventEmitter {
   }
 
 
-  emit(eventName, ...args) {
+  emit(eventName, arg) {
     var listeners = this.listeners[eventName];
     if (listeners && listeners.length) {
-      listeners.forEach(function (l) {l(...args);});
+      listeners.forEach(function (l) {l(arg);});
       return true;
     }
 

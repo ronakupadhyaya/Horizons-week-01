@@ -32,6 +32,10 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var hey = 7;
+  return function() {
+    
+  }
 };
 
 // Exercise 2: partial()

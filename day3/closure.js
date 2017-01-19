@@ -78,15 +78,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
-var once = function(f) {
-  var returnF;
+var once = function(fn) {
+  var ret;
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
     if (! called) { // if f hasn't been called yet
-      returnF = f.apply(null, arguments); // call f
+      ret = fn.apply(null, arguments); // call f
       called = true; // mark f as called
     }
-    return returnF;
+    return ret;
   }
 }
 

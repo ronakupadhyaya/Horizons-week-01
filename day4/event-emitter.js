@@ -28,8 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter(eventName, fn) {
   // YOUR CODE HERE
-  this.eventName = eventName;
-  this.function = fn;
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -46,6 +45,14 @@ function EventEmitter(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  if(!(eventName in this.listeners)) {
+    this.listeners[eventName] = [];
+  }
+  var func = function () {
+    fn();
+    this.listeners[eventName].pop();
+  }
+  this.listeners[eventName].push(func);
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -62,6 +69,10 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if(!(eventName in this.listeners)) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -80,6 +91,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if(eventName in this.listeners) {
+    for (var i = 0; i < this.listeners[eventName].length; i++) {
+      this.listeners[eventName][i].call(this, arg);
+    }
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -97,6 +113,11 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if (eventName in this.listeners) {
+    var index = this.listeners[eventName].indexOf(fn);
+    this.listeners[eventName].splice(index);
+    return this.listeners[eventName];
+  }
 }
 
 // You do not need to look at code past this line, but you may

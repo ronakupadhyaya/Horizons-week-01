@@ -41,6 +41,9 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var joined = this.maze.join();
+  console.log(joined);
+  return joined;
 }
 
 // Return the coordinates of the starting position of the current maze.

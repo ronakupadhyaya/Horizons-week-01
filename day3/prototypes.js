@@ -35,7 +35,13 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var array =[];
+  for(var key in obj){
+    array.push(key)
+  }
+  return array;
 }
+// forin includes all the keys
 
 // Exercise 2 prototypes.keys()
 // Write a function that receives an object and returns an array of all the keys
@@ -47,4 +53,17 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
+  var array =[];
+
+
+  for(var key in obj){
+
+    if(obj.hasOwnProperty(key)){// so check if this object itself has the properties. If yes, pass it
+      //into the array, return that array. Otherwise do nothing cuz it didnt meet reqs
+    array.push(key)
+  }
+}
+// confusion here is I thought that all keys in an object would have the prototypic properties
+//hasownproperty checks for it
+  return array;
 }

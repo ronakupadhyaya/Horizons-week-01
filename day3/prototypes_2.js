@@ -16,9 +16,29 @@ window.prototypes = {};
 // Hint: the fisrt thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
 
-Array.prototype.hasEqualContent = function(array2){
+Array.prototype.hasEqualContent = function(array2){ // comparing array2 to array which is "this"
  // YOUR CODE HERE
-}
+ /*return function(array1){
+   if(array1.length !== array2.length){
+     return false;
+   }*/
+ //return this.sort().toString() === array2.sort().toString();
+// look at the way he writes code. best way to write true and false
+ //this here refers to Array
+// you're converting it to string first
+// then sorting it first according to alphabetical order so they'll give u the same value
+var sort1= this.sort(function(a, b){return a-b});
+var sort2= array2.sort(function(a, b){return a-b});
+
+return sort1 === sort2;
+
+// this can't work. You need to loop thru it cuz array/ object is different
+
+ }
+
+
+
+
 
 // You are going to implement a function that compares if two Objects have the same
 // key-value pairs.

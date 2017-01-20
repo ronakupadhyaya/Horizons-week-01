@@ -15,7 +15,12 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+
+  return function(attempt){
+    return attempt=== password
+  }
 }
+
 
 // This function returns an object that leaks private information!
 // See if you can fix this.
@@ -25,12 +30,20 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password) // login.vault or login: vault?
   }
 }
+
+// this refers to the Object right above it
+
+/*vault(password) {
+  // YOUR CODE HERE
+
+  return function(attempt){
+    return attempt=== password? true: false;
+  }
+} */
+
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
@@ -82,14 +95,24 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var c = false; // Let's create a local variable to track if f has been called
+  var ret;
+
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+    if (!c) { // if f hasn't been called yet
+      c = true;// mark f as called
+      ret = f.apply(null,arguments); // apply the function to argument
+      //null?
+      // when to use "apply" and when to return just f(x)?
+      console.log(ret)
+      return ret;// push it out
+
     }
+    return ret;// if c is more than one time, don't need to set it to true, just return ret
+
   }
 }
+
 
 // ex. 1.3
 // functionFactory takes in two numbers (num1, num2)
@@ -115,17 +138,49 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
-var functionFactory = function(num1, num2) {
+var functionFactory = function(num1, num2) { // now i value is 3, and it returns 3 for all functions
+  //
+  // var runcount = 0;
+  // var functionArray = [];
+  // return function (){
+  //   for (var i = num1; i <= num2; i++){
+  //     runcount = runcount + 1;
+  //
+  //   }
+  //
+  // }
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+  for (var i =0- num1; i <= num2; i++) {
+    // index starts at 0 so there's no slot for negative if I set it equal to i
+    functionArray[i] = (function() {
+      var x = i;
+      return function() {return x;}
+    }()) /// return the value of x immediately
+
   }
 
   return functionArray;
 }
+
+/*
+var once = function(f) {
+  var c = false; // Let's create a local variable to track if f has been called
+  var ret;
+
+  return function() {
+    if (!c) { // if f hasn't been called yet
+      c = true;// mark f as called
+      ret = f.apply(null,arguments); // apply the function to argument
+      //null?
+      // when to use "apply" and when to return just f(x)?
+      console.log(ret)
+      return ret;// push it out
+
+    }
+    return ret;// if c is more than one time, don't need to set it to true, just return ret
+
+  }
+} */
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

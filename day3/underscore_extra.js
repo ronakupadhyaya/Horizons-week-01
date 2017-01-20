@@ -125,7 +125,7 @@ function partial(fn) {
     for(var i=0; i<arguments.length; i++) {
       args.push(arguments[i]);
     }
-    
+
     return fn.apply(self, args);
   };
 

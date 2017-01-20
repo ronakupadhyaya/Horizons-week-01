@@ -27,7 +27,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,7 +43,16 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var pos;
+  if (eventName in this.listeners === false) {
+    this.listeners[eventName] = [];
+  }
+  var listener = this.listeners;
+  var newfn = function fun() {
+    listener[eventName].splice(listener[eventName].indexOf(this), 1);
+    return fn();
+  }
+  this.listeners[eventName].push(newfn);
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -59,9 +68,17 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  // console.log("on begin", eventName, fn);
+  // console.log("key check in on", eventName, eventName in this.listeners === false);
+  if (eventName in this.listeners === false) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(fn);
 }
 
+// this.listeners = function () {
+//   return this.events;
+// }
 // Takes is a string "eventName" and a single argument arg
 // It calls each of the listeners registered for the event
 // named eventName, in the order they were registered, passing
@@ -77,7 +94,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if (eventName in this.listeners) {
+      this.listeners[eventName].forEach(function(fn) {
+        fn(arg);
+      });
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,7 +115,9 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (eventName in this.listeners) {
+    this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1);
+  }
 }
 
 // You do not need to look at code past this line, but you may

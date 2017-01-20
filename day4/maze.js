@@ -23,6 +23,9 @@
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
+  if(this === window) {
+    throw "Not called with new";
+  }
   this.maze = maze;
 }
 
@@ -41,6 +44,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var arr = [];
+  for(var i = 0; i < this.maze.length; i++) {
+    for(var j = 0; j < this.maze[i].length; j++) {
+      if(this.maze[i][j] === ' ') {
+        this.maze[i][j] = '_';
+      }
+      arr.push(this.maze[i][j]);
+      console.log(arr)
+    }
+  }
+  var str = arr.join('');
+  console.log(str);
+  return str;
+
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,64 +67,81 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
-}
-
-// Write a method tryMove() that takes a position (row and column parameters)
-// a direction to move, and returns:
-//  - if the move is valid, a new position ([row, column])
-//  - if the move is invalid, false
-//
-// The position 0, 0 represents the upper left corner of the maze.
-//
-// A move is invalid if any of the following conditions are true:
-//  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
-//  - move results in moving off the board (i.e. moving up from the top row, or
-//    moving left from the leftmost column etc.)
-//
-// Parameters:
-//  - row: row before the move. 0 represents top row.
-//  - column: column before the move. 0 represents leftmost column.
-//  - direction: direction to try to move. Must be one of:
-//    - 'up': Move up i.e. decrement row
-//    - 'down': Move down i.e. increment row
-//    - 'left': Move left i.e. decrement column
-//    - 'right': Move right i.e. increment column
-//
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
-// ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'down') -> false, moves off the bottom of the board
-// ex. new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right') -> false, moves into wall
-// ex. new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left') -> false, moves into wall
-// ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'right') -> false, moves off right side of the board
-// ex. new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down') -> false, moves into wall
-// ex. new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') -> false, moves into wall
-//
-//
-// ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
-// ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
-// ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
-Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
-    throw new Error('Invalid direction: ' + direction);
+  for(var i = 0; i < this.maze.length; i++) {
+    for(var j = 0; j < this.maze[i].length; j++) {
+      throw new Error("Maze has no starting point");
+    }
   }
 
-  // YOUR CODE HERE
-}
+  // Write a method tryMove() that takes a position (row and column parameters)
+  // a direction to move, and returns:
+  //  - if the move is valid, a new position ([row, column])
+  //  - if the move is invalid, false
+  //
+  // The position 0, 0 represents the upper left corner of the maze.
+  //
+  // A move is invalid if any of the following conditions are true:
+  //  - starting position is invalid (i.e. not on the board)
+  //  - move ends on a cell that's a wall (represented by 'X')
+  //  - move results in moving off the board (i.e. moving up from the top row, or
+  //    moving left from the leftmost column etc.)
+  //
+  // Parameters:
+  //  - row: row before the move. 0 represents top row.
+  //  - column: column before the move. 0 represents leftmost column.
+  //  - direction: direction to try to move. Must be one of:
+  //    - 'up': Move up i.e. decrement row
+  //    - 'down': Move down i.e. increment row
+  //    - 'left': Move left i.e. decrement column
+  //    - 'right': Move right i.e. increment column
+  //
+  // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
+  // ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
+  // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
+  // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board
+  // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'down') -> false, moves off the bottom of the board
+  // ex. new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right') -> false, moves into wall
+  // ex. new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left') -> false, moves into wall
+  // ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'right') -> false, moves off right side of the board
+  // ex. new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down') -> false, moves into wall
+  // ex. new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') -> false, moves into wall
+  //
+  //
+  // ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
+  // ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
+  // ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
+  Maze.prototype.tryMove = function(row, column, direction) {
+    if (! _.contains(Maze.validDirections, direction)) {
+      throw new Error('Invalid direction: ' + direction);
+    }
 
-// Write a method that returns true if this maze is solvable.
-// A maze is solvable if there exists a path from the Starting Point
-// to the Ending Point.
-//
-// No diagonal moves are allowed.
-Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
-}
+
+    // YOUR CODE HERE
+
+  }
+
+
+  Maze.prototype.placeIsValid = function(row, column) {
+    for(var i = 0; i < this.maze.length; i++) {
+      for(var j = 0; j < this.maze[i].length; j++) {
+        if(this.maze[i][j] === this.maze[row][column]) {
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+
+
+  // Write a method that returns true if this maze is solvable.
+  // A maze is solvable if there exists a path from the Starting Point
+  // to the Ending Point.
+  //
+  // No diagonal moves are allowed.
+  Maze.prototype.isSolvable = function() {
+    // YOUR CODE HERE
+  }

@@ -23,11 +23,23 @@ Person.prototype.getName = function() {
 // var me = new Person("andrew");
 // console.log(me);
 
+
+
+
+
+
+
+
+
+
+
 // Exercise 2. (Sub) Class constructor for `Student`
 
 // Write a constructor for the `Student` class that *inherits* from the `Person` Class.
 // The contructor for `Student` should take three arguments, just like before - `name`, `major` and `grades`.
-// note. "Inheritance" will allow the `Student` class to get all the properties and methods defined on the `Person` class while also allowing you to overload them.  This allows you to re-use code implemented elsewhere and provides a good way to  separate your logic.
+// note. "Inheritance" will allow the `Student` class to get all the properties
+// and methods defined on the `Person` class while also allowing you to overload them.
+// This allows you to re-use code implemented elsewhere and provides a good way to  separate your logic.
 //
 // hint. the syntax for defining a class that inherits from another (sometimes called a *sub-class* or *child-class*) is as such:
 //
@@ -48,11 +60,28 @@ Banana.prototype = new Fruit();  // pass the functions and properties from Fruit
 //
 // Now, the strength (and beauty) of doing something like this is that you can now do:
 var b = new Banana();
-console.log("the banana is yellow: ", b.getColor() == 'yellow');
+// console.log("the banana is yellow: ", b.getColor() == 'yellow');
 //
-// Even though getColor was not defined in the `Banana` class, it was defined on the `Fruit` class, which `Banana` inherits from, which it can then use.
+// Even though getColor was not defined in the `Banana` class, it was defined on
+// the `Fruit` class, which `Banana` inherits from, which it can then use.
 
-// YOUR CODE HERE
+var Student = function(name, major, grades) {
+  Person.call(this, name); // .call method: enforcing properties of "Person" onto "this" aka "Student" aka the context
+                            // name = args[1], or the first argument that gets passed on
+  this.major = major;
+  this.grades = grades;
+};
+Student.prototype = new Person(); // we need to assign prototype to a new Person object
+var andrew = new Student('andrew', 'blah', 'bad');
+console.log(andrew.getName());
+
+
+
+
+
+
+
+
 
 
 
@@ -67,5 +96,5 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
 Student.prototype.getIdentity = function() {
-  // YOUR CODE HERE
+  return "Student - " + this.getName();
 };

@@ -28,6 +28,10 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
+  // this.on = function(arg1, arg2){
+  //   this.listeners[arg1].push(arg2);
+  // }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -44,6 +48,29 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var self = this;
+  var onceFn = function(fn){
+    // return function(){
+    //   var index = this.listeners[eventName].indexOf()
+    //   fn()
+    // }
+    return (function(){
+      self.removeListener(eventName, this);
+      return fn();
+
+    });
+
+  }
+  var newFun = onceFn(fn);
+  console.log(newFun);
+
+  if (this.listeners[eventName]){
+    this.listeners[eventName].push(newFun);
+    // console.log(this.listeners);
+  } else {
+    this.listeners[eventName] = [newFun];
+    // console.log(this.listeners[eventName]);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -60,6 +87,14 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners[eventName]){
+    this.listeners[eventName].push(fn);
+    console.log(this.listeners);
+  } else {
+    this.listeners[eventName] = [fn];
+  }
+
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,6 +113,16 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if (this.listeners[eventName]){
+    this.listeners[eventName].forEach(function(item){
+      console.log(item);
+      item(arg);
+    })
+
+  } else {
+    return null;
+  }
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -95,6 +140,11 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+
+  if (this.listeners[eventName]){
+    console.log(this.listeners[eventName].indexOf(fn));
+    this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1);
+  }
 }
 
 // You do not need to look at code past this line, but you may

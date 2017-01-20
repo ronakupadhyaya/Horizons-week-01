@@ -27,11 +27,12 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
-// Adds a one time listener function for the event named
+// Adthis.listeners)
+// listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
 //
@@ -43,7 +44,20 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  // Takes a string and a callback function
+  // Needs to call fn
+  // Remove listener after they listen once
+  console.log(eventName);
+  var called = false;
+  var result;
+  return function(){
+    if(!called){
+    result = fn.apply(this.listeners, arguments)
+        called = true;
+  }
+    return result;
+  }
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -59,7 +73,10 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+
+    this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -77,7 +94,9 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  for(var i = 0; i < this.listeners[eventName].length; i++){
+    this.listeners[eventName][i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,7 +113,7 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners[eventName].shift();
 }
 
 // You do not need to look at code past this line, but you may

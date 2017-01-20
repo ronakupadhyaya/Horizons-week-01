@@ -4,6 +4,7 @@ describe("EventEmitter", function() {
   it("once(eventName, fn) should store function [until called]", function() {
     var ret1; var arr = [(arg) => ret1 += arg];
     myEventEmitter.once('connection', arr[0])
+    // console.log("in TEST", myEventEmitter);
     expect(myEventEmitter.listeners['connection']).toEqual([jasmine.any(Function)]);
   });
   it("in once(eventName, fn) when eventName triggered run&remove function - uses emit", function() {

@@ -42,6 +42,23 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
+  var operands = ['+', '-', '*', '/'];
+  var rpnArray = rpnString.split(' ');
+  if (rpnString === '0') return 0;
+  else if (rpnArray.length%2===0) throw 'error';
+  if (rpnArray.length ===1) throw 'error';
+  var newArr=[];
+  var newOpe=[];
+  for (var i=0; i<rpnArray.length; i++){
+    if (isNumberString(rpnArray[i])){
+      newArr = rpnArray.pop();
+    }
+    else newOpe = rpnArray.pop();
+  }
+  console.log(newArr);
+  var ans = newArr[0] + " " + newOpe[0] + " " + newArr[1];
+  console.log(ans);
+  ans.push(rpnArray);
   // YOUR CODE HERE
 }
 

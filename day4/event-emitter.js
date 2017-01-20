@@ -27,6 +27,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
+  this.listeners = {}
   // YOUR CODE HERE
 }
 
@@ -43,7 +44,12 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var self = this;
+  function sendFunction(){
+    fn();
+    self.removeListener(eventName, sendFunction);
+    }
+    this.on(eventName, sendFunction);
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -59,6 +65,10 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
+  // if (!this.listeners.hasOwnProperty(eventName)) this.listeners[eventName] = [];
+  // this.Listeners[eventName].push(fn);
+  if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+  this.listeners[eventName].push(fn);
   // YOUR CODE HERE
 }
 
@@ -77,6 +87,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
+  if(eventName in this.listeners){
+    for (var i=0; i<this.listeners[eventName].length; i++){
+      this.listeners[eventName][i](arg);
+    }
+  }
   // YOUR CODE HERE
 }
 
@@ -94,7 +109,10 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (eventName in this.listeners) {
+    var index = this.listeners[eventName].indexOf(fn);
+    this.listeners[eventName].splice(index, 1);
+  }
 }
 
 // You do not need to look at code past this line, but you may

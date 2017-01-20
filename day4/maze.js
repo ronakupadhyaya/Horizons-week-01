@@ -22,7 +22,7 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
+
   this.maze = maze;
 }
 
@@ -39,8 +39,17 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  debugger;
+  var self = this
+  var answer = null;
+  answer = this.maze.forEach(function(item){
+  //  if(!(typeof item==='object')) {
+
+      return item.join('_');
+      })
+
+
+  return answer.join('\n')
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +58,7 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+
 
   throw new Error("Maze has no starting point");
 }

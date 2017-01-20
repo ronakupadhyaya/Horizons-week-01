@@ -43,13 +43,14 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // var called = false;
-  // return function() {
-  //   if (! called) {
-  //     fn();
-  //     called = true;
-  //   }
-  // }
+  if(!(eventName in this.listeners)) {
+    this.listeners[eventName] = [];
+  }
+  var func = function() {
+    fn();
+    this.listeners[eventName].pop();
+  }
+  this.listeners[eventName].push(func);
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -65,7 +66,10 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if(!(eventName in this.listeners)) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(fn)
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -83,7 +87,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if (eventName in this.listeners) {
+      for (var i = 0; i < this.listeners[eventName].length; i++) {
+        this.listeners[eventName][i].call(this, arg);
+      }
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -100,7 +108,11 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var listeners = this.listeners[eventName]
+  if (eventName in this.listeners) {
+    listeners.splice(listeners.indexOf(fn), 1)
+    return listeners
+  }
 }
 
 // You do not need to look at code past this line, but you may

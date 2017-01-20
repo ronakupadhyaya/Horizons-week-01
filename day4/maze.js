@@ -39,7 +39,30 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
+  // var text = "";
+  // for (var i = 0; i < this.maze.length; i++) {
+  //   for (var j = 0; j < this.maze[i].length; j++) {
+  //     if (this.maze[i][j] === ' ') {
+  //       text += '_';
+  //     }
+  //     text += this.maze[i][j];
+  //     if (j === this.maze[i].length && i < this.maze.length) {
+  //       text += '\n'
+  //     }
+  //   }
+  // }
+  // console.log(text)
+  // return text;
+  var arr = []
+  for (var i = 0; i < this.maze.length; i++) {
+    var joinArray = this.maze[i].join('')
+    if (i + 1 < this.maze.length) {
+      joinArray += '\n'
+    }
+    arr.push(joinArray)
+  }
+  return arr.join('').split(' ').join('_')
+
   // Hint: See Array.prototype.join()!
 }
 
@@ -49,9 +72,19 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  var positionArray = []
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === 'S') {
+        positionArray.push(i);
+        positionArray.push(j);
+      }
+    }
+  }
+  if (positionArray.length === 0)  {
+    throw new Error("Maze has no starting point");
+  }
+  return positionArray;
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -99,8 +132,25 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
+  if (row < 0 || row >= this.maze.length || column < 0 || column >= this.maze[0].length) {
+    return false;
+  }
+  if (direction === 'up') {
+    row --;
+  } else if (direction === 'down') {
+    row ++;
+  } else if (direction === 'left') {
+    column --;
+  } else  {
+    column ++;
+  }
+  if (row < 0 || row >= this.maze.length || column < 0 || column >= this.maze[0].length) {
+    return false;
+  }
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+  return [row, column]
 }
 
 // Write a method that returns true if this maze is solvable.

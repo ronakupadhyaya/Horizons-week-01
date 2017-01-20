@@ -50,7 +50,7 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 // Even though getColor was not defined in the `Banana` class, it was defined on the `Fruit` class, which `Banana` inherits from, which it can then use.
 
 var Student = function(name, major, grades) {
-  this.name = names;
+  this.name = name;
   this.major = major;
   this.grades = grades;
 }

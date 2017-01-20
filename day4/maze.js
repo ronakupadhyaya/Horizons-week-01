@@ -22,7 +22,6 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
   if(this == window){
     throw "Error";
   }
@@ -64,8 +63,6 @@ Maze.prototype.toString = function() {
       arrString = arrString + "\n"
     }
   }
-  console.log(arrString);
-
   return arrString;
 }
 
@@ -187,18 +184,11 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-var memory = [];
-console.log(this.getStartPosition());
-var startLocation = this.getStartPosition();
-console.log("LOOK HERE");
-console.log(startLocation);
-// function traverse(column, row) {
-//   if () {
-//     return true
-//   }
-//   return
-//   }
-// }
+  var memory = [];
+  var startLocation = this.getStartPosition();
+  console.log("LOOK HERE");
+  console.log(startLocation);
+
 
 
 

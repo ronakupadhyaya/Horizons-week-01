@@ -28,8 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
-  console.log(this.listeners);
-  this.listeners();
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -48,9 +47,16 @@ EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
   var called = false;
   var ret;
+
+  if (!this.listeners[eventName]) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(fn);
+  var self = this;
+
   return function() {
     if (!called) {
-      ret = fn.apply(this, arguments);
+      ret = fn.apply(self, arguments);
       called = true;
     }
     return ret;
@@ -71,6 +77,11 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (!this.listeners[eventName]) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(fn);
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -89,6 +100,15 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  // console.log(this);
+  // this.listeners[eventName].call(this.listener, arg);
+
+  this.listeners[eventName].forEach(function(fn) {
+    fn(arg);
+  });
+
+
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -106,6 +126,7 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+
 }
 
 // You do not need to look at code past this line, but you may

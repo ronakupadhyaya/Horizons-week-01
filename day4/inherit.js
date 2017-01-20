@@ -13,12 +13,11 @@
 // YOUR CODE HERE
 function Person(name) {
   this.name = name;
-
-  function getName() {
-    return this.name;
-  }
-
 }
+
+Person.prototype.getName = function() {
+  return this.name;
+};
 
 // Method declarations
 
@@ -76,7 +75,5 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
-  function getIdentity() {
-    return "Student - " + getName();
-  }
+  return "Student - " + this.getName();
 };

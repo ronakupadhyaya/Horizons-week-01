@@ -41,6 +41,9 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  // console.log(arguments);
+
+  
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,6 +53,7 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+
 
   throw new Error("Maze has no starting point");
 }
@@ -96,7 +100,7 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
 

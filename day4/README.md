@@ -1,10 +1,5 @@
 # Horizons Week 1 Day 4 Exercises
 
-## Inline Exercises
-
-1. [String Compression](string_compression.md)
-1. [Testing](testing.md)
-
 ## Pair Programming Exercises
 
 1. Inheritance <br>

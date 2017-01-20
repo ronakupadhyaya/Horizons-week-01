@@ -58,15 +58,19 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 
 // YOUR CODE HERE
 
-function Student(name, grades, major) {
+function Student(name, major, grades) {
   Person.call(this, name);
   this.grades = grades;
   this.major = major;
 }
 
+Student.prototype.getName = function(){
+  return this.name;
+}
 
 // Exercise 3. Method definitions
-// Write a `getIdentity` method for the `Student` class. This method should use the `getName` function and prefix the return value of that function with "Student - ".
+// Write a `getIdentity` method for the `Student` class. This method should use the `getName` function and prefix
+// the return value of that function with "Student - ".
 //
 // ex.
 //  var bart = new Student("Bart Simpson", "Tomfoolery", [0, -1]);
@@ -77,4 +81,5 @@ function Student(name, grades, major) {
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
+  return "Student - " + this.getName();
 };

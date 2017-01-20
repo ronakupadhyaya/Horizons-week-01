@@ -43,6 +43,50 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  // To calculate an RPN string:
+  //  - split the string into parts using .split(' ')
+  var terms = rpnString.split(" ");
+  var operators = ['+', '-', '*', '/'];
+  var stack = [];
+  //  - for each part of the string
+  var opCount = 0;
+  //console.log(terms)
+  for (var i = 0; i < terms.length; i++) {
+
+    //    - if it's an operator, .pop() two items from the stack and apply the
+    //      operator, push the result back
+    if (operators.indexOf(terms[i]) !== -1){
+      opCount++;
+
+      var rightNumber = parseFloat(stack.pop());
+      var leftNumber = parseFloat(stack.pop());
+
+      var result;
+      if (terms[i] === '+') {
+        result = leftNumber + rightNumber;
+      } else if (terms[i] === '-') {
+        result = leftNumber - rightNumber;
+      } else if (terms[i] === '*') {
+        result = leftNumber * rightNumber;
+      } else if (terms[i] === '/') {
+        result = leftNumber / rightNumber;
+      }
+      stack.push(result)
+      console.log(result)
+    } else {
+    //    - if it's a number, parse it into a number and .push() to stack
+      stack.push(parseFloat(terms[i]));
+    }
+
+  }
+
+  var numCount = terms.length-opCount;
+  if(!(opCount === numCount - 1)) {
+    throw "Counts all banged up!!"
+  }
+
+  return stack.pop();
+
 }
 
 // This function returns true if given string represents a valid number.

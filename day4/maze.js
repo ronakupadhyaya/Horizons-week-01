@@ -16,13 +16,17 @@
 // Parameters:
 //  * maze: A 2-dimensional array representing a rectangular maze.
 //          The lengths of the inner arrays must be the same.
-//          Each item of the inner array must be a string that represents a valid maze cell
+//          Each item of the inner array must be a string that represents a
+//          valid maze cell
 //          There must be only one starting point and only one ending point.
 //
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
+  // if (!(this instanceof Maze)){
+  //   throw "hello";
+  // }
   this.maze = maze;
 }
 
@@ -41,6 +45,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+
+  var result = "";
+  // traverse outer loop
+  for (var i = 0; i < this.maze.length; i ++){
+    // inner array joins on empty
+    var inner = this.maze[i].join('');
+    // replace ' ' with _
+    inner = inner.replace(/ /g, "_");
+    result = result + inner + "\n";
+  }
+
+  return result.substring(0, result.length-1);
+
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,8 +67,24 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  // row, column
+  // row
+
+  for (var i = 0; i < this.maze.length; i ++){
+    if (this.maze[i].indexOf("S") !== -1) {
+
+    // column
+      for (var j = 0; j < this.maze[i].length; j ++){
+        if (this.maze[i][j] === "S"){
+          return [i,j];
+        }
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
+
+
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -100,7 +133,54 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  // check if valid start position
+  if (row > this.maze.length -1 || row < 0){
+    return false;
+  }
+
+  if (column > this.maze[0].length -1 || column < 0){
+    return false;
+  }
+
+  if (this.maze[row][column] === "X"){
+    return false;
+  }
+
+  var directions = {
+    left: function(row, column) {
+      column--;
+      return [row, column];
+    },
+    right: function(row, column) {
+      column++;
+      return [row, column];
+    },
+    up: function(row, column) {
+      row--;
+      return [row, column];
+    },
+    down: function(row, column) {
+      row++;
+      return [row, column];
+    }
+  }
+
+  var endPosition = directions[direction](row, column);
+
+  if (endPosition[0] > this.maze.length -1 || endPosition[0] < 0){
+    return false;
+  }
+
+  if (endPosition[1] > this.maze[0].length -1 || endPosition[1] < 0){
+    return false;
+  }
+
+  if (this.maze[endPosition[0]][endPosition[1]] === "X"){
+    return false;
+  }
+
+  return endPosition;
+
 }
 
 // Write a method that returns true if this maze is solvable.
@@ -110,4 +190,56 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var q = [];
+  // var visited = false;
+
+  // make markers
+  var markerMaze = [];
+  for (var i =0; i < this.maze.length; i ++){
+    var markerRow = [];
+    for (var j =0; j < this.maze[i].length; j ++){
+      if (this.maze[i][j] === "X" || this.maze[i][j] === "S" ){
+        markerRow.push(true);
+      } else {
+        markerRow.push(false);
+      }
+    }
+    markerMaze.push(markerRow);
+  }
+
+  // start by putting start point into the q
+  q.push(this.getStartPosition());
+
+  //(Q's are FIFO, meaning enter and exit from opposite sides)
+  //until we are done:
+  while (q.length !== 0){
+    // take something out of the q
+    var rowAndColumn = q.shift();
+    console.log(rowAndColumn);
+    // examine it (return true if the exit "E")
+    if (this.maze[rowAndColumn[0]][rowAndColumn[1]] === "E"){
+      return true;
+    }
+    // mark it
+    markerMaze[rowAndColumn[0]][rowAndColumn[1]] = true;
+    // add it's neighbors to the q (if unmarked)
+    var leftTry = this.tryMove(rowAndColumn[0],rowAndColumn[1],"left");
+    if (leftTry !== false && markerMaze[leftTry[0]][leftTry[1]] === false){
+      q.push(leftTry);
+    }
+    var rightTry = this.tryMove(rowAndColumn[0],rowAndColumn[1],"right");
+    if (rightTry !== false && markerMaze[rightTry[0]][rightTry[1]] === false){
+      q.push(rightTry);
+    }
+    var upTry = this.tryMove(rowAndColumn[0],rowAndColumn[1],"up");
+    if (upTry !== false && markerMaze[upTry[0]][upTry[1]] === false){
+      q.push(upTry);
+    }
+    var downTry = this.tryMove(rowAndColumn[0],rowAndColumn[1],"down");
+    if (downTry !== false && markerMaze[downTry[0]][downTry[1]] === false){
+      q.push(downTry);
+    }
+  }
+  // checked everything by this Point
+  return false;
 }

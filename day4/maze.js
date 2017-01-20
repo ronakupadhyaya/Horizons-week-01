@@ -23,7 +23,8 @@
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
-  this.maze = maze;
+  if (this instanceof Maze) this.maze = maze;
+  else throw 'exception';
 }
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
@@ -41,6 +42,14 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var str = '';
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      this.maze[i][j] === ' ' ? str += '_' : str += this.maze[i][j];
+    }
+    if(i !== this.maze.length- 1) str += '\n';
+  }
+  return str;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,6 +59,11 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  for(var i = 0; i < this.maze.length; i++){
+    if(this.maze[i].indexOf('S') !== -1){
+      return[i, this.maze[i].indexOf('S')];
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -101,6 +115,43 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  function helper(row, column, mazes){
+
+    if(row < 0 || column < 0 || row > mazes.length - 1 ||
+       column > mazes[0].length -1 || mazes[row][column] === 'X'){
+      return false;
+    }
+    return true;
+  }
+  var startPosition = this.getStartPosition();
+  if(!helper(startPosition[0], startPosition[1], this.maze)){
+    return false;
+  }
+  if(direction === 'up') {
+    if(helper(row-1, column, this.maze)){
+      row -= 1;
+      return [row, column];
+    }
+  }
+  if(direction === 'down') {
+    if(helper(row+1, column, this.maze)){
+      row += 1;
+      return [row, column];
+    }
+  }
+  if(direction === 'right') {
+    if(helper(row, column+1, this.maze)){
+      column+= 1;
+      return [row, column];
+    }
+  }
+  if(direction === 'left') {
+    if(helper(row, column-1, this.maze)){
+      column -= 1;
+      return [row, column];
+    }
+  }
+  return false;
 }
 
 // Write a method that returns true if this maze is solvable.
@@ -109,5 +160,70 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+//   console.log(this.maze)
+// }
+  var startPoint = this.getStartPosition();
+  // console.log(startPoint);
+  var newArray = [];
+  for (var i = 0; i < this.maze.length; i++){
+    var tempArr = [];
+    for (var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === 'S'|| this.maze[i][j] === 'E' || this.maze[i][j] === 'X'){
+        tempArr.push(true);
+      } else{
+        tempArr.push(false);
+      }
+    }
+    newArray.push(tempArr);
+
+  }
+  // console.log(newArray);
+  var self = this;
+  var works = false;
+
+  function recursiveHelper(startRow, startColumn, maze){
+    // var counter1 = 0;
+    // for(var k =0; k < maze.length; k++){
+    //   for(var l = 0; l < maze[k].length; l++){
+    //     if(maze[k][l] === ' '){
+    //       counter1++;
+    //     }
+    //   }
+    // }
+    if(maze[startRow][startColumn] === 'E'){
+      return true;
+    }
+    // var counter = 0;
+    // for(var k =0; k < newArray.length; k++){
+    //   for(var l = 0; l < newArray[k].length; l++){
+    //     if(newArray[k][l] === true){
+    //       counter++;
+    //     }
+    //   }
+    // }
+    // if(counter === counter1) return false;
+    if (self.tryMove(startRow, startColumn,'up')){
+
+      newArray[startRow-1][startColumn] = true;
+      works = works || recursiveHelper(startRow -1, startColumn, maze);
+    }
+    if (self.tryMove(startRow, startColumn,'down')){
+
+      newArray[startRow+1][startColumn] = true;
+      works = works || recursiveHelper(startRow +1, startColumn, maze);
+    }
+    if (self.tryMove(startRow, startColumn,'right')){
+
+      newArray[startRow][startColumn+1] = true;
+      works = works || recursiveHelper(startRow , startColumn+1, maze);
+    }
+    if (self.tryMove(startRow, startColumn,'left')){
+
+      newArray[startRow][startColumn-1] = true;
+      works = works || recursiveHelper(startRow, startColumn-1, maze);
+    }
+    return false;
+  }
+  var a = recursiveHelper(startPoint[0],startPoint[1], this.maze);
+  return works;
 }

@@ -28,6 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = new Object();
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,8 +44,43 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+var self = this;
+function dummyFunc(beast){
+  fn.apply(this, arguments);
+  self.removeListener(eventName, dummyFunc);
+  }
+  this.on(eventName, dummyFunc)
 }
+
+// var self = this;
+// var called = false;
+// var ret;
+// return function(){
+//   if(!called){
+//     ret = fn();
+//     called = true;
+//     self[eventName].push(ret);
+//     return ret;
+//   }
+//   else self.removeListener(eventName, fn);
+// }
+
+  // YOUR CODE HERE
+//   var flag = false;
+//   var response =1;
+//   console.log('dhsakdhsajdskad');
+//   return function(){
+//
+//     if(!flag){
+//   this.listeners[eventName]
+//   response = fn();
+//
+//   flag = true;
+//
+//   return response;
+// }
+//   }
+
 
 // Takes is a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
@@ -60,6 +96,8 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if((eventName in this.listeners)===false) this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -72,12 +110,21 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // function log(arg) {
 //  console.log('called', arg);
 // }
+// function log1(arg) {
+//  console.log(3, arg);
+// }
+
 // emitter.on('someEvent', log);
 // emitter.emit('someEvent', 1) // -> prints 'called 1'
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if((eventName in this.listeners)===false) throw 'Error';
+  console.log(this.listeners, this.listeners[eventName], eventName);
+  for(var i = 0; i < this.listeners[eventName].length; i ++){
+      this.listeners[eventName][i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -95,6 +142,12 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var arr = this.listeners[eventName];
+
+
+  if(eventName in this.listeners && arr.length != 0){
+    arr.splice(arr.indexOf(fn), 1);
+  }
 }
 
 // You do not need to look at code past this line, but you may

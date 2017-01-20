@@ -27,7 +27,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,8 +43,20 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var sendDelete = function(eventName, fn) {
+    fn();
+    //this.removeListener(eventName, fn);
+    this.removeListener(eventName, sendDelete);
+  }
+
+  if (!this.listeners[eventName]) {
+    this.listeners[eventName] = [];
+  }
+  this.listeners[eventName].push(sendDelete.bind(this));
+
 }
+
+
 
 // Takes is a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
@@ -59,7 +71,11 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (Object.hasOwnProperty(eventName)) {
+    this.listeners[eventName].push(fn);
+  }
+  this.listeners[eventName] = [];
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -77,7 +93,9 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  _.forEach(this.listeners[eventName], function(item) {
+    item(arg);
+  })
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,9 +112,9 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var index = this.listeners[eventName].indexOf(fn);
+  this.listeners[eventName].splice(index, 1);
 }
-
 // You do not need to look at code past this line, but you may
 // if you would like to figure out how your EventEmitter is
 // being used to update the message "msg" on all three devices at once.

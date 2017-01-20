@@ -28,6 +28,22 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
+var directions = {
+  left: function(y, x) {
+    return [y, x - 1];
+  },
+  right: function(y, x) {
+    return [y, x + 1];
+  },
+  up: function(y, x) {
+    return [y - 1, x];
+  },
+  down: function(y, x) {
+    return [y + 1, x];
+  }
+};
+
+
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
 // and new rows are separated by newlines (\n in a string).
@@ -41,9 +57,27 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
-  // console.log(arguments);
 
-  
+
+  // return this.maze.map(function(row) {
+  //   return row.map(function(cell) {
+  //     if (cell === ' ') {
+  //       return '_';
+  //     }
+  //     return cell;
+  //   }).join('');
+  // }).join('\n');
+
+
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === " ") {
+        return "_";
+      }
+      return cell;
+    }).join("");
+  }).join('\n');
+
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -54,7 +88,32 @@ Maze.prototype.toString = function() {
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
 
+  //find which element in the first array it's in
+  //find which element it's in
+  // var i = 0,
+  //   j = 0;
+  // console.log(this.maze);
+  // while (i < this.maze.length) {
+  //   var currentArray = this.maze[i];
+  //   while (j < currentArray.length) {
+  //     console.log(i,j, currentArray);
+  //
+  //     j++;
+  //   }
+  //   i++;
+  // }
 
+  var a = [];
+  this.maze.forEach(function(row, i) {
+    row.forEach(function(str, j) {
+      if (str === 'S') {
+        a = [i, j];
+      }
+    })
+  })
+  if (a.length != 0) {
+    return a;
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -103,8 +162,26 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  // if (!this.maze[column][row]) {
+  //   return false;
+  // }
 
   // YOUR CODE HERE
+
+  var travel = directions[direction](row, column);
+  // console.log(travel);
+  // console.log(this.maze[travel[0]][travel[1]]);
+  // console.log(travel)
+  if (travel &&
+    this.maze[travel[0]] &&
+    this.maze[travel[0]][travel[1]] &&
+    this.maze[travel[0]][travel[1]] != "X" &&
+    this.maze[travel[0]][travel[1]] != "V"
+  ) {
+    return travel;
+  }
+
+  return false;
 }
 
 // Write a method that returns true if this maze is solvable.
@@ -114,4 +191,49 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var maze = this.maze;
+  var self = this;
+  // if (tryMove(row, column, direction)) {
+  //
+  // }
+  //   0   1   2   3   4   5   6
+  // ["X","S"," "," "," "," "," "] 0
+  // [" ","X"," "," "," "," "," "] 1
+  // [" "," ","X"," "," "," ","E"] 2
+  // [" "," "," ","X"," "," "," "] 3
+  this.returnValue = false;
+  traverse(this.getStartPosition());
+
+
+  function traverse(position) { //pos is an array containing y, x
+    var y = position[0];
+    var x = position[1];
+    console.log("currently at " + maze[y][x]);
+    if (maze[y][x] === "E") {
+      console.log("match, return true");
+      // console.log(self);
+      self.returnValue = true;
+    } else {
+      maze[y][x] = "V";
+      if (self.tryMove(y, x, "right")) {
+        console.log(directions.right(y, x));
+        traverse(directions.right(y, x));
+      }
+      if (self.tryMove(y, x, "up")) {
+        console.log(directions.up(y, x));
+        traverse(directions.up(y, x));
+      }
+      if (self.tryMove(y, x, "down")) {
+        console.log(directions.down(y, x));
+        traverse(directions.down(y, x));
+      }
+      if (self.tryMove(y, x, "left")) {
+        console.log(directions.left(y, x));
+        traverse(directions.left(y, x));
+      }
+    }
+  }
+
+  return this.returnValue;
+
 }

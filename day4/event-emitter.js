@@ -48,19 +48,35 @@ EventEmitter.prototype.once = function(eventName, fn) {
   var called = false;
   var ret;
 
-  if (!this.listeners[eventName]) {
-    this.listeners[eventName] = [];
-  }
-  this.listeners[eventName].push(fn);
+  // if (!this.listeners[eventName]) {
+  //   this.listeners[eventName] = [];
+  // }
+  // this.listeners[eventName].push(fn);
   var self = this;
+  //
+  // return function() {
+  //   if (!called) {
+  //     ret = fn.apply(self, arguments);
+  //     this.listeners.removeListener(eventName, fn);
+  //     called = true;
+  //   }
+  //   return ret;
+  // }
+  function removeItself() {
+    self.removeListener(eventName, removeItself);
 
-  return function() {
     if (!called) {
-      ret = fn.apply(self, arguments);
       called = true;
+      fn.apply(this, arguments);
     }
-    return ret;
   }
+
+  removeItself.listener = fn;
+  this.on(eventName, removeItself);
+  return this;
+
+
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -126,7 +142,12 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  console.log(this.listeners[eventName]);
+  // this.listeners[eventName] = this.listeners[eventName].filter(function(listener) {
+  //   return listener != fn;
+  // });
 
+  this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1);
 }
 
 // You do not need to look at code past this line, but you may

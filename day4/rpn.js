@@ -43,7 +43,7 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
-  var rpnArray = rpnString.split(" ");
+  var rpnArray = rpnString.split(" "); //convert string to array
 
   var operations = {
     "+": function(a, b) {
@@ -60,19 +60,36 @@ window.rpnCalculator = function(rpnString) {
     }
   };
 
-  console.log(rpnArray);
+  // console.log(rpnArray);
   var stack = [];
+  var op;
   for (var i = 0; i < rpnArray.length; i++) {
-    if (isNumberString(rpnArray[i])) {
-      stack.push(parseFloat(rpnArray[i]));
+    if (isNumberString(rpnArray[i])) { //if #
+      stack.push(parseFloat(rpnArray[i])); //push onto array
     } else {
-      if (rpnArray[i] in operations){
-        var operations = rpnArray[i];
+      if (rpnArray[i] in operations) {
+        // var operations = rpnArray[i];
+        op = rpnArray[i];
+        // console.log(op);
+        var result1 = stack.pop();
+        var result2 = stack.pop();
+        if (result1 === undefined || result2 === undefined) {
+          throw Error;
+        }
+        var calc = operations[op](result2, result1);
+        console.log(calc);
+        stack.push(calc);
       }
-      result = stack.pop()
-      stack.pop()
-      stack.push
+
     }
+  }
+  if (stack.length > 1) {
+    throw Error;
+  } else {
+    // if (stack.peek() in operations){
+    //   throw Error;
+    // }
+    return stack.pop();
   }
 }
 

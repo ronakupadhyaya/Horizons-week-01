@@ -42,17 +42,56 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var array = rpnString.split(" ");
+  var checkArray = rpnString.split(" ");
+  var calcArray = []
+  var count = 0
+  for (var x=0; x<array.length; x++) {
+    if (!isNaN(parseInt(array[x],10))) {calcArray.push(parseInt(array[x],10))
+    }
+    else {
+      if (array[x] === "+") {
+        var a =  calcArray.pop();
+        var b =  calcArray.pop();
+        var value = b+a;
+        calcArray.push(value);
+        count++
+      }
+      if (array[x] === "-") {
+        var a =  calcArray.pop();
+        var b =  calcArray.pop();
+        var value = b-a;
+        calcArray.push(value);
+        count++
+      }
+      if (array[x] === "*") {
+        var a =  calcArray.pop();
+        var b =  calcArray.pop();
+        var value = b*a;
+        calcArray.push(value);
+        count++
+      }
+      if (array[x] === "/") {
+        var a =  calcArray.pop();
+        var b =  calcArray.pop();
+        var value = b/a;
+        calcArray.push(value);
+        count++
+      }
+    }
+  }
+  if (calcArray.length !==1 ||  count === array.length || checkArray.length%2 !== 1) {
+    throw "error"
+  }
+  else {
+    return calcArray[0]}
 }
 
-// This function returns true if given string represents a valid number.
-//
-// ex. isNumberString('a') -> false
-// ex. isNumberString('*') -> false
-// ex. isNumberString('0.1') -> true
-// ex. isNumberString('-1') -> true
-// ex. isNumberString('0') -> true
-// ex. isNumberString('-0.4') -> true
+
+
+
+
+
 function isNumberString(str) {
   if (! _.isString(str)) {
     return false;

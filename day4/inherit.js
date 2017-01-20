@@ -73,5 +73,5 @@ Student.prototype = new Person();
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
-  return 'Student - ' + this.getName;
+  return 'Student - ' + this.getName();
 };

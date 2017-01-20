@@ -160,10 +160,7 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-//   console.log(this.maze)
-// }
   var startPoint = this.getStartPosition();
-  // console.log(startPoint);
   var newArray = [];
   for (var i = 0; i < this.maze.length; i++){
     var tempArr = [];
@@ -175,50 +172,26 @@ Maze.prototype.isSolvable = function() {
       }
     }
     newArray.push(tempArr);
-
   }
-  // console.log(newArray);
   var self = this;
   var works = false;
-
   function recursiveHelper(startRow, startColumn, maze){
-    // var counter1 = 0;
-    // for(var k =0; k < maze.length; k++){
-    //   for(var l = 0; l < maze[k].length; l++){
-    //     if(maze[k][l] === ' '){
-    //       counter1++;
-    //     }
-    //   }
-    // }
     if(maze[startRow][startColumn] === 'E'){
       return true;
     }
-    // var counter = 0;
-    // for(var k =0; k < newArray.length; k++){
-    //   for(var l = 0; l < newArray[k].length; l++){
-    //     if(newArray[k][l] === true){
-    //       counter++;
-    //     }
-    //   }
-    // }
-    // if(counter === counter1) return false;
     if (self.tryMove(startRow, startColumn,'up')){
-
       newArray[startRow-1][startColumn] = true;
       works = works || recursiveHelper(startRow -1, startColumn, maze);
     }
     if (self.tryMove(startRow, startColumn,'down')){
-
       newArray[startRow+1][startColumn] = true;
       works = works || recursiveHelper(startRow +1, startColumn, maze);
     }
     if (self.tryMove(startRow, startColumn,'right')){
-
       newArray[startRow][startColumn+1] = true;
       works = works || recursiveHelper(startRow , startColumn+1, maze);
     }
     if (self.tryMove(startRow, startColumn,'left')){
-
       newArray[startRow][startColumn-1] = true;
       works = works || recursiveHelper(startRow, startColumn-1, maze);
     }

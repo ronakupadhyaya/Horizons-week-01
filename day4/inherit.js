@@ -21,8 +21,6 @@ function Person(name){
 Person.prototype.getName = function(){
   return this.name;
 }
-var me = new Person("Srihari");
-console.log(me.getName());
 
 // Exercise 2. (Sub) Class constructor for `Student`
 
@@ -61,7 +59,7 @@ function Student(name, major, grades){
 }
 Student.prototype = new Person();
 var student1 = new Student("Shree", "ECE", "A");
-console.log(student1.getName());
+console.log(student1.temp);
 
 
 
@@ -77,6 +75,5 @@ console.log(student1.getName());
 
 Student.prototype.getIdentity = function() {
   // YOUR CODE HERE
-  console.log("Student - " + this.getName());
   return "Student - " + this.getName();
 };

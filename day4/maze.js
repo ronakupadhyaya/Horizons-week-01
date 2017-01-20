@@ -187,44 +187,18 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
-  var startRow = null;
-  var startColumn = null;
-  for(var i = 0; i < this.maze.length; i++){
-    for(var j = 0; j < this.maze[i].length; j++){
-      if(this.maze[i][j] === "S"){
-        startRow = i;
-        startColumn = j;
-      }
-    }
-  }
-  console.log("End of Bull");
-  console.log(startRow);
-  console.log(startColumn);
-  if(!startRow || !startColumn){
-    return false;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var memory = [];
+console.log(this.getStartPosition());
+var startLocation = this.getStartPosition();
+console.log("LOOK HERE");
+console.log(startLocation);
+// function traverse(column, row) {
+//   if () {
+//     return true
+//   }
+//   return
+//   }
+// }
 
 
 

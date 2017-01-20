@@ -18,7 +18,10 @@ window.prototypes = {};
 
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+<<<<<<< HEAD
   return _.isEqual(this.sort(), array2.sort())
+=======
+>>>>>>> master
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -35,5 +38,8 @@ Array.prototype.hasEqualContent = function(array2){
 
 Object.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+<<<<<<< HEAD
   return _.isEqual(this, array2)
+=======
+>>>>>>> master
 }

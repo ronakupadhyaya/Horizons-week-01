@@ -32,6 +32,7 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   var cache = {};
   return function(){
     var arr = Array.prototype.slice.call(arguments)
@@ -46,6 +47,9 @@ function memoize(func) {
   }
 
 }
+=======
+};
+>>>>>>> master
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -73,6 +77,7 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   if(fn === undefined){
     throw 'Error';
   }
@@ -82,6 +87,8 @@ function partial(fn) {
     var combined = copy.concat(Array.prototype.slice.call(arguments));
     return fn.apply(null, combined);
   }
+=======
+>>>>>>> master
 }
 
 // Exercise 3: composeBasic()
@@ -121,10 +128,13 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   return function composedFn(){
     return fun1.call(null,fun2.apply(null, arguments));
   }
 
+=======
+>>>>>>> master
 }
 
 
@@ -158,6 +168,7 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
+<<<<<<< HEAD
 function memoize(func, hashFunction) {
   // YOUR CODE HERE
   var cache = {};
@@ -173,6 +184,9 @@ function memoize(func, hashFunction) {
     }
   }
 }
+=======
+
+>>>>>>> master
 // Double Bonus Exercise: compose()
 //
 // Write a more powerful version composeBasic() that can take any
@@ -182,6 +196,7 @@ function memoize(func, hashFunction) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+<<<<<<< HEAD
   var copy = Array.prototype.slice.call(arguments);
   return function(){
     var firstResult = copy[arguments.length-1].apply(null, arguments)
@@ -190,4 +205,6 @@ function compose() {
     }
     return firstResult;
   }
+=======
+>>>>>>> master
 }

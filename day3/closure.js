@@ -14,9 +14,13 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
+<<<<<<< HEAD
   return function fn(attempt) {
     return attempt === password;
   }
+=======
+  // YOUR CODE HERE
+>>>>>>> master
 }
 
 // This function returns an object that leaks private information!
@@ -27,10 +31,16 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
+<<<<<<< HEAD
     //privatePassword: password,
     passwordChecker: vault(password),
     login: function(attempt) {
       return this.passwordChecker(attempt);
+=======
+    privatePassword: password,
+    login: function(attempt) {
+      return this.privatePassword === attempt;
+>>>>>>> master
     }
   }
 }
@@ -86,6 +96,7 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+<<<<<<< HEAD
   var val;
   return function() {
     if (! called) { // if f hasn't been called yet
@@ -93,6 +104,13 @@ var once = function(f) {
       called = true; // mark f as called
     }
     return val;
+=======
+  return function() {
+    if (! called) { // if f hasn't been called yet
+      f(); // call f
+      called = true; // mark f as called
+    }
+>>>>>>> master
   }
 }
 
@@ -120,6 +138,7 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+<<<<<<< HEAD
 function makesFunctionThatReturnsReservedCopyOfVal(num) {
   var val = num;
   return function inner() {
@@ -132,6 +151,15 @@ var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
     functionArray[i-num1] = makesFunctionThatReturnsReservedCopyOfVal(i);
+=======
+var functionFactory = function(num1, num2) {
+  var functionArray = [];
+  for (var i = num1; i <= num2; i++) {
+    functionArray[i] = function() {
+      // function that returns i
+      return i;
+    }
+>>>>>>> master
   }
 
   return functionArray;
@@ -219,12 +247,24 @@ describe("once()", function() {
 
 describe("functionFactory()", function() {
   it("functionFactory(0,2) -> [function, function, function]", function() {
+<<<<<<< HEAD
     functionFactory(0,2).forEach(function(fun, i) {
+=======
+    var funs = functionFactory(0,2);
+    expect(funs.length).toBe(3);
+    funs.forEach(function(fun, i) {
+>>>>>>> master
       expect(fun()).toEqual(i);
     });
   });
   it("negative numbers functionFactory(-5, 15)", function() {
+<<<<<<< HEAD
     functionFactory(-5, 15).forEach(function(fun, i) {
+=======
+    var funs = functionFactory(-5, 15);
+    expect(funs.length).toBe(21);
+    funs.forEach(function(fun, i) {
+>>>>>>> master
       expect(fun()).toEqual(i-5);
     });
   });

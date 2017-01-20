@@ -28,6 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -44,7 +45,15 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
-}
+  var self = this;
+  var called = false;
+  var old = function () {
+      fn()
+      self.removeListener(eventName, old);
+  }
+  this.on(eventName, old);
+  }
+
 
 // Takes is a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
@@ -60,6 +69,11 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (!(this.listeners[eventName])) {
+    this.listeners[eventName] = [];
+  } 
+    this.listeners[eventName].push(fn);
+  
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,9 +92,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  this.listeners[eventName].forEach(function(fn){
+    fn(arg);
+  });
 }
 
-// Takes is a string "eventName" and a callback function "fn"
+// Takes in a string "eventName" and a callback function "fn"
 // Removes the specified listener from the listener array
 // for the event named eventName.
 //
@@ -95,13 +112,20 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  // this.listeners[eventName] = this.listeners[eventName].filter(function(value){
+  //   return value != fn
+  // });
+  this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1)
+  
+
 }
 
 // You do not need to look at code past this line, but you may
 // if you would like to figure out how your EventEmitter is
 // being used to update the message "msg" on all three devices at once.
 function Observer(name, myEventEmitter) { // object that keeps track of changes
-  this.name = name; this.myEventEmitter = myEventEmitter;
+  this.name = name;
+  this.myEventEmitter = myEventEmitter;
   this.myEventEmitter.on("send", this.onSend.bind(this));
 }
 
@@ -122,7 +146,7 @@ var observers = [
 // and uses the EventEmitter object "myEventEmitter" to emit the messege "msg"
 // to all observers
 function submitMsg(type) {
-  var msg = document.getElementById(type+"-input").value;
+  var msg = document.getElementById(type + "-input").value;
   if (!msg) return;
   myEventEmitter.emit('send', msg);
 }

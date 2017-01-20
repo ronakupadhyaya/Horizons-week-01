@@ -41,16 +41,14 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
-  this.map(function(str){
-    return str.replace(/\s+/g, "_")
-  });
-  for(i = 1; i<this.length; i++){
-    this[i].push("\\n");
-  }
-
-  var change = (_.flatten(this).join(""))
-
-  return change
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ') {
+        return '_';
+      }
+      return cell;
+    }).join('');
+  }).join('\n');
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -59,9 +57,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+   for (var row = 0; row < this.maze.length; row++) {
+    var curRow = this.maze[row];
+    for (var column = 0; column < curRow.length; column++) {
+      if (curRow[column] === 'S') {
+        return [row, column];
+      }
+    }
+  }
+  throw new error;
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -109,8 +113,61 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
 
-  // YOUR CODE HERE
+  function isPosition() {
+    if (row < 0) {
+      return false;
+    }
+
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+ debugger;
+  // Check if position is on the board before move
+  if (! isPosition()) {
+    return false;
+  }
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPosition()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return [row, column];
 }
 
 // Write a method that returns true if this maze is solvable.
@@ -120,4 +177,32 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+   
+  var startPosition = this.getStartPosition();
+  var stack = [startPosition];
+  var visited = this.maze.
+  
+  while (stack.length) {
+    // Get next position to try
+    var pos = stack.pop();
+    var firsttest = this.maze[pos[0]][pos[1]];
+
+    if (firsttest=== 'X') {
+      throw new "Can't move into wall. " 
+    }
+    if (firsttest === 'E') {
+      return true;
+    }
+
+    this.visited[pos[0]][pos[1]] = true;
+
+    for(var i = 0; i < this.validDirections.length; i++){
+
+      startPosition = tryMove()
+
+
+    }
+
+  }
+  return false;
 }

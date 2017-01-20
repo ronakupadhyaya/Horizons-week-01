@@ -19,4 +19,5 @@
 // https://www.hackerrank.com/challenges/string-compression
 function compressString(string) {
   // YOUR CODE HERE
+  if(string)
 }

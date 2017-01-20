@@ -27,7 +27,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,7 +43,33 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+
+  if(!(eventName in this.listeners)) this.listeners[eventName] = [];
+
+  var called = false;
+  var prevThis = this;
+
+
+  function fun(){
+
+    prevThis.removeListener(eventName, fun);
+
+    if(!called) {
+      called = true;
+      fn.apply(this, arguments);
+    }
+
+
+
+  };
+
+  fun.listener = fn;
+  this.on(eventName, fun);
+  return this;
+
+
+
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -60,6 +86,14 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+
+  if(eventName in this.listeners) {
+    this.listeners[eventName].push(fn);
+
+  } else {
+    this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,6 +112,13 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var funcs = this.listeners[eventName];
+
+  _.forEach(funcs, function(fun){
+    fun(arg);
+  });
+
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,7 +135,16 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+
+  var funs = this.listeners[eventName];
+
+  _.forEach(funs, function(item, index){
+
+    if(item === fn){
+      funs.splice(index, 1);
+    }
+
+  });
 }
 
 // You do not need to look at code past this line, but you may

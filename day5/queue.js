@@ -82,7 +82,7 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -90,7 +90,16 @@ Queue.prototype.getSize = function() {
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
-  // YOUR CODE HERE
+  var newItem = new Item(value); //create the next item in link
+
+  if (this.head === null) {
+    this.head = newItem;
+    this.tail = newItem;
+  } else {
+    this.tail.next = newItem;
+    this.tail = newItem;
+  }
+  this.size++;
 }
 
 // Exercise: Queue.pop()
@@ -102,7 +111,18 @@ Queue.prototype.push = function(value) {
 //
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
-  // YOUR CODE HERE
+  if (! this.tail) {
+    throw new Error("Your Queue is empty!")
+  }
+  var returnItem = this.head.value;
+  if (this.size === 1 ) {
+    this.head = null;
+    this.tail = null;
+  } else {
+    this.head = this.head.next;
+  }
+  this.size--;
+  return returnItem
 }
 
 // Exercise: Queue.contains()
@@ -111,7 +131,25 @@ Queue.prototype.pop = function() {
 //
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
-  // YOUR CODE HERE
+
+  // var next = this.head;
+  // while (next) {
+  //   if (value === next.value) {
+  //     return true;
+  //   }
+  //   next = next.next;
+  // }
+  // return false;
+
+  var current = this.head;
+
+  while(current != null) {
+    if(current.value === value) {
+      return true;
+    }
+    current = current.next
+  }
+  return false;
 }
 
 // Exercise: Queue.peek()
@@ -120,14 +158,17 @@ Queue.prototype.contains = function(value) {
 //
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
-  // YOUR CODE HERE
+  if (this.isEmpty()) {
+    return null;
+  }
+  return this.head.value;
 }
 
 // Bonus exercise: Queue.forEach(fun)
 // Write a function that takes function 'fun' and calls fun with each item in
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
-  // YOUR CODE HERE
+
 }
 
 // --------------------TESTS--------------------
@@ -135,27 +176,88 @@ Queue.prototype.forEach = function(fun) {
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
-  // YOUR CODE HERE
+  it("new Queue().isEmpty() -> true", function() {
+    expect(new Queue().isEmpty()).toBe(true);
+  })
 });
 
+//How do we write tests that work that don't use the code that we have to write?
+
+var testQueue = new Queue()
+testQueue.push(1)
+testQueue.push(2)
+testQueue.push(3)
+
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  it("new Queue().getSize() -> 0", function () {
+    expect(new Queue().getSize()).toBe(0);
+  })
+  it("testQueue.getSize() -> 3", function () {
+    expect(testQueue.getSize()).toBe(3);
+  })
 });
 
 describe("Queue.prototype.push", function() {
-  // YOUR CODE HERE
+  it("new Queue.push(1) -> 1", function () {
+    var q = new Queue();
+    q.push(1);
+    var headValue = q.head.value;
+    expect(headValue).toBe(1);
+  })
+  it("q.push(4) -> 4", function () {
+    var q = new Queue();
+    q.push(1);
+    q.push(2);
+    q.push(3)
+    q.push(4)
+    var tailValue = q.tail.value;
+    expect(tailValue).toBe(4);
+  })
 });
 
 describe("Queue.prototype.pop", function() {
-  // YOUR CODE HERE
+  it("new Queue().pop() -> Error", function() {
+    expect(function() {
+      new Queue().pop()
+    }).toThrow();
+  });
+  it("testQueue.pop() -> 1", function() {
+    expect(testQueue.pop()).toBe(1);
+  });
 });
 
 describe("Queue.prototype.contains", function() {
-  // YOUR CODE HERE
+  var testQueue = new Queue()
+  testQueue.push(1)
+  testQueue.push(2)
+  testQueue.push(3)
+  it("testQueue.contains(1) -> true", function () {
+    expect(testQueue.contains(1)).toBe(true);
+  });
+  it("testQueue.contains(2) -> true", function () {
+    expect(testQueue.contains(2)).toBe(true);
+  });
+  it("testQueue.contains(3) -> true", function () {
+    expect(testQueue.contains(3)).toBe(true);
+  });
+  it("testQueue.contains(4) -> false", function () {
+    expect(testQueue.contains(4)).toBe(false);
+  });
 });
 
+var testQueue2 = new Queue()
+testQueue2.push(1)
+testQueue2.push(2)
+testQueue2.push(3)
+testQueue2.push(1)
+
 describe("Queue.prototype.peek", function() {
-  // YOUR CODE HERE
+  it("new Queue().peek() - > Error", function () {
+    expect(new Queue().peek()).toBe(null);
+  });
+  it("testQueue.peek() -> 1", function () {
+    expect(testQueue2.peek()).toBe(1);
+  });
 });
 
 // This one's a bonus
@@ -250,4 +352,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

@@ -24,7 +24,7 @@
 // http://en.wikipedia.org/wiki/Stack_(data_structure)
 //
 // To calculate an RPN string:
-//  - split the string into parts using .split(' ')
+//  - split the string into parts using .split(' ') XX -- creates an array of substrings
 //  - for each part of the string
 //    - if it's a number, parse it into a number and .push() to stack
 //    - if it's an operator, .pop() two items from the stack and apply the
@@ -42,8 +42,55 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var stack = [];
+
+  var partOfString = rpnString.split(" ");
+  // console.log(partOfString);
+  var countNum = 0;
+  var countNaN = 0;
+  var last;
+  var secLast;
+
+
+  for(var i = 0; i < partOfString.length; i++){
+      if(!isNaN(partOfString[i])){
+        stack.push(parseInt(partOfString[i]));
+        countNum += 1; //
+        console.log(stack);
+    } else if(partOfString[i] === '+'){
+      last = stack.pop()
+      secLast = stack.pop()
+      stack.push(secLast + last);
+      countNaN += 1;
+    } else if(partOfString[i] === '-'){
+      last = stack.pop()
+      secLast = stack.pop()
+      stack.push(secLast - last);
+      countNaN += 1;
+    } else if(partOfString[i] === '/'){
+      last = stack.pop()
+      secLast = stack.pop()
+      stack.push(secLast / last);
+      countNaN += 1;
+    } else if(partOfString[i] === '*'){
+      last = stack.pop()
+      secLast = stack.pop()
+      stack.push(secLast * last);
+      countNaN += 1;
+    }
+  }
+
+if(countNum > countNaN + 1){
+  throw "error: too many numbers"
 }
+
+if (countNaN >= countNum){
+  throw "error: too many operators "
+}
+console.log(stack);
+return stack[0];
+}
+// }
 
 // This function returns true if given string represents a valid number.
 //

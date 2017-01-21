@@ -82,7 +82,16 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+  var counter = 0;
+  var h = this.head; // this is the first object
+
+  if (head.next === null) return counter;
+
+  while (head.next ! == null){
+    counter ++
+    h = h.next;
+  }
+  return counter;
 }
 
 
@@ -90,7 +99,13 @@ Queue.prototype.getSize = function() {
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
-  // YOUR CODE HERE
+
+  var newItem = new Item(value, null)
+  var blah = this.tail;
+  newItem = blah.next;
+  this.tail = newItem;
+  this.size ++;
+
 }
 
 // Exercise: Queue.pop()
@@ -102,7 +117,15 @@ Queue.prototype.push = function(value) {
 //
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
-  // YOUR CODE HERE
+
+  if(this.head === null){
+    throw "queue is empty";
+  }
+  var oldHead = this.head;
+  var newHead = this.head.next;
+  newHead = this.head;
+  this.size --;
+  return oldHead;
 }
 
 // Exercise: Queue.contains()
@@ -135,15 +158,43 @@ Queue.prototype.forEach = function(fun) {
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
-  // YOUR CODE HERE
+
+  it("test if empty", function(){
+    var emptyQ = new Queue();
+    expect(myQ.isEmpty()).toEqual(true);
+  });
+
+  it("test if Queue isn't empty", function(){
+    var myQ = new Queue;
+    var item = new Item(1,null);
+    myQ.push(1);
+    expect(myQ.isEmpty()).toEqual(false);
+  })
 });
 
+
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  it("test if queue has 1 item", function(){
+    var myQ = new Queue();
+    var item = new Item(1,null);
+    myQ.push(1);
+
+    expect(myQ.getSize()).toBe(1);
+  });
+
+  it("test if queue has 3 items", function(){
+    var myQ = new Queue();
+    myQ.push(1);
+    myQ.push(2);
+    myQ.push(3);
+
+    expect(myQ.getSize()).toEqual(3);
+
+  })
 });
 
 describe("Queue.prototype.push", function() {
-  // YOUR CODE HERE
+
 });
 
 describe("Queue.prototype.pop", function() {
@@ -250,4 +301,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

@@ -10,14 +10,21 @@
 
 // Constructor & Properties
 
-var person = {
-  name: 'Holly',
-  getter: getName()
+function Person(name,getter) {
+  this.name = name,
+  this.getName = function(){
+    return this.name
   }
+};
 
-function getName(){
-  return person.name;
-}
+//
+// Person.prototype.getter = function(){
+//
+// }
+//
+// function getName(){
+//   return person.name;
+// }
 // Method declarations
 
 // YOUR CODE HERE
@@ -51,7 +58,18 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 //
 // Even though getColor was not defined in the `Banana` class, it was defined on the `Fruit` class, which `Banana` inherits from, which it can then use.
 
-// YOUR CODE HERE
+var Student = function (name, major, grades){
+  this.name = name;
+  this.major = major;
+  this.grades = grades;
+  this.getIdentity = function(){
+    return "Student - " + this.name;
+  }
+}
+
+Student.prototype.getName = function() {
+  return this.name;
+}
 
 
 
@@ -66,5 +84,6 @@ console.log("the banana is yellow: ", b.getColor() == 'yellow');
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
 Student.prototype.getIdentity = function() {
-  // YOUR CODE HERE
+  console.log(this.getName);
+  return("Student - " + this.getName)
 };

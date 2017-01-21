@@ -41,7 +41,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+var arr = this.maze.slice();
+// console.log(arr[0]);
+// console.log(arr[0].join(""));
+// console.log(arr.length);
+return this.maze.map(function(row){
+  return row.map(function(cell){
+    if(cell === " "){
+      return "_";
+    }
+    return cell;
+  }).join("");
+}).join('\n');
 }
+
 
 // Return the coordinates of the starting position of the current maze.
 //
@@ -49,10 +62,31 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  var arr = this.maze.slice();
+  var counter = 0;
+  // console.log(arr);
+  // console.log(arr.length);
+    for(var i = 0; i < arr.length; i++){
+      for(var j = 0; j < arr[i].length; j++){
+        console.log(arr[i][j]);
+        if(arr[i][j] === 'S'){
+          counter += 1;
+          return [i, j];
+        }
 
-  throw new Error("Maze has no starting point");
-}
+        // if(arr[i][j] === 'S')
+        //   return
+        }
+
+      }
+      if(counter < 1){
+        throw "error: no starting point!"
+      }
+    }
+
+
+  // throw new Error("Maze has no starting point");
+
 
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
@@ -68,7 +102,6 @@ Maze.prototype.getStartPosition = function() {
 //    moving left from the leftmost column etc.)
 //
 // Parameters:
-//  - row: row before the move. 0 represents top row.
 //  - column: column before the move. 0 represents leftmost column.
 //  - direction: direction to try to move. Must be one of:
 //    - 'up': Move up i.e. decrement row
@@ -99,6 +132,7 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+
 
   // YOUR CODE HERE
 }

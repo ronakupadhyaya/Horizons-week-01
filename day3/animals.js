@@ -23,6 +23,7 @@
 // console.log(tree);
 window.lion = (function getAnimal(){
   return 'lion';
+<<<<<<< HEAD
 })();
 
 window.tiger = (function getAnimal(){
@@ -38,9 +39,17 @@ window.tiger = (function getAnimal(){
 //   }
 // }(i));
 // window.lion = getAnimal();
-
-function getAnimal() {
-  return 'tiger';
+=======
 }
+window.lion = getAnimal();
+>>>>>>> dnajafi
 
-window.tiger = getAnimal();
+
+(function(){
+
+  function getAnimal() {
+    return 'tiger';
+  }
+
+  window.tiger = getAnimal();
+}())

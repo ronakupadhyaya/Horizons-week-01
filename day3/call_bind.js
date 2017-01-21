@@ -28,6 +28,7 @@
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
+<<<<<<< HEAD
   var something = Array.from(arguments); //this turns arguments into a real arguments
   var somethingNew = something.splice(0,1);
   console.log(something); //so now "something" has been spliced and you can just use "something"
@@ -35,6 +36,17 @@ Function.prototype.myCall = function(newThis) {
     return this.apply(newThis, something);
   }
 
+=======
+
+  var newArgs = [];
+
+  for(var i=1; i<arguments.length; i++) {
+    newArgs.push(arguments[i]);
+  }
+
+  return this.apply(newThis, newArgs);
+}
+>>>>>>> dnajafi
 
 // Bonus exercise: Function.prototype.myBind()
 //
@@ -60,5 +72,10 @@ Function.prototype.myCall = function(newThis) {
 // This is a simplified version of .bind() that only binds 'this'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 Function.prototype.myBind = function(newThis) {
-  // YOUR CODE HERE
+
+  var self = this;
+
+  return function(){
+    return self.apply(newThis, arguments);
+  };
 }

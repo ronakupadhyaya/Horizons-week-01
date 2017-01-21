@@ -14,12 +14,24 @@ window.exception = {};
 // ex. exception.safeCall(safeFunction) -> false
 // ex. exception.safeCall(unsafeFunction) -> true
 exception.safeCall = function(fun) {
+<<<<<<< HEAD
   try {
     fun();
   } catch (e) {
     return true;
   }
   return false;
+=======
+
+  try{
+    fun();
+  }catch(e){
+    return true;
+
+  }
+  return false;
+
+>>>>>>> dnajafi
 }
 
 
@@ -36,6 +48,7 @@ exception.safeCall = function(fun) {
 // }
 // ex. exception.callBoth(throws, logs) -> prints 'called' then error
 exception.callBoth = function(fun1, fun2) {
+<<<<<<< HEAD
   try {
     fun1();
   } catch (e) {
@@ -44,6 +57,16 @@ exception.callBoth = function(fun1, fun2) {
 
   } fun2();
 
+=======
+
+  try{
+    fun1();
+  }catch(e){
+    fun2();
+    throw e;
+  }
+  fun2();
+>>>>>>> dnajafi
 }
 
 
@@ -64,6 +87,7 @@ exception.callBoth = function(fun1, fun2) {
 // ex. exception.catchOnlyWithA(throwZ) -> Error: 'z'
 exception.catchOnlyWithA = function(fun) {
 
+<<<<<<< HEAD
   try {
     fun();
   } catch (e) {
@@ -73,6 +97,14 @@ exception.catchOnlyWithA = function(fun) {
 
     throw e;
   }
+=======
+  try{
+    fun();
+  }catch(e1){
+    var eString = e1.toString();
+
+    if(eString[0] !== 'a') throw e1;
+>>>>>>> dnajafi
 
   }
 

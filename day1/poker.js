@@ -46,5 +46,205 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+ // YOUR CODE HERE
+
+//REPLACE FACE CARDS
+  for(var i = 0; i < hand1.length; i++){
+    hand1[i]=hand1[i].replace('T', '10');
+    hand2[i]=hand2[i].replace('T','10');
+    hand1[i]=hand1[i].replace('J', '11');
+    hand2[i]=hand2[i].replace('J','11');
+    hand1[i]=hand1[i].replace('Q', '12');
+    hand2[i]=hand2[i].replace('Q','12');
+    hand1[i]=hand1[i].replace('K', '13');
+    hand2[i]=hand2[i].replace('K','13');
+    hand1[i]=hand1[i].replace('A', '14');
+    hand2[i]=hand2[i].replace('A','14');
+  }
+
+  function isFlush(hand){
+    var suit = hand[0][hand[0].length-1];
+    var flag = true;
+    hand.forEach(function(item){
+      if(suit !== item[item.length-1])
+        flag = false;
+    })
+
+    if(flag){
+      return true;
+    }
+    return false;
+
+  }
+
+  function straight(hand){
+    var flag1 = true;
+    var min = hand[0];
+    for(var j = 1; j < hand.length; j++){
+      if(hand[j] === min+1){
+        min++
+      } else{
+        flag1 = false;
+      }
+    }
+    if (flag1){
+      return hand[4];
+    }
+    return -1;
+  }
+
+  function three_of_a_kind(hand){
+    for (var i = 0; i < 3; i++){
+      var count = 1;
+      for (var j = i+1; j < hand.length; j++){
+        if (hand[i] === hand[j]){
+          count++;
+          //console.log(count);
+        }
+      }
+      if (count ===3){
+        return hand[i];
+      }
+    }
+    return -1;
+  }
+
+  function four_of_a_kind(hand){
+    for (var i = 0; i < 2; i++){
+      var count = 1;
+      for (var j = i+1; j < hand.length; j++){
+        if (hand[i] === hand[j]){
+          count++;
+        }
+      }
+      if (count ===4){
+        return hand[i];
+      }
+    }
+    return -1;
+  }
+
+  function pair(hand){
+    for (var i = 0; i < hand.length-1; i++){
+      var count = 1;
+      for (var j = i+1; j < hand.length; j++){
+        if (hand[i] === hand[j]){
+          count++;
+        }
+      }
+      if (count ===2){
+        return hand[i];
+      }
+    }
+    return -1;
+  }
+
+  function two_pair(hand){
+    var handCopy = hand.slice();
+    var val = pair(handCopy);
+    if(val){
+      handCopy.splice(handCopy.indexOf(val), 2);
+      return [val, pair(handCopy)];
+    }
+    else {
+      return -1;
+    }
+  }
+  // High Card: Highest value card.
+  // One Pair: Two cards of the same value.
+  // Two Pairs: Two different pairs.
+  // Three of a Kind: Three cards of the same value.
+  // Straight: All cards are consecutive values.
+  // Flush: All cards of the same suit.
+  // Full House: Three of a kind and a pair.
+  // Four of a Kind: Four cards of the same value.
+  // Straight Flush: All cards are consecutive values of same suit.
+  // Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+
+
+  var flush_hand1 = isFlush(hand1);
+  var flush_hand2 = isFlush(hand2);
+
+
+  console.log(hand1,hand2);
+  //console.log(hand1[0],hand1[1],hand1[2],hand1[3],hand1[4]);
+
+  hand1.forEach(function(item, index){
+    hand1[index] = parseInt(item.slice(0,-1));
+  });
+
+  hand2.forEach(function(item, index){
+    hand2[index] = parseInt(item.slice(0,-1));
+  });
+
+  hand1.sort(function(a,b){
+    return a-b;
+  });
+  hand2.sort(function(a,b){
+    return a-b;
+  })
+
+  console.log(hand1, hand2);
+
+  //Royal Flush
+  if (flush_hand1 ===true && hand1[4] === 14 && straight(hand1)===14)
+    return 1;
+  else if (flush_hand2 ===14 && hand1[4] === 14 && straight(hand2)===14)
+    return 2;
+  else{
+    //Straight Flush
+    console.log(flush_hand1, flush_hand2);
+    console.log(straight(hand1));
+    console.log(straight(hand2));
+    if( (flush_hand1 === true) && (straight(hand1) > -1) && (flush_hand2 === true) && (straight(hand2) > -1)){
+      console.log("herere");
+      console.log(hand1[4], hand2[4]);
+      if(hand1[4] > hand2[4]){
+        return 1;
+      }
+      else {
+        return 2;
+      }
+    }
+    else if(flush_hand1 === true && straight(hand1) ===14 && !(flush_hand2 !== false || straight(hand2) !==14)) {
+      return 1;
+    }
+    else if(flush_hand2 === true && straight(hand2) ===14 && !(flush_hand1 !== false || straight(hand1) !==14)) {
+      return 2;
+    }
+    else {
+      console.log('aaaaa');
+      //Four of a Kind
+      if(four_of_a_kind(hand1) > four_of_a_kind(hand2)){
+        return 1;
+      }
+      else if (four_of_a_kind(hand2) > four_of_a_kind(hand1)){
+        return 2;
+      }
+      else{
+        //Full House
+        if(three_of_a_kind(hand1) && two_pair(hand1) && three_of_a_kind(hand2) && two_pair(hand2)){
+          if(three_of_a_kind(hand1) > three_of_a_kind(hand2))
+            return 1;
+          else if(three_of_a_kind(hand2) > three_of_a_kind(hand1))
+            return 2;
+        }
+        else if(three_of_a_kind(hand1) && two_pair(hand1) && !(three_of_a_kind(hand2) ===-1 || two_pair(hand2) ===-1)){
+          return 1;
+        }
+        else if(three_of_a_kind(hand2) && two_pair(hand2) && !(three_of_a_kind(hand1) ===-1 || two_pair(hand1) ===-1)){
+          return 2;
+        }
+        else{
+          return 2;
+        }
+
+      }
+
+    }
+
+  }
+
+
+
 }

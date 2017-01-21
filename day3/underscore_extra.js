@@ -30,7 +30,9 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
+
 function memoize(func) {
+<<<<<<< HEAD
       var values = {};
   return function memoizedFn(arg) {
     var answer = 0;
@@ -43,6 +45,61 @@ function memoize(func) {
   return values[arg];
 }
 }
+=======
+  var hashflag = false;
+  var hash;
+  if(arguments.length > 1){
+    hashflag = true;
+    hash = arguments[1];
+  }
+
+  var results = {};
+
+  return function(){
+    var argString = arguments[0];
+    if(hashflag){
+      //var argString = JSON.stringify(arguments);
+
+      var hashedVal = hash(argString);
+    }
+
+    if(argString in results) {
+      return results[argString];
+    } else{
+
+      var funcResults = func.apply(null, arguments);
+      console.log(argString, funcResults);
+      results[argString] = funcResults;
+
+      return funcResults;
+    }
+  };
+}
+
+
+// function memoize(func) {
+//
+//
+//   var results = {};
+//
+//   return function(){
+//
+//     // var argString = JSON.stringify(arguments);
+//     var argString = arguments[0];
+//
+//     if(argString in results) {
+//       return results[argString];
+//     } else{
+//
+//       var funcResults = func(arguments[0]);
+//
+//       results[argString] = funcResults;
+//
+//       return funcResults;
+//     }
+//   };
+// };
+>>>>>>> dnajafi
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -69,6 +126,7 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
+<<<<<<< HEAD
   if(arguments.length === 0){
     throw "error";
   }
@@ -81,6 +139,26 @@ function partial(fn) {
     }
     return fn.apply(null,firstArg);
   }
+=======
+
+  if(arguments.length < 1) throw "not enough arguments";
+
+  var args = [];
+  for(var i=1; i<arguments.length; i++) {
+    args.push(arguments[i]);
+
+  }
+  var self = this;
+  return function() {
+
+    for(var i=0; i<arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+    //console.log(args);
+    return fn.apply(self, args);
+  };
+
+>>>>>>> dnajafi
 }
 
 // Exercise 3: composeBasic()
@@ -119,11 +197,21 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
+<<<<<<< HEAD
   return function composedFn() { // this is isSumEven
     var val = fun2.apply(null, arguments)
     // console.log(val)
     return fun1.call(null, val);
   }
+=======
+
+  return function(){
+    var res2 = fun2.apply(null, arguments);
+    //console.log(res2);
+    return fun1(res2);
+  };
+
+>>>>>>> dnajafi
 }
 
 
@@ -167,4 +255,24 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var arr = [];
+
+  for(var i = arguments.length-1; i >= 0; i--){
+    arr.push(arguments[i]);
+  }
+  return function(){
+
+    var result;
+    for( var j = 0; j < arr.length; j++){
+      if(j ==0){
+        result = arr[j].apply(null,arguments);
+      }else{
+        result = arr[j].call(null,result);
+      }
+    }
+
+    return result;
+  }
+
+
 }

@@ -42,11 +42,19 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a'], 'a') -> true
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
+<<<<<<< HEAD
   return _.any(array, function(x) {
     return x === item;
   });
   }
 
+=======
+  // YOUR CODE HERE
+  return _.any(array, function(item1) {
+    return item1 === item;
+  })
+};
+>>>>>>> dnajafi
 
 // Exercise 3: learn_underscore.any(array, fun)
 // Write your own version of _.any() using _.reduce() and _.map();
@@ -106,11 +114,20 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
+<<<<<<< HEAD
 var newArray = _.map(array,fun);
 function truth(a,b){
   return a || b ? true : false;
 }
 return _.reduce(newArray,truth);
+=======
+  // YOUR CODE HERE
+  var newarray = _.map(array, fun);
+  return _.reduce(newarray, function(item1, item2){
+    return item1 || item2;
+  } );
+
+>>>>>>> dnajafi
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)
@@ -151,11 +168,20 @@ return _.reduce(newArray,truth);
 //  learn_underscore.reduce([false], and) -> false
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
+<<<<<<< HEAD
 var accumulator = array[0]
 for (var i = 1; i < array.length; i++){
   accumulator = fun(accumulator, array[i])
 }
 return accumulator;
+=======
+  // YOUR CODE HERE
+  var accumulator = array[0];
+  for (var i = 1; i < array.length; i++){
+    accumulator = fun(accumulator, array[i]);
+  }
+  return accumulator;
+>>>>>>> dnajafi
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -172,11 +198,21 @@ return accumulator;
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
+<<<<<<< HEAD
 var array = [];
 _.forEach(object, function(value,key){
   array.push(key);
 })
 return array;
+=======
+  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value, key) {
+    //console.log(value, key);
+    array.push(key);
+  })
+  return array;
+>>>>>>> dnajafi
 }
 
 
@@ -187,6 +223,7 @@ return array;
 // ex. learn_underscore.values({}) -> []
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
+<<<<<<< HEAD
   var array = [];
   _.forEach(object, function(value,key){
     array.push(value);
@@ -195,6 +232,15 @@ learn_underscore.values = function(object) {
   }
 
 
+=======
+  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value){
+    array.push(value);
+  })
+  return array;
+}
+>>>>>>> dnajafi
 
 // Exercise 7: learn_underscore.pairs(object)
 // Write a function using _.forEach() that takes an object and returns an array with
@@ -203,6 +249,7 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({}) -> []
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
+<<<<<<< HEAD
   var array = [];
   _.forEach(object, function(value,key){
     array.push([key, value]);
@@ -210,6 +257,16 @@ learn_underscore.pairs = function(object) {
   return array;
   }
 
+=======
+  // YOUR CODE HERE
+  var outerarray = [];
+  _.forEach(object,function(value, key){
+    var innerarray = [key, value];
+    outerarray.push(innerarray);
+  })
+  return outerarray;
+}
+>>>>>>> dnajafi
 
 // Example 2: groupByState(people)
 // This function takes an array of people objects and groups them by their
@@ -295,6 +352,7 @@ learn_underscore.countLetters = function(string) {
 //  }
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
+<<<<<<< HEAD
 //
 // var newobject = {};
 //
@@ -313,6 +371,13 @@ var newestobject=  _.mapObject(newobject, function(array){
 
 console.log(newestobject);
   return newestobject;
+=======
+  // YOUR CODE HERE
+  var obj = _.groupBy(array,fun);
+  return _.mapObject(obj,function(val){
+    return val.length;
+  })
+>>>>>>> dnajafi
 }
 
  // return _.groupBy(array, fun);

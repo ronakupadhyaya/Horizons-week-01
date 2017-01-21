@@ -20,6 +20,7 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
+<<<<<<< HEAD
   var array = [];
   for (var i = 0; i < str.length; i++){
     if(str[i] !== " "){
@@ -35,6 +36,25 @@ return answer;
 
 
 
+=======
+  // YOUR CODE HERE
+  var startIndex = 0;
+  var endIndex = 0;
+  for(var i = 0; i < str.length; i++){
+    if(str[i] !== ' '){
+      startIndex = i;
+      break;
+    }
+  }
+  for(var j = str.length -1; j >= 0; j--){
+    if(str[j] !== ' '){
+      endIndex = j;
+      break;
+    }
+  }
+  return str.substring(startIndex, endIndex+1)
+};
+>>>>>>> dnajafi
 
 // ----------------------------------------------------------------------------
 
@@ -52,7 +72,15 @@ return answer;
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
+<<<<<<< HEAD
   return sourceString.indexOf(searchString) !== -1;
+=======
+  // YOUR CODE HERE
+  if(sourceString.indexOf(searchString) !== -1){
+    return true;
+  }
+  return false;
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -72,8 +100,14 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
+<<<<<<< HEAD
   var blah = str.split(" ");
   return parseInt(blah[0]);
+=======
+  // YOUR CODE HERE
+  var num = str.split(" ");
+  return parseInt(num[0]);
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -89,11 +123,20 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
+<<<<<<< HEAD
   var newarray = [];
   for (var i = 0; i < arr.length; i ++){
   newarray[i] = arr[arr.length - (i + 1)];
 }
   return newarray;
+=======
+  // YOUR CODE HERE
+  var newArr = [];
+  while(arr.length > 0){
+    newArr.push(arr.pop());
+  }
+  return newArr;
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +154,7 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
+<<<<<<< HEAD
     if (a.length === b.length) {
       for (var i = 0; i < a.length; i++) {
         if (a[i] !== b[i]) {
@@ -124,6 +168,19 @@ builtins.isEqual = function(a, b) {
       return false;
     }
   };
+=======
+  // YOUR CODE HERE
+  if(a.length !== b.length){
+    return false;
+  }
+  for(var i = 0; i < a.length; i++){
+    if(a[i] !== b[i]){
+      return false;
+    }
+  }
+  return true;
+}
+>>>>>>> dnajafi
 
 // ----------------------------------------------------------------------------
 
@@ -139,8 +196,16 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
+<<<<<<< HEAD
 var reverseA = builtins.reverse(arr);
 return builtins.isEqual(reverseA,arr);
+=======
+  // YOUR CODE HERE
+  var arr1 = arr.slice();
+  var newArr = arr.reverse();
+  console.log(newArr, arr);
+  return builtins.isEqual(arr1, newArr);
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -160,11 +225,19 @@ return builtins.isEqual(reverseA,arr);
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
+<<<<<<< HEAD
 function compareNumbers(a, b) {
   return a - b;
 }
 arr.sort(compareNumbers)
 return arr;
+=======
+  // YOUR CODE HERE
+  function sortNumber(a,b){
+    return a-b;
+  }
+  return arr.sort(sortNumber);
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -181,11 +254,18 @@ return arr;
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
+<<<<<<< HEAD
   function compareLengths(a, b){
     return a.length - b.length;
   }
   arr.sort(compareLengths)
   return arr;
+=======
+  // YOUR CODE HERE
+  return arr.sort(function(a,b){
+    return a.length - b.length;
+  })
+>>>>>>> dnajafi
 };
 
 // ----------------------------------------------------------------------------
@@ -200,6 +280,7 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
+<<<<<<< HEAD
   var newarray = [];
   for (var i = 0; i < arr.length ; i++){
     for (var x = 0 ; x < arr[i].length; x++){
@@ -207,4 +288,14 @@ builtins.flatten = function(arr) {
     }
   }
   return newarray;
+=======
+  // YOUR CODE HERE
+  var newArr = [];
+  for(var i = 0; i < arr.length; i++){
+    for(var j = 0; j< arr[i].length; j++){
+      newArr.push(arr[i][j]);
+    }
+  }
+  return newArr;
+>>>>>>> dnajafi
 };

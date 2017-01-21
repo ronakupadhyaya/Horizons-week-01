@@ -150,7 +150,13 @@ Queue.prototype.peek = function() {
 // Write a function that takes function 'fun' and calls fun with each item in
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
-  // YOUR CODE HERE
+  var start = this.head;
+  if(start !== null){
+    while (start !== null){
+      fun(start.value);
+      start = start.next;
+    }
+  } else return null;
 }
 
 // --------------------TESTS--------------------
@@ -190,11 +196,20 @@ describe("Queue.prototype.getSize", function() {
 
     expect(myQ.getSize()).toEqual(3);
 
-  })
+  });
 });
 
 describe("Queue.prototype.push", function() {
+  it("test if queue has 3 items", function(){
+    var myQ = new Queue();
+    myQ.push(1);
+    myQ.push(2);
+    myQ.push(3);
 
+    expect(myQ.getSize()).toEqual(3);
+
+
+});
 });
 
 describe("Queue.prototype.pop", function() {

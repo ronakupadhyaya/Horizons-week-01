@@ -10,8 +10,13 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
+<<<<<<< HEAD
 var newone = new Date(dateStr);
 return newone;
+=======
+  // YOUR CODE HERE
+  return new Date(dateStr);
+>>>>>>> dnajafi
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -24,8 +29,13 @@ return newone;
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
+<<<<<<< HEAD
 var newone = dateObj.toUTCString();
 return newone;
+=======
+  // YOUR CODE HERE
+  return dateObj.toUTCString();
+>>>>>>> dnajafi
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -36,11 +46,18 @@ return newone;
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
+<<<<<<< HEAD
 console.log(dateObj);
 console.log(dateObj.getDay());
 if(dateObj.getDay() === otherDateObj.getDay()){
   return true;
 } return false;
+=======
+  // YOUR CODE HERE
+  if(dateObj.getDay() === otherDateObj.getDay())
+    return true;
+  return false;
+>>>>>>> dnajafi
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -53,19 +70,34 @@ if(dateObj.getDay() === otherDateObj.getDay()){
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
+<<<<<<< HEAD
   if(dateObj.getHours() === otherDateObj.getHours()){
     return true;
   } return false;
   };
+=======
+  // YOUR CODE HERE
+  return (dateObj.getHours() === otherDateObj.getHours() && dateObj.getMinutes() === otherDateObj.getMinutes());
+
+};
+>>>>>>> dnajafi
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
 // Write a function that takes a Date object as an argument and returns true if it specifies a date in the future or false if it is a time that has already passed
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
+<<<<<<< HEAD
 
 return new Date() < dateObj ? true : false;
 }
+=======
+  // YOUR CODE HERE
+  var curDate = new Date();
+  return ( curDate.getTime() < dateObj.getTime()) ;
+
+};
+>>>>>>> dnajafi
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
 // Write a function that takes a Date object and returns the Date object of the next day.
@@ -74,10 +106,16 @@ return new Date() < dateObj ? true : false;
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
+<<<<<<< HEAD
   // console.log(dateObj);
 var x = dateObj.getDate();
 // console.log(x);
 dateObj.setDate(x+1);
 // console.log(dateObj);
 return dateObj;
+=======
+  // YOUR CODE HERE
+  dateObj.setDate(dateObj.getDate()+1);
+  return dateObj;
+>>>>>>> dnajafi
 };

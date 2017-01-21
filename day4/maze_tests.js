@@ -91,7 +91,11 @@ describe('Maze.toString()', function () {
           return '_';
         }
         else {
+<<<<<<< HEAD
           // console.log(pos);
+=======
+          //console.log(pos);
+>>>>>>> dnajafi
           return pos;
         }
       }).join('')

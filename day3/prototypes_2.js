@@ -17,6 +17,7 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
+<<<<<<< HEAD
 var correctCounter = 0;
 if (this.length = array2.length) {
   for(var i = 0; i < this.length; i++)
@@ -25,6 +26,22 @@ if (this.length = array2.length) {
       correctCounter += 1
     }
   }
+=======
+ // YOUR CODE HERE
+  var obj = {};
+  for (var i = 0; i < this.length; i++){
+    obj[this[i]] = this[i];
+  }
+  //console.log(obj);
+  for (var i = 0; i < array2.length; i++){
+    if( array2[i] in obj)
+      continue;
+    else
+      return false;
+  }
+  return true;
+
+>>>>>>> dnajafi
 }
 if(correctCounter >= this.length){
   return true;
@@ -44,6 +61,7 @@ if(correctCounter >= this.length){
 // Hint: use the Array.prototype.hasEqualContent to compare the content of an object,
 // without having to account for the order of elements.
 
+<<<<<<< HEAD
 Object.prototype.hasEqualContent = function(obj){
 
 var obkeys = Object.keys(this);
@@ -55,4 +73,26 @@ var objvalues = Object.values(obj);
 if(_.isEqual(this,obj)) return true
 return false
 
+=======
+Object.prototype.hasEqualContent = function(obj2){
+ // YOUR CODE HERE
+  var thisArr=[];
+  var obj2Arr=[];
+  for (var k in this){
+    if(k in obj2){
+      if(obj2[k] === this[k])
+        thisArr.push(this[k]);
+    }
+    else {
+      return false;
+    }
+  }
+  for (var k in obj2){
+    obj2Arr.push(obj2[k]);
+  }
+  console.log(thisArr, obj2Arr);
+  if(thisArr.length === obj2Arr.length)
+    return thisArr.hasEqualContent(obj2Arr);
+  return false;
+>>>>>>> dnajafi
 }

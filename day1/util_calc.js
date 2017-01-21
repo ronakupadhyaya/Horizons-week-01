@@ -21,6 +21,9 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+
+
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -30,6 +33,81 @@ window.util = {};
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
 //
+
+util.calc = function(expression) {
+  // YOUR CODE HERE
+
+  var arr = expression.split(' ');
+  for (var z = 0; z < arr.length; z++){
+    if(arr[z] === 'sqrt'){
+      arr[z+1] = Math.sqrt(parseFloat(arr[z+1]));
+      arr.splice(z,1);
+    }
+
+  }
+
+  if (expression.length === 0){
+    throw 'error';
+  }
+
+  for (var i = 0; i <arr.length; i+=2){
+    if(arr[i]=== '+' || arr[i]=== '-' || arr[i]=== '/' || arr[i]=== '*') {
+      //console.log(i, arr[i]);
+      throw 'error';
+    } else {
+      arr[i] = parseFloat(arr[i]);
+    }
+  }
+
+  for (var j = 1; j < arr.length; j+=2){
+    if( arr[j]!== '+' && arr[j]!== '-' && arr[j]!== '/' && arr[j]!== '*'  ) {
+      //console.log(j, arr[j]);
+      throw 'error';
+    }
+  }
+
+  if(typeof arr[arr.length-1]  !== 'number') {
+    throw 'error';
+  }
+
+  console.log(arr);
+  var m =1;
+
+  while(arr.length>1 && m <arr.length){
+    var flag1 = false;
+    if(arr[m] === '*'){
+      arr[m+1]= arr[m-1] * arr[m+1];
+      arr.splice(m-1,2);
+      flag1 = true;
+    }else if(arr[m] === '/'){
+      arr[m+1]= arr[m-1] / arr[m+1];
+      arr.splice(m-1,2);
+      flag1 = true;
+    }
+    if(flag1 === false)
+      m+=2;
+  }
+
+  var k =1;
+  var flag = false;
+  while(arr.length>1){
+    if(arr[k] === '+'){
+      arr[k+1]= arr[k-1] + arr[k+1];
+      arr.splice(k-1,2);
+      flag = true;
+    }else if(arr[k] === '-'){
+      arr[k+1]= arr[k-1] - arr[k+1];
+      arr.splice(k-1,2);
+      flag = true;
+    }
+    if(flag === false)
+      k+=2;
+  }
+
+
+  return arr[0];
+};
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -54,6 +132,7 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+<<<<<<< HEAD
 util.calc = function(expression) {
   var newString = expression.split(" ");
   var arrayOp= ["+","-", "/", "*"];
@@ -106,3 +185,5 @@ if (numcounter > 1 && opcounter == 0){
 //    }
 // }
 // };
+=======
+>>>>>>> dnajafi

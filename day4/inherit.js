@@ -10,6 +10,7 @@
 
 // Constructor & Properties
 
+<<<<<<< HEAD
 function Person(name,getter) {
   this.name = name,
   this.getName = function(){
@@ -26,8 +27,12 @@ function Person(name,getter) {
 //   return person.name;
 // }
 // Method declarations
+=======
 
-// YOUR CODE HERE
+>>>>>>> dnajafi
+
+
+
 
 // Exercise 2. (Sub) Class constructor for `Student`
 
@@ -71,6 +76,27 @@ Student.prototype.getName = function() {
   return this.name;
 }
 
+function Person(name){
+
+  this.name = name;
+  this.getName = function(){
+    return this.name;
+  };
+
+};
+
+var Student = function(name, major, grades){
+
+  this.name = name;
+  this.major = major;
+  this.grades = grades;
+
+};
+
+Student.prototype = new Person();
+
+
+
 
 
 // Exercise 3. Method definitions
@@ -84,6 +110,14 @@ Student.prototype.getName = function() {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
 Student.prototype.getIdentity = function() {
+<<<<<<< HEAD
   console.log(this.getName);
   return("Student - " + this.getName)
+=======
+
+  var name = this.getName();
+
+  return "Student - " + name;
+
+>>>>>>> dnajafi
 };

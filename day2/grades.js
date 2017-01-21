@@ -26,6 +26,7 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
+<<<<<<< HEAD
 
   var sum = function(a,b){
     return a + b;
@@ -35,6 +36,17 @@ grades.average = function(arr) {
 }
 return 0;
 }
+=======
+  // YOUR CODE HERE
+  if(arr.length ===0)
+    return 0;
+
+  var total = _.reduce(arr,function(a,b){
+    return a+b;
+  });
+  return total/(arr.length);
+};
+>>>>>>> dnajafi
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
 // Write a function that takes an Student object and returns its GPA
@@ -44,23 +56,53 @@ return 0;
 // ex. grades.getGPA
 //
 // hint. use grades.average
+
+grades.values = function(object) {
+  // YOUR CODE HERE
+  var array = [];
+  _.forEach(object, function(value){
+    array.push(value);
+  })
+  return array;
+}
+
 grades.getGPA = function(student) {
+<<<<<<< HEAD
 
 var gradeobject = _.values(student.grades)
 return grades.average(gradeobject);
 }
 
+=======
+  // YOUR CODE HERE
+  return grades.average(grades.values(student.grades));
+};
+>>>>>>> dnajafi
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
+<<<<<<< HEAD
 var best = _.max(data, function(student){
   return grades.getGPA(student);
 });
 console.log(best);
 return best;
 
+=======
+  // YOUR CODE HERE
+  var maxGPA = -1;
+  var maxIdx = -1;
+
+  _.forEach(data,function(stu, index){
+    if(grades.getGPA(stu) > maxGPA){
+      maxGPA = grades.getGPA(stu);
+      maxIdx = index;
+    }
+  });
+  return data[maxIdx];
+>>>>>>> dnajafi
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -68,6 +110,7 @@ return best;
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
+<<<<<<< HEAD
 
 
 var newobject = _.groupBy(data, function(student){
@@ -85,6 +128,36 @@ var bestmajor = Object.keys(new1).reduce(function(a,b){
 
 })
 return bestmajor;
+=======
+  // YOUR CODE HERE
+  var majorObj = _.groupBy(data, function(stu) {
+    return stu.major;
+  });
+  // console.log(majorObj);
+
+  var gpaObj =_.mapObject(majorObj, function(stu_arr, key){
+    return _.map(stu_arr, grades.getGPA);
+  })
+  // console.log(gpaObj);
+
+  var finalObj = _.mapObject(gpaObj, function(gpa_arr, key){
+    return grades.average(gpa_arr);
+  })
+
+  // console.log(finalObj);
+
+  var maxGPA = -1;
+  var maxKey = '';
+
+  _.forEach(finalObj,function(value, key){
+    if(value > maxGPA){
+      maxGPA = value;
+      maxKey = key;
+    }
+  });
+  return maxKey;
+
+>>>>>>> dnajafi
 };
 
 
@@ -96,6 +169,7 @@ return bestmajor;
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
+<<<<<<< HEAD
   // how to group by classes
 // var new1 = _.mapObject(data, function(students, major)
 
@@ -140,3 +214,26 @@ return answer;
 //   var gpaOfClasses = _.map(students, grades.getGPA)
 //   return grades.average(gpaOfStudents);
 // });
+=======
+  // YOUR CODE HERE
+  var classArr = [];
+  _.forEach(data,function(item,index){
+    classArr.push(item.grades);
+  })
+  console.log(classArr);
+
+  var count_class1 = 0;
+  var count_class2 = 0;
+
+  _.forEach(classArr, function(item, index){
+    count_class1 += item.class1;
+    count_class2 += item.class2;
+  })
+  var avg_class1 = count_class1/classArr.length;
+  var avg_class2 = count_class2/classArr.length;
+
+  return {class1:avg_class1, class2:avg_class2};
+
+
+};
+>>>>>>> dnajafi

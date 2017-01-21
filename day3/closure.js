@@ -14,9 +14,20 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
+<<<<<<< HEAD
   return function fn(attempt){
     if(attempt === password){ return true
     return false}
+=======
+  // YOUR CODE HERE
+  var pw='';
+  if(!pw)
+    pw = password;
+  return function fn(){
+    if (pw === password)
+      return true;
+    return false;
+>>>>>>> dnajafi
   }
 }
 
@@ -28,11 +39,20 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
+<<<<<<< HEAD
     // login: vault(attempt),
     vault: vault(password),
     login: function(attempt) {
       return this.vault(attempt);
     }
+=======
+    login: vault(password)
+
+    // privatePassword: password,
+    // login: function(attempt) {
+    //   return this.privatePassword === attempt;
+    // }
+>>>>>>> dnajafi
   }
 }
 
@@ -85,15 +105,31 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+<<<<<<< HEAD
 var once = function(f) { //f is "square" and has inputs
   var called = false; // Let's create a local variable to track if f has been called
   var previous = 0;
+=======
+//once(console.log)(1,2,3)
+
+var once = function(f) {
+  var called = false; // Let's create a local variable to track if f has been called
+  var results;
+>>>>>>> dnajafi
   return function() {
+
     if (! called) { // if f hasn't been called yet
+<<<<<<< HEAD
       previous = f.apply(null, arguments);
       called = true; // mark f as called
     }   console.log(previous);
       return previous;
+=======
+      results = f.apply(null, arguments); // call f
+      called = true; // mark f as called
+    }
+    return results;
+>>>>>>> dnajafi
   }
 }
 
@@ -129,6 +165,7 @@ var functionFactory = function(num1, num2) {
   //   }
   // });
   var functionArray = [];
+<<<<<<< HEAD
   var index = 0;
   for (var i = num1; i <= num2; i++){
     functionArray[index] = (function(i){
@@ -137,15 +174,41 @@ var functionFactory = function(num1, num2) {
       }
     }(i));
     index++;
+=======
+
+  for (var i = num1; i <= num2; i++) {
+    if(num1 >=0){
+      (function(x){
+        functionArray[x] = function() {
+          // function that returns i
+          return x;
+        }
+
+        //index++;
+      }(i))
+    }
+    else{
+      var adder = Math.abs(num1);
+      (function(x,y){
+        functionArray[x] = function() {
+          return y;
+        }
+      }(i+adder,i))
+    }
+
+>>>>>>> dnajafi
   }
   return functionArray;
 }
 
+<<<<<<< HEAD
 
   // }
   // console.log(functionArray);
   // return functionArray;
 // }
+=======
+>>>>>>> dnajafi
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

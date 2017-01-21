@@ -48,7 +48,6 @@
 window.Queue = function() {
   // The queue starts out empty so this is null.
   // When the queue is not empty, this should point to the first <Item> in the
-  // Queue.
   this.head = null;
   // The queue starts out empty so this is null.
   // When the queue is not empty, this should point to the last <Item> in the
@@ -82,7 +81,7 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -90,7 +89,18 @@ Queue.prototype.getSize = function() {
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
-  // YOUR CODE HERE
+  // debugger;
+  var x = new Item(value, null);
+  if(this.isEmpty()){
+    this.head = x;
+    this.tail = x;
+  }
+  else {
+    this.tail.next = x
+    this.tail = x
+
+  }
+  this.size++
 }
 
 // Exercise: Queue.pop()
@@ -102,7 +112,20 @@ Queue.prototype.push = function(value) {
 //
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
-  // YOUR CODE HERE
+  var x;
+  if(this.isEmpty()) throw "Error empty"
+  if(this.size === 1){
+    x = this.head
+    this.head = null
+    this.tail = null
+    this.size =0
+  }
+  else{
+    x = this.head
+    this.head = this.head.next
+    this.size--
+  }
+  return x.value;
 }
 
 // Exercise: Queue.contains()
@@ -111,7 +134,13 @@ Queue.prototype.pop = function() {
 //
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
-  // YOUR CODE HERE
+  debugger;
+  var m = this.head
+  while(m!==null){
+    if(m.value===value) return true;
+    m=m.next
+  }
+  return false;
 }
 
 // Exercise: Queue.peek()
@@ -120,7 +149,8 @@ Queue.prototype.contains = function(value) {
 //
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
-  // YOUR CODE HERE
+  if(this.head === null) return null
+  return this.head;
 }
 
 // Bonus exercise: Queue.forEach(fun)
@@ -134,28 +164,151 @@ Queue.prototype.forEach = function(fun) {
 // We've implemented one test suite for you that covers end-to-end
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
+
 describe("Queue.prototype.isEmpty", function() {
-  // YOUR CODE HERE
+
+  it("Queue.isEmpty to return true", function(){
+    var test = new Queue();
+    expect(test.isEmpty()).toBeTruthy();
+  })
+  it("Queue.isEmpty to return False", function(){
+    var test = new Queue();
+    test.push(1);
+    expect(test.isEmpty()).toBeFalsy();
+  })
 });
 
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  it("Queue.getSize to return 0", function(){
+    var test = new Queue();
+    expect(test.getSize()).toBe(0);
+  })
+  it("Queue.getSize to return 1", function(){
+    var test = new Queue();
+    test.push(1);
+    expect(test.getSize()).toBe(1);
+  })
 });
 
 describe("Queue.prototype.push", function() {
-  // YOUR CODE HERE
+  it("Queue.head should equal 1", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(1, null)
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(1);
+    expect(test).toEqual(answer);
+  })
 });
 
 describe("Queue.prototype.pop", function() {
-  // YOUR CODE HERE
+  it("Queue.head should equal 2", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(1, null)
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(x)
+    test.pop()
+    expect(test.head).toBe(null);
+  })
+  it("Queue.head should equal 3", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(1, null)
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(x)
+    test.pop()
+    expect(test.tail).toBe(null);
+  })
+  it("Queue.size should equal 2", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(3, null)
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(2)
+    test.push(4)
+    test.push(3)
+    test.pop()
+    test.pop()
+    expect(test.tail).toEqual(x);
+  })
+  it("Queue.size should equal 2", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(3, null)
+
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(2)
+    test.push(4)
+    test.push(3)
+    test.pop()
+    test.pop()
+    expect(test.head).toEqual(x);
+  })
 });
 
 describe("Queue.prototype.contains", function() {
-  // YOUR CODE HERE
+  it("Queue.constais should be false", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(3, null)
+
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(2)
+    test.push(4)
+    test.push(3)
+    expect(test.contains(1)).toBeFalsy();
+  })
+  it("Queue.constais should be true", function(){
+    var test = new Queue();
+    var answer = new Queue();
+    var x = new Item(3, null)
+
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(2)
+    test.push(4)
+    test.push(3)
+    expect(test.contains(2)).toBeTruthy();
+  })
 });
 
 describe("Queue.prototype.peek", function() {
-  // YOUR CODE HERE
+  it("Queue.peek should be 1", function(){
+    var test = new Queue();
+    var answer = new Queue();
+
+
+    var z = new Item(3, null)
+    var y = new Item(4, z)
+    var x = new Item(2, y)
+    debugger;
+
+    answer.head = x
+    answer.tail = x
+    answer.size = 1
+    test.push(2)
+    test.push(4)
+    test.push(3)
+    expect(test.peek()).toEqual(x);
+  })
+  it("Queue.peek should be 1", function(){
+    var test = new Queue();
+    expect(test.peek()).toBe(null);
+  })
 });
 
 // This one's a bonus
@@ -250,4 +403,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

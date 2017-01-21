@@ -31,10 +31,12 @@
       this.ctx.fillRect(0, 0, this.width, this.height);
     },
     drawMessage: function(text) {
+      this.ctx.fillStyle = "#000";
       this.ctx.font = "36px Helvetica";
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {
+      this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
@@ -86,4 +88,4 @@
   };
 
   window.game = new Game();
-})();
+}());

@@ -64,8 +64,11 @@ When you're done you should see this:
     var obstacleX = 450;
     function eventLoop() {
       obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
-      // clear screen
-      // draw obstacle again
+      if (obstacleX <= 0) {
+        obstacleX = 450;
+      }
+      game.clear()// clear screen
+      game.drawObstacle(obstacleX)// draw obstacle again
     }
   });
   ```

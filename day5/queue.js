@@ -83,6 +83,7 @@ Queue.prototype.isEmpty = function() {
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
   // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -91,6 +92,18 @@ Queue.prototype.getSize = function() {
 // tail) of the queue.
 Queue.prototype.push = function(value) {
   // YOUR CODE HERE
+
+  var temp = this.tail;
+  var newTail = new Item(value);
+  if(this.head === null){
+    this.head = newTail;
+    this.tail = newTail;
+    this.size += 1;
+  } else{
+    temp.next = newTail;
+    this.tail = newTail;
+    this.size += 1;
+  }
 }
 
 // Exercise: Queue.pop()
@@ -103,6 +116,20 @@ Queue.prototype.push = function(value) {
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
   // YOUR CODE HERE
+  if(this.size ===  0) throw 'Error: length 0';
+  if(this.size === 1){
+    var head = this.head;
+    this.head = null;
+    this.tail = null;
+    this.size --;
+    console.log(this.size);
+    return head.value;
+  }
+  var realHead = this.head;
+  this.head = realHead.next;
+  this.size -= 1;
+  console.log(this.size);
+  return realHead.value;
 }
 
 // Exercise: Queue.contains()
@@ -111,7 +138,14 @@ Queue.prototype.pop = function() {
 //
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
-  // YOUR CODE HERE
+//   // YOUR CODE HERE
+  var head = this.head;
+  if(this.head === null) return false;
+  while(head !== this.tail){
+    if(head.value === value) return true;
+    head = head.next;
+  }
+  return head.value === value
 }
 
 // Exercise: Queue.peek()
@@ -121,13 +155,22 @@ Queue.prototype.contains = function(value) {
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
   // YOUR CODE HERE
+  return this.size === 0 ? null : this.head;
 }
 
 // Bonus exercise: Queue.forEach(fun)
 // Write a function that takes function 'fun' and calls fun with each item in
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
-  // YOUR CODE HERE
+//   // YOUR CODE HERE
+  if(this.size === 0) throw 'Fuck Off';
+  var head = this.head;
+  var tail = this.tail;
+  while(head !== this.tail){
+    fun(head).bind(head);
+    head = head.next;
+  }
+  fun(tail)
 }
 
 // --------------------TESTS--------------------
@@ -136,33 +179,119 @@ Queue.prototype.forEach = function(fun) {
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
   // YOUR CODE HERE
+  var q = new Queue();
+  it('should have a size of 0', function(){
+    expect(q.isEmpty()).toBe(true);
+  })
+  it("shouldn't be empty", function(){
+    q.push(1);
+    expect(q.isEmpty()).toBe(false);
+  })
 });
-
 describe("Queue.prototype.getSize", function() {
   // YOUR CODE HERE
+  var q1 = new Queue();
+  it('should return the size', function(){
+    expect(q1.getSize()).toBe(0);
+  })
+  it("should return the size", function(){
+    q1.push(1);
+    q1.push(2);
+    expect(q1.getSize()).toBe(2);
+  })
 });
 
 describe("Queue.prototype.push", function() {
   // YOUR CODE HERE
+  var q = new Queue();
+  q.push(1);
+  it('should keep the structure and update tail', function(){
+    expect(q.head).toEqual(q.tail);
+  });
+
+  it('should keep the structure and update tail', function(){
+    var head = q.head;
+    var tail = q.tail;
+    q.push(2);
+    expect(q.head).toEqual(head);
+    expect(q.tail).toEqual(new Item(2));
+  });
 });
 
 describe("Queue.prototype.pop", function() {
   // YOUR CODE HERE
+  var q = new Queue();
+  it('should fail beacuse empty Queue', function(){
+    expect(q.pop).toThrow();
+  })
+  q.push(1);
+  q.pop()
+  var qNew = new Queue();
+  it('should fail beacuse empty Queue', function(){
+    expect(q).toEqual(qNew);
+  });
 });
 
 describe("Queue.prototype.contains", function() {
   // YOUR CODE HERE
+  var q = new Queue();
+  var failure = q.contains(1);
+  it('should fail beacuse empty Queue', function(){
+    expect(failure).toBe(false);
+  })
+  it('should succeed beacuse empty Queue', function(){
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    var twelve = q.contains(12);
+    var success = q.contains(2);
+    expect(success).toBe(true);
+    expect(twelve).toBe(false);
+  })
 });
 
 describe("Queue.prototype.peek", function() {
   // YOUR CODE HERE
+
+  it('should fail beacuse empty Queue', function(){
+    var q = new Queue();
+    var fail = q.peek();
+    expect(fail).toBe(null);
+  })
+  it('should pass beacuse empty Queue', function(){
+    var q = new Queue();
+    q.push(1);
+    var one = new Item(1);
+    var pass = q.peek();
+    expect(pass).toEqual(one);
+  })
 });
 
 // This one's a bonus
 describe("Queue.prototype.forEach", function() {
   // YOUR CODE HERE
+  it('should fail beacuse empty Queue', function(){
+    var q = new Queue();
+    function plusOne(){
+      this.value ++;
+    }
+    var fail = function() {
+      q.forEach(plusOne);
+    }
+    expect(fail).toThrow();
+  });
+  it('should succeed beacuse empty Queue', function(){
+    var q = new Queue();
+    function plusOne(item){
+      console.log(item);
+      item.value ++;
+    }
+    q.push(1);
+    q.forEach(plusOne);
+    var test = q.peek();
+    expect(test).toEqual(new Item(2));
+  })
 });
-
 
 describe("Queue end-to-end", function() {
   it("Push 100 items to queue, then pop them back out, items should come out in same order", function() {
@@ -250,4 +379,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

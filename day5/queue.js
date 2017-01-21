@@ -83,14 +83,34 @@ Queue.prototype.isEmpty = function() {
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
   // YOUR CODE HERE
+  return this.size;
 }
 
+// To add an value to the end of a Queue we:
+//  - create new Item with value set to new value
+//  - set the next pointer of the last Item to new Item
+//  - set the tail pointer to the new Item
 
 // Exercise: Queue.push(value)
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
   // YOUR CODE HERE
+  var newItem = new Item(value, null);
+  console.log(newItem);
+  console.log("lisa");
+  // edge case that we've pushed the very first thing
+  // head/ tail are null so they must get new item
+  console.log(this);
+  if (this.head === null && this.tail === null) {
+    this.tail = this.head = newItem;
+    this.size++;
+  } else {
+    this.tail.next = newItem;
+    this.tail = newItem;
+    this.size++;
+  }
+  return value;
 }
 
 // Exercise: Queue.pop()
@@ -103,6 +123,36 @@ Queue.prototype.push = function(value) {
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
   // YOUR CODE HERE
+
+  // This function should throw an exception (i.e. generate an error) if the
+  // queue is empty.
+  var itemPopped = this.head;
+
+  // the q is empty... throw an error
+  if (q.isEmpty() === true){
+    throw new Error("q is empty");
+
+  // Write function that removes the item at the beginning (i.e. head) of the
+  // queue and returns that item.
+
+  // the q is not empty
+  } else{
+
+    // the q only has one thing in the q, so head/tail are the same thing
+    if (this.head === this.tail){
+      // make head/tail be null
+      this.head = this.tail = null;
+      this.size --;
+      return itemPopped;
+
+      // q has more than onething
+    } else{
+      this.head = this.head.next;
+      return itemPopped;
+    }
+    var qHead = q.shift();
+    return qHead;
+  }
 }
 
 // Exercise: Queue.contains()
@@ -136,31 +186,63 @@ Queue.prototype.forEach = function(fun) {
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
   // YOUR CODE HERE
+  it("Q should be empty", function() {
+    var q = new Queue();
+    expect(q.isEmpty()).toBe(true);
+  });
 });
 
 describe("Queue.prototype.getSize", function() {
   // YOUR CODE HERE
+  it("Check getsize on empty q", function() {
+    // test the empty q
+    var q = new Queue();
+    expect(q.getSize()).toBe(0);
+  });
+  it("Check getsize on q with stuff", function() {
+    // test the q with stuff
+    var q = new Queue();
+    // pushing stuff into the q
+    q.push(1);
+    expect(q.getSize()).toBe(1);
+  });
 });
 
 describe("Queue.prototype.push", function() {
   // YOUR CODE HERE
+  it("push", function() {
+    expect(true).toBe(true);
+  });
 });
 
 describe("Queue.prototype.pop", function() {
   // YOUR CODE HERE
+  it("pop from empty q should error", function() {
+    var q = new Queue();
+    expect(q.pop()).toBe(error);
+  });
 });
 
 describe("Queue.prototype.contains", function() {
   // YOUR CODE HERE
+  it("contains", function() {
+    expect(true).toBe(true);
+  });
 });
 
 describe("Queue.prototype.peek", function() {
   // YOUR CODE HERE
+  it("peek", function() {
+    expect(true).toBe(true);
+  });
 });
 
 // This one's a bonus
 describe("Queue.prototype.forEach", function() {
   // YOUR CODE HERE
+  it("true should be true", function() {
+    expect(true).toBe(true);
+  });
 });
 
 
@@ -250,4 +332,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

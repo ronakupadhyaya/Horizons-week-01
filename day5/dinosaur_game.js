@@ -1,6 +1,5 @@
 "use strict";
 
-
 (function() {
   function Game() {
     this.width = 550;
@@ -44,7 +43,7 @@
     },
     drawLine: function(x, y, xp, yp) {
       this.ctx.beginPath();
-      this.ctx.moveTo(x,y);
+      this.ctx.moveTo(x, y);
       this.ctx.lineTo(xp, yp);
       this.ctx.stroke();
     },
@@ -53,7 +52,7 @@
       this.ctx.fillStyle = dino[2];
       this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
     drawObstacle: function(x, y) {
@@ -61,7 +60,7 @@
       this.ctx.fillStyle = obs[2];
       this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
     onUpArrow: function(fun) {
@@ -70,6 +69,9 @@
           fun();
         }
       });
+    },
+    drawText: function(message){
+      game.drawMessage(message);
     },
     onReady: function(fun) {
       document.addEventListener("DOMContentLoaded", fun);

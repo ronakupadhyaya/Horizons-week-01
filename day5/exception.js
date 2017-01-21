@@ -15,6 +15,13 @@ window.exception = {};
 // ex. exception.safeCall(unsafeFunction) -> true
 exception.safeCall = function(fun) {
   // YOUR CODE HERE
+  try {
+    fun()
+    // imagine this fun throws an exception
+  } catch (exception){
+    return true;
+  }
+  return false;
 }
 
 // Write a function that takes two functions fun1 and fun2 and calls them in
@@ -31,6 +38,14 @@ exception.safeCall = function(fun) {
 // ex. exception.callBoth(throws, logs) -> prints 'called' then error
 exception.callBoth = function(fun1, fun2) {
   // YOUR CODE HERE
+  try {
+    fun1();
+    // imagine fun1 throws exception
+    // don't catch the exception... so use finally
+  } finally {
+    fun2();
+  }
+
 }
 
 
@@ -48,4 +63,21 @@ exception.callBoth = function(fun1, fun2) {
 // ex. exception.catchOnlyWithA(throwZ) -> Error: 'z'
 exception.catchOnlyWithA = function(fun) {
   // YOUR CODE HERE
+  // try{
+  //   var word = fun();
+  //   fun();
+  // } if (word.carAt(0) === 'a'){
+  //   catch (exception){
+  // }
+
+  try{
+    // calls function
+    fun();
+    // catch exception
+  } catch (exception){
+    // but if it doesn't begin with a ... throw the exception back LOL
+    if (exception.charAt(0) !== 'a'){
+      throw exception;
+    }
+  }
 }

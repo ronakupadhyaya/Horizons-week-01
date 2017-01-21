@@ -16,7 +16,7 @@
 
     this.attachTo();
     console.log("Dinosaur game initialized");
-  };
+  }
 
   Game.prototype = {
     attachTo: function() {
@@ -86,4 +86,4 @@
   };
 
   window.game = new Game();
-})();
+}());

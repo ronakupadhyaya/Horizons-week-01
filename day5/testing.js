@@ -26,9 +26,9 @@
 //
 // This test case contains an expectation that verifies that true === true.
 
-it("q2", function() {
-  expect(false).toBe(true);
-});
+// it("q2", function() {
+//   expect(false).toBe(true);
+// });
 
 it("true should be true", function() {
   expect(true).toBe(true);

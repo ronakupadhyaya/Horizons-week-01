@@ -82,7 +82,7 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -91,6 +91,27 @@ Queue.prototype.getSize = function() {
 // tail) of the queue.
 Queue.prototype.push = function(value) {
   // YOUR CODE HERE
+  //
+  // To add an value to the end of a Queue we:
+  //  - create new Item with value set to new value
+  //  - set the next pointer of the last Item to new Item
+  //  - set the tail pointer to the new Item
+  //
+
+  var newItem = new Item(value, null);
+  console.log(newItem);
+  if (!this.head) { //empty queue, set head+tail
+    this.head = newItem;
+    this.tail = newItem;
+  } else {
+    this.tail.next = newItem;
+    this.tail = newItem;
+  }
+
+  this.size++;
+  // console.log("pushed: " + value + ", size is now " + this.size);
+  return value;
+
 }
 
 // Exercise: Queue.pop()
@@ -103,6 +124,22 @@ Queue.prototype.push = function(value) {
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
   // YOUR CODE HERE
+
+  if (this.size === 0) {
+    throw Error("empty queue");
+  }
+
+  var ret = this.head.value;
+  if (this.size === 1) {
+    this.head = null;
+    this.tail = null;
+    this.size--;
+    return ret;
+  }
+
+  this.head = this.head.next;
+  this.size--;
+  return ret;
 }
 
 // Exercise: Queue.contains()
@@ -112,6 +149,14 @@ Queue.prototype.pop = function() {
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
   // YOUR CODE HERE
+  var next = this.head; //traverse through queue
+  while (next) {
+    if (value === next.value) {
+      return true;
+    }
+    next = this.head.next;
+  }
+  return false;
 }
 
 // Exercise: Queue.peek()
@@ -121,6 +166,11 @@ Queue.prototype.contains = function(value) {
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
   // YOUR CODE HERE
+
+  if (this.head) {
+    return this.head.value;
+  }
+  return null;
 }
 
 // Bonus exercise: Queue.forEach(fun)
@@ -134,34 +184,101 @@ Queue.prototype.forEach = function(fun) {
 // We've implemented one test suite for you that covers end-to-end
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
+// describe("Queue.prototype.isEmpty", function() {
+//   // YOUR CODE HERE
+//   it("this.isEmpty -> true", function(){
+//     expect(function(){
+//       this.isEmpty();
+//     }).toBe(true);
+//   });
+// });
+
 describe("Queue.prototype.isEmpty", function() {
-  // YOUR CODE HERE
+  it("should return true", function() {
+    var q = new Queue();
+    expect(q.isEmpty()).toBe(true);
+  });
+  it("should return false", function() {
+    var q = new Queue();
+    q.push("1");
+    expect(q.isEmpty()).toBe(false);
+  });
 });
 
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  it("should return 0", function() {
+    var q = new Queue();
+    expect(q.getSize()).toEqual(0);
+  });
+  it("should return 1", function() {
+    var q = new Queue();
+    q.push(1);
+    expect(q.getSize()).toEqual(1);
+  });
+  it("should return 2", function() {
+    var q = new Queue();
+    q.push(1);
+    q.push(1);
+    expect(q.getSize()).toEqual(2);
+  });
+  it("should return 1 after pop", function() {
+    var q = new Queue();
+    q.push(1);
+    q.push(2);
+    q.pop();
+    expect(q.getSize()).toEqual(1);
+  });
+  it("should throw an exception", function() {
+    expect(function() {
+      q.getSize()
+    }).toThrow();
+  })
 });
 
 describe("Queue.prototype.push", function() {
-  // YOUR CODE HERE
+  it("should return 2", function() {
+    var q = new Queue();
+    q.push(1);
+    q.push(1);
+    expect(q.getSize()).toEqual(2);
+  });
 });
 
 describe("Queue.prototype.pop", function() {
-  // YOUR CODE HERE
+  // it("should return true", function() {
+  //   var q = new Queue();
+  //   expect(q.isEmpty()).toBe(true);
+  // });
+  it("should return 1 after pop", function() {
+    var q = new Queue();
+    q.push(1);
+    q.push(2);
+    expect(q.pop()).toEqual(1);
+  });
 });
 
 describe("Queue.prototype.contains", function() {
-  // YOUR CODE HERE
+  it("should return true", function() {
+    var q = new Queue();
+    expect(q.isEmpty()).toBe(true);
+  });
 });
 
 describe("Queue.prototype.peek", function() {
-  // YOUR CODE HERE
+  it("should return 1", function() {
+    var q = new Queue();
+    q.push(1);
+    expect(q.peek()).toEqual(1);
+  });
 });
 
 // This one's a bonus
-describe("Queue.prototype.forEach", function() {
-  // YOUR CODE HERE
-});
+// describe("Queue.prototype.forEach", function() {
+//   it("should return true", function() {
+//     var q = new Queue();
+//     expect(q.isEmpty()).toBe(true);
+//   });
+// });
 
 
 describe("Queue end-to-end", function() {
@@ -178,7 +295,7 @@ describe("Queue end-to-end", function() {
 
     // Pop all numbers from queue
     var out = [];
-    while (! q.isEmpty()) {
+    while (!q.isEmpty()) {
       out.push(q.pop());
     }
 
@@ -223,31 +340,30 @@ describe("Queue end-to-end", function() {
 
   it("Bonus: queue should be faster than an array for adding to the beginning", function() {
     // Run a function multiple times and measure time taken to run
-    function time(fun) {
-      var start = Date.now();
-      _.range(1000).map(fun);
-      return Date.now() - start;
-    }
-
-    function array() {
-      var array = [];
-      _.range(1000).forEach(function(item) {
-        array.unshift(item);
-      });
-    }
-
-    function queue() {
-      var q = new Queue();
-      _.range(1000).forEach(function(item) {
-        q.push(item);
-      });
-    }
-
-    var arrayTime = time(array);
-    var queueTime = time(queue);
-    // Array time should be greater, meaning it took longer, i.e. it was slower
-    console.log('Queue time: %s Array time: %s', queueTime, arrayTime);
-    expect(arrayTime > queueTime).toBe(true);
+    // function time(fun) {
+    //   var start = Date.now();
+    //   _.range(100).map(fun);
+    //   return Date.now() - start;
+    // }
+    //
+    // function array() {
+    //   var array = [];
+    //   _.range(100).forEach(function(item) {
+    //     array.unshift(item);
+    //   });
+    // }
+    //
+    // function queue() {
+    //   var q = new Queue();
+    //   _.range(100).forEach(function(item) {
+    //     q.push(item);
+    //   });
+    // }
+    //
+    // var arrayTime = time(array);
+    // var queueTime = time(queue);
+    // // Array time should be greater, meaning it took longer, i.e. it was slower
+    // console.log('Queue time: %s Array time: %s', queueTime, arrayTime);
+    // expect(arrayTime > queueTime).toBe(true);
   });
 });
-

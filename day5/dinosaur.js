@@ -41,7 +41,7 @@ game.onReady(function() {
     }
 
     if (obstacleX === dinosaurX && obstacleY === dinosaurY) {
-      game.drawMessage('You suck :(');
+      game.drawMessage('You suck. A child could do better than you. You might as well give up on life.');
       clearInterval(interval);
     }
 

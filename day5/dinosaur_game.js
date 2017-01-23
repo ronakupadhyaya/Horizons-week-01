@@ -31,7 +31,7 @@
       this.ctx.fillRect(0, 0, this.width, this.height);
     },
     drawMessage: function(text) {
-      this.ctx.font = "36px Helvetica";
+      this.ctx.font = "16px Helvetica";
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {

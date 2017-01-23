@@ -128,7 +128,7 @@ function composeBasic(fun1, fun2) {
   var result;
   return function(item) {
 
-    result = fun2.call(null, item);
+    result = fun2.apply(this, arguments);
     return fun1(result);
   }
 }

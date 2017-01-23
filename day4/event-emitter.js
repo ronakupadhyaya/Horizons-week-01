@@ -42,8 +42,22 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
+  var self = this
+  function limiter () {
+    fn();
+    self.removeListener(eventName, limiter)
+  };
 
+  if (!this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName] = []
+    this.listeners[eventName].unshift(limiter)
+  } else {
+    this.listeners[eventName].unshift(limiter)
+  }
 }
+
+
+
 
 // Takes  a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
@@ -61,7 +75,7 @@ EventEmitter.prototype.on = function(eventName, fn) {
   if (!this.listeners[eventName]) {
     this.listeners[eventName] = []
   }
-  this.listeners[eventName].push(fn)
+  this.listeners[eventName].unshift(fn)
 }
 // Takes is a string "eventName" and a single argument arg
 // It calls each of the listeners registered for the event

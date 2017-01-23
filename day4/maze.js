@@ -76,7 +76,8 @@ Maze.prototype.getStartPosition = function() {
 //    - 'left': Move left i.e. decrement column
 //    - 'right': Move right i.e. increment column
 //
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
+// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') ->
+//Throws error: 'leftright' is not a valid direction
 // ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
 // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
 // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board

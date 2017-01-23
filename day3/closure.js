@@ -84,15 +84,16 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
-  var answer = 0;
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      answer = f.apply(null, arguments)
-      called = true; // mark f as called
-      return answer
+  var called = false;
+  var value = 0;
+  return function () {
+    if (!called) {
+      value = f.apply(null, Array.prototype.slice.call(arguments));
+      called = true;
+      return value;
+    } else {
+      return value;
     }
-    else {return answer}
   }
 }
 
@@ -131,7 +132,7 @@ var functionFactory = function(num1, num2) {
 
   return functionArray;
 }
-THIS IS THE SOLUTIONS MANUAL SOLUTION
+//THIS IS THE SOLUTIONS MANUAL SOLUTION
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   var index = 0;

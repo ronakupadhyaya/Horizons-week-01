@@ -30,12 +30,38 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
 
-// Exercise 2: partial()
-// Write a function that takes a function 'fn', followed by an arbitrary number of arguments
+
+
+function memoize(func) {
+  var cache = {};
+  return function(){
+    var value = arguments[0];
+    if(cache.hasOwnProperty(value)){
+      return cache[value];
+    } else{
+      cache[value] = func.call(null, value);
+      return cache[value];
+    }
+  }
+}
+
+// function memoize(func) {
+//   var memo = {};
+//   return function () {
+//     var value = arguments[0];
+//     if (!memo.hasOwnProperty(value)) {
+//       memo[value] = func.call(null, value);
+//       return memo[value];
+//     } else{
+//       return memo[value];
+//     };
+//   }
+// }
+
+
+// // Exercise 2: partial()
+// // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
 // the argumenst that were initially provided to partial().
 //
@@ -59,7 +85,20 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (arguments.length === 0) {
+    throw "error"
+  } else {
+    var args = Array.prototype.slice.call(arguments);
+    args.shift();
+    return function () {
+      var argNew = [];
+      argNew = Array.prototype.slice.call(arguments);
+      for (var x=0; x<argNew.length; x++) {
+        args.push(argNew[x])
+      }
+      return fn.apply(null, args);
+    }
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +137,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function () {
+    var args = Array.prototype.slice.call(arguments)
+    return fun1(fun2.apply(null, args));
+  };
 }
 
 
@@ -141,5 +183,28 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var funargs = Array.prototype.slice.call(arguments) //array of function args
+  return function () {
+    var args = Array.prototype.slice.call(arguments) //array of args to operate on
+    var value = funargs[funargs.length-1].apply(null, args);
+    for(var x = funargs.length-2; x>=0; x--) {
+      value = funargs[x](value);
+    }
+    return value;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

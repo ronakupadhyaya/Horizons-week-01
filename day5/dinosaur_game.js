@@ -41,6 +41,7 @@
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
     drawHighScore: function(score) {
+      this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('High score: ' + score, this.width - 150, 40);
     },

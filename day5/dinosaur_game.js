@@ -31,14 +31,21 @@
       this.ctx.fillRect(0, 0, this.width, this.height);
     },
     drawMessage: function(text) {
+<<<<<<< HEAD
       this.ctx.font = "16px Helvetica";
+=======
+      this.ctx.fillStyle = "#000";
+      this.ctx.font = "36px Helvetica";
+>>>>>>> master
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {
+      this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
     drawHighScore: function(score) {
+      this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('High score: ' + score, this.width - 150, 40);
     },

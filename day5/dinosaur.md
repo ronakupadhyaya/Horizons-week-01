@@ -127,7 +127,7 @@ When you're done you should see this:
 #### You will need
 
 - [clearInterval()](http://www.w3schools.com/jsref/met_win_clearinterval.asp)
-- `game.drawText()`
+- `game.drawMessage()`
 
 #### Steps
 
@@ -140,7 +140,7 @@ When you're done you should see this:
 
 1. Inside `eventLoop()`, if the x, y coordinates of the dinosaur and
   the obstacle are the same, then display a message telling the user
-  they have lost with `game.drawText('You lose :(')` and stop the game
+  they have lost with `game.drawMessage('You lose :(')` and stop the game
   with `clearInterval(interval)`.
 
 #### Your game should look like

@@ -16,7 +16,7 @@
 1. [Dinosaur Game](dinosaur.md)
 
 If you're done with those go back and complete bonus exercises from earlier
-this week.  Here are a few suggested things to tru:
+this week.  Here are a few suggested exercises:
 
 1. [Maze.getShortestPath()](../day4/maze_bonus.md)
 1. `compose()` from functional programming with Underscore<br>

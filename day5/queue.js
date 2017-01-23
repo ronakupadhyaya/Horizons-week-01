@@ -74,7 +74,7 @@ window.Item = function(value, next) {
 //
 // ex. new Queue().isEmpty() -> true
 Queue.prototype.isEmpty = function() {
-  return this.head === null;
+  return this.size === 0;
 }
 
 // Exercise: Queue.getSize()
@@ -83,6 +83,7 @@ Queue.prototype.isEmpty = function() {
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
   // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -91,6 +92,16 @@ Queue.prototype.getSize = function() {
 // tail) of the queue.
 Queue.prototype.push = function(value) {
   // YOUR CODE HERE
+  var newItem = new Item(value, null);
+  if(this.isEmpty()) {
+    this.head = newItem;
+    this.tail = newItem;
+    this.size++;
+  } else {
+    this.tail.next = newItem;
+    this.tail = newItem;
+    this.size++;
+  }
 }
 
 // Exercise: Queue.pop()
@@ -103,6 +114,19 @@ Queue.prototype.push = function(value) {
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
   // YOUR CODE HERE
+  if (this.size === 0) {
+    throw "Error, queue is empty!";
+  } else if (this.size === 1) {
+    var oldHead = this.head;
+    this.head.next = null;
+    this.head = null;
+    return oldHead.value;
+    this.size--;
+  }
+  var oldHead = this.head;
+  this.head = oldHead.next
+  return oldHead.value;
+  this.size--;
 }
 
 // Exercise: Queue.contains()
@@ -112,6 +136,12 @@ Queue.prototype.pop = function() {
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
   // YOUR CODE HERE
+  if(this.isEmpty()) {
+    return false;
+  }
+  while(item.value !== value) {
+    this.head = 5
+  }
 }
 
 // Exercise: Queue.peek()
@@ -121,6 +151,10 @@ Queue.prototype.contains = function(value) {
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
   // YOUR CODE HERE
+  if(this.getSize() === 0) {
+    return null;
+  }
+  return this.head;
 }
 
 // Bonus exercise: Queue.forEach(fun)
@@ -136,18 +170,67 @@ Queue.prototype.forEach = function(fun) {
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
   // YOUR CODE HERE
+  var q = new Queue(null, null, 0);
+
+  it("Queue is empty", function() {
+    expect(q.isEmpty()).toBe(true);
+  })
+
+  it("Queue isn't empty", function() {
+    q.push(5);
+    expect(q.isEmpty()).toBe(false);
+  })
 });
 
 describe("Queue.prototype.getSize", function() {
   // YOUR CODE HERE
+  var q = new Queue(null, null, 0)
+
+  it("Is size 0?", function() {
+    var q = new Queue(null, null, 0);
+    expect(q.getSize()).toBe(0);
+  });
+
+  it("Is size 1?", function() {
+    q.push(1);
+    expect(q.getSize()).toBe(1);
+  });
+
+  it("Is size 5?", function() {
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    expect(q.getSize()).toBe(5);
+  });
 });
 
 describe("Queue.prototype.push", function() {
   // YOUR CODE HERE
+  var q = new Queue(null, null, 0)
+
+  it("Push 1", function() {
+    q.push(1);
+    expect(q.tail.value).toBe(1);
+  })
+
+  it("Push 4", function() {
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    expect(q.tail.value).toBe(3);
+  })
 });
 
 describe("Queue.prototype.pop", function() {
   // YOUR CODE HERE
+  var q = new Queue(null, null, 0)
+
+  it("Pop 1", function() {
+    q.push(1);
+    q.push(2);
+    expect(q.pop()).toBe(1);
+  })
 });
 
 describe("Queue.prototype.contains", function() {
@@ -250,4 +333,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

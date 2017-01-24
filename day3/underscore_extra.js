@@ -30,7 +30,7 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(fn) {
+function memoize(fn, hashFn) {
   var memo = {};
 
   function f(n) {
@@ -169,5 +169,17 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+
+  var functions = Array.from(arguments);
+  functions.reverse();
+  return function() {
+    var result = functions[0].apply(null, arguments);
+
+    for (var i = 1; i < functions.length; i++) {
+      var fn = functions[i];
+      result = fn(result);
+    }
+    return result;
+  }
 
 }

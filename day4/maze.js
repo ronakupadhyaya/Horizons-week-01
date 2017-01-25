@@ -25,13 +25,11 @@ window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
   this.maze = maze;
 }
-
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
 // and new rows are separated by newlines (\n in a string).
-
 // Use this for your logging purposes!
 
 // ex. new Maze(['S', ' ', 'E']).toString() -> "S_E"
@@ -39,9 +37,24 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
+  var newArr=[];
+  debugger;
+  for (var i=0; i<this.maze.length; i++){
+    for (var j=0; j<this.maze[i].length; j++){
+      if(this.maze[i][j] === " "){
+        newArr.push("_");
+      }
+      else {
+        newArr.push(this.maze[i][j]);
+      }
+    }
+    newArr.push("\n");
+  }
+  newArr.pop()
+  return newArr.join("");
+}
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
-}
 
 // Return the coordinates of the starting position of the current maze.
 //
@@ -49,9 +62,20 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  var newArr=[];
+  debugger;
+  for (var i=0; i<this.maze.length; i++){
+    for (var j=0; j<this.maze[i].length; j++){
+      if(this.maze[i][j] === "S"){
+        newArr.push(i, j);
+      }
+    }
+  }
+  if (!newArr.length){
+    throw "error";
+  }
+  return newArr;
 
-  throw new Error("Maze has no starting point");
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -99,9 +123,59 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
+  function isPositionOnTheBoard() {
+    if (row < 0) {
+      return false;
+    }
 
-  // YOUR CODE HERE
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if position is on the board before move
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return [row, column];
 }
+
 
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
@@ -109,5 +183,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
+
   // YOUR CODE HERE
 }

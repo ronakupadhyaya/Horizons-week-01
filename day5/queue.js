@@ -82,7 +82,8 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+
+  return this.size;
 }
 
 
@@ -90,7 +91,14 @@ Queue.prototype.getSize = function() {
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
-  // YOUR CODE HERE
+  var i= new Item(value)
+  if(this.size === 0){
+    this.head = i;
+    this.tail = i;
+  }
+    this.tail.next=i;
+    this.tail=i;
+    this.size++;
 }
 
 // Exercise: Queue.pop()
@@ -102,6 +110,13 @@ Queue.prototype.push = function(value) {
 //
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
+  if(this.head===null) {
+    throw 'error';
+  }
+  var x=this.head.value;
+  this.head=this.head.next;
+  this.size--;
+  return x;
   // YOUR CODE HERE
 }
 
@@ -111,7 +126,17 @@ Queue.prototype.pop = function() {
 //
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
-  // YOUR CODE HERE
+  if (this.item === null){
+    throw 'error';
+  }
+  var found=false;
+  while(found) {
+    if (this.head.next.value === value){
+      found = true;
+    }
+      this.pop();
+  }
+  return found;
 }
 
 // Exercise: Queue.peek()
@@ -120,13 +145,24 @@ Queue.prototype.contains = function(value) {
 //
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
-  // YOUR CODE HERE
+  if (this.head === null){
+    throw 'error'
+  }
+  return this.head
 }
 
 // Bonus exercise: Queue.forEach(fun)
 // Write a function that takes function 'fun' and calls fun with each item in
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
+  var found=false;
+  while(found) {
+    if (this.head.value === this.tail.value){
+      found = true;
+    }
+      this.head.fun();
+        this.pop();
+      }
   // YOUR CODE HERE
 }
 
@@ -135,18 +171,37 @@ Queue.prototype.forEach = function(fun) {
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
+  it("true should be true", function() {
+    expect(true).toBe(true);
+  });
   // YOUR CODE HERE
 });
 
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  var q = new Queue();
+  it("Size has to equal queue size", function() {
+    expect(q.size).toEqual(q.getSize());
+  });
 });
 
 describe("Queue.prototype.push", function() {
+  var q = new Queue();
+  it("Set the Tail", function() {
+    q.push(8);
+    expect(q.pop()).toEqual(8);
+  });
+  it("Increment the Size counter", function() {
+    q.size = q.size + 1
+    expect(q.size).toEqual(q.getSize());
+  });
   // YOUR CODE HERE
 });
 
 describe("Queue.prototype.pop", function() {
+  var q = new Queue();
+  it("Return value", function() {
+    expect(q.value).toEqual(q.pop());
+  });
   // YOUR CODE HERE
 });
 
@@ -250,4 +305,3 @@ describe("Queue end-to-end", function() {
     expect(arrayTime > queueTime).toBe(true);
   });
 });
-

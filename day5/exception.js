@@ -14,6 +14,12 @@ window.exception = {};
 // ex. exception.safeCall(safeFunction) -> false
 // ex. exception.safeCall(unsafeFunction) -> true
 exception.safeCall = function(fun) {
+  try {
+    fun();
+  } catch (e){
+    return true;
+  }
+  return false;
   // YOUR CODE HERE
 }
 
@@ -30,6 +36,11 @@ exception.safeCall = function(fun) {
 // }
 // ex. exception.callBoth(throws, logs) -> prints 'called' then error
 exception.callBoth = function(fun1, fun2) {
+  try {
+    fun1();
+  } finally {
+    fun2();
+  }
   // YOUR CODE HERE
 }
 
@@ -47,5 +58,12 @@ exception.callBoth = function(fun1, fun2) {
 // ex. exception.catchOnlyWithA(throwA) -> nothing happens
 // ex. exception.catchOnlyWithA(throwZ) -> Error: 'z'
 exception.catchOnlyWithA = function(fun) {
+  try {
+    fun();
+  } catch (e){
+    if(e.indexOf('a')!==0){
+      throw e
+    }
+  }
   // YOUR CODE HERE
 }

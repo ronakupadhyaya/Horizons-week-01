@@ -181,77 +181,27 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+
   var startArr = this.getStartPosition();
-  var copyArr = this.maze.slice();
+  var copyMaze = this.maze.slice();
+  copyMaze[startArr[0]][startArr[1]] = 'X';
 
-  var self = this;
-  var mazeSolver = _.memoize(function fn(curArr){
-    //console.log("In:",curArr[0],curArr[1]);
-    var arr = [self.tryMove(curArr[0],curArr[1],'up'),self.tryMove(curArr[0],curArr[1],'down'),self.tryMove(curArr[0],curArr[1],'left'),self.tryMove(curArr[0],curArr[1],'right')];
-    console.log("Arr:",arr);
-    for (var i = 0; i < arr.length; i++){
-      //console.log(arr.length);
-      console.log(i,arr[i]);
-      if(arr[i]){
-        if(this.maze[arr[i][0]][arr[i][1]] === 'E'){
-          // console.log(arr[i]);
-          return true;
-
-
-        }
-      } else{
-        arr.splice(i,1);
-        i--;
-      }
-    }
-    // console.log(arr);
-    for( var i = 0; i < arr.length; i++){
-      // console.log(i,arr);
-      //pastCoord.push(arr[i]);
-
-      // console.log(arr[i]);
-      if(mazeSolver(arr[i])){
-        // console.log('in');
-        this.maze[arr[i][0]][arr[i][1]] = 'X';
+  var mazeSolver = _.memoize(function(coordArr){
+    if(coordArr){
+      if(copyMaze[coordArr[0]][coordArr[1]] === 'E'){
         return true;
+      }
+      else{
+        copyMaze[coordArr[0]][coordArr[1]] = 'X';
+        return mazeSolver(this.tryMove(coordArr[0],coordArr[1],'up')) ||
+                mazeSolver(this.tryMove(coordArr[0],coordArr[1],'down')) ||
+                mazeSolver(this.tryMove(coordArr[0],coordArr[1],'left')) ||
+                mazeSolver(this.tryMove(coordArr[0],coordArr[1],'right'));
       }
     }
     return false;
 
-  });
-
-
-  console.log(this.maze);
-  return mazeSolver(startArr);
-  // var mazeSolver = _.memoize(function(curR,curC){
-  //   //console.log("In:",curR,curC);
-  //   var arr = [this.tryMove(curR,curC,'up'),this.tryMove(curR,curC,'down'),this.tryMove(curR,curC,'left'),this.tryMove(curR,curC,'right')];
-  //   //console.log("Arr:",arr);
-  //   for (var i = 0; i < arr.length; i++){
-  //     //console.log(arr.length);
-  //     if(arr[i]){
-  //       if(this.maze[arr[i][0]][arr[i][1]] === 'E'){
-  //         //console.log(arr[i]);
-  //         return true;
-  //
-  //
-  //       }
-  //     } else{
-  //       arr.splice(i,1);
-  //       i--;
-  //     }
-  //   }
-  //   //console.log(arr);
-  //   for( var i = 0; i < arr.length; i++){
-  //     //console.log(i,arr);
-  //     if(mazeSolver(arr[i][0],arr[i][1])){
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  //
-  // }.bind(this));
-  // return mazeSolver(startArr[0],startArr[1]);
+  }.bind(this));
+  return mazeSolver([startArr[0],startArr[1]]);
 
 }

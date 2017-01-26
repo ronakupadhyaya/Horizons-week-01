@@ -55,8 +55,6 @@ game.onReady(function() {
           interval = setInterval(eventLoop,100);
         }
       })
-
-
     }
   }
 

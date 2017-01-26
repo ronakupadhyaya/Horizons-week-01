@@ -184,6 +184,13 @@ Queue.prototype.peek = function() {
 // the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
   // YOUR CODE HERE
+  if(this.getSize() ===0)
+    return null;
+  temp = this.head;
+  while(temp!==null){
+    fun(temp.value);
+    temp=temp.next;
+  }
 }
 
 // --------------------TESTS--------------------

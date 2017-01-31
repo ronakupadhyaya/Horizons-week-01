@@ -59,7 +59,6 @@ Maze.prototype.toString = function() {
       arrString = arrString + "\n"
     }
   }
-  console.log(arrString);
 
   return arrString;
 }
@@ -177,22 +176,31 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 //Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.isSolvable = function() {
-  var startPos = this.getStartPosition();
-  function travel(row, column) {
-    if(this.maze[row][column] === 'E') {
-      return true;
-    }
-    this.getStartPosition();
-    for(var i=0;i<this.validDirections.length;i++) {
-      var newPos = this.tryMove(
-        this.getStartPosition[0],
-        this.getStartPosition[1],
-        this.validDirections[i])
-    }
-    if(!newPos) {
+  var self = this;
+  var startPos = self.getStartPosition();
+  var triedMoves = [];
+  function travel(pos) {
+    debugger;
+    console.log(arguments);
+    if(_.findIndex(triedMoves,pos) >= 0) {
       return false;
     }
-    travel(newPos[0],newPos[1])
+    triedMoves.push([pos[0],pos[1]]);
+    if (Array.isArray(pos)) {
+      if(self.maze[pos[0]][pos[1]] === 'E') {
+        return true;
+      } else {
+        // console.log(pos)
+        // console.log(self.tryMove(pos[0],pos[1], 'right'))
+        // console.log(self.maze[0][1]);
+        // self.maze[pos[0]][pos[1]] = 'X'
+        return travel(self.tryMove(pos[0],pos[1], 'left')) ||
+        travel(self.tryMove(pos[0],pos[1], 'right')) ||
+        travel(self.tryMove(pos[0],pos[1], 'up')) ||
+        travel(self.tryMove(pos[0],pos[1], 'down'))
+      }
+    }
+    return false;
   }
-  return travel(startPos[0], startPos[1])
+  return travel(startPos)
 }

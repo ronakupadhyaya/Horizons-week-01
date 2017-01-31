@@ -82,7 +82,7 @@ Queue.prototype.isEmpty = function() {
 //
 // ex. new Queue().getSize() -> 0
 Queue.prototype.getSize = function() {
-  // YOUR CODE HERE
+  return this.size;
 }
 
 
@@ -90,7 +90,15 @@ Queue.prototype.getSize = function() {
 // Write function that takes a value and adds that value to the end (i.e.
 // tail) of the queue.
 Queue.prototype.push = function(value) {
-  // YOUR CODE HERE
+  var newIt = new Item(value,null)
+  if(this.isEmpty()) {
+    this.head = newIt;
+    this.tail = newIt;
+  } else {
+    this.tail.next = newIt;
+    this.tail = newIt;
+  }
+  this.size++
 }
 
 // Exercise: Queue.pop()
@@ -102,7 +110,15 @@ Queue.prototype.push = function(value) {
 //
 // ex. new Queue().pop() -> Error
 Queue.prototype.pop = function() {
-  // YOUR CODE HERE
+  var old;
+  if(this.isEmpty()) {
+    throw 'Error'
+  } else {
+    old = this.head.value;
+    this.head.next = this.head
+    this.size--
+  }
+  return old;
 }
 
 // Exercise: Queue.contains()
@@ -111,7 +127,17 @@ Queue.prototype.pop = function() {
 //
 // ex. new Queue().contains('something') -> false, queue is empty
 Queue.prototype.contains = function(value) {
-  // YOUR CODE HERE
+  var point = this.head
+  if(this.isEmpty()) {
+    return false;
+  }
+  while (point !== null) {
+    if (point.value === value){
+      return true;
+    }
+    point = point.next
+  }
+  return false;
 }
 
 // Exercise: Queue.peek()
@@ -120,7 +146,10 @@ Queue.prototype.contains = function(value) {
 //
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
-  // YOUR CODE HERE
+  if(this.isEmpty()) {
+    return null;
+  }
+  return this.head.value;
 }
 
 // Bonus exercise: Queue.forEach(fun)
@@ -135,27 +164,99 @@ Queue.prototype.forEach = function(fun) {
 // functionality at the bottom.
 // You're responsible for writing the test cases for each function().
 describe("Queue.prototype.isEmpty", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0)
+  it("Queue().isEmpty() should be true", function() {
+    expect(q.isEmpty()).toBe(true);
+  });
+
+  it("Queue().isEmpty() should be false", function() {
+    q.push(5)
+    expect(q.isEmpty()).toBe(false);
+  });
 });
 
 describe("Queue.prototype.getSize", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0);
+  it("Queue().getSize() should be 0", function() {
+    expect(q.getSize()).toBe(0);
+  });
+
+  it("Queue().getSize() should be 1", function() {
+    q.push(4)
+    expect(q.getSize()).toBe(1);
+  });
+
+  it("Queue().getSize() should be 5", function() {
+    q.push(1)
+    q.push(2)
+    q.push(3)
+    q.push(4)
+    expect(q.getSize()).toBe(5);
+  });
 });
 
 describe("Queue.prototype.push", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0);
+  it("q.tail should equal Queue().push(1) ", function() {
+    q.push(1)
+    expect(q.tail.value).toBe(1);
+  });
+  it("q.tail should equal Queue().push(2) ", function() {
+    q.push(3)
+    q.push(2)
+    expect(q.tail.value).toBe(2);
+  });
 });
 
 describe("Queue.prototype.pop", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0);
+  it("q.pop() should throw error", function() {
+    expect(function(){q.pop()}).toThrow();
+  });
+
+  it("q.head should return q.pop()", function() {
+    q.push(1)
+    q.pop();
+    expect(q.head.value).toBe(1);
+  });
+
+  it("q.head should return q.pop()", function() {
+    q.push(1)
+    q.push(2)
+    q.push(3)
+    q.pop();
+    expect(q.head.value).toBe(1);
+  });
 });
 
 describe("Queue.prototype.contains", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0)
+  it("q.contains(1) should return false", function() {
+    expect(q.contains(1)).toBe(false);
+  });
+  it("q.contains(3) should return true", function() {
+    q.push(3)
+    q.push(2)
+    expect(q.contains(3)).toBe(true);
+  });
+  it("q.contains(5) should return true", function() {
+    q.push(3)
+    q.push(2)
+    q.push(5)
+    expect(q.contains(5)).toBe(true);
+  });
 });
 
 describe("Queue.prototype.peek", function() {
-  // YOUR CODE HERE
+  var q = new Queue(null,null,0)
+  it("q.peek() should return null", function() {
+    expect(q.peek()).toBe(null);
+  });
+
+  it("q.peek() should return 1", function() {
+    q.push(1)
+    expect(q.peek()).toBe(1);
+  });
 });
 
 // This one's a bonus
@@ -164,90 +265,89 @@ describe("Queue.prototype.forEach", function() {
 });
 
 
-describe("Queue end-to-end", function() {
-  it("Push 100 items to queue, then pop them back out, items should come out in same order", function() {
-    var q = new Queue();
-
-    // Generate 100 random numbers
-    var input = _.range(100).map(_.partial(_.random, 10000));
-
-    // Push numbers to queue
-    _.forEach(input, function(item) {
-      q.push(item);
-    });
-
-    // Pop all numbers from queue
-    var out = [];
-    while (! q.isEmpty()) {
-      out.push(q.pop());
-    }
-
-    // Items should come out in the order pushed
-    expect(input).toEqual(out);
-  });
-  it("Push and pop the same 2 items 10 times, check that values are updated properly", function() {
-    var q = new Queue();
-    _.forEach(_.range(10), function() {
-      // Should start out empty
-      expect(q.getSize()).toBe(0);
-      expect(q.isEmpty()).toBe(true);
-      expect(q.contains('x')).toBe(false);
-      expect(q.contains('y')).toBe(false);
-
-      // Add x, check contents, check size
-      q.push('x');
-      expect(q.contains('x')).toBe(true);
-      expect(q.contains('y')).toBe(false);
-      expect(q.getSize()).toBe(1);
-
-      // Add x, check contents, check size
-      q.push('y');
-      expect(q.contains('x')).toBe(true);
-      expect(q.contains('y')).toBe(true);
-      expect(q.getSize()).toBe(2);
-
-      // Pop x, check contents, check size
-      expect(q.pop()).toBe('x');
-      expect(q.contains('x')).toBe(false);
-      expect(q.contains('y')).toBe(true);
-      expect(q.getSize()).toBe(1);
-
-      // Pop y, check empty
-      expect(q.pop()).toBe('y');
-      expect(q.contains('x')).toBe(false);
-      expect(q.contains('y')).toBe(false);
-      expect(q.getSize()).toBe(0);
-      expect(q.isEmpty()).toBe(true);
-    })
-  });
-
-  it("Bonus: queue should be faster than an array for adding to the beginning", function() {
-    // Run a function multiple times and measure time taken to run
-    function time(fun) {
-      var start = Date.now();
-      _.range(1000).map(fun);
-      return Date.now() - start;
-    }
-
-    function array() {
-      var array = [];
-      _.range(1000).forEach(function(item) {
-        array.unshift(item);
-      });
-    }
-
-    function queue() {
-      var q = new Queue();
-      _.range(1000).forEach(function(item) {
-        q.push(item);
-      });
-    }
-
-    var arrayTime = time(array);
-    var queueTime = time(queue);
-    // Array time should be greater, meaning it took longer, i.e. it was slower
-    console.log('Queue time: %s Array time: %s', queueTime, arrayTime);
-    expect(arrayTime > queueTime).toBe(true);
-  });
-});
-
+// describe("Queue end-to-end", function() {
+//   it("Push 100 items to queue, then pop them back out, items should come out in same order", function() {
+//     var q = new Queue();
+//
+//     // Generate 100 random numbers
+//     var input = _.range(100).map(_.partial(_.random, 10000));
+//
+//     // Push numbers to queue
+//     _.forEach(input, function(item) {
+//       q.push(item);
+//     });
+//
+//     // Pop all numbers from queue
+//     var out = [];
+//     while (! q.isEmpty()) {
+//       out.push(q.pop());
+//     }
+//
+//     // Items should come out in the order pushed
+//     expect(input).toEqual(out);
+//   });
+//   it("Push and pop the same 2 items 10 times, check that values are updated properly", function() {
+//     var q = new Queue();
+//     _.forEach(_.range(10), function() {
+//       // Should start out empty
+//       expect(q.getSize()).toBe(0);
+//       expect(q.isEmpty()).toBe(true);
+//       expect(q.contains('x')).toBe(false);
+//       expect(q.contains('y')).toBe(false);
+//
+//       // Add x, check contents, check size
+//       q.push('x');
+//       expect(q.contains('x')).toBe(true);
+//       expect(q.contains('y')).toBe(false);
+//       expect(q.getSize()).toBe(1);
+//
+//       // Add x, check contents, check size
+//       q.push('y');
+//       expect(q.contains('x')).toBe(true);
+//       expect(q.contains('y')).toBe(true);
+//       expect(q.getSize()).toBe(2);
+//
+//       // Pop x, check contents, check size
+//       expect(q.pop()).toBe('x');
+//       expect(q.contains('x')).toBe(false);
+//       expect(q.contains('y')).toBe(true);
+//       expect(q.getSize()).toBe(1);
+//
+//       // Pop y, check empty
+//       expect(q.pop()).toBe('y');
+//       expect(q.contains('x')).toBe(false);
+//       expect(q.contains('y')).toBe(false);
+//       expect(q.getSize()).toBe(0);
+//       expect(q.isEmpty()).toBe(true);
+//     })
+//   });
+//
+//   it("Bonus: queue should be faster than an array for adding to the beginning", function() {
+//     // Run a function multiple times and measure time taken to run
+//     function time(fun) {
+//       var start = Date.now();
+//       _.range(1000).map(fun);
+//       return Date.now() - start;
+//     }
+//
+//     function array() {
+//       var array = [];
+//       _.range(1000).forEach(function(item) {
+//         array.unshift(item);
+//       });
+//     }
+//
+//     function queue() {
+//       var q = new Queue();
+//       _.range(1000).forEach(function(item) {
+//         q.push(item);
+//       });
+//     }
+//
+//     var arrayTime = time(array);
+//     var queueTime = time(queue);
+//     // Array time should be greater, meaning it took longer, i.e. it was slower
+//     console.log('Queue time: %s Array time: %s', queueTime, arrayTime);
+//     expect(arrayTime > queueTime).toBe(true);
+//   });
+// });

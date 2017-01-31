@@ -165,12 +165,13 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   var func = Array.from(arguments)
+  console.log(func)
   return function() {
     console.log(arguments)
-    var val = func[i].apply(null, arguments)
-    for (var i=arguments.length -2;i=0;i--) {
-      var newVal = func[i](val)
+    var val = func[arguments.length-1].apply(null, arguments)
+    for (var i=arguments.length -2;i>=0;i--) {
+      val = func[i](val)
     }
-    return newVal;
+    return val;
   }
 }

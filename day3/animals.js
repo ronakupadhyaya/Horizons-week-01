@@ -10,14 +10,13 @@
 // Do not edit, reorder or delete any of the existing code.
 //
 
-function getAnimal() {
-  return 'lion';
-}
-
-window.lion = getAnimal();
-
-function getAnimal() {
+(function (){
+  function getAnimal() { // part 1
+    return 'lion';
+  }
+  window.lion = getAnimal(); // part 1
+}());
+function getAnimal() { // part 2
   return 'tiger';
 }
-
-window.tiger = getAnimal();
+window.tiger = getAnimal(); // part 2

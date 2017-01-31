@@ -14,7 +14,9 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt) {
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -22,13 +24,7 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password)
   }
 }
 
@@ -118,12 +114,15 @@ var once = function(f) {
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+    functionArray.push((function() {
+      var x = i;
       // function that returns i
-      return i;
-    }
+      function ourFunc() {
+        return x;
+      }
+      return ourFunc;
+    }()));
   }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

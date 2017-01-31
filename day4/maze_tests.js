@@ -4,7 +4,7 @@
 // -----------------------------
 
 var solvableMazes = [];
-solvableMazes.push([["S", "E"]]);
+//solvableMazes.push([["S", "E"]]);
 solvableMazes.push([["S"],
                     ["E"]]);
 solvableMazes.push([["X", "S", "E", "X"]]);
@@ -91,7 +91,7 @@ describe('Maze.toString()', function () {
           return '_';
         }
         else {
-          console.log(pos);
+          //console.log(pos);
           return pos;
         }
       }).join('')

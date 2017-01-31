@@ -103,7 +103,7 @@ describe("Tests for expectation types", function() {
 
   // Wrap error() in a function
   it("error() should throw an exception", function() {
-    expect(error()).toThrow(); // Fix this test case
+    expect(error()).toThrow('Error'); // Fix this test case
   });
 
   // Jasmine offers other expectation types too. Read up on them here:

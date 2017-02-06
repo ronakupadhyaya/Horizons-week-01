@@ -14,8 +14,8 @@
 // 1 1
 // 1 2
 
-// where 1 2 represents 1 person registered in the category before the beginning 
-// of the contest and 2 people registered in the category after beginning the 
+// where 1 2 represents 1 person registered in the category before the beginning
+// of the contest and 2 people registered in the category after beginning the
 // contest. Each line represents the number of people registered before and after
 // for categories: bronze, silver, gold, platinum - respectively.
 
@@ -33,10 +33,10 @@
 // silver to gold, and the third line represents the number of people promoted
 // from gold to platinum.
 
-// In the Example Output, this could have happened through two new people 
+// In the Example Output, this could have happened through two new people
 // registering during the contest, one person being promoted from bronze to silver,
 // one person being promoted from silver to gold, and one person being promoted from
-// gold to platinum. This could have also happened through two new people 
+// gold to platinum. This could have also happened through two new people
 // registering during the contest: one of which was promoted from bronze to silver,
 // silver to gold, gold to platinum, and the other staying in bronze.
 // There are multiple configurations possible for which the input string could
@@ -49,6 +49,29 @@
 // No Promotions
 // ex. calcPromotions('1000000 1000000\n1000000 1000000\n1000000 1000000\n1000000 1000000') -> '0\n0\n0'
 
+//Input
+// 1 2
+// 1 1
+// 1 1
+// 1 2
+
+//Output
+// 1
+// 1
+// 1
 window.calcPromotions = function(input) {
-    // YOUR CODE HERE
+  // YOUR CODE HERE
+  var output = [0, 0, 0];
+  var numbers = input.split("\n");
+
+  // console.log(numbers);
+  for(var i = 1; i < numbers.length; i++){
+    var temp = numbers[i].split(" ");
+    var diff = parseInt(temp[1])-parseInt(temp[0]);
+    for(var j = 0; j < i; j++){
+      output[j]+=diff;
+    }
+  }
+  return output[0]+"\n"+output[1]+"\n"+output[2];
+
 };

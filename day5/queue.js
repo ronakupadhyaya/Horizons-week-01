@@ -117,7 +117,7 @@ Queue.prototype.push = function(value) {
 
 // Exercise: Queue.pop()
 // Write function that removes the item at the beginning (i.e. head) of the
-// queue and returns that item.
+// queue and returns the value of that item.
 //
 // This function should throw an exception (i.e. generate an error) if the
 // queue is empty.
@@ -167,8 +167,8 @@ Queue.prototype.contains = function(value) {
 }
 
 // Exercise: Queue.peek()
-// Write a function that returns the first item of the queue, return null if
-// queue is empty.
+// Write a function that returns the value of the first item of the queue,
+// return null if queue is empty.
 //
 // ex. new Queue().peek() -> null
 Queue.prototype.peek = function() {
@@ -180,8 +180,8 @@ Queue.prototype.peek = function() {
 }
 
 // Bonus exercise: Queue.forEach(fun)
-// Write a function that takes function 'fun' and calls fun with each item in
-// the Queue starting from the first item (i.e. head).
+// Write a function that takes function 'fun' and calls fun with the value of
+// each item in the Queue starting from the first item (i.e. head).
 Queue.prototype.forEach = function(fun) {
   // YOUR CODE HERE
   if(this.getSize() ===0)

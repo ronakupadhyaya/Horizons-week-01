@@ -32,46 +32,46 @@ The goal of this exercise to get setup with Git and GitHub. You need Git and Git
 
 1. Create a new directory for Horizons course material.
 
-  ```bash
-  mkdir horizons
-  cd horizons
-  ```
+    ```bash
+    mkdir horizons
+    cd horizons
+    ```
 
 1. Clone the `week01` repository
 
-  ```bash
-  git clone git@github.com:horizons-school-of-technology/week01.git
-  ```
+    ```bash
+    git clone git@github.com:horizons-school-of-technology/week01.git
+    ```
 
-  This creates a local version of the `week01` course material for you to work on.
-  ![git clone](./img/git_clone.png)
+    This creates a local version of the `week01` course material for you to work on.
+    ![git clone](./img/git_clone.png)
 
 1. Change working directory into `week01`
 
-  ```bash
-  cd week01
-  ```
+    ```bash
+    cd week01
+    ```
 
 1. Create your own branch. We suggest using your Github username as the branch name.
 
-  ```bash
-  git checkout -b your-branch-name-here
-  ```
+    ```bash
+    git checkout -b your-branch-name-here
+    ```
 
-  Creating a branch with your name allows you to make your own changes, and submit them without interfering with anyone else's code.
-  ![git checkout image](./img/git_checkout.png)
+    Creating a branch with your name allows you to make your own changes, and submit them without interfering with anyone else's code.
+    ![git checkout image](./img/git_checkout.png)
 
 1. Set-up your Git environment
 
-  ```bash
-  ./setup.sh
-  ```
+    ```bash
+    ./setup.sh
+    ```
 
 1. Push your branch to GitHub
 
-  ```bash
-  git push -u origin
-  ```
+    ```bash
+    git push -u origin
+    ```
 
 1. Open `week01/day1/git.html` and note that there is a failing test.
 
@@ -81,44 +81,44 @@ The goal of this exercise to get setup with Git and GitHub. You need Git and Git
 
 1. Check updated files. Note that even though you have saved your files in Atom, the files have not been saved to git yet. You can see this by running the following command.
 
-  ```bash
-  git status
-  ```
+    ```bash
+    git status
+    ```
 
-  This will display the files that have been modified.
-  ![git status modified image](./img/git_status_modified.png)
+    This will display the files that have been modified.
+    ![git status modified image](./img/git_status_modified.png)
 
 1. Commit your changes. By doing this you will save your changes to git.
 
-  ```bash
-  git commit -am "Fix code"
-  ```
+    ```bash
+    git commit -am "Fix code"
+    ```
 
-  Locally saves the changes you made to `week01/day1/git.js` and titles the commit 'Fix Code'
+    Locally saves the changes you made to `week01/day1/git.js` and titles the commit 'Fix Code'
 
 1. Check that your repository is clean (i.e. all of your changes have been saved to git).
 
-  ```bash
-  git status
-  ```
+    ```bash
+    git status
+    ```
 
-  This is a good way to check whether or not all of your changes have been committed.
-  ![git status no modifications image](./img/git_status_not_modified.png)
+    This is a good way to check whether or not all of your changes have been committed.
+    ![git status no modifications image](./img/git_status_not_modified.png)
 
 1. Push your changes again
 
-  ```bash
-  git push origin
-  ```
-  ![git push to origin image](./img/git_push.png)
+    ```bash
+    git push origin
+    ```
+    ![git push to origin image](./img/git_push.png)
 
-  Allows you to store your changes on the Horizons Github Repo (origin). This will make your work public and accessible via Github.
+    Allows you to store your changes on the Horizons Github Repo (origin). This will make your work public and accessible via Github.
 
 1. Now visit the [week01 repository on Github](https://github.com/horizons-school-of-technology/week01), you will notice that there is a banner with your branch name. Our sample branch is named `horizons-instructor`, your branch will have a different name.
-![git_new_branch_github](./img/git_new_branch_github.png)
+  ![git_new_branch_github](./img/git_new_branch_github.png)
 
 1. If you click on the button titled `Branch: master` it shows all branches in this repository. In this case you will see the branches created by fellow students (including yours).
-![git_branch_dropdown](./img/git_branch_dropdown.png)
+  ![git_branch_dropdown](./img/git_branch_dropdown.png)
 
 Congratulations! You're ready to complete Horizons exercises.
 
@@ -127,43 +127,43 @@ We will often make changes to exercises after you have cloned (downloaded) them.
 
 1. Make sure your branch is clean (all changes have been committed). Run the `git status` command, and make sure it says `nothing to commit, working directory clean`
 
-  ```bash
-  $ git status
-  On branch [your-branch-name-here]
-  Your branch is up-to-date with 'origin/[your-branch-name-here]'.
-  nothing to commit, working directory clean
-  ```
+    ```bash
+    $ git status
+    On branch [your-branch-name-here]
+    Your branch is up-to-date with 'origin/[your-branch-name-here]'.
+    nothing to commit, working directory clean
+    ```
 
 1. If your branch is not clean, then commit and push your changes.
 
-  ```bash
-  $ git commit -am "your commit message here"
-  $ git push origin
-  ```
+    ```bash
+    $ git commit -am "your commit message here"
+    $ git push origin
+    ```
 
 1. Switch to the `master` branch.
 
-  ```bash
-  git checkout master
-  ```
+    ```bash
+    git checkout master
+    ```
 
 1. Retrieve the latest version of `master` from Github.
 
-  ```bash
-  git pull origin
-  ```
+    ```bash
+    git pull origin
+    ```
 
 1. Switch back to your own branch.
 
-  ```bash
-  git checkout your-branch-name-here
-  ```
+    ```bash
+    git checkout your-branch-name-here
+    ```
 
 1. Merge the changes from `master` into your own branch.
 
-  ```bash
-  git merge master
-  ```
+    ```bash
+    git merge master
+    ```
 
 ## Git Commands
 We interact with Git using the command line. Here are some of the most frequently used commands:
@@ -223,27 +223,27 @@ This message shows up when you are making changes to the master branch rather th
 
 1. Use the `git stash` command to put aside your changes temporarily. This will hide your changes from git, and can be accessed at a later time.
 
-  ```bash
-  git stash
-  ```
+    ```bash
+    git stash
+    ```
 
 1. Switch to your own branch.
 
-  ```bash
-  git checkout your-branch-name-here
-  ```
+    ```bash
+    git checkout your-branch-name-here
+    ```
 
 1. Bring back your hidden changes that were stashed in Step 1 to the current branch.
 
-  ```bash
-  git stash pop
-  ```
+    ```bash
+    git stash pop
+    ```
 
 1. Commit your changes.
 
-  ```bash
-  git commit -am "commit-message-here"
-  ```
+    ```bash
+    git commit -am "commit-message-here"
+    ```
 ### `remote: error: GH006: Protected branch update failed for refs/heads/master.`
 You may also see the following error message:
 `! [remote rejected] master -> master (protected branch hook declined)`

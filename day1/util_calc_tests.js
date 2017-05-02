@@ -41,7 +41,7 @@ describe("Part 2: Support addition and subtraction", function() {
   it("util.calc('2 - 1 + 5 + 6') -> 12", function() {
     expect(util.calc('2 - 1 + 5 + 6')).toEqual(12);
   });
-  it("util.calc('-1 + 3 - 2 + 5') -> 1", function() {
+  it("util.calc('-1 + 3 - 2 + 5') -> 5", function() {
     expect(util.calc('-1 + 3 - 2 + 5')).toEqual(5);
   });
 });

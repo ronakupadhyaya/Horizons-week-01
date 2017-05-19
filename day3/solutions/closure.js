@@ -28,6 +28,9 @@ var createUser = function(username, password) {
   }
 }
 
+// create a horizons user with password horizonites
+var horizons = createUser('horizons', 'horizonites');
+
 // ex. 1.2 Revisit Once
 // The function below is the answer for the once
 // function exercise in the toolbox in your prepwork.

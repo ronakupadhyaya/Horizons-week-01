@@ -1,9 +1,10 @@
 "use strict";
 
 describe("horizons.password()", function() {
-  function beforeEach() {
-    var horizons = createUser('horizons', 'horizonites');
-  }
+  var horizons;
+  beforeEach(function() {
+    horizons = createUser('horizons', 'horizonites');
+  });
   it("horizons.login('horizonites') -> true", function() {
     expect(horizons.login('horizonites')).toBe(true);
   });

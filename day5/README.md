@@ -19,7 +19,7 @@ If you're done with those go back and complete bonus exercises from earlier
 this week.  Here are a few suggested exercises:
 
 1. [Maze.getShortestPath()](../day4/maze_bonus.md)
-1. `compose()` from functional programming with Underscore<br>
+1. `compose()` from functional programming with Underscore <br>
    Files: `week01/day3/underscore_extra.js` and `week01/day3/underscore_extra.html`
 1. Crossword puzzle <br>
    Files: `week01/day3/crossword.js` and `week01/day3/crossword.html`

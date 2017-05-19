@@ -12,7 +12,7 @@ var a = [1, 2, [3, 4]];
 var b = copyArray(a); // b -> [1, 2, [3, 4]]]
 
 b[0] = 0;
-// b -> [0, 2, [3, 4]]    
+// b -> [0, 2, [3, 4]]
 // a -> [1, 2, [3, 4]]
 // Everything looking good. b is modified, a is not.
 
@@ -25,6 +25,6 @@ copies objects and one that does both as a bonus!
 
 ## Instructions
 
-1. Open `week01/day2/deep_copy.js` in your text editor. Exercise details are listed there.
-1. Open `week01/day2/deep_copy.html` in your browser to run tests.
+1. Open `week01/day5/deep_copy.js` in your text editor. Exercise details are listed there.
+1. Open `week01/day5/deep_copy.html` in your browser to run tests.
 1. Write necessary functions to make all the tests pass.

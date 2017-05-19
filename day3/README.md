@@ -3,7 +3,6 @@
 ## Inline Exercises
 
 1. [The `this` keyword (warmup)](this.md)
-1. [Exceptions](exception.md)
 1. [Object Oriented Programming](oop.md)
 
 ## Pair Programming Exercises

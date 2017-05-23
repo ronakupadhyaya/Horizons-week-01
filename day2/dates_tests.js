@@ -57,7 +57,7 @@ describe("dates.isSameTimeOfDay(d, c)", function() {
 
   it("should return false for dates that occur on a different time of day", function() {
     expect(dates.isSameTimeOfDay(new Date('2015-03-25T12:00:00'), new Date('2015-03-25T16:00:00'))).toBe(false);
-    expect(dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11T03:00:00'))).toBe(false);
+    expect(dates.isSameTimeOfDay(new Date('2015-12-11 03:00:00'), new Date('2015-12-11 03:00:00Z'))).toBe(false);
   });
 });
 

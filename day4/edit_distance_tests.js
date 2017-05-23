@@ -37,4 +37,14 @@ describe("editDistance()", function() {
   it("editDistance('gaattctaatctc', 'caaacaaaaaattt') -> 9", function() {
     expect(editDistance('gaattctaatctc', 'caaacaaaaaattt') ).toBe(9);
   });
+  it("editDistance('hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello', 'hallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallo') -> 18", function() {
+    expect(editDistance('hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello', 'hallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallohallo') ).toBe(18);
+  });
+  it("editDistance('abcdefghijklmnopqrstuvwxyz', 'zyxwvutsrqponmlkjihgfedcba') -> 26", function() {
+    expect(editDistance('abcdefghijklmnopqrstuvwxyz', 'zyxwvutsrqponmlkjihgfedcba') ).toBe(26);
+  });
+  it("editDistance('hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello', 'hallohallohallo') -> 78", function() {
+    expect(editDistance('hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello', 'hallohallohallo') ).toBe(78);
+  });
+
 });

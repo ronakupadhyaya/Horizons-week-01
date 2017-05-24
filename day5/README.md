@@ -13,6 +13,8 @@
    Files: `week01/day5/exception.js` and `week01/day5/exception.html`
 1. Queues/Linked lists
    Files: `week01/day5/queue.js` and `week01/day5/queue.html`
+1. Recursion
+   Files: `week01/day5/recursion.js` and `week01/day5/recursion.html`
 1. [Dinosaur Game](dinosaur.md)
 
 If you're done with those go back and complete bonus exercises from earlier

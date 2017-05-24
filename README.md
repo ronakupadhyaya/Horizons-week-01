@@ -32,4 +32,5 @@
     1. Testing
     1. Exceptions
     1. Queues/Linked lists
+    1. Recursion
     1. Dinosaur Game

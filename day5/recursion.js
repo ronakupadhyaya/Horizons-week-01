@@ -18,7 +18,7 @@ recursion.sum = function(number) {
   }
 
   //Recursive case
-  return this.sum(number-1) + number;
+  return recursion.sum(number-1) + number;
 }
 
 
@@ -33,7 +33,7 @@ recursion.sum = function(number) {
 //Exercise 1
 //Write a function that computes the factorial of a given integer
 //Please note that factorial 0 is 1
-//For example, factorial(4) = 4! = 4 * 3 * 2 * 1 = 24
+//ex. factorial(4) -> 4! -> 4 * 3 * 2 * 1 -> 24
 recursion.factorial = function(number) {
   //WRITE CODE HERE
 }
@@ -41,11 +41,11 @@ recursion.factorial = function(number) {
 
 //Exercise 2
 //Write a function that computes the nth integer of the fibonacci sequence
-//For example, fibonacci(0) = 0
-//For example, fibonacci(1) = 1
-//For example, fibonacci(2) = 0 + 1 = 1
-//For example, fibonacci(3) = 1 + 1 = 2
-//For example, fibonacci(4) = 1 + 2 = 3
+//ex. fibonacci(0) -> 0
+//ex. fibonacci(1) -> 1
+//ex. fibonacci(2) -> 0 + 1 -> 1
+//ex. fibonacci(3) -> 1 + 1 -> 2
+//ex. fibonacci(4) -> 1 + 2 -> 3
 recursion.fibonacci = function(number) {
   //WRITE CODE HERE
 }

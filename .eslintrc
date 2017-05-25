@@ -1,7 +1,8 @@
 {
   "env": {
     "node": true,
-    "browser": true
+    "browser": true,
+    "jasmine": true
   },
   "rules": {
     "indent": ["error", 2],

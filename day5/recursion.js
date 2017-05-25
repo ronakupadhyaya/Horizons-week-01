@@ -13,7 +13,7 @@ window.recursion = {};
 //This function sums the first n numbers from 1 to n (number), inclusive
 recursion.sum = function(number) {
   //Base case
-  if(number == 1) {
+  if(number === 1) {
     return 1;
   }
 

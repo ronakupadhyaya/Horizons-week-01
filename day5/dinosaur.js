@@ -1,4 +1,5 @@
 "use strict";
+/*global game*/
 
 // Wait till the game is ready to run.
 game.onReady(function() {

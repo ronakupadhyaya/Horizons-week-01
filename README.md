@@ -22,9 +22,8 @@
     1. **Bonus:** Crossword puzzle
     1. **Bonus:** Roman numerals
 1. [Day 4](day4/README.md)
-    1. Inheritance
-    1. Event Emitter
     1. RPN (Reverse Polish Notation) Calculator
+    1. Event Emitter
     1. Maze Solver
     1. **Bonus:** Maze.getShortestPath()
     1. **Bonus:** Edit distance

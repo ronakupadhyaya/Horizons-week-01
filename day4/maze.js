@@ -103,6 +103,7 @@ Maze.prototype.tryMove = function(row, column, direction) {
   // YOUR CODE HERE
 }
 
+// Bonus!
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.

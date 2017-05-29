@@ -45,6 +45,102 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+window.isFlush(hand) {
+	var suit = hand[0][1];
+	for (var i = 1; i < 5; i++) {
+		if (hand[i][1] !== suit) {
+			return false;
+		}
+	}
+	return true;
+}
+
+window.isStraight(hand) {
+	var numList = [];
+	for(var i = 0; i < hand.length; i++) {
+		numList.push(hand[i][0]);
+	}
+	numList.sort();
+	for(var i = 0; i < numList.length - 1; i++) {
+		if (numList[i] + 1 !== numList[i + 1]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+window.isStraightFlush(hand) {
+	return isStraight(hand) && isFlush(hand);
+}
+
+window.isRoyalFlush(hand) {
+	if (!isStraight(hand) || !isFlush(hand)) {
+		return false;
+	}
+	var numList = [];
+	for(var i = 0; i < hand.length; i++) {
+		numList.push(hand[i][0]);
+	}
+	numList.sort();
+	if (numList[0] != 10) {
+		return false;
+	}
+	return true;
+}
+
+window.isFourOfAKind(hand) {
+	var firstHalf = [];
+	var secondHalf = [];
+	firstHalf.push(hand[0][0]);
+	for (var i = 1; i < 5; i++) {
+		if (hand[0][0] === hand[i][0]) {
+			firstHalf.push(hand[i][0]);
+		} else {
+			secondHalf.push(hand[i][0]);
+		}
+	}
+	if (firstHalf.length === 4) {
+		return true;
+	}
+	if (firstHalf.length === 1) {
+		for (var j = 1; j < 4; j++) {
+			if (secondHalf[0] !== secondHalf[j]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+window.isFullHouse(hand) {
+	return isTwoPairs(hand) && isThreeOfAKind(hand);
+}
+
+window.getHand(hand) {
+	if (isRoyalFlush(hand)) {
+		return 10;
+	} else if (isStraightFlush(hand)) {
+		return 9;
+	} else if (isFourOfAKind(hand)) {
+		return 8;
+	} else if (isFullHouse(hand)) {
+		return 7;
+	} else if (isFlush(hand)) {
+		return 6;
+	} else if (isStraight(hand)) {
+		return 5;
+	} else if (isThreeOfAKind(hand)) {
+		return 4;
+	} else if (isTwoPairs(hand)) {
+		return 3;
+	} else if (isOnePair(hand)) {
+		return 2;
+	} else {
+		return 1;
+	}
+}
+
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
 }

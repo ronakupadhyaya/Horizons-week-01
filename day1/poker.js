@@ -45,6 +45,80 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+window.createHand = function(hand) {
+  var newHand = [];
+  for (var x of hand) {
+    var val = x[0]
+    var suite = x[1]
+    switch (val) {
+      case 'J':
+        val = 11;
+        break;
+      case 'Q':
+        val = 12;
+        break;
+      case 'K':
+       val = 13;
+       break;
+      case 'A':
+        val = 14
+        break;
+      default:
+        val = parseInt(val)
+        break;
+    }
+    newHand.push([val,suite])
+  }
+  return newHand
+}
+
+window.isOnePair = function(hand) {
+  var foundOnlyOne = false
+  for (var i = 0; i <4; i++) {
+    for (var j = i+1; j <5; j++) {
+      if(hand[i][0] === hand[j][0]) {
+        if(!foundOnlyOne) {
+          foundOnlyOne = true
+        } else {
+          return false
+        }
+      }
+    }
+  }
+  return foundOnlyOne
+}
+
+window.isTwoPairs = function(hand) {
+  var numFound = 0
+  for (var i = 0; i <4; i++) {
+    for (var j = i+1; j <5; j++) {
+      if(hand[i][0] === hand[j][0]) {
+        numFound ++
+      }
+    }
+  }
+  if(numFound === 2) {
+    return true
+  } else {
+    return false
+  }
+}
+
+window.threeOfAKind = function(hand) {
+  for (var i = 0; i <3; i++) {
+    for (var j = i+1; j <4; j++) {
+        for (var k = j + 1; k < 5; k++) {
+          if(hand[i][0] === hand[j][0] && hand[j][0] === hand[k][0]) {
+            return true
+          }
+        }
+      }
+    }
+  return false
+}
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  hand1 = window.createHand(hand1)
+  hand2 = window.createHand(hand2)
 }

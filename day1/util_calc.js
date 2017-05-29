@@ -55,4 +55,23 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var operatorArr = ['+','-','*','/'];
+  var arr = expression.split(' ');
+  if (expression.length === 0) {
+    throw "Error, empty expression";
+  }
+  if (operatorArr.indexOf(arr[0]) !== -1) {
+    console.log("expression");
+    throw "Error, operator at the wrong spot";
+  }
+  for (var i=0; i<arr.length-1;i+=2) {
+    if (operatorArr.indexOf(arr[i]) !== -1) {
+      console.log("too many operators");
+      throw "Error, too many operators";
+    } else if (operatorArr.indexOf(arr[i+1]) === -1) {
+      throw "Error, too many numbers";
+    }
+  }
+  var result = eval(arr.join(' '));
+  return result;
 };

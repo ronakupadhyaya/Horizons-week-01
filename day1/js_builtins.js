@@ -199,6 +199,11 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  var numbers = arr;
+  numbers.sort(function(a,b) {
+    return a - b;
+  });
+  return numbers;
 };
 
 // ----------------------------------------------------------------------------
@@ -216,7 +221,11 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
-
+  var numbers = arr;
+  numbers.sort(function(a,b) {
+    return a.length - b.length;
+  });
+  return numbers;
 };
 
 // ----------------------------------------------------------------------------

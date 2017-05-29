@@ -20,7 +20,21 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var startIndex = 0;
+  var endIndex = 0;
+  for (var i = 0; i < str.length; i++) {
+  	if (str[i] !== " ") {
+  		startIndex = i;
+  		break;
+  	}
+  }
+  for (var i = str.length - 1; i >= 0; i--) {
+  	if (str[i] !== " ") {
+  		endIndex = i;
+  		break;
+  	}
+  }
+  return str.substring(startIndex, endIndex + 1);
 };
 
 // ----------------------------------------------------------------------------
@@ -39,7 +53,18 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  for (var i = 0; i < sourceString.length - (searchString.length - 1); i++) {
+  	var currChar = sourceString[i];
+  	if (currChar === searchString[0]) {
+  		for (var j = 0; j < searchString.length; j++) {
+  			if (searchString[j] !== sourceString[i + j]) {
+  				return false;
+  			}
+  		} 
+  		return true;
+  	}
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -59,7 +84,9 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var list = str.split();
+  var num = parseInt(list[0]);
+  return num;
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +102,11 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+  var toReturn = [];
+  for (var i = arr.length - 1; i >= 0; i--) {
+  	toReturn.push(arr[i]);
+  }
+  return toReturn;
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +124,15 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+  if (a.length === b.length) {
+  	for (var i = 0; i < a.length; i++) {
+  		if (a[i] !== b[i]) {
+  			return false;
+  		}
+  	}
+  	return true;
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +149,12 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+  for (var i = 0; i < Math.floor(arr.length / 2); i++) {
+  	if (arr[i] !== arr[arr.length - i - 1]) {
+  		return false;
+  	}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -130,7 +174,21 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i] < arr[indexOfSmall]) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -147,7 +205,21 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i].length < arr[indexOfSmall].length) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -162,5 +234,11 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var returnArr = [];
+  for (var i = 0; i < arr.length; i++) {
+  	for (var j = 0; j < arr[i].length; j++) {
+  		returnArr.push(arr[i][j]);
+  	}
+  }
+  return returnArr;
 };

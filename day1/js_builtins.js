@@ -21,8 +21,14 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
-};
-
+  	while (str[0] == ' '){
+  		str = str.slice(1);
+  	};
+  	while(str[str.length-1] == ' '){
+  		str = str.slice(0, str.length-1);
+  	};
+    return str;
+}
 // ----------------------------------------------------------------------------
 
 // Exercise 2. contains() using indexOf()
@@ -40,6 +46,15 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  if (searchString == ''){
+    return true;
+  }
+  for (var i = 0; i < sourceString.length; i++){
+    if (sourceString.slice(i, i + searchString.length) == searchString){
+      return true;
+    }
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -60,6 +75,9 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var split = str.split(' ');
+  var number = parseInt(split[0]);
+  return number;
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +94,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var newArray = [];
+  while(arr.length != 0){
+    newArray.push(arr.pop());
+  }
+  return newArray;
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +117,15 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if(a.length != b.length){
+    return false;
+  }
+  for(var i = 0; i < a.length; i++){
+    if(a[i] !== b[i]){
+      return false;
+    };
+  };
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +143,13 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i] !== arr[arr.length -1 -i]){
+      return false;
+    };
+  };
+
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -128,9 +167,23 @@ builtins.isPalindrome = function(arr) {
 // to sort by numerical value instead of by Unicode point value (the default
 // behavior). See: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+// var compare = function(a, b){
+//     if(a < b){
+//       return -1;
+//     };
+//     if(a === b){
+//       return 0;
+//     };
+//     if(a > b){
+//       return 1;
+//     };
+//   };
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+    var compareNumbers = function(a, b) {
+  return a - b;
+}
+  return arr.sort(compareNumbers);
 };
 
 // ----------------------------------------------------------------------------
@@ -148,7 +201,12 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  var compareNumbers = function(a, b) {
+  return a.length - b.length;
+}
+  return arr.sort(compareNumbers);
 };
+
 
 // ----------------------------------------------------------------------------
 
@@ -162,5 +220,19 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var returnArray = [];
+  for(var i = 0; i < arr.length; i++){
+    for(var j = 0; j < arr[i].length; j++){
+      returnArray.push(arr[i][j]);
+    };
+  };
+  return returnArray;
 };
+
+
+
+
+
+
+
+

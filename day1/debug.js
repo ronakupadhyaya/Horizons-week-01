@@ -1,7 +1,7 @@
 "use strict";
 
 // There's syntax error in this function, use the DevTools Console to find it.
-function functionThatReturnsTrue( {
+function functionThatReturnsTrue() {
   return true;
 }
 

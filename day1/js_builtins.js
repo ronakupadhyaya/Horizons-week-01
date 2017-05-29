@@ -19,8 +19,23 @@ window.builtins = {};
 // ex. builtins.trim('  Horizons  ') -> 'Horizons'
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
-builtins.trim = function(str) {
-  // YOUR CODE HERE
+builtins.trim = function (str) {
+  var newStr = '';
+  for (var i = 0; i < str.length; i++) {
+    if (str[i] !== ' ') {
+      newStr += str.substr(i, str.length);
+      break;
+    }
+  }
+  var newStr1 = '';
+  // debugger;
+  for (var i = newStr.length - 1; i > -1; i--) {
+    if (newStr[i] !== ' ') {
+      newStr1 = newStr.substr(0, i + 1);
+      break;
+    }
+  }
+  return newStr1;
 };
 
 // ----------------------------------------------------------------------------
@@ -38,8 +53,13 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', '') -> true
 // ex. builtins.search('Horizons', 'h') -> false
 
-builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+builtins.search = function (sourceString, searchString) {
+  for (var i = 0; i < sourceString.length - searchString.length; i++) {
+    if (sourceString.substr(i, searchString.length) === searchString) {
+      return true;
+    }
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -58,8 +78,10 @@ builtins.search = function(sourceString, searchString) {
 // (or any other separator). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
-builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+builtins.parseQuantity = function (str) {
+  var splitStr = str.split(' ');
+  var num = parseInt(splitStr[0]);
+  return num;
 };
 
 // ----------------------------------------------------------------------------
@@ -74,8 +96,12 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([]) -> []
 // ex. builtins.reverse([123]) -> [123]
 
-builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+builtins.reverse = function (arr) {
+  var newArr = [];
+  for (var i = arr.length - 1; i > -1; i--){
+    newArr.push(arr[i]);
+  }
+  return newArr;
 };
 
 // ----------------------------------------------------------------------------
@@ -92,8 +118,17 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([1, 2, 3], []) -> false
 // ex. builtins.isEqual([], []) -> true
 
-builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+builtins.isEqual = function (a, b) {
+  var setLen = a.length;
+  if (a.length < b.length){
+    setLen = b.length;
+  }
+  for (var i = 0; i < setLen; i++){
+    if (a[i] !== b[i]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -109,8 +144,9 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome(['1', '2', '3', 2, 1]) -> false
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
-builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+builtins.isPalindrome = function (arr) {
+  var revArr = builtins.reverse(arr);
+  return builtins.isEqual(revArr,arr);
 };
 
 // ----------------------------------------------------------------------------
@@ -129,8 +165,11 @@ builtins.isPalindrome = function(arr) {
 // behavior). See: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
-builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+builtins.sortByValue = function (arr) {
+  var newArr = arr.sort(function(a,b){
+    return a - b;
+  });
+  return newArr;
 };
 
 // ----------------------------------------------------------------------------
@@ -146,8 +185,11 @@ builtins.sortByValue = function(arr) {
 // Hint: Use the same Array sort() function - but think about what you're
 // comparing this time!
 
-builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+builtins.sortByLength = function (arr) {
+  var newArr = arr.sort(function(a,b){
+    return a.length - b.length;
+  });
+  return newArr;
 };
 
 // ----------------------------------------------------------------------------
@@ -161,6 +203,12 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([[], [''], []]) -> ['']
 // ex. builtins.flatten([]) -> []
 
-builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+builtins.flatten = function (arr) {
+  var newArr = [];
+  for (var i = 0; i < arr.length; i++){
+    for (var j = 0; j < arr[i].length; j++){
+      newArr.push(arr[i][j]);
+    }
+  }
+  return newArr;
 };

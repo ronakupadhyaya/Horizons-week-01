@@ -53,6 +53,65 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
-  // YOUR CODE HERE
+util.calc = function (expression) {
+
+  var parts = expression.split(' ');
+
+  for (var i = 0; i < parts.length; i++){
+    if (parts[i] === 'sqrt'){
+      parts[i+1] = Math.sqrt(parts[i+1]);
+      parts.splice(i,1);
+    }
+  }
+
+  if (parts.length < 1 || parts.length % 2 === 0) {
+    throw "Error";
+  }
+  for (var i = 0; i < parts.length; i += 2) {
+    if (isNaN(parseFloat(parts[i]))) {
+      throw "Error";
+    }
+    parts[i] = parseFloat(parts[i]);
+  }
+
+  var evalArr = [];
+  var lastOp = false;
+  console.log(parts);
+  evalArr.push(parts[0]);
+
+    for (var i = 1; i < parts.length; i += 2) {
+    switch (parts[i]) {
+      case '*':
+        evalArr.push(evalArr.pop() * parts[i + 1]);
+        break;
+      case '/':
+        evalArr.push(evalArr.pop() / parts[i + 1]);
+        break;
+      default:
+        evalArr.push(parts[i]);
+        evalArr.push(parts[i+1]);
+    }
+  }
+
+
+  console.log(evalArr);
+  parts = evalArr;
+  evalArr = [];
+  evalArr.push(parts[0]);
+
+   for (var i = 1; i < parts.length; i += 2) {
+    switch (parts[i]) {
+      case '+':
+        evalArr.push(evalArr.pop() + parts[i + 1]);
+        break;
+      case '-':
+        evalArr.push(evalArr.pop() - parts[i + 1]);
+        break;
+      default:
+        evalArr.push(parts[i]);
+        evalArr.push(parts[i+1]);
+    }
+  }
+
+  return evalArr[0];
 };

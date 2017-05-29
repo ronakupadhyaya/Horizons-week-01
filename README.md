@@ -1,6 +1,7 @@
 # Horizons Week 1 Exercises
 
 1. [Day 1](day1/README.md)
+    1. Week 1 Setup
     1. Debugging with Chrome DevTools
     1. Rocketship Object
     1. JavaScript Built-ins

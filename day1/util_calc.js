@@ -53,6 +53,111 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+util.isOperator = function(str){
+  switch(str) {
+  case "+":
+    return true;
+  case "-":
+    return true;
+  case "/":
+    return true;
+  case "*":
+    return true;
+  default:
+    return false;
+  }
+}
+
+util.findOperator = function(arr2){
+  var isFound = false
+  var opIndex;
+  for(var i = 0; i<arr2.length; i++){
+    if (util.isOperator(arr2[i])){
+      if(!isFound){
+        isFound = true;
+        opIndex = i;
+      }
+      if(arr2[i]==="/" || arr2[i]==="*"){
+        opIndex = i;
+        return opIndex
+      }
+    }
+  }
+  return opIndex
+}
+
+util.performOperation = function(intA, Op, intB){
+  intA = Number.parseFloat(intA);
+  intB = Number.parseFloat(intB);
+  switch(Op) {
+  case "+":
+    return intA + intB;
+  case "-":
+    return intA - intB;
+  case "/":
+    return intA / intB;
+  case "*":
+    return intA * intB;
+  default:
+    throw "performOperation did not recieve operation"
+  }
+}
+
+util.evaluateSqrt = function(str, num){
+
+}
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  // HANDLE EMPTY EXPRESSION
+  if(expression === ""){
+    throw "Error: Empty expression";
+  }
+  // SPLIT THE EXPRESSION ON SPACES
+  var arr = expression.split(" ");
+  //console.log(arr);
+
+  // HANDLE NO NUMBERS IN EXPRESSION
+  if(util.isOperator(arr[0])){
+    throw "Error: no numbers";
+  }
+
+  if(util.isOperator(expression[expression.length - 1])){
+    throw "Error: operator at end of expression";
+  }
+
+  // HANDLE INCOMPLETE EXPRESSION
+  if(arr[0]!="sqrt"){
+
+  if(arr.length == 2){
+    throw "Error, Length = 2"
+  }
+
+  for(var i = 0; i < arr.length-1; i+=2) {
+    if(!util.isOperator(arr[i+1])) {
+      throw "Error: Missing operator";
+    }
+  }
+}
+  if(arr.length == 1){
+    return Number.parseFloat(arr[0]);
+  }
+  var sqrtIndex = arr.indexOf("sqrt");
+  var sqrtResult = 0;
+  while(arr.length >= 2 && sqrtIndex != -1){
+    sqrtResult = Math.sqrt(arr[sqrtIndex + 1]);
+    arr.splice(sqrtIndex,2,sqrtResult);
+    sqrtIndex = arr.indexOf("sqrt");
+    console.log(arr);
+  }
+  while(arr.length >= 3){
+
+
+    var loc =  util.findOperator(arr)
+    result = util.performOperation(arr[loc-1],arr[loc],arr[loc+1]);
+    arr.splice(loc-1,3,result);
+    console.log(result);
+  }
+
+  return result;
+
 };

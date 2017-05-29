@@ -45,6 +45,19 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+window.determineRank = function(hand){
+    // Check player royal flush
+  var card = hand[0];
+  var suit = card[card.length - 1];
+  if(hand = [["10" + suit],["J" + suit],["Q" + suit],["K" + suit],["A" + suit]]){
+    return 10
+  }
+
+}
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var player1Pts = 0;
+  var player2Pts = 0;
+
+
 }

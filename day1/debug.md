@@ -40,13 +40,13 @@ break points.
   }
   ```
 1. Open `week01/day1/debug.html` and click on the first failing test.
-  ![](img/debug%20click failing.png)
+  ![](img/debug%20click%20failing.png)
 1. Open DevTools console and refresh the page.
 1. Breakpoint is triggered :boom: Code stops executing at the `debugger` statement! Note the line where code stopped next to the red arrow.
-  ![](img/debug%20break point.png)
+  ![](img/debug%20break%20point.png)
 1. You can open and close the console with <kbd>Esc</kbd>. Make sure your console is open.
 1. Check the value of the local variable `i` by typing `i` and hitting <kbd>Enter</kbd> in the console.
-  ![](img/debug%20break point console.png)
+  ![](img/debug%20break%20point%20console.png)
 1. Resume code execution by clicking the Resume button. When you click resume, code keeps executing until it hits the next break point. Delete breakpoints if you don't need them any longer.
   ![](img/debug%20resume.png)
 1. Check the value of `i` again. Has it changed?

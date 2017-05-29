@@ -50,6 +50,11 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  var sum = 0;
+  for (var i = 0; i < arguments.length; i++){
+    sum += arguments[i];
+  }
+  return sum;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -61,7 +66,13 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  var sum = 1;
+  for (var i = 0; i < arguments.length; i++){
+    sum *= arguments[i];
+  }
+  return sum;
 };
+
 
 // Exercise 3. varArgs.joinWith(args...)
 // Write a function that takes a delimiter as the first argument and any number of
@@ -72,5 +83,15 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
+  var string = arguments[1];
+  if (arguments.length == 1){
+    return '';
+  }
+  for (var i = 2; i < arguments.length; i++){
+    string = string + arguments[0] + arguments[i];
+  }
+  return string;
 };
+
+
+

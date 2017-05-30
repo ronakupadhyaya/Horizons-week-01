@@ -45,6 +45,198 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+window.rankings = {
+	"High Card": 0,
+	"One Pair": 1,
+	"Two Pairs": 2,
+	"Three of a Kind": 3,
+	"Straight": 4,
+	"Flush": 5,
+	"Full House": 6,
+	"Four of a Kind": 7,
+	"Straight Flush": 8,
+	"Royal Flush": 9
+}
+
+window.card_ranks = {
+	"0": 0, 
+	"1": 1,
+	"2": 2,
+	"3": 3,
+	"4": 4,
+	"5": 5,
+	"6": 6,
+	"7": 7,
+	"8": 8,
+	"9": 9,
+	"10": 10,
+	"J": 11,
+	"Q": 12,
+	"K": 13,
+	"A": 14
+}
+
+var Hand = function Hand(type) {
+	this.rank = type;
+	this.precedence = hand;
+};
+
+var royal_flush = function(hand) {
+	var suit = hand[0][hand[0].length -1];
+	var exists = [false, false, false, false, false];
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i][hand[i].length - 1] !== suit) {
+			return false;
+		} else {
+			switch (hand[i].slice(0,hand[i].length-1)) {
+				case '10':
+					exists[0] = true;
+					break;
+				case 'J':
+					exists[1] = true;
+					break;
+				case 'Q':
+					exists[2] = true;
+					break;
+				case 'K':
+					exists[3] = true;
+					break;
+				case 'A':
+					exists[4] = true;
+					break;
+				default:
+					return false;
+			}
+		}
+	}
+	return !exists.includes(false);
+};
+
+var straight_flush = function(hand) {
+	var suit = hand[0][hand[0].length-1];
+
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i][hand[i].length - 1] !== suit) {
+			return false;
+		}
+	}
+
+	hand.sort(function(c1, c2) {
+		return window.card_ranks[c1.slice(0, c1.length - 1)] - window.card_ranks[c2.slice(0, c2.length - 1)];
+	});
+
+	for (var i = 0; i < hand.length - 1; i++) {
+		if (window.card_ranks[(hand[i].slice(0, hand[i].length - 1))] + 1 !== 
+			window.card_ranks[(hand[i + 1].slice(0, hand[i + 1].length - 1))]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+var four_of_a_kind = function(hand) {
+	var first = hand[0].slice(0, hand[0].length - 1);
+	var second;
+	var count1 = 0;
+	var count2 = 0;
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i].slice(0, hand[i].length - 1) !== first) {
+			second = hand[i].slice(0, hand[i].length - 1);
+			break;
+		}
+	}
+
+	for (var j = 0; j < hand.length; j++) {
+		if (hand[j].slice(0, hand[j].length - 1) === first) {
+			count1++;
+		} else if (hand[j].slice(0, hand[j].length - 1) === second) {
+			count2++;
+		}
+	}
+	if (count1 === 4 || count2 === 4) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var full_house = function(hand) {
+	var first = hand[0].slice(0, hand[0].length - 1);
+	var second;
+	var count1 = 0;
+	var count2 = 0;
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i].slice(0, hand[i].length - 1) !== first) {
+			second = hand[i].slice(0, hand[i].length - 1);
+			break;
+		}
+	}
+
+	for (var j = 0; j < hand.length; j++) {
+		if (hand[j].slice(0, hand[j].length - 1) === first) {
+			count1++;
+		} else if (hand[j].slice(0, hand[j].length - 1) === second) {
+			count2++;
+		}
+	}
+
+	if ((count1 === 3 && count2 === 2) || (count1 === 2 && count2 === 3)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var flush = function(hand) {
+	var suit = hand[0][hand[0].length-1];
+
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i][hand[i].length - 1] !== suit) {
+			return false;
+		}
+	}
+	return true;
+}
+
+var straight = function(hand) {
+	hand.sort(function(c1, c2) {
+		return window.card_ranks[c1.slice(0, c1.length - 1)] - window.card_ranks[c2.slice(0, c2.length - 1)];
+	});
+
+	for (var i = 0; i < hand.length - 1; i++) {
+		if (window.card_ranks[(hand[i].slice(0, hand[i].length - 1))] + 1 !== 
+			window.card_ranks[(hand[i + 1].slice(0, hand[i + 1].length - 1))]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  	var highest_rank = function(hand) {
+  		if (royal_flush(hand)) {
+  			return "royal_flush";
+  		} else if (straight_flush(hand)) {
+  			return "straight_flush";
+  		} else if (four_of_a_kind(hand)) {
+  			return "four_of_a_kind";
+  		} else if (full_house(hand)) {
+  			return "full_house";
+  		} else if (flush(hand)) {
+  			return "flush";
+  		} else if (straight(hand)) {
+  			return "straight";
+  		} else if (three_of_a_kind(hand)) {
+  			return "three_of_a_kind";
+  		} else if (two_pairs(hand)) {
+  			return "two_pairs";
+  		} else if (one_pair(hand)) {
+  			return "one_pair";
+  		} else if (high_card(hand)) {
+  			return "high_card";
+  		} else {
+  			return false;
+  		}
+  	}
+  	console.log(highest_rank(hand1));
 }

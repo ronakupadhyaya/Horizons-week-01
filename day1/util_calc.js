@@ -53,6 +53,75 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
-  // YOUR CODE HERE
+
+util.helper = {};
+
+util.helper.ops = {
+	"+": function(a,b){ return a + b; },
+	"-": function(a,b){ return a - b; },
+	"*": function(a,b){ return a * b; },
+	"/": function(a,b){ return a / b; }
+}
+
+util.helper.convert_numbers = function(arr){
+	for(var i = 0 ; i < arr.length ; i++){
+		if(!isNaN(Number.parseInt(arr[i]))){
+			arr[i] = Number(arr[i]);
+		}
+	}
+}
+
+util.helper.check_exception = function(arr){
+	if(arr.length < 1){
+		throw "Error, empty expression";
+	}
+	if(isNaN(arr[0])){
+		throw "Error, operator at the wrong spot";
+	}
+	for(var i = 0 ; i < arr.length ; i++){
+		if(i % 2 == 0){
+			if(isNaN(arr[i])){
+				throw "Error, too many operators";
+			}
+		}else{
+			if(!isNaN(arr[i])){
+				throw "Error, too many numbers";
+			}
+		}
+	}
+	if (isNaN(arr[arr.length - 1])) {
+		throw "Error, too many operators";
+	}
 };
+
+util.helper.add_sub = function(arr) {
+	var total = arr[0];
+	for (var i = 1; i < arr.length; i += 2) {
+		total = util.helper.ops[arr[i]](total, arr[i + 1]);
+	}
+	return total;
+};
+
+util.helper.mult_div = function(arr) {
+	for (var i = 1; i < arr.length; i += 2) {
+		if (arr[i] === "*" || arr[i] === "/") {
+			arr.splice(i - 1, 3, util.helper.ops[arr[i]](arr[i - 1], arr[i + 1]));
+			i -= 2;
+		}
+	}
+};
+
+util.calc = function(expression) {
+	if (expression === '') {
+		throw "Error, empty expression";
+	}
+	arr = expression.split(" ");
+	util.helper.convert_numbers(arr);
+	util.helper.check_exception(arr);
+	util.helper.mult_div(arr);
+	if(arr.length === 1) {return arr[0];}
+	return util.helper.add_sub(arr);
+
+};
+
+

@@ -19,12 +19,12 @@
 //   - One Pair: Two cards of the same value.
 //   - Two Pairs: Two different pairs.
 //   - Three of a Kind: Three cards of the same value.
-//   - Straight: All cards are consecutive values.
-//   - Flush: All cards of the same suit.
+//   - Straight: All cards are consecutive values. DONE
+//   - Flush: All cards of the same suit. DONE
 //   - Full House: Three of a kind and a pair.
 //   - Four of a Kind: Four cards of the same value.
-//   - Straight Flush: All cards are consecutive values of same suit.
-//   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+//   - Straight Flush: All cards are consecutive values of same suit. DONE
+//   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit. DONE
 //
 // The cards are valued in the order:
 // 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.
@@ -46,5 +46,162 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var lookupTable = {
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 11,
+    "Q": 12,
+    "K": 13,
+    "A": 14
+  }
+
+  var contains = function(cardArray, searchFor){
+    for(var i = 0; i < cardArray.length; i++){
+      if(cardArray[i].indexOf(searchFor) !== -1){
+        return cardArray[i][cardArray[i].length-1];
+      }
+    }
+    return false;
+  }
+
+  var getValue = function(card){
+    return card.substring(0, card.length-1);
+  }
+
+  var getSuit = function(card){
+    return card.substring(card.length-1);
+  }
+
+  var handValue1 = 0;
+  var handValue2 = 0;
+  var winner = 0;
+
+  var findHand = function(hand){
+    //Royal Flush
+    // if(contains(hand, "10") &&
+    // contains(hand, "J") &&
+    // contains(hand, "Q") &&
+    // contains(hand, "K") &&
+    // contains(hand, "A")) {
+    //   //found a royal flush
+    //   return [10, 0];
+    // } else {
+    var sortedHand = hand.sort(function compare(a, b) {
+      var aSuit = getSuit(a);
+      var aVal = getValue(a);
+      var bSuit = getSuit(b);
+      var bVal = getValue(b);
+
+      if(lookupTable[aVal] > lookupTable[bVal]){
+        return 1;
+      } else if(lookupTable[aVal] < lookupTable[bVal]){
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    var firstVal = getValue(sortedHand[0]);
+    firstVal = lookupTable[firstVal];
+    var firstSuit = getSuit(sortedHand[0]);
+
+    var isConsecutive = true;
+    var isSameSuit = true;
+    for (var i = 1; i < sortedHand.length; i++) {
+      var tmp = getValue(sortedHand[i]);
+      if (lookupTable[tmp] !== firstVal + i) {
+        isConsecutive = false;
+      }
+      if (firstSuit !== getSuit(sortedHand[i])){
+        isSameSuit = false;
+      }
+    }
+    if (isConsecutive && isSameSuit && getValue(sortedHand[0]) === "10") {
+      return [10, 0];
+    } else if (isConsecutive && isSameSuit) {
+      return [9, getValue(sortedHand[4]), getValue(sortedHand[3]),
+        getValue(sortedHand[2]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
+    }
+    //Four of a Kind
+    else if (getValue(sortedHand[0]) === getValue(sortedHand[3]) ||
+    getValue(sortedHand[1]) === getValue(sortedHand[4])) {
+      return [8, getValue(sortedHand[2]), getValue(sortedHand[4]),
+      getValue(sortedHand[3]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[0]) === getValue(sortedHand[2]) &&
+    getValue(sortedHand[3]) === getValue(sortedHand[4]) ||
+    getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
+    getValue(sortedHand[2]) === getValue(sortedHand[4])) {
+      return [7, getValue(sortedHand[2]), getValue(sortedHand[4]),
+      getValue(sortedHand[3]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    } else if (isSameSuit) {
+      return [6, getValue(sortedHand[4]), getValue(sortedHand[3]),
+      getValue(sortedHand[2]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    } else if (isConsecutive) {
+      return [5, getValue(sortedHand[4]), getValue(sortedHand[3]),
+      getValue(sortedHand[2]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[0]) === getValue(sortedHand[2]) ||
+    getValue(sortedHand[1]) === getValue(sortedHand[3]) ||
+    getValue(sortedHand[2]) === getValue(sortedHand[4])) {
+      return [4, getValue(sortedHand[2]), getValue(sortedHand[4]),
+      getValue(sortedHand[3]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
+    getValue(sortedHand[2]) === getValue(sortedHand[3]) ||
+    getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
+    getValue(sortedHand[3]) === getValue(sortedHand[4]) ||
+    getValue(sortedHand[1]) === getValue(sortedHand[2]) &&
+    getValue(sortedHand[3]) === getValue(sortedHand[4]) ||
+    getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
+    getValue(sortedHand[3]) === getValue(sortedHand[4])) {
+      return [3, getValue(sortedHand[3]), getValue(sortedHand[4]),
+      getValue(sortedHand[2]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    }
+    else if (getValue(sortedHand[0]) === getValue(sortedHand[1])) {
+      return [2, getValue(sortedHand[0]), getValue(sortedHand[4]),
+      getValue(sortedHand[3]), getValue(sortedHand[2])];
+    } else if (getValue(sortedHand[1]) === getValue(sortedHand[2])) {
+      return [2, getValue(sortedHand[1]), getValue(sortedHand[4]),
+      getValue(sortedHand[3]), getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[2]) === getValue(sortedHand[3])) {
+      return [2, getValue(sortedHand[2]), getValue(sortedHand[4]),
+      getValue(sortedHand[2]), getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[3]) === getValue(sortedHand[4])) {
+      return [2, getValue(sortedHand[3]), getValue(sortedHand[2]),
+      getValue(sortedHand[1]), getValue(sortedHand[0])];
+    } else {
+      return [1, getValue(sortedHand[4]), getValue(sortedHand[3]),
+      getValue(sortedHand[2]), getValue(sortedHand[1]),
+      getValue(sortedHand[0])];
+    }
+  }
+  //type of hand
+
+  handValue1 = findHand(hand1);
+  handValue2 = findHand(hand2);
+
+  if (handValue1[0] > handValue2[0]) {
+    return 1;
+  } else if (handValue1[0] < handValue2[0]) {
+    return 2;
+  } else {
+    for(var i = 1; i < 6; i++){
+      if(lookupTable[handValue1[i]] < lookupTable[handValue2[i]]){
+        return 2;
+      } else if(lookupTable[handValue1[i]] > lookupTable[handValue2[i]]){
+        return 1;
+      }
+    }
+  }
 }

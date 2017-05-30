@@ -54,5 +54,133 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if(expression.length === 0){
+    throw "empty expression";
+  }
+  var arr = expression.split(' ');
+  if(arr.length === 1){
+    if(!isNaN(arr[0])){
+      return parseFloat(arr[0]);
+    } else {
+      throw "error: only one non-number entered";
+    }
+  } else if(arr.length === 2 && arr.indexOf("sqrt") === -1){
+    throw "error: only two inputs, one not sqrt";
+  } else if(isNaN(arr[arr.length-1])){
+    throw "error: last must be a number";
+  } else if(!(arr[arr.length-2] === '+' ||
+              arr[arr.length-2] === '-' ||
+              arr[arr.length-2] === '/' ||
+              arr[arr.length-2] === '*' ||
+              arr[arr.length-2] === "sqrt")){
+    throw "error: second to last must be an operator";
+  }
+  /*
+  if(arr.length % 2 == 0){
+    throw "error, too many arguments";
+  }
+  for(var i  = 0; i < arr.length; i++){
+    if(i % 2 == 0){
+      if(isNaN(arr[i])){
+        throw "error, invalid number";
+      } else if(arr.length === 1){
+        return parseFloat(arr[0]);
+      }else{
+        arr[i] = parseFloat(arr[i]);
+      }
+    } else {
+      if(!(arr[i] === '+' ||
+      arr[i] === '-' ||
+      arr[i] === '/' ||
+      arr[i] === '*')){
+        throw "error, not an operator";
+      }
+    }
+  }
+  */
+
+  for(var i = 0; i < arr.length-2; i++){
+    if(!isNaN(arr[i])){
+      if(!(arr[i+1] === '+' ||
+      arr[i+1] === '-' ||
+      arr[i+1] === '/' ||
+      arr[i+1] === '*' ||
+      arr[i+1] === "sqrt")){
+        throw "error, number not followed by operator";
+      }
+    } else if(arr[i] === '+' ||
+               arr[i] === '-' ||
+               arr[i] === '/' ||
+               arr[i] === '*' ||
+               arr[i] === 'sqrt') {
+
+      if(isNaN(arr[i+1]) && arr[i+1] != "sqrt"){
+        throw "error, operator not followed by a number";
+      }
+    }
+  }
+
+  for(var i  = 0; i < arr.length; i++){
+    if(!isNaN(arr[i])){
+      arr[i] = parseFloat(arr[i]);
+    }
+  }
+
+  while(true){
+    var sqrtIndex = arr.indexOf("sqrt");
+    if(sqrtIndex !== -1){
+      arr[sqrtIndex] = Math.sqrt(arr[sqrtIndex+1]);
+      arr.splice(sqrtIndex+1, 1);
+    }
+
+    if(arr.indexOf("sqrt") === -1){
+      break;
+    }
+  }
+
+  while(true){
+    var indexDiv = arr.indexOf("/");
+    var indexMul = arr.indexOf("*");
+    if (indexDiv > indexMul) {
+      if(indexMul == -1){
+        var newVal = arr[indexDiv-1] / arr[indexDiv+1];
+        arr[indexDiv - 1] = newVal;
+        arr.splice(indexDiv, 2);
+      } else {
+        var newVal = arr[indexMul-1] * arr[indexMul+1];
+        arr[indexMul - 1] = newVal;
+        arr.splice(indexMul, 2);
+      }
+    } else if (indexDiv < indexMul) {
+      if (indexDiv == -1) {
+        var newVal = arr[indexMul-1] * arr[indexMul+1];
+        arr[indexMul - 1] = newVal;
+        arr.splice(indexMul, 2);
+      } else {
+        var newVal = arr[indexDiv-1] / arr[indexDiv+1];
+        arr[indexDiv - 1] = newVal;
+        arr.splice(indexDiv, 2);
+      }
+    }
+    if(arr.indexOf("/") === -1 && arr.indexOf("*") === -1){
+      break;
+    }
+  }
+
+  while(true) {
+    if(arr[1] === "+"){
+      arr[0] = arr[0] + arr[2];
+      arr.splice(1, 2);
+    } else if(arr[1] === "-"){
+      arr[0] = arr[0] - arr[2];
+      arr.splice(1, 2);
+    }
+
+    if(arr.length === 1){
+      break;
+    }
+  }
+
+  return arr[0];
+
 };

@@ -55,4 +55,81 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
-};
+  // test for correct format
+  var expArr = expression.split(" ");
+  for(var i = 0; i < expArr.length; i++){
+    if((i % 2 === 0 && isNaN(expArr[i])) ||
+       (i % 2 === 1 && !isNaN(expArr[i])) ||
+       (expression.length === 0) ||
+       (isNaN(expArr[expArr.length-1]))){
+      throw "Error: The format is incorrect.";
+    }
+  }
+
+  var finalVal = 0;
+
+
+  var value = 0, start = 0, count = 0;
+  var arr = expression.split("- ").join("+ -").split(" ").join("").split("+");
+  for(var i = 0; i < arr.length; i++) {
+    value += eval(arr[i]);
+  }
+  return value;
+  };
+    /*var x = expression.split('- ').join('+ -').split('+').join('/').split('/').join('*').split(' * ');
+    for(var j = 0; j < x.length; j++) {
+    if(x[i].indexOf('sqrt') !== -1){
+    var numlength = arr[i].length - 5
+    arr.replace()*/
+      //var altArr = arr.join().split("/").join("*").split("*")
+      /*start = arr[i].indexOf('t');
+      for(var j = start; j < arr[i].length; j++){
+        count++;
+        if(isNaN(arr[i][j])){
+          break;
+        }
+      }
+      arr[i].replace(arr[i].substring(arr[i].indexOf("s"), arr[i].indexOf("s")+3+count),
+                     Math.sqrt(arr[i].substring(arr[i].indexOf("s")+3, arr[i].indexOf("s")+3+count)));*/
+
+
+
+  // add and sub
+  /*addSubArr = expression.split("- ").join("+ -").split(" ");
+  var addVal = Number(addSubArr[0]);
+  for(var i = 2; i < addSubArr.length; i+=2){
+    addVal += Number(addSubArr[i]);
+  }
+  finalVal += addVal;
+
+  // mult and div
+
+
+  return finalVal;*/
+
+  // mult
+  /*var postMult = [], i = 0
+  while(i < expArr.length-1){
+    if(expArr[i] === "*"){
+      postMult.push(expArr[i-1] * expArr[i+1]);
+      i = i+1;
+    }
+    if(expArr[i-1] !== "*" && expArr[i+1] !== "*" && expArr[i] === "*"){
+      continue;
+    }
+  }
+  if(expArr[expArr.length-2] !== "*"){
+    postMult.push(expArr[expArr.length-1]);
+  }
+
+  // div
+  var postDiv = [];
+  for(var i = 0; i < postMult.length-1; i++){
+    if(postMult[i] === "/"){
+      postDiv.push(postMult[i-1] * postMult[i+1]);
+    }
+    if(postMult[i-1] !== "/" && postMult[i+1] !== "/" && postMult[i] !== "/"){
+      postDiv.push(postMult[i]);
+    }
+  }
+  postDiv.push(postMult[postMult.length-1]);*/

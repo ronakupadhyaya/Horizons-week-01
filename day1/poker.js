@@ -47,4 +47,81 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+
+//variables for face cards
+  var J = 11;
+  var Q = 12;
+  var K = 13;
+  var A = 14;
+
+  //replace face cards
+  function replace(hand) {
+    var updatedHand = [];
+    for (var i = 0; i < hand.length; i++) {
+      if (hand[i].charAt(0) === "J") {
+        updatedHand.push("11" + hand[i].charAt(1));
+      } else if (hand[i].charAt(0) === "Q"){
+        updatedHand.push("12" + hand[i].charAt(1));
+      } else if (hand[i].charAt(0) === "K") {
+        updatedHand.push("13" + hand[i].charAt(1));
+      } else if (hand[i].charAt(0) === "A") {
+        updatedHand.push("14" + hand[i].charAt(1));
+      } else if (hand[i].charAt(0) === "1" && hand[i].charAt(1) === "0"){
+        updatedHand.push(hand[i]);
+      } else {
+        updatedHand.push("0" + hand[i]);
+      }
+    }
+    return updatedHand;
+  }
+  //royal flush
+  var royalFlush = function(hand) {
+    var suit = hand[0].charAt(hand[0].length-1);
+    for (var i = 0; i < 4; i++) {
+      if (hand[i].charAt(hand[i].length-1) !== suit) {
+        return false;
+      }
+    }
+    var c = 0;
+    for (var j = 0; j < 5; j++) {
+      if (hand[j].charAt(0) === "1" && hand[j].charAt(1) === "0" || hand[j].charAt(0)
+      === "J" || hand[j].charAt(0) === "Q" || hand[j].charAt(0) === "K" ||
+      hand[j].charAt(0) === "A"){
+        c++;
+      }
+    }
+    return c === 5;
+  }
+
+  //straight flush
+  var straightFlush = function(hand) {
+    var suit = hand[0].charAt(hand[0].length-1);
+    for (var i = 0; i < 5; i++) {
+      if (hand[i].charAt(hand[i].length-1) !== suit) {
+        return "a" + false;
+      }
+    }
+    var sorted = replace(hand).sort();
+    var smallest = sorted[0];
+    for (var i = 1; i < sorted.length; i++) {
+      if (sorted.indexOf("" + parseInt(smallest.charAt + i) + suit) === -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  //flush
+  var flush = function(hand) {
+    var suit = hand[0].charAt(hand[0].length-1);
+    for (var i = 0; i < 4; i++) {
+      if (hand[i].charAt(hand[i].length-1) !== suit) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+
 }

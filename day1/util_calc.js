@@ -55,4 +55,67 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  //Expression has to be greater than 0
+  if (!expression.length > 0) {
+    throw "Error";
+  }
+
+  //Expression cannot start w/ op or end w/ it
+  var splitted = expression.split(" ");
+  if (isNaN(Number(splitted[0])) && splitted[0] !== 'sqrt' || isNaN(Number(splitted[splitted.length-1]))) {
+    throw "Error";
+  }
+  //Expression must be number op number etc.
+  for(var i=1; i < splitted.length; i+=2){
+    if (!isNaN(splitted[i])) {
+      throw "Error";
+    }
+  }
+
+  if (splitted.length === 1) {
+    return Number(splitted[0]);
+  }
+
+  var updated = splitted;
+
+
+
+  //multiplication and division
+  var val = 1.0;
+  while (updated.indexOf("*") !== -1 || updated.indexOf("/") !== -1) {
+    debugger;
+    if (updated.indexOf("*") < updated.indexOf("/") && updated.indexOf("*") !== -1 || updated.indexOf("/") == -1) {
+      val = Number(updated[updated.indexOf("*")-1]) * Number(updated[updated.indexOf("*")+1]);
+      var i = updated.indexOf("*");
+      updated.splice(updated.indexOf("*"), 2);
+    } else {
+      val = Number(updated[updated.indexOf("/")-1]) / Number(updated[updated.indexOf("/")+1]);
+      var i = updated.indexOf("/");
+      updated.splice(updated.indexOf("/"), 2);
+    }
+    updated[i-1] = val;
+  }
+
+
+  //addition and subtraction
+
+  while (updated.indexOf("+") !== -1 || updated.indexOf("-") !== -1) {
+    if (updated.indexOf("+") < updated.indexOf("-") && updated.indexOf("+") !== -1 || updated.indexOf("-") == -1) {
+      val = Number(updated[updated.indexOf("+")+1]) + Number(updated[updated.indexOf("+")-1]);
+      var i = updated.indexOf("+");
+      updated.splice(updated.indexOf("+"), 2);
+    } else {
+      val = Number(updated[updated.indexOf("-")-1]) - Number(updated[updated.indexOf("-")+1]);
+      var i = updated.indexOf("-");
+      updated.splice(updated.indexOf("-"), 2);
+    }
+    updated[i-1] = val;
+  }
+
+
+
+
+
+  return updated[0];
+
 };

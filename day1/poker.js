@@ -91,6 +91,41 @@ window.findPair = function(h){
   return pairFound;
 }
 
+window.findTriple = function(h){
+  //given a number version of hand sort4ed in DESC order
+  var i = 0;
+  var tripleFound = null;
+  while(i < h.length-2){
+    //if there is a pair
+    if(h[i]===h[i+1] && h[i+1]===h[i+2]){
+      //matches.push(h[i]);
+      tripleFound = h[i];
+    }
+    i+=1;
+  }
+  return tripleFound;
+}
+
+window.triple = function(hand1,hand2){
+  var h1 = window.sortCards(window.handNoSuitByValue(hand1));
+  var h2 = window.sortCards(window.handNoSuitByValue(hand2));
+  var h1t = window.findTriple(h1);
+  var h2t = window.findTriple(h2);
+  if(h1t===h2t){
+    return window.highCard(hand1,hand2);
+  } else if(h1t!==null && h2t!==null){
+    if(h1t > h2t){
+      return 1;
+    } else{
+      return 2;
+    }
+  } else if(h1t===null){
+    return 2;
+  } else if(h2t===null){
+    return 1;
+  }
+}
+
 window.pair = function(hand1,hand2){
   //takes in hands that either have 1 pair or no pairs
   //returns array where the first element is an array containing the
@@ -139,5 +174,7 @@ window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
   var highCardWinner = window.highCard(hand1,hand2);
   var pairWinner = window.pair(hand1,hand2);
-  return pairWinner;
+  //return pairWinner;
+  var tripleWinner = window.triple(hand1,hand2);
+  return tripleWinner;
 }

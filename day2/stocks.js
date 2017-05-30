@@ -42,7 +42,13 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+	var grouped = _.groupBy(data, function(trans){ return trans.ticker;});
+	function cmp(trans1, trans2){
+		return new Date(trans1["time"]) - new Date(trans2["time"]);
+	}
+	var sorted = _.mapObject(grouped, function(val, key){return val.sort(cmp); });
+	var net = _.mapObject(sorted, function(val, key){return val[val.length-1].price - val[0].price});
+	return net;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,12 +65,16 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+	var gains = stocks.gainAndLoss(data);
+	var key_list = _.keys(gains);
+	var gain_list = _.map(key_list, function(k){return gains[k]});
+	var max = _.max(gain_list, function(x){return x;});
+	return key_list[gain_list.indexOf(max)];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
 //
-// Write a function that finds the stock that went up in price the most
+// Write a function that finds the stock that went down in price the most
 // in absolute terms (i.e. not percentage-wise) over the lifetime of
 // the given data.
 //
@@ -76,7 +86,11 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+ 	var gains = stocks.gainAndLoss(data);
+	var key_list = _.keys(gains);
+	var gain_list = _.map(key_list, function(k){return gains[k]});
+	var min = _.min(gain_list, function(x){return x;});
+	return key_list[gain_list.indexOf(min)];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +102,19 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+	var grouped = _.groupBy(data, function(trans){ return trans.ticker;});
+	function cmp_price(trans1, trans2){
+		return new Date(trans1["price"]) - new Date(trans2["price"]);
+	}
+	var sorted = _.mapObject(grouped, function(val, key){return val.sort(cmp_price); });
+	var net = _.mapObject(sorted, function(val, key){return val[val.length-1].price - val[0].price});
+	// find the maximum 
+	var key_list = _.keys(net);
+	var range_list = _.map(key_list, function(k){return net[k];});
+	var max = _.max(range_list, _.identity);
+	var ans = key_list[range_list.indexOf(max)];
+	return ans;
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +132,25 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+	var grouped = _.groupBy(data, function(trans){ return trans.ticker;});
+	
+	for(var key in grouped){
+		console.log(key);
+		if(!(grouped.hasOwnProperty(key) && portfolio.hasOwnProperty(key)) ){
+			delete grouped[key];
+		}
+	}
+
+	//console.log(grouped);
+	function cmp(trans1, trans2){
+		return new Date(trans1["time"]) - new Date(trans2["time"]);
+	}
+	var sorted = _.mapObject(grouped, function(val, key){return val.sort(cmp); });
+	var filtered = _.mapObject(sorted, function(val, key){ return val.filter(function(t){ return (new Date(t.time) <= date)})});
+	var temp = _.mapObject(filtered, function(val, key){ return val[val.length-1].price * portfolio[key] });
+	var val = _.values(temp);
+	console.log(val);
+	return _.reduce(val, function(a,b){return a+b;}, 0);
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +171,51 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var grouped = _.groupBy(data, function(trans){ return trans.ticker;})
+  var transList = grouped[ticker]
+  function cmp(trans1, trans2){
+		return new Date(trans1["time"]) - new Date(trans2["time"]);
+	}
+
+  var sortedList = transList.sort(cmp);
+  // begin search
+  var min_trans = sortedList[0];
+  var max_trans = sortedList[0];
+  var result = 0;
+
+  for(var i = 1 ; i < sortedList.length ; i++){
+  	if(sortedList[i].price - min_trans.price > result){
+  		result = sortedList[i].price - min_trans.price;
+  		max_trans = sortedList[i];
+  	}
+  	if(sortedList[i].price < min_trans.price){
+  		min_trans = sortedList[i];
+  	}
+  }
+  return [new Date(min_trans["time"]), new Date(max_trans["time"]), result];
+};
+
+stocks.bestTrade2 = function(transList, ticker) {
+  function cmp(trans1, trans2){
+		return new Date(trans1["time"]) - new Date(trans2["time"]);
+	}
+
+  var sortedList = transList.sort(cmp);
+  // begin search
+  var min_trans = sortedList[0];
+  var max_trans = sortedList[0];
+  var result = 0;
+
+  for(var i = 1 ; i < sortedList.length ; i++){
+  	if(sortedList[i].price - min_trans.price > result){
+  		result = sortedList[i].price - min_trans.price;
+  		max_trans = sortedList[i];
+  	}
+  	if(sortedList[i].price < min_trans.price){
+  		min_trans = sortedList[i];
+  	}
+  }
+  return [new Date(min_trans["time"]), new Date(max_trans["time"]), result];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +239,14 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+	var grouped = _.groupBy(data, function(trans){return trans.ticker;});
+	// apply bestTrade to all keys
+	var temp = _.mapObject(grouped, function(val, key){return stocks.bestTrade2(val, key);});
+	var pairs = _.pairs(temp);
+	function cmpPairs(a, b){
+		return a[1][2] - b[1][2];
+	}
+	pairs.sort(cmpPairs)
+	var x = pairs.pop();
+	return [x[0], x[1][0], x[1][1], x[1][2]];
 };

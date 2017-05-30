@@ -22,6 +22,5 @@ function firstWord(string) {
     }
   }
 
-  return string;
+  return string; 
 }
- 

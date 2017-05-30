@@ -20,7 +20,7 @@
  * ------------------------------
  * Normally we can call the object methods (up, down, left, right)
  * one by one.
- *
+ * 
  * Rocketship.up();
  * Rocketship.up();
  * Rocketship.left();
@@ -59,7 +59,7 @@ var Rocketship = {
     this.coords.y--;
     return this;
   },
-  left: function() { 
+  left: function() {
     this.coords.x--;
     return this;
   },

@@ -17,7 +17,7 @@ window.varArgs = {};
 varArgs.numArgs = function() {
   return arguments.length;
 };
-
+ 
 // Exercise 0.B varArgs.numArgs(args...)
 // Write a function that creates a user object. It takes a name and age and
 // returns it as an object with keys 'name' and keys 'age' to the respective arguments.
@@ -68,7 +68,7 @@ varArgs.product = function() {
   for (var i = 0; i < arguments.length; i++){
     prod *= arguments[i];
   }
-  return prod; 
+  return prod;
 };
 
 // Exercise 3. varArgs.joinWith(args...)

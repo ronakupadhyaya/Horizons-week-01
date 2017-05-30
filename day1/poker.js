@@ -21,7 +21,7 @@
 //   - Three of a Kind: Three cards of the same value.
 //   - Straight: All cards are consecutive values. DONE
 //   - Flush: All cards of the same suit. DONE
-//   - Full House: Three of a kind and a pair.
+//   - Full House: Three of a kind and a pair. 
 //   - Four of a Kind: Four cards of the same value.
 //   - Straight Flush: All cards are consecutive values of same suit. DONE
 //   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit. DONE

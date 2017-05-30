@@ -49,31 +49,36 @@ window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
   var handValue1 = [];
   var handValue2 = [];
+  var handSuit1 = [];
+  var handSuit2 = [];
   var patternArr = ["High Card","One pair", "Two Pairs", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush"];
   var allValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
   for (var i=0; i<hand1.length;i++) {
     handValue1[i] = hand1[i][0];
+    handSuit1[i] = hand1[i][hand1[i].length-1];
   }
   for (var j=0; j<hand2.length;j++) {
     handValue2[j] = hand2[j][0];
+    handSuit2[j] = hand2[j][hand2[j].length-1];
   }
   var person1 = {};
   var person2 = {};
   var repeat1 = window.countRep(handValue1);
   var repeat2 = window.countRep(handValue2);
-  console.log(repeat1,repeat2);
   var patternObj1 = window.returnPatternValue(repeat1);
   var patternObj2 = window.returnPatternValue(repeat2);
-  console.log(patternObj1,patternObj2);
-  var pattern1 = window.determinePattern(patternObj1);
-  var pattern2 = window.determinePattern(patternObj2);
-  //console.log(pattern1,pattern2);
+  var pattern1 = window.determinePattern(patternObj1,handSuit1);
+  var pattern2 = window.determinePattern(patternObj2,handSuit2);
   person1.pattern = patternArr[pattern1];
   person2.pattern = patternArr[pattern2];
-  //console.log(person1,person2);
   person1.maxValue = window.findHighestValue(repeat1,allValues);
   person2.maxValue = window.findHighestValue(repeat2,allValues);
-  console.log(person1,person2);
+  while (person1.maxValue === person2.maxValue) {
+    delete repeat1[person1.maxValue];
+    delete repeat2[person2.maxValue];
+    person1.maxValue = window.findHighestValue(repeat1,allValues);
+    person2.maxValue = window.findHighestValue(repeat2,allValues);
+  }
   if (pattern1 < pattern2) {
     return 2;
   } else if (pattern1 > pattern2) {
@@ -87,15 +92,28 @@ window.rankPokerHand = function(hand1, hand2) {
   }
 }
 
-window.determinePattern = function(obj) {
+window.determineFlush = function(arr) {
+  for (var i=0; i<arr.length-1;i++) {
+    if (arr[i+1] !== arr[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+window.determinePattern = function(obj,arr) {
   var length = 0;
   for (var key in obj) {
     length++;
   }
   if (length === 0) {
-    return 0;
+    var isFlush = window.determineFlush(arr);
+    if (isFlush) {
+      return 5;
+    } else {
+      return 0;
+    }
   } else if (length === 1) {
-    //console.log(length);
     if (Object.keys(obj).indexOf("2") !== -1) {
       if (obj[2] === 2) {
         return 2;
@@ -114,28 +132,20 @@ window.determinePattern = function(obj) {
 
 window.findHighestValue = function(obj,arr) {
   var patternMax = Object.keys(obj);
-  console.log(patternMax);
   var highestKey = patternMax[0];
-
   var highestValue = obj[highestKey];
-  console.log(highestValue);
+
   for (var j = 0; j<patternMax.length;j++) {
     var currentKey = patternMax[j];
-    console.log(obj[currentKey]);
     if (highestValue < obj[currentKey]) {
-      console.log(obj[currentKey]);
       highestValue = obj[currentKey];
       highestKey = patternMax[j];
-      console.log(highestValue,obj[currentKey]);
     } else if (highestValue === obj[currentKey]) {
       if (arr.indexOf(highestKey.toString()) < arr.indexOf(patternMax[j].toString()) ) {
         highestKey = patternMax[j];
       }
-    } else {
-      continue;
     }
   }
-  console.log(highestKey);
   return highestKey;
 }
 

@@ -53,14 +53,23 @@ var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
     // YOUR CODE HERE
+    this.coords.y ++;
+    return this;  //use this for method chaining such that you return the object so that the next function call can access something
+    //this gives access to the current object Rocketship
   },
   down: function() {
     // YOUR CODE HERE
+    this.coords.y --;
+    return this;
   },
   left: function() {
     // YOUR CODE HERE
+    this.coords.x--;
+    return this;
   },
   right: function() {
     // YOUR CODE HERE
+    this.coords.x++;
+    return this;
   },
 };

@@ -55,4 +55,67 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var arr = expression.split(" ");
+  if (expression.length === 0) {
+    throw Error;
+  }
+  if (expression === '-' || expression === '+' || expression === '*' || expression === '/') {
+    throw Error;
+  }
+  if (expression.length === 1 || arr.length === 1) {
+    return parseInt(expression);
+  }
+  if (arr.length % 2 === 0 && arr.indexOf('sqrt')) {
+    throw Error;
+  }
+  for (var i = 0; i < arr.length; i+=2) {
+    if (arr[i] === '+' || arr[i] === '-') {
+      if (i % 2 === 0) {
+        throw Error;
+      }
+    }
+  }
+  var curr = parseInt(arr[0]);
+  var newarr = [];
+  for (var k = 1; k < arr.length; k+=2) {
+    if (arr[k] === '+') {
+      newarr.push(curr);
+      newarr.push(arr[k]);
+      curr = parseInt(arr[k+1]);
+    }
+    if (arr[k] === '-') {
+      newarr.push(curr);
+      newarr.push(arr[k]);
+      curr = parseInt(arr[k+1]);
+    }
+    if (arr[k] === '*') {
+      curr = curr * parseInt(arr[k+1]);
+    }
+    if (arr[k] === '/') {
+      curr = curr / parseInt(arr[k+1]);
+    }
+  }
+  newarr.push(parseInt(arr[arr.length-1]));
+
+  // var squarecurr = 1;
+  // for (var l = 0; l < arr.length; l+= 2) {
+  //   if (arr[l] === 'sqrt') {
+  //     squarecurr = Math.sqrt(parseInt(arr[l+1]));
+  //     //newarr.push(squarecurr);
+  //   }
+  // }
+  // newarr.push(squarecurr);
+
+
+  var ans = newarr[0];
+  for (var j = 1; j < newarr.length; j+=2) {
+    if (newarr[j] === '+') {
+      ans = ans + newarr[j+1];
+    }
+    if (newarr[j] === '-') {
+      ans = ans - newarr[j+1];
+    }
+  }
+  return ans;
+
 };

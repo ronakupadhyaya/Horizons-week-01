@@ -5,7 +5,7 @@
 // the second hand is the winner this function should return 2.
 //
 // Each hand is represented by an array of 5 strings, each string representing
-// a card.  The the last letter of each card represents the suite, the
+// a card.  The last letter of each card represents the suite, the
 // remaining letters represent the number.  For example, 5H is the 5 of hearts,
 // KS is the king of spades, 10D is the 10 of diamonds.
 //
@@ -47,4 +47,5 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  
 }

@@ -55,4 +55,96 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  // Check for invalid input
+  var expArr = expression.split(" ");
+
+  if (expression === '') {
+  	throw exception;
+  }
+  var ops = ['+', '-', '*', '/'];
+  var odd = true;
+  var currNum;
+  for (let i = 0; i < expArr.length; i++) {
+  	if (expArr[i] === 'sqrt') {
+ //		odd = !odd;
+ 		continue;
+  	}
+
+  	if (odd) {
+  		currNum = +expArr[i];
+  		if (isNaN(currNum)) {
+  			throw exception;
+  		}
+  	} else {
+  		if (!ops.includes(expArr[i])) {
+  			throw exception;
+  		}
+  	}
+  	odd = !odd;
+  }
+  if (ops.includes(expArr[expArr.length - 1])) {
+  	throw exception;
+  }
+
+  // multiply and divide
+  var arg1, arg2, result = 0;
+  var newArr = [];
+
+  var firstOp;
+  if (expArr[0] === 'sqrt') {
+  	expArr[1] = Math.sqrt(expArr[1]);
+  	firstOp = 2;
+  	newArr.push(expArr[1]);
+  } else {
+  	firstOp = 1;
+    newArr.push(expArr[0]);
+  }
+
+  for (let i = firstOp; i < expArr.length; i += 2) {
+
+  	if (expArr[i] === 'sqrt') {
+  		expArr[i + 1] === Math.sqrt(expArr[i + 1]);
+  		i += 2;
+  	}
+
+  	if (expArr[i] === '*') {
+  		if (expArr[i + 1] === 'sqrt') {
+  			newArr[newArr.length - 1] *= Math.sqrt(expArr[i + 2]);
+  			i++;
+  			// see footnote
+  		} else {
+  			newArr[newArr.length - 1] *= expArr[i + 1];
+  		}
+  	} else if (expArr[i] === '/') {
+  		if (expArr[i + 1] === 'sqrt') {
+  			newArr[newArr.length - 1] /= Math.sqrt(expArr[i + 2]);
+  			i++;
+  			// see footnote
+  		} else {
+  			newArr[newArr.length - 1] /= expArr[i + 1];
+  		}
+  	} else {
+  		newArr.push(expArr[i]);
+  		newArr.push(expArr[i + 1]);
+  	}
+  }
+
+  // addition and subtraction
+  arg1 = 0;
+  arg2 = 0;
+  result = 0;
+  arg1 = +newArr[0];
+  for (let i = 1; i < newArr.length; i += 2) {
+
+  	arg2 = newArr[i + 1];
+  	if (newArr[i] === '+') {
+  		arg1 += +arg2;
+  	} else if(newArr[i] === '-') {
+  		arg1 -= +arg2;
+  	}
+  }
+  console.log(arg1);
+  return arg1;
+  // footnote:
+  // can't handle chained square roots --> i.e.) sqrt sqrt 16 would not produce 2
 };

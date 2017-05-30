@@ -47,4 +47,63 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+
+  var shand1 = hand1, shand2 = hand2;
+
+  //replace 10, J, Q, etc with a b c etc...
+  for(var i = 0; i < shand1.length; i++){
+    var one1 = shand1[i].substring(0,shand1[i].length - 1);
+    var two1 = shand1[i].substring(shand1[i].length - 1);
+    if( one1 === '10'  ){
+      shand1[i] = 'A' + two1;
+    }else if(one1 === 'J'){
+      shand1[i] = 'B' + two1;
+    }else if(one1 === 'Q'){
+      shand1[i] = 'C' + two1;
+    }else if(one1 === 'K'){
+      shand1[i] = 'D' + two1;
+    }else if(one1 === 'A'){
+      shand1[i] = 'E' + two1;
+    }
+
+    var one2 = shand2[i].substring(0,shand2[i].length - 1);
+    var two2 = shand2[i].substring(shand2[i].length - 1);
+    if( one2 === '10'  ){
+      shand2[i] = 'A' + two2;
+    }else if(one2 === 'J'){
+      shand2[i] = 'B' + two2;
+    }else if(one2 === 'Q'){
+      shand2[i] = 'C' + two2;
+    }else if(one2 === 'K'){
+      shand2[i] = 'D' + two2;
+    }else if(one2 === 'A'){
+      shand2[i] = 'E' + two2;
+    }
+
+
+
+  }
+
+  //sort hands by rank than Clubs, Diamonds, Hearts, spades
+  shand1.sort();
+  shand2.sort();
+
+  console.log(shand1);
+  console.log(shand2);
+
+
+  var score1;
+  var score2;
+
+  //check for straight flush
+  if( (shand1[0].charAt(1) === shand1[1].charAt(1) &&  shand1[1].charAt(1) === shand1[2].charAt(1)
+  && shand1[1].charAt(1) === shand1[3].charAt(1) && shand1[1].charAt(1) === shand1[4].charAt(1))  &&
+
+  (shand1[0].charAt(0) === (shand1[1].charAt(0) -1)    && shand1[1].charAt(0) === (shand1[2].charAt(0)  -1)
+  &&  shand1[2].charAt(0) === (shand1[3].charAt(0)  -1) && shand1[3].charAt(0) === (shand1[4].charAt(0)  -1) )
+  ){
+
+  }
+
+
 }

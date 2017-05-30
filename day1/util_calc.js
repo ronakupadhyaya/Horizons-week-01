@@ -127,6 +127,10 @@ function multDiv(expression) {
   var tokens = expression.split(' ');
 
   var i = 1;
+  // continue until i is out of bounds
+  // note that sometimes i will grow,
+  //   and sometimes array length will shrink
+  // this is why I used a while and not a for
   while(i < tokens.length) {
     if ( tokens[i] === '+' || tokens[i] === '-') {
       i += 2;
@@ -134,20 +138,27 @@ function multDiv(expression) {
       var prod = tokens[i-1] * tokens[i+1]
 
       // i = 1
-      // 3 * 2 + 1
-      // 6 + 1 * 9
-      // 6 + 9
+      // 3 !*! 2 + 1
+      // 6 !+! 1 * 9
+      // ^ after a merge, i shouldn't move!
+
       tokens = tokens.slice(0, i-1).concat([prod], tokens.slice(i+2, tokens.length));
+      // ^ this line slaps together:
+      //    the stuff before the merge
+      //    the result of the merge
+      //    the stuff after the merge
 
     } else if (tokens[i] === '/') {
+      // same as with * but for /
+
       var quot = tokens[i-1] / tokens[i+1];
 
       tokens = tokens.slice(0, i-1).concat([quot], tokens.slice(i+2, tokens.length));
     }
   }
-  // turn tokens into a string
 
-  return tokens.join(' ');
+  // turn tokens into a string
+  return tokens.join(' '); // just like the joinWith you wrote
 }
 
 
@@ -169,7 +180,10 @@ function multDiv(expression) {
 
 
 util.calc = function(expression) {
+  // first check if valid. either errors throw or code continues
   checkValid(expression);
 
+  // FIRST multDiv to get an expression of just + _
+  // feed that result into plusMinus
   return plusMinus(multDiv(expression));
 };

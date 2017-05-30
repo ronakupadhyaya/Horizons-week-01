@@ -27,6 +27,14 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if( arr.length < 1){
+    return 0
+  }
+  var x = _.reduce(arr,function(a,b){
+    return a+b})
+
+  return x/arr.length
+  
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +47,8 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2])
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +56,13 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var result = data[0]
+  data.forEach(function(student){
+    if(grades.getGPA(student) > grades.getGPA(result)){
+      result = student;
+    }
+  });
+  return result
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,6 +71,27 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var result = [];
+  var temp = _.groupBy(data, function(student){
+    return student.major
+  })
+
+  _.forEach(temp, function(value, key){
+    var sum = 0
+    value.forEach(function(x){
+      sum += grades.getGPA(x)
+    })
+    sum = sum / value.length;
+    result.push([key, sum])
+    
+  })
+  var high_major = result[0];
+  result.forEach(function(x){
+    if(x[1] > high_major[1]){
+      high_major = x;
+    }
+  })
+  return high_major[0]
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -62,4 +100,20 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var class1GPA = 0;
+  var class2GPA = 0;
+
+  data.forEach(function(student){
+    class1GPA += student.grades.class1
+    class2GPA += student.grades.class2
+  })
+
+    class1GPA = class1GPA / data.length
+    class2GPA = class2GPA / data.length
+
+    var result = {};
+    result['class1'] = class1GPA
+    result['class2'] = class2GPA
+    return result
+
 };

@@ -98,17 +98,22 @@ var consecutive_num = function(hand) {
 }
 
 var triple_or_false = function(hand) {
+	// chcecks for four of a kind: location 0:3 and 1:4
   if ( Number(hand[0].substr(0, hand[0].length-1)) === Number(hand[3].substr(0, hand[3].length-1))) {
     return [5, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[4].substr(0, hand[4].length-1))];
   } else if (Number(hand[1].substr(0, hand[1].length-1)) === Number(hand[4].substr(0, hand[4].length-1))) {
     return [5, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[0].substr(0, hand[0].length-1))];
   }
+  	//checks for triples
   for (var i = 0; i < 3; i++) {
     if (Number(hand[i].substr(0, hand[i].length-1)) === Number(hand[i+2].substr(0, hand[i].length-1))) {
+      // checks for pairs at 3:4 as well for full house
       if (i === 0 && Number(hand[3].substr(0, hand[3].length-1)) === Number(hand[4].substr(0, hand[4].length-1))) {
         return [4, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[3].substr(0, hand[3].length-1))];
+      // checks for pairs at 0:1 as well for full house
       } else if (i === 2 && Number(hand[0].substr(0, hand[0].length-1)) === Number(hand[1].substr(0, hand[1].length-1))) {
         return [4, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[0].substr(0, hand[0].length-1))];
+      // only triples was found with no pairs
       } else {
         return [3, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[4].substr(0, hand[4].length-1))];
       }
@@ -124,17 +129,23 @@ var pair_repeat = function(hand){
     var ind = 0;
     var sind = 0;
     for(var i = 0 ;i < hand.length-1 ; i++){
+    	// checks for number of pairs
         if(Number(hand[i].substr(0,hand[i].length-1)) === Number(hand[i+1].substr(0,hand[i+1].length-1))){
             if (count == 0) {
+            	// ind finds indicy of first pair
                 ind = i;
             } else if (count == 1) {
+            	// sind finds indicy of second pair
                 sind = i;
             }
             count +=1
         }
     }
+
+    // if 2 pairs are found
     if(count === 2){
         return [2, Number(hand[3].substr(0,hand[3].length-1)), Number(hand[sind].substr(0,hand[sind].length-1))]
+    // specifies which index of pair location to find highest pair
     } else if (count === 1 && ind === 3) {
         return [1, Number(hand[ind].substr(0,hand[ind].length-1)), Number(hand[2].substr(0,hand[2].length-1))]
     } else if (count === 1 && ind !== 3) {
@@ -158,8 +169,11 @@ window.rankPokerHand = function(hand1, hand2) {
 
   for (var i=0; i < both_hand.length; i++) {
     //check for royal flush
+    // flush
     if (same_suits(both_hand[i]) === true) {
+    	// straight flush
       if(consecutive_num(both_hand[i]) === true) {
+      	// royal flush
         if (Number(both_hand[i][0].substr(0, both_hand[i][0].length-1) === 10)) {
           rank[i] = 10;
         } else {
@@ -168,11 +182,13 @@ window.rankPokerHand = function(hand1, hand2) {
       } else {
         rank[i] = 6;
       }
+      // straight
     } else if (consecutive_num(both_hand[i]) === true) {
       rank[i] = 5;
     }
     high_card[i] = triple_or_false(both_hand[i])[1];
     second_high_card[i] = triple_or_false(both_hand[i])[2];
+    
     if (triple_or_false(both_hand[i])[0] === 5) {
       rank[i] = 8;
     } else if (triple_or_false(both_hand[i])[0] === 4) {

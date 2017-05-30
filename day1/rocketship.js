@@ -53,14 +53,27 @@ var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
     // YOUR CODE HERE
+    this.coords.y+=1;
+    return this;
   },
   down: function() {
     // YOUR CODE HERE
+    this.coords.y-=1;
+    return this;
   },
   left: function() {
     // YOUR CODE HERE
+    this.coords.x-=1;
+    return this;
+
   },
   right: function() {
     // YOUR CODE HERE
+    this.coords.x+=1;
+    return this;
   },
+
+  // 
+  // need return this for chaining bc wasn't returning a new object bc rocketship.up wasn't its own object
+  // since return this makes it an object can call more functions on it
 };

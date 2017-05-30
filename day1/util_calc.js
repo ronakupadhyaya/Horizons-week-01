@@ -1,3 +1,5 @@
+"use strict";
+  //what does that do?
 window.util = {};
 
 // Calculator Exercise
@@ -20,6 +22,9 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+
+
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -55,4 +60,108 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+// ex. util.calc('3 + 8 + 2 + 1    ') -> 14
+
+if (expression===""){
+  throw "Error, empty expression";
+}
+
+var splat = [];
+splat = expression.split(" ");
+
+for(var i=0; i<splat.length; i++) {
+  if (splat[i] === "sqrt") {
+    splat[i+1] = "" + Math.sqrt(splat[i+1]);
+    splat.splice(i,1);
+    i--;
+  }
+}
+console.log(splat);
+
+var total = 0;
+var operations = ['+','-','*','/'];
+
+var numNums=0;
+var numOps=0;
+for (var i = 0; i<splat.length; i++) {
+  if (!(isNaN(splat[i]))) {
+    numNums++;
+    splat[i] = parseFloat(splat[i]);
+    if (!(isNaN(splat[i+1]))) {
+      throw "Error, too many numbers";
+    }
+  }
+  else if (operations.includes(splat[i])) {
+    numOps++;
+    if (operations.includes(splat[i+1])) {
+      throw "Error, too many operators";
+    }
+  }
+}
+if (numNums===0){
+  throw "Error, no numbers";
+}
+if (numOps>=numNums){
+  throw "Error, too many operators";
+}
+
+
+for (var i = 0; i < splat.length; i++) {
+  if (splat[i] === '*' || splat[i] === '/') {
+    if (splat[i] === '*') {
+      splat[i-1] = splat[i-1] * splat[i+1];
+      splat.splice(i,2);
+      i -= 2;
+    }
+    else if (splat[i] === '/') {
+      splat[i-1] = splat[i-1] / splat[i+1];
+      splat.splice(i,2);
+      i -= 2;
+    }
+  }
+  console.log(splat);
+}
+
+for (var i = 0; i < splat.length; i++) {
+  if (splat[i] === '+') {
+    splat[i-1] = splat[i-1] + splat[i+1];
+    splat.splice(i,2);
+    i -= 2;
+  }
+  else if (splat[i] === '-') {
+    splat[i-1] = splat[i-1] - splat[i+1];
+    splat.splice(i,2);
+    i -= 2;
+  }
+  console.log(splat);
+}
+
+if (splat.length === 1) {
+  return splat[0];
+}
+
+// var splat=[];
+//   //stores numbers
+
+//   for(var i=0; i<expression.length; i++){
+
+
+
+    // if(typeof parseInt(expression[i]) === "number" && typeof parseInt(expression[i]) !== NaN){
+    //   splat.push(expression[i]);
+      
+      // var numPush=[];
+      // var count=i;
+
+          // while(typeof parseInt(expression[count])==="number"&&count<expression.length && 
+          //     typeof parseInt(expression[i])!==NaN){
+          //   numPush.push(expression[count]);
+          //   count++;
+          //   debugger;
+
+          // }
+          // splat.push(parseInt(numPush.join()));
+   // }
+  // })
 };

@@ -15,16 +15,16 @@
 // In the card game poker, a hand consists of five cards and are ranked, from
 // lowest to highest, in the following way:
 //
-//   - High Card: Highest value card.
-//   - One Pair: Two cards of the same value.
-//   - Two Pairs: Two different pairs.
-//   - Three of a Kind: Three cards of the same value.
-//   - Straight: All cards are consecutive values.
-//   - Flush: All cards of the same suit.
-//   - Full House: Three of a kind and a pair.
-//   - Four of a Kind: Four cards of the same value.
-//   - Straight Flush: All cards are consecutive values of same suit.
-//   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+//   1- High Card: Highest value card.
+//   2- One Pair: Two cards of the same value.
+//   3- Two Pairs: Two different pairs.
+//   4- Three of a Kind: Three cards of the same value.
+//   5- Straight: All cards are consecutive values.
+//   6- Flush: All cards of the same suit.
+//   7- Full House: Three of a kind and a pair.
+//   8- Four of a Kind: Four cards of the same value.
+//   9- Straight Flush: All cards are consecutive values of same suit.
+//   10- Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
 //
 // The cards are valued in the order:
 // 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.
@@ -47,4 +47,52 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+
+var p1rank=0
+var p2rank=0
+
+
+function isFlush(hand) {
+  if (hand[0][hand[0].length-1] === hand[1][hand[1].length-1] &&
+      hand[1][hand[1].length-1] === hand[2][hand[2].length-1] &&
+      hand[2][hand[2].length-1] === hand[3][hand[3].length-1] &&
+      hand[3][hand[3].length-1] === hand[4][hand[4].length-1] &&
+      hand[4][hand[4].length-1] === hand[5][hand[5].length-1]) {
+        return true;
+      }
+  else {
+    return false;
+  }
 }
+
+if (isFlush(hand1)) {
+  p1rank = 6;
+}
+
+debugger;
+
+
+
+
+// function diamond(element, index, array){
+//   return element[element.length-1]==='D';
+// }
+// function club(element, index, array){
+//   return element[element.length-1]==='C';
+// }
+// function heart(element, index, array){
+//   return element[element.length-1]==='H';
+// }
+// function spade(element, index, array){
+//   return element[element.length-1]==='S';
+// }
+
+// if (hand1.every(diamond) || hand1.every(club) || hand1.every(heart) || hand1.every(spade)){
+//   p1rank=9;
+// }
+
+console.log(p1rank);
+
+}
+
+

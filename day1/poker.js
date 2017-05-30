@@ -45,6 +45,159 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+//replace Jack, Queen, King, Ace
+var replaceCards = function(hand) {
+  for (var i=0; i < hand.length; i++) {
+    if (hand[i][0] === "K") {
+      hand[i] = hand[i].replace("K", "13");
+    } else if (hand[i][0] === "A") {
+      hand[i] = hand[i].replace("A", "14");
+    } else if (hand[i][0] === "Q") {
+      hand[i] = hand[i].replace("Q", "12");
+    } else if (hand[i][0] === "J") {
+      hand[i] = hand[i].replace("J", "11");
+    }
+  }
+  return hand;
+}
+
+var sort_card = function(hand) {
+  var res = [];
+  while (hand.length > 0) {
+    var min_ind = 0;
+    for (var i=0; i < hand.length; i++) {
+        if (Number(hand[i].substr(0, hand[i].length-1) < Number(hand[min_ind].substr(0, hand[min_ind].length-1)))) {
+          min_ind = i;
+        }
+    }
+    res.push(hand[min_ind]);
+    hand.splice(min_ind, 1);
+  }
+  return res;
+}
+
+var same_suits = function(hand) {
+  var tmp = hand[0][hand[0].length-1];
+  for (var i=0;i < hand.length; i++) {
+    if (tmp !== hand[i][hand[i].length-1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+var consecutive_num = function(hand) {
+  var first = Number(hand[0].substr(0, hand[0].length-1));
+  for (var i=1; i < hand.length; i++) {
+    if (Number(hand[i].substr(0, hand[i].length-1)) !== (first + i)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+var triple_or_false = function(hand) {
+  if ( Number(hand[0].substr(0, hand[0].length-1)) === Number(hand[3].substr(0, hand[3].length-1))) {
+    return [5, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[4].substr(0, hand[4].length-1))];
+  } else if (Number(hand[1].substr(0, hand[1].length-1)) === Number(hand[4].substr(0, hand[4].length-1))) {
+    return [5, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[0].substr(0, hand[0].length-1))];
+  }
+  for (var i = 0; i < 3; i++) {
+    if (Number(hand[i].substr(0, hand[i].length-1)) === Number(hand[i+2].substr(0, hand[i].length-1))) {
+      if (i === 0 && Number(hand[3].substr(0, hand[3].length-1)) === Number(hand[4].substr(0, hand[4].length-1))) {
+        return [4, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[3].substr(0, hand[3].length-1))];
+      } else if (i === 2 && Number(hand[0].substr(0, hand[0].length-1)) === Number(hand[1].substr(0, hand[1].length-1))) {
+        return [4, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[0].substr(0, hand[0].length-1))];
+      } else {
+        return [3, Number(hand[2].substr(0, hand[2].length-1)), Number(hand[4].substr(0, hand[4].length-1))];
+      }
+    }
+  }
+  return [0, 0, 0]
+}
+
+
+
+var pair_repeat = function(hand){
+    var count = 0;
+    var ind = 0;
+    var sind = 0;
+    for(var i = 0 ;i < hand.length-1 ; i++){
+        if(Number(hand[i].substr(0,hand[i].length-1)) === Number(hand[i+1].substr(0,hand[i+1].length-1))){
+            if (count == 0) {
+                ind = i;
+            } else if (count == 1) {
+                sind = i;
+            }
+            count +=1
+        }
+    }
+    if(count === 2){
+        return [2, Number(hand[3].substr(0,hand[3].length-1)), Number(hand[sind].substr(0,hand[sind].length-1))]
+    } else if (count === 1 && ind === 3) {
+        return [1, Number(hand[ind].substr(0,hand[ind].length-1)), Number(hand[2].substr(0,hand[2].length-1))]
+    } else if (count === 1 && ind !== 3) {
+        return [1, Number(hand[ind].substr(0,hand[ind].length-1)), Number(hand[4].substr(0,hand[4].length-1))]
+    } else {
+        return [0, Number(hand[4].substr(0,hand[4].length-1)), Number(hand[3].substr(0,hand[3].length-1))];
+    }
+}
+
+
+
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var new_hand1 = sort_card(replaceCards(hand1));
+  var new_hand2 = sort_card(replaceCards(hand2));
+  var both_hand = [new_hand1, new_hand2];
+  var rank = [1, 1];
+  var high_card = [1, 1];
+  var second_high_card = [1,1];
+  var flush_ind = 0;
+
+  for (var i=0; i < both_hand.length; i++) {
+    //check for royal flush
+    if (same_suits(both_hand[i]) === true) {
+      if(consecutive_num(both_hand[i]) === true) {
+        if (Number(both_hand[i][0].substr(0, both_hand[i][0].length-1) === 10)) {
+          rank[i] = 10;
+        } else {
+          rank[i]= 9;
+        }
+      } else {
+        rank[i] = 6;
+      }
+    } else if (consecutive_num(both_hand[i]) === true) {
+      rank[i] = 5;
+    }
+    high_card[i] = triple_or_false(both_hand[i])[1];
+    second_high_card[i] = triple_or_false(both_hand[i])[2];
+    if (triple_or_false(both_hand[i])[0] === 5) {
+      rank[i] = 8;
+    } else if (triple_or_false(both_hand[i])[0] === 4) {
+      rank[i] = 7;
+    } else if (triple_or_false(both_hand[i])[0] === 3) {
+      rank[i] = 4;
+    } else {
+      high_card[i] = pair_repeat(both_hand[i])[1];
+      second_high_card[i] = pair_repeat(both_hand[i])[2];
+      if (pair_repeat(both_hand[i])[0] === 2) {
+        rank[i] = 3;
+      } else if (pair_repeat(both_hand[i])[0] === 1) {
+        rank[i] = 2;
+      }
+    }
+  }
+
+  if (rank[0] > rank[1]) {
+    return 1;
+  } else if (rank[0] === rank[1] && high_card[0] > high_card[1]){
+    return 1;
+  } else if (rank[0] === rank[1] && high_card[0] === high_card[1] && second_high_card[0] > second_high_card[1]) {
+    return 1;
+  } else {
+    return 2;
+  }
+
 }

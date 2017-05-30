@@ -192,11 +192,31 @@ window.isFourOfAKind = function(hand) {
 }
 
 window.isFullHouse = function(hand) {
-	return isTwoPairs(hand) && isThreeOfAKind(hand);
+	var firstHalf = [];
+	var secondHalf = [];
+	firstHalf.push(hand[0][0]);
+	for (var i = 1; i < 5; i++) {
+		if (hand[0][0] === hand[i][0]) {
+			firstHalf.push(hand[i][0]);
+		} else {
+			secondHalf.push(hand[i][0]);
+		}
+	}
+	if (firstHalf.length === 3) {
+		if (secondHalf[0] === secondHalf[1]) {
+			return true;
+		}
+	}
+	if (firstHalf.length === 2) {
+		if (secondHalf[0] === secondHalf[1] && secondHalf[1] === secondHalf[2]) {
+			return true;
+		}
+	}
+	return false;
 }
 
 window.getHand = function(hand) {
-	if (isRoyalFlush(hand)) {
+	if (isRoyalFlush(hand)[0]) {
 		return 10;
 	} else if (isStraightFlush(hand)) {
 		return 9;
@@ -237,6 +257,130 @@ window.sortByValue = function(arr) {
   return arr;
 };
 
+window.tieTwoPairs = function(hand1, hand2) {
+	var numFound1in1 = -1
+	var numFound2in1 = -1
+  	for (var i = 0; i < 4; i++) {
+    	for (var j = i+1; j <5; j++) {
+      		if(hand1[i][0] === hand1[j][0]) {
+        		if (numFound1in1 === -1) {
+        			numFound1in1 = hand1[i][0];
+        		} else {
+        			numFound2in1 = hand1[i][0];
+        		}
+      		}
+    	}
+  	}
+  	var numFound1in2 = -1
+	var numFound2in2 = -1
+  	for (var i = 0; i < 4; i++) {
+    	for (var j = i+1; j <5; j++) {
+      		if(hand2[i][0] === hand2[j][0]) {
+        		if (numFound1in2 === -1) {
+        			numFound1in2 = hand2[i][0];
+        		} else {
+        			numFound2in2 = hand2[i][0];
+        		}
+      		}
+    	}
+  	}
+  	var max1 = Math.max(numFound1in1, numFound2in1);
+	var max2 = Math.max(numFound1in2, numFound2in2);
+	if (max1 > max2) {
+ 		return 1;
+ 	}
+ 	return 2;
+}
+
+window.tieOnePair = function(hand1, hand2) {
+	var numFound1 = -1
+  	for (var i = 0; i < 4; i++) {
+    	for (var j = i+1; j <5; j++) {
+      		if(hand1[i][0] === hand1[j][0]) {
+        		numFound1 = hand1[i][0];
+      		}
+    	}
+  	}
+  	var numFound2 = -1;
+  	for (var i = 0; i < 4; i++) {
+    	for (var j = i+1; j <5; j++) {
+      		if(hand2[i][0] === hand2[j][0]) {
+        		numFound2 = hand2[i][0];
+      		}
+    	}
+  	}
+	if (numFound1 > numFound2) {
+ 		return 1;
+ 	}
+ 	else if (numFound1 < numFound2) {
+ 		return 2;
+ 	}
+ 	var numVals1 = [];
+  	var numVals2 = [];
+  	for(var i = 0; i < 5; i++) {
+		numVals1.push(hand1[i][0]);
+		numVals2.push(hand2[i][0]);
+	}
+	window.sortByValue(numVals1);
+	window.sortByValue(numVals2);
+ 	for (var i = 4; i >= 0; i--) {
+		if (numVals1[i] > numVals2[i]) {
+			return 1;
+		} else if (numVals1[i] < numVals2[i]) {
+			return 2;
+		}
+	}
+}
+
+window.tieFullHouse = function(hand1, hand2) {
+	var firstHalf1 = [];
+	var secondHalf1 = [];
+	var bigger1;
+	var smaller1;
+	var bigger2;
+	var smaller2;
+	firstHalf1.push(hand1[0][0]);
+	for (var i = 1; i < 5; i++) {
+		if (hand1[0][0] === hand1[i][0]) {
+			firstHalf1.push(hand1[i][0]);
+		} else {
+			secondHalf1.push(hand1[i][0]);
+		}
+	}
+	if (firstHalf1.length === 3) {
+		bigger1 = firstHalf1[0];
+		smaller1 = secondHalf1[0];
+	} else {
+		smaller1 = firstHalf1[0];
+		bigger1 = secondHalf1[0];
+	}
+	var firstHalf2 = [];
+	var secondHalf2 = [];
+	firstHalf2.push(hand2[0][0]);
+	for (var i = 1; i < 5; i++) {
+		if (hand2[0][0] === hand2[i][0]) {
+			firstHalf2.push(hand2[i][0]);
+		} else {
+			secondHalf2.push(hand2[i][0]);
+		}
+	}
+	if (firstHalf2.length === 3) {
+		bigger2 = firstHalf2[0];
+		smaller2 = secondHalf2[0];
+	} else {
+		smaller2 = firstHalf2[0];
+		bigger2 = secondHalf2[0];
+	}
+	if (bigger1 > bigger2) {
+		return 1;
+	} else if (bigger1 < bigger2) {
+		return 2;
+	} else if (smaller1 > smaller2) {
+		return 1;
+	}
+	return 2;
+}
+
 window.rankPokerHand = function(hand1, hand2) {
 	//debugger;
   hand1 = window.createHand(hand1);
@@ -248,6 +392,15 @@ window.rankPokerHand = function(hand1, hand2) {
   } else if (hand1Val < hand2Val) {
   	return 2;
   } else {
+  	if (hand1Val === 7) {
+  		return window.tieFullHouse(hand1, hand2);
+  	}
+  	if (hand1Val === 3) {
+  		return window.tieTwoPairs(hand1, hand2);
+  	}
+  	if (hand1Val === 2) {
+  		return window.tieOnePair(hand1, hand2);
+  	}
   	var numVals1 = [];
   	var numVals2 = [];
   	for(var i = 0; i < 5; i++) {

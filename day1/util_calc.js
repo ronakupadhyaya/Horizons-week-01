@@ -54,5 +54,80 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var array = [];
+  //throw error if incorrect input
+  if (expression.length < 1) {
+    //console.log("Error at "+0);
+    throw "Error: not enough digits";
+  }
+  //split expression into array of its indices;
+  array = expression.split(' ');
+
+  //check for sqrt
+  for (var i=0; i<array.length; i++) {
+    if (array[i] ==='sqrt') {
+      array[i+1]= Math.sqrt(array[i+1]);
+      array.splice(i,1);
+    }
+  }
+
+  //check for errors
+  for(var i = 0; i<array.length; i+=2) {
+    array[i] = parseInt(array[i]);
+
+    if (isNaN(array[i])) {
+      throw "Error: not enough numbers";
+    }
+  }
+  for (i = 1; i<array.length; i += 2) {
+    if (!isNaN(parseInt(array[i]))) {
+      throw "Error: not enough operators";
+    }
+
+    if (i === array.length-1 && isNan(parseInt(array[i]))) {
+      throw "Error: too many operators";
+    }
+  }
+
+  //multiply/divide numbers:
+  var stack = [];
+  for(var i=0; i<array.length; i++) {
+    var c = array[i];
+    if (c != "/" && c != "*") {
+      stack.push(c);
+    } else if (c === "/") {
+      var first = stack.pop();
+      var second = array[i+1];
+      stack.push(first/second);
+      i++;
+    } else if (c === "*") {
+      var first = stack.pop();
+      var second = array[i+1];
+      stack.push(first*second);
+      i++;
+    }
+  }
+
+  //add and subtract numbers:
+  var stack2 = [];
+  for(var i=0; i<stack.length; i++) {
+    var c = stack[i];
+    if (typeof c === "number") {
+      stack2.push(c);
+    } else if (c === "+") {
+      var first = stack2.pop();
+      var second = stack[i+1];
+      stack2.push(first+second);
+      i++;
+    } else if (c === "-"){
+      var first = stack2.pop();
+      var second = stack[i+1];
+      stack2.push(first-second);
+      i++;
+    } else {
+      throw "Error: invalid input";
+    }
+  }
+
+  return stack2[0];
 };

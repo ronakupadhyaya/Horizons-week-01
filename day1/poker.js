@@ -45,19 +45,76 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+//used for sorting numbers
+window.sortNumber = function(a,b){
+  return a - b;
+}
+
 window.determineRank = function(hand){
-    // Check player royal flush
+    //obtain the numbers
+  var numArr = [];
+  var suitArr = [];
+  for(var i = 0; i < hand.length; i++){
+    if(hand[i][0] == "K"){
+      numArr.push(13)
+    }else if(hand[i][0] == "Q"){
+      numArr.push(12)
+    }else if(hand[i][0] == "J"){
+      numArr.push(11)
+    }else if(hand[i][0] == "A"){
+      numArr.push(14)
+    }else if(hand[i][0]=="1" && hand[i][1] == "0"){
+      numArr.push(10)
+    }else{
+      numArr.push(Number.parseInt(hand[i][0]));
+    }
+
+    if(hand[i][0]=="1" && hand[i][1] == "0"){
+      suitArr.push(hand[i][2])
+    }else{
+      suitArr.push(hand[i][1])
+    }
+  }
+  //sort the numbers in ascending order
+  numArr.sort(window.sortNumber);
+
+  // CHECK FOR ROYAL FLUSH
   var card = hand[0];
   var suit = card[card.length - 1];
-  if(hand = [["10" + suit],["J" + suit],["Q" + suit],["K" + suit],["A" + suit]]){
+  if(hand.indexOf("10" + suit) != -1 && hand.indexOf("J" + suit) != -1 && hand.indexOf("Q" + suit)  != -1 && hand.indexOf("K" + suit) != -1 && hand.indexOf("A" + suit) != -1){
     return 10
   }
 
-}
+
+//CHECK FOR STRAIGHT FLUSH
+  var wasStraightFlush = true
+  for(var i = numArr[0]; i < numArr[0] + 5; i++){
+    if(numArr[i-numArr[0]]!=i){
+      wasStraightFlush = false
+      break
+    }
+  }
+
+  for(var i = 0; i < 5; i++ ){
+    if(suitArr[i] != suit){
+      wasStraightFlush = false
+      break
+    }
+  }
+
+  if(wasStraightFlush){
+    console.log(numArr)
+    console.log(hand)
+    return 9;
+  }
+
+
+}//determineRank
 
 window.rankPokerHand = function(hand1, hand2) {
-  var player1Pts = 0;
-  var player2Pts = 0;
+  var player1Pts = window.determineRank(hand1);
+  var player2Pts = window.determineRank(hand2);
 
 
 }

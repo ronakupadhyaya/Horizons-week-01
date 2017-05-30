@@ -72,7 +72,20 @@ function checkValid(toCheck) {
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
 //
 
+function plusMinus(expression) {
+  var tokens = expression.split(' ');
 
+  var result = parseFloat(tokens[0]);
+  for (var i = 1; i < tokens.length; i+=2) {
+    if (tokens[i] === '+') {
+      result += parseFloat(tokens[i+1]);
+    } else if (tokens[i] === '-') {
+      result -= parseFloat(tokens[i+1]);
+    }
+  }
+
+  return result;
+}
 
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs

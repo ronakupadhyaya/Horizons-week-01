@@ -58,29 +58,67 @@ util.calc = function(expression) {
   // test for correct format
   var expArr = expression.split(" ");
   for(var i = 0; i < expArr.length; i++){
-    if((i % 2 === 0 && isNaN(expArr[i])) ||
-       (i % 2 === 1 && !isNaN(expArr[i])) ||
-       (expression.length === 0) ||
-       (isNaN(expArr[expArr.length-1]))){
+    if(expression.indexOf("sqrt") !== -1){
+      break;
+    }
+    if(i % 2 === 0 && isNaN(expArr[i]) ||
+       i % 2 === 1 && !isNaN(expArr[i]) ||
+       expression.length === 0 ||
+       isNaN(expArr[expArr.length-1])){
       throw "Error: The format is incorrect.";
     }
   }
 
-  var finalVal = 0;
 
+  var value = 0;
 
-  var value = 0, start = 0, count = 0;
-  var arr = expression.split("- ").join("+ -").split(" ").join("").split("+");
-  for(var i = 0; i < arr.length; i++) {
-    value += eval(arr[i]);
+  var x = expression.split(' ');
+  var midArray = [];
+  for (var i = 0; i < x.length; i++) {
+    if(x[i] === 'sqrt') {
+      x[i] = x[i].replace(x[i], "Math.sqrt(" + x[i+1] + ")");
+      console.log(x[i]);
+      midArray.push(x[i]);
+      var temp = i+1;
+    }
+    else if(i === temp) {
+      continue;
+    }
+    else {
+      midArray.push(x[i]);
+    }
+  }
+  var midArr = midArray.join(" ").split("- ").join("+ -").split(" ").join("").split("+");
+  for(var i = 0; i < midArr.length; i++){
+    value += eval(midArr[i]);
+    if(isNaN(value)){
+      console.log("This is the index: " + i);
+    }
   }
   return value;
-  };
-    /*var x = expression.split('- ').join('+ -').split('+').join('/').split('/').join('*').split(' * ');
-    for(var j = 0; j < x.length; j++) {
-    if(x[i].indexOf('sqrt') !== -1){
-    var numlength = arr[i].length - 5
-    arr.replace()*/
+}
+  /*var arr = y.join(' ').split("- ").join("+ -").split(" ").join("").split("+");
+
+  for(var i = 0; i < arr.length; i++) {
+
+      value += eval(arr[i]);
+
+    }
+
+
+  return value;
+
+};
+
+/*arr = arr[i].replace(
+  arr[i].substring(arr[i].indexOf('sqrt'), numlength + 5),
+  Math.sqrt(arr[i][arr[i].indexOf('sqrt') + 4, arr[i].indexOf('sqrt') + 4 + numlength]));
+}*/
+
+
+
+
+
       //var altArr = arr.join().split("/").join("*").split("*")
       /*start = arr[i].indexOf('t');
       for(var j = start; j < arr[i].length; j++){

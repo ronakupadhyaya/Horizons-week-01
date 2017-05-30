@@ -45,7 +45,79 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
-window.isFlush(hand) {
+window.createHand = function(hand) {
+  var newHand = [];
+  for (var x of hand) {
+    var val = x[0]
+    var suite = x[1]
+    switch (val) {
+      case 'J':
+        val = 11;
+        break;
+      case 'Q':
+        val = 12;
+        break;
+      case 'K':
+       val = 13;
+       break;
+      case 'A':
+        val = 14
+        break;
+      default:
+        val = parseInt(val)
+        break;
+    }
+    newHand.push([val,suite])
+  }
+  return newHand
+}
+
+window.isOnePair = function(hand) {
+  var foundOnlyOne = false
+  for (var i = 0; i <4; i++) {
+    for (var j = i+1; j <5; j++) {
+      if(hand[i][0] === hand[j][0]) {
+        if(!foundOnlyOne) {
+          foundOnlyOne = true
+        } else {
+          return false
+        }
+      }
+    }
+  }
+  return foundOnlyOne
+}
+
+window.isTwoPairs = function(hand) {
+  var numFound = 0
+  for (var i = 0; i <4; i++) {
+    for (var j = i+1; j <5; j++) {
+      if(hand[i][0] === hand[j][0]) {
+        numFound ++
+      }
+    }
+  }
+  if(numFound === 2) {
+    return true
+  } else {
+    return false
+  }
+}
+
+window.isThreeOfAKind = function(hand) {
+  for (var i = 0; i <3; i++) {
+    for (var j = i+1; j <4; j++) {
+        for (var k = j + 1; k < 5; k++) {
+          if(hand[i][0] === hand[j][0] && hand[j][0] === hand[k][0]) {
+            return true
+          }
+        }
+      }
+    }
+  return false
+}
+
+window.isFlush = function(hand) {
 	var suit = hand[0][1];
 	for (var i = 1; i < 5; i++) {
 		if (hand[i][1] !== suit) {
@@ -55,7 +127,7 @@ window.isFlush(hand) {
 	return true;
 }
 
-window.isStraight(hand) {
+window.isStraight = function(hand) {
 	var numList = [];
 	for(var i = 0; i < hand.length; i++) {
 		numList.push(hand[i][0]);
@@ -69,11 +141,11 @@ window.isStraight(hand) {
 	return true;
 }
 
-window.isStraightFlush(hand) {
+window.isStraightFlush = function(hand) {
 	return isStraight(hand) && isFlush(hand);
 }
 
-window.isRoyalFlush(hand) {
+window.isRoyalFlush = function(hand) {
 	if (!isStraight(hand) || !isFlush(hand)) {
 		return false;
 	}
@@ -88,7 +160,7 @@ window.isRoyalFlush(hand) {
 	return true;
 }
 
-window.isFourOfAKind(hand) {
+window.isFourOfAKind = function(hand) {
 	var firstHalf = [];
 	var secondHalf = [];
 	firstHalf.push(hand[0][0]);
@@ -113,11 +185,11 @@ window.isFourOfAKind(hand) {
 	return false;
 }
 
-window.isFullHouse(hand) {
+window.isFullHouse = function(hand) {
 	return isTwoPairs(hand) && isThreeOfAKind(hand);
 }
 
-window.getHand(hand) {
+window.getHand = function(hand) {
 	if (isRoyalFlush(hand)) {
 		return 10;
 	} else if (isStraightFlush(hand)) {
@@ -142,5 +214,30 @@ window.getHand(hand) {
 }
 
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  hand1 = window.createHand(hand1);
+  hand2 = window.createHand(hand2);
+  var hand1Val = window.getHand(hand1);
+  var hand2Val = window.getHand(hand2);
+  if (hand1Val > hand2Val) {
+  	return 1;
+  } else if (hand1Val < hand2Val) {
+  	return 2;
+  } else {
+  	var numVals1 = [];
+  	var numVals2 = [];
+  	for(var i = 0; i < 5; i++) {
+		numVals1.push(hand1[i][0]);
+		numVals2.push(hand2[i][0]);
+	}
+	numVals1.sort();
+	numVals2.sort();
+	for (var i = 5; i >= 0; i--) {
+		if (numVals1[i] > numVals2[i]) {
+			return 1;
+		} else if (numVals1[i] < numVals2[i]) {
+			return 2;
+		}
+	}
+  }
+  return 0;
 }

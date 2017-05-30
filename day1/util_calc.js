@@ -54,5 +54,104 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  //Part 1
+  var numbersAndOpps = expression.split(' ');
+  var amountOpperators = 0;
+  var amountNumbers = 0;
+  var binaryArray = [];
+
+  if(expression.length === 0){
+    throw "Error, empty expression"
+  }
+
+
+  for(var i = 0; i < numbersAndOpps.length; i++){
+    if(!(isNaN(parseInt(numbersAndOpps[i])))) {
+      amountNumbers += 1
+      binaryArray.push(1)
+
+    }else{
+      amountOpperators += 1
+      binaryArray.push(0)
+    }
+  }
+  //console.log('expression: ' + expression + ' amt num: ' + amountNumbers + ' amt op: ' +amountOpperators)
+    if(amountOpperators === 0 && numbersAndOpps.length > 1){
+      throw "Error Missing operator"
+    }
+    if(amountNumbers === 0){
+      throw "Error, No Numbers"
+    }
+    if(amountOpperators >= amountNumbers){
+      throw "Too Many operators!"
+    }
+
+    if(amountNumbers > amountOpperators + 1){
+      throw "Too Many Numbers!"
+    }
+
+    if(binaryArray.length % 2 !== 0){
+      for(var i = 0; i < binaryArray.length; i += 2){
+        if(binaryArray[i] !== 1){
+          throw "Error, operator in wrong spots"
+        }
+      }
+    }
+  // console.log("amt ops " + amountOpperators);
+  // console.log("amt num " + amountNumbers);
+  // if(typeof numbersAndOpps[0] === 'number' && typeof numbersAndOpps[n] === 'number')
+// var counter = 0;
+// var mdVal = 1;
+// var arr = [];
+// for(var i = 0; i < numbersAndOpps.length; i++){
+//   // if((numbersAndOpps[i] === "/" || numbersAndOpps[i] === "*") && counter === 0){
+//   //   counter += 1;
+//   // }
+//   if (numbersAndOpps[i] === "+" || numbersAndOpps[i] === "-") {
+//
+//   }
+//   if (numbersAndOpps[i] === "/") {
+//     if (counter === 0) {
+//       mdVal = numbersAndOpps[i - 1];
+//       counter += 1;
+//     }
+//     mdVal = mdVal / numbersAndOpps[i + 1];
+//   }
+//   if (numbersAndOpps[i] === "*") {
+//     if (counter === 0) {
+//       mdVal = numbersAndOpps[i - 1];
+//       counter += 1;
+//     }
+//     mdVal = mdVal * numbersAndOpps[i + 1];
+//   }
+// }
+for(var i = 0; i < numbersAndOpps.length ; i++){
+  if(numbersAndOpps[i] === '/'){
+    numbersAndOpps[i - 1] = numbersAndOpps[i - 1] / numbersAndOpps[i + 1]
+    numbersAndOpps.splice(i, 2);
+    i -= 1
+  }
+  if(numbersAndOpps[i] === '*'){
+    numbersAndOpps[i - 1] = numbersAndOpps[i - 1] * numbersAndOpps[i + 1]
+    numbersAndOpps.splice(i , 2);
+    i -= 1
+
+  }
+  console.log(numbersAndOpps)
+}
+
+var val = parseFloat(numbersAndOpps[0]);
+  for(var i = 0; i < numbersAndOpps.length; i++){
+    console.log(numbersAndOpps.length);
+
+    if(numbersAndOpps[i] === '+'){
+      val = val + parseFloat(numbersAndOpps[i + 1]);
+      console.log(parseFloat(numbersAndOpps[i + 1]));
+      console.log(val)
+    }
+    if(numbersAndOpps[i] === '-'){
+      val = val - parseFloat(numbersAndOpps[i + 1]);
+    }
+  }
+  return val
+}

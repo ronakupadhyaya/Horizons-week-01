@@ -51,6 +51,12 @@ window.createHand = function(hand) {
     var val = x[0]
     var suite = x[1]
     switch (val) {
+      case '1':
+        if (suite === '0') {
+        	val = 10
+        	suite = x[2]
+        }
+        break;
       case 'J':
         val = 11;
         break;
@@ -120,7 +126,7 @@ window.isThreeOfAKind = function(hand) {
 window.isFlush = function(hand) {
 	var suit = hand[0][1];
 	for (var i = 1; i < 5; i++) {
-		if (hand[i][1] !== suit) {
+		if (hand[i][1] != suit) {
 			return false;
 		}
 	}
@@ -213,7 +219,26 @@ window.getHand = function(hand) {
 	}
 }
 
+window.sortByValue = function(arr) {
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i] < arr[indexOfSmall]) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
+};
+
 window.rankPokerHand = function(hand1, hand2) {
+	//debugger;
   hand1 = window.createHand(hand1);
   hand2 = window.createHand(hand2);
   var hand1Val = window.getHand(hand1);
@@ -229,9 +254,9 @@ window.rankPokerHand = function(hand1, hand2) {
 		numVals1.push(hand1[i][0]);
 		numVals2.push(hand2[i][0]);
 	}
-	numVals1.sort();
-	numVals2.sort();
-	for (var i = 5; i >= 0; i--) {
+	window.sortByValue(numVals1);
+	window.sortByValue(numVals2);
+	for (var i = 4; i >= 0; i--) {
 		if (numVals1[i] > numVals2[i]) {
 			return 1;
 		} else if (numVals1[i] < numVals2[i]) {

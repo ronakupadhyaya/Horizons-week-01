@@ -54,5 +54,77 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+// Error, empty expresion
+  if (expression.length == 0) {
+    throw "error, empty expression";
+  }
+// Error, missing operator
+  util.search = function(sourceString, searchString) {
+    return sourceString.includes(searchString);
+  };
+
+  // if (!util.search(expression, '+') || !util.search(expression, '-')
+  // || !util.search(expression, '/') || !util.search(expression, '*')) {
+  //   throw "error, missing operator";
+  // }
+
+// Error, no number
+  var array = expression.split(" ");
+  console.log(array);
+  var op = [];
+  var num = [];
+  for (var i=0; i<array.length; i++) {
+    console.log(typeof parseFloat(array[i]));
+    if(isNaN(parseFloat(array[i]))) {
+      op.push(array[i]);
+      console.log(op);
+    } else {
+      num.push(array[i]);
+      console.log(num);
+    }
+  }
+
+  if (num.length == 0) {
+    console.log(num);
+    console.log(op);
+    throw "error, no numbers";
+  }
+
+//parsefloat
+
+// Part 2: Support Addition and subtraction
+  if (expression.length == 1){
+    return parseInt(expression);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };

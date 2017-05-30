@@ -12,14 +12,15 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
+// ex. util.calc('1 2') -> Error, missing operator
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
-//
+// 
+// 
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -54,5 +55,163 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  
+
+  //check to see if expression is empty
+  if (expression.length == 0) { throw 'Error, empty expression';};
+
+ 
+
+  //ensure proper format.
+  var partsBefore = expression.split(" ");
+
+
+  //take care of square roots
+  var parts = util.evaluateSqrts(partsBefore);
+  console.log("Post Eval: " + parts);
+  //onsole.log(parts2);
+  console.log(parts);
+  //parts = parts2;
+
+  if (parts.length%2 == 0) {
+    throw "Error, too many operands/operators";
+  }
+  for (var i = 0; i < parts.length; i++) {
+    //console.log("Begin Loop i=" + i);
+    
+    if (i%2 == 0) {//even index -> numbers
+      var currentElement = parseFloat(parts[i]);
+      //console.log("Num: " + currentElement);
+      if (isNaN(currentElement)) { 
+        // console.log("Error thrown for: " + parts[i]);
+        throw "Error, missing number";
+      }
+
+    } else {//odd index -> operator
+      //console.log("Op: " + parts[i]);
+      if ("*/+-".indexOf(parts[i]) == -1) { 
+        // console.log("Error thrown for: " + parts[i]);
+        throw "Error, missing operator"
+      }
+    }
+  }
+  //console.log("Result: " + util.calcHelper(expression));
+  return util.calcHelper(util.arrayToString(parts));
 };
+
+util.calcHelper = function(arg) {
+  console.log("Begin calcHelper: " + arg );
+  //console.log("arg split: " + arg.split(" "));
+  var parts = arg.split(" ");
+  //Base case
+  if (parts.length == 1) {
+    return parseFloat(arg);
+  }
+
+  //Do One Operation
+  if (parts.length == 3) {
+    return util.calcHelper(util.doOperation(parts));
+  }
+
+  //Do Many Operations
+  //Check for multiplication or division'
+  // console.log("many operations part");
+  var multdiv = parts.indexOf("*");
+  var multdiv2 = parts.indexOf("/");
+  if (multdiv == -1) {
+    multdiv = parts.indexOf("/");
+  } else if (multdiv2 != -1 && multdiv2 < multdiv) {
+    multdiv = multdiv2;
+  }
+  if (multdiv != -1) {//there is mult/div to do
+    // console.log("Start multdiv");
+    // console.log(parts);
+    var toDo = [];
+    toDo.push(parts[multdiv - 1]);
+    toDo.push((parts[multdiv]));
+    toDo.push(parts[multdiv + 1]);
+    parts[multdiv] = util.doOperation(toDo);
+    parts[multdiv - 1] = "";
+    parts[multdiv + 1] = "";
+    // console.log("After: " + util.arrayToString(parts));
+    return util.calcHelper(util.arrayToString(parts));
+  } else {
+    //there is no mult/div to do, so just go from left to right. 
+    // console.log(parts);
+    var toDo = [];
+    toDo.push(parts[0]);
+    toDo.push((parts[1]));
+    toDo.push(parts[2]);
+    parts[1] = util.doOperation(toDo);
+    parts[0] = "";
+    parts[2] = "";
+    // console.log("After: " + util.arrayToString(parts));
+    return util.calcHelper(util.arrayToString(parts));
+  }
+}
+
+
+util.doOperation = function(parts) {
+  var operand = parts[1];
+    var result = 0;
+    switch(operand) {
+      case "+":
+        result = parseFloat(parts[0])+parseFloat(parts[2]);
+        break;
+      case "-":
+        result = parseFloat(parts[0])-parseFloat(parts[2]);
+        break;
+      case "*":
+        result = parseFloat(parts[0])*parseFloat(parts[2]);
+        break;
+      case "/":
+        result = parseFloat(parts[0])/parseFloat(parts[2]);
+        break;
+      default:
+        console.log("Whelp something broke: " + parts);
+        break;
+    }
+
+    return String(result);
+}
+
+util.arrayToString = function(parts) {
+  var toReturn = "" + parts[0];
+  for (var i = 1; i < parts.length; i++) {
+    if (parts[i] != "") {
+      toReturn += " " + parts[i];
+    }
+    
+  }
+  return toReturn.trim();
+}
+
+util.evaluateSqrts = function (parts) {
+  console.log("Begin Evaluating Roots: " + parts);
+  var index = parts.indexOf("sqrt");
+  while (index != -1) {
+    console.log("Evaluate Square Root @index: " + index);
+    parts[index] = Math.sqrt(parseInt(parts[index + 1]));
+    parts[index + 1] = "";
+    index = parts.indexOf("sqrt");
+    console.log("Post Eval: " + parts);
+  }
+  var toReturn = util.removeBlanks(parts);
+  console.log(toReturn);
+  return toReturn;
+}
+
+util.removeBlanks = function(parts) {
+  var toReturn = [];
+  console.log("Remove Blanks: " + parts);
+  for (var i = 0; i < parts.length; i++) {
+    if (parts[i] != "") {
+      toReturn.push(parts[i]);
+    }
+  }
+  console.log("blanks removed: " + toReturn);
+  return toReturn;
+}
+
+
+

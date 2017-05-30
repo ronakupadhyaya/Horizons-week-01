@@ -53,6 +53,44 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+ var list = expression.split(' ');
+ for (var i = 0; i < list.length; i++){
+ 	if (list[i] == 'sqrt'){
+ 		list[i] = 'Math.sqrt('+list[i+1]+')';
+ 		list.splice(i+1, 1);
+ 	}
+ }
+ var newList = list.join('');
+
+ if (eval(newList) == undefined){
+ 	throw 'Error';
+ };
+
+if(list.length%2 == 0){
+	throw "Error";
 };
+
+for(var j = 1; j < list.length-1; j+=2){
+	if(list[j] != '+'
+		&&list[j] != '-'
+		&&list[j] != '*'
+		&&list[j] != '/'){
+		throw "Error";
+	}
+};
+
+console.log(list);
+ return eval(newList);
+
+};
+
+
+
+
+
+
+
+
+

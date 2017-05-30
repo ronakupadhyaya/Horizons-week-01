@@ -128,34 +128,32 @@ window.rankPokerHand = function(hand1, hand2) {
       return [9, getValue(sortedHand[4]), getValue(sortedHand[3]),
         getValue(sortedHand[2]), getValue(sortedHand[1]),
         getValue(sortedHand[0])];
-    }
-    //Four of a Kind
-    else if (getValue(sortedHand[0]) === getValue(sortedHand[3]) ||
+    } else if (getValue(sortedHand[0]) === getValue(sortedHand[3]) ||
     getValue(sortedHand[1]) === getValue(sortedHand[4])) {
       return [8, getValue(sortedHand[2]), getValue(sortedHand[4]),
-      getValue(sortedHand[3]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[3]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     } else if (getValue(sortedHand[0]) === getValue(sortedHand[2]) &&
     getValue(sortedHand[3]) === getValue(sortedHand[4]) ||
     getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
     getValue(sortedHand[2]) === getValue(sortedHand[4])) {
       return [7, getValue(sortedHand[2]), getValue(sortedHand[4]),
-      getValue(sortedHand[3]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[3]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     } else if (isSameSuit) {
       return [6, getValue(sortedHand[4]), getValue(sortedHand[3]),
-      getValue(sortedHand[2]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[2]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     } else if (isConsecutive) {
       return [5, getValue(sortedHand[4]), getValue(sortedHand[3]),
-      getValue(sortedHand[2]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[2]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     } else if (getValue(sortedHand[0]) === getValue(sortedHand[2]) ||
     getValue(sortedHand[1]) === getValue(sortedHand[3]) ||
     getValue(sortedHand[2]) === getValue(sortedHand[4])) {
       return [4, getValue(sortedHand[2]), getValue(sortedHand[4]),
-      getValue(sortedHand[3]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[3]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     } else if (getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
     getValue(sortedHand[2]) === getValue(sortedHand[3]) ||
     getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
@@ -165,25 +163,24 @@ window.rankPokerHand = function(hand1, hand2) {
     getValue(sortedHand[0]) === getValue(sortedHand[1]) &&
     getValue(sortedHand[3]) === getValue(sortedHand[4])) {
       return [3, getValue(sortedHand[3]), getValue(sortedHand[4]),
-      getValue(sortedHand[2]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
-    }
-    else if (getValue(sortedHand[0]) === getValue(sortedHand[1])) {
+        getValue(sortedHand[2]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
+    } else if (getValue(sortedHand[0]) === getValue(sortedHand[1])) {
       return [2, getValue(sortedHand[0]), getValue(sortedHand[4]),
-      getValue(sortedHand[3]), getValue(sortedHand[2])];
+        getValue(sortedHand[3]), getValue(sortedHand[2])];
     } else if (getValue(sortedHand[1]) === getValue(sortedHand[2])) {
       return [2, getValue(sortedHand[1]), getValue(sortedHand[4]),
-      getValue(sortedHand[3]), getValue(sortedHand[0])];
+        getValue(sortedHand[3]), getValue(sortedHand[0])];
     } else if (getValue(sortedHand[2]) === getValue(sortedHand[3])) {
       return [2, getValue(sortedHand[2]), getValue(sortedHand[4]),
-      getValue(sortedHand[2]), getValue(sortedHand[0])];
+        getValue(sortedHand[2]), getValue(sortedHand[0])];
     } else if (getValue(sortedHand[3]) === getValue(sortedHand[4])) {
       return [2, getValue(sortedHand[3]), getValue(sortedHand[2]),
-      getValue(sortedHand[1]), getValue(sortedHand[0])];
+        getValue(sortedHand[1]), getValue(sortedHand[0])];
     } else {
       return [1, getValue(sortedHand[4]), getValue(sortedHand[3]),
-      getValue(sortedHand[2]), getValue(sortedHand[1]),
-      getValue(sortedHand[0])];
+        getValue(sortedHand[2]), getValue(sortedHand[1]),
+        getValue(sortedHand[0])];
     }
   }
   //type of hand
@@ -204,4 +201,4 @@ window.rankPokerHand = function(hand1, hand2) {
       }
     }
   }
-} 
+}

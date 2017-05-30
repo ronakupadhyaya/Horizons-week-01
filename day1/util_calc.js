@@ -25,7 +25,9 @@ var inputCheck = function(expression){
   var operators = ["+","-","*","/"]
   var expressionArray = expression.split(" ");
   if(expression === "" || expressionArray.length % 2 === 0){
-    throw "Error, invalid expression";
+    if(expressionArray.indexOf('sqrt') === -1){
+      throw "Error, invalid expression";
+    }
   }
   if(isNaN(parseInt(expressionArray[0]))|| isNaN(parseInt(
     expressionArray[expressionArray.length-1]))){
@@ -85,7 +87,8 @@ var calculate = function(expression){
       console.log(expressionArray,expressionArrayCopy);
     } else if(expressionArray[i] === "/"){
       var tempIndex = expressionArrayCopy.indexOf("/");
-      var quotient = parseFloat(expressionArrayCopy[tempIndex-1]) / parseFloat(expressionArrayCopy[tempIndex+1]);
+      var quotient = parseFloat(expressionArrayCopy[tempIndex-1]) /
+      parseFloat(expressionArrayCopy[tempIndex+1]);
       expressionArrayCopy.splice(tempIndex-1,3,quotient);
       console.log(expressionArrayCopy)
     }
@@ -107,8 +110,22 @@ var calculate = function(expression){
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+var squareRoot = function(expression){
+  var expressionArray = expression.split(" ");
+  var expressionArrayCopy = expression.split(" ");
+  for(var i = 0; i < expressionArray.length; i++){
+    if(expressionArray[i] === "sqrt"){
+      var root = Math.sqrt(expressionArray[i+1]);
+      expressionArrayCopy.splice(i,2,root);
+    }
+  }
+  var expressionNew = expressionArrayCopy.join(" ");
+  return calculate(expressionNew);
+}
+
+
 util.calc = function(expression) {
   inputCheck(expression);
   // return addSub(expression);
-  return calculate(expression);
+  return squareRoot(expression);
 };

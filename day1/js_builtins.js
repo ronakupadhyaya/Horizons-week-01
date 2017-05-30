@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -20,7 +20,20 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var newString = "";
+  for(var i = 0; i < str.length; i++){
+    if(str[i] !== " "){
+      newString = str.slice(i);
+      break;
+    }
+  }
+  for(var i = newString.length-1; i >= 0; i--){
+    if(newString[i] !== " "){
+      var newString2 = newString.slice(0,i+1);
+      break;
+    }
+  }
+  return newString2;
 };
 
 // ----------------------------------------------------------------------------
@@ -39,7 +52,10 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  if(sourceString.indexOf(searchString) !== -1){
+    return true;
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +63,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,7 +75,8 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var str_array = str.split();
+  return parseInt(str_array[0]);
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +92,11 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+  var newArray = [];
+  for(var i = arr.length - 1; i >= 0; i--){
+    newArray.push(arr[i]);
+  }
+  return newArray;
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +114,15 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+  if(a.length !== b.length){
+    return false;
+  }
+  for(var i = 0; i < a.length; i++){
+    if(a[i] !== b[i]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +139,12 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+  for(var i = 0; i < arr.length/2; i++){
+    if(arr[i] !== arr[arr.length-i-1]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +160,19 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  var compare = function(a,b){
+    if(a > b){
+      return 1;
+    }else if (a < b) {
+      return -1;
+    }
+    return 0;
+  }
+  return arr.sort(compare);
 };
 
 // ----------------------------------------------------------------------------
@@ -147,7 +189,15 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  var compare = function(a,b){
+    if(a.length > b.length){
+      return 1;
+    }else if (a.length < b.length) {
+      return -1;
+    }
+    return 0;
+  }
+  return arr.sort(compare);
 };
 
 // ----------------------------------------------------------------------------
@@ -162,5 +212,11 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var retArray = [];
+  for(var d2 = 0; d2 < arr.length; d2++){
+    for(var i = 0; i < arr[d2].length; i++){
+      retArray.push(arr[d2][i]);
+    }
+  }
+  return retArray;
 };

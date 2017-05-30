@@ -16,10 +16,10 @@ function functionThatReturnsTrue() {
 // ex. firstWord('abc d  e') -> 'abc'
 function firstWord(string) {
   for (var i = 0; i < string.length; i++) {
-    if (string[0] === ' ') {
+    if (string[i] === ' ') {
+      debugger; 
       return string.substring(0, i);
     }
   }
-
   return string;
 }

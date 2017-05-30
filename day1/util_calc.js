@@ -54,5 +54,93 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	var operation = {
+    	'+': function (x, y) { return x + y },
+    	'-': function (x, y) { return x - y },
+    	'*': function (x, y) { return x * y },
+    	'/': function (x, y) { return x / y },
+    	'sqrt': function (x) { return Math.sqrt(x)}
+    };
+
+
+	if (expression.length == 0) {
+		throw "Error, empty expression";
+	}
+  	var arr = expression.split(" ");
+   if (arr.length % 2 == 0 && arr.indexOf('sqrt') == -1) {
+  	throw "Wrong balance";
+  }
+
+
+  	for (var i = 0; i < arr.length; i++) {
+  		if (!isNaN(arr[i])) {
+  			arr[i] = parseFloat(arr[i]);
+  		}
+  		if (i % 2 == 0 && isNaN(arr[i]) && arr.indexOf('sqrt') == -1) {
+  			throw "Misplaced Operator";
+  		}
+  		if (i % 2 == 1 && !isNaN(arr[i]) && arr.indexOf('sqrt') == -1) {
+  			throw "Misplaced Digit";
+  		}
+  }
+
+  if (arr.length == 1) {
+  	return arr[0];
+  }
+
+
+var i = 0;
+
+// arr.splice(0, 3, operation[arr[1]](arr[0], arr[2]));
+// console.log("Plus ", arr.indexOf('+'));
+// console.log("Minus ", arr.indexOf('-'));
+// console.log("Condition", arr.indexOf('+') != -1 || arr.indexOf('-') != -1);
+
+
+// arr.splice(0, 3, operation[arr[1]](arr[0], arr[2]));
+// console.log("Plus ", arr.indexOf('+'));
+// console.log("Minus ", arr.indexOf('-'));
+// console.log("Condition", arr.indexOf('+') != -1 || arr.indexOf('-') != -1);
+
+// arr.splice(0, 3, operation[arr[1]](arr[0], arr[2]));
+// console.log("Plus ", arr.indexOf('+'));
+// console.log("Minus ", arr.indexOf('-'));
+// console.log("Condition", arr.indexOf('+') != -1 || arr.indexOf('-') != -1);
+console.log(arr);
+
+while (arr.indexOf('sqrt') != -1) {
+	if (arr[i] == 'sqrt'){
+		var op = arr[i];
+		var num = arr[i + 1];
+		arr.splice(i, 2, operation[op](num));
+		i = 0;
+	}
+	i += 1;
+	console.log(arr);
+}
+while (arr.indexOf('*') != -1 || arr.indexOf('/') != -1) {
+	if (arr[i] == '*' || arr[i] == '/'){
+		var op = arr[i];
+		var fir = arr[i - 1];
+		var sec = arr[i + 1];
+		arr.splice(i - 1, 3, operation[op](fir, sec));
+		i = 0;
+	}
+	i += 1;
+	console.log(arr);
+}
+
+i = 0;
+while (arr.indexOf('+') != -1 || arr.indexOf('-') != -1){
+	if (arr[i] == '+' || arr[i] == '-'){
+		var op = arr[i];
+		var fir = arr[i - 1];
+		var sec = arr[i + 1];
+		arr.splice(i - 1, 3, operation[op](fir, sec));
+		i = 0;
+	}
+	i += 1;
+	console.log(arr);
+}
+return arr[0];
 };

@@ -274,7 +274,7 @@ learn_underscore.countLetters = function(string) {
   // When we call countBy with _.identity,
   return _.countBy(stringArray, _.identity);
 }
-
+ 
 // Exercise 8: learn_underscore.countBy(array, fun)
 // Implement _.countBy() using _.groupBy()
 //

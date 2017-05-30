@@ -56,7 +56,7 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   return dateObj > new Date();
-};
+}; 
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
 // Write a function that takes a Date object and returns the Date object of the next day.

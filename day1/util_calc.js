@@ -55,4 +55,73 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+  if(expression == ''){
+    throw "Input Error."
+  }
+
+  // Errors
+  var arr1 = expression.split(" ")
+
+  // Correct sequence test
+  var flag = 0
+  for (var i = 0 ; i < arr1.length; i++){
+    if(isNaN(parseInt(arr1[i]))){
+      flag --;
+    }
+    else{
+      flag ++;
+    }
+
+    if (!((flag ==1) || (flag ==0))) {
+      throw "Input Error."
+    }
+  }
+  flag --;
+
+  if (flag!=0){
+    throw "Input Error."
+  }
+
+  //Addition & Subtraction
+  var operatorArr = []
+  for (var i = 1 ; i < arr1.length; i+=2){
+    operatorArr.push(arr1[i])
+  }
+
+  var numArr = []
+  for (var i = 0 ; i < arr1.length; i+=2){
+    numArr.push(parseFloat(arr1[i]))
+  }
+
+  for (var i = 0; i < operatorArr.length; i++){
+    if (operatorArr[i]=='*'){
+      var num = numArr[i] * numArr[i+1]
+      numArr.splice(i,2)
+      numArr.splice(i,0,num)
+      operatorArr.splice(i,1)
+      i --;
+    }
+    else if (operatorArr[i]=='/') {
+      var num = numArr[i] / numArr[i+1]
+      numArr.splice(i,2)
+      numArr.splice(i,0,num)
+      operatorArr.splice(i,1)
+      i --;
+    }
+  }
+
+
+  var answer = numArr[0]
+  for (var i = 0; i < operatorArr.length; i++){
+    var j = i+1;
+    if (operatorArr[i]=='+'){
+      answer = answer + numArr[j];
+    }
+    else if (operatorArr[i]=='-'){
+      answer = answer - numArr[j];
+    }
+  }
+
+  return answer
 };

@@ -55,4 +55,88 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var splitted = expression.split(" ");
+  var numbers = [];
+  var operators = [];
+  var res = 0;
+  var temp = 0;
+  var counter = 0;
+  if (expression.length < 1) {
+    throw "Error";
+  }
+  var sqrt_counter = 0;
+  for (var i=0; i < splitted.length; i++) {
+    if (splitted[i] === 'sqrt')
+      sqrt_counter += 1;
+  }
+  while (sqrt_counter > 0) {
+    var ind = splitted.indexOf('sqrt');
+    var new_value = Math.sqrt(Number(splitted[ind + 1]));
+    splitted.splice(ind, 2);
+    splitted.splice(ind, 0, new_value);
+    sqrt_counter -= 1;
+  }
+  if (splitted[splitted.length-1] === "+" || splitted[splitted.length-1] === "-" || splitted[splitted.length-1] === "*" || splitted[splitted.length-1] === "/") {
+    throw "Error"
+  }
+  for (var i = 0; i < splitted.length; i++) {
+    if (i % 2 == 0) {
+      if (splitted[i] === "+" || splitted[i] === "-" || splitted[i] === "*" || splitted[i] === "/") {
+        throw "Error";
+      }
+    } else {
+      if (splitted[i] !== "+" && splitted[i] !== "-" && splitted[i] !== "*" && splitted[i] !== "/") {
+        throw "Error";
+      }
+      if (splitted[i] === "*" || splitted[i] === "/") {
+        counter += 1;
+      }
+    }
+  }
+  for (var i=0; i < splitted.length; i++) {
+    if (i % 2 == 0) {
+      numbers.push(Number(splitted[i]));
+    } else {
+      operators.push(splitted[i]);
+    }
+  }
+  while (counter > 0) {
+    for (var i=0; i<operators.length;i++) {
+      if (operators[i] === '*') {
+        tmp = numbers[i] * numbers[i+1];
+        operators.splice(i,1);
+        numbers.splice(i,2);
+        numbers.splice(i,0,tmp);
+        counter -= 1;
+        break;
+      } else if (operators[i] === '/') {
+        tmp = numbers[i] / numbers[i+1];
+        operators.splice(i,1);
+        numbers.splice(i,2);
+        numbers.splice(i,0,tmp);
+        counter -= 1;
+        break;
+      }
+    }
+  }
+  while (operators.length > 0) {
+    for (var i=0; i < operators.length; i++) {
+      console.log(i)
+      console.log(operators[i])
+      if (operators[i] === '+') {
+        tmp = numbers[i] + numbers[i+1];
+        operators.splice(i,1);
+        numbers.splice(i,2);
+        numbers.splice(i,0,tmp);
+        break;
+      } else if (operators[i] === '-') {
+        tmp = numbers[i] - numbers[i+1];
+        operators.splice(i,1);
+        numbers.splice(i,2);
+        numbers.splice(i,0,tmp);
+        break;
+      }
+    }
+  }
+  return numbers[0];
 };

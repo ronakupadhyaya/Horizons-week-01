@@ -50,6 +50,11 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  var tmp = 0;
+  for (var i=0; i < arguments.length; i++) {
+    tmp += arguments[i]
+  }
+  return tmp;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -61,6 +66,11 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  var tmp = 1;
+  for (var i=0; i < arguments.length; i++) {
+    tmp = tmp * arguments[i]
+  }
+  return tmp;
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -73,4 +83,11 @@ varArgs.product = function() {
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
+  var delimiter = arguments[0];
+  var res = "";
+  for (var i=1; i < arguments.length; i++) {
+    res = res + arguments[i] + delimiter;
+  }
+  res = res.substr(0, res.length-1)
+  return res
 };

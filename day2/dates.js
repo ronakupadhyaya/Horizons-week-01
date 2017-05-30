@@ -10,7 +10,7 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
-  // YOUR CODE HERE
+  return new Date(dateStr);
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -23,7 +23,7 @@ dates.createDate = function(dateStr) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
-  // YOUR CODE HERE
+  return dateObj.toUTCString();
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -34,7 +34,10 @@ dates.getUTCString = function(dateObj) {
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  if (dateObj.getDay() === otherDateObj.getDay()) {
+    return true;
+  }
+  return false;
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -47,7 +50,10 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  if (dateObj.getHours() === otherDateObj.getHours()) {
+    return true;
+  }
+  return false;
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -55,7 +61,10 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
-  // YOUR CODE HERE
+  if (new Date() >= dateObj) {
+    return false;
+  }
+  return true;
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -65,5 +74,6 @@ dates.isTheFuture = function(dateObj) {
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
-  // YOUR CODE HERE
+  dateObj.setDate(dateObj.getDate() + 1);
+  return dateObj;
 };

@@ -68,7 +68,7 @@ varArgs.product = function() {
   for (var i = 0; i < arguments.length; i++){
     prod *= arguments[i];
   }
-  return prod;
+  return prod; 
 };
 
 // Exercise 3. varArgs.joinWith(args...)

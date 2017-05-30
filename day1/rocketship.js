@@ -59,7 +59,7 @@ var Rocketship = {
     this.coords.y--;
     return this;
   },
-  left: function() {
+  left: function() { 
     this.coords.x--;
     return this;
   },

@@ -204,4 +204,4 @@ window.rankPokerHand = function(hand1, hand2) {
       }
     }
   }
-}
+} 

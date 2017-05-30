@@ -49,7 +49,7 @@ window.util = {};
 // Note: you can use the builtin Math.sqrt() function.
 //
 // ex. util.calc('sqrt 4') -> 2, same as Math.sqrt(4)
-// ex. util.calc('sqrt 4 - 3') -> -1
+// ex. util.calc('sqrt 4 - 3') -> -1 
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90

@@ -55,7 +55,22 @@ function checkValid(toCheck){
 // ex. util.calc('3 + 8 + 2 + 1    ') -> 14
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
-//
+
+function plusMinus(expression) {
+  var tokens = expression.split(' '); // takes a string and returns an array
+
+  var result = parseFloat(tokens[0]); // initialise for the for loop function to
+                                      // add things to it later
+  for (var i = 1; i < tokens.length; i+=2){
+    if (tokens[i] === '+') {
+      result = result + parseFloat(tokens[i+1]);
+    } else if (tokens[i] === '-'){
+      result -= parseFloat(tokens[i+1]);
+    }
+  }
+  return result;
+}
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -65,7 +80,48 @@ function checkValid(toCheck){
 // ex. util.calc('5 * 6 + 8 / 9 * 4.5') -> 34
 // ex. util.calc('1 / 0 + 1 * 0') -> Infinity
 // ex. util.calc('1 / 0 * 0 + 1') -> NaN
-//
+
+//  "1 + 3 * 4 - 2" ---> "1 + 12 - 2" ---> "11"
+//  "1 + 3 * 4 - 2/2" ---> "1 + 12 - 1" ---> "12"
+//  "1 + 3 * 4 / 2 - 2" ---> "1 + 12 / 2  - 2" ---> "1 + 6 - 2" ---> "5"
+
+function multDiv(expression) {
+//   FIRST ATTEMPT - RAN INTO ISSUE WITH CHAINING
+//   var tokens = expression.split(' ');
+//   var result = "";
+//   for(var i = 1; i < tokens.length; i+=2) {
+//     if (tokens[i] === '+' || tokens[i] === '-') {
+//       result += tokens[i-1] + ' ' + tokens[i] + ' ';
+//       // check if next character is the final character this is b/c we want to
+//       // add the last one
+//       if (i === tokens.length - 1){
+//         result += tokens[i+1];
+//       }
+//     } else if (tokens[i] === '*') {
+//       result += tokens[i-1] * tokens[i+1];
+//     } else if (tokens[i] === '*' || tokens [i] === '/'){
+//       result += tokens[i-1] / tokens[i+1];
+//     }
+//   }
+//   return result;
+// }
+
+  var tokens = expression.split(' ');
+  var result = "";
+  var i = 1;
+
+  if (tokens[i] === '+' || tokens[i] === '-') {
+    i += 2;
+  } else if (tokens[i] === '*') {
+    tokens[i-1] * tokens[i+1]
+  } else if (tokens[i] === '*' || tokens [i] === '/'){
+
+  }
+
+  return result;
+
+}
+
 // Bonus: Implement support for the square root operator.
 // Implement support for the `sqrt` operator. `sqrt` is an operator that takes
 // only one argument (i.e. a unary operator). `sqrt` applied before all other
@@ -80,6 +136,11 @@ function checkValid(toCheck){
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+
 util.calc = function(expression) {
   checkValid(expression);
+
+  return plusMinus(expression);
+
 };

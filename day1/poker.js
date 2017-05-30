@@ -47,4 +47,45 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var samesuit = function(hand) {
+    var suit = hand[0].substring(hand[0].length-1,hand[0].length);
+    for (var i =1;i<hand.length;i++) {
+      if (hand[i].substring(hand[i].length-1,hand[i].length)!= suit) {
+        // hand[i].length-2,hand[i].length-1
+        return false;
+      }
+    }
+    return true;
+
+  }
+ var convertnum = function (hand) {
+   var purenum = [];
+   for (var i =1;i<hand.length;i++) {
+     if (hand[i].substring(0,1)==='J'){
+       purenum.push (11);
+     } else if (hand[i].substring(0,1)==='Q'){
+       purenum.push (12);
+     } else if (hand[i].substring(0,1)==='K'){
+       purenum.push (13);
+     } else if (hand[i].substring(0,1)==='A'){
+       purenum.push (14);
+     } else if(hand[i].length ===2 ) {
+       purenum.push( parseInt(hand[i].substring(0,1)));
+     } else {
+       purenum.push( parseInt(hand[i].substring(0,2)));
+     }
+   }
+   return purenum;
+ }
+  var samenum = function (hand) {
+    var array = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var counting = convertnum(hand);
+    var max = 0;
+    for (var i =1;i<counting.length;i++) {
+      array[counting[i]-2]+=1;
+      if (array[counting[i]-2]>max) {
+        max = array[counting[i]-2];
+      }
+    }
+  }
 }

@@ -1,7 +1,7 @@
 "use strict";
 
 // There's syntax error in this function, use the DevTools Console to find it.
-function functionThatReturnsTrue( {
+function functionThatReturnsTrue() {
   return true;
 }
 
@@ -15,9 +15,12 @@ function functionThatReturnsTrue( {
 // ex. firstWord('abc d') -> 'abc'
 // ex. firstWord('abc d  e') -> 'abc'
 function firstWord(string) {
+  if (string[0] === ' ') {
+    return '';
+  }
   for (var i = 0; i < string.length; i++) {
-    if (string[0] === ' ') {
-      return string.substring(0, i);
+    if (string[i] === ' '){
+      return string.slice(0,i);
     }
   }
 

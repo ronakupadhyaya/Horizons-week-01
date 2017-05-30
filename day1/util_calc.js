@@ -55,4 +55,10 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var array = [];
+  var isNum = true;
+  var isOp = false;
+  var negative = false;
+  array = expression.split(' ');
+  console.log( array);
 };

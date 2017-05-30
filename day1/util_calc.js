@@ -20,6 +20,33 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+
+function checkValid(toCheck) {
+  //a string is valid if:
+  // space separated, alternates numbers and operators
+  // begins and ends with a number
+
+  var tokens = toCheck.split(' ');
+  if( tokens.length %2 === 0) {
+    throw "Even number of arguments";
+  }
+
+  for(var i=0; i< tokens.length; i++) {
+    // for even index
+    if(i%2 === 0){
+      // this should be a number
+      if(isNaN(parseFloat(tokens[i])) === true) {
+        throw "Expected a number, found " + tokens[i];
+      }
+    } else {
+      // this should be an operator
+      if(!(tokens[i] === '+' || tokens[i] === '-' ||
+        tokens[i] === '*' || tokens[i] === '/')) {
+        throw "Expected an operator, found " + tokens[i];
+      }
+    }
+  }
+}
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -29,6 +56,31 @@ window.util = {};
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
 //
+
+function plusMinus(expression) {
+  var tokens = expression.split(' ');
+
+  var result = parseFloat(tokens[0]);
+  for(var i=1; i < tokens.length; i+=2){
+    if(tokens[i] === '+') {
+      result += parseFloat(tokens[i+1]);
+    }else if(tokens[i] === '-') {
+      result -= parseFloat(tokens[i+1]);
+    }
+  }
+  return result;
+}
+
+
+
+
+
+
+
+
+
+
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -54,5 +106,8 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  // check to see if valid
+  checkValid(expression);
+  return plusMinus(expression);
+  //
 };

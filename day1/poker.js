@@ -96,12 +96,16 @@ window.rankPokerHand = function(hand1, hand2) {
   var score2;
 
   //check for straight flush
-  if( (shand1[0].charAt(1) === shand1[1].charAt(1) &&  shand1[1].charAt(1) === shand1[2].charAt(1)
-  && shand1[1].charAt(1) === shand1[3].charAt(1) && shand1[1].charAt(1) === shand1[4].charAt(1))  &&
+  if( (  shand1[0].charAt(1) === shand1[1].charAt(1) &&  shand1[1].charAt(1) === shand1[2].charAt(1)
+  && shand1[1].charAt(1) === shand1[3].charAt(1) && shand1[1].charAt(1) === shand1[4].charAt(1)  )  &&
 
-  (shand1[0].charAt(0) === (shand1[1].charAt(0) -1)    && shand1[1].charAt(0) === (shand1[2].charAt(0)  -1)
+  (  shand1[0].charAt(0) === (shand1[1].charAt(0) -1)    && shand1[1].charAt(0) === (shand1[2].charAt(0)  -1)
   &&  shand1[2].charAt(0) === (shand1[3].charAt(0)  -1) && shand1[3].charAt(0) === (shand1[4].charAt(0)  -1) )
+
   ){
+
+
+
 
   }
 

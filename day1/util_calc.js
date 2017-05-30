@@ -20,6 +20,33 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+function checkValid(toCheck){
+
+  // a string is valid if:
+  // space-seperated
+  // alternates numbers and operators
+  // begins and ends with a numbers
+
+  var tokens = toCheck.split(' '); // takes a string and returns an array
+  if (tokens.length % 2 === 0) {
+    throw "Even number of arguments";
+  }
+  for (var i = 0; i < tokens.length; i++) {
+    if(i % 2 === 0) { // FOR EVEN INDEX
+      // THIS SHOULD BE A NUMBER
+      if (isNaN(tokens[i]) === true) {
+        throw "expecting a number, found " + tokens[i] + "at position" + i;
+      }
+    } else {
+      // THIS SHOULD BE AN operators
+      if (!(tokens[i] === '+' || tokens[i] === '-' || tokens[i] === '*' ||
+      tokens[i] === '/')) {
+        throw "Expected an operator, found " + tokens[i] + "at position " + i;
+      }
+    }
+  }
+}
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -54,5 +81,5 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  checkValid(expression);
 };

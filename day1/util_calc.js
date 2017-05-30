@@ -53,5 +53,97 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+util.isOperator = function(val) {
+	return val === "+" || val === "-" || val === "*" || val === "/";
+}
+
+util.nullCleaner = function(array) {
+	var accum = [];
+	for (var i = 0; i < array.length; i++) {
+		if (array[i] !== null) {
+  			accum.push(array[i]);
+		}
+	}
+	return accum;
+}
+
 util.calc = function(expression) {
+  var array = expression.split(" ");
+  if (expression === "") {
+  	throw "Error, empty expression";
+  }
+  if (util.isOperator(array[0]) || util.isOperator(array[array.length - 1])) {
+  	throw "Error, operation at the wrong spot";
+  }
+  for (var i = 0; i < array.length - 1; i++) {
+  	//check if number
+  	if (!util.isOperator(array[i]) && array[i] !== "sqrt") {
+  		if (!util.isOperator(array[i + 1]) && array[i + 1] !== "sqrt") {
+  			throw "Error, too many numbers"
+  		}
+  	}
+  	//check if operator
+  	else if (util.isOperator(array[i])) {
+  		if (util.isOperator(array[i + 1])) {
+  			throw "Error, operator followed by operator"
+  		}
+  	}
+  	//check if sqrt
+  	else {
+  		if (util.isOperator(array[i + 1])) {
+  			throw "Error, sqrt not followed by number"
+  		}
+  	}
+  }
+  for (var i = 0; i < array.length; i++) {
+  	if (array[i] === "sqrt") {
+  		array[i + 1] = Math.sqrt(array[i + 1]);
+  		array[i] = null;
+  	}
+  }
+  array = util.nullCleaner(array);
+
+  //multiplication and division
+  while (array.includes("*") || array.includes("/")) {
+  	var i = Math.min(array.indexOf("*"), array.indexOf("/"));
+  	if (array.indexOf("*") === -1) {
+  		var i = array.indexOf("/");
+  	} else if (array.indexOf("/") === -1) {
+  		var i = array.indexOf("*");
+  	}
+  	if (array[i] === "*") {
+  		array[i] = parseFloat(array[i - 1]) * parseFloat(array[i + 1]);
+  		array[i - 1] = null;
+  		array[i + 1] = null;
+  		array = util.nullCleaner(array);
+  	} else if (array[i] === "/") {
+  		array[i] = parseFloat(array[i - 1]) / parseFloat(array[i + 1]);
+  		array[i - 1] = null;
+  		array[i + 1] = null;
+  		array = util.nullCleaner(array);
+  	}
+  }
+
+  //add and subtract
+  while (array.includes("+") || array.includes("-")) {
+  	var i = Math.min(array.indexOf("+"), array.indexOf("-"));
+  	if (array.indexOf("+") === -1) {
+  		var i = array.indexOf("-");
+  	} else if (array.indexOf("-") === -1) {
+  		var i = array.indexOf("+");
+  	}
+  	if (array[i] === "+") {
+  		array[i] = parseFloat(array[i - 1]) + parseFloat(array[i + 1]);
+  		array[i - 1] = null;
+  		array[i + 1] = null;
+  		array = util.nullCleaner(array);
+  	} else if (array[i] === "-") {
+  		array[i] = parseFloat(array[i - 1]) - parseFloat(array[i + 1]);
+  		array[i - 1] = null;
+  		array[i + 1] = null;
+  		array = util.nullCleaner(array);
+  	}
+  }
+  console.log(array);
+  return parseFloat(array[0]);
 };

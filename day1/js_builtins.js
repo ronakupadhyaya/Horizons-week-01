@@ -55,7 +55,18 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-
+  for (var i = 0; i < sourceString.length - (searchString.length - 1); i++) {
+  	var currChar = sourceString[i];
+  	if (currChar === searchString[0]) {
+  		for (var j = 0; j < searchString.length; j++) {
+  			if (searchString[j] !== sourceString[i + j]) {
+  				return false;
+  			}
+  		}
+  		return true;
+  	}
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -166,9 +177,22 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i] < arr[indexOfSmall]) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
 };
-
 // ----------------------------------------------------------------------------
 
 // Exercise 8. Sorting a 2D array based on the length of its subarrays.
@@ -183,7 +207,21 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i].length < arr[indexOfSmall].length) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
 };
 
 // ----------------------------------------------------------------------------

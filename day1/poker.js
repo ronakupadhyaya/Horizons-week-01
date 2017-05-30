@@ -85,14 +85,13 @@ window.isOnePair = function(hand) {
       if(hand[i][0] === hand[j][0]) {
         if(!foundOnlyOne) {
           foundOnlyOne = true
-          var tiebreak = hand[i][0]
         } else {
-          return [false]
+          return false
         }
       }
     }
   }
-  return [foundOnlyOne,tiebreak]
+  return foundOnlyOne
 }
 
 window.isTwoPairs = function(hand) {
@@ -101,21 +100,13 @@ window.isTwoPairs = function(hand) {
     for (var j = i+1; j <5; j++) {
       if(hand[i][0] === hand[j][0]) {
         numFound ++
-        if (numFound === 1) {
-          var tiebreak1 === hand[i][0]
-        } else if (numFound === 2) {
-          var tiebreak2 = hand[i][0]
-        }
-        }
       }
     }
   }
-  var maxTie = Math.max(tiebreak1,tiebreak2)
-  var minTie = Math.max(tiebreak1,tiebreak2)
   if(numFound === 2) {
-    return [true,maxTie,minTie]
+    return true
   } else {
-    return [false]
+    return false
   }
 }
 
@@ -124,22 +115,22 @@ window.isThreeOfAKind = function(hand) {
     for (var j = i+1; j <4; j++) {
         for (var k = j + 1; k < 5; k++) {
           if(hand[i][0] === hand[j][0] && hand[j][0] === hand[k][0]) {
-            return [true,hand[i][0]]
+            return true
           }
         }
       }
     }
-  return [false]
+  return false
 }
 
 window.isFlush = function(hand) {
 	var suit = hand[0][1];
 	for (var i = 1; i < 5; i++) {
 		if (hand[i][1] != suit) {
-			return [false];
+			return false;
 		}
 	}
-	return [true];
+	return true;
 }
 
 window.isStraight = function(hand) {
@@ -150,22 +141,19 @@ window.isStraight = function(hand) {
 	numList.sort();
 	for(var i = 0; i < numList.length - 1; i++) {
 		if (numList[i] + 1 !== numList[i + 1]) {
-			return [false];
+			return false;
 		}
 	}
-	return [true,numList[4]];
+	return true;
 }
 
 window.isStraightFlush = function(hand) {
-	if (isStraight(hand)[0] && isFlush(hand)[0]) {
-    return isStraight
-  }
-  return [false]
+	return isStraight(hand) && isFlush(hand);
 }
 
 window.isRoyalFlush = function(hand) {
 	if (!isStraight(hand) || !isFlush(hand)) {
-		return [false];
+		return false;
 	}
 	var numList = [];
 	for(var i = 0; i < hand.length; i++) {
@@ -173,9 +161,9 @@ window.isRoyalFlush = function(hand) {
 	}
 	numList.sort();
 	if (numList[0] != 10) {
-		return [false];
+		return false;
 	}
-	return [true];
+	return true;
 }
 
 window.isFourOfAKind = function(hand) {
@@ -190,57 +178,51 @@ window.isFourOfAKind = function(hand) {
 		}
 	}
 	if (firstHalf.length === 4) {
-		return [true, firstHalf[0]];
+		return true;
 	}
 	if (firstHalf.length === 1) {
 		for (var j = 1; j < 4; j++) {
 			if (secondHalf[0] !== secondHalf[j]) {
-				return [false];
+				return false;
 			}
 		}
-		return [true, secondHalf[0]];
+		return true;
 	}
-	return [false];
+	return false;
 }
 
 window.isFullHouse = function(hand) {
-	if (isTwoPairs(hand)[0] && isThreeOfAKind(hand)[0]) {
-    return [true, isThreeOfAKind(hand)[1]]
+  for (var i = 0; i <4; i++) {
+    for (var j = i+1; j <5; j++) {
+      if(hand[i][0] === hand[j][0]) {
+        
+      }
+    }
   }
-  return [false]
 }
 
 window.getHand = function(hand) {
-	if (isRoyalFlush(hand)[0]) {
-		return [10];
-	} else if (isStraightFlush(hand)[0]) {
-		return [9, isStraightFlush(hand)[1]];
-	} else if (isFourOfAKind(hand)[0]) {
-		return [8, isFourOfAKind(hand)[1]];
-	} else if (isFullHouse(hand)[0]) {
-		return [7, isFullHouse(hand)[1]];
-	} else if (isFlush(hand)[0]) {
-		return [6, window.highestVal(hand)];
-	} else if (isStraight(hand)[0]) {
-		return [5, isStraight(hand)[1]];
-	} else if (isThreeOfAKind(hand)[0]) {
-		return [4, isThreeOfAKind(hand)[1]];
-	} else if (isTwoPairs(hand)[0]) {
-		return [3, isTwoPairs(hand)[1]];
-	} else if (isOnePair(hand)[0]) {
-		return [2, isOnePair(hand)[1]];
+	if (isRoyalFlush(hand)) {
+		return 10;
+	} else if (isStraightFlush(hand)) {
+		return 9;
+	} else if (isFourOfAKind(hand)) {
+		return 8;
+	} else if (isFullHouse(hand)) {
+		return 7;
+	} else if (isFlush(hand)) {
+		return 6;
+	} else if (isStraight(hand)) {
+		return 5;
+	} else if (isThreeOfAKind(hand)) {
+		return 4;
+	} else if (isTwoPairs(hand)) {
+		return 3;
+	} else if (isOnePair(hand)) {
+		return 2;
 	} else {
-		return [1, window.highestVal(hand)];
+		return 1;
 	}
-}
-
-window.highestVal = function(arr) {
-  var numVals = [];
-  for(var i = 0; i < 5; i++) {
-    numVals.push(hand1[i][0]);
-  }
-  window.sortByValue(numVals);
-  return numVals[4];
 }
 
 window.sortByValue = function(arr) {
@@ -261,18 +243,47 @@ window.sortByValue = function(arr) {
   return arr;
 };
 
+window.fullHouseTieMax = function(hand1) {
+  var max = 0
+    for (var i = 0; i <3; i++) {
+      for (var j = i+1; j <4; j++) {
+          for (var k = j + 1; k < 5; k++) {
+            if(hand[i][0] === hand[j][0] && hand[j][0] === hand[k][0]) {
+              max = hand[i][0]
+            }
+          }
+        }
+      }
+      return max
+  }
+
 window.rankPokerHand = function(hand1, hand2) {
 	//debugger;
   hand1 = window.createHand(hand1);
   hand2 = window.createHand(hand2);
   var hand1Val = window.getHand(hand1);
   var hand2Val = window.getHand(hand2);
-  if (hand1Val[0] > hand2Val[0]) {
+  console.log(hand1Val)
+  if (hand1Val > hand2Val) {
   	return 1;
-  } else if (hand1Val[0] < hand2Val[0]) {
+  } else if (hand1Val < hand2Val) {
   	return 2;
   } else {
-      if (hand1Val[1] > )
+  	var numVals1 = [];
+  	var numVals2 = [];
+  	for(var i = 0; i < 5; i++) {
+		numVals1.push(hand1[i][0]);
+		numVals2.push(hand2[i][0]);
+	}
+	window.sortByValue(numVals1);
+	window.sortByValue(numVals2);
+	for (var i = 4; i >= 0; i--) {
+		if (numVals1[i] > numVals2[i]) {
+			return 1;
+		} else if (numVals1[i] < numVals2[i]) {
+			return 2;
+		}
+	}
   }
   return 0;
 }

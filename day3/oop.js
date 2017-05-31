@@ -24,6 +24,8 @@
 // note. The `name` and `major` arguments for the constructor will both be strings
 // note. The `grades` argument should be an array of numbers.
 
+
+
 // Exercise 3. Method definitions
 // Write statements that define a `getGPA` function for the student.
 // 
@@ -56,11 +58,19 @@
 
 // Constructor & Properties
 
-// YOUR CODE HERE
-
+var Student = function(name, grades, major){
+	this.name = name;
+	this.grades = grades;
+	this.major = major;
+}
 // Methods Declarations
 
-// YOUR CODE HERE
+Student.prototype.getGPA = function(){
+	
+	var n = this.grades.length;
+	return this.grades.reduce(function(a,b){return a+b;}, 0) / n;
+
+}
 
 // Exercise 4. Using Objects - sortByGPA(students<Student[]>)
 // Write a function that takes an array of the <Student> objects you've implemented and return an array of the students sorted from lowest to highest.
@@ -75,5 +85,7 @@
 // 
 // hint. this will be similar to how you sorted objects in previous lessons.
 var sortByGPA = function(students) {
-  // YOUR CODE HERE
+	return students.sort(function(s1,s2){
+		return s1.getGPA() - s2.getGPA();
+	});
 };

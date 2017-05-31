@@ -251,7 +251,6 @@ stocks.bestTrade = function(data, ticker) {
     }
   }
   returnArr.push(highestDifference)
-  console.log(returnArr)
   return returnArr
 };
 
@@ -276,5 +275,30 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
+  var allBetterTrades = [];
+  var namesInOrder = [];
+  var stockNames = _.groupBy(data, function(stock) {
+    return stock.ticker
+  })
 
+  for (var key in stockNames) {
+    allBetterTrades.push(stocks.bestTrade(data,key))
+    namesInOrder.push(key)
+  }
+
+  var bestPrice = allBetterTrades[0][2]
+  for (var i=1;i<allBetterTrades.length;i++) {
+    if (bestPrice < allBetterTrades[i][2]) {
+      bestPrice = allBetterTrades[i][2]
+    }
+  }
+
+  for (var j=0; j<allBetterTrades.length;j++) {
+    if (bestPrice === allBetterTrades[j][2]) {
+      console.log(allBetterTrades[j])
+      var returnArr = allBetterTrades[j]
+      returnArr.unshift(namesInOrder[j])
+      return returnArr
+    }
+  }
 };

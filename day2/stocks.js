@@ -278,8 +278,36 @@ stocks.bestTrade = function(data, ticker) {
       }
     }
   }
-  console.log(maxDiff, index1, index2)
-return [new Date(sortedData[index1].time), new Date(sortedData[index2].time), maxDiff]
+  //console.log(maxDiff, index1, index2)
+  return [new Date(sortedData[index1].time), new Date(sortedData[index2].time), maxDiff]
+
+};
+
+stocks.bestTrade2 = function(data, ticker) {
+
+  var dataOfInterest = _.filter(data, function(n){
+    return n.ticker === ticker
+  })
+
+  var sortedData = _.sortBy(dataOfInterest, function(x){
+    return x.time
+  })
+  //console.log(sortedData)
+  var maxDiff = 0;
+  var index1 = 0;
+  var index2 = 0;
+  for(var i = 0; i < sortedData.length; i++){
+    for(var j =i; j < sortedData.length; j++){
+      var temp = sortedData[j].price - sortedData[i].price;
+      if(temp > maxDiff){
+        maxDiff = temp;
+        index1 = i; //buy
+        index2 = j; //sell
+      }
+    }
+  }
+  //console.log(maxDiff, index1, index2)
+  return [new Date(sortedData[index1].time), new Date(sortedData[index2].time), maxDiff, ticker]
 
 };
 
@@ -304,5 +332,13 @@ return [new Date(sortedData[index1].time), new Date(sortedData[index2].time), ma
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var tickers = ["GOOG","NFLX","FB","MSFT","AMZN","NVDA"];
+  var resultsArr = [];
+  for(var i = 0; i < tickers.length; i++){
+    resultsArr.push(stocks.bestTrade2(data, tickers[i]));
+  }
+  var best = _.max(resultsArr, function(n){
+    return n[2];
+  })
+  return [best[3], best[0], best[1], best[2]]
 };

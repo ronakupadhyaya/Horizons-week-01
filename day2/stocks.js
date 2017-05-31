@@ -42,7 +42,36 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var stockNames = _.groupBy(data, function(stock) {
+    return stock.ticker
+  })
+
+  for (var stock in stockNames) {
+    var stockTimes = []
+    var beginningPrice;
+    var endingPrice;
+    stockNames[stock].forEach(function (stock) {
+      stockTimes.push(stock.time)
+    })
+    var earliest = stockTimes.reduce(function(a,b) {
+      return a < b ? a : b
+    })
+    var latest = stockTimes.reduce(function (a,b) {
+      return a > b ? a : b
+    })
+
+    for (var i = 0; i < stockNames[stock].length; i++) {
+      if (stockNames[stock][i].time === earliest) {
+        beginningPrice = stockNames[stock][i].price;
+      } else if (stockNames[stock][i].time === latest) {
+        endingPrice = stockNames[stock][i].price;
+      }
+    }
+    var priceDifference = endingPrice - beginningPrice
+    stockNames[stock] = priceDifference;
+  }
+  return stockNames;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +89,14 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var gainAndLoss = stocks.gainAndLoss(data)
+  var bestCompany = Object.keys(gainAndLoss)[0];
+  for (var key in gainAndLoss) {
+    if (gainAndLoss[bestCompany] < gainAndLoss[key]) {
+      bestCompany = key;
+    }
+  }
+  return bestCompany;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +113,14 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var gainAndLoss = stocks.gainAndLoss(data)
+  var worstCompany = Object.keys(gainAndLoss)[0];
+  for (var key in gainAndLoss) {
+    if (gainAndLoss[worstCompany] > gainAndLoss[key]) {
+      worstCompany = key;
+    }
+  }
+  return worstCompany;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +133,31 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var stockNames = _.groupBy(data, function(stock) {
+    return stock.ticker
+  })
+  for (var stock in stockNames) {
+    var stockPrice = []
+    stockNames[stock].forEach(function (stock) {
+      stockPrice.push(stock.price)
+    })
+    var lowest = stockPrice.reduce(function(a,b) {
+      return a < b ? a : b
+    })
+    var highest = stockPrice.reduce(function (a,b) {
+      return a > b ? a : b
+    })
+
+    var priceDifference = highest - lowest
+    stockNames[stock] = priceDifference;
+  }
+  var widestCompany = Object.keys(stockNames)[0];
+  for (var key in stockNames) {
+    if (stockNames[widestCompany] < stockNames[key]) {
+      widestCompany = key;
+    }
+  }
+  return widestCompany;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +176,19 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var stockNames = _.groupBy(data, function(stock) {
+    return stock.ticker
+  })
+  var totalPrice = 0;
+  for (var ticker in portfolio) {
+    stockNames[ticker].forEach(function(stock) {
+      var currentDate = new Date(stock.time)
+      if (date - currentDate === 0) {
+        totalPrice = totalPrice + portfolio[ticker]*stock.price;
+      }
+    })
+  }
+  return totalPrice
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +209,50 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+
+  //done by Jing
+
+  var stockNames = _.groupBy(data, function(stock) {
+    return stock.ticker
+  });
+  var currentStock = stockNames[ticker]
+  var stockPrice = [];
+  var compareArr = [];
+  var returnArr = [];
+  for (var i = 0; i < currentStock.length; i++) {
+    for (var j = 0; j < currentStock.length; j++) {
+      var differentPrice = currentStock[j].price - currentStock[i].price
+      var buyDate = new Date(currentStock[i].time)
+      var sellDate = new Date(currentStock[j].time)
+      var differentDate = sellDate - buyDate
+      if (differentPrice > 0 && differentDate > 0 ) {
+        var comparePrice = {};
+        comparePrice.differentPrice = differentPrice;
+        comparePrice["buyDate"] = currentStock[i].time;
+        comparePrice["sellDate"] = currentStock[j].time;
+        compareArr.push(comparePrice)
+      }
+    }
+  }
+  var allDifferences = []
+  compareArr.forEach(function(number) {
+    allDifferences.push(number.differentPrice)
+  })
+
+  var highestDifference = allDifferences.reduce(function(a,b) {
+    return a > b ? a : b
+  });
+
+  for (var i = 0; i < compareArr.length; i++) {
+    if (highestDifference === compareArr[i].differentPrice) {
+      returnArr.push(new Date(compareArr[i].buyDate))
+      returnArr.push(new Date(compareArr[i].sellDate))
+      break;
+    }
+  }
+  returnArr.push(highestDifference)
+  console.log(returnArr)
+  return returnArr
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +276,5 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+
 };

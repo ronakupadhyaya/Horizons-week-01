@@ -54,5 +54,46 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var split = expression.split(" ");
+  if(expression === '') {
+    console.log("expression is 0 chars");
+    throw Error;
+  };
+  if(splitArray.length % 2 === 0) {
+    console.log("Expression string even number. Wrong number of ops/#'s'");
+    throw Error;
+  };
+  //order of plus or minuses
+  for (var i = 0; i < splitArray.length; i += 2) {
+    if (splitArray[i] === "+" || splitArray[i] === "-") {
+      console.log("+/- order mixed up");
+      throw Error;
+    }
+  }
+  for (var i =0; i<split.length; i++){
+    if (split[i] === "*"){
+      split[i-1] = split[i+1]* split[i-1];
+      split.splice(i,2);
+      i -=1
+    }
+    if (split[i]) === "/"){
+      split[i-1] = split[i+1]/ split[i-1];
+      split.splice(i,2);
+      i -= 1;
+    }
+  }
+
+var val = parseFloat(split[0]);
+  for (var i=0; i < split.length; i++){
+    if(split[i] === "+"){
+      split[i-1] = val + split [i+1];
+      split.splice(i,2);
+      i -=1;
+    }
+   if(split[i] === "-"){
+     split[i-1] = val - split [i+1];
+     split.splice(i,2);
+     i -=1;
+   }
+  }
 };

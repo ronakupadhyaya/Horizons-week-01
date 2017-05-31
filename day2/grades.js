@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0;
+  }
+  return _.reduce(arr,function(a,b){
+    return a + b
+  })/ arr.length
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +43,27 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+
+  var class1 = student.grades.class1;
+  var class2 = student.grades.class2;
+  var gpa = grades.average([class1, class2]);
+  return gpa;
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var high = 0;
+  var best = {};
+  _.forEach(data, function(student){
+    var gpa = grades.getGPA(student)
+    if(high < gpa){
+      high = gpa;
+      best = student;
+    }
+  })
+  return best;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +71,21 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majors ={};
+  _.forEach(data, function(student){
+    if(majors[student.major] === undefined){
+      majors[student.major] = [0,0];
+    }
+    majors[student.major][0] = majors[student.major][0]+grades.getGPA(student);
+    majors[student.major][1] = majors[student.major][1]+1;
+  });
+  majors = _.mapObject(majors, function(val,key){
+    return val[0]/val[1];
+  });
+  console.log(majors)
+  return _.findKey(majors,function(major){
+    return major === _.max(majors);
+  });
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -62,4 +94,20 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  //debugger;
+
+  var class1 = 0;
+  var class2 = 0;
+  var result = {};
+  _.forEach(data, function(student) {
+    class1 += student.grades.class1;
+    class2 += student.grades.class2;
+  })
+  var studentsLength = data.length;
+  var class1Average = class1 / studentsLength;
+  var class2Average = class2 / studentsLength;
+
+  return result = {"class1" : class1Average,
+                   "class2" : class2Average};
+
 };

@@ -55,4 +55,62 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  function checkOperator(a) {
+  if(a === '+' || a === '-' || a === '*' || a === '/'){return true;}
+  return false;
+  }
+if(expression.length===0){throw Error;}
+  var arr = expression.split(' ');
+  var sqrt = [];
+  for(var i = 0; i<arr.length-1; i++){
+  if(arr[i]==='sqrt'){
+    sqrt.push(i);
+  }
+  }
+  console.log(sqrt);
+  for(var i=0;i<sqrt.length;i++){
+  var temp = Math.sqrt(parseFloat(arr[sqrt[i]+1]));
+  arr.splice(sqrt[i],2,temp);
+  }
+  console.log(arr);
+if(arr.length%2===0){throw Error;}
+  for(var i=1;i<arr.length;i+=2){
+if(!checkOperator(arr[i])){throw Error;}
+  }
+  for(var i=0;i<arr.length;i+=2){
+  if(checkOperator(arr[i])){throw Error;}
+  }
+/*
+var result = parseInt(arr[0]);
+for(var i=1;i<arr.length-1;i+=2){
+if(arr[i]==='+'){result = result + parseInt(arr[i+1]);}
+if(arr[i]==='-'){result = result - parseInt(arr[i+1]);}
+}
+return result;
+*/
+var store = [];
+for(var i = 0; i<arr.length-1; i++){
+if(arr[i]==='*' || arr[i]==='/'){
+  store.push(i);
+}
+}
+for(var i=0;i<store.length;i++){
+  if(arr[store[i]]==='*'){
+    var temp = parseFloat(arr[store[i]-1]) * parseFloat(arr[store[i]+1]);
+    arr.splice(store[i]-1,3,temp);
+    for(var j=i;j<store.length;j++){store[j]-=2;}
+  }
+  else if(arr[store[i]]==='/'){
+    var temp = parseFloat(arr[store[i]-1]) / parseFloat(arr[store[i]+1]);
+    arr.splice(store[i]-1,3,temp);
+    for(var j=i;j<store.length;j++){store[j]-=2;}
+  }
+}
+console.log(arr);
+var result = parseFloat(arr[0]);
+for(var i=1;i<arr.length-1;i+=2){
+if(arr[i]==='+'){result = result + parseFloat(arr[i+1]);}
+if(arr[i]==='-'){result = result - parseFloat(arr[i+1]);}
+}
+return result;
 };

@@ -1,4 +1,4 @@
-"use strict";
+
 
 window.grades = {};
 
@@ -26,8 +26,16 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
-};
+  if(arr.length === 0) {
+    return 0;
+  }
+  else {
+    var sum = _.reduce(arr, function(a, b) {
+      return a + b;
+    }, 0)
+    return sum/arr.length;
+  }
+}
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
 // Write a function that takes an Student object and returns its GPA
@@ -38,28 +46,121 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
-};
-
+  //console.log(".grades", student.grades.class1);
+  return grades.average([student.grades.class1, student.grades.class2]);
+}
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
-}
+  var high = 2.1;
+  var person = data[0];
+  for(var i = 0; i < data.length; i++) {
+    if(grades.getGPA(data[i]) > high) {
+      person = data[i];
+      high = grades.getGPA(data[i]);
+    }
+  }
+  return person;
+  return high;
+};
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the highest GPA
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majors = {};
+  _.forEach(data, function(student) {
+    if (_.isUndefined(majors[student.major])) {
+      // First number: Total GPA
+      // Second number: Total students
+      // We'll use these for averages!
+      majors[student.major] = [0, 0];
+    }
+    majors[student.major][0] += grades.getGPA(student);
+    majors[student.major][1]++;
+  });
+  majors = _.mapObject(majors, function(val, key) {
+    return val[0] / val[1]; // Average GPA of major
+  });
+  return _.findKey(majors, function(major) {
+    return major === _.max(majors);
+  });
 };
+//   var maj = {};
+//   _.forEach(data, function(student) {
+//     if(_.isUndefined(maj[student.major])) {
+//       maj[student.major] = [0,0];
+//     }
+//     maj[student.major][0] += grades.getGPA(student); //total GPA
+//     maj[student.major][1]++; //total students
+//   });
+//   maj = _.mapObject(maj, function(val, key) {
+//     return val[0] / val [1]; //ave GPA of student in major
+//   });
+//   return _.findKey(maj, function(maj) {
+//     return maj === _.max(maj);
+//   });
+//
+// }
 
+
+
+    //
+    //console.log("mjr", majors);
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var cl1 = 0;
+  var cl2 = 0;
+  _.forEach(data, function(student) {
+    cl1 += student.grades.class1;
+    cl2 += student.grades.class2;
+  });
+  cl1 = cl1 / data.length;
+  cl2 = cl2 / data.length;
+
+  return { "class1" : cl1, "class2" : cl2 };
 };
+
+
+
+
+
+// //
+// var filmmajor = [];
+// var econmajor = [];
+// var compmajor = [];
+// var artmajor = [];
+// for(i = 0; i < data.length; i++) {
+//   if(data[i].major === "Film Studies") {
+//     filmmajor.push(grades.getGPA(data[i]));
+//   }
+//   if(data[i].major === "Economics") {
+//     econmajor.push(grades.getGPA(data[i]));
+//   }
+//   if(data[i].major === "Computer Science") {
+//     compmajor.push(grades.getGPA(data[i]));
+//   }
+//   if(data[i].major === "Art History") {
+//     artmajor.push(grades.getGPA(data[i]));
+//   }
+// }
+// //console.log("film", filmmajor);
+// //console.log("econ", econmajor);
+// //console.log("comp", compmajor);
+// //console.log("art", artmajor);
+// var filmgrade = grades.average(filmmajor);
+// var filmMajors = {'major': "Film Studies", 'gpa': filmgrade}
+// var econgrade = grades.average(econmajor);
+// var econMajors = {'major': "Economics", 'gpa': econgrade}
+// var compgrade = grades.average(compmajor);
+// var compMajors = {'major': "Computer Science", 'gpa': econgrade}
+// var artgrade = grades.average(artmajor);
+//
+// if(Math.max(filmgrade, econgrade, compgrade, artgrade) === filmgrade) {
+//   return "Film Studies";
+// }

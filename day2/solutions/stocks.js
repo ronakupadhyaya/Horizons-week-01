@@ -42,7 +42,11 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var gain = 0;
+  var tick = _.groupBy(data, "ticker");
+  console.log(tick);
+
+
   return _.chain(data)
     .groupBy('ticker')
     .mapObject(function(val) {

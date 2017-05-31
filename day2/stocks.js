@@ -42,8 +42,23 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
+  var tickerGroup = _.groupBy(data, function(trans){
+    return trans["ticker"]
+  });
+
+  return _.mapObject(tickerGroup, function(companyTransactions){
+    var earliestTransaction = companyTransactions[0];
+    var latestTransaction = companyTransactions[0];
+    _.forEach(companyTransactions, function(trans){
+      if(Date.parse(trans.time) > Date.parse(latestTransaction.time)){
+        latestTransaction = trans;
+      } else if(Date.parse(trans.time) < Date.parse(earliestTransaction.time)){
+        earliestTransaction = trans;
+      }
+    });
+    return latestTransaction["price"]-earliestTransaction["price"];
+  });
+}
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,12 +74,21 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var gainsObj = stocks.gainAndLoss(data);
+  var gains = _.values(gainsObj);
+
+  var index = 0;
+  for(var i = 1; i < gains.length; i++){
+    if(gains[i] > gains[index]){
+      index = i;
+    }
+  }
+  return _.keys(gainsObj)[index];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
 //
-// Write a function that finds the stock that went up in price the most
+// Write a function that finds the stock that went down in price the most
 // in absolute terms (i.e. not percentage-wise) over the lifetime of
 // the given data.
 //
@@ -76,7 +100,16 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var lossObj = stocks.gainAndLoss(data);
+  var loss = _.values(lossObj);
+
+  var index = 0;
+  for(var i = 1; i < loss.length; i++){
+    if(loss[i] < loss[index]){
+      index = i;
+    }
+  }
+  return _.keys(lossObj)[index];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +121,33 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var tickerGroup = _.groupBy(data, function(trans){
+    return trans["ticker"]
+  });
+
+  var ranges =  _.mapObject(tickerGroup, function(companyTransactions){
+    var leastTransaction = companyTransactions[0];
+    var greatestTransaction = companyTransactions[0];
+    _.forEach(companyTransactions, function(trans){
+      if(trans["price"] > greatestTransaction["price"]){
+        greatestTransaction = trans;
+      } else if(trans["price"] < leastTransaction["price"]){
+        leastTransaction = trans;
+      }
+    });
+    return greatestTransaction["price"]-leastTransaction["price"];
+  });
+
+  var biggestRange = _.values(ranges);
+
+  var index = 0;
+  for(var i = 1; i < biggestRange.length; i++){
+    if(biggestRange[i] > biggestRange[index]){
+      index = i;
+    }
+  }
+  return _.keys(ranges)[index];
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +165,26 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var tickerGroup = _.groupBy(data, function(trans){
+    return trans["ticker"]
+  });
+
+  debugger;
+  var correctPrices = _.mapObject(tickerGroup, function(transactions){
+    _.forEach(transactions, function(trans){
+      if(Date.parse(trans['time']) === Date.parse(date.getTime())){
+        return trans['price'];
+      }
+    });
+  });
+
+  _.mapObject(portfolio, function(numShares, company){
+    return numShares*correctPrices[company];
+  });
+
+  return _.reduce(portfolio, function(a, b){
+    return a + b;
+  }, 0);
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

@@ -182,7 +182,6 @@ stocks.portfolioValue = function(data, date, portfolio) {
   var group = _.groupBy (data, function (transaction){
     return transaction.ticker;
   });
-  console.log(group);
   function findDate (transactions){
     var closest = transactions[0];
     var closestTime = new Date(transactions[0].time);
@@ -208,7 +207,6 @@ stocks.portfolioValue = function(data, date, portfolio) {
   _.forEach(group, function (val, key){
     var transaction = findDate(val);
     sum = sum + transaction.price * findNum(transaction);
-    console.log(key, transaction);
   })
   return sum;
 };
@@ -231,9 +229,74 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  // sort data by group
+  var group = _.groupBy(data, function (transaction) {
+    return transaction.ticker;
+  });
+  //get transactions of company ticker
+  var transactions = [];
+  _.forEach(group, function(val, key) {
+    if (key === ticker) {
+      console.log(key);
+      transactions = val;
+    }
+  })
+  //sort transactions by time via merge sort
+  transactions = stocks.sortByTime(transactions);
+  //nested for loop to find s and e times of greatest price range
+  var range = 0;
+  var startTime = null;
+  var endTime = null;
+  for (var s = 0; s<transactions.length; s++) {
+    var sP = transactions[s].price;
+    for (var e = s; e<transactions.length; e++) {
+      var eP = transactions[e].price;
+
+      if (eP-sP > range) {
+        range = eP-sP;
+        startTime = transactions[s].time;
+        endTime = transactions[e].time;
+      }
+    }
+  }
+
+  return [new Date(startTime), new Date(endTime), range];
+
 };
 
+stocks.sortByTime = function(transactions) {
+  function mergeSort(transactions) {
+    if (transactions.length < 2) {
+      return transactions;
+    }
+
+    var middle = parseInt(transactions.length/2);
+    var left = transactions.slice(0, middle);
+    var right = transactions.slice(middle, transactions.length);
+
+    return merge(mergeSort(left), mergeSort(right));
+  }
+
+  function merge(left, right) {
+    var result = [];
+    while (left.length && right.length) {
+      if (new Date(left[0].time).getTime() <= new Date(right[0].time).getTime()) {
+        result.push(left.shift());
+      } else {
+        result.push(right.shift());
+      }
+    }
+    while (left.length) {
+      result.push(left.shift());
+    }
+    while (right.length) {
+      result.push(right.shift());
+    }
+    return result;
+  }
+
+  return mergeSort(transactions);
+}
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
 // Write a function to figure out the best stock to buy and when to
 // buy and sell it.
@@ -255,5 +318,20 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  //sort data by company
+  var group = _.groupBy(data, function(transaction) {
+    return transaction.ticker;
+  });
+  //compare each company's best trade; save/replace values for the best one
+  var bestCO = [];
+  var bestTrans = [0, 0, 0];
+  _.forEach(group, function(val, key) {
+    var arr = stocks.bestTrade(data, key);
+    if (arr[2] > bestTrans[2]) {
+      bestCO[0] = key;
+      bestTrans = arr;
+    }
+  })
+
+  return bestCO.concat(bestTrans);
 };

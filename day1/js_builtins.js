@@ -20,7 +20,26 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var arr = [];
+  var start = '';
+  var end = '';
+
+  for (var i = 0; i < str.length; i ++) {
+  	if (str[i] !== ' ') {
+  		start = i;
+  		break;
+  	}
+  }
+
+  for (var j = str.length-1; j > 0; j -= 1) {
+  	if (str[j] !== ' ') {
+  		end = j
+  		break;
+  	}	
+  }
+
+  return str.substring(start, end + 1);
+
 };
 
 // ----------------------------------------------------------------------------
@@ -39,7 +58,24 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+	// if (sourceString.length > searchString.length) {
+	// 	var longer = sourceString;
+	// 	var shorter = searchString;
+	// } else {
+	// 	var longer = searchString;
+	// 	var shorter = sourceString;
+	// }
+
+
+
+ // 	for (var i = 0; i < longer.length; i++) {
+ //  		for (var j = 0; j < shorter.length; j ++) {
+ //  			if (longer[i] === shorter[j]) {
+ //  			}
+ //  		}	
+ //  	}
+ return sourceString.includes(searchString);
+
 };
 
 // ----------------------------------------------------------------------------
@@ -59,7 +95,11 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var str2 = str.split(" ")
+  if (typeof parseInt(str2[0]) === "number") {
+  	console.log(parseInt(str2[0]));
+  	return parseInt(str2[0]);
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +115,11 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+  var arr2 = [];
+  for (var i = 0; i < arr.length; i ++) {
+  	arr2.unshift(arr[i]);
+  }
+  return arr2;
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +137,17 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+	if (a.length !== b.length) {
+		return false;
+	}
+
+ 	for (var i = 0; i < a.length; i ++) {
+  	if (a[i] === b[i]) {
+  	} else {
+  		return false;
+  	}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +164,8 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+	var rev = builtins.reverse(arr);
+	return builtins.isEqual(arr, rev)
 };
 
 // ----------------------------------------------------------------------------
@@ -131,6 +186,11 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+
+ 	arr.sort(function (a, b) {
+  	return a - b;
+  });
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -147,7 +207,10 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  arr.sort(function (a, b) {
+  	return a.length - b.length;
+  });
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -162,5 +225,16 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+	var arr2 = [];
+	for (var i = 0; i < arr.length; i ++) {
+		for (var j = 0; j < arr[i].length; j ++){
+			arr2.push(arr[i][j]);
+		}
+	}
+	return arr2;
 };
+
+
+
+
+

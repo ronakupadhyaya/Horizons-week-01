@@ -54,5 +54,36 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	var expression2 = expression.split(" ")
+	var result = expression2[0]
+	for (var i = 1; i < expression2.length; i += 2) {
+		if (expression2[i] === '*') {
+			result = result * expression2[i+1]
+		} else if (expression2[i] === '/') {
+			result = result / expression2[i+1];
+		} else if (expression2[i] === '+') {
+			result -= expression2[i+1];
+		} else (expression2[i] === '-')
+
+		}
+	}
+
+
+	// var result = expression[0]; 
+	// var filteredExpression = expression.split("")
+	// for (var i = 0; i < filteredExpression.length; i += 2) {
+	// 	if (typeof filteredExpression[i] === 'number') {
+			
+	// 		if (filteredExpression[i + 2] === '*') {
+	// 			result = result * filteredExpression[i];
+	// 		} else if (filteredExpression[i+2] === '/') {
+	// 			result = result / filteredExpression[i];
+	// 		} else if (filteredExpression[i + 2] === '+') {
+	// 			result += filteredExpression[i];
+	// 		} else (filteredExpression[i + 2] === '-') {
+	// 			result -= filteredExpression[i];
+	// 		}
+	// 	}
+	// }
+  throw 'Error'
 };

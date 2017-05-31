@@ -47,7 +47,28 @@ var valuesToCheck = function() {
 // Good luck!
 
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+ var values = valuesToCheck();
+ var obj = {};
+ for (var i = 0; i < values.length; i++) {
+   for (var j = 0; j < values.length; j++) {
+     var valueNames = [JSON.stringify(values[i]), JSON.stringify(values[j])];
+
+     if (valueNames[0] === undefined) {
+     	valueNames[0] = "undefined";
+     }
+     if (valueNames[1] === undefined) {
+     	valueNames[1] = "undefined";
+     }
+     if (valueNames[0] === "null" || valueNames[1] === "null") {
+     	valueNames[0] = values[i] + "";
+     	valueNames[1] = values[j] + "";
+     }
+
+     obj[valueNames[0] + "_" + valueNames[1]] = (values[i] == values[j]);
+   }
+ }
+ console.log(obj);
+ return obj;
 };
 
 comp.testStrictEquality = function() {

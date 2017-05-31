@@ -35,6 +35,39 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+	var macBook = {
+	  ram: "8gb",
+	  processor: "i3",
+	}
+	var macBookPro = {
+	  processor: "i5",
+	  color: "Space gray"
+	}
+	var touchBarMacbook = {
+	  extras: "touchBar"
+	};
+
+	macBookPro.__proto__ = macBook;
+	touchBarMacbook.__proto__ = macBookPro;
+
+
+  var keys = [];
+  // _.each(obj, function(value, key){
+  // 	if () {
+  // 		keys.push(key);
+  // 	}
+  // });
+
+  while (obj != undefined) {
+  	_.each(obj, function(value, key) {
+  		if (!keys.includes(key)) {
+  			keys.push(key);
+  		}
+  	})
+  	obj = obj.__proto__;
+  }
+
+  return keys;
 }
 
 // Exercise 2 prototypes.keys()
@@ -46,5 +79,11 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+	var keys = [];
+  _.each(obj, function(value, key) {
+  		if (!keys.includes(key)) {
+  			keys.push(key);
+  		}
+  	})
+  return keys;
 }

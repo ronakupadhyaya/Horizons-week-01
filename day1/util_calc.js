@@ -54,5 +54,11 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	expression = expression.split(" ");
+
+	tmp = [];
+	for (var i = 0; i < expression.length; i++) {
+		tmp[i] = isNaN(parseFloat(expression[i])) ? expression[i] : parseFloat(expression[i])
+	}
+	while (expression.length !== 1)
 };

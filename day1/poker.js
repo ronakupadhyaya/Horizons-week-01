@@ -47,4 +47,186 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var power1 = findPower(hand1)
+  var power2 = findPower(hand2)
+  console.log(power1[0], power2[0])
+  if (power1[0] == power2[0]) {
+  	console.log(largestCardValue(power1[1]), largestCardValue(power2[1]))
+  	if (largestCardValue(power1[1]) > largestCardValue(power2[1])) {
+  		return 1;
+  	} else return 2;
+  } else if (power1[0] > power2[0]) return 1;
+  else return 2;
+}
+
+window.findPower = function(hand) {
+	if (isRoyalFlush(hand)[0]) return [9,isRoyalFlush(hand)[1]];
+	if (isStraightFlush(hand)[0]) return [8,isStraightFlush(hand)[1]];
+	if (isFourOfAKind(hand)[0]) return [7,isFourOfAKind(hand)[1]];
+	if (isFullHouse(hand)[0]) return [6,isFullHouse(hand)[1]];
+	if (isFlush(hand)[0]) return [5,isFlush(hand)[1]];
+	if (isStraight(hand)[0]) return [4,isStraight(hand)[1]];
+	if (isThreeOfAKind(hand)[0]) return [3,isThreeOfAKind(hand)[1]];
+	if (isTwoPairs(hand)[0]) return [2,isTwoPairs(hand)[1]];
+	if (isOnePair(hand)[0]) return [1,isOnePair(hand)[1]];
+	else return [0, hand];
+}
+
+window.isRoyalFlush = function(hand) {
+	// Check if all the suits are the same
+    if (!isFlush(hand)) { return [false, hand]; }
+
+    // Check if the values are A, 10, J, Q, K
+    var arr = hand.map(getValue).sort();
+    return [arr[0] === 10 && 
+            arr[1] === 11 &&
+            arr[2] === 12 &&
+            arr[3] === 13 &&
+            arr[4] === 14, hand];
+}
+
+window.isStraightFlush = function(hand) {
+	if (isStraight(hand)[0] && isFlush(hand)[0]) {
+		return [true, hand];
+	} else return [false, hand];
+}
+
+window.isFourOfAKind = function(hand) {
+	var values = []
+	for (var i=0; i<hand.length; i++) {
+		values.push(window.getValue(hand[i]))
+	}
+	values.sort()
+	for (var i=0; i<2; i++) {
+		if (values[0+i] == values[1+i] &&
+			values[1+i] == values[2+i] &&
+			values[2+i] == values[3+i]) {
+			return [true, hand];
+		}
+	}
+	return [false, hand];
+}
+
+window.isFullHouse = function(hand) {
+	return [isThreeOfAKind(hand)[0] && isOnePair(hand)[0], isThreeOfAKind(hand)[1]]
+}
+
+window.isFlush = function(hand) {
+    var suits = hand.map(getSuit);
+
+    var s = suits[0];
+    return [suits.reduce(function(acc, e) { return acc && (e == s); }, 
+                         true), hand];
+}
+
+window.isStraight = function(hand) {
+    var values = hand.map(getValue).sort(function(a,b){return a-b;});
+
+    return [values[1] === values[0] + 1 &&
+            values[2] === values[1] + 1 &&
+            values[3] === values[2] + 1 &&
+            values[4] === values[3] + 1];
+}
+
+window.isThreeOfAKind = function(hand) {
+	var values = []
+	for (var i=0; i<hand.length; i++) {
+		values.push(window.getValue(hand[i]))
+	}
+	values.sort()
+	for (var i=0; i<3; i++) {
+		if (values[0+i] == values[1+i] &&
+			values[1+i] == values[2+i]) {
+			var return_hand = []
+			for (var i=0; i<hand.length; i++) {
+				if (window.getValue(hand[i]) == values[0+i]) return_hand.push(hand[i])
+			}
+			return [true, return_hand];
+		}
+	}
+	return [false, hand];
+}
+
+window.isTwoPairs = function(hand) {
+	var values = []
+	for (var i=0; i<hand.length; i++) {
+		values.push(window.getValue(hand[i]))
+	}
+	values.sort()
+	var matches = 0
+	while (values.length>1){
+		var val = values.pop()
+		var match = []
+		var noMatch = []
+		for (var i=0; i<values.length; i++) {
+			if (values[i] == val) {
+				match.push(values[i])
+			} else {
+				noMatch.push(values[i])
+			}
+		}
+		if (match.length == 1) {
+			matches++
+			if (matches == 2) {
+				return [true, hand]
+			} else {
+				values = noMatch
+			}
+		} else {
+			values = noMatch
+		}
+	}
+	return [false, hand]
+}
+
+window.isOnePair = function(hand) {
+    var values = []
+    for (var i=0; i<hand.length; i++) {
+        values.push(window.getValue(hand[i]))
+    }
+    values.sort()
+    while (values.length>1){
+        var val = values.pop()
+        var match = []
+        var noMatch = []
+        for (var i=0; i<values.length; i++) {
+            if (values[i] == val) {
+                match.push(values[i])
+            } else {
+                noMatch.push(values[i])
+            }
+        }
+        if (match.length == 1) {
+            var return_hand = []
+            for (var i=0; i<values.length; i++) {
+                if (getValue(hand[i]) == val) return_hand.push(hand[i]);
+            }
+            return [true, return_hand]
+        } else {
+            values = noMatch
+        }
+    }
+    return [false, hand]
+}
+
+window.largestCardValue = function(hand) {
+    var values = hand.map(getValue);
+    return Math.max.apply(null, values);
+}
+
+window.getValue = function(card) {
+	if (!window.isNaN(parseInt(card))){
+		return parseInt(card);
+	} else {
+		switch(card[0]) {
+			case "J": return 11;
+			case "Q": return 12;
+			case "K": return 13;
+			case "A": return 14;
+		}
+	}
+}
+
+window.getSuit = function(card) {
+	return card[card.length - 1]
 }

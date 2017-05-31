@@ -32,6 +32,23 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var memLog = [];
+  var ansLog = [];
+  var val;
+
+  
+  return function inner(number){
+  		var i = memLog.indexOf(number);
+	  	if (i === -1){
+	  		val = func(number);
+			memLog.push(number);
+			ansLog.push(val);
+			return val;	
+	  	} else {
+	  		return ansLog[i];
+	  	}
+	  	
+	}
 };
 
 // Exercise 2: partial()

@@ -20,6 +20,10 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+
+//23+
+//[1, 2 +], [23, 4 3]
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -53,6 +57,314 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+/*
+util.calc = function(expression) {
+// YOUR CODE HERE
+if (expression === "") {
+throw new Error('Empty expression');
+}
+var expressionArr = expression.split(' ');
+
+var i = 0;
+var result = num();
+var total = 0;
+
+function nextStep() {
+return expressionArr[i++];
+}
+
+function num() {
+var cur = nextStep();
+if (cur === 'sqrt') {
+return Math.sqrt(num());
+}
+
+if (! isNum(cur)) {
+throw new Error('Expected number, got ' + cur);
+}
+return + cur;
+}
+
+function op() {
+var cur = nextStep();
+if (['-', '+', '/', '*', 'sqrt'].indexOf(cur) < 0) {
+throw new Error('Expected operator, got ' + cur);
+}
+return cur;
+}
+
+while (i < expressionArr.length) {
+var oper = op();
+if (oper === '+') {
+total += result;
+result = num();
+} else if (oper === '-') {
+total += result;
+result = -num();
+} else if (oper === '*') {
+result *= num();
+} else if (oper === '/') {
+result /= num();
+}
+}
+
+return total + result;
+};
+
+function isNum(n) {
+return ! isNaN(n);
+};
+*/
+
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if (expression === "") {
+    throw "Error: Emtpy Expression"
+  }
+  var expressionArr = expression.split(' ');
+
+  var i = 0;
+  var result = num();
+  var total = 0;
+  var operatorsArr = ["+","-","*","/","sqrt"];
+
+  function nextStep() {
+    return expressionArr[i++];
+  }
+
+  function isNum(n) {
+    return ! isNaN(n);
+  }
+
+  function num() {
+    var cur = nextStep();
+    if (cur === 'sqrt') {
+      return Math.sqrt(num());
+    }
+
+
+    if (!isNum(cur)) {
+      throw "Error: no numbers"
+    }
+    return + cur;
+  }
+
+
+  function opt() {
+    var cur = nextStep();
+    if (operatorsArr.indexOf(cur) < 0) {
+      throw "Error: missing operators"
+    }
+    return cur;
+  }
+
+
+  while (i < expressionArr.length) {
+    var op = opt();
+    if (op === '+') {
+      total += result;
+      result = num();
+    } else if (op === '-') {
+      total += result;
+      result = -num();
+    } else if (op === '*') {
+      result *= num();
+    } else if (op === '/') {
+      result /= num();
+    }
+  }
+
+
+  return total + result;
 };
+
+
+
+
+
+
+/*
+
+  if (expression === '') {
+    throw "Error: Empty expression";
+  }
+
+  var expressionArr = expression.split(' ');//create an array
+//  console.log(expressionArr);
+  var operators = ["+", "-", "*", "/", "sqrt"];
+  var i = 0;
+  var totalal = 0;
+  var result;
+
+
+  // check if input is number
+  function isNum(input) {
+    return !isNaN(input);
+  }
+
+  //check if operators are in expressionArr and return operators
+  function operators(){
+    var currentOpt = nextStep();
+    if (operators.indexOf(currentNum) === -1) {
+      throw "Error: missing operator"
+    }
+    return currentOpt;
+  }
+  // create a nextStep() function that loops thorugh expressionArr
+  function nextStep() {
+    return expressionArr[i++];
+  }
+  //console.log ( nextStep() );
+
+
+
+  function numbers() {
+    var current = nextStep();
+    if (current === "sqrt") {
+      return Math.sqrt(numbers());
+    }
+    if (!isNum(current)){ //if currentNum is not a number
+      throw "Error: no numbers";
+    }
+    return + current;
+  }
+//  console.log ("num " + numbers() );
+
+  //console.log(expressionArr); // ["1", " ", "2", " ", "+"]
+  result = numbers();
+
+  while (i < expressionArr.length) {
+    var opt = operators();
+    if (opt === "+") {
+      totalal += result;
+      result = numbers();
+    } else if (opt === "-") {
+      totalal += result;
+      result -= numbers();
+    } else if (opt === "*") {
+      result *= numbers();
+    } else if (opt === "/") {
+      result /= numbers();
+    }
+  } return totalal + results;
+
+};
+*/
+  /*
+  console.log(expression);
+  function nextStep() {
+    return expressionArr[i++];
+  }
+
+
+  var operatorCnt = 0;
+  for (var i = 0; i < expressionArr.length; i++) {
+    for (var j = 0; j < operators.length-1; j++) {
+      if (expressionArr[i] === operators[j]) {
+        operatorCnt ++;
+      }
+    }
+  }
+  if ( operatorCnt + 1 !== expressionArr.length-operatorCnt ) {
+    throw "Error: operators and numbers mismatch";
+  } else if (expressionArr.length === 1) {
+    return parseInt(expressionArr.toString());
+  }
+
+
+  if (expressionArr[expressionArr.length-1] === "+" ||
+  expressionArr[expressionArr.length-1] === "-" ||
+  expressionArr[expressionArr.length-1] === "*" ||
+  expressionArr[expressionArr.length-1] === "/") {
+    throw "Error: wrong spot";
+  }
+  if (expressionArr[0] === "+" ||
+  expressionArr[0] === "-" ||
+  expressionArr[0] === "*" ||
+  expressionArr[0] === "/") {
+    throw "Error: wrong spot";
+  }
+
+  // PART2
+  // ex. util.calc('1') -> 1
+  // ex. util.calc('-12') -> -12
+  // ex. util.calc('3 + 2') -> 5
+  // ex. util.calc('3 + 8 + 2 + 1    ') -> 14
+  // ex. util.calc('2 - 1 + 5 + 6') -> 12
+  // ex. util.calc('-1 + 3 - 2 + 5') -> 5
+
+
+  var num = [];
+
+  var numbers = [];
+  for (var i = 0; i < expressionArr.length; i++) {
+    if (operators.indexOf(expressionArr[i]) === -1){
+      numbers.push(expressionArr[i]);
+    }
+  }
+};
+*/
+/*
+
+  function operation (num1, num2, operator) {
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
+    var result;
+    switch(operator) {
+      case "+":
+      result = num1 + num2;
+      break;
+
+      case "-":
+      result = num1 - num2;
+      break;
+
+      case "*":
+
+      result = num1 * num2;
+      break;
+
+      case "/":
+      result = num1 / num2;
+      // var rounded = Math.round ( result * 10)/10;
+      // var fixed = rounded.toFixed(1);
+      // result = fixed;
+      break;
+
+      default:
+      result = num1;
+
+    } return result;
+  }
+
+  var res = 0;
+  console.log("------------------------------------");
+  console.log("before m/d op: " + expressionArr);
+  for (var i = 0; i < expressionArr.length-2; i+=2) {
+    if (expressionArr[i+1] === "*" || expressionArr[i+1] === "/") {
+      var flag = true;
+      if (flag) {
+        res = operation(expressionArr[i], expressionArr[i+2], expressionArr[i+1]);
+        expressionArr.splice(i, 3, res);
+      }
+      res = operation(expressionArr[i], expressionArr[i+2], expressionArr[i+1]);
+    }
+    if (expressionArr[i] === null) {
+      i += 2;
+    }
+  }
+
+  console.log("After m/d op: " + expressionArr);
+  var res2 = 0;
+  for (var i = 0; i < expressionArr.length-2; i+=2) {
+    res2 = operation(expressionArr[i], expressionArr[i+2], expressionArr[i+1]);
+    expressionArr.splice(i, 3, res2);
+
+    if (expressionArr[i] === null){
+      i +=2;
+    }
+  }
+  console.log("After +/- op: " + expressionArr);
+  return res2;
+};
+*/

@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0;
+  }
+  return _.reduce(arr,function(a,b){
+    return a + b
+  })/ arr.length
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +43,27 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+
+  var class1 = student.grades.class1;
+  var class2 = student.grades.class2;
+  var gpa = grades.average([class1, class2]);
+  return gpa;
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var high = 0;
+  var best = {};
+  _.forEach(data, function(student){
+    var gpa = grades.getGPA(student)
+    if(high < gpa){
+      high = gpa;
+      best = student;
+    }
+  })
+  return best;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,8 +71,113 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
-};
+
+  var majors = _.groupBy(data, function(student){
+    return student.major;
+  })
+
+  // 13 in econ, 8 in art, 10 in cs, 14 in Film
+  //debugger;
+  //object, array, object { [ { } ] }
+  var Econ = [];
+  var Art = [];
+  var Film = [];
+  var cs = [];
+
+  //Economic -->
+
+  for (var key in majors) { //loop through keys...Economics, Art History, etc.
+
+    if (majors.hasOwnProperty(key)) {
+      if (key === "Economics") {
+        //debugger;
+        for (var i = 0; i < majors[key].length; i++) {
+          var econSum1 = ( majors[key][i].grades.class1 );
+          var econSum2 = ( majors[key][i].grades.class2 );
+          Econ.push(econSum1 + econSum2);
+          var econStudents = majors[key].length;
+        }
+
+      }
+      if (key === "Art History") {
+        for (var i = 0; i < majors[key].length; i++) {
+          var artSum1 = ( majors[key][i].grades.class1 );
+          var artSum2 = ( majors[key][i].grades.class2 );
+          Art.push(artSum1 + artSum2);
+          var artStudents = majors[key].length;
+
+        }
+      }
+      if (key === "Film Studies") {
+        for (var i = 0; i < majors[key].length; i++) {
+          var filmSum1 = ( majors[key][i].grades.class1 );
+          var filmSum2 = ( majors[key][i].grades.class2 );
+          Film.push(filmSum1 + filmSum2);
+          var filmStudents = majors[key].length;
+
+        }
+      }
+      if (key === "Computer Science") {
+        for (var i = 0; i < majors[key].length; i++) {
+          var csSum1 = ( majors[key][i].grades.class1 );
+          var csSum2 = ( majors[key][i].grades.class2 );
+          cs.push(csSum1 + csSum2);
+          var csStudents = majors[key].length;
+
+        }
+      }
+    }
+  }
+
+  var artSum, csSum, filmSum;
+  var artAve, csAve, filmAve, econAve;
+  var econSum = Econ.reduce(function(a, b){
+    return a + b;
+  })
+  econAve = econSum / econStudents;
+  var artSum = Art.reduce(function(a, b){
+    return a + b;
+  })
+  artAve = artSum / artStudents;
+  var csSum = cs.reduce(function(a, b){
+    return a + b;
+  })
+  csAve = csSum / csStudents;
+  var filmSum = Film.reduce(function(a, b){
+    return a + b;
+  })
+  filmAve = filmSum / filmStudents;
+
+  // compare values
+  var arr = [];
+  arr.push(filmAve, csAve, artAve, econAve);
+  var biggest = Math.max(filmAve, csAve, artAve, econAve);
+  for (var i =0; i < arr.length; i++) {
+    if (arr[0] === biggest){
+      return "Film Studies";
+    } else if (arr[1] === biggest) {
+      return "Computer Sciece";
+    } else if (arr[2] === biggest) {
+      return "Art History";
+    } else {
+      return "Economics";
+    }
+  }
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
@@ -62,4 +185,20 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
-};
+  //debugger;
+
+  var class1 = 0;
+  var class2 = 0;
+  var result = {};
+  _.forEach(data, function(student) {
+    class1 += student.grades.class1;
+    class2 += student.grades.class2;
+  })
+  var studentsLength = data.length;
+  var class1Average = class1 / studentsLength;
+  var class2Average = class2 / studentsLength;
+
+  return result = {"class1" : class1Average,
+                   "class2" : class2Average};
+
+}

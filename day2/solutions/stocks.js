@@ -29,7 +29,7 @@ window.stocks = {};
 // This function should return an object with stock tickers as keys and the total
 // gain or loss for the given stock as the values.
 //
-// Total gain or loss is defined as latest price of the company minus earliest
+// !!Total gain or loss is defined as latest price of the company minus earliest
 // price of the company.
 //
 // Example.
@@ -41,8 +41,11 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
+
+
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  debugger;
   return _.chain(data)
     .groupBy('ticker')
     .mapObject(function(val) {

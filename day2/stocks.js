@@ -165,24 +165,19 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  var tickerGroup = _.groupBy(data, function(trans){
-    return trans["ticker"]
+  var correctTransactions = _.filter(data, function(trans){
+    return new Date(trans['time']).getTime() === date.getTime();
   });
 
-  debugger;
-  var correctPrices = _.mapObject(tickerGroup, function(transactions){
-    _.forEach(transactions, function(trans){
-      if(Date.parse(trans['time']) === Date.parse(date.getTime())){
-        return trans['price'];
-      }
+  var invValues = _.mapObject(portfolio, function(numStocks, company){
+    var currentCompanyTrans = _.find(correctTransactions, function(trans){
+      return trans['ticker'] === company;
     });
+
+    return currentCompanyTrans['price']*numStocks;
   });
 
-  _.mapObject(portfolio, function(numShares, company){
-    return numShares*correctPrices[company];
-  });
-
-  return _.reduce(portfolio, function(a, b){
+  return _.reduce(invValues, function(a, b){
     return a + b;
   }, 0);
 };

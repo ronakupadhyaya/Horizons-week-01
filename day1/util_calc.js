@@ -54,5 +54,31 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  var arrExp = expression.split(" ");
+  var arrOper = ['+','-','*',"/"];
+  var opCount = 0;
+  var numCount = 0;
+
+
+  if (expression == "") {
+    throw "Error, empty expression";
+  }
+  debugger;
+  for (var i = 0; i < arrExp.length; i++) {
+    var operator = false;
+    for (var j = 0; j < arrOper.length; j++) {
+      if (arrExp[i] = arrOper[j]) {
+        operator = true;
+      }
+      if (operator) {
+        opCount++;
+      }
+      else {
+        console.log(numCount++);
+      }
+    }
+  }
+  if (numCount - 1 != opCount) {
+    throw "Error";
+  }
+}

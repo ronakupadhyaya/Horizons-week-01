@@ -60,7 +60,11 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
+  var product = 1;
+  for (var i = 0; i < arguments.length; i++) {
+    product *= arguments[i];
+  }
+  return product;
 };
 
 // Exercise 3. varArgs.joinWith(args...)

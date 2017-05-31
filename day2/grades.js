@@ -64,33 +64,31 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
   var group = _.groupBy(data, function(student) {
     return student.major;
   });
-  //list of majors
-  var majors = [];
+  //go through each major, calculate gpa, store highest average 
+  var highestAverage = 0;
+  var major = null;
   _.forEach(group, function(val, key) {
-    majors.push(key);
-  })
-  //loop through majors to get array of average gpas
-  var gradesArray = [];
-  for (var m = 0; m<majors.length; m++) {
-    var students = group[majors[m]];
-    var gradesPerMajor = [];
-    for (var s = 0; s<students.length; s++) {
-      var student = students[s];
-      gradesPerMajor.push(grades.average([student.grades.class1, student.grades.class2]));
+    //val is student array, key is major
+    //go through student array and create array of average grades per student
+    var studAverages = [];
+    val.forEach(function (student) {
+      var individGrades = [student.grades.class1, student.grades.class2];
+      studAverages.push(grades.average(individGrades));
+    });
+    //replace val stud array with val avg major gpas
+    val = grades.average(studAverages);
+    //check if avg gpa is highest so far, replace values if so
+    if (val > highestAverage) {
+      highestAverage = val;
+      major = key;
     }
-    gradesArray.push(grades.average(gradesPerMajor));
-  }
-  //determine highest gpa
-  var highest = gradesArray.reduce(function(highest, current) {
-    return highest > current ? highest : current;
-  })
-  //return major of highest gpa
-  return majors[gradesArray.indexOf(highest)];
+  });
+  return major;
 };
+
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys,
@@ -103,7 +101,6 @@ grades.avgGPAPerClass = function(data) {
   data.forEach(function (student) {
     class1grades.push(student.grades.class1);
   });
-  console.log(class1grades);
   var class2grades = [];
   data.forEach(function (student) {
     class2grades.push(student.grades.class2);

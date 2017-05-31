@@ -46,10 +46,72 @@ var valuesToCheck = function() {
 
 // Good luck!
 
+comp.valToString = function(value) {
+	if (typeof value === "string") {
+		return '"' + value + '"';
+	} else if (typeof value === "boolean") {
+		return value + "";
+	} else if (typeof value === "number") {
+		return value + "";
+	} else if (value === undefined) {
+		return "undefined";
+	} else if (value === null) {
+		return "null";
+	} else {
+		if (value.length !== 0) {
+			if (value[0] === 0) {
+				return "[0]";
+			} else if (value[0] === 1) {
+				return "[1]";
+			} else if (typeof value[0] === "object") {
+				return "[[]]";
+			} else {
+				return "{}";
+			}
+		} else if (value + "" === ""){
+				return "[]";
+			}
+			return "{}";
+		
+	}
+};
+
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+	//debugger;
+	var values = valuesToCheck();
+	var values2 = valuesToCheck();
+    var toReturn = {};
+    for (var i = 0; i < values.length; i++) {
+    	for (var j = 0; j < values.length; j++) {
+    		var firstVal = comp.valToString(values[i]);
+    		var secondVal = comp.valToString(values2[j]);
+    		var key = firstVal + '_' + secondVal;
+    		var boolVal = false;
+    		if (values[i] == values2[j]) {
+    			boolVal = true;
+    		}
+    		toReturn[key] = boolVal;
+    	}
+    }
+    return toReturn;
 };
 
 comp.testStrictEquality = function() {
-    // YOUR CODE HERE
+    //debugger;
+	var values = valuesToCheck();
+	var values2 = valuesToCheck();
+    var toReturn = {};
+    for (var i = 0; i < values.length; i++) {
+    	for (var j = 0; j < values.length; j++) {
+    		var firstVal = comp.valToString(values[i]);
+    		var secondVal = comp.valToString(values2[j]);
+    		var key = firstVal + '_' + secondVal;
+    		var boolVal = false;
+    		if (values[i] === values2[j]) {
+    			boolVal = true;
+    		}
+    		toReturn[key] = boolVal;
+    	}
+    }
+    return toReturn;
 };

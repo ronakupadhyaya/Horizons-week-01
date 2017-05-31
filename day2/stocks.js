@@ -41,8 +41,38 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
+stocks.createDate = function(dateStr) {
+  return new Date(dateStr);
+};
+
+stocks.getTicker = function(data) {
+  return data.ticker;
+}
+
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  // creating an object of different companies
+  var newObj = _.groupBy(data, stocks.getTicker);
+  var returnObj = {};
+  //console.log(newObj);
+
+  _.forEach(newObj, function(value, key) {
+    value.sort(function(a, b) {
+      //console.log("a.time is " + a.time + " and has type of " + typeof a.time);
+      return stocks.createDate(a.time).getTime() - stocks.createDate(b.time).getTime();
+      //converted a.time from string to Date object
+      //converted this Date object to numbers
+      //sorted the objects in the array based on this converted Date number
+      // string --> Date --> number
+    })
+  })
+  // the objects in value (array) has been sorted
+
+  _.forEach(newObj, function(value, key) {
+    returnObj[key] = value[value.length - 1].price - value[0].price;
+  })
+
+  return returnObj;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +89,17 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var highestGainer = "";
+  var largestGain = -Infinity;
+  var newObj = this.gainAndLoss(data);
+
+  _.forEach(newObj, function(value, key) {
+    if (value > largestGain) {
+      largestGain = value;
+      highestGainer = key;
+    }
+  })
+  return highestGainer;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +116,17 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var lowestLoser = "";
+  var biggestLoss = Infinity;
+  var newObj = this.gainAndLoss(data);
+
+  _.forEach(newObj, function(value, key) {
+    if (value < biggestLoss) {
+      biggestLoss = value;
+      lowestLoser = key;
+    }
+  })
+  return lowestLoser;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +138,27 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var companyHistory = _.groupBy(data, stocks.getTicker);
+  var craziestComp = "";
+  var craziestRange = 0;
+
+  _.forEach(companyHistory, function(value, key) {
+    value.sort(function(a, b) {
+      //console.log("a.time is " + a.time + " and has type of " + typeof a.time);
+      return a.price - b.price;
+    });
+  });
+
+  _.forEach(companyHistory, function(value, key) {
+    var range = Math.abs(value[value.length - 1].price - value[0].price);
+    if (range > craziestRange) {
+      craziestRange = range;
+      craziestComp = key;
+    }
+  })
+
+  return craziestComp;
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -105,8 +175,40 @@ stocks.widestTradingRange = function(data) {
 //                            new Date('2016-06-30T00:00:00.000Z'),
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
-stocks.portfolioValue = function(data, date, portfolio) {
+
+stocks.getUTCString = function(dateObj) {
   // YOUR CODE HERE
+  var date = this.createDate(dateObj);
+  return date.toUTCString();
+};
+
+stocks.portfolioValue = function(data, date, portfolio) {
+  var numberDate = date.getTime();
+  var portValue = 0;
+
+  var datesObj = _.groupBy(data, function(element) {
+    if (stocks.createDate(element.time).getTime() === numberDate) {
+      return "date";
+    }
+    // grouping together all objects with the same date that we want
+    return "notDate";
+    // grouping everything else elsewhere into key "bad"
+  })
+  //console.log(datesObj);
+
+
+  _.forEach(portfolio, function(val, key) {
+    //going through each company you want to find the price for
+    datesObj.date.forEach(function(element) {
+      if (element.ticker === key) { //find the company you need in your portfolio
+        portValue += element.price * val; //add the price * shares to your portfolio value
+      }
+    })
+  })
+
+  return portValue;
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +229,36 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var companyHistory = _.groupBy(data, stocks.getTicker); //separate the companies
+  var tickerHistory = companyHistory[ticker];
+  var largestRange = -Infinity;
+  var buyingDateStr = "";
+  var sellingDateStr = "";
+
+  tickerHistory.sort(function(a, b) {
+    //console.log("a.time is " + a.time + " and has type of " + typeof a.time);
+    return stocks.createDate(a.time).getTime() - stocks.createDate(b.time).getTime();
+    //converted a.time from string to Date object
+    //converted this Date object to numbers
+    //sorted the objects in the array based on this converted Date number
+    // string --> Date --> number
+  });
+
+
+  for (var i = 0; i < tickerHistory.length - 1; i++) {
+    for (var j = i + 1; j < tickerHistory.length; j++) {
+      var range = tickerHistory[j].price - tickerHistory[i].price;
+      //console.log(range);
+      if (range > largestRange) {
+        largestRange = range;
+        buyingDateStr = tickerHistory[i].time;
+        sellingDateStr = tickerHistory[j].time;
+      }
+    }
+  }
+  console.log([stocks.createDate(buyingDateStr), stocks.createDate(sellingDateStr), largestRange]);
+  return [stocks.createDate(buyingDateStr), stocks.createDate(sellingDateStr), largestRange];
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +282,16 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var companyHistory = _.groupBy(data, stocks.getTicker); //separate the companies
+  var greatestReturn = -Infinity;
+  var returnArray = []
+
+  _.forEach(companyHistory, function(value, key) {
+    if (stocks.bestTrade(data, key)[2] > greatestReturn) {
+      greatestReturn = stocks.bestTrade(value, key)[2];
+      returnArray = [key].concat(stocks.bestTrade(data, key));
+    }
+  })
+
+  return returnArray;
 };

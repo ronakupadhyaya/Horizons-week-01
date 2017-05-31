@@ -53,6 +53,85 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+var operater = '+ - / *'.split(' ');
+
+
+
+function sumAndSubstract(list) {
+
+  initial = parseFloat(list[0]);
+
+  list.forEach(function(item, index) {
+
+    if (item === '+') {
+      initial = initial + parseFloat(list[index + 1]);
+
+
+    } else if (item === '-') {
+      initial = initial - parseFloat(list[index + 1]);
+    }
+  })
+  return initial;
+}
+
+function timeAndDivid(list) {
+  for (var i = 0; i < list.length; i++) {
+    if (list[i] === '/') {
+
+      list[i - 1] = parseFloat(list[i - 1]) / parseFloat(list[i + 1]);
+
+
+      list.splice(i, 2);
+      i--;
+    }
+
+    if (list[i] === '*') {
+      list[i - 1] = parseFloat(list[i - 1]) * parseFloat(list[i + 1]);
+      list.splice(i, 2);
+      i--;
+
+    }
+  }
+  return list;
+}
+
+function sqrtComputing(list) {
+  for (var i = 0; i < list.length; i++) {
+    if (list[i] === 'sqrt') {
+
+      list[i] = Math.sqrt(parseFloat(list[i + 1]));
+
+      list.splice(i + 1, 1);
+      console.log(list);
+    }
+  }
+  return list;
+}
 util.calc = function(expression) {
+  var list = expression.split(' ');
+  var countN = 0;
+  var countOp = 0;
+  list.forEach(function(item) {
+    if (Number.isInteger(parseInt(item))) countN++;
+    else countOp++;
+  })
+  if (expression.length === 0) {
+    throw 'Error';
+  } else if (expression.indexOf('sqrt') !== -1) {
+    var sqrt = sqrtComputing(list);
+    var listAfterTimesAndDivid = timeAndDivid(sqrt);
+    return sumAndSubstract(listAfterTimesAndDivid);
+  } else if (!Number.isInteger(parseInt(list[0])) ||
+    !Number.isInteger(parseInt(list[list.length - 1]))) {
+
+    throw 'Error';
+  } else if (!(countN === countOp + 1)) {
+    throw 'Error';
+  } else {
+    var listAfterTimesAndDivid = timeAndDivid(list);
+
+    return sumAndSubstract(listAfterTimesAndDivid);
+  }
+
   // YOUR CODE HERE
 };

@@ -26,6 +26,16 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
+  var count = 0;
+  if(arr.length === 0) return 0;
+  var num = _.reduce(arr,function(a,b){
+    count ++;
+    return (a * count + b) / (count + 1); /// another method to compute the average
+
+  })
+  // console.log(num);
+  return num;
+
   // YOUR CODE HERE
 };
 
@@ -38,13 +48,24 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
+  var listGrade = []
+  // console.log(listGrade);
+  listGrade.push(student.grades.class1);
+  listGrade.push(student.grades.class2);
+  return this.average(listGrade);
   // YOUR CODE HERE
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
+
 grades.highestGPA = function(data) {
+  return _.reduce(data,function(a,b){
+    var gpa1 = grades.getGPA(a); // cannot use 'this'
+    var gpa2 = grades.getGPA(b);
+    return gpa1 > gpa2 ? a : b;
+  })
   // YOUR CODE HERE
 }
 
@@ -52,14 +73,52 @@ grades.highestGPA = function(data) {
 // Write a function that takes an array of Student objects and returns the major with the highest GPA
 //
 // hint. you can use highestGPA if you'd like.
+grades.findingAverage = function (students){
+  var gpaList = [];
+  students.forEach(function(student){
+    gpaList.push(grades.getGPA(student));
+  })
+  var average = this.average(gpaList);
+  return average;
+}
+
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+
+  var highestMajor = '';
+  var currentHigh = 0;
+  var studentByMajor = _.groupBy(data,function(student){
+    return student.major;
+  })
+  console.log(studentByMajor);
+  _.forEach(studentByMajor,function(value,key){
+    var average = grades.findingAverage(value);
+    if (average > currentHigh){
+      currentHigh = average;
+      highestMajor = key;
+    }
+  })
+  return highestMajor;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
-// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
+// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`,
+// with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
+  var totalNum = data.length;
+  var totalForClass1 = 0;
+  var totalForClass2 = 0;
+
+  data.forEach(function(item){
+    var gradesObj = item.grades;
+    var class1 = gradesObj.class1;
+    var class2 = gradesObj.class2;
+    totalForClass1 += class1;
+    totalForClass2 += class2;
+  })
+  var objAverage = {'class1':(totalForClass1/totalNum), 'class2': (totalForClass2/totalNum)};
+  console.log(objAverage);
+  return objAverage;
   // YOUR CODE HERE
 };

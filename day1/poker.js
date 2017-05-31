@@ -45,6 +45,135 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+var hand = ['3D', '3S', '4C', '4C', '2C'];
+window.ifFlush = function(hand) {
+  var init = hand[0][hand[0].length - 1];
+  return hand.every(function(item) {
+
+    return item[item.length - 1] === init;
+  })
+}
+
+window.cleanToNumber = function(hand) {
+  var map = hand.map(function(item) {
+    var str = item.slice(0, item.length - 1);
+    if (str === 'J') return 11;
+    if (str === 'Q') return 12;
+    if (str === 'K') return 13;
+    if (str === 'A') return 14;
+    else return parseInt(str);
+  })
+  return map;
+}
+
+// console.log(this.cleanToNumber(hand));
+
+window.ifStraight = function(hand) {
+  var map = this.cleanToNumber(hand);
+
+  map.sort(function(a, b) {
+    return a - b;
+  })
+
+  return map.every(function(item, index) {
+    if (map[index + 1] !== undefined) {
+      return item + 1 === map[index + 1];
+    } else {
+      return true;
+    }
+  })
+}
+
+window.ifStraigntAndFlush = function(hand) {
+
+  return (this.ifStraight(hand) && this.ifFlush(hand));
+
+}
+
+
+window.ifRoyalFlush = function(hand) {
+  var turn = false;
+  for (var i = 0; i < hand.length; i++) {
+    if (hand[i].indexOf('A') !== -1) turn = true;
+  }
+  return this.ifStraigntAndFlush(hand) && turn;
+}
+console.log(hand);
+
+window.ifFour = function(hand) {
+  var map = this.cleanToNumber(hand);
+  var obj = {};
+  map.forEach(function(item) {
+    if (obj[item] === undefined) obj[item] = 1;
+    else obj[item]++;
+  })
+  for (var key in obj) {
+    if (obj[key] === 4) return true;
+  }
+  return false;
+}
+
+window.ifThree = function(hand) {
+
+  var map = this.cleanToNumber(hand);
+  var obj = {};
+  map.forEach(function(item) {
+    if (obj[item] === undefined) obj[item] = 1;
+    else obj[item]++;
+  })
+  for (var key in obj) {
+    if (obj[key] === 3) return true;
+  }
+  return false;
+
+}
+// console.log(this.ifThree(hand));
+window.ifHullHouse = function(hand) {
+  if (!this.ifThree(hand)) return false;
+  else {
+    var map = this.cleanToNumber(hand);
+    var obj = {};
+    map.forEach(function(item) {
+      if (obj[item] === undefined) obj[item] = 1;
+      else obj[item]++;
+    })
+    for (var key in obj) {
+      if (obj[key] === 2) return true;
+    }
+    return false;
+  }
+}
+window.ifTwoPire = function(hand) {
+  var map = this.cleanToNumber(hand);
+  var obj = {};
+  map.forEach(function(item) {
+    if (obj[item] === undefined) obj[item] = 1;
+    else obj[item]++;
+  })
+  var count = 0;
+  for (var key in obj) {
+    if (obj[key] === 2) count++;
+  }
+  return count === 2;
+}
+window.ifPire = function(hand) {
+  var map = this.cleanToNumber(hand);
+  var obj = {};
+  map.forEach(function(item) {
+    if (obj[item] === undefined) obj[item] = 1;
+    else obj[item]++;
+  })
+  for (var key in obj) {
+    if (obj[key] === 2) return true;
+  }
+  return false;
+}
+
+// console.log(this.ifPire(hand));
 window.rankPokerHand = function(hand1, hand2) {
+  var functions = [this.ifRoyalFlush, this.ifStraigntAndFlush, this.ifFour,
+    this.ifHullHouse, this.ifFlush, this.ifStraight, this.ifThree, this.ifTwoPire, this.ifPire
+  ];
+  console.log(functions[0](hand1));
   // YOUR CODE HERE
 }

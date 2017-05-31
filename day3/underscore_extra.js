@@ -31,7 +31,34 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var returns = {};
+  return function memoizeFn(arg) {
+    if (returns[arg] !== undefined) {
+      return returns[arg];
+    }
+    returns[arg] = func(arg);
+    return returns[arg];
+  }
+  //   var returns = [];
+  // return function memoizeFn(arg) {
+  //   var contains = false;
+  //   for (var i = 0; i < returns.length; i++) {
+  //     if (returns[i][0].length === arguments.length) {
+  //       for (var j = 0; j < arguments.length; j++) {
+  //         if (arguments[j] !== returns[i][0][j]) {
+  //           break;
+  //         } else if (j === arguments.length - 1) {
+  //           contains = true;
+  //         }
+  //       }
+  //       if (contains) {
+  //         return returns[i][1];
+  //       }
+  //     }
+  //   }
+  //   returns.push([arguments, func.apply(this, arguments)]);
+  //   return func.apply(this, arguments);
+  // }
 }
 
 // Exercise 2: partial()

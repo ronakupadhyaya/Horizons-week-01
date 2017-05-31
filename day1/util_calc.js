@@ -53,6 +53,93 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+util.findMulDiv = function(array){
+  for(var i = 0; i < array.length; i++){
+    if(array[i] === '*' || array[i] === '/'){
+      return [i,array[i]];
+    }
+  }
+  return null;
+}
+
+util.checkerrors=function(num,op){
+  if(num.length>op.length+1)
+    throw "Error too many numbers";
+  else if(op.length>=num.length)
+    throw "Error too many operators";
+
+}
+
+util.checkop=function(x){
+  if(x==='*' || x==='-' || x==='+' || x==='/')
+    return false;
+  return true;
+}
+
 util.calc = function(expression) {
   // YOUR CODE HERE
-};
+
+  //handle empty expression
+  if(expression==='')
+    throw "Error, empty expression";
+  var num=[];
+  var op=[];
+
+  //parse expression into num and ops
+  while(true){
+    if(expression.indexOf(' ')===-1){
+      num.push(parseInt(expression));
+      break;
+    }
+    var number=expression.substr(0,expression.indexOf(' '));
+    if(number.indexOf('s')!==-1){
+      number=expression.substr(5,expression.indexOf(' '));
+      n=Math.sqrt(parseInt(number));
+      num.push(n);
+      expression=expression.substr(expression.indexOf(' ')+1);
+    }else num.push(parseInt(number));
+    expression=expression.substr(expression.indexOf(' ')+1);
+  //  if(util.checkop(expression[0])) throw "Error missing operator";
+    op.push(expression[0]);
+    expression=expression.substr(expression.indexOf(' ')+1);
+  }
+
+  //util.checkerrors(num,op);
+
+  //check couple errors
+  if(num.length===1 ){
+    if(op.length===0){
+      return num[0];
+    }else return op[0]+num[0];
+  }
+
+  //loop until you have handled all of the multiplication and divisions
+
+  while(true){
+    var index=util.findMulDiv(op);
+    if(index===null) break;
+    var k=index[0];
+    if(index[1]==='*'){
+      num.splice(k,2,num[k]*num[k+1]);
+    }else if(index[1]==='/'){
+      num.splice(k,2,num[k]/num[k+1]);
+    }
+    op.splice(k,1);
+  }
+
+  //addition and subtraction
+  var result=num[0];
+  num.splice(0,1);
+  while(op.length!==0){
+    if(op[0]==='+'){
+      result=result+num[0];
+    }else if(op[0]==='-'){
+      result=result-num[0];
+    }
+    num.splice(0,1);
+    op.splice(0,1);
+  }
+
+  return result;
+}

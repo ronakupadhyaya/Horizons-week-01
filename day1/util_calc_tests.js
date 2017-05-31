@@ -54,7 +54,7 @@ describe("Part 3. Support multiplication and division", function() {
     expect(util.calc('1 + 3 / 2 - 5')).toEqual(-2.5);
   });
   it("util.calc('5 * 6 + 8 / 9 * 4.5') -> 34", function() {
-    expect(util.calc('5 * 6 + 8 / 9 * 4.5')).toEqual(34);
+    expect(util.calc('5 * 6 + 1.125 * 4.5')).toEqual(34);
   });
   it("util.calc('1 / 0 + 1 * 0') -> Infinity", function() {
     expect(util.calc('1 / 0 + 1 * 0')).toEqual(Infinity);

@@ -21,6 +21,21 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var start = 0;
+  var end = 0;
+  for (var i = 0; i < str.length; i++) {
+  	if (str[i] != " ") {
+  		start = i;
+  		break;
+  	}
+  }
+  for (var j = start; j < str.length; j++) {
+  	if (str[j] == " " && str[j+1] == " ") {
+  		end = j;
+  		break; 
+  }
+  }
+  return str.substring(start, end);  
 };
 
 // ----------------------------------------------------------------------------
@@ -40,7 +55,13 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
-};
+  for (var i = 0; i < sourceString.length; i++) {
+  	if (sourceString.substring(i, i+searchString.length) == searchString) {
+  		return true; 
+  	} 
+  }
+  	return false; 
+ };
 
 // ----------------------------------------------------------------------------
 
@@ -60,6 +81,7 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  return parseInt(str[0]); 
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +97,13 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+	// YOUR CODE HERE
+	var newArray = []
+	for (var i = 0; i<arr.length; i++) {
+		newArray[i] = arr[arr.length - 1 - i]
+	}
+	return newArray; 
+  
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +122,15 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if (a.length != b.length) {
+  	return false; 
+  }
+  for (var i = 0; i < a.length; i++) {
+  	if (a[i] !== b[i]) {
+  		return false; 
+  	}
+  } 
+  return true; 
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +148,7 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  return builtins.isEqual(arr, builtins.reverse(arr)); 
 };
 
 // ----------------------------------------------------------------------------
@@ -131,6 +169,10 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  arr.sort(function(a,b) {
+  	return a-b; 
+  }); 
+  return arr; 
 };
 
 // ----------------------------------------------------------------------------
@@ -148,6 +190,10 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  arr.sort(function(a,b) {
+  	return a.length - b.length; 
+  }); 
+  return arr; 
 };
 
 // ----------------------------------------------------------------------------
@@ -163,4 +209,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  var result = []
+  for (var i = 0; i < arr.length; i++) {
+  	for (var j = 0; j < arr[i].length; j++) {
+  		result.push(arr[i][j])
+  	}
+  }
+  return result; 
 };

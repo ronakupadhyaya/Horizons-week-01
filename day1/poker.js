@@ -47,5 +47,13 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
-  
+
+}
+
+window.determinePokerHand = function(hand) {
+  // YOUR CODE HERE
+  var sameSuit = true;
+  for (let i = 0; i < hand.length; i++) {
+  	
+  }
 }

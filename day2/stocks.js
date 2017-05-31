@@ -43,6 +43,30 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var sortedData = _.groupBy(data, function(n) { return n.ticker; });
+  var keyArray = Object.keys(sortedData);
+  for (let i = 0; i < keyArray.length; i++) {
+  	sortedData[keyArray[i]].sort(function(a, b) { return a.time.localeCompare(b.time);});
+  }
+
+  var firstDayPrice, lastDayPrice, index;
+  _.forEach(sortedData, function(company) {
+  	index = 0;
+  	_.forEach(company, function(day) {
+  		if (index === 0) {
+			firstDayPrice = day.price;
+  		} else if (index === company.length - 1) {
+			lastDayPrice = day.price;
+  		}
+  		index++;
+  	});
+  	company.f = firstDayPrice;
+  	company.l = lastDayPrice;
+  });
+
+  return _.mapObject(sortedData, function(value, key) {
+  	return value.l - value.f;
+  });
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +84,16 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var gl = stocks.gainAndLoss(data);
+  var bigKey = gl.GOOG;
+  var bigGain = Number.NEGATIVE_INFINITY;
+  _.mapObject(gl, function(value, key) {
+  	if (value > bigGain) {
+  		bigGain = value;
+  		bigKey = key;
+  	}
+  })
+  return bigKey;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +111,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var gl = stocks.gainAndLoss(data);
+  var bigKey = gl.GOOG;
+  var bigGain = Number.POSITIVE_INFINITY;
+  _.mapObject(gl, function(value, key) {
+  	if (value < bigGain) {
+  		bigGain = value;
+  		bigKey = key;
+  	}
+  })
+  return bigKey;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +133,38 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var sortedData = _.groupBy(data, function(n) { return n.ticker; });
+  var keyArray = Object.keys(sortedData);
+  for (let i = 0; i < keyArray.length; i++) {
+  	sortedData[keyArray[i]].sort(function(a, b) { return b.price - a.price;});
+  }
+
+  var highPrice, lowPrice, index;
+  _.forEach(sortedData, function(company) {
+  	index = 0;
+  	_.forEach(company, function(day) {
+  		if (index === 0) {
+			highPrice = day.price;
+  		} else if (index === company.length - 1) {
+			lowPrice = day.price;
+  		}
+  		index++;
+  	});
+  	company.h = highPrice;
+  	company.l = lowPrice;
+  });
+
+  var bigVarience = 0;
+  var bigKey = "GOOG";
+  var range = _.mapObject(sortedData, function(value, key) {
+  	if (Math.abs(value.l - value.h) > Math.abs(bigVarience)) {
+  		bigVarience = value.l - value.h;
+  		bigKey = key;
+  	}
+  	return value.l - value.h;
+  });
+
+  return bigKey;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +183,44 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var sortedData = _.groupBy(data, function(n) { return n.ticker; });
+  var keyArray = Object.keys(sortedData);
+  for (let i = 0; i < keyArray.length; i++) {
+  	sortedData[keyArray[i]].sort(function(a, b) { return a.time.localeCompare(b.time);});
+  }
+
+  console.log(sortedData);
+
+  var dateString = date.toISOString();
+
+  var portfolioSum = 0;
+
+    var index;
+  _.forEach(sortedData, function(company) {
+  	index = 0;
+  	_.forEach(company, function(day) {
+  		if (day.time === dateString) {
+  			if (day.ticker === 'GOOG') {
+  				portfolioSum += day.price * (portfolio['GOOG'] || 0);
+  			} else if (day.ticker === 'FB') {
+  				portfolioSum += day.price * (portfolio['FB'] || 0);
+  			} else if (day.ticker === 'MSFT') {
+  				portfolioSum += day.price * (portfolio['MSFT'] || 0);
+  			} else if (day.ticker === 'AMZN') {
+  				portfolioSum += day.price * (portfolio['AMZN'] || 0);
+  			} else if (day.ticker === 'NVDA') {
+  				portfolioSum += day.price * (portfolio['NVDA'] || 0);
+  			} else if (day.ticker === 'NFLX') {
+  				portfolioSum += day.price * (portfolio['NFLX'] || 0);
+  			}
+  		}
+  		index++;
+  	});
+  	console.log("--------------------------------------------------------");
+  });
+  console.log(portfolioSum);
+  return portfolioSum;
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +242,7 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

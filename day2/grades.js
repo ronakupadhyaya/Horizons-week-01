@@ -27,6 +27,12 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if (arr.length !== 0) {
+    var sum =  _.reduce(arr, function(a,b){
+      return a+b;
+    });
+    return sum/arr.length;
+  } else return 0;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +45,8 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var gra = _.values(student.grades);
+  return grades.average(gra);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,14 +54,57 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var highGPA = _.reduce(data, function(a,b){
+    if (grades.getGPA(a) >= grades.getGPA(b)) {
+      return a;
+    } else {
+      return b;
+    }
+  });
+  return highGPA;
+
 }
 
+grades.getGPAarr = function(arr) {
+  var sum =  _.reduce(arr, function(a,b){
+    console.log("A" + getGPA(a));
+    return getGPA(a)+getGPA(b);
+  });
+  return 2;//sum / arr.length;
+}
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the highest GPA
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var majors = _.groupBy(data, function(stud) {
+    return stud.major;
+  });
+
+  /*var student1 = _.mapObject(majors, function(studArr) {
+    return grades.getGPAarr(studArr);
+    //return studArr[0];
+  })*/
+
+  _.mapObject(majors, function(studArr){
+    return grades.getGPAarr(studArr);
+  })
+  //console.log(majors);
+  //console.log(student1);
+  /*
+  var GPAs =  _.mapObject(majors, function(val, key) {
+    console.log(majors);
+    return grades.getGPA(val);
+  });
+  */
+
+/*  var test = _.mapObject(majors, grades.highestGPA());
+  console.log(test);
+*/
+
+  return 0;
+  //return grades.highestGPA(GPAs);
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)

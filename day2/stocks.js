@@ -42,7 +42,52 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
+
+  var compSorted = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  });
+  //console.log(compSorted);
+
+  var timeSorted = _.mapObject(compSorted, function(arr, time){
+    return _.sortBy(arr, function(trans){
+      return trans.time;
+    });
+  })
+  /*console.log(timeSorted);
+  console.log(Object.keys(timeSorted)[0]);
+  console.log(Object.keys(timeSorted.price);
+*/
+  var priceDelta = [];
+  for(var i = 0; i < Object.keys(timeSorted).length; i++){
+    var startPrice = timeSorted[Object.keys(timeSorted)[i]][0].price;
+    var endPrice = timeSorted[Object.keys(timeSorted)[i]][Object.keys(timeSorted)[i].length-1].price;
+    priceDelta.push(endPrice-startPrice);
+  }
+  console.log(timeSorted[Object.keys(timeSorted)[0]].last(Object.keys(timeSorted)[0]).price);
+  console.log(priceDelta);
+  console.log(timeSorted);
+
+
+  return timeSorted[timeSorted.length - 1] - timeSorted[0];
+  console.log(Object.keys(timeSorted));
+
+
+  //console.log(timeSorted);
+  var smallestTime = _.reduce(timeSorted, function(a,b) {
+    var timeA = new Date(a.time);
+    var timeB = new Date(b.time);
+    return timeA < timeB ? timeA : timeB;
+  });
+
+  var largestTime = _.reduce(timeSorted, function(a,b) {
+    var timeA = new Date(a.time);
+    var timeB = new Date(b.time);
+    return timeA > timeB ? timeA : timeB;
+  })
+
+
   // YOUR CODE HERE
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)

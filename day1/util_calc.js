@@ -124,9 +124,7 @@ util.calc = function(expression) {
         tempGreatestOpIndex = j;
         break;
       }
-      debugger;
     }
-    debugger;
     if(tempGreatestOp === '*'){
       temp = numArray[tempGreatestOpIndex]*numArray[tempGreatestOpIndex+1];
       numArray[tempGreatestOpIndex] = temp;

@@ -26,7 +26,11 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  var total = _.reduce(arr, function(a, b){ return a+b});
+  if(arr.length === 0){
+    return 0;
+  }
+  return total/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,13 +43,27 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var arr = [];
+  for(var key in student.grades){
+    arr.push(student.grades[key]);
+  };
+  return grades.average(arr);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var maxGPA = 0;
+  var returnObj;
+  var tempGPA;
+  _.forEach(data, function(n){
+    tempGPA = grades.getGPA(n);
+    if(tempGPA > maxGPA){
+      maxGPA = tempGPA;
+      returnObj = n;
+    }});
+  return returnObj;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +71,29 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majorsGPA = [];
+  var majorsGroup = _.groupBy(data, function(n){
+    return n.major
+  });
+  for (var key in majorsGroup){
+    var temp = [];
+    var average = 0;
+    var tempObj = new Object();
+    _.forEach(majorsGroup[key], function(m){
+      temp.push(grades.getGPA(m));
+    });
+    var average = grades.average(temp);
+    tempObj.major = key;
+    tempObj.avgGPA = average;
+    majorsGPA.push(tempObj);
+  }
+  var bestMajor = _.reduce(majorsGPA, function(j,l){
+    if (j.avgGPA > l.avgGPA) {
+      return j
+    }
+    else { return l }
+  })
+  return bestMajor.major;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +101,17 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
-};
+  var classGroup = {
+    class1: [],
+    class2: []
+  };
+  _.forEach(data, function(n){
+    for(var key in n.grades){
+      classGroup[key].push(n.grades[key])
+    }
+  })
+  _.forEach(classGroup, function(value,key){
+    classGroup[key] = grades.average(value);
+  })
+  return classGroup;
+}

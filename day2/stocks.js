@@ -167,11 +167,11 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   var totalValue = 0
+  var companies = Object.keys(portfolio)
   for (var quote of data) {
-    if (testDate.getDate() === date.getDate()) {
-      var numShares = potfolio[quote.ticker]
-      totalValue += numShares * quote.price
-      console.log(quote, numShares)
+    if (new Date(quote.time).getDate() === date.getDate() && companies.includes(quote.ticker)) {
+      var numShares = portfolio[quote.ticker]
+      totalValue += (numShares * quote.price)
     }
   }
   return totalValue
@@ -195,7 +195,24 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var trades = _.filter(data, function(quote) {
+    return quote.ticker = ticker
+  })
+  var sortedTrades = _.sortBy(trades, 'time')
+  var maxDiff = 0
+  var buyDate
+  var sellDate
+  for (var i = 0; i < sortedTrades.length; i++) {
+    for (var j = i + 1; j < sortedTrades.length; j++) {
+    var diff = sortedTrades[j].price-sortedTrades[i].price
+    if (diff > maxDiff) {
+      maxDiff = diff
+      buyDate = new Date(sortedTrades[i].time)
+      sellDate = new Date(sortedTrades[j].time)
+    }
+    }
+  }
+  return [buyDate, sellDate, maxDiff]
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

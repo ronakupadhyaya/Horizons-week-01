@@ -6,13 +6,14 @@ window.comp = {};
 // for all different types - from booleans to numbers to arrays -
 
 var valuesToCheck = function() {
-  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
-"-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+  return [true, false, 1, 0, -1, "true", "false", "1", "0",
+    "-1", "", null, undefined, Infinity, -Infinity, [], {},
+    [[]], [0], [1], NaN];
 }
 
 // and you will write the following:
 
-// 1. A function that evaluates the loosely equal (==) truth value of each value 
+// 1. A function that evaluates the loosely equal (==) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
 // 2. A function that evaluates the striclty equal (===) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
@@ -26,9 +27,9 @@ var valuesToCheck = function() {
 // ex. comp.testStrictEquality(s) ->
 // {"true_true": true, "true_false": false, "true_1": false, "true_0": false, ...}
 
-// Each property's key value should be formatted as: 
+// Each property's key value should be formatted as:
 // valuesToCheck[someIndex]_valuesToCheck[anotherIndex]
-// such that the return object has all keys of possible combinations of 
+// such that the return object has all keys of possible combinations of
 // valuesToCheck, from true_true to NaN_NaN.
 
 // Note: Allow for redundancies; you should have both true_false and false_true
@@ -46,8 +47,75 @@ var valuesToCheck = function() {
 
 // Good luck!
 
+comp.getString = function(value) {
+  // [true, false, 1, 0, -1, "true", "false", "1", "0",
+  //  "-1", "", null, undefined, Infinity, -Infinity, [], {},
+  //  [[]], [0], [1], NaN];
+  if (value === null) {
+    return "null";
+  } else if (value === undefined) {
+    return "undefined";
+  } else if (typeof value === "boolean" || typeof value === "number") {
+    return value.toString();
+  } else if (typeof value === "string") {
+    return "\\\"" + value + "\\\"";
+  } else if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return "[]";
+    } else if (typeof value[0] === "number"){
+      return "[" + value[0] + "]";
+    } else {
+      return "[[]]";
+    }
+  } else {
+    return "[{}]";
+  }
+}
+
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+  var vals = valuesToCheck();
+  var obj = {};
+
+  var list = [];
+
+  for(var i = 0; i<vals.length; i++) {
+    for (var j = 0; j<vals.length; j++) {
+      list.push([vals[i], vals[j]]);
+    }
+  }
+  //console.log(list);
+  var key = null;
+  list.forEach(function(arr, index) {
+    key = comp.getString(arr[0])+"_"+comp.getString(arr[1]);
+    obj[key] = arr[0] == arr[1];
+  })
+  console.log(obj);
+  return obj;
+/*
+  //var boolStr = "true";
+  //var bool = true;
+  var val = null;
+  function runTest(boolStr, bool) {
+    list.forEach(function (item) {
+      var i = null;
+      if (item !== null && item !== undefined) {
+        i = item.toString()
+      } else if (item === null) {
+        i = "null";
+      } else {
+        i = "undefined";
+      }
+      val = boolStr+"_"+i;
+      console.log(val);
+      console.log(bool == item);
+      obj[val] = (bool == item);
+    })
+  }
+
+  runTest("true", true);
+  runTest("false",false);
+  return obj;
+  */
 };
 
 comp.testStrictEquality = function() {

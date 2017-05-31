@@ -61,13 +61,12 @@ grades.highestGPA = function(data) {
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the highest GPA
-//
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   var group = _.groupBy(data, function(student) {
     return student.major;
   });
-  //go through each major, calculate gpa, store highest average 
+  //go through each major, calculate gpa, store highest average
   var highestAverage = 0;
   var major = null;
   _.forEach(group, function(val, key) {

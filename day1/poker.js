@@ -15,16 +15,16 @@
 // In the card game poker, a hand consists of five cards and are ranked, from
 // lowest to highest, in the following way:
 //
-//   - High Card: Highest value card.
-//   - One Pair: Two cards of the same value.
-//   - Two Pairs: Two different pairs.
-//   - Three of a Kind: Three cards of the same value.
-//   - Straight: All cards are consecutive values.
-//   - Flush: All cards of the same suit.
-//   - Full House: Three of a kind and a pair.
-//   - Four of a Kind: Four cards of the same value.
-//   - Straight Flush: All cards are consecutive values of same suit.
-//   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+//   1- High Card: Highest value card.
+//   2- One Pair: Two cards of the same value.
+//   3- Two Pairs: Two different pairs.
+//   4- Three of a Kind: Three cards of the same value.
+//   5- Straight: All cards are consecutive values.
+//   6- Flush: All cards of the same suit.
+//   7- Full House: Three of a kind and a pair.
+//   8- Four of a Kind: Four cards of the same value.
+//   9- Straight Flush: All cards are consecutive values of same suit.
+//   10- Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
 //
 // The cards are valued in the order:
 // 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.
@@ -46,5 +46,62 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+
+  getHand = function(hand) {
+
+  mapCards = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  mapSuits = [0, 0, 0, 0]
+  // [C, D, H, S]
+
+    for (var i=0; i<5; i++) {
+
+//NUMBERS
+        for (var j=0; j<10; j++) {
+
+        if (hand[i][0] == j+2) {
+          mapCards[j] += 1
+          }
+        }
+
+        if (hand[i][0] == 1) {
+          mapCards[8] +=1
+        }
+
+        if (hand[i][0] == 'J') {
+          mapCards[9] +=1
+        }
+
+        if (hand[i][0] == 'Q') {
+          mapCards[10] +=1
+        }
+
+        if (hand[i][0] == 'K') {
+          mapCards[11] +=1
+        }
+
+        if (hand[i][0] == 'A') {
+          mapCards[12] +=1
+        }
+
+//SUITS
+      if (hand[i][1] == 'C') {
+        mapSuits[0] += 1
+        }
+
+      if (hand[i][1] == 'D') {
+        mapSuits[1] += 1
+        }
+
+      if (hand[i][1] == 'H') {
+        mapSuits[2] += 1
+        }
+
+      if (hand[i][1] == 'S') {
+        mapSuits[3] += 1
+        }
+
+    }
+
+  return mapCards
+  }
 }

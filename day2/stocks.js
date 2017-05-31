@@ -41,8 +41,37 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
-stocks.gainAndLoss = function(data) {
+stocks.gainAndLoss = function (data) {
   // YOUR CODE HERE
+  var finalObj = {};
+  var newObj = _.groupBy(data, "ticker");
+  for (var key in newObj) {
+    var keyArray = newObj[key];
+    var arr = [];
+    keyArray.forEach(function (element) {
+      var date = new Date(element.time);
+      arr.push(date.getTime());
+    })
+
+    for (var i = keyArray.length - 1; i >= 0; i--) {
+      var date = new Date(keyArray[i].time);
+      if (date.getTime() < Math.max.apply(null, arr) &&
+        date.getTime() > Math.min.apply(null, arr)) {
+        keyArray.splice(i, 1);
+      }
+    }
+
+    var date1 = new Date(keyArray[0].time);
+    var date2 = new Date(keyArray[1].time);
+    if (date1.getTime() > date2.getTime()) {
+      var x = keyArray[1];
+      keyArray[1] = keyArray[0];
+      keyArray[0] = x;
+    }
+    finalObj[key] = keyArray[1].price - keyArray[0].price;
+  }
+  console.log(finalObj);
+  return finalObj;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -58,8 +87,20 @@ stocks.gainAndLoss = function(data) {
 // stocks.biggestGainer(stockData) -> 'AMZN'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestGainer = function(data) {
+stocks.biggestGainer = function (data) {
   // YOUR CODE HERE
+  var newObj = stocks.gainAndLoss(data);
+  console.log(newObj);
+  var max = 0;
+  var winner;
+  for (var key in newObj) {
+    var value = newObj[key];
+    if (Math.abs(value) > max) {
+      max = Math.abs(value);
+      winner = key;
+    }
+  }
+  return winner;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -75,8 +116,19 @@ stocks.biggestGainer = function(data) {
 // stocks.biggestLoser(stockData) -> 'GOOG'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestLoser = function(data) {
+stocks.biggestLoser = function (data) {
   // YOUR CODE HERE
+  var newObj = stocks.gainAndLoss(data);
+  var min = Infinity;
+  var winner;
+  for (var key in newObj) {
+    var value = newObj[key];
+    if (value < min) {
+      min = value;
+      winner = key;
+    }
+  }
+  return winner;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -87,69 +139,111 @@ stocks.biggestLoser = function(data) {
 //
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
-stocks.widestTradingRange = function(data) {
+stocks.widestTradingRange = function (data) {
   // YOUR CODE HERE
+  var newObj = _.groupBy(data, "ticker");
+  for (var key in newObj) {
+    var keyArray = newObj[key];
+    var arr = [];
+    keyArray.forEach(function (element) {
+      arr.push(element.price);
+    })
+    var difference = Math.max.apply(null, arr) - Math.min.apply(null, arr);
+    newObj[key] = difference;
+  }
+  console.log(newObj);
+  var maxDiff = 0;
+  var winner;
+  for (var key in newObj) {
+    if(newObj[key] > maxDiff) {
+      maxDiff = newObj[key];
+      winner = key;
+    }
+  }
+  return winner;
 };
 
-// Exercise 5. stocks.portfolioValue(data, date, portfolio)
-// Write a function that calculates the value of a stock portfolio at a given
-// date.
-//
-// Arguments:
-//  - date: a JavaScript Date object indicating which point in time to calculate
-//    the value of the portfolio for
-//  - portfolio: an object mapping tickers to number of shares owned
-//
-// ex.
-// stocks.totalPortfolioValue(data,
-//                            new Date('2016-06-30T00:00:00.000Z'),
-//                            {NFLX: 1, GOOG: 10})
-//    -> 513.31
-stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
-};
+  // Exercise 5. stocks.portfolioValue(data, date, portfolio)
+  // Write a function that calculates the value of a stock portfolio at a given
+  // date.
+  //
+  // Arguments:
+  //  - date: a JavaScript Date object indicating which point in time to calculate
+  //    the value of the portfolio for
+  //  - portfolio: an object mapping tickers to number of shares owned
+  //
+  // ex.
+  // stocks.totalPortfolioValue(data,
+  //                            new Date('2016-06-30T00:00:00.000Z'),
+  //                            {NFLX: 1, GOOG: 10})
+  //    -> 513.31
+  stocks.portfolioValue = function (data, date, portfolio) {
+    // YOUR CODE HERE
+    var theDate = date.getTime();
+    var arr = [];
+    for (var key in portfolio) {
+      arr.push(key);
+    }
+    console.log(arr);
+    for (var i = data.length - 1; i >= 0; i--) {
+      var theTime = data[i].time;
+      console.log("theTime",theTime);
+      var anotherDate = new Date(theTime);
+      console.log("anotherDate", anotherDate);
+      if((anotherDate.getTime() !== theDate) || (arr.indexOf(data[i].ticker) === -1)) {
+        data.splice(i, 1);
+      }
+    }
+    console.log(data);
+    var newObj = _.groupBy(data, "ticker");
+    var sum = 0;
+    for (var key in newObj) {
+      sum += newObj[key][0].price * portfolio[key];
+    }
+    return sum;
+  };
 
-// [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
-// Write a function to figure out the best time to buy and sell a given
-// stock/ticker/company.
-//
-//  - You can only buy the stock once and sell it once.
-//  - You need to buy the stock before you sell it.
-//
-// You should return an array containing three items:
-//  1. buy date (a Date object)
-//  2. sell date (a Date object)
-//  3. amount of money made in trade i.e. selling price minus buying price (a number)
-//
-// Example.
-// stocks.bestTrade(stockData, 'GOOG') ->
-//  [new Date('2016-06-19T00:00:00.000Z'),
-//   new Date('2016-06-28T00:00:00.000Z'),
-//   55.54]
-stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
-};
+  // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
+  // Write a function to figure out the best time to buy and sell a given
+  // stock/ticker/company.
+  //
+  //  - You can only buy the stock once and sell it once.
+  //  - You need to buy the stock before you sell it.
+  //
+  // You should return an array containing three items:
+  //  1. buy date (a Date object)
+  //  2. sell date (a Date object)
+  //  3. amount of money made in trade i.e. selling price minus buying price (a number)
+  //
+  // Example.
+  // stocks.bestTrade(stockData, 'GOOG') ->
+  //  [new Date('2016-06-19T00:00:00.000Z'),
+  //   new Date('2016-06-28T00:00:00.000Z'),
+  //   55.54]
+  stocks.bestTrade = function (data, ticker) {
+    // YOUR CODE HERE
+  };
 
-// [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
-// Write a function to figure out the best stock to buy and when to
-// buy and sell it.
-//
-//  - You can only buy one stock.
-//  - You can only buy the stock once and sell it once.
-//  - You need to buy the stock before you sell it.
-//
-// You should return an array containing four items:
-//  1. ticker (a string)
-//  2. buy date (a Date object)
-//  3. sell date (a Date object)
-//  4. amount of money made in trade i.e. selling price minus buying price (a number)
-//
-// Example.
-// stocks.bestTradeEver(data) ->
-//  ['AMZN',
-//   new Date('2016-06-02:00:00.000Z'),
-//   new Date('2016-06-24:00:00.000Z'),
-//   55.54]
-stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
-};
+  // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
+  // Write a function to figure out the best stock to buy and when to
+  // buy and sell it.
+  //
+  //  - You can only buy one stock.
+  //  - You can only buy the stock once and sell it once.
+  //  - You need to buy the stock before you sell it.
+  //
+  // You should return an array containing four items:
+  //  1. ticker (a string)
+  //  2. buy date (a Date object)
+  //  3. sell date (a Date object)
+  //  4. amount of money made in trade i.e. selling price minus buying price (a number)
+  //
+  // Example.
+  // stocks.bestTradeEver(data) ->
+  //  ['AMZN',
+  //   new Date('2016-06-02:00:00.000Z'),
+  //   new Date('2016-06-24:00:00.000Z'),
+  //   55.54]
+  stocks.bestTradeEver = function (data) {
+    // YOUR CODE HERE
+  };

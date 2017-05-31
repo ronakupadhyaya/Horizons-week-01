@@ -55,4 +55,99 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var operators = ["+", "-", "*", "/"]
+  var expressionArr = expression.split(" ");
+  var needsNum = true;
+
+  //square roots
+  debugger;
+  if (expressionArr.indexOf("sqrt") !== -1) {
+    var rootIndex = expressionArr.indexOf("sqrt");
+    var tempRoot = Math.sqrt(parseFloat(expressionArr[rootIndex + 1]));
+    expressionArr.splice(rootIndex, 2);
+    expressionArr.splice(rootIndex, 0, tempRoot);
+  }
+
+  //if empty, throws error
+  if (expression.length === 0) {
+    throw "Error, empty expression";
+  }
+  //if the last value in the array is an operator, throw error
+  if (operators.indexOf(expressionArr[expressionArr.length - 1]) !== -1) {
+    throw "Error, too many operators";
+  }
+  //if the number and operator (in that order) don't alternate, throw error
+  for (var i = 0; i < expressionArr.length; i++) {
+    if(needsNum) {
+      if(operators.indexOf(expressionArr[i]) !== -1) {
+        throw "Error, too many operators";
+      }
+    }
+    else {
+      if(operators.indexOf(expressionArr[i]) === -1) {
+        throw "Error, too many numbers";
+      }
+    }
+    needsNum = !needsNum;
+  }
+  
+
+  var nums = []
+  var ops = []
+  var sum = 0
+  //addition and subtraction
+
+  //if length one, return the number as is
+  if (expressionArr.length == 1) {
+    return (parseFloat(expressionArr[0]));
+  }
+
+  expressionArr.forEach(function (val) {
+    if (operators.indexOf(val) !== -1) {
+      console.log('ops', val);
+      ops.push(val);
+    }
+    else {
+      if (operators.indexOf(val) === -1) {
+        console.log('nums', val);
+        nums.push(val);
+      }
+    }
+  });
+
+var counter = 0;
+for(var i = 0; i < ops.length; i++) {
+  if(nums.length > 1) {
+    if(ops[i] == "*") {
+      var tempProduct = parseFloat(nums[i - counter]) * parseFloat(nums[i + 1 - counter]);
+      nums.splice(i - counter, 2);
+      nums.splice(i - counter, 0, tempProduct);
+      counter++;
+    }
+    if(ops[i] == "/") {
+      var tempProduct = parseFloat(nums[i - counter]) / parseFloat(nums[i + 1 - counter]);
+      nums.splice(i - counter, 2);
+      nums.splice(i - counter, 0, tempProduct);
+      counter++;
+    }
+  }
+}
+
+for(var i = 0; i < ops.length; i++) {
+  if(nums.length > 1) {
+    if(ops[i] == "+") {
+      var tempSum = parseFloat(nums[0]) + parseFloat(nums[1]);
+      nums.splice(0, 2);
+      nums.unshift(tempSum);
+    }
+    if(ops[i] == "-") {
+      var tempSum = parseFloat(nums[0]) - parseFloat(nums[1]);
+      nums.splice(0, 2);
+      nums.unshift(tempSum);
+    }
+  }
+}
+return parseFloat(nums[0]);
 };
+
+//THIS IS WHEN WE GOT PART 3

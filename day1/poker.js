@@ -47,4 +47,23 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  // 1 equals 10
+  var number1 = [];
+  var suit1 = [];
+  var number2 = [];
+  var suit2 = [];
+  for (var i = 0; i < hand1.length; i++){
+  	number1.push(hand1[i][0]);
+  	suit1.push(hand1[i][1]);
+  	number2.push(hand2[i][0]);
+  	suit2.push(hand2[i][1]);
+  }
+  
+
+
+
+  console.log(number1, suit1, number2, suit2);
+
 }
+
+rankPokerHand(['KD', 'AD', '10S', 'JD', 'QD'], ['10S', 'KS', 'QS', 'JS', '9S']);

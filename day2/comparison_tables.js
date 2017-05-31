@@ -45,11 +45,55 @@ var valuesToCheck = function() {
 // to an object with the format specified above.
 
 // Good luck!
+function generateComparisons(vals){
+	var ret = [];
+	var vals = valuesToCheck();
+	var vals2 = valuesToCheck();
+	vals.forEach(function(i){
+		vals2.forEach(function(j){
+			ret.push([i,j])
+
+		})
+	})
+	return ret
+}
+
+function comparisonArrayToString(item){
+	return item.map(function(i){
+		if(_.isArray(i) || _.isObject(i)){
+			return JSON.stringify(i)
+		}
+		
+		if(_.isUndefined(i)){
+			return 'undefined'
+		}
+		if(_.isNull(i)){
+			return 'null';
+		}
+		if(_.isString(i)){
+			return '"' + i + '"'
+		}
+		return i
+
+
+	}).join('_')}
 
 comp.testLooseEquality = function() {
     // YOUR CODE HERE
+  var combinations = generateComparisons(valuesToCheck);
+  var ret = {};
+  combinations.forEach(function(comparison) {
+    ret[comparisonArrayToString(comparison)] = comparison[0] == comparison[1];
+  });
+  return ret;
 };
 
 comp.testStrictEquality = function() {
     // YOUR CODE HERE
+  var combinations = generateComparisons(valuesToCheck);
+  var ret = {};
+  combinations.forEach(function(comparison) {
+    ret[comparisonArrayToString(comparison)] = comparison[0] === comparison[1];
+  });
+  return ret;
 };

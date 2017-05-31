@@ -282,6 +282,7 @@ learn_underscore.countLetters = function(string) {
   // _.identity is a function that returns the argument that is passed to it without modification.
   // Same as function(x) { return x; }
   // When we call countBy with _.identity,
+  
   return _.countBy(stringArray, _.identity);
 }
 

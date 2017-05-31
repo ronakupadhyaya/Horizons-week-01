@@ -39,9 +39,9 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
   if(dateObj.getDay() === otherDateObj.getDay()){
   	return true
-  }else{
+  }
   	return false
-  	}
+  	
 
 
 };
@@ -59,9 +59,9 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
    if(dateObj.getHours() === otherDateObj.getHours()){
   	return true
-  }else{
+  }
   	return false
-  	}
+  	
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -85,6 +85,7 @@ dates.isTheFuture = function(dateObj) {
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
   var tomorrow = dateObj;
+  // only updates tomorrow 
   tomorrow.setDate(tomorrow.getDate() + 1)
   return tomorrow
 };

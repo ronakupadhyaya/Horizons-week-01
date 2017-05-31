@@ -42,31 +42,34 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  // group by ticker value
   var groupped = _.groupBy(data, function(stocks){
     return stocks.ticker;
   });
-
+  // sort by time
   var sorted = _.map(groupped, function(value,key){
   	return _.sortBy(value, function(stocks){
   		return stocks.time;
   	});
   });
 
-  	
+  // specify empty object
   var result = {}
+  // loop through sorted list to assign start_price, end_price and calculate gain / loss
   _.forEach(sorted,function(value,key){
+  	// specify start_price
   	var start_price = value[0].price;
+  	// specify end_price
   	var end_price = value[value.length-1].price;
+
+  	// calculate difference --> gain / loss
   	var gainloss = end_price - start_price;
   	
+  	// assign ticker : gain loss pair to result object
   	result[value[0].ticker] = gainloss;
-
-
   })
 
  return result
-
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -85,14 +88,18 @@ stocks.gainAndLoss = function(data) {
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
 
+  // specifies gain loss of all ticker
   var bigGain = stocks.gainAndLoss(data)
+
+  // specifies value of maximum gain 
   var maxgain = _.reduce(bigGain,function(a,b){
   	return Math.max(a,b)
   })
 
+  // declare a variable since forEach does not return anything
   var name;
-  var gain = _.forEach(bigGain, function(value, key){
-
+  _.forEach(bigGain, function(value, key){
+  	// assign key to variable name if it matches maximum gain
   	if(maxgain === value){
   		name = key 
   	}
@@ -121,7 +128,7 @@ stocks.biggestLoser = function(data) {
   })
 
   var name;
-  var loss = _.forEach(smallloss, function(value, key){
+  _.forEach(smallloss, function(value, key){
 
   	if(minloss === value){
   		name = key 
@@ -140,10 +147,13 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
-   var groupped = _.groupBy(data, function(stocks){
-    return stocks.ticker;
-  });
 
+  // group by ticker
+   var groupped = _.groupBy(data, "ticker");//function(stocks){
+    //return stocks.ticker;
+  //}
+  
+  // apply to each indicy of group by object using _.map --> sort by stock price within each ticker
   var sorted = _.map(groupped, function(value,key){
   	return _.sortBy(value, function(stocks){
   		return stocks.price;
@@ -152,19 +162,20 @@ stocks.widestTradingRange = function(data) {
 
   var result = {}
   _.forEach(sorted,function(value,key){
+  	// find min, max price and variance for each ticker
   	var min = value[0].price;
   	var max = value[value.length-1].price;
   	var variance = max - min;
-  	
+  	// assign ticker variance pair to result object
   	result[value[0].ticker] = variance;
   })
-
+  // loop through to find max variance
   var maxvar = _.reduce(result,function(a,b){
   	return Math.max(a,b)
   })
-
+  // find ticker with max variance
   var name;
-  var loss = _.forEach(result, function(value, key){
+  _.forEach(result, function(value, key){
 
   	if(maxvar === value){
   		name = key 
@@ -191,9 +202,10 @@ stocks.widestTradingRange = function(data) {
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
   var port_val = 0;
+  // loop through portfolio to match portfolio key(ticker) to ticker in data (x)
   _.forEach(portfolio,function(value,key){
   	data.forEach(function(x){
-
+  		// update value if ticker matches and date matches
   		if(x.ticker === key){
 
   			if(date.getDate() === new Date(x.time).getDate()){
@@ -223,11 +235,12 @@ return port_val
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  
+  // group based on ticker value
   var groupped = _.groupBy(data, function(stocks){
     return stocks.ticker;
   });
-
+  // sort by time
   var sorted = _.map(groupped, function(value,key){
   	return _.sortBy(value, function(stocks){
   		return stocks.time;
@@ -239,19 +252,21 @@ stocks.bestTrade = function(data, ticker) {
   var sellDate;
   var profit;
 
+  // loop through sorted list 
   _.forEach(sorted,function(value, key){
-  	
+  	// to match ticker
   	if(value[0].ticker === ticker){
 
   		buyDate = new Date(value[0].time);
   		sellDate = new Date(value[0].time);
   		profit = 0;
+  		// compare 2 dates and update if profit is greater than current
   		for(var i=0 ; i < value.length ; i++){
   			for(var j=0 ; j < value.length ; j++){
   				if(i > j){
   					continue;
   				}else{
-  					if(value[j].price - value[i].price > profit){
+  					if((value[j].price - value[i].price) > profit){
   						profit = value[j].price - value[i].price
   						buyDate = new Date(value[i].time)
   						sellDate = new Date(value[j].time)
@@ -293,21 +308,24 @@ stocks.bestTradeEver = function(data) {
   var groupped = _.groupBy(data, function(stocks){
     return stocks.ticker;
   });
+  // make a unique list of all ticker values
   var ticker_list = []
   _.forEach(groupped,function(value,key){
   	ticker_list.push(key)
   })
+  // assign initial values to best trade and ticker
   var best = stocks.bestTrade(data,'GOOG');
-  var tick = 'AMZN'
+  var tick = 'GOOG'
   for(var i = 0 ; i < ticker_list.length ; i++){
   	var check = stocks.bestTrade(data,ticker_list[i])
-  	//console.log(check[2], best[2])
-  	if(check[2] > best [2]){
+  	
+  	if(check[2] > best[2]){
   		best = check
   		tick = ticker_list[i]
   		
   	}
   }
+ // add ticker to front of best object
  best.unshift(tick)
  return best
 

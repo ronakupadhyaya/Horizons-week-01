@@ -56,6 +56,8 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+
+  // assign initial highest GPA to result and update as a student with higher GPA is found
   var result = data[0]
   data.forEach(function(student){
     if(grades.getGPA(student) > grades.getGPA(result)){
@@ -71,11 +73,14 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-  var result = [];
+  
+
+  // group by major
   var temp = _.groupBy(data, function(student){
     return student.major
   })
-
+  var result = [];
+  // add pair of major and GPA pair into result array
   _.forEach(temp, function(value, key){
     var sum = 0
     value.forEach(function(x){
@@ -85,12 +90,14 @@ grades.majorWithHighestGPA = function(data) {
     result.push([key, sum])
     
   })
+  // loop through to determine the major with the highest GPA
   var high_major = result[0];
   result.forEach(function(x){
     if(x[1] > high_major[1]){
       high_major = x;
     }
   })
+  // high_major[0] depicts the major name while [1] depicts the actual GPA
   return high_major[0]
 };
 

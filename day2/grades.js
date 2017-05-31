@@ -46,6 +46,7 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  console.log(data);
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)

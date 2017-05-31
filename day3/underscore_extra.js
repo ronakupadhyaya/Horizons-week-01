@@ -31,7 +31,21 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var returnVal;
+  var repeat = false;
+  var usedCall = {};
+  return function(arg) {
+    if (Object.keys(usedCall).includes(arg.toString())) {
+      repeat = true;
+    }
+    if (!repeat) {
+      returnVal = func.call(window,arg);
+      usedCall[arg] = returnVal;
+    } else {
+      returnVal = usedCall[arg];
+    }
+    return returnVal;
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +74,19 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var allArg = Array.prototype.slice.call(arguments);
+  if (allArg.length === 0) {
+    throw "Nothing in arguments"
+  }
+  var argsWithNoFun = allArg.slice(1,allArg.length);
+  return function() {
+    var newArg = Array.prototype.slice.call(arguments);
+    newArg.forEach(function(arg) {
+      argsWithNoFun.push(arg);
+    })
+    var returnArr = Array.prototype.slice.call(fn.apply(window,argsWithNoFun))
+    return returnArr
+  }
 }
 
 // Exercise 3: composeBasic()

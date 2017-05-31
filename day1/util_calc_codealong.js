@@ -20,6 +20,40 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+function checkValid(toCheck){
+
+  // a string is valid if:
+  // space separated
+  // alternates numbers and operators
+  // begins and ends with a number
+
+  var tokens = toCheck.split(' ');
+
+  if (tokens.length % 2 === 0) {
+    throw "Even number of arguments";
+  }
+
+  for (var i=0; i<tokens.length; i++){
+    //this is for an even index
+    if (i % 2 === 0){
+      // this should be a number
+      if(isNaN(tokens[i])){
+        throw "Error, expected a number, found " + tokens[i] + " at " + i;
+      }
+    } else {
+      // this should be an operator
+      if (!( tokens[i] === '+' || tokens[i] === '-' || tokens[i] === '*' || tokens[i] === '/')){
+        throw "Expected an operator, found " + tokens[i]
+      }
+    }
+  }
+
+}
+
+
+
+
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -29,6 +63,23 @@ window.util = {};
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
 //
+
+function plusMinus(expression) {
+  var tokens = expression.split(' ');
+
+  var result = parseFloat(tokens[0]);
+
+  for (var i = 1; i < tokens.length; i+=2) {
+    if(tokens[i] === '+'){
+      result = result + parseFloat(tokens[i+1]);
+    }else if(tokens[i] === '-'){
+      result = result - parseFloat(tokens[i+1]);
+    }
+  }
+  return result;
+}
+
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -39,6 +90,27 @@ window.util = {};
 // ex. util.calc('1 / 0 + 1 * 0') -> Infinity
 // ex. util.calc('1 / 0 * 0 + 1') -> NaN
 //
+
+//"1 + 3 * 4 -2" ---> "1 + 12 - 2" ===> "11"
+function multDiv(expression) {
+  var tokens = expression.split(' ');
+
+  var result = "";
+  for (var i = 1; i < tokens.length; i+=2) {
+    if (tokens[i] === '+' || tokens[i] === '-'){
+      result += tokens[i-1] + ' ' + tokens[i] + ' ';
+
+      if (i+1 === tokens.length-1) {
+        result += tokens[i+1];
+      }
+    } else if(tokens[i] === '*' || tokens[i] === '/')
+  }
+  return result;
+  }
+
+
+
+
 // Bonus: Implement support for the square root operator.
 // Implement support for the `sqrt` operator. `sqrt` is an operator that takes
 // only one argument (i.e. a unary operator). `sqrt` applied before all other
@@ -54,32 +126,7 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  if (expression === '') {
-    throw "error";
-  }
-  //  else if (expression.indexOf('+') === -1 ||
-  //      expression.indexOf('-') === -1 ||
-  //      expression.indexOf('*') === -1 ||
-  //      expression.indexOf('/') === -1) {
-  //    throw "error";
-  //      }
-  else if (expression === '-'){
-    throw "error";
-  }
-  //  else if (expression[expression.length - 1] === '+' || '-' || '*' || '/'){
-  //    throw "error";
-  //  }
-  else if (expression[0] === '+' ){
-    throw "error";
-  }
-  else if (expression.indexOf('+ +') !== -1){
-    throw "error";
-  }
-  else if (expression.indexOf(' -2') !== -1){
-    throw "error";
-  }
+  checkValid(expression);
+  return plusMinus(expression);
 
-  return  eval(expression);
-
-  // YOUR CODE HERE
 };

@@ -1,5 +1,6 @@
 window.util = {};
 
+
 util.splitExpression = function(expression){
   return expression.split("");
 }

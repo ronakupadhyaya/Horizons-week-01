@@ -225,22 +225,41 @@ stocks.bestTrade = function(data, ticker) {
     return 0;
   })
 
+  // var startDate;
+  // var endDate;
+  // var maxDifference = 0
+  // for (var start = 0; start < co.length; start++) {
+  //   for (var end = start + 1; end < co.length; end ++) {
+  //     if (co[end].price - co[start].price > maxDifference){
+  //       startDate = new Date(co[start].time)
+  //       endDate = new Date(co[end].time)
+  //       maxDifference = co[end].price - co[start].price
+  //     }
+  //   }
+  // }
+
+  var minIndex = 0;
+  var maxIndex = co.length - 1;
+  var maxDifference = co[maxIndex].price - co[minIndex].price;
   var startDate;
   var endDate;
-  var maxDifference = 0
-  for (var start = 0; start < co.length; start++) {
-    for (var end = start + 1; end < co.length; end ++) {
-      if (co[end].price - co[start].price > maxDifference){
-        startDate = new Date(co[start].time)
-        endDate = new Date(co[end].time)
-        maxDifference = co[end].price - co[start].price
-      }
+  for (var i = 0; i < co.length; i++) {
+    if (co[maxIndex].price - co[i].price > maxDifference && i < maxIndex) {
+      maxDifference = co[maxIndex].price - co[i].price;
+      minIndex = i;
+      startDate = new Date(co[i].time);
+    }
+    if (co[i].price - co[minIndex].price > maxDifference && i > minIndex) {
+      maxDifference = co[i].price - co[minIndex].price;
+      maxIndex = i;
+      endDate = new Date(co[i].time);
     }
   }
-  // console.log([startDate, endDate, maxDifference])
+
+  console.log(startDate, endDate, maxDifference);
   return [startDate, endDate, maxDifference]
 };
-
+/*
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
 // Write a function to figure out the best stock to buy and when to
 // buy and sell it.
@@ -278,6 +297,7 @@ stocks.bestTradeEver = function(data) {
   // console.log(arr)
   return [arr[0][0], new Date(arr[0][1][0]), new Date(arr[0][1][1]), arr[0][1][2]]
 };
+*/
 
 
 

@@ -6,13 +6,13 @@ window.comp = {};
 // for all different types - from booleans to numbers to arrays -
 
 var valuesToCheck = function() {
-  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
-"-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+  return [true, false, 1, 0, -1, "true", "false", "1", "0",
+    "-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
 }
 
 // and you will write the following:
 
-// 1. A function that evaluates the loosely equal (==) truth value of each value 
+// 1. A function that evaluates the loosely equal (==) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
 // 2. A function that evaluates the striclty equal (===) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
@@ -26,9 +26,9 @@ var valuesToCheck = function() {
 // ex. comp.testStrictEquality(s) ->
 // {"true_true": true, "true_false": false, "true_1": false, "true_0": false, ...}
 
-// Each property's key value should be formatted as: 
+// Each property's key value should be formatted as:
 // valuesToCheck[someIndex]_valuesToCheck[anotherIndex]
-// such that the return object has all keys of possible combinations of 
+// such that the return object has all keys of possible combinations of
 // valuesToCheck, from true_true to NaN_NaN.
 
 // Note: Allow for redundancies; you should have both true_false and false_true
@@ -47,7 +47,34 @@ var valuesToCheck = function() {
 // Good luck!
 
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+  var arr = [];
+  var vals = valuesToCheck();
+  for (var i = 0; i < vals.length; i++) {
+    for (var j = 0; j < vals.length; j++) {
+      arr.push([vals[i], vals[j]]);
+    }
+  }
+  var obj = {};
+  for (var i = 0; i < arr.length; i++) {
+    var one = arr[i].slice(0, 1);
+    one = one[0];
+    var two = arr[i].slice(1, 2);
+    two = two[0];
+
+    if (typeof one === "number" && typeof two === "number") {
+      obj[one +"_"+two] = one == two;
+    } else if (typeof one === "number") {
+      obj[one +"_"+ JSON.stringify(two)] = one == two;
+    } else if (typeof two === "number") {
+      obj[JSON.stringify(one) +"_"+ two] = one == two;
+    } else {
+      if (JSON.stringify(one) === "[]" && JSON.stringify(two) === "[]") {
+        console.log(one == two);
+      }
+      obj[JSON.stringify(one) +"_"+ JSON.stringify(two)] = one == two;
+    }
+  }
+  return obj;
 };
 
 comp.testStrictEquality = function() {

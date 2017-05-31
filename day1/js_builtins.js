@@ -3,7 +3,7 @@
 window.builtins = {};
 
 // In this exercise, we'll be recreating some common JavaScript built-in
-// functions such as contains() and trim() using the skills we already know.
+// functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
 // check out this MDN reference:
@@ -40,7 +40,7 @@ builtins.trim = function(str) {
 
 // ----------------------------------------------------------------------------
 
-// Exercise 2. contains() using indexOf()
+// Exercise 2. search() using indexOf()
 
 // Write a function that takes a string to be searched and a string to
 // search for, returning true or false as to whether or not the latter
@@ -238,11 +238,15 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  var newArray = [];
-  for(var i = 0; i < arr.length; i++) {
-    for(var j = 0; j< arr[i].length; j++) {
-      newArray.push(arr[i][j]);
-    }
-  }
-  return newArray;
+
+  // var newArray = [];
+  // for(var i = 0; i < arr.length; i++) {
+  //   for(var j = 0; j< arr[i].length; j++) {
+  //     newArray.push(arr[i][j]);
+  //   }
+  // }
+  // return newArray;
+
+  // YOUR CODE HERE
+
 };

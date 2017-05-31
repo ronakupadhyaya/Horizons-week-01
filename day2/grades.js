@@ -26,7 +26,14 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  var sum = 0;
+  var count = 0;
+  _.forEach(arr, function(n){
+    sum+=n;
+    count++;
+  })
+  if(count) return sum/count
+  return 0
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -37,15 +44,22 @@ grades.average = function(arr) {
 // ex. grades.getGPA([0, 0]) -> 0
 //
 // hint. use grades.average
+
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var arr = [student.grades.class1, student.grades.class2];
+  return grades.average(arr);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  return _.reduce(data, function (a, b){
+    if(grades.getGPA(a) > grades.getGPA(b)){
+      return a
+    }
+    return b
+  })
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +67,31 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+
+  var majorArr = _.groupBy(data, function(n){
+    return n.major;
+  })
+
+  //console.log(majorArr);
+  var test = _.mapObject(majorArr, function(n){
+    return grades.average(_.map(n,function(m){
+      return grades.getGPA(m);
+    })
+  )
+  })
+  var majorArr = _.pairs(test);
+  //console.log(majorArr)
+
+  var max = 0;
+  var major1 = "";
+
+  for(var i = 0; i < majorArr.length; i++){
+    if(majorArr[i][1] > max){
+      max = majorArr[i][1]
+      major1 = majorArr[i][0]
+    }
+  }
+  return major1
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +99,21 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var class1GPA = [];
+  var class2GPA = [];
+  _.forEach(data, function(n){
+    class1GPA.push(n.grades.class1);
+    class2GPA.push(n.grades.class2);
+  })
+
+  var class1AVG = grades.average(class1GPA);
+  var class2AVG = grades.average(class2GPA);
+
+  var results = {
+    'class1': class1AVG,
+    'class2': class2AVG
+  }
+
+ return results
+
 };

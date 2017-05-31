@@ -138,11 +138,17 @@ stocks.widestTradingRange = function(data) {
     return n.ticker;
   })
 
+
+//console.log(tickerObj)
+
   var sortedMax = _.map(tickerObj, function(value, key) {
    return _.max(value, function(n) {
      return n.price;
    })
  })
+
+
+
 
  var sortedMin = _.map(tickerObj, function(value, key) {
   return _.min(value, function(n) {
@@ -250,7 +256,17 @@ return tally
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+
+  var dataOfInterest = _.filter(data, function(n){
+    return n.ticker === ticker
+  })
+
+  var sortedData = _.sortBy(dataOfInterest, function(x){
+    return x.price
+  })
+  console.log(sortedData[29].price-sortedData[0].price)
+return [new Date(sortedData[0].time), new Date(sortedData[29].time), sortedData[29].price-sortedData[0].price]
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

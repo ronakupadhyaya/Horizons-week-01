@@ -27,6 +27,10 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  var return_val = _.reduce(arr, function(a, b) {
+  	return a+b;
+  }, 0)
+  return arr.length>0 ? return_val/arr.length : return_val
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +43,11 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var arr = []
+  _.forEach(student.grades, function(value) {
+  	arr.push(value)
+  })
+  return grades.average(arr)
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +55,19 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var arr = []
+  _.forEach(data, function(student) {
+  	arr.push(grades.getGPA(student))
+  })
+  var maxGPA = 0;
+  var index = -1;
+  for (var i=0; i<arr.length; i++) {
+  	if (arr[i] > maxGPA) {
+  		maxGPA = arr[i]
+  		index = i
+  	}
+  }
+  return data[index]
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,6 +76,30 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  // console.log(data)
+  data = _.groupBy(data, function(student) {
+  	return student.major
+  })
+  // console.log(data)
+
+  function getGPAMajor(major) {
+  	return grades.average(major.map(grades.getGPA))
+  }
+
+  console.log(data)
+  var temp = _.mapObject(data, getGPAMajor)
+  console.log(temp)
+
+  var bestMajor = ""
+  var bestGPA = -1
+  _.forEach(temp, function(value, key) {
+  	// console.log(value, key)
+  	if (value > bestGPA) {
+  		bestGPA = value
+  		bestMajor = key
+  	}
+  })
+  return bestMajor
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -62,4 +108,37 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+
+  var newData={
+    class1: [],
+    class2: []
+  };
+  console.log(newData);
+  data.forEach(function(student){
+    _.forEach(student.grades, function(value, key){
+      key==="class1" ? newData.class1.push(value) : newData.class2.push(value);
+
+    })
+    
+    //use underscore for each because only way to use for each on object
+  })
+  console.log(newData);
+  // var c1Average=0;
+  // var c2Average=0;
+  newData.class1=grades.average(newData.class1)
+  newData.class2=grades.average(newData.class2)
+
+return newData;
+  console.log(newData.class1);
+
+  // console.log(newData.class1);
+
+// grades.average = function(arr) {
+//   // YOUR CODE HERE
+//   var return_val = _.reduce(arr, function(a, b) {
+//   	return a+b;
+//   }, 0)
+//   return arr.length>0 ? return_val/arr.length : return_val
+// };
+  
 };

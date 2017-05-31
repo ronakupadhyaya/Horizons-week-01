@@ -54,5 +54,108 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  //split expression into array
+  if (expression == ''){
+    throw 'Empty expression';
+  }
+  var expArray = expression.split(" ");
+  var testArray = [];
+  var operators = "+-/*%";
+  var sqrt = 'sqrt';
+  var numArray = [];
+  var opArray = [];
+  var tempGreatestOp;
+  var tempGreatestOpIndex =0;
+  var temp = 0;
+  //check if array is empty
+  if(expArray.length == 0){
+    throw "Error!";
+  }
+  //changes string of numbers to numbers and places all elements into testArray
+  for(var i = 0; i < expArray.length; i++) {
+    if (operators.indexOf(expArray[i]) < 0) {
+      testArray.push(parseFloat(expArray[i]));
+    } else{
+      testArray.push(expArray[i]);
+    }
+  }
+  if(typeof testArray[0] == "string"){
+    throw "Error! First item is nota number!";
+  }
+  if(typeof testArray[testArray.length -1] == "string"){
+    throw "Error! Last item is not a number!";
+  }
+  for(var i = 1; i< testArray.length-1; i++) {
+    //test if first number is not an operator
+    if(typeof testArray[i] == "string" && !( typeof testArray[i-1] == "number" && typeof testArray[i+1] == "number")) {
+      throw "Error! There was a repeated operator";
+    } else if(typeof testArray[i] == "number" && !( typeof testArray[i-1] == "string" && typeof testArray[i+1] == "string")) {
+      throw "Error! There was a repeated number!";
+    }
+  }
+  // check that it is number or op and assign it to correct array
+  for (var i = 0;i<testArray.length;i++){
+    if(typeof testArray[i] == 'number'){
+      numArray.push(testArray[i]);
+    }
+    if(typeof testArray[i] == 'string'){
+      opArray.push(testArray[i]);
+    }
+  }
+  if(opArray.length == 0 && numArray.length > 1){
+    throw "Error. No num or op";
+  }
+  if(numArray.length ==1){
+    return numArray[0];
+  }
+  while(opArray.length > 0){
+    for(var j = 0; j < opArray.length; j++){
+      if((opArray.join('')).indexOf("*") > -1 || (opArray.join('')).indexOf("/") > -1){
+        if(opArray[j] === '*' || opArray[j] === "/"){
+          tempGreatestOp = opArray[j];
+          tempGreatestOpIndex = j;
+          break; // conitnue or break
+        } else if (opArray[j] === '+' || opArray[j] === '-'){
+          tempGreatestOp = opArray [j];
+          tempGreatestOpIndex = j;
+        }
+      } else {
+        tempGreatestOp = opArray[j];
+        tempGreatestOpIndex = j;
+        break;
+      }
+      debugger;
+    }
+    debugger;
+    if(tempGreatestOp === '*'){
+      temp = numArray[tempGreatestOpIndex]*numArray[tempGreatestOpIndex+1];
+      numArray[tempGreatestOpIndex] = temp;
+      numArray.splice(tempGreatestOpIndex+1,1)
+      opArray.splice(tempGreatestOpIndex,1);
+    } else if(tempGreatestOp === '/'){
+      temp = numArray[tempGreatestOpIndex]/numArray[tempGreatestOpIndex+1];
+      numArray[tempGreatestOpIndex] = temp;
+      numArray.splice(tempGreatestOpIndex+1,1)
+      opArray.splice(tempGreatestOpIndex,1);
+    } else if (tempGreatestOp === '+'){
+      temp = numArray[tempGreatestOpIndex]+numArray[tempGreatestOpIndex+1];
+      numArray[tempGreatestOpIndex] = temp;
+      numArray.splice(tempGreatestOpIndex+1,1)
+      opArray.splice(tempGreatestOpIndex,1);
+    } else if (tempGreatestOp === '-'){
+      temp = numArray[tempGreatestOpIndex]-numArray[tempGreatestOpIndex+1];
+      numArray[tempGreatestOpIndex] = temp;
+      numArray.splice(tempGreatestOpIndex+1,1)
+      opArray.splice(tempGreatestOpIndex,1);
+    }
+    temp = null;
+    tempGreatestOpIndex = null;
+    tempGreatestOp = null;
+  }
+  return numArray[0];
+}
+
+
+  //check position of operator (operator between two numbers)
+
+  //check if two numbers are next to each other

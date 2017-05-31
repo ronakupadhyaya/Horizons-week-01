@@ -55,4 +55,83 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if (expression === null) {return;}
+  if (expression === '') {throw "Error, empty expression"};
+
+  var newArr = expression.split(' ');
+
+  // console.log(newNum);
+  var index = newArr.indexOf('sqrt');
+  if (index != -1) {
+    var newNum = eval(Math.sqrt(newArr[index+1]));
+    if (newArr.length === 2) {
+      return newNum
+    } else {
+
+    newArr.splice(index, index + 2);
+    // console.log(newNum);
+    newArr.splice(index, 0, String(newNum));
+    // console.log(newArr);
+   }
+  }
+
+  // console.log(newArr);
+  if (newArr.length === 1) {
+    if (!isNaN(newArr[0])) {
+      return eval(newArr[0])}
+     else {
+      throw "Error, no numbers";
+    }
+  }
+
+  // if (newArr.length === 1) {  return eval(newArr[0])}
+
+
+  if (newArr.length > 1 && newArr.indexOf('+') + newArr.indexOf('-') +
+      newArr.indexOf('/') + newArr.indexOf('*') === -4) {
+        throw "Error, mission operator";
+      };
+  if (newArr.indexOf('1') + newArr.indexOf('2') +
+      newArr.indexOf('3') +newArr.indexOf('4') +
+      newArr.indexOf('5') + newArr.indexOf('6') +
+      newArr.indexOf('7') + newArr.indexOf('8') +
+      newArr.indexOf('9') + newArr.indexOf('0')=== -10) {
+        throw "Error, no numbers";
+      }
+
+  // if (isNaN(arr[0]) || isNaN(arr[arr.length])) {
+  //   throw "Error, operator at the wrong spot";
+  // }
+
+  var operator = 0, number = 0;
+  for (var i = 0; i < newArr.length; i++) {
+    if (isNaN(newArr[i])) {
+      operator += 1;
+    } else {
+      number += 1;
+    }
+  }
+  if (operator >= number) {
+    throw "Error, too many operators";
+  }
+  if (operator + 1 <  number) {
+    throw "Error, too many numbers";
+  }
+
+  for (var i = 0; i < newArr.length - 1; i += 2) {
+    if (!isNaN(newArr[i])) {
+      if (!isNaN(newArr[i+1])) {
+        throw "Error, operator at the wrong spot"
+      }
+    }
+    if (isNaN(newArr[i])){
+      throw "Error, operator at the wrong spot"
+    }
+
+  }
+
+
+ return eval(expression);
+
+
 };

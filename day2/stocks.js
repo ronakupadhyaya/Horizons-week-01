@@ -42,8 +42,39 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var sortedByCoObj = {};
+  sortedByCoObj = _.groupBy(data, function(company) {
+    return company.ticker;
+  })
+  var time = [];
+  var timeCopy = [];
+  var summary = {};
+  var gainLoss = 0;
+  _.forEach(sortedByCoObj, function(value, key) {    //value is an array of transaction objects; key is the company/ticker
+    value.forEach(function(element) {
+      time.push(element.time);
+      timeCopy = time.slice();
+    })
+    var latestTime = time.reduce(function(a, b) {
+      if (a < b) {
+        return b;
+      } return a;
+    })
+    var indexLatest = time.indexOf(latestTime);
+    var earliestTime = timeCopy.reduce(function(a, b) {
+      if (a > b) {
+        return b;
+      } return a;
+    })
+    var indexEarliest = timeCopy.indexOf(earliestTime);
+    gainLoss = (value[indexLatest].price - value[indexEarliest].price).toFixed(2);
+    summary[key] = gainLoss;
+    time = [];
+    timeCopy = [];
+  })
+  return summary;
 };
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,12 +90,24 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var priceChangeObj = stocks.gainAndLoss(data);
+  var priceChangeArr = [];
+  _.forEach(priceChangeObj, function(value, key) {
+    priceChangeArr.push(parseFloat(value));
+  })
+  var maxChange = priceChangeArr.reduce(function(a, b) {
+    if (a<=b) {
+      return b;
+    }
+    return a;
+  })
+  var i = priceChangeArr.indexOf(maxChange);
+  return Object.keys(priceChangeObj)[i];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
 //
-// Write a function that finds the stock that went up in price the most
+// Write a function that finds the stock that went down in price the most
 // in absolute terms (i.e. not percentage-wise) over the lifetime of
 // the given data.
 //
@@ -76,7 +119,19 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var priceChangeObj = stocks.gainAndLoss(data);
+  var priceChangeArr = [];
+  _.forEach(priceChangeObj, function(value, key) {
+    priceChangeArr.push(parseFloat(value));
+  })
+  var maxLoss = priceChangeArr.reduce(function(a, b) {
+    if (a > b) {
+      return b;
+    }
+    return a;
+  })
+  var i = priceChangeArr.indexOf(maxLoss);
+  return Object.keys(priceChangeObj)[i];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +143,48 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var sortedByCoObj = {};
+  sortedByCoObj = _.groupBy(data, function(company) {
+    return company.ticker;
+  })
+  var price = [];
+  var priceCopy = [];
+  var summary = {};
+  var difference = 0;
+  _.forEach(sortedByCoObj, function(value, key) {    //value is an array of transaction objects; key is the company/ticker
+    value.forEach(function(element) {
+      price.push(element.price);
+      priceCopy = price.slice();
+    })
+    var highestPrice = price.reduce(function(a, b) {
+      if (a < b) {
+        return b;
+      } return a;
+    })
+    var indexHighest = price.indexOf(highestPrice);
+    var lowestPrice = priceCopy.reduce(function(a, b) {
+      if (a > b) {
+        return b;
+      } return a;
+    })
+    var indexLowest = priceCopy.indexOf(lowestPrice);
+    difference = value[indexHighest].price - value[indexLowest].price;
+    summary[key] = difference;
+    price = [];
+    priceCopy = [];
+  })
+  var diffArr = [];
+  _.forEach(summary, function(value, key) {
+    diffArr.push(parseFloat(value));
+  })
+  var maxChange = diffArr.reduce(function(a, b) {
+    if (a<=b) {
+      return b;
+    }
+    return a;
+  })
+  var i = diffArr.indexOf(maxChange);
+  return Object.keys(summary)[i];
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +202,31 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var processObj = _.groupBy(data, function(trans) {
+    return trans.time;
+  })
+  var dateArr = Object.keys(processObj);
+  var dateIndex = dateArr.indexOf(date.toJSON());
+  // var portfolioTicker = Object.keys(portfolio);
+  var portfolioShares = Object.values(portfolio);
+  // console.log("portfolio tickers: ", portfolioTicker);
+  // console.log("portfolio shares", portfolioShares);
+  var dailyStats = processObj[date.toJSON()];    //Array of objects
+
+  var priceArr = [];
+  _.forEach(portfolio, function(value, key) {    //value: number of shares    key: ticker
+    dailyStats.forEach(function(element) {     //working on an array of objects    element is an object
+      if (element.ticker === key) {
+        priceArr.push(element.price);
+      }
+    })
+  })
+  // console.log("price array", priceArr);
+  var result = 0;
+  for (var i=0; i<portfolioShares.length; i++) {
+    result += portfolioShares[i]*priceArr[i];
+  }
+  return result;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +247,35 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var sortedByCoObj = {};
+  sortedByCoObj = _.groupBy(data, function(company) {    //Object; key: ticker; value: array of transactions
+    return company.ticker;
+  })
+  console.log("sorted object", sortedByCoObj);
+  console.log(sortedByCoObj[ticker]);    //array of transactions
+
+
+  var price = [];
+  _.forEach(sortedByCoObj[ticker], function(element) {
+    price.push(element.price);
+  })
+  var highestPrice = price.reduce(function(a, b) {
+    if (a < b) {
+      return b;
+    } return a;
+  })
+  var indexHighest = price.indexOf(highestPrice);
+  var lowestPrice = price.reduce(function(a, b) {
+    if (a > b) {
+      return b;
+    } return a;
+  })
+  var indexLowest = price.indexOf(lowestPrice);
+  console.log("highest price", highestPrice, "lowest price", lowestPrice);
+  var highDateStr = sortedByCoObj[ticker][indexHighest].time;
+  var lowDateStr = sortedByCoObj[ticker][indexLowest].time;
+    // console.log("highest date", highDateStr, "lowest date", lowDateStr);
+  return [new Date(lowDateStr), new Date(highDateStr), highestPrice-lowestPrice];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

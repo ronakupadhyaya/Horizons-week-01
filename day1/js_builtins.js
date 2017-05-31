@@ -21,6 +21,13 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  //var index1, index2;
+    var i = 0;
+  	while(str[i] === ' '){i++};
+    var j = str.length-1;
+    while(str[j] === ' '){j--};
+    console.log(i);
+    return str.substring(i,j+1);
 };
 
 // ----------------------------------------------------------------------------
@@ -40,6 +47,9 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  if (sourceString === null || searchString === null){return false;}
+  if(sourceString.indexOf(searchString)!= -1){return true};
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -60,6 +70,9 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  if(str != null){
+  	return Number(str[0]);
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +89,14 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  if(arr!=null){
+  	var newarr =[];
+    for(var i = arr.length-1; i >=0; i--){
+  	  newarr.push(arr[i]);
+    };
+  arr = newarr;
+  return arr;
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +115,16 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if(a.length === b.length){
+    for(var i = 0; i<a.length;i++){
+       if(
+       	(typeof a[i]!= typeof b[i])||(a[i]!= b[i])
+       		){
+       	return false;}
+    }
+    return true;
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -108,9 +139,15 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome([1, 2, 3, 4, 5]) -> false
 // ex. builtins.isPalindrome(['1', '2', '3', 2, 1]) -> false
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
-
+ 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  if(arr ===null){return false;};
+  if (arr.lengths ===1){return true;};
+  for(var i = 0,j = arr.length-1; i < j; i++,j--){
+  	if((typeof arr[i] != typeof arr[j])||(arr[i]!=arr[j])){return false;}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -131,6 +168,10 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  if(arr!= null){
+  	return arr.sort(function(a,b){return a-b;})
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -148,6 +189,10 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+    if(arr!= null){
+  	return arr.sort(function(a,b){return a.length-b.length;})
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -163,4 +208,15 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  if(arr != null){
+  var newarr = [];
+  var i = 0;
+  while(i < arr.length){
+  	newarr.push.apply(newarr,arr[i]);
+  	i++;
+  }return newarr;
+  }
+
 };
+
+

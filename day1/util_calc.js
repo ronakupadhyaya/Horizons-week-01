@@ -91,6 +91,30 @@ function plusMinus(expression) {
 // ex. util.calc('1 / 0 + 1 * 0') -> Infinity
 // ex. util.calc('1 / 0 * 0 + 1') -> NaN
 //
+function multDiv(expression) {
+  var tokens = expression.split(' ');
+  var result = "";
+  var i=1;
+
+  if(tokens[i] === '+' || tokens[i] === '-') {
+    i += 2;
+  } else if(tokens[i] === '*'){
+    // result += tokens[i-1] * tokens[i+1];
+      var product = tokens[i-1] * tokens[i+1];
+      tokens = tokens.slice(0, i-1);
+  } else if(tokens[i] === '/') {
+    // result += tokens[i-1] / tokens[i+1];
+    tokens[i-1] / tokens[i+1]
+  }
+}
+
+
+  return result;
+}
+
+
+
+
 // Bonus: Implement support for the square root operator.
 // Implement support for the `sqrt` operator. `sqrt` is an operator that takes
 // only one argument (i.e. a unary operator). `sqrt` applied before all other

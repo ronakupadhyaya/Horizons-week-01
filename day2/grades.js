@@ -27,6 +27,13 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0
+  }
+  var total = arr.reduce(function(a, b){
+   return  a + b
+ });
+  return total / arr.length
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,13 +46,25 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var arrGrades = [student.grades.class1, student.grades.class2];
+  return grades.average(arrGrades)
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var highestGPA = 0;
+  var bestStudentObject = {};
+  for(var i = 0; i < data.length; i++){
+    var currentGPA = grades.getGPA(data[i]);
+    if(currentGPA > highestGPA){
+      highestGPA = currentGPA;
+      bestStudentObject = data[i]
+    }
+
+  }
+  return bestStudentObject
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,6 +73,43 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var groupedObjects = _.groupBy(data, function(i){
+    if(i.major === 'Economics'){
+      return 'Economics'
+    }else if(i.major === 'Film Studies'){
+      return 'Film Studies'
+    }else if(i.major === 'Computer Science'){
+      return 'Computer Science'
+    }else if(i.major === 'Art History'){
+      return 'Art History'
+    }
+
+  });
+  console.log(groupedObjects);
+//var grades = groupedObjects.economics.grades;
+//console.log(grades)
+
+var average = _.mapObject(groupedObjects, function(val, key){
+var total = 0;
+  for(var i = 0; i < val.length; i++){
+    total = total + grades.getGPA(val[i])
+  }
+  return total / val.length
+});
+console.log(average)
+//var keyValues = [];
+var highestAverage = 0;
+var hightestMajor = '';
+  _.forEach(average, function(value, key){
+    if(value > highestAverage){
+    highestAverage = value;
+    hightestMajor = key
+  }
+
+})
+console.log(hightestMajor)
+return hightestMajor
+
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +117,59 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
+var class1TotalGrades = [];
+var class2TotalGrades = [];
+//console.log(totalGrades)
+for(var i = 0; i < data.length; i++){
+  class1TotalGrades.push(data[i].grades.class1);
+  class2TotalGrades.push(data[i].grades.class2);
+}
+//console.log(class2TotalGrades);
+//console.log(class1TotalGrades);
+
+var totalValClass1 = class1TotalGrades.reduce(function(a, b){
+  return a + b
+});
+var class1Average = totalValClass1 / class1TotalGrades.length
+console.log(class1Average);
+
+var totalValClass2 = class2TotalGrades.reduce(function(a, b){
+  return a + b
+});
+var class2Average = totalValClass2 / class2TotalGrades.length
+console.log(class2Average);
+
+return {'class1': class1Average,
+'class2': class2Average,
+
+}
+/*
+var class1 = {'class1': class1Average};
+var class2 = {'class2': class2Average};
+
+if(class2Average > class1Average){
+console.log(class2)
+  return class2
+} else{
+  console.log(class1)
+  return class1
+}*/
+//console.log(totalValClass1);
+//console.log(totalValClass2)
+
+
+//console.log(class1TotalGrades);
+  /*var groupedObjects = _.groupBy(data, function(i){
+    if(i.major === 'Economics'){
+      return 'Economics'
+    }else if(i.major === 'Film Studies'){
+      return 'Film Studies'
+    }else if(i.major === 'Computer Science'){
+      return 'Computer Science'
+    }else if(i.major === 'Art History'){
+      return 'Art History'
+    }
+
+  });*/
   // YOUR CODE HERE
 };

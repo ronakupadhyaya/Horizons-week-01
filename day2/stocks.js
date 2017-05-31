@@ -43,7 +43,24 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
-};
+var groupedStocks = _.groupBy(data, function(i){
+  return i.ticker
+});
+var sortedGroups = _.mapObject(groupedStocks, function(val){
+  return val.sort(function(trans1, trans2){
+    return new Date(trans1['time']) - new Date(trans2['time'])
+  })
+})
+//console.log(sortedGroups);
+var finalObject = _.mapObject(sortedGroups, function(val, key){
+  return val[val.length - 1].price - val[0].price
+});
+
+return finalObject
+
+
+}
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //

@@ -33,5 +33,6 @@ dis.callGetThis = function() {
 dis.boundGetThis = dis.getThis.bind(dis.object2);
 
 dis.callBoundGetThis = function() {
+  // is it right to think bind is more powerful than call?
   return dis.boundGetThis.call(dis.object1) === dis.object2 /* YOUR CODE HERE */;
 }

@@ -41,11 +41,11 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
-stocks.gainAndLoss = function(data) {
+stocks.gainAndLoss = function (data) {
   // YOUR CODE HERE
   return _.chain(data)
     .groupBy('ticker')
-    .mapObject(function(val) {
+    .mapObject(function (val) {
       val = _.sortBy(val, i => new Date(i.time));
       return _.last(val).price - val[0].price;
     })
@@ -65,7 +65,7 @@ stocks.gainAndLoss = function(data) {
 // stocks.biggestGainer(stockData) -> 'AMZN'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestGainer = function(data) {
+stocks.biggestGainer = function (data) {
   // YOUR CODE HERE
   return _.chain(stocks.gainAndLoss(data))
     .pairs()
@@ -87,7 +87,7 @@ stocks.biggestGainer = function(data) {
 // stocks.biggestLoser(stockData) -> 'GOOG'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestLoser = function(data) {
+stocks.biggestLoser = function (data) {
   // YOUR CODE HERE
   return _.chain(stocks.gainAndLoss(data))
     .pairs()
@@ -104,11 +104,11 @@ stocks.biggestLoser = function(data) {
 //
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
-stocks.widestTradingRange = function(data) {
+stocks.widestTradingRange = function (data) {
   // YOUR CODE HERE
   return _.chain(data)
     .groupBy('ticker')
-    .mapObject(function(txns, t) {
+    .mapObject(function (txns, t) {
       var min = _.chain(txns).map('price').min().value();
       var max = _.chain(txns).map('price').max().value();
       return Math.abs(max - min);
@@ -133,19 +133,19 @@ stocks.widestTradingRange = function(data) {
 //                            new Date('2016-06-30T00:00:00.000Z'),
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
-stocks.portfolioValue = function(data, date, portfolio) {
+stocks.portfolioValue = function (data, date, portfolio) {
   // YOUR CODE HERE
   var stockPrices = _.chain(data)
-    .filter(function(txn) {
+    .filter(function (txn) {
       return new Date(txn.time).getTime() === date.getTime();
     })
     .groupBy('ticker')
-    .mapObject(function(v, k) {
+    .mapObject(function (v, k) {
       return v[0].price;
     })
     .value();
   return _.chain(portfolio)
-    .mapObject(function(shares, ticker) {
+    .mapObject(function (shares, ticker) {
       return stockPrices[ticker] * shares;
     })
     .values()
@@ -170,13 +170,13 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //  [new Date('2016-06-19T00:00:00.000Z'),
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
-stocks.bestTrade = function(data, ticker) {
+stocks.bestTrade = function (data, ticker) {
   // YOUR CODE HERE
   var trades = _.chain(data)
-    .filter(function(txn) {
+    .filter(function (txn) {
       return txn.ticker === ticker;
     })
-    .sortBy(function(txn) {
+    .sortBy(function (txn) {
       return new Date(txn.time);
     })
     .value();
@@ -200,7 +200,9 @@ stocks.bestTrade = function(data, ticker) {
     }
   }
 
-  return [new Date(trades[buy].time), new Date(trades[sell].time), maxDiff];
+  sellDate = new Date(trades[sell].time);
+  buyDate = new Date(trades[buy].time);
+  return [buyDate, sellDate, maxDiff];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -223,7 +225,7 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-02:00:00.000Z'),
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
-stocks.bestTradeEver = function(data) {
+stocks.bestTradeEver = function (data) {
   // YOUR CODE HERE
   return _.chain([
     'GOOG',
@@ -233,10 +235,42 @@ stocks.bestTradeEver = function(data) {
     'AMZN',
     'NVDA'
   ])
-    .map(function(ticker) {
+    .map(function (ticker) {
       return [ticker].concat(stocks.bestTrade(data, ticker));
     })
     .tap(console.log)
     .max(3)
     .value();
+};
+ERE
+return _.chain([
+    'GOOG',
+    'NFLX',
+    'FB',
+    'MSFT',
+    'AMZN',
+    'NVDA'
+  ])
+  .map(function (ticker) {
+    return [ticker].concat(stocks.bestTrade(data, ticker));
+  })
+  .tap(console.log)
+  .max(3)
+  .value();
+};;
+ERE
+return _.chain([
+    'GOOG',
+    'NFLX',
+    'FB',
+    'MSFT',
+    'AMZN',
+    'NVDA'
+  ])
+  .map(function (ticker) {
+    return [ticker].concat(stocks.bestTrade(data, ticker));
+  })
+  .tap(console.log)
+  .max(3)
+  .value();
 };

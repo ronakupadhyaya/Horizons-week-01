@@ -41,8 +41,38 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
-stocks.gainAndLoss = function(data) {
+stocks.gainAndLoss = function (data) {
   // YOUR CODE HERE
+  var NewObject = {};
+  var arr = _.groupBy(data, function (stock) {
+    return stock.ticker;
+  });
+  //console.log(arr);
+  arr = _.forEach(arr, function (stock) {
+    //console.log("stock", stock)
+    stock.sort(function (a, b) {
+      //  console.log("time diffrence", Date.parse(a.time) - Date.parse(b.time))
+      return Date.parse(a.time) - Date.parse(b.time);
+      /*  var tmpDate1 = new Date(a.time);
+        var tmpDate2 = new Date(b.time);
+        tmpDate1 = tmpDate1.getMilliseconds();
+        console.log("time in mili" + Date.parse(a.time));
+        tmpDate2 = tmpDate2.getMilliseconds();
+        console.log("time diffrence", tmpDate1 - tmpDate2)*/
+
+    });
+
+
+    arr = _.forEach(arr, function (stock) {
+      var sumDif = stock[stock.length - 1].price;
+      sumDif -= stock[0].price;
+      console.log("sumDiff", sumDif);
+      console.log("stock.ticker", stock[0].ticker);
+      NewObject[stock[0].ticker] = sumDif;
+    });
+    console.log(NewObject);
+  });
+  return NewObject;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -58,8 +88,18 @@ stocks.gainAndLoss = function(data) {
 // stocks.biggestGainer(stockData) -> 'AMZN'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestGainer = function(data) {
+stocks.biggestGainer = function (data) {
   // YOUR CODE HERE
+  var arr = stocks.gainAndLoss(data);
+  var max = 0,
+    maxName;
+  for (var key in arr) {
+    if (arr[key] > max) {
+      max = arr[key];
+      maxName = key;
+    }
+  }
+  return maxName;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -75,8 +115,18 @@ stocks.biggestGainer = function(data) {
 // stocks.biggestLoser(stockData) -> 'GOOG'
 //
 // You can use stocks.gainAndLoss() in your answer.
-stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+stocks.biggestLoser = function (data) {
+
+  var arr = stocks.gainAndLoss(data);
+  var min = Infinity,
+    minName;
+  for (var key in arr) {
+    if (arr[key] < min) {
+      min = arr[key];
+      minName = key;
+    }
+  }
+  return minName;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -87,8 +137,35 @@ stocks.biggestLoser = function(data) {
 //
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
-stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+stocks.widestTradingRange = function (data) {
+  var NewObject = {};
+  var arr = _.groupBy(data, function (stock) {
+    return stock.ticker;
+  });
+
+  arr = _.forEach(arr, function (stock) {
+    stock.sort(function (a, b) {
+      return Date.parse(b.price) - Date.parse(a.price);
+
+    });
+    arr = _.forEach(arr, function (stock) {
+      var sumDif = stock[stock.length - 1].price;
+      sumDif -= stock[0].price;
+      console.log("sumDiff", sumDif);
+      console.log("stock.ticker", stock[0].ticker);
+      NewObject[stock[0].ticker] = sumDif;
+    });
+    console.log(NewObject);
+  });
+  var min = Infinity,
+    minName;
+  for (var key in NewObject) {
+    if (NewObject[key] < min) {
+      min = NewObject[key];
+      minName = key;
+    }
+  }
+  return minName;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -105,9 +182,33 @@ stocks.widestTradingRange = function(data) {
 //                            new Date('2016-06-30T00:00:00.000Z'),
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
-stocks.portfolioValue = function(data, date, portfolio) {
+stocks.portfolioValue = function (data, date, portfolio) {
   // YOUR CODE HERE
-};
+  var arr = _.groupBy(data, function (stock) {
+    return stock.ticker;
+  });
+  var totalprice = 0;
+
+  for (var key in portfolio) {
+    console.log(arr[key]);
+    var tmp = _.forEach(arr[key], function (stock) {
+      //  console.log(stock);
+      //  console.log(stock.time);
+      if (Date.parse(stock.time) === Date.parse(date)) {
+        console.log("im in");
+        if (portfolio[key] !== 0) {
+          totalprice += stock.price * portfolio[key];
+        }
+      }
+    });
+
+
+  }
+  console.log("totalprice", totalprice);
+  return totalprice;
+}
+
+
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
 // Write a function to figure out the best time to buy and sell a given
@@ -126,8 +227,47 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //  [new Date('2016-06-19T00:00:00.000Z'),
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
-stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+stocks.bestTrade = function (data, ticker) {
+
+
+  //chain the code after talking with moose and looking at the code to clean the code
+  var stocks = _.chain(data)
+    .filter(function (tmp) {
+      return tmp.ticker === ticker;
+    })
+    .sortBy(function (tmp) {
+      return new Date(tmp.time);
+    })
+    .value();
+
+  console.log("trade", stocks);
+
+  var diffPrice = stocks[1].price - stocks[0].price;
+  var minPrice = stocks[0].price;
+
+  var buyNow = 0;
+  var buyIndex = 0;
+  var sellIndex = 1;
+
+
+  for (var i = 1; i < stocks.length; i++) {
+    var priceNow = stocks[i].price;
+    var diff = priceNow - minPrice;
+    if (diff > diffPrice) {
+      diffPrice = diff;
+      buyIndex = buyNow;
+      sellIndex = i;
+    }
+    if (priceNow < minPrice) {
+      minPrice = priceNow;
+      buyNow = i;
+    }
+  }
+  var sellDate = new Date(stocks[sellIndex].time);
+  var buyDate = new Date(stocks[buyIndex].time);
+  console.log(sellIndex);
+  console.log(buyIndex);
+  return [buyDate, sellDate, diffPrice];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -150,6 +290,18 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-02:00:00.000Z'),
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
-stocks.bestTradeEver = function(data) {
+stocks.bestTradeEver = function (data) {
   // YOUR CODE HERE
+  return _.chain([
+    'GOOG',
+    'NFLX',
+    'FB',
+    'MSFT',
+    'AMZN',
+    'NVDA'
+  ])
+    .map(function (name) {
+      return [name].concat(stocks.bestTrade(data, name));
+    }).max(3) //the third elemet of the return is the price
+    .value();
 };

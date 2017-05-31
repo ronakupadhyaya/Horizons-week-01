@@ -253,7 +253,7 @@ if(tmpHigh1 === tmpHigh2){
   var tmpHigh1 = countArr1.lastIndexOf(1);
   var tmpHigh2 = countArr2.lastIndexOf(1);
 }
-      
+
 
 if(tmpHigh1 > tmpHigh2){
   return 1;

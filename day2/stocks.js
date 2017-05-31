@@ -42,14 +42,27 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var txByComp = _.groupBy(data,function(x) {
+    return x.ticker;
+  }); //tx bjects sorted by company
+  for (var comp in txByComp) { //for each company in object txbycomp
+    if (txByComp.hasOwnProperty(comp)) {
+      var txArr = txByComp[comp]; //get array of transactions
+      var sorted = _.sortBy(txArr, 'time'); //array of sorted transactiosn by time
+      var earlyTx = sorted[0]; //get earlist tx object
+      var latestTx = sorted[sorted.length - 1]; //get latest tx object
+      var diff = latestTx.price - earlyTx.price; //get differences in price
+      txByComp[comp] = diff; //replace array of tx by the diff
+    }
+  }
+  return txByComp; //return the object
 };
 
 // Exercise 2. stocks.biggestGainer(data)
 //
 // Write a function that finds the stock that went up in price the most
 // in absolute terms (i.e. not percentage-wise) over the lifetime of
-// the given data.
+// the given data. //absolute value
 //
 // Total gain is defined as latest price of the company minus earliest
 // price of the company.
@@ -59,7 +72,13 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var comp = _.keys(obj);
+  var diffs = _.values(obj);
+  var max = _.reduce(diffs, function(a, b) {
+    return Math.max(a,b);
+  });
+  return comp[diffs.indexOf(max)];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +95,13 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var comp = _.keys(obj);
+  var diffs = _.values(obj);
+  var min = _.reduce(diffs, function(a, b) {
+    return Math.min(a,b);
+  });
+  return comp[diffs.indexOf(min)];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +113,30 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var obj = stocks.compRanges(data);
+  var comp = _.keys(obj);
+  var diffs = _.values(obj);
+  var max = _.reduce(diffs, function(a, b) {
+    return Math.max(a,b);
+  });
+  return comp[diffs.indexOf(max)];
+};
+
+stocks.compRanges = function (data) {
+  var txByComp = _.groupBy(data,function(x) {
+    return x.ticker;
+  });
+  for (var comp in txByComp) {
+    if (txByComp.hasOwnProperty(comp)) {
+      var txArr = txByComp[comp];
+      var sorted = _.sortBy(txArr, 'price');
+      var biggest = sorted[0];
+      var smallest = sorted[sorted.length - 1];
+      var diff = smallest.price - biggest.price;
+      txByComp[comp] = diff;
+    }
+  }
+  return txByComp;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +154,37 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  debugger;
+  var obj = _.groupBy(data, function(x){
+    return x.ticker;
+  });
+  var comps = _.keys(portfolio);
+  var shares = _.values(portfolio);
+  var shareVals = [];
+
+  for (var key in obj) {
+    if (comps.indexOf(key) != -1) {
+      var arr = obj[key];
+      for (var i = 0; i < arr.length; i++) {
+        var dGivenStr = date.toUTCString();
+        var dTest = new Date(arr[i].time);
+        var dTestStr = dTest.toUTCString();
+        if (dGivenStr === dTestStr) {
+          var price = arr[i].price;
+          var ind = comps.indexOf(arr[i].ticker);
+          var val = shares[ind] * price;
+          shareVals.push(val);
+        }
+      }
+    }
+  }
+
+  var sum =  _.reduce(shareVals, function(a,b) {
+    return a+b;
+  })
+  return sum;
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

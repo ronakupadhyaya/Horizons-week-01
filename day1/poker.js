@@ -46,5 +46,164 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var faces = 'JQKA';
+
+  var p1_hand_same = 0;
+  var p1_same = []
+  for (var i=0;i<5;i++){ //hand1
+  	var curr = hand1[i];
+  	for (var j=i+1;j<5;j++){
+  		if (hand1[j][0]==hand1[i][0]){
+  			p1_hand_same++;
+  			if (!p1_same.includes(hand1[i])){
+  				p1_same.push(hand1[i]);
+  			}
+  			p1_same.push(hand1[j]);
+  		}
+  	}
+  }
+
+
+  var p2_hand_same = 0;
+  var p2_same = [];
+  for (var i=0;i<5;i++){ //hand2
+  	var curr = hand2[i];
+  	
+  	for (var j=i+1;j<5;j++){
+  		if (hand2[j][0]==hand2[i][0]){
+  			p2_hand_same++;
+  			if (!p2_same.includes(hand2[i])){
+  				p2_same.push(hand2[i]);
+  			}
+  			p2_same.push(hand2[j]);
+  		}
+  	}
+  }
+
+	if (p1_same.length>p2_same.length){
+		return 1;
+	}
+	else if (p2_same.length>p1_same.length){
+		return 2;
+	}
+
+	if (p1_same.length==p2_same.length){
+		var p1_value=0;
+		if (p1_same[0][1]=='0'){
+			p1_value=10;
+		}
+		else if (faces.indexOf(p1_same[0][0])== -1){
+			p1_value=p1_same[0][0];
+		}
+
+		else if (faces.indexOf(p1_same[0][0])!= -1){
+			if (p1_same[0][0]=='J'){
+				p1_value=11;
+			}
+			else if (p1_same[0][0]=='Q'){
+				p1_value=12;
+			}
+			else if (p1_same[0][0]=='K'){
+				p1_value=13;
+			}
+			else if (p1_same[0][0]=='A'){
+				p1_value=14;
+			}
+		}
+		
+		var p2_value = 0;
+		if (p2_same[0][1]=='0'){
+			p2_value=10;
+		}
+		
+
+		else if (faces.indexOf(p2_same[0][0])== -1){
+
+			p2_value=p2_same[0][0];
+		}
+
+		else if (faces.indexOf(p2_same[0][0])!= -1){
+			if (p2_same[0][0]=='J'){
+				p2_value=11;
+			}
+			else if (p2_same[0][0]=='Q'){
+				p2_value=12;
+			}
+			else if (p2_same[0][0]=='K'){
+				p2_value=13;
+			}
+			else if (p2_same[0][0]=='A'){
+				p2_value=14;
+			}
+		}
+
+
+		if (parseInt(p1_value)>parseInt(p2_value)){
+			return 1;
+		}
+		else if (parseInt(p2_value)>parseInt(p1_value)){
+			return 2;
+		}
+		else if (parseInt(p2_value)==parseInt(p1_value)){
+
+		}
+
+	}
+
+	var p1_high = 0;
+	var p2_high = 0;
+	for (var i=0;i<5;i++){
+		if (hand1[0][1]=='0'){
+			p1_high=10;
+		}
+
+		if (faces.indexOf(hand1[0][0])== -1){
+			p1_high = hand1[0][0];
+		}
+
+		else if (faces.indexOf(hand1[0][0])!= -1){
+			if (p1_same[0][0]=='J'){
+				p1_high=11;
+			}
+			else if (p1_same[0][0]=='Q'){
+				p1_high=12;
+			}
+			else if (p1_same[0][0]=='K'){
+				p1_high=13;
+			}
+			else if (p1_same[0][0]=='A'){
+				p1_high=14;
+			}
+		}
+
+		if (hand2[0][1]=='0'){
+			p2_high=10;
+		}
+
+		if (faces.indexOf(hand2[0][0])== -1){
+			p2_high = hand1[0][0];
+		}
+
+		else if (faces.indexOf(hand2[0][0])!= -1){
+			if (p2_same[0][0]=='J'){
+				p2_high=11;
+			}
+			else if (p2_same[0][0]=='Q'){
+				p2_high=12;
+			}
+			else if (p2_same[0][0]=='K'){
+				p2_high=13;
+			}
+			else if (p2_same[0][0]=='A'){
+				p2_high=14;
+			}
+		}
+	}
+	if (p1_high>p2_high){
+		return 1;
+	}
+	else if (p2_high > p1_high){
+		return 2;
+	}
+	
 }

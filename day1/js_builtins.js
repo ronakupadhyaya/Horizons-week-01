@@ -20,7 +20,20 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var temp_string = "";
+  for (var i=0;i<str.length-1;i++){
+  	//before
+  	if (str[i]==" " && temp_string == ""){
+  		continue;
+  	}
+
+  	//after 
+  	else if (str[i]==" " && str[i+1]==" "){
+  		break
+  	}
+  	temp_string += str[i];
+  }
+  return temp_string;
 };
 
 // ----------------------------------------------------------------------------
@@ -39,7 +52,14 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  var index = sourceString.indexOf(searchString);
+  if (index==-1){
+  	return false;
+  }
+  else{
+  	return true;
+  }
+
 };
 
 // ----------------------------------------------------------------------------
@@ -59,7 +79,14 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  for (var i=0;i<str.length;i++){
+  	var check = parseInt(str[i]);
+  	console.log(typeof(check));
+  	console.log(check);
+  	if (typeof(check)=='number'){
+  		return parseInt(check);
+  	}
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -75,7 +102,11 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+  var reverse = [];
+  for (var i = arr.length-1;i>=0;i--){
+  	reverse.push(arr[i]);
+  }
+  return reverse;
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +124,17 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+  if (a.length!=b.length){
+  	return false
+  }
+  else{
+  	for (var i =0;i<a.length;i++){
+  		if (a[i]!=b[i] || typeof(a[i])!=typeof(b[i])){
+  			return false
+  		}
+  	}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +151,13 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+  if (builtins.isEqual(arr,builtins.reverse(arr))){
+  	return true;
+  }
+  else{
+  	return false;
+  }
+
 };
 
 // ----------------------------------------------------------------------------
@@ -121,6 +168,7 @@ builtins.isPalindrome = function(arr) {
 // array sorted by ascending numerical value.
 
 // ex. builtins.sortByValue([10, 1, 5, 4]) -> [1, 4, 5, 10]
+// [1,10,11,15,4,43, 5]
 // ex. builtins.sortByValue([1, 2, 3]) -> [1, 2, 3]
 // ex. builtins.sortByValue([0, -6, -6]) -> [-6, -6, 0]
 
@@ -130,7 +178,21 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+	var sorted = arr.sort();
+	for (var i = 0; i<sorted.length; i++){
+		var curr = sorted[i];
+
+		for (var j=i+1;j<sorted.length;j++){
+			if (sorted[j]<curr){
+				var temp = sorted[i];
+				sorted[i] = sorted[j];
+				sorted[j]=temp;
+				curr = sorted[i];
+			}
+
+		}	
+	}
+	return sorted;
 };
 
 // ----------------------------------------------------------------------------
@@ -147,7 +209,8 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+	arr = arr.sort(function(a,b){return a.length-b.length});
+	return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -162,5 +225,14 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var flatten = []
+  for (var i=0;i<arr.length;i++){
+  	if (arr[i].length==0){
+  		continue;
+  	}
+  	for (var j=0;j<arr[i].length;j++){
+  		flatten.push(arr[i][j]);
+  	}
+  }
+  return flatten;
 };

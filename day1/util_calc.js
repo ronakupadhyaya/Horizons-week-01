@@ -54,5 +54,148 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	
+	var ops = '+-*/';
+
+	if (expression == ''){
+		throw ('Empty expresion');
+	}
+	var expr = expression;
+	for (var i = 0;i<expression.length;i++){
+		if ((ops.indexOf(expr[i])== -1) && expr[i]!= ' '){ //if this is a number
+			if (expr[i+1]==' ' && ops.indexOf(expr[i+2])==-1 && expr[i]!='t'){ //if next item is space and one after is number
+				throw "operator not in correct spot; 2 consecutive numbers";
+			}
+			if (ops.indexOf(expr[i+2])!=-1 && expr[i+2]!=' '){ //if 2 over is an operator
+				if (expr[i+2]=='-'){
+					if (ops.indexOf(expr[i+3]==-1) && expr[i+3]!=' '){  //if the thing after the - is an operator
+						throw "2 consecutive numbers";
+
+					}
+				}
+			}
+
+		}
+		else if (ops.indexOf(expr[i]!=-1)&& expr[i]!=' '){ //if this is an operator
+			if (i==0 && expr[i+1]==' '){
+				throw 'operator at beginning'; 
+			}
+			if (i==expr.length-1){
+				throw "operator at the end";
+			}
+
+			if (ops.indexOf(expr[i+2])!=-1 && expr[i+2]!=' '){ //if 2 over is an operator
+				throw "too many operators";
+
+			}
+		}
+	}
+	var mathArr = Array.prototype.slice.call(arguments);
+	mathArr = mathArr[0].split(' ');
+	console.log(mathArr);
+
+
+	var final = parseFloat(mathArr[0]);	
+
+	var sqrt_ind = mathArr.indexOf('sqrt');
+	while(sqrt_ind != -1){
+		final = Math.sqrt(parseFloat(mathArr[sqrt_ind+1]));
+		mathArr.splice(sqrt_ind,2);
+		mathArr.splice(sqrt_ind	,0,final.toString());
+		sqrt_ind = mathArr.indexOf('sqrt');
+	}
+
+
+	var div_ind = mathArr.indexOf('/');	
+	while(div_ind != -1){
+		final = parseFloat(mathArr[div_ind-1]);
+		final /= parseFloat(mathArr[div_ind+1]);
+		mathArr.splice(div_ind-1,3);
+		mathArr.splice(div_ind-1,0,final.toString());
+		div_ind = mathArr.indexOf('/');
+	}
+
+	var mult_ind = mathArr.indexOf('*');
+	while(mult_ind != -1){
+		final = parseFloat(mathArr[mult_ind-1]);
+		final *= parseFloat(mathArr[mult_ind+1]);
+		mathArr.splice(mult_ind-1,3);
+		mathArr.splice(mult_ind-1,0,final.toString());
+		mult_ind = mathArr.indexOf('*');
+	}
+
+	var answer = parseFloat(mathArr[0]);
+	for (var i=0;i<mathArr.length;i++){
+		if (mathArr[i]=='+'){
+			answer += parseFloat(mathArr[i+1]);
+		}
+		else if (mathArr[i] == '-'){
+				answer -= parseFloat(mathArr[i+1]);
+			}
+
+	}
+
+
+
+
+
+
+
+
+
+		// for (var i=0;i<mathArr.length;i++){
+		// 	if (mathArr[i]=='+') {
+		// 		final += parseFloat(mathArr[i+1]);
+		// 	}
+		// 	else if (mathArr[i] == '-'){
+		// 		final -= parseFloat(mathArr[i+1]);
+		// 	}
+		// }
+	console.log(answer);
+	return parseFloat(answer);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
+  if (expression == '')
+  	throw('Empty expression');
+  
+	var expr = expression;
+	var flag = -1;
+	for (var i = 0; i < expr.length; i++) {
+		var check = typeof(parseInt(expr[i]));
+		//if (ops.indexOf(expr[i+2]== -1 && expr.length != 1)){
+			//throw "missing operator";
+		//}
+
+		if (check == 'number' && ops.indexOf(expr[i]) == -1) {// if expr[i] is a number
+			flag = 1; 
+			if (ops.indexOf(expr[i + 2]) == -1) // check if the next item is a number
+				throw ('Too many numbers');		// throw error
+			if (expr[i + 2] == '-')		// check if next item is a negative sign
+				if (expr[i + 3] != ' ')
+					throw 'Too many numbers';
+		}
+		else if (check == 'number' && ops.indexOf(expr[i]) != -1) { // if an operator exists
+			if (i == 0 || i == expr.length - 1)
+				throw ('Wrong spot');
+			if (ops.indexOf(expr[i - 2]) != -1 || ops.indexOf(expr[i + 2]) != -1) // if 2 before and 2 after is an operator
+				throw ('Too many operators');
+		}
+	}
+	if (flag == -1) 
+		throw('No numbers');
+	*/
+
 };

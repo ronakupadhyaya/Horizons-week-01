@@ -172,6 +172,7 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
   // YOUR CODE HERE
+  
 }
 
 // Exercise 7: learn_underscore.pairs(object)

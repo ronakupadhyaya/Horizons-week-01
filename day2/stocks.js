@@ -42,7 +42,32 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var companyTicker = _.groupBy(data, "ticker");
+  console.log(companyTicker);
+
+  var deltaObject = _.mapObject(companyTicker, function(tick) {
+    var first = Date.now();
+    var last = 0;
+    var firstTrade = 0;
+    var lastTrade = 0;
+    var lastPrice = 0;
+    var firstPrice = 0;
+
+    _.each(companyTicker[tick], function(price) {
+      if(tick.getTime() > last) {
+        lastTrade = companyTicker[tick];
+        lastPrice = companyTicker[tick][price];
+      }
+      if(tick.getTime() < first) {
+        firstTrade = companyTicker[tick];
+        firstPrice = companyTicker[tick][price];
+      }
+    });
+    return companyTicker[lastTrade] - companyTicker[firstTrade];
+  });
+
+  console.log(deltaObject);
+  return deltaObject;
 };
 
 // Exercise 2. stocks.biggestGainer(data)

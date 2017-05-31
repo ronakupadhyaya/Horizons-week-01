@@ -54,5 +54,81 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+
+  //error section
+  //convert expression to array of chars
+  var splitArray = expression.split(" ");
+  console.log(splitArray);
+
+  if(expression === '') {
+    console.log("expression is 0 chars");
+    throw Error;
+  };
+
+  if(splitArray.length % 2 === 0) {
+    console.log("Expression string even number. Wrong number of ops/#'s'");
+    throw Error;
+  };
+
+  //order of plus or minuses
+  for (var i = 0; i < splitArray.length; i += 2) {
+    if (splitArray[i] === "+" || splitArray[i] === "-") {
+      console.log("+/- order mixed up");
+      throw Error;
+    }
+  }
+
+  //multiplication and division sections
+  var newArray = [];
+  var prod = parseInt(splitArray[0]);
+  for (var i = 1; i < splitArray.length; i += 2) {
+    if (splitArray[i] === "+") {
+      newArray.push(prod);
+      newArray.push(splitArray[i]);
+      prod = parseInt(splitArray[i + 1]);
+    }
+    if (splitArray[i] === "-") {
+      newArray.push(prod);
+      newArray.push(splitArray[i]);
+      prod = parseInt(splitArray[i + 1]);
+    }
+    if (splitArray[i] === "*") {
+      prod *= parseInt(splitArray[i + 1]);
+    }
+    if (splitArray[i] === "/") {
+      prod /= parseInt(splitArray[i + 1]);
+    }
+  }
+  newArray.push(parseInt(splitArray[splitArray.length - 1]));
+  console.log(newArray);
+
+  // //addition subtraction section
+  // ______________________
+  // var finalVal = parseInt(splitArray[0]);
+  // for (var i = 1; i < splitArray.length; i += 2) {
+  //   if (splitArray[i] === "+") {
+  //     finalVal += parseInt(splitArray[i + 1]);
+  //   }
+  //   if (splitArray[i] === "-") {
+  //     finalVal -= parseInt(splitArray[i + 1]);
+  //   }
+  // }
+  // //end
+  // return finalVal;
+
+
+
+  //addition subtraction new sections
+  var finalVal = newArray[0];
+  console.log(newArray);
+  for (var i = 1; i < newArray.length; i += 2) {
+    if (newArray[i] === "+") {
+      finalVal += newArray[i + 1];
+      console.log(finalVal);
+    }
+    if (newArray[i] === "-") {
+      finalVal -= newArray[i + 1];
+    }
+  }
+  return finalVal
+}

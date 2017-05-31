@@ -26,7 +26,10 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+if(arr.length===0){return 0;}
+  return _.reduce(arr,function(a,b){
+    return (a+b)
+  })/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +41,23 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return (student.grades.class1 + student.grades.class2)/2;
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var arr=[]
+  for (var i=0;i<data.length;i++){
+    arr.push(grades.getGPA(data[i]));
+  }
+  var max = arr[0];
+  var max_index = 0;
+  for(var i=0;i<arr.length;i++){
+    if(arr[i]>=max){max=arr[i];max_index=i;}
+  }
+  return data[max_index];
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +65,36 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+ var obj={}
+ for (var i=0;i<data.length;i++){
+   obj[data[i].major]= [];
+ }
+ for (var i=0;i<data.length;i++){
+   obj[data[i].major].push(grades.getGPA(data[i]));
+ }
+
+
+
+var keys_array = Object.keys(obj);
+for(var i=0;i<keys_array.length;i++){
+var temp = obj[keys_array[i]];
+ obj[keys_array[i]]=grades.average(temp);
+}
+console.log(obj)
+
+var max = obj[keys_array[0]];
+var max_index=0;
+
+for(var i=0;i<keys_array.length;i++){
+var temp = obj[keys_array[i]];
+if(temp>max){max=temp;max_index=i;}
+
+}
+
+return keys_array[max_index];
+
+
+
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +102,17 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+console.log(data);
+   var arr1 = [];
+   var arr2 = [];
+   for(var i=0;i<data.length;i++){
+
+     var temp = data[i].grades;
+     arr1.push(temp.class1);
+     arr2.push(temp.class2);
+   }
+   var returnObj = {};
+   returnObj.class1 = grades.average(arr1);
+   returnObj.class2 = grades.average(arr2);
+return returnObj;
 };

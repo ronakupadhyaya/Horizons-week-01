@@ -54,5 +54,126 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+// Errors
+  var splitString = expression.split(" ");
+  var operators = ['*', '/', '+', '-'];
+  if (expression ===""){
+    throw "Error, empty expression";
+  } else if (splitString[0] == "+"
+  || splitString[0]=="-"
+  || splitString[0]=="*"
+  || splitString[0] =="/"
+  || splitString[splitString.length-1] == "+"
+  || splitString[splitString.length-1]== "-"
+  || splitString[splitString.length-1] == "*"
+  || splitString[splitString.length-1] =="/") {
+    throw "Error, operator at wrong spot";
+  }
+
+  var operatorCount = 0;
+
+  for (var i=0; i<splitString.length; i++) {
+    for (var j=0; j<operators.length; j++) {
+      if (splitString[i] === operators[j]) {
+        operatorCount += 1;
+      }
+    }
+  }
+
+  var numberCount = splitString.length - operatorCount;
+
+  if (operatorCount == 0 && splitString.length !==1) {
+    throw "Error, no operator";
+  }
+
+if (operatorCount !== numberCount -1) {
+  throw "Error, too many operators"
+}
+
+
+
+  //for (var i=1; i<splitString.length-1; i+=2) {
+  //  if (splitString[i] !== "+"
+  //  ||splitString[i] !== "-"
+  //  ||splitString[i] !=="*"
+  //  ||splitString[i] !== "/") {
+  //    throw "Error, too many numbers";
+  //  }
+  //}
+
+
+// create array of only numbers
+  var numbers = [];
+  for (var i=0; i<splitString.length; i++) {
+    numbers[i] = parseFloat(splitString[i]);
+  }
+
+
+
+/*
+  for (var i=0; i<splitString.length; i++) {
+    if(splitString[i] === "*") {
+    total *= numbers[i+1];
+    }
+    else if(splitString[i] === "/") {
+      total /= numbers[i+1];
+    }
+    else if (splitString[i] === "+") {
+      total += numbers[i+1];
+    }
+    else if (splitString[i] === "-") {
+      total -= numbers[i+1];
+    }
+
+  }
+  return total;
+*/
+
+if (splitString.length === 1) {
+  var total = numbers[0];
+}
+
+while (splitString.length>1) {
+
+  for (var i=0; i<splitString.length; i++) {
+    if (splitString[i]==="/") {
+      var product = numbers[i-1]/numbers[i+1];
+      splitString.splice(i-1,3, product);
+      numbers.splice(i-1, 3, product);
+    }
+  }
+
+  for (var i=0; i<splitString.length; i++) {
+    if (splitString[i] === "*") {
+      var product = numbers[i-1]*numbers[i+1];
+      splitString.splice(i-1, 3, product)
+      numbers.splice(i-1, 3, product);
+    }
+  }
+
+
+  for (var i=0; i<splitString.length; i++) {
+    if (splitString[i] === "-") {
+      var total = parseFloat(numbers[i-1]) - parseFloat(numbers[i+1]);
+      splitString.splice(i-1, 3, total);
+      numbers.splice(i-1, 3, total);
+    }
+  }
+  console.log(total);
+  console.log(splitString);
+  console.log(numbers);
+
+  for (var i=0; i<splitString.length; i++) {
+    if (splitString[i] === "+") {
+      var total = numbers[i-1] + numbers[i+1];
+      splitString.splice(i-1, 3, total);
+      numbers.splice(i-1, 3, total);
+    }
+  }
+  console.log(total);
+  console.log(splitString);
+  console.log(numbers);
+}
+  return numbers[0];// YOUR CODE HERE
+
 };

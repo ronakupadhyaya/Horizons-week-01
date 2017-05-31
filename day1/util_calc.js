@@ -56,16 +56,23 @@ window.util = {};
 util.calc = function(expression) {
   // YOUR CODE HERE
   // test for correct format
-  var expArr = expression.split(" ");
+  var expArr = expression.split(" "), switcher = 0;
+  if(expression.length === 0 || isNaN(expArr[expArr.length-1])){
+    throw "Error: The format is incorrect.";
+  }
   for(var i = 0; i < expArr.length; i++){
-    if(expression.indexOf("sqrt") !== -1){
-      break;
+    if(switcher % 2 === 0){
+      if(i % 2 === 0 && isNaN(expArr[i]) || i % 2 === 1 && !isNaN(expArr[i])){
+        throw "Error: The format is incorrect.";
+      }
     }
-    if(i % 2 === 0 && isNaN(expArr[i]) ||
-       i % 2 === 1 && !isNaN(expArr[i]) ||
-       expression.length === 0 ||
-       isNaN(expArr[expArr.length-1])){
-      throw "Error: The format is incorrect.";
+    else{
+      if(i % 2 === 1 && !isNaN(expArr[i]) || i % 2 === 0 && isNaN(expArr[i])){
+        throw "Error: The format is incorrect.";
+      }
+    }
+    if(expArr[i] === 'sqrt'){
+      switcher++;
     }
   }
 

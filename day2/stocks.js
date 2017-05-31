@@ -151,6 +151,7 @@ stocks.widestTradingRange = function(data) {
     var priceDifference = highest - lowest
     stockNames[stock] = priceDifference;
   }
+  
   var widestCompany = Object.keys(stockNames)[0];
   for (var key in stockNames) {
     if (stockNames[widestCompany] < stockNames[key]) {

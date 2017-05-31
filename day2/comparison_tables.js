@@ -47,7 +47,18 @@ var valuesToCheck = function() {
 // Good luck!
 
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+  var values = valuesToCheck()
+  var pairs = {}
+
+
+
+  // for (var i = 0; i < values.length; i++) {
+  //   for (var j = 0; j < array.length; j++) {
+  //
+  //   }
+  // }
+
+
 };
 
 comp.testStrictEquality = function() {

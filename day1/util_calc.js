@@ -12,7 +12,12 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
+// // ex. util.calc('1 2') -> Error, mission operator
+// for (var i = 0; i < expression.length; i++) {
+//    var binaryArr = expression.split(" ");
+//
+// }
+
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
@@ -22,6 +27,8 @@ window.util = {};
 //
 // Part 2. Implement support for addition and subtraction.
 //
+
+
 // ex. util.calc('1') -> 1
 // ex. util.calc('-12') -> -12
 // ex. util.calc('3 + 2') -> 5
@@ -54,5 +61,17 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  // var numbers = expression.split(" ");
+  // debugger;
+  // console.log(numbers)
+  var retVal = numbers[0];
+  for (var i = 0; i < numbers.length; i++) {
+    if (numbers[i] === '+'                                                                            ) {
+      retVal = retVal + numbers[i + 1];
+    }
+    if (numbers[i] === '-') {
+      retVal = retVal - numbers[i + 1];
+    }
+    return retVal ;
+  }
 };

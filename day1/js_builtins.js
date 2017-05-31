@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -20,12 +20,13 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+
 };
 
 // ----------------------------------------------------------------------------
 
 // Exercise 2. contains() using indexOf()
+
 
 // Write a function that takes a string to be searched and a string to
 // search for, returning true or false as to whether or not the latter
@@ -39,7 +40,28 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  // debugger;
+  // if (searchString.length < 1) {
+  //   return true;
+  // }
+  // for (var i = 0; i < sourceString.length; i++) {
+  //   if (sourceString[i] === searchString[0]) {
+  //     for (var j = 0; j < searchString.length; j++) {
+  //       if (sourceString[i + j] === searchString[j]) {
+  //         continue;
+  //         if (j === searchString.length - 1) {
+  //           return true;
+  //         }
+  //       } else {
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
+  if (sourceString.indexOf(searchString) > -1) {
+    return true;
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +69,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,7 +81,12 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var arr = str.split();
+  for (var i = 0; i < arr.length; i++) {
+    if (typeof parseInt(arr[i]) === "number") {
+      return parseInt(arr[i]);
+    }
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -93,7 +120,13 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+
+  for (var i = 0; i <= a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +143,7 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +159,15 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  arr.sort(function(a, b) {
+    return a - b;
+  })
+  console.log(arr);
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -147,7 +184,10 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  arr.sort(function(a,b) {
+    return a.length - b.length;
+  })
+  return arr;
 };
 
 // ----------------------------------------------------------------------------

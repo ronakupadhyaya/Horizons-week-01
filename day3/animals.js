@@ -16,8 +16,8 @@ function getAnimal() {
 
 window.lion = getAnimal();
 
-function getAnimal() {
+(function getAnimal() {
   return 'tiger';
-}
+})()
 
 window.tiger = getAnimal();

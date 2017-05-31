@@ -21,7 +21,7 @@ window.stocks = {};
 //
 // So, the data's gonna look something like:
 // var data = [ { "ticker": "MSFT", "time": "2016-05-17T11:02:20", "price": 22.83 }, ... ];
-
+// ^ this is an array of objects
 
 // Exercise 1. stocks.gainAndLoss(data)
 //
@@ -42,7 +42,18 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var ans = {};
+  var byCompany = _.groupBy(data, function(n) {
+    return n.ticker
+  })
+  // object that has arrays of objects by companies
+  // for each array in the object --> sort the objects by time
+  for(var key in byCompany) {
+    byCompany[key] = _.sortBy(byCompany[key], 'time')
+    ans[key] = _.last(byCompany[key]).price - byCompany[key][0].price;
+  }
+  return ans;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +70,17 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var gainsloss = stocks.gainAndLoss(data);
+  // console.log(gainsloss);
+  var highestChange = gainsloss['GOOG'];
+  var theKey = null;
+  for (var key in gainsloss) {
+    if (gainsloss[key] > highestChange) {
+      theKey = key;
+      highestChange = gainsloss[key];
+    }
+  }
+  return theKey;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +97,17 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var gainsloss = stocks.gainAndLoss(data);
+  // console.log(gainsloss);
+  var highestChange = gainsloss['GOOG'];
+  var theKey = null;
+  for (var key in gainsloss) {
+    if (gainsloss[key] < highestChange) {
+      theKey = key;
+      highestChange = gainsloss[key];
+    }
+  }
+  return theKey;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +119,16 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var gainsloss = stocks.gainAndLoss(data);
+  var highestChange = Math.abs(gainsloss['GOOG']);
+  var theKey = null;
+  for (var key in gainsloss) {
+    if (Math.abs(gainsloss[key]) > highestChange) {
+      theKey = key;
+      highestChange = Math.abs(gainsloss[key]);
+    }
+  }
+  return theKey;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +146,43 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var stringDate = date.toISOString();
+  console.log(stringDate)
+  var byCompany = _.groupBy(data, function(n) {
+    return n.ticker
+  })
+  var tickerTrack = []
+  for (var key in portfolio) {
+    tickerTrack.push(key);
+  }
+  var amountTrack = [];
+  for (var key in portfolio) {
+    amountTrack.push(portfolio[key])
+  }
+  console.log(byCompany);
+  console.log(amountTrack)
+  console.log(tickerTrack);
+// debugger;
+  var priceTrack = [];
+  for (var key in byCompany) {
+    for (var j = 0; j < tickerTrack.length; j++) {
+      if (key === tickerTrack[j]) {
+        for (var i = 0; i < byCompany[key].length; i++) {
+          // console.log(byCompany[key][i].time)
+          if (byCompany[key][i].time === stringDate) {
+            priceTrack[j] = byCompany[key][i].price;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  var accum = priceTrack[0] * amountTrack[0];
+  for (var i = 1; i < priceTrack.length; i++) {
+    accum += priceTrack[1] * amountTrack[1];
+  }
+  return accum;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

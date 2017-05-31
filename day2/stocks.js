@@ -42,7 +42,35 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var j = {};
+
+  var sortByTime = _.sortBy(data, function(trans){
+    //var d = new Date(trans.time);
+    //console.log(d);
+    return trans.time;
+  });
+  //console.log(sortByTime);
+
+  //organize by company name
+  var orgByTicker =_.groupBy(sortByTime, function(trans) {
+    return trans.ticker;
+  });
+  //console.log(orgByTicker);
+
+
+  var mapped = _.map(orgByTicker, function(value, key) {
+    return [key, value[value.length-1].price - value[0].price];
+  });
+  //console.log(mapped);
+
+  for(var i = 0; i < mapped.length; i++) {
+    var key = mapped[i][0];
+    j[key] = mapped[i][1];
+  }
+
+  //console.log(j);
+
+  return j;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +87,30 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var sortByTime = _.sortBy(data, function(trans){
+    return trans.time;
+  });
+  //console.log(sortByTime);
+
+  //organize by company name
+  var orgByTicker =_.groupBy(sortByTime, function(trans) {
+    return trans.ticker;
+  });
+  //console.log(orgByTicker);
+
+
+  var mapped = _.map(orgByTicker, function(value, key) {
+    return [key, value[value.length-1].price - value[0].price];
+  });
+  //console.log(mapped);
+
+
+  var sortByPrice = _.sortBy(mapped, function(ticker){
+    return ticker[1];
+  });
+
+  return sortByPrice[sortByPrice.length-1][0];
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +127,29 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var sortByTime = _.sortBy(data, function(trans){
+    return trans.time;
+  });
+  //console.log(sortByTime);
+
+  //organize by company name
+  var orgByTicker =_.groupBy(sortByTime, function(trans) {
+    return trans.ticker;
+  });
+  //console.log(orgByTicker);
+
+
+  var mapped = _.map(orgByTicker, function(value, key) {
+    return [key, value[value.length-1].price - value[0].price];
+  });
+  //console.log(mapped);
+
+
+  var sortByPrice = _.sortBy(mapped, function(ticker){
+    return ticker[1];
+  });
+
+  return sortByPrice[0][0];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +162,25 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var sortByPrice = _.sortBy(data, function(ticker){
+    return ticker.price;
+  });
+
+  //organize by company name
+  var orgByTicker =_.groupBy(sortByPrice, function(trans) {
+    return trans.ticker;
+  });
+  //console.log(orgByTicker);
+  // var sortByPrice = _.sortBy(orgByTicker, function(ticker){
+  //   return ticker.price;
+  // });
+  var mapped = _.map(orgByTicker, function(value, key){
+  	return [key, value[value.length-1].price - value[0].price];
+  });
+  var sortByPrice2 = _.sortBy(mapped, function(ticker){
+    return ticker[1];
+  });
+  return( sortByPrice2[sortByPrice2.length-1][0]);
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +198,13 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  // function samedate(obj){
+  // 	return obj.time === date;
+  // }
+  //var filtered = data.filter(samedate);
+
+  console.log(data.filter(function(n){n.time===date}));
+  //console.log(data.filter(samedate));
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

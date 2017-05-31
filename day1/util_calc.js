@@ -53,6 +53,121 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	if (expression == ''){
+		throw "Error, empty expression";
+	}
+	var expArray = expression.split(' ');
+	var opsList = ['+', '-', '/', '*', 'sqrt'];
+
+	var numCount = 0;
+	var opCount = 0; 
+	for (let i = 0; i<expArray.length; i++){
+		if (expArray[i] == '+' || expArray[i] == '-' || 
+			expArray[i] == '*' || expArray[i] == '/' 
+			) {
+			opCount++;	
+		}
+		else if (expArray[i] == 'sqrt'){
+			continue;
+		}
+		else{
+			numCount++;
+		}
+	}
+	if (expArray[0] != 'sqrt' && expArray.length > 1 && opCount == 0){
+		throw "Error, mission operator";
+	}
+	if (numCount > opCount +1){
+		throw "Error, too many numbers";
+	}
+	if (opCount >= numCount){
+		throw "Error, too many operators";
+	}
+
+	if (expArray[0] === 'sqrt'){
+	  	expArray[1] = (+Math.sqrt(expArray[1]));
+	  	expArray = expArray.slice(1,expArray.length);
+	}
+
+	for (var i = 1; i< expArray.length; i+=2){
+		if (expArray[i-1] == 'sqrt' || expArray[i] == 'sqrt'){
+			i+=2;
+		}
+		else if (expArray[i] != '+' && 
+			expArray[i] != '-' && expArray[i] != '*' && 
+			expArray[i] != '/' ){
+			throw "Error, operator at the wrong spot";
+			
+		}
+	}
+
+	
+	for (let i=0; i<expArray.length; i++){
+		if (opsList.indexOf(expArray[i]) < 0) {
+			expArray[i] = +expArray[i];
+		} 
+	}
+	var newArray = [];
+
+	
+
+  if (expArray.length == 1){
+  	if (opsList.indexOf(expArray[0]) > 0 ){
+  		throw "Error, no numbers";
+  	}
+  	return expArray[0];
+  }
+
+  //for * and /
+  newArray[0] = expArray[0];
+  for (var i = 1; i< expArray.length; i += 2){
+  	if (expArray[i] === '*') {
+  		
+
+
+  		var val1 = newArray.pop();
+  		var val2 = expArray[i+1];
+  		if (val2 == "sqrt"){
+  			val2 = Math.sqrt(expArray[i+2]);
+  			i++;
+  		}
+  		var result = val1*val2;
+  		newArray.push(result);
+  	}
+  	else if (expArray[i] === '/'){
+  		
+  		var val1 = newArray.pop();
+  		var val2 = expArray[i+1];
+  		if (val2 == "sqrt"){
+  			val2 = Math.sqrt(expArray[i+2]);
+  			i++;
+  		}
+  		var result = val1/val2;
+  		newArray.push(result);
+  	}
+  	else{
+  		newArray.push(expArray[i]);
+  		newArray.push(expArray[i+1]);
+  	}
+  }
+
+  // for + and -
+  var result = newArray[0];
+	for (var i = 1; i< newArray.length; i+=2){
+  		if (newArray[i] === '+'){
+  			result = result + newArray[i+1];
+  		}
+  		else if (newArray[i] === '-'){
+  			result = result - newArray[i+1];
+  		}
+  	}
+  	return result;
 };
+
+
+
+
+
+

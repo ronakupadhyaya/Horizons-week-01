@@ -166,7 +166,37 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+
+  //filter data to only get transactions for specific ticker
+  var filteredData = _.filter(data, function(curr) {
+    return curr.ticker === ticker;
+  });
+
+  //sort filtered data in ascending order
+  filteredData = _.sortBy(filteredData, "time");
+
+  var dates = [];
+  var buy = 0;
+  var sell = 1;
+  var profit = filteredData[1].price - filteredData[0].price;
+
+
+  //outer loop to find start date
+  for (var i = 0; i < (filteredData.length - 1); i++) {
+
+    //inner loop to find end date
+    for (var j = i + 1; j < filteredData.length; j++) {
+      
+      var current = filteredData[j].price - filteredData[i].price;
+      if (current > profit) {
+        profit = current;
+        buy = i;
+        sell = j;
+      }
+    }
+  }
+  //if (ticker === "AMZN") {debugger;}
+  return [new Date(filteredData[buy].time), new Date(filteredData[sell].time), profit ];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -190,5 +220,24 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var sorted = _.groupBy(data, function(trans) {return trans.ticker;});
+  console.log(sorted);
+  var topStats = ["", 0, 0, 0];
+
+  for (var ticker in sorted) {
+    if (sorted.hasOwnProperty(ticker)) {
+      //sorted[ticker] will iterate over the different ticker arrays
+      //if (ticker === "AMZN") {debugger;}
+      var result = stocks.bestTrade(data, ticker);
+      if (topStats[3] < result[2]) {
+        topStats[0] = ticker;
+        topStats[1] = result[0];
+        topStats[2] = result[1];
+        topStats[3] = result[2];
+      }
+    
+    }
+  }
+  console.log(topStats);
+  return topStats;
 };

@@ -55,4 +55,78 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  newexp = expression.split(" ")
+  allnum = [];
+  boolnan = [];
+
+  for (var i = 0; i < newexp.length; i ++){
+    allnum.push(parseInt(newexp[i]))
+    boolnan.push(isNaN(newexp[i]))
+  }
+  for(var i = 0; i < newexp.length; i+=2){
+    if(isNaN(parseInt(newexp[i])) == true){
+      throw "operator at the wrong spot"
+    }
+  }
+  if(isNaN(parseInt(newexp[newexp.length-1])) == true ){
+    throw "too many operators"
+  }
+
+for ( var i = 0; i < newexp.length; i++){
+  if (boolnan[i] == boolnan[i+1]){
+    throw "too many"
+  }
+}
+
+if (newexp.length == 1 ){
+  return parseInt(newexp[0]);
+}
+
+  function getAllIndexes(arr, val) {
+    var indexes = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+      indexes.push(i);
+    }
+    return indexes;
+  }
+
+  var operandlocations = getAllIndexes(boolnan, true);
+
+total = 0;
+for (var i = 0; i < operandlocations.length; i++){
+
+
+  if (newexp[operandlocations[i]] == '*'){
+    newexp[operandlocations[i]-1] = (parseFloat(newexp[operandlocations[i]-1]) * parseFloat(newexp[operandlocations[i]+1]))
+    newexp.splice((operandlocations[i]),2)
+    i=i-1
+  }
+  else if (newexp[operandlocations[i]] == '/'){
+  newexp[operandlocations[i]-1] = (parseFloat(newexp[operandlocations[i]-1]) / parseFloat(newexp[operandlocations[i]+1]))
+  newexp.splice((operandlocations[i]),2)
+  i=i-1
+  }
+}
+var val = parseFloat(newexp[0])
+console.log(val)
+for (var i = 0; i < operandlocations.length; i++){
+  if (newexp[operandlocations[i]] == '+'){
+  val = newexp[operandlocations[i]] + parseFloat(newexp[operandlocations[i]+1])
+    console.log(val)
+    newexp[operandlocations[i]-1] = (parseFloat(newexp[operandlocations[i]-1]) + parseFloat(newexp[operandlocations[i]+1]))
+newexp.splice((operandlocations[i]-1),3, tallied)
+
+  }
+  else if (newexp[operandlocations[i]] == '-'){
+    tallied = (parseInt(newexp[operandlocations[i]-1]) - parseInt(newexp[operandlocations[i]+1]))
+    total = total + tallied;
+    newexp.splice((operandlocations[i]-1),3, tallied)
+  }
+}
+return total;
+
+
+
+
+
 };

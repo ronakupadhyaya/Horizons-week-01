@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+    return attempt === password
+  }
 }
 
 // This function returns an object that leaks private information!

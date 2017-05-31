@@ -125,7 +125,12 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function() {
+    var args = Array.prototype.slice.call(arguments)
+    var firstRes = fun2.apply(window,args)
+    var secondRes = fun1.call(window,firstRes)
+    return secondRes;
+  }
 }
 
 

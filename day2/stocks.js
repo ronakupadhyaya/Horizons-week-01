@@ -262,10 +262,24 @@ stocks.bestTrade = function(data, ticker) {
   })
 
   var sortedData = _.sortBy(dataOfInterest, function(x){
-    return x.price
+    return x.time
   })
-  console.log(sortedData[29].price-sortedData[0].price)
-return [new Date(sortedData[0].time), new Date(sortedData[29].time), sortedData[29].price-sortedData[0].price]
+  //console.log(sortedData)
+  var maxDiff = 0;
+  var index1 = 0;
+  var index2 = 0;
+  for(var i = 0; i < sortedData.length; i++){
+    for(var j =i; j < sortedData.length; j++){
+      var temp = sortedData[j].price - sortedData[i].price;
+      if(temp > maxDiff){
+        maxDiff = temp;
+        index1 = i; //buy
+        index2 = j; //sell
+      }
+    }
+  }
+  console.log(maxDiff, index1, index2)
+return [new Date(sortedData[index1].time), new Date(sortedData[index2].time), maxDiff]
 
 };
 

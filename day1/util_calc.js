@@ -10,6 +10,7 @@ window.util = {};
 //
 // Part 1. If an invalid expression is given, throw an exception.
 //
+<<<<<<< HEAD
 // ex. util.calc(‘’) -> Error, empty expression
 // ex. util.calc(‘1 2’) -> Error, mission operator
 // ex. util.calc(‘-’) -> Error, no numbers
@@ -18,6 +19,16 @@ window.util = {};
 // ex. util.calc(‘1 + 55 -2’) -> Error, too many numbers
 // ex. util.calc(‘29 + + 1’) -> Error, too many operators
 // ex. util.calc(’29 + 1 +‘) -> Error, too many operators
+=======
+// ex. util.calc('') -> Error, empty expression
+// ex. util.calc('1 2') -> Error, missing operator
+// ex. util.calc('-') -> Error, no numbers
+// ex. util.calc('1 2 +') -> Error, operator at the wrong spot
+// ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
+// ex. util.calc('1 + 55 -2') -> Error, too many numbers
+// ex. util.calc('29 + + 1') -> Error, too many operators
+// ex. util.calc('29 + 1 +') -> Error, too many operators
+>>>>>>> master
 //
 // Part 2. Implement support for addition and subtraction.
 //

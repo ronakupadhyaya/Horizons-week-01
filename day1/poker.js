@@ -73,7 +73,7 @@ window.rankPokerHand = function(hand1, hand2) {
 
   function occurances(arr) {
     var a = [], b = [], prev;
-    arr.sort();
+    //arr.sort();
     for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
             a.push(arr[i]);
@@ -162,7 +162,7 @@ window.rankPokerHand = function(hand1, hand2) {
    		if (isFlush(suites) && isStraight(nums) && nums[4] == 14) {
    			handValue = 9;
    		}
-   		//console.log(handValue);
+   		console.log("My hand", handValue);
    		return handValue;
    }
 
@@ -177,15 +177,35 @@ window.rankPokerHand = function(hand1, hand2) {
   convert(hand1, nums1, suites1);
   convert(hand2, nums2, suites2);
 
+  	console.log(nums1)
+  	console.log(nums2)
 
-	nums1 = _.sortBy(nums1);
-	nums2 = _.sortBy(nums2);
-	//debugger;
-	nums1.forEach(console.log);
-	nums2.forEach(console.log);
+
+	//nums1 = _.sortBy(nums1);
+	//nums2 = _.sortBy(nums2);
+
+	nums1.sort(function(a, b) {
+		if (a < b) 
+			return -1;
+		if (a > b) 
+			return 1;
+		else
+			return 0;
+	});
+
+	nums2.sort(function(a, b) {
+		if (a < b) 
+			return -1;
+		if (a > b) 
+			return 1;
+		else
+			return 0;
+	});
 	console.log(nums1);
 	console.log(nums2);
-	console.log(_);
+
+	//debugger;
+
   var high1 = nums1[4];
   var high2 = nums2[4];
 
@@ -194,8 +214,11 @@ window.rankPokerHand = function(hand1, hand2) {
 
    var val1 = getInitHandValue(nums1, dups1, suites1);
    var val2 = getInitHandValue(nums2, dups2, suites2);
-   console.log(val1);
-   console.log(val2);
+	console.log(nums1);
+	console.log(nums2);
+
+
+
    if (val1 > val2) {
    	return 1;
    } else if (val1 < val2) {
@@ -203,15 +226,17 @@ window.rankPokerHand = function(hand1, hand2) {
    }
 
    if (val1 == 0) {
+   		console.log("i'm here");
    		for (var j = nums1.length - 1; j >= 0; j--) {
    	 		console.log(j);
    	 		console.log(nums1[j]);
    	 		console.log(nums2[j]);
    	 		if (nums1[j] > nums2[j]) {
    	 			return 1;
-   	 		} else if (nums1[j] < nums2[j]) {
+   	 		}
+   	 		if (nums1[j] < nums2[j]) {
    	 			return 2;
-   	 		}	
+   	 		}
    	 	}
    }
 
@@ -248,7 +273,7 @@ window.rankPokerHand = function(hand1, hand2) {
    	 		else if (pairs1[i]>pairs2[i]) {
    	 			return 2;
    	 		}
-   	 		
+
    	 	}
    	 }
 

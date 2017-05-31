@@ -115,15 +115,19 @@ var once = function(f) {
 // ]
 //
 // Use closures to fix this function.
-//
+//(fun{})();
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    var x = (function() {
+	var temp = i;
+	return function() {
+      		// function that returns i
+      		return temp;
+    		}
+	})();
+    functionArray.push(x);
   }
 
   return functionArray;

@@ -42,7 +42,15 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var groups = _.groupBy(data, function(trans){return trans.ticker;});
+
+  function cmp(trans1, trans2){
+    return new Date(trans1['time']) - new Date(trans2['time']);
+  }
+
+  var sorted = _.mapObject(groups, function(val, key){return val.sort(cmp); })
+  var net = _.mapObject(sorted, function(val, key){return val[val.length -1].price - val[0].price});
+  return net
 };
 
 // Exercise 2. stocks.biggestGainer(data)

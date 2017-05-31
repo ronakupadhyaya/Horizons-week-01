@@ -17,16 +17,20 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === null /* YOUR CODE HERE */;
+  //console.log(window.dis)
+  //console.log(dis.getThis())
+  return dis.getThis() === window.dis /* YOUR CODE HERE */;
+
 };
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === null /* YOUR CODE HERE */;
+  console.log(dis.object2.getThis)
+  return dis.object2.getThis() === dis.object2 /* YOUR CODE HERE */;
 };
 
 dis.callGetThis = function() {
-  return dis.getThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  return dis.getThis.call(dis.object1) === dis.object1 /* YOUR CODE HERE */;
 }
 
 // Let's bind getThis to object2

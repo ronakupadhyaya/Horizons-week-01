@@ -189,16 +189,14 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
-  //sort by ticker
-  var organized = _.chain(data)
-    .groupBy('ticker')
-    .value()
 
 
   var total = 0
 
   _.each(portfolio, function(value, key){
     //figure out price at date
+
+
     total += (value * )
 
   })

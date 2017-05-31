@@ -43,6 +43,21 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var stocks = _.groupBy(data,function(item){
+    return item.ticker;
+  })
+  //console.log(stocks)
+
+  var answer = _.mapObject(stocks,function(val,key){
+    //console.log("before sort: ", val[10])
+    val = _.sortBy(val,function(item){
+      var date = new Date(item.time)
+      return date
+    })
+    //console.log("after sort: ", val[10])
+    return val[val.length-1].price - val[0].price
+  });
+  return answer
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +75,19 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var ss = stocks.gainAndLoss(data)
+  var max = -999
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]>max){
+        max = ss[key];
+        stock = key;
+        console.log("stock: ",stock)
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +105,18 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var ss = stocks.gainAndLoss(data)
+  var min = Infinity
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]<min){
+        min = ss[key];
+        stock = key;
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +129,30 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var stocks = _.groupBy(data,function(item){
+    return item.ticker;
+  })
+  //console.log(stocks)
+
+  var ss = _.mapObject(stocks,function(val,key){
+    val = _.sortBy(val,function(item){
+      return item.price
+    })
+    return val[val.length-1].price - val[0].price
+  });
+
+  var max = -999
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]>max){
+        max = ss[key];
+        stock = key;
+        //console.log("stock: ",stock)
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +171,14 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  console.log(date)
+  var data1 = _.filter(data,function(item){
+    //console.log(new Date(item.time))
+    //console.log(date)
+    //console.log("true or false:", new Date(item.time) === date)
+    return (new Date(item.time) === date) && (portfolio.keys().includes(item.ticker))
+  })
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

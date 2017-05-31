@@ -55,4 +55,53 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  splitString = expression.split(" ");
+  operators = ["+", "-", "/", "*"];
+  if (expression === "") {
+    throw "empty expression";
+  } else if (expression.indexOf("+") === -1
+  && expression.indexOf("-") === -1
+  && expression.indexOf("/") === -1
+  && expression.indexOf("*") === -1){
+    throw "missing operator";
+  } else if (expression.match(/\d+/g) === null) {
+    throw "no numbers";
+  } else if (splitString[0] === ("+" || "-" || "*" || "/") ||
+  splitString[splitString.length -1] === ("+" || "-" || "*" || "/")) {
+    throw "operator at the wrong spot";
+  }
+
+  /*
+  for (var i=1; i<splitString.length-1; i+=2) {
+    if (splitString[i] != "+" ||
+    splitString[i] != "-" ||
+    splitString[i] != "*" ||
+    splitString[i] != "/") {
+      throw "too many operators";
+    }
+  }
+  */
+
+  //addition
+  var numbers = [];
+  for (var i=0; i<splitString.length; i++) {
+    numbers[i] = parseInt(splitString[i]);
+  }
+
+  var total = numbers[0];
+
+  for (var i=0; i<splitString.length; i++) {
+    if (splitString[i] === "*") {
+      total *= numbers[i+1];
+      console.log(total);
+    } else if (splitString[i] === "/") {
+      total /= numbers[i+1];
+    } else if (splitString[i] === "+") {
+      total += numbers[i+1];
+    } else if (splitString[i] === "-") {
+      total -= numbers[i+1];
+    }
+  }
+  return total;
+
 };

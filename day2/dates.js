@@ -24,6 +24,8 @@ dates.createDate = function(dateStr) {
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
   // YOUR CODE HERE
+  var date = dateObj.toUTCString();
+  return date;
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -48,6 +50,11 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  if (dateObj.getHours() === otherDateObj.getHours()) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -66,4 +73,7 @@ dates.isTheFuture = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
+  var day = dateObj.getDate();
+  dateObj.setDate(day+1);
+  return dateObj;
 };

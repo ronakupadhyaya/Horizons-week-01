@@ -43,6 +43,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
+  return _.any(array,function(items){
+     return items === item;
+  });
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -104,6 +107,11 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
   // YOUR CODE HERE
+  var emp = _.map(array,fun);
+  return _.reduce(emp,function(a,b) {
+    return a || b;
+  });
+
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)
@@ -145,6 +153,11 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
   // YOUR CODE HERE
+  var a = array[0];
+  for (var i =1;i<array.length;i++) {
+    a=fun(a,array[i]);
+  }
+  return a;
 }
 
 // Exercise 5: learn_underscore.keys(object)
@@ -162,6 +175,11 @@ learn_underscore.reduce = function(array, fun) {
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
   // YOUR CODE HERE
+  var a = [];
+  _.forEach(object,function (value,key) {
+    a.push(key);
+  });
+  return a;
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -172,6 +190,11 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
   // YOUR CODE HERE
+  var a = [];
+  _.forEach(object,function (value) {
+    a.push(value);
+  });
+  return a;
 }
 
 // Exercise 7: learn_underscore.pairs(object)
@@ -182,6 +205,11 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
   // YOUR CODE HERE
+  var a = [];
+  _.forEach(object,function(value,key) {
+    a.push([key,value]);
+  })
+  return a;
 }
 
 // Example 2: groupByState(people)
@@ -269,4 +297,9 @@ learn_underscore.countLetters = function(string) {
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+  var obj = _.groupBy(array,fun);
+  console.log(obj);
+  return _.mapObject(obj, function (val,key) {
+     return val.length;
+  });
 }

@@ -87,5 +87,103 @@ window.rankPokerHand = function(hand1, hand2) {
         max = array[counting[i]-2];
       }
     }
+    return max;
   }
+
+  var consecutive = function (hand) {
+    var array = convertnum(hand);
+    array.sort(function(a,b) {
+      return a-b;
+    });
+    for (var i =0;i<4;i++) {
+      if (array[i+1]-array[i]!=1) {
+        return false;
+      }
+    }
+    return array;
+  }
+
+  var highest = function (hand) {
+    var array = convertnum(hand);
+    array.sort(function(a,b) {
+      return a-b;
+    });
+     return array[4];
+  }
+
+  var fullhouse = function(hand) {
+    if (samenum(hand)<3) {
+      return false;
+    }
+    var array = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var counting = convertnum(hand);
+
+    for (var i =1;i<counting.length;i++) {
+      array[counting[i]-2]+=1;}
+    if(array.indexOf(2)>=0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  var twopairs = function(hand) {
+    var array = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var counting = convertnum(hand);
+    var two = 0;
+    for (var i =1;i<counting.length;i++) {
+      array[counting[i]-2]+=1;
+      if (array[counting[i]-2] === 2) {
+        two ++;
+      }
+    }
+    if (two === 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  var rank =function(hand) {
+    var array = convertnum(hand);
+    array.sort(function(a,b) {
+      return a-b;
+    });
+    if (samesuit(hand) === true && consecutive(hand)!= false && consecutive(hand)[0] ===10) {
+      return [9, array];
+    } else if (samesuit(hand) === true && consecutive(hand)!= false ){
+      return [8,array ];
+    } else if (samenum(hand)===4) {
+      return [7, array];
+    } else if (fullhouse(hand) ) {
+      return [6,array];
+    } else if (samesuit(hand)) {
+      return [5, array];
+    } else if (!consecutive(hand)) {
+      return [4,array];
+    } else if (samenum(hand) === 3) {
+      return [3,array];
+    } else if (twopairs(hand)) {
+      return [2,array];
+    } else if (samenum(hand)===2) {
+      return [1,array];
+    } else {
+      return [0,array];
+    }
+  }
+
+
+    var var1 = rank(hand1);
+    var var2 = rank(hand2);
+    if (var1[0]>var2[0]){
+      return "1";
+    } else if (var1[0]<var2[0]){
+      return "2";
+    } else {
+      return "tie";
+    }
+
+   
+
 }

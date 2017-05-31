@@ -68,9 +68,6 @@ comp.testLooseEquality = function() {
     } else if (typeof two === "number") {
       obj[JSON.stringify(one) +"_"+ two] = one == two;
     } else {
-      if (JSON.stringify(one) === "[]" && JSON.stringify(two) === "[]") {
-        console.log(one == two);
-      }
       obj[JSON.stringify(one) +"_"+ JSON.stringify(two)] = one == two;
     }
   }
@@ -78,5 +75,27 @@ comp.testLooseEquality = function() {
 };
 
 comp.testStrictEquality = function() {
-    // YOUR CODE HERE
+  var arr = [];
+  var vals = valuesToCheck();
+  for (var i = 0; i < vals.length; i++) {
+    for (var j = 0; j < vals.length; j++) {
+      arr.push([vals[i], vals[j]]);
+    }
+  }
+  var obj = {};
+  for (var i = 0; i < arr.length; i++) {
+    var one = arr[i][0];
+    var two = arr[i][1];
+
+    if (typeof one === "number" && typeof two === "number") {
+      obj[one +"_"+two] = one === two;
+    } else if (typeof one === "number") {
+      obj[one +"_"+ JSON.stringify(two)] = one === two;
+    } else if (typeof two === "number") {
+      obj[JSON.stringify(one) +"_"+ two] = one === two;
+    } else {
+      obj[JSON.stringify(one) +"_"+ JSON.stringify(two)] = one === two;
+    }
+  }
+  return obj;
 };

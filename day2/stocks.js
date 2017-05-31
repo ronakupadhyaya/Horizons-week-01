@@ -43,6 +43,20 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  //debugger;
+  var ans = {};
+  var objdata = _.groupBy(data, function(company) {
+    return company.ticker;
+  });
+  var earliest = null;
+  var latest = null;
+  for (var key in objdata) {
+    objdata[key] = _.sortBy(objdata[key], 'time');
+    earliest = objdata[key][0];
+    latest = _.last(objdata[key]);
+    ans[key] = latest.price - earliest.price;
+  }
+  return ans;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +74,18 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  //debugger;
+  var highestgainer = 0;
+  var ans = null;
+  var objdata = stocks.gainAndLoss(data);
+  for (var key in objdata) {
+    var a = Math.abs(objdata[key]);
+    if (highestgainer < Math.abs(objdata[key])) {
+      highestgainer = Math.abs(objdata[key]);
+      ans = key;
+    }
+  }
+  return ans;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +103,18 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  //debugger;
+  var ans = null;
+  var objdata = stocks.gainAndLoss(data);
+  var lowestgainer = objdata['GOOG'];
+  for (var key in objdata) {
+    var a = objdata[key];
+    if (lowestgainer > objdata[key]) {
+      lowestgainer = objdata[key];
+      ans = key;
+    }
+  }
+  return ans;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +127,7 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  return stocks.biggestGainer(data);
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +146,7 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

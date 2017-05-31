@@ -53,13 +53,13 @@ stocks.gainAndLoss = function(data) {
   	});
   });
 
-  	
+
   var result = {}
   _.forEach(sorted,function(value,key){
   	var start_price = value[0].price;
   	var end_price = value[value.length-1].price;
   	var gainloss = end_price - start_price;
-  	
+
   	result[value[0].ticker] = gainloss;
 
 
@@ -85,7 +85,8 @@ stocks.gainAndLoss = function(data) {
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
 
-  var bigGain = stocks.gainAndLoss(data)
+  var bigGain = stocks.gainAndLoss(data
+    debugger;
   var maxgain = _.reduce(bigGain,function(a,b){
   	return Math.max(a,b)
   })
@@ -94,7 +95,7 @@ stocks.biggestGainer = function(data) {
   var gain = _.forEach(bigGain, function(value, key){
 
   	if(maxgain === value){
-  		name = key 
+  		name = key
   	}
   })
   return name
@@ -124,7 +125,7 @@ stocks.biggestLoser = function(data) {
   var loss = _.forEach(smallloss, function(value, key){
 
   	if(minloss === value){
-  		name = key 
+  		name = key
   	}
   })
   return name
@@ -155,7 +156,7 @@ stocks.widestTradingRange = function(data) {
   	var min = value[0].price;
   	var max = value[value.length-1].price;
   	var variance = max - min;
-  	
+
   	result[value[0].ticker] = variance;
   })
 
@@ -167,7 +168,7 @@ stocks.widestTradingRange = function(data) {
   var loss = _.forEach(result, function(value, key){
 
   	if(maxvar === value){
-  		name = key 
+  		name = key
   	}
   })
   return name
@@ -240,7 +241,7 @@ stocks.bestTrade = function(data, ticker) {
   var profit;
 
   _.forEach(sorted,function(value, key){
-  	
+
   	if(value[0].ticker === ticker){
 
   		buyDate = new Date(value[0].time);
@@ -260,8 +261,8 @@ stocks.bestTrade = function(data, ticker) {
   				}
   			}
   		}
-  		
-  		
+
+
   	}
 
   })
@@ -305,7 +306,7 @@ stocks.bestTradeEver = function(data) {
   	if(check[2] > best [2]){
   		best = check
   		tick = ticker_list[i]
-  		
+
   	}
   }
  best.unshift(tick)

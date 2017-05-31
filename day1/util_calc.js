@@ -1,58 +1,72 @@
 window.util = {};
 
-// Calculator Exercise
-//
-// Write a function calc() that takes a string that represents an arithmetic
-// operation (such as "3 + 2") and returns the numerical result of the
-// operation.
-//
-// You can assume that each number or operator (i.e. + - / *) is separated by a single
-// space.
-//
-// Part 1. If an invalid expression is given, throw an exception.
-//
-// ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
-// ex. util.calc('-') -> Error, no numbers
-// ex. util.calc('1 2 +') -> Error, operator at the wrong spot
-// ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
-// ex. util.calc('1 + 55 -2') -> Error, too many numbers
-// ex. util.calc('29 + + 1') -> Error, too many operators
-// ex. util.calc('29 + 1 +') -> Error, too many operators
-//
-// Part 2. Implement support for addition and subtraction.
-//
-// ex. util.calc('1') -> 1
-// ex. util.calc('-12') -> -12
-// ex. util.calc('3 + 2') -> 5
-// ex. util.calc('3 + 8 + 2 + 1    ') -> 14
-// ex. util.calc('2 - 1 + 5 + 6') -> 12
-// ex. util.calc('-1 + 3 - 2 + 5') -> 5
-//
-// Part 3. Implement support for multiplication and division.
-// Note that the order of operations matters. Multiplication and division needs
-// to be perfomed before addition and subtraction.
-//
-// ex. util.calc('1 * 3 / 5 + 2') -> 2.6
-// ex. util.calc('1 + 3 / 2 - 5') -> -2.5
-// ex. util.calc('5 * 6 + 8 / 9 * 4.5') -> 34
-// ex. util.calc('1 / 0 + 1 * 0') -> Infinity
-// ex. util.calc('1 / 0 * 0 + 1') -> NaN
-//
-// Bonus: Implement support for the square root operator.
-// Implement support for the `sqrt` operator. `sqrt` is an operator that takes
-// only one argument (i.e. a unary operator). `sqrt` applied before all other
-// operators
-// other operators and only operates on the value after it.
-// There should be a single space before and after `sqrt`.
-//
-// Note: you can use the builtin Math.sqrt() function.
-//
-// ex. util.calc('sqrt 4') -> 2, same as Math.sqrt(4)
-// ex. util.calc('sqrt 4 - 3') -> -1
-// ex. util.calc('-1 * sqrt 4 - 3') -> -5
-// ex. util.calc('sqrt 9 - 3 * 10') -> -27
-// ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+util.splitExpression = function(expression){
+  return expression.split("");
+}
+
+util.throwInvalid = function(arr){
+  // valid if even number of item
+  // valid if even number index is number
+  // valid if odd number idex is NaN
+  if(arr.length % 2 === 0){
+    throw 'must have odd number of items';
+  }
+
+  if(arr.indexOf("sqrt") > -1){
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i] === "sqrt") arr.splice(arr.indexOf("sqrt"), 1)
+      i--;
+    }
+  }
+
+  for (var i = 0; i < arr.length; i++) {
+    if(i % 2 === 0 && arr[i] === NaN) throw " too many operators";
+    else if (i % 2 === 1 && arr[i] !== NaN) throw "too many numbers";
+  }
+}
+
+util.opList = {
+  "+": function (x,y) {
+    return x+y;
+  },
+  "-": function (x,y) {
+    return x-y;
+  },
+  "*": function (x,y) {
+    return x*y;
+  },
+  "/": function (x,y) {
+    return x/y;
+  },
+  "sqrt": function (y) {
+    return Math.sqrt(y);
+  }
+}
+
+util.cutOperation = function (arr, op1, op2) {
+  while(arr.indexOf(op1) > -1 && arr.indexOf(op2)){
+    var op = ""
+    //set op to the earliest (index) operator, while checking to make sure that
+    //both op1 and op2 are actually in arr
+    if (!(arr.indexOf(op1)+1)) op = op2;
+    else if(!(arr.indexOf(op2)+1)) op = op1;
+    else op = arr.indexOf(op1) < arr.indexOf(op2) ? op1:op2;
+
+    //find the index of the op
+    var ind = arr.indexOf(op);
+
+    //splice the answer of the operation
+    if(op === "sqrt") arr.splice(ind, 2, util.opList[op](arr[ind + 1]));
+    else arr.splice(ind - 1, 3, util.opList[op](arr[ind-1], arr[ind+1]));
+  }
+  return arr;
+}
+
+util.calc = function (expression){
+  var arr = util.splitExpression(expression);
+  util.throwInvalid(arr);
+  util.cutOperation(arr, "sqrt", "");
+  util.cutOperation(arr, "*", "/");
+  util.cutOperation(arr, "+", "-");
+  return arr[0];
+}

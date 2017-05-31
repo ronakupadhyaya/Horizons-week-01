@@ -42,7 +42,29 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var gp=_.groupBy(data,function(comp){
+    return comp["ticker"];
+  })
+
+  var gt=_.mapObject(gp,function(val,key){
+    val["time"]=new Date(val["time"]);
+    return val
+  })
+
+  var gs=_.mapObject(gt,function(val,key){
+    var srt= _.sortBy(val,"time")
+    return srt
+  })
+
+  var gl=_.mapObject(gs,function(val,key){
+    var prft= val[val.length-1].price-val[0].price;
+
+    return prft
+
+  })
+
+  return gl
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +81,20 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var gnLs=stocks.gainAndLoss(data);
+  var bigGainer="";
+  var maxGain=0
+
+  var mg=_.each(gnLs,function(value,key){
+    if(value>maxGain){
+      bigGainer=key;
+      maxGain=value;
+
+    }
+    return bigGainer
+  })
+
+  return bigGainer
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +111,18 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var gnLs=stocks.gainAndLoss(data);
+  var bigLooser="";
+  var minGain=1000000000
+  var mg=_.each(gnLs,function(value,key){
+    if(value<minGain){
+      bigLooser=key;
+      minGain=value;
+    }
+    return bigLooser
+  })
+
+  return bigLooser
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +134,40 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var gp=_.groupBy(data,function(comp){
+    return comp["ticker"];
+  })
+
+  var gt=_.mapObject(gp,function(val,key){
+    val["time"]=new Date(val["time"]);
+    return val
+  })
+
+  var gs=_.mapObject(gt,function(val,key){
+    var srt= _.sortBy(val,"price")
+    return srt
+  })
+
+  var gl=_.mapObject(gs,function(val,key){
+    var prft= val[val.length-1].price-val[0].price;
+    return prft
+  })
+
+  var widestRange=0;
+  var Comp="";
+  var mg=_.each(gl,function(value,key){
+    if(Math.abs(value)>widestRange){
+
+      Comp=key;
+
+      widestRange=Math.abs(value);
+
+    }
+    return Comp
+  })
+
+  return Comp
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,9 +185,45 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
-};
+  var gp=_.groupBy(data,function(comp){
+    return comp["ticker"];
+  })
+  var gt=_.mapObject(gp,function(val,key){
+    for(var j=0;j<val.length;j++){
+      var dt=new Date(val[j]["time"]);
+      //typeof[dt]
+      //console.log(dt)
+      val[j]["time"]=dt;
+    }
+    return val
+  })
+  var keyz=_.keys(portfolio);
+  var valz=_.values(portfolio);
 
+  var tCost=0;
+  
+  for(var i=0; i<keyz.length;i++){
+    var ky=keyz[i];
+    var a=gt[ky];
+
+    var fld=_.filter(a,function(val){
+      return val["time"]<=date
+    })
+
+
+
+
+    var srt= _.sortBy(fld,"time")
+
+    var ini=srt[srt.length-1]
+
+
+    tCost+=ini.price*valz[i]
+  }
+
+  return tCost
+
+}
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
 // Write a function to figure out the best time to buy and sell a given
 // stock/ticker/company.

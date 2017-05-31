@@ -31,20 +31,30 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  var returnVal;
+  var argFuns = Array.prototype.slice.call(arguments);
   var repeat = false;
   var usedCall = {};
-  return function(arg) {
-    if (Object.keys(usedCall).includes(arg.toString())) {
-      repeat = true;
+  if (argFuns.length === 2) {
+    return function() {
+      var newAry = Array.prototype.slice.call(arguments);
+      var currentKey = argFuns[1].apply(null,newAry);
+      if (usedCall[currentKey]) {
+        return usedCall[currentKey];
+      } else {
+        usedCall[currentKey] = argFuns[0].apply(null,newAry);
+        return usedCall[currentKey];
+      }
     }
-    if (!repeat) {
-      returnVal = func.call(window,arg);
-      usedCall[arg] = returnVal;
-    } else {
-      returnVal = usedCall[arg];
+  } else {
+    return function(arg) {
+      if (Object.keys(usedCall).includes(arg.toString())) {
+        repeat = true;
+      }
+      if (!repeat) {
+        usedCall[arg] = func.call(null,arg);
+      }
+      return usedCall[arg];
     }
-    return returnVal;
   }
 }
 
@@ -173,5 +183,13 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var allFuncs = Array.prototype.slice.call(arguments);
+  return function() {
+    var calcVars = Array.prototype.slice.call(arguments);
+    var newestOut = allFuncs[allFuncs.length-1].apply(null,calcVars);
+    for (var i=1; i< allFuncs.length; i++) {
+      newestOut = allFuncs[allFuncs.length-i-1].call(null,newestOut);
+    }
+  return newestOut;
+  }
 }

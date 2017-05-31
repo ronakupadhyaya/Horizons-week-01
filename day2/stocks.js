@@ -42,8 +42,30 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
+  var returnObj = new Object();
+  var organizedData = _.groupBy(data, function(n) {
+    return n.ticker;
+  });
+  for(var key in organizedData){
+    var minTime = 10000000000000000000000000;
+    var maxTime = 0;
+    var maxObj, minObj;
+    organizedData[key].forEach(function(m){
+      var temp = new Date(m.time);
+      var currentTime = temp.getTime();
+      if(currentTime > maxTime){
+        maxTime = currentTime;
+        maxObj = m;
+      }
+      if(currentTime < minTime){
+        minTime = currentTime;
+        minObj = m;
+      }
+    })
+    returnObj[key] = maxObj.price - minObj.price;
+  }
+  return returnObj;
+}
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,7 +81,16 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var tempMax = -100000000000000;
+  var tempMaxTicker;
+  var gains = stocks.gainAndLoss(data);
+  var gainer = _.forEach(gains, function(value,key){
+    if(value > tempMax){
+      tempMax = value;
+      tempMaxTicker = key;
+    }
+  })
+  return tempMaxTicker;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +108,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var tempMin = 1000000000000;
+  var tempMinTicker;
+  var losses = stocks.gainAndLoss(data);
+  var loser = _.forEach(losses, function(value,key){
+    if(value < tempMin){
+      tempMin = value;
+      tempMinTicker = key;
+    }
+  })
+  return tempMinTicker;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +130,26 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var returnObj = new Object();
+  var organizedData = _.groupBy(data, function(n) {
+    return n.ticker;
+  });
+  for(var key in organizedData){
+    var prices = [];
+    organizedData[key].forEach(function(m){
+      prices.push(m.price);
+    })
+    returnObj[key] = Math.max.apply(null, prices) - Math.min.apply(null, prices);
+  }
+  var tempWidest = -100000000000000000000;
+  var tempWidestKey;
+  for(var key in returnObj){
+    if(returnObj[key] > tempWidest){
+      tempWidest = returnObj[key];
+      tempWidestKey = key;
+    }
+  }
+  return tempWidestKey;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +167,23 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var organizedData2 = new Object();
+  var organizedData = _.groupBy(data, function(n) {
+    return n.time;
+  });
+  for(var key in organizedData){
+    var temp = new Date(key);
+    organizedData2[temp.getTime()] = organizedData[key];
+  };
+  var total = [];
+  organizedData2[date.getTime()].forEach(function(n){
+    for(var key in portfolio){
+      if(n.ticker === key){
+        total.push(portfolio[key] * n.price);
+      }
+    }
+  });
+  return total.reduce(function(a,b){return a+b});
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

@@ -42,7 +42,29 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var ne = _.groupBy(data, function(company){
+    return company.ticker;
+  });
+  //console.log(ne);
+  function getMaxOfArray(numArray) {
+    return Math.max.apply(null, numArray);
+  }
+  function getMinOfArray(numArray) {
+    return Math.min.apply(null, numArray);
+  }
+  ne = _.mapObject(ne, function(value,key){
+    var prices = [];
+    value.forEach(function(item){
+      prices.push(item.price);
+    });
+    var mins = [];
+    mins.push(getMaxOfArray(prices));
+    mins.push(getMinOfArray(prices));
+    return mins;
+  });
+
+
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -88,7 +110,29 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var ne = _.groupBy(data, function(company){
+    return company.ticker;
+  });
+  //console.log(ne);
+  function getMaxOfArray(numArray) {
+    return Math.max.apply(null, numArray);
+  }
+  function getMinOfArray(numArray) {
+    return Math.min.apply(null, numArray);
+  }
+  ne = _.mapObject(ne, function(value,key){
+    var prices = [];
+    value.forEach(function(item){
+      prices.push(item.price);
+    });
+    var mins = [];
+    mins.push(getMaxOfArray(prices));
+    mins.push(getMinOfArray(prices));
+    var range = getMaxOfArray(prices) - getMinOfArray(prices);
+    return range;
+  });
+  console.log(ne);
+  return Object.keys(ne).reduce(function(a, b){ return ne[a] > ne[b] ? a : b });
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)

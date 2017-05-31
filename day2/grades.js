@@ -26,7 +26,16 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length<1){
+    return 0;
+  }
+  var ave = _.reduce(arr, function(a,b){
+    return a+b;
+  });
+  if (ave === 0){
+    return 0;
+  }
+  return ave/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +47,28 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var array = []
+  _.forEach(student.grades, function(value,key){
+    array.push(value);
+  });
+  //console.log(array);
+  return grades.average(array);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var highest = data[0];
+  _.forEach(data, function(student){
+    var gpa = grades.getGPA(student);
+    var higher = grades.getGPA(highest);
+    if (gpa>higher){
+      highest = student;
+    }
+  });
+  return highest;
+  //console.log(data);
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +76,31 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var ne = _.groupBy(data, function(student){
+    return student.major;
+  });
+
+  ne = _.mapObject(ne, function(value,key){
+    var gpas = []
+    value.forEach(function(item){
+      gpas.push(grades.getGPA(item));
+    });
+    return grades.average(gpas);
+  });
+  // var array = []
+  // _.forEach(ne, function(value,key){
+  //   array.push([key,value]);
+  // });
+  var bestM = '';
+  var bestGPA = 0;
+  _.forEach(ne,function(value, key){
+    if (value>bestGPA){
+      bestGPA = value;
+      bestM = key;
+    }
+  });
+  console.log(ne);
+  return bestM;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +108,34 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var class1 = [];
+  var class2 = [];
+  var array = [];
+  data.forEach(function(item){
+    array.push(item.grades);
+  });
+  //console.log(array);
+
+  array.forEach(function(item){
+    class1.push(item.class1);
+    class2.push(item.class2);
+  })
+  //console.log(class1);
+  var new1 = class1.reduce(function(a,b){
+    return a+b;
+  },0);
+  var new2 = class2.reduce(function(a,b){
+    return a+b;
+  },0);
+  var ave1 = new1/class1.length;
+  var ave2 = new2/class2.length;
+  console.log(ave1);
+  console.log(ave2);
+  var returnObject = {
+    'class1': ave1,
+    'class2': ave2
+  };
+  console.log(returnObject);
+  return returnObject;
+  //console.log(data);
 };

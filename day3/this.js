@@ -17,7 +17,9 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === null /* YOUR CODE HERE */;
+  console.log(dis.getThis());
+  console.log(getThis());
+  return dis.getThis() === dis.getThis();
 };
 
 dis.assignGetThis = function() {

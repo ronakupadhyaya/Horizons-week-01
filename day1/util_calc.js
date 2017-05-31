@@ -53,6 +53,91 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+util.Errors = function(expression) {
+  var number = true
+  var operator = false
+  var argList = expression.split(' ')
+  if (expression === '') {
+      throw "Error"
+  }
+  for (var i = 0; i < argList.length; i++) {
+      if (argList[i] === 'sqrt') {
+          continue;
+      }
+      else if (number && isNaN(argList[i])) {
+          throw "Error"
+      }
+      else if (operator && !isNaN(argList[i])) {
+          throw "Error"
+      }
+      number = !number
+      operator = !operator
+  }
+  if (number) {
+      throw "Error"
+  }
+};
+
+util.Add = function(argList) {
+    var sum = parseFloat(argList[0])
+    for (var i = 2; i < argList.length; i+=2) {
+        if (argList[i-1] === '+') {
+            sum += parseFloat(argList[i])
+        }
+        else if (argList[i-1] === '-') {
+            sum -= parseFloat(argList[i])
+        }
+    }
+    return sum
+}
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  util.Errors(expression)
+
+  var argList = expression.split(' ')
+  var current = parseFloat(argList[0])
+  var total = 0
+  for (var i = 1;i < argList.length; i+=2 ) {
+      if (argList[i] === '*') {
+          current *= parseFloat(argList[i+1])
+      }
+      if (argList[i] === '/') {
+          current /= parseFloat(argList[i+1])
+      }
+      if (argList[i] === '+') {
+          total += current
+          current = parseFloat(argList[i+1])
+      }
+      if (argList[i] === '-') {
+          total += current
+          current = -1 * parseFloat(argList[i+1])
+      }
+  }
+  total += current
+  return total
+
+
+
+
+  // var root = argList.indexOf("sqrt")
+  // if (root !== -1) {
+  //     argList[root+1] = Math.sqrt(parseFloat(argList[root+1]))
+  //     argList.splice(root,1)
+  // }
+  //
+  // for (var i = 1; i < argList.length; i +=2) {
+  //     if (argList[i] === '*') {
+  //         argList[i+1] = parseFloat(argList[i-1]) * parseFloat(argList[i+1])
+  //         argList[i-1] = null
+  //         argList[i] = null
+  //     }
+  //     else if (argList[i] === '/') {
+  //         argList[i+1] = parseFloat(argList[i-1]) / parseFloat(argList[i+1])
+  //         argList[i-1] = null
+  //         argList[i] = null
+  //     }
+  // }
+  // return util.Add(argList.filter(function(val) { return val !== null; }))
+
 };

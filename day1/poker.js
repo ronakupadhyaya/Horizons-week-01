@@ -45,6 +45,242 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+window.isFlush = function(hand) {
+    var baseSuit = hand[0][hand[0].length - 1]
+    for (var i = 0; i < hand.length; i++) {
+        var card = hand[i]
+        if (card[card.length - 1] !== baseSuit) {
+
+            return false
+        }
+    }
+    return true
+}
+
+window.cardSort = function(hand) {
+    hand.sort(function compare(a, b){
+        if (parseInt(a.substring(0, a.length - 1)) > parseInt(b.substring(0, b.length - 1))) {
+            return 1
+        }
+        else if (parseInt(a.substring(0, a.length - 1)) < parseInt(b.substring(0, b.length - 1))) {
+            return -1
+        }
+        return 0
+    })
+    return hand
+}
+
+window.getNum = function(card) {
+    return parseInt(card.substring(0, card.length - 1))
+}
+
+window.isStraight = function(hand) {
+    hand = window.cardSort(hand)
+    for (var i = 0; i < hand.length - 1; i ++) {
+        if (window.getNum(hand[i]) + 1 != window.getNum(hand[i + 1])) return false
+    }
+    return true
+}
+
+window.isFour = function(hand) {
+    hand = window.cardSort(hand)
+    for (var i = 0; i < 2; i++){
+        var tempRank = window.getNum(hand[i])
+        var fourFlag = true
+        for (var j = 0; j < 4; j++){
+            // console.log(hand[i + j])
+            if (window.getNum(hand[i + j]) != tempRank){
+                fourFlag = false
+            }
+        }
+        if (fourFlag) return true
+    }
+    return false
+}
+
+window.isFull = function(hand) {
+    var rankList = window.getRankList(hand)
+    if (window.count(rankList, 3) === 1 && window.count(rankList, 2) === 1){
+        return true
+    }
+    return false
+}
+
+window.isThree = function(hand) {
+    var rankList = window.getRankList(hand)
+    if (window.count(rankList, 3) === 1){
+        return true
+    }
+    return false
+}
+
+window.isTwo = function(hand) {
+    var rankList = window.getRankList(hand)
+    if (window.count(rankList, 2) === 2){
+        return true
+    }
+    return false
+}
+
+window.isOne = function(hand) {
+    var rankList = window.getRankList(hand)
+    if (window.count(rankList, 2) === 1){
+        return true
+    }
+    return false
+}
+
+window.count = function(rankList, value) {
+    var count = 0;
+    for(var i = 0; i < rankList.length; ++i){
+        if (rankList[i] === value) count++;
+    }
+    return count
+}
+
+window.getRankList = function(hand) {
+    var rankList = Array.apply(null, Array(14)).map(Number.prototype.valueOf,0);
+    for (var i = 0; i < hand.length; i++){
+        rankList[window.getNum(hand[i]) - 2] += 1
+    }
+    return rankList
+}
+
+window.numberfy = function(hand) {
+    for (var i = 0; i < hand.length; i++){
+        if (hand[i][0] === 'J') {
+            hand[i] = '11' + hand[i][1]
+        } else if (hand[i][0] === 'Q'){
+            hand[i] = '12' + hand[i][1]
+        } else if (hand[i][0] === 'K'){
+            hand[i] = '13' + hand[i][1]
+        } else if (hand[i][0] === 'A'){
+            hand[i] = '14' + hand[i][1]
+        }
+    }
+    return hand
+}
+
+window.valueHigh = function(hand) {
+    var total = 0
+    var count = 4
+    var rankList = window.getRankList(hand)
+    for (var i = rankList.length - 1; i >= 0; i--) {
+        if (rankList[i] === 1){
+            total += Math.pow(14, count) * i
+            count--;
+        }
+    }
+    return total
+}
+
+window.valueOne = function(hand) {
+    var total = 1000000
+    var rankList = window.getRankList(hand)
+    var oneCount = 2
+    for (var i = rankList.length - 1; i >= 0; i--) {
+        if (rankList[i] === 2){
+            total += 14 * 14 * 14 * i
+        }
+        else if (rankList[i] === 1){
+            total += Math.pow(14, oneCount) * i
+            oneCount--;
+        }
+    }
+    return total
+}
+
+window.valueTwo = function(hand) {
+    var total = 2000000
+    var rankList = window.getRankList(hand)
+    var firstTwo = false
+    for (var i = rankList.length - 1; i >= 0; i--){
+        if (rankList[i] === 2 && !firstTwo){
+            total += 14 * 14 * (i+2)
+            firstTwo = true
+        }
+        else if (rankList[i] === 2){
+            total += 14 * (i+2)
+        }
+        else if (rankList[i] === 1){
+            total += i
+        }
+    }
+    return total
+}
+
+window.valueThree = function(hand) {
+    var middle = window.getNum(window.cardSort(hand)[2])
+    return 3000000 + middle
+}
+
+window.valueFlush = function(hand) {
+    hand = window.cardSort(hand)
+    var highCard = window.getNum(hand[4])
+    return 5000000 + highCard
+}
+
+window.valueFull = function(hand) {
+    var rankList = window.getRankList(hand)
+    var total = 6000000
+    for (var i = rankList.length - 1; i >= 0; i--){
+        if (rankList[i] === 3){
+            total += 14 * (i+2)
+        } else if (rankList[i] === 2){
+            total += (i+2)
+        }
+    }
+    return total
+}
+
+window.valueStraight = function(hand) {
+    hand = window.cardSort(hand)
+    var highCard = window.getNum(hand[4])
+    return 4000000 + highCard
+}
+
+window.valueFour = function(hand) {
+    var middle = window.getNum(window.cardSort(hand)[2])
+    return middle + 7000000
+}
+
+window.valueStraightFlush = function(hand) {
+    var straightFlush = 8000000
+    hand = window.cardSort(hand)
+    var highCard = window.getNum(hand[4])
+    return highCard + straightFlush
+}
+
+window.valueHand = function(hand) {
+    var hand = window.numberfy(hand)
+    if (window.isStraight(hand) && window.isFlush(hand)){
+        return window.valueStraightFlush(hand)
+    } else if (window.isFour(hand)){
+        return window.valueFour(hand)
+    } else if (window.isFull(hand)){
+        return window.valueFull(hand)
+    } else if (window.isFlush(hand)){
+        return window.valueFlush(hand)
+    } else if (window.isStraight(hand)){
+        return window.valueStraight(hand)
+    } else if (window.isThree(hand)){
+        return window.valueThree(hand)
+    } else if (window.isTwo(hand)){
+        return window.valueTwo(hand)
+    } else if (window.isOne(hand)){
+        return window.valueOne(hand)
+    } else {
+        return window.valueHigh(hand)
+    }
+}
+
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+    var value1 = window.valueHand(hand1)
+    var value2 = window.valueHand(hand2)
+    if (value1 > value2) return 1
+    else{
+        return 2
+    }
 }

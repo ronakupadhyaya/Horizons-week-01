@@ -23,7 +23,7 @@ window.copyToolbox = {
 // a shouldnt be modified -> [ 1, 2, [0, 4]]
 
 
-// Hint: Recurssive solution.
+// Hint: Recursive solution.
 // The easiest way to implement this exercise is to use recursion because it allows
 // you to navigate through sub-arrays without you having to do it manually.
 
@@ -49,7 +49,17 @@ window.copyToolbox = {
 //     deepArrayCopy(3) -> returns 3
 
   deepArrayCopy: function(arr) {
-// YOUR CODE HERE
+      var ans = []
+      for (var i = 0; i < arr.length; i++) {
+          if (typeof(arr[i]) !== "object"){
+            //   var copy = arr[i]
+              ans[i] = arr[i]
+          } else {
+            //   var copy2 = window.copyToolbox.deepArrayCopy(arr[i])
+              ans[i] = window.copyToolbox.deepArrayCopy(arr[i])
+          }
+      }
+      return ans
   },
 
 // Exercise 2: Deep Object Copy
@@ -83,7 +93,17 @@ window.copyToolbox = {
 // - Sub-objects on copies on the copy shouldn't be the same as on the original
 
   deepObjectCopy: function(obj) {
-// YOUR CODE HERE
+      var ans = {}
+      for (var property in obj) {
+          if (obj.hasOwnProperty(property)) {
+              if (typeof(obj[property]) !== "object"){
+                  ans[property] = obj[property]
+              } else {
+                  ans[property] = window.copyToolbox.deepObjectCopy(obj[property])
+              }
+          }
+      }
+      return ans
   },
 
 
@@ -116,7 +136,29 @@ window.copyToolbox = {
 // arrays are objects in JS and may result in unexpected behavior!
 
 deepCopy: function(obj) {
-// YOUR CODE HERE
+    if (obj instanceof Array) {
+        var ans = []
+        for (var i = 0; i < obj.length; i++) {
+            if (obj[i] instanceof Object) {
+                ans[i] = window.copyToolbox.deepCopy(obj[i])
+                console.log(ans[i])
+            } else {
+                ans[i] = obj[i]
+            }
+        }
+        return ans
+    } else {
+        var ans2 = {}
+        for (var property in obj) {
+            if (obj.hasOwnProperty(property)) {
+                if (obj[property] instanceof Object) {
+                    ans2[property] = window.copyToolbox.deepCopy(obj[property])
+                } else {
+                    ans2[property] = obj[property]
+                }
+            }
+        }
+        return ans2
+    }
 }
-
 };

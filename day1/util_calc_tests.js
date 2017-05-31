@@ -2,7 +2,7 @@ describe("Part 1: Invalid expressions throw an exception", function() {
   it("util.calc('') -> Error, empty expression", function() {
     expect(function() { util.calc('')  }).toThrow();
   });
-  it("util.calc('1 2') -> Error, mission operator", function() {
+  it("util.calc('1 2') -> Error, missing operator", function() {
     expect(function() { util.calc('1 2')  }).toThrow();
   });
   it("util.calc('-') -> Error, no numbers", function() {

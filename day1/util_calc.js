@@ -55,4 +55,56 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
-};
+  var numNumbers = 0;
+  var numOperators = 0;
+  if (expression === '') {
+  	throw "Error, empty expression";
+  }
+  expression = expression.split(' ');
+  console.log(expression);
+  for (var i = 0; i < expression.length; i++) {
+  	if (/\d+/.test(expression[i])) {
+  		numNumbers++;
+  	} else if (expression[i] === '+' || expression[i] === '-' || expression[i] === '*' || expression[i] === '/') {
+  		numOperators++;
+  	} 
+  }
+  console.log("Number of operators: " + numOperators);
+  console.log("Number of numbers: " + numNumbers);
+  if (numOperators === 0 && numNumbers > 1) {
+  	throw "Error, missing operator";
+  }
+  if (numOperators >= numNumbers) {
+  	throw "Error, too many operators";
+  }
+  if (numNumbers > (numOperators + 1) && numNumbers > 1) {
+  	throw "Error, too many numbers";
+  }
+  console.log(expression);
+  if (!(/\d+/.test(expression[0])) && expression[0] !== "sqrt") {
+  	throw "Error, operator in the wrong spot";
+  }
+  //no sqrt in expression
+  if (expression.join('').indexOf("sqrt") === -1) {
+  	for (var i = 1; i < expression.length - 1; i += 2) {
+  		if (expression[i] !== '+' && expression[i] !== '-' && expression[i] !== '*' && expression[i] !== '/' && !(/\d+/.test(expression[i + 1]))) {
+  			throw "Error, operator in the wrong spot";
+  		}
+ 	}
+  } 
+ 
+  expression = expression.join('');
+  console.log(expression);
+  while (expression.indexOf("sqrt") !== -1) {
+  	var sqrtIndex = expression.indexOf("sqrt");
+  	var numLength = 0;
+  	for (var i = sqrtIndex; i < expression.length; i++) {
+  		if (!isNaN(i)) {
+  			numLength++;
+  		}
+  	}
+  	expression = expression.replace("sqrt" + expression[sqrtIndex + numLength], Math.sqrt(expression[sqrtIndex + numLength]));
+  }
+  return eval(expression);
+}; 
+

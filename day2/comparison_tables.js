@@ -47,7 +47,18 @@ var valuesToCheck = function() {
 // Good luck!
 
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+    var lst = valuesToCheck();
+    var res = {};
+    for (var i=0; i < lst.length; i++) {
+      for (var j=0; j < lst.length; j++) {
+        var key1 = lst[i] === true ? "true" : String(lst[i]);
+        var key2 = lst[j] === true ? "true" : String(lst[j]);
+        var key = key1 + '_' + key2;
+        res[key] = lst[i] == lst[j];
+      }
+    }
+    console.log(res);
+    return res;
 };
 
 comp.testStrictEquality = function() {

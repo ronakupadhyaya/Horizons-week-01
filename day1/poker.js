@@ -45,6 +45,99 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+window.onePair = function(hand1, hand2) {
+	var x = [];
+	var results = [];
+
+	for (var i = 0; i < hand1.length; i++) {
+		x.push(hand1[i][0]) 
+	};
+	
+	var sorted_arr =  x.slice().sort();
+
+	for (var i = 0; i < hand1.length - 1; i++) {
+    	if (sorted_arr[i + 1] == sorted_arr[i]) {
+        	results.push(sorted_arr[i]);
+    	}
+	}
+	if (results.length === 1) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+window.twoPair = function(hand1, hand2) {
+	var x = [];
+	var results = [];
+
+	for (var i = 0; i < hand1.length; i++) {
+		x.push(hand1[i][0]) 
+	};
+	
+	var sorted_arr =  x.slice().sort();
+
+	for (var i = 0; i < hand1.length - 1; i++) {
+    	if (sorted_arr[i + 1] == sorted_arr[i]) {
+        	results.push(sorted_arr[i]);
+    	}
+	}
+	if (results.length === 2) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+window.threeOfAKind = function(hand1, hand2) {
+	var x = [];
+	var results = [];
+
+	for (var i = 0; i < hand1.length; i++) {
+		x.push(hand1[i][0]) 
+	};
+	
+	var sorted_arr =  x.slice().sort();
+
+	for (var i = 0; i < hand1.length - 1; i++) {
+    	if (sorted_arr[i + 1] == sorted_arr[i]) {
+        	results.push(sorted_arr[i]);
+    	}
+	}
+	if (results.length === 2 && (results[0] == results[1])) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+window.fourOfAKind = function(hand1, hand2) {
+	var x = [];
+	var results = [];
+
+	for (var i = 0; i < hand1.length; i++) {
+		x.push(hand1[i][0]) 
+	};
+	
+	var sorted_arr =  x.slice().sort();
+
+	for (var i = 0; i < hand1.length - 1; i++) {
+    	if (sorted_arr[i + 1] == sorted_arr[i]) {
+        	results.push(sorted_arr[i]);
+    	}
+	}
+	if (results.length === 3 && results[0] == results[1] && results[0] == results[2]) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  
 }

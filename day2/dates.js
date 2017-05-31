@@ -10,7 +10,8 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
-  // YOUR CODE HERE
+  var dates = new Date(dateStr)
+  return dates
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)

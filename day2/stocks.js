@@ -32,7 +32,7 @@ window.stocks = {};
 // Total gain or loss is defined as latest price of the company minus earliest
 // price of the company.
 //
-// Example.
+// Example.q
 // stocks.gainAndLoss(data) -> {
 //   GOOG: -32.36,
 //   NFLX: 43.44,
@@ -41,9 +41,23 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
+
+stocks.groupData = function(data) {
+	var x = _.groupBy(data, function(transaction) {
+		return transaction.ticker
+	})
+	return x
+}
+
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
+	var sortedGroupData = _.mapObject(stocks.groupData(data), function(arrayOfThirtyObjects) {
+		return _.sortBy(arrayOfThirtyObjects, "time")
+	});
+	var getFirstLast = _.mapObject(sortedGroupData, function(arrayOfThirtyObjects2) {
+		return arrayOfThirtyObjects2[29].price - arrayOfThirtyObjects2[0].price 
+	});
+	return getFirstLast
+}
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,8 +73,11 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
-};
+	var sortedGains = _.sortBy(stocks.gainAndLoss(data))
+	var biggestGain = (sortedGains[sortedGains.length - 1])
+	var inverted = _.invert(stocks.gainAndLoss(data))
+	return inverted[biggestGain]
+}
 
 // Exercise 3. stocks.biggestLoser(data)
 //
@@ -76,7 +93,10 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  	var sortedGains = _.sortBy(stocks.gainAndLoss(data))
+	var biggestLoss = (sortedGains[0])
+	var inverted = _.invert(stocks.gainAndLoss(data))
+	return inverted[biggestLoss]
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,8 +108,18 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
-};
+var sortedGroupData = _.mapObject(stocks.groupData(data), function(arrayOfThirtyObjects) {
+		return _.sortBy(arrayOfThirtyObjects, "price")
+	});
+	var getLargestSmallest = _.mapObject(sortedGroupData, function(arrayOfThirtyObjects2) {
+		return arrayOfThirtyObjects2[29].price - arrayOfThirtyObjects2[0].price 
+	});
+
+	var sortedRange = _.sortBy(getLargestSmallest)
+	var biggestRange = (sortedRange[sortedRange.length - 1])
+	var inverted = _.invert(getLargestSmallest)
+	return inverted[biggestRange]
+}
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
 // Write a function that calculates the value of a stock portfolio at a given
@@ -106,7 +136,7 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

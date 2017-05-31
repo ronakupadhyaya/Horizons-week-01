@@ -42,7 +42,13 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var name = _.groupBy(data, function(stock){
+    return stock.ticker;
+  })
+  console.log(name.GOOG[0]);
+
+
+  //find value at the latest time minus value of earliest time
 };
 
 // Exercise 2. stocks.biggestGainer(data)

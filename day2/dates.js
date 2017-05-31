@@ -11,6 +11,9 @@ window.dates = {};
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
   // YOUR CODE HERE
+  // "October 13, 2014 11:13:00"
+  var date = new Date(dateStr)
+  return date
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -35,6 +38,11 @@ dates.getUTCString = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  var condition = (dateObj.getDay() === otherDateObj.getDay())
+  if (condition){
+    return true
+  }
+  else {return false}
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -56,6 +64,8 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   // YOUR CODE HERE
+  var today = new Date()
+  return (today < dateObj)
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)

@@ -43,6 +43,21 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var stocks = _.groupBy(data,function(item){
+    return item.ticker;
+  })
+  //console.log(stocks)
+
+  var answer = _.mapObject(stocks,function(val,key){
+    //console.log("before sort: ", val[10])
+    val = _.sortBy(val,function(item){
+      var date = new Date(item.time)
+      return date
+    })
+    //console.log("after sort: ", val[10])
+    return val[val.length-1].price - val[0].price
+  });
+  return answer
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +75,18 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var ss = stocks.gainAndLoss(data)
+  var max = -999
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]>max){
+        max = ss[key];
+        stock = key;
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +104,18 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var ss = stocks.gainAndLoss(data)
+  var min = Infinity
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]<min){
+        min = ss[key];
+        stock = key;
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +128,30 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var stocks = _.groupBy(data,function(item){
+    return item.ticker;
+  })
+  //console.log(stocks)
+
+  var ss = _.mapObject(stocks,function(val,key){
+    val = _.sortBy(val,function(item){
+      return item.price
+    })
+    return val[val.length-1].price - val[0].price
+  });
+
+  var max = -999
+  var stock = ''
+  for (var key in ss){
+    if(ss.hasOwnProperty(key)){
+      if(ss[key]>max){
+        max = ss[key];
+        stock = key;
+        //console.log("stock: ",stock)
+      }
+    }
+  }
+  return stock
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +170,18 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var time = date.getTime()
+  var data1 = _.filter(data,function(item){
+    var d = new Date(item.time)
+    return (d.getTime() === time) && (Object.keys(portfolio).includes(item.ticker))
+  })
+
+  var answer = 0
+  data1.forEach(function(item){
+    answer += portfolio[item.ticker] * item.price
+  })
+  return answer
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +203,34 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  data = _.filter(data,function(item){
+    return item.ticker === ticker
+  })
+
+  //console.log("before: ",data)
+  data = _.sortBy(data,function(item){
+    return item.price
+  })
+  //console.log("after: ",data)
+
+  var profit = 0
+  var dBuy
+  var dSell
+
+  for (var i=0; i<data.length;i++) {
+    for (var j = data.length-1; j>=i; j--){
+      if(new Date(data[j].time) > new Date(data[i].time)){
+        if (data[j].price - data[i].price > profit){
+          profit = data[j].price - data[i].price
+          dBuy = new Date(data[i].time)
+          dSell = new Date(data[j].time)
+        }
+      }
+    }
+  }
+
+  return [dBuy,dSell,profit]
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -152,4 +255,29 @@ stocks.bestTrade = function(data, ticker) {
 //   55.54]
 stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
+  var data1 = _.groupBy(data,function(item){
+    return item.ticker
+  })
+  //console.log(data1)
+
+  var data2 = _.mapObject(data1, function(val,key){
+    return stocks.bestTrade(val,key)
+  })
+  //console.log(data2)
+
+  var max = -Infinity
+  var name
+  var buyArr
+  for (var key in data2){
+    if (data2.hasOwnProperty(key)){
+      if (data2[key][2] > max){
+        buyArr = data2[key]
+        max = data2[key][2]
+        name = key
+      }
+    }
+  }
+
+  return [name,buyArr[0],buyArr[1],buyArr[2]]
+
 };

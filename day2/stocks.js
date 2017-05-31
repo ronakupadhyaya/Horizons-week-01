@@ -43,6 +43,55 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var stocks = _.groupBy(data, function(stockData) {
+    return stockData.ticker;
+  });
+  //console.log(stocks);
+
+  var stockDates =[];//{stockname: name, dates: []}]
+  _.each(stocks,function(entries,stock){
+    //var datelist = _.pluck(entries,'time');
+    var priceMaxDate = _.reduce(entries, function(entry1,entry2){
+      //console.log(Date(entry1["time"]));
+      var entry1Date = new Date(entry1["time"]);
+
+      console.log(entry1Date.valueOf());
+      if (Date(entry1['time']).valueOf() > Date(entry2['time']).valueOf()){
+        return entry1.price;
+      }
+      return entry2.price;
+    },{ticker:"",price:0,time: ""})
+
+    console.log("maxpricedate",priceMaxDate);
+
+    var priceMinDate = _.reduce(entries, function(entry1,entry2){
+
+      if (Date(entry1['time']).valueOf() < Date(entry2['time']).valueOf()){
+        return entry1.price;
+      }
+      return entry2.price;
+    },{ticker:"",price:0,time: ""});
+
+    console.log("minpricedate",priceMinDate);
+    // var maxDate = _.reduce(datelist,function(date1,date2){
+    //   if (date1.valueOf() > date2.valueOf()){
+    //     return date1;
+    //   }
+    //   return date2;
+    // })
+    // var minDate = _.reduce(datelist,function(date1,date2){
+    //   if (date1.valueOf() < date2.valueOf()){
+    //     return date1;
+    //   }
+    //   return date2;
+    // })
+
+
+    //stockDates.push({stockName: stock, dates: });
+
+  });
+  console.log(stockDates);
+  //var mostRecent = _.reduce(data,function())
 };
 
 // Exercise 2. stocks.biggestGainer(data)

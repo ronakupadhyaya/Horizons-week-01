@@ -42,7 +42,33 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var returnObject = {};
+
+  //group by ticker function
+  var groupTicker = function(stock) {
+    return stock.ticker;
+  }
+  var stockGroups = _.groupBy(data, groupTicker)
+
+  // --> object of arrays sorted by company tickers
+  //console.log(stockGroups);
+
+  //sort object by date
+  _.forEach(stockGroups, function(value, key) {
+    value.sort(function(a,b) {
+      var aTime = new Date(a.time);
+      var bTime = new Date(b.time);
+      return aTime.getTime() - bTime.getTime();
+    });
+  });
+
+  //difference between latest and earliest price
+  _.forEach(stockGroups, function(value, key) {
+    returnObject[key] = value[value.length-1].price - value[0].price;
+  });
+
+  return returnObject;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +85,19 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var newObj = stocks.gainAndLoss(data);
+
+  var compGreatestGain = "";
+  var greatestGain = -Infinity;
+  _.forEach(newObj, function(value, key) {
+    if(value > greatestGain) {
+      greatestGain = value;
+      compGreatestGain = key;
+    }
+  });
+  return compGreatestGain;
+
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +114,19 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var newObj = stocks.gainAndLoss(data);
+
+  var compGreatestLoss = "";
+  var greatestLoss = Infinity;
+  _.forEach(newObj, function(value, key) {
+    if(value < greatestLoss) {
+      greatestLoss = value;
+      compGreatestLoss = key;
+    }
+  });
+  return compGreatestLoss;
+
+
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +138,30 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+
+  var groupTicker = function(stock) {
+    return stock.ticker;
+  }
+
+  var stockGroups = _.groupBy(data, groupTicker)
+
+  // sort the stock group
+  _.forEach(stockGroups, function(value, key) {
+    value.sort(function(a,b) {
+      return a.price - b.price;
+    });
+  });
+
+  var biggestDifference = 0;
+  var ticker = "";
+  _.forEach(stockGroups, function(value, key) {
+    var difference = value[value.length-1].price - value[0].price;
+    if(difference > biggestDifference) {
+      biggestDifference = difference;
+      ticker = key;
+    }
+  });
+  return ticker;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)

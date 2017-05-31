@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length === 0) {
+  	return 0;
+  }
+  return _.reduce(arr, function(a, b) {
+  	return a + b;
+  }, 0) / arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +43,16 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return (student.grades.class1 + student.grades.class2) / 2;
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  return _.reduce(data, function(max, curr) {
+  	return grades.getGPA(max) > grades.getGPA(curr) ? max : curr;
+  });
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,13 +60,43 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+
+  var groupByMajor = _.groupBy(data, function(student) {
+  	return student.major;
+  });
+
+  var groupedGrades = _.mapObject(groupByMajor, function(value, key) {
+  	return grades.average(Object.values(_.mapObject(value, grades.getGPA)));
+  });
+
+  console.log(groupedGrades);
+
+  var maxGPA = 0;
+  var GPAName = "";
+  _.forEach(groupedGrades, function(value, key) {
+  	if (value > maxGPA) {
+  		maxGPA = value;
+  		GPAName = key;
+  	}
+  });
+
+  return GPAName;
 };
 
+
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
-// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
+// Write a function that takes an array of Student objects and returns an object with two keys,
+//`class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var class1Grades = 0;
+  var class2Grades = 0;
+  _.forEach(data, function(value, key) {
+  	class1Grades += value.grades.class1;
+  	class2Grades += value.grades.class2;
+  });
+
+  return { "class1": class1Grades / data.length, "class2" : class2Grades / data.length};
+
 };

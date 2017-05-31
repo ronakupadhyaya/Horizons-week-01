@@ -42,7 +42,60 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+    var companyGroup = _.groupBy(data, function (company){
+      return company['ticker'];
+    })
+    console.log(companyGroup)
+    // create a new object called companyGroup that groups all objects with the same ticker/company name
+
+    _.mapObject(companyGroup,function(val,key){
+        key['time']=  new Date('time');
+      }
+    )
+    console.log(companyGroup)
+    // take the time key and make it a date object
+    _.sortBy(companyGroup,'time')
+    console.log('is this printing')
+
+    // create a new object called companyGroup that groups all objects with the same ticker/company name
+    // sort each company (which is companyGroup's keys) by time least to greatest
+    // calculate price = companyGroup[array.length-1].price - companyGroup[0].price
+
+
+
+
+
+
+
+
+
+  // var tickerArray =[]
+  // for(var i=0; i<data.length; i++){
+  //   if(tickerArray.includes(data[i]['ticker']) === false){
+  //     tickerArray.push(data[i]['ticker'])
+  //   }
+  //     // loops through data objects and collects all unique tickers in tickerArray
+  //   data[i]['time'] = data[i]['time'.getTime()]
+  // }
+  // for(var i=0; i<data.length; i++){
+  //   max = 0
+  //   min = 14962010872296666666 // asssuming this is the largest time you could make
+  //   for (var j=0; j<tickerArray.length;j++){
+  //     if(data[i]['ticker'] === tickerArray[j]){
+  //       if(data[i]['time']>max){
+  //         max = data[i]['time']
+  //       }
+  //     }
+  //   }// for each unique ticker, replace max only when the time is larger
+  //     for (var j=0; j<tickerArray.length;j++){
+  //       if(data[i]['ticker'] === tickerArray[j]){
+  //         if(data[i]['time']<min){
+  //           min = data[i]['time']
+  //         }
+  //       }
+  //     }// for each unique ticker, replace min only when the time is smaller
+  //
+  // }
 };
 
 // Exercise 2. stocks.biggestGainer(data)

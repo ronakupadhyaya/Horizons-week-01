@@ -1,4 +1,5 @@
 # Horizons Week 1 Day 3 Exercises
+This is Ming Rui's Repo
 
 ## Inline Exercises
 

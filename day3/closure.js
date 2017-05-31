@@ -14,7 +14,9 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt) {
+    return (attempt === password)
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,9 +27,9 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      var vaultKey = vault(password)
+      return vaultKey(attempt)
     }
   }
 }
@@ -44,7 +46,9 @@ var horizons = createUser('horizons', 'horizonites');
 // The once function takes in a function f
 // and returns a function that takes in
 // an arbitrary number of arguments and
-// calls f given the args. The return function
+// calls f on the given the args.
+
+// The return function
 // should call f at most once, and remember the
 // return value in order to keep returning it
 // in all subsequent calls.
@@ -83,11 +87,14 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+  var result = 0
+  return function(args) {
+    if (!called && result === 0) { // if f hasn't been called yet
+      var result = f(args); // call f and store as a variable
+      console.log(results)
       called = true; // mark f as called
     }
+    return result
   }
 }
 

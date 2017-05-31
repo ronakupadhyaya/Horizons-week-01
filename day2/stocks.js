@@ -42,7 +42,54 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var obj = _.groupBy(data,function(a){
+    return a.ticker;
+  });
+
+  var arr = _.pairs(obj);
+  //console.log(arr);
+
+  var ans = {
+    GOOG: 0,
+    NFLX: 0,
+    FB: 0,
+    MSFT: 0,
+    AMZN: 0,
+    NVDA: 0
+  }
+
+  for(var i = 0; i < arr.length; i++){
+    var earliest = new Date().getTime();
+    var latest = 0;
+    var end;
+    var start;
+
+    for(var n = 0; n < arr[i][1].length; n++){
+      var date = new Date(arr[i][1][n].time);
+      date = date.getTime();
+      if(date < earliest){
+        earliest = date;
+      }
+      if(date > latest){
+        latest = date;
+      }
+    }
+
+    for(var g = 0; g < arr[i][1].length; g++){
+      var da = new Date(arr[i][1][g].time);
+      da = da.getTime();
+      if(da === earliest){
+        start = arr[i][1][g].price;
+      }
+      if(da ===latest){
+        end = arr[i][1][g].price;
+      }
+    }
+    var diff = end - start;
+    ans[arr[i][0]] = diff;
+  }
+
+  return ans;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +106,17 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var ob = stocks.gainAndLoss(data);
+  var arr = _.pairs(ob);
+  var max = 0;
+  var tick;
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i][1] > max){
+      max = arr[i][1];
+      tick = arr[i][0];
+    }
+  }
+  return tick;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +133,17 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var ob = stocks.gainAndLoss(data);
+  var arr = _.pairs(ob);
+  var min = 1000000;
+  var tick;
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i][1] < min){
+      min = arr[i][1];
+      tick = arr[i][0];
+    }
+  }
+  return tick;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +155,33 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var obj = _.groupBy(data,function(a){
+    return a.ticker;
+  });
+
+  var arr = _.pairs(obj);
+
+  var widest = 0;
+  var ans;
+  for(var i = 0; i < arr.length; i++){
+    var lowestPrice = 10000;
+    var highestPrice = 0;
+    for(var n = 0; n < arr[i][1].length; n++){
+      var price = arr[i][1][n].price;
+      if(price < lowestPrice){
+        lowestPrice = price;
+      }
+      if(price > highestPrice){
+        highestPrice = price;
+      }
+    }
+    var range = highestPrice - lowestPrice;
+    if(range > widest){
+      widest = range;
+      ans = arr[i][0];
+    }
+  }
+  return ans;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)

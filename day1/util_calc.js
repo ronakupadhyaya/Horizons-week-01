@@ -54,5 +54,79 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var numcount = 0;
+  var opcount = 0;
+
+  var arr = expression.split(" ");
+  if(expression.length === 0){
+    throw 'Error, empty expression';
+  }
+
+  //debugger;
+  while(arr.indexOf("sqrt") != -1){
+    var replace = Math.sqrt(arr[arr.indexOf("sqrt") + 1]);
+    arr.splice(arr.indexOf("sqrt"), 2, replace);
+  }
+
+  for(var i = 0; i < arr.length; i++){
+    var val = arr[i];
+    if(val === '-'){
+      opcount++;
+    } else if(val === '+'){
+      opcount++;
+    }else if(val === '/'){
+      opcount++;
+    }else if(val === '*'){
+      opcount++;
+    } else if(parseInt(val) !== NaN){
+      numcount++;
+    }else{
+      throw 'Error';
+    }
+  }
+
+  for(var n = 0; n < arr.length; n += 2){
+    var num = parseInt(arr[n]);
+    if(isNaN(num)){
+      throw 'Error';
+    }
+  }
+
+  if(opcount === 0 && numcount > 1){
+    throw 'Error, mission operator';
+  }
+
+  if(numcount === 0){
+    throw 'Error, no numbers';
+  }
+
+  if(opcount + 1 !== numcount){
+    throw 'Error';
+  }
+
+  //begin implementing actual functions here
+  //debugger;
+  var final = [];
+  final.push(parseFloat(arr[0]));
+  for(var j = 1; j < arr.length; j += 2){
+    if(arr[j] === '*'){
+      final.push(parseFloat(final.pop())*parseFloat(arr[j+1]));
+    } else if (arr[j] === '/'){
+      final.push(parseFloat(final.pop())/parseFloat(arr[j+1]));
+    } else {
+      final.push(arr[j]);
+      final.push(parseFloat(arr[j+1]));
+    }
+  }
+
+  var answer = 0;
+  answer += final[0];
+  for(var m = 2; m < final.length; m += 2){
+    if(final[m-1] === '+'){
+      answer += final[m];
+    }else {
+      answer -= final[m];
+    }
+  }
+  return answer;
 };

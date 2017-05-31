@@ -1,0 +1,115 @@
+// questions 1
+var number = 10;
+function increaseNumber() {
+  number = number + 10;
+}
+
+function decreaseNumber() {
+  number = number - 5;
+}
+increaseNumber();
+console.log(number);
+
+//20 because only call one function which is global
+
+
+function setAddress() {
+  var address = "329 12th Street, San Francisco, CA 94103";
+}
+function printAddress() {
+  console.log(address);
+}
+setAddress();
+printAddress();
+
+//uncaught error becauese variable is set in set address function, and not elsewhere
+
+var number = 10;
+function setNumber() {
+  var number = 329;
+   console.log(number);
+}
+setNumber();
+
+// print 329 because it uses the local variable
+
+var number = 10;
+function setNumber() {
+  var number = 329;
+}
+setNumber();
+console.log(number);
+
+//becuase console.log(number) only looks at global variable. need to look at other function to get new variable
+
+function say() {
+    var text="hello";
+    function innerFunction(){
+      console.log(text);
+    }
+    innerFunction()
+}
+say();
+
+//because inner function can see variables from outer function
+
+
+function say() {
+    function innerFunction(){
+      var text="goodbye";
+    }
+    innerFunction()
+    console.log(text);
+}
+say();
+// What will be the output of this code?
+//undefined because text variable is outside of the function
+
+text = "hello";
+function say() {
+    function innerFunction(){
+      var text="goodbye";
+    }
+    innerFunction()
+    console.log(text);
+}
+say();
+//returns hello because global variable cannot see inner function variables
+
+var text = "hello";
+function say() {
+    function innerFunction(){
+      var text="goodbye";
+    }
+    innerFunction()
+    console.log(text);
+}
+say();
+
+var myVar = 10;
+function setVar() {
+  var myVar = 329;
+}
+setVar();
+console.log(myVar);
+
+var number = 10;
+function setVar() {
+  number = 329;
+}
+setVar();
+console.log(number);
+
+function funB() {
+	console.log(myVar);
+}
+function funA() {
+	var myVar = 2;
+	funB();
+}
+
+var myVar = 1;
+funA();
+
+// 1 because it only matter where the variable is located. Even if called in another function, the varialbe inside that function
+// was only constrained to that function as a local variable

@@ -200,7 +200,28 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var tickerTrades = _.filter(data, function(trans){
+    return trans['ticker'] === ticker;
+  });
+
+  var sortedTickerTrades = _.sortBy(tickerTrades, 'time');
+
+  var buyDate;
+  var sellDate;
+  var maxDifferences = 0;
+  for(var i = 0; i < sortedTickerTrades.length; i++){
+    var currBuy = sortedTickerTrades[i];
+    for(var j = i+1; j < sortedTickerTrades.length; j++){
+      var currSell = sortedTickerTrades[j];
+      if(currSell['price'] - currBuy['price'] > maxDifferences){
+        maxDifferences = currSell['price'] - currBuy['price'];
+        buyDate = new Date(currBuy['time']);
+        sellDate = new Date(currSell['time']);
+      }
+    }
+  }
+
+  return [buyDate, sellDate, maxDifferences];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -224,5 +245,20 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var tickerData = _.groupBy(data, function(trans){
+    return trans['ticker'];
+  });
+
+  var comp;
+  var bestTrades = _.mapObject(tickerData, function(transArray, company){
+    return stocks.bestTrade(transArray, company);
+  });
+
+  var sortedBestTrades = _.sortBy(bestTrades, '2');
+
+  var bestTrade = sortedBestTrades[sortedBestTrades.length-1];
+
+  var company = "AMZN";
+  bestTrade.unshift(company);
+  return bestTrade;
 };

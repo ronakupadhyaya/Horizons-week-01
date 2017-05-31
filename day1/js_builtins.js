@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -21,6 +21,19 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  for(var i = 0; i < str.length; i++){
+    if (str[i] != " ") {
+      break;
+    }
+  }
+
+  for (var j = str.length - 1; j >= 0; j--) {
+    if (str[j] != " "){
+      break;
+    }
+  }
+  var newStr = str.slice(i, j + 1);
+  return newStr;
 };
 
 // ----------------------------------------------------------------------------
@@ -39,7 +52,27 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+
+  if(searchString.length == 0) {
+    return true;
+  }
+  for(var i = 0; i < sourceString.length; i++) {
+    var verify = 0;
+    if(sourceString[i] == searchString[0]) {
+      for(var j = 0; j < searchString.length; j++) {
+        if(sourceString[i+j] == searchString[j]) {
+          verify++;
+        }
+        else {
+          continue;
+        }
+      }
+      if (verify == searchString.length) {
+        return true;
+      }
+}
+  }
+  return false;
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +80,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -60,6 +93,9 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var splitString = str.split(" ");
+  var num = parseInt(splitString[0]);
+  return num;
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +112,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var newArr = [];
+  for (var i = arr.length - 1; i >= 0; i--) {
+    newArr.push(arr[i]);
+  }
+  return newArr;
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +135,15 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if (a.length != b.length) {
+    return false;
+  }
+  for(var i = 0; i < a.length; i++) {
+    if ( a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +161,9 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  var newArr = builtins.reverse(arr);
+  return builtins.isEqual(arr, newArr);
+
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +179,14 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  return arr.sort(function (a, b) {
+    return a - b;
+  });
 };
 
 // ----------------------------------------------------------------------------
@@ -148,7 +204,10 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
-};
+return  arr.sort(function (a, b) {
+    return a.length - b.length;
+  });
+}
 
 // ----------------------------------------------------------------------------
 

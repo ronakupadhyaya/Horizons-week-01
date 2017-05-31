@@ -54,5 +54,69 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+
+var expArr = expression.split(" ");
+var prodArr = [];
+var prodCounter = 0;
+var sumCounter = 0;
+
+var num = 0;
+debugger;
+for (var j = 0; j <  expArr.length; j++) {
+  var operator = expArr[j];
+
+  if (operator == '*') {
+    num = prodArr[prodArr.length -1] * expArr[j + 1];
+    prodArr.pop();
+    prodArr.push(num.toString());
+    prodCounter++;
+    j++;
+  }
+  else if (operator == '/') {
+    num = prodArr[prodArr.length -1] / expArr[j + 1];
+    prodArr.pop();
+    prodArr.push(num.toString());
+    prodCounter++;
+    j++;
+  }
+  else if (operator == '-'){
+    prodArr.push('-');
+    sumCounter++;
+
+  }
+  else if (operator == '+'){
+    prodArr.push('+');
+    sumCounter++
+}
+else {
+  prodArr.push(operator);
+}
+}
+// if no sum/sub
+if (sumCounter == 0){
+  result = 1;
+  for (var i = 0; i < prodArr.length; i++) {
+    result = result * prodArr[i];
+  }
+  return result;
+}
+
+//set proArr to original if no multi/div found
+if (prodCounter == 0){
+  prodArr == expArr;
+}
+
+var result = parseFloat(prodArr[0]);
+
+ for (var i = 1; i < prodArr.length; i++) {
+   var operator = prodArr[i];
+
+   if (operator == '+') {
+     result += parseFloat(prodArr[i + 1]);
+  }
+  else if (operator == '-'){
+    result -= parseFloat(prodArr[i + 1]);
+      }
+   }
+   return result;
+ };

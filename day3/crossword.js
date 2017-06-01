@@ -45,6 +45,31 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(string, board) {
+  var newArr = []
+  var newS = string.split('');
+
+
+  for (var i=0; i<board.length; i++){
+    newArr.push(board[i].split(''))
+  }
+
+  for (var i=0; i<board.length-1; i++){
+    console.log(board[i].length);
+    for (var j=0; j<board[i].length-1;i++){
+      if (board[i][j] === '_' || board[i][j] === string[0]){
+        var boardArr = board[i].slice(j,newS.length);
+        var is_same = newS.length == boardArr.length && boardArr.every(function(element, index) {
+          return element === newS[index] || element === '_';
+        });
+        if (is_same){
+          return true;
+        }
+      }
+      else{
+        continue;
+      }
+    }
+  }
+  return false;
 }

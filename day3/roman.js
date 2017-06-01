@@ -36,7 +36,28 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var numerals = {
+    M:1000,
+    D:500,
+    C:100,
+    L:50,
+    X:10,
+    V:5,
+    I:1
+  };
+  var letters = ['M','D','C','L','X','V','I'];
+  letters = letters.reverse();
+  var arr = string.split('');
+  var sum = 0;
+  for (var i=0; i<string.length;i++){
+    if (letters.indexOf(string[i]) < letters.indexOf(string[i+1])){
+      sum -= numerals[string[i]];
+    }
+    else{
+      sum+= numerals[string[i]];
+    }
+  }
+  return sum;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +93,48 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var num = []
+  var numerals = {
+    M:1000,
+    D:500,
+    C:100,
+    L:50,
+    X:10,
+    V:5,
+    I:1
+  };
+  var thousands = Math.floor(number%10000/1000);
+  var hundreds = Math.floor(number/100 % 10);
+  var tens = tens = Math.floor(num/10 % 10);
+  var ones = Math.floor(num % 10);
+  //console.log(thousands);
+  for (var i=0; i<thousands; i++){
+    num.push('M');
+  }
+  for (var i=0; i<hundreds; i++){
+    if (hundreds>=5){
+      num.push('D');
+      i = i + 4;
+    }else{
+      num.push('C');
+    }
+  }
+  for (var i=0; i<tens; i++){
+    if (tens >= 5){
+      num.push('L');
+      i = i + 4;
+    }else{
+      num.push('X');
+    }
+  }
+  for (var i=0; i<ones; i++){
+    if (ones>=5){
+      num.push('V');
+      i = i + 4;
+    }else{
+      num.push('I');
+    }
+  }
+  console.log(num);
+  //console.log(num);
 };

@@ -31,7 +31,24 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  // var called;
+  // var fun;
+  // var memoizeFn = function(a) {
+  //   if (!called || called !== a) {
+  //     fun = func(a); // call f
+  //     called = a; // mark f as called
+  //   }
+  //   return fun;
+  // }
+  // return memoizeFn;
+
+  var calledInputs = {};
+  return function(input){
+    if(!_.has(calledInputs, input)){
+      calledInputs[input] = func(input);
+    }
+    return calledInputs[input];
+  }
 }
 
 // Exercise 2: partial()
@@ -59,7 +76,7 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  return fn.bind.apply(fn, arguments);
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +115,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function(){
+    return fun1(fun2.apply(this, arguments));
+  }
 }
 
 
@@ -131,7 +150,15 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
-
+function memoize() {
+  var calledInputs = {};
+  return function(input){
+    if(!_.has(calledInputs, input)){
+      calledInputs[input] = func(input);
+    }
+    return calledInputs[input];
+  }
+}
 
 // Double Bonus Exercise: compose()
 //
@@ -141,5 +168,4 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
 }

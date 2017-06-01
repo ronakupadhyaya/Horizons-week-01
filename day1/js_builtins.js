@@ -21,6 +21,16 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var str1 = "";
+  firstIndex = 0;
+  for(var i = 0; i < str.length; i++){
+  	if(str[i] != " "){
+  		firstIndex = i;
+  	}
+  	console.log(str1);
+  }
+
+  return str1;
 };
 
 // ----------------------------------------------------------------------------
@@ -40,6 +50,7 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  
 };
 
 // ----------------------------------------------------------------------------
@@ -60,6 +71,7 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var number = str.split(" ")[0];
 };
 
 // ----------------------------------------------------------------------------
@@ -75,6 +87,7 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
+	typeOf ()
   // YOUR CODE HERE
 };
 
@@ -94,6 +107,16 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if(a.length != b.length){
+  	return false;
+  }
+  
+  for(var i = 0; i < a.length; i++){
+  	if((a[i] !== b[i])){
+  		return false;
+  	}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +134,9 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  for(var i = 0; i < arr.length/2; i++){
+
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -131,6 +157,7 @@ builtins.isPalindrome = function(arr) {
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+
 };
 
 // ----------------------------------------------------------------------------
@@ -163,4 +190,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  returnarr = [];
+  for(var i = 0; i < arr.length; i++){
+  	for(var j = 0; j < arr[i].length; j++){
+  		
+  	}
+  }
+
 };

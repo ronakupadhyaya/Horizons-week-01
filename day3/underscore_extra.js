@@ -30,8 +30,24 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func, hashFunction) {
   // YOUR CODE HERE
+  var args = {};
+  return function(){
+  	if(hashFunction === undefined){
+  		var args2 = Array.prototype.slice.call(arguments).toString();
+  	}
+  	else{
+  		var args2 = hashFunction.apply(this, arguments);
+  	}
+  	
+  	if(!args.hasOwnProperty(args2)){
+  		args[args2] = func.apply(this, arguments);
+  		return args[args2];
+  	}
+  	return args[args2];
+
+  } 
 };
 
 // Exercise 2: partial()
@@ -60,6 +76,21 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  if(args.length === 0){
+  	throw "invalid arguments";
+  }
+  var args1 = args.splice(1)
+  return function(){
+  	var innerArgs = Array.prototype.slice.call(arguments);
+  	if(arguments.length === 0){
+  		return fn.apply(this, args1);
+  	}
+  	var new1 = args1.concat(innerArgs);
+  	
+  	//console.log(new1);
+  	return fn.apply(this, new1);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +130,11 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  var one = arguments;
+  
+  return function(){
+  	return fun1(fun2.apply(this, arguments));
+  }
 }
 
 
@@ -142,4 +178,12 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var arr = []
+  for(var i = 0; i < arguments.length; i++){
+  	function inner(){
+  		arr.push(arguments);
+  	}
+  }
+  
+  console.log(arr);
 }

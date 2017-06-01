@@ -48,6 +48,22 @@ var valuesToCheck = function() {
 
 comp.testLooseEquality = function() {
     // YOUR CODE HERE
+    var obj1 = {};
+    
+    for(var i = 0; i < valuesToCheck().length; i++){
+    	for(var j = 0; j < valuesToCheck().length; j++){
+    		var empt = [];
+    		if(valuesToCheck()[i].length === 0){
+    			var string1 = "[]";
+    		}
+    		var string1 = String(valuesToCheck()[i]);
+    		var string2= String(valuesToCheck()[j]);
+    		var bool1 = (string1 == string2);
+    		obj1[string1 + "_" + string2] = bool1;
+    	}
+    }
+
+    return obj1;
 };
 
 comp.testStrictEquality = function() {

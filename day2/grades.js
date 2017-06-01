@@ -26,7 +26,16 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
+	if(arr.length === 0){
+		return 0;
+	}
+  var sum1 = arr.reduce(function(x,y){
+  	return x+y;
+  }, 0);
+  
+  return sum1 / arr.length;
   // YOUR CODE HERE
+
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +48,11 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var arr= []
+  _.forEach(student.grades, function(value, key){
+    arr.push(value);
+  });
+  return grades.average(arr);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +60,12 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  return data.reduce(function(s1, s2){
+  	if(grades.getGPA(s1) > grades.getGPA(s2)){
+  		return s1;
+  	}
+  	return s2;
+  });
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,12 +74,53 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-};
+  var arr1 = []
+  var newObj = _.groupBy(data, function(student) {
+    return student.major;
+  });
+  var obj1 = _.mapObject(newObj, function(value, key){
+  	var total = 0;
+    var grades1 = value.forEach(function(n){
+    	total += grades.getGPA(n)
+    });
+  	return total / value.length;
+    });
+  //console.log(obj1);
+  _.forEach(obj1, function(value, key){
+    arr1.push([value, key]);
+  });
+  	//console.log(arr1);
+  	var best =  arr1.reduce(function(s1, s2){
+  	if(s1[0] > s2[0]){
+  		return s1;
+  	}
+  	return s2;
+  })
+  	return best[1];
+  };
 
+ 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var counter = 0;
+  var obj1 = {};
+  obj1['class1'] = []
+  obj1['class2'] = []
+  for(var i = 0; i < data.length; i++){
+  	obj1['class1'].push(data[i].grades['class1']);
+  	obj1['class2'].push(data[i].grades['class2']);
+  }
+  var total = 0;
+  var obj12 = _.mapObject(obj1, function(value, key){
+  	var total = 0;
+    var grades1 = value.forEach(function(n){
+    	total += n
+    });
+  	return total / value.length;
+    });
+  return obj12;
 };

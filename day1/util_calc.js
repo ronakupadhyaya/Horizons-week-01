@@ -1,5 +1,5 @@
 window.util = {};
-
+	
 // Calculator Exercise
 //
 // Write a function calc() that takes a string that represents an arithmetic
@@ -10,7 +10,6 @@ window.util = {};
 // space.
 //
 // Part 1. If an invalid expression is given, throw an exception.
-//
 // ex. util.calc('') -> Error, empty expression
 // ex. util.calc('1 2') -> Error, mission operator
 // ex. util.calc('-') -> Error, no numbers
@@ -55,4 +54,98 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  //if(expression.length === 0 || "+*-".includes(expression[0]) || "+*-/".includes(expression[expression.length -1]) || !expression.includes("+-*/")){
+  	//throw 'Error, emtpy expression'; 
+  //}
+  if(!expression.includes("sqrt")){
+  if(expression.length === 0 || "+-*/".includes(expression[expression.length -1])){
+  	throw 'Error, empty expression';
+  }
+  var expressSplit = expression.split(" ");
+  
+  for(var i = 0; i < expressSplit.length; i++){
+  	
+  	if(i % 2 === 1 && !"+-*/".includes(expressSplit[i])){
+  		throw 'Error, empty expression';
+  	}
+  	if(i % 2 === 0 && "+-*/".includes(expressSplit[i])){
+ 		if(expressSplit.length == 1){
+ 			break;
+ 			console.log("pri");
+ 		}
+  		throw 'Error, empty expression';
+  	}
+  }
+  var indexDiv = expressSplit.indexOf("/");
+  var indexMult = expressSplit.indexOf("*");
+  var returnString = "";
+  var total = 0;
+  //var arrayRet = parseInt(expressSplit[0]);
+  if((indexDiv == -1 && indexMult == -1) || expressSplit.length == 1){
+  	var arrayRet = [parseInt(expressSplit[0])];
+  	for(var i = 0;i < expressSplit.length; i++){
+  		if(expressSplit[i] === "+"){
+  			arrayRet[0] += parseInt(expressSplit[i+1])
+  		}
+  		if(expressSplit[i] === "-"){
+  			arrayRet[0] -= parseInt(expressSplit[i+1])
+  		}
+  	}
+  }
+  else{
+  	var arrayRet = [];
+  	for(var i = 0; i < expressSplit.length; i++){
+  		if(i % 2 == 0){
+  			expressSplit[i] = parseFloat(expressSplit[i]);
+  		}
+  	}
+  	
+  	for(var i = 0;i < expressSplit.length; i++){
+  		if(expressSplit[i] === "*" && expressSplit[i+1] != " " && expressSplit[i-1] != " "){
+  			expressSplit[i+1] = expressSplit[i-1] * expressSplit[i+1];
+  			expressSplit[i-1] = " ";
+  			expressSplit[i] = " ";
+  		}
+  		if(expressSplit[i] === "/" && expressSplit[i+1] != " " && expressSplit[i-1] != " "){
+  			expressSplit[i+1] = expressSplit[i-1] / expressSplit[i+1];
+  			expressSplit[i-1] = " ";
+  			expressSplit[i] = " ";
+  		}
+  	}
+
+  	var newArr = []
+  	for(var i = 0;i < expressSplit.length; i++){
+  		if(typeof expressSplit[i] == "number" ||  "+-*/".includes(expressSplit[i])){
+  			newArr.push(expressSplit[i]);
+  		}
+  	}
+  	var arrayRet = [newArr[0]];
+  	
+  	for(var i = 0;i < newArr.length; i++){
+  		if(newArr[i] === "/"){
+  			arrayRet[0] /= newArr[i+1];
+  		}
+  		
+  		if(newArr[i] === "*"){
+  			arrayRet[0] *= newArr[i+1];
+  		}
+
+  	}
+  	for(var i = 0;i < newArr.length; i++){
+  		if(newArr[i] === "+"){
+  			arrayRet[0] += newArr[i+1];
+  		}
+  		
+  		if(newArr[i] === "-"){
+  			arrayRet[0] -= newArr[i+1];
+  		}
+  		if(newArr[newArr.length -1] == 0){
+  			arrayRet[0] = Infinity;
+  		}
+  	}
+  }
+  	var expressSplit = expression.split(" ");
+	}
+  return arrayRet[0];	
+ 
 };

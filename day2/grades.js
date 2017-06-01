@@ -90,7 +90,7 @@ grades.majorWithHighestGPA = function(data) {
       ret = key;
     }
   })
-  return ret; 
+  return ret;
 
 }
 

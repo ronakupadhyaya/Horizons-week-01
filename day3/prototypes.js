@@ -54,9 +54,11 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
+
   var arr = [];
   _.forEach(obj, function(val, key) {
     arr.push(key);
   });
   return arr;
+
 }

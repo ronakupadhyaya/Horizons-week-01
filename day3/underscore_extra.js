@@ -82,7 +82,23 @@ function partial(fn) {
     var returnVal = fn.apply(null, arr);
     return returnVal;
   }
+
 }
+
+//  var argArr = [];
+//  for (var key in arguments){
+//    if (! key){
+//      throw "Where's the function?";
+//    }
+//    if (key !== fn){
+//      argArr.push(arguments[key]);
+//    }
+//    console.log(argArr);
+//  }
+//  return function partialFn(){
+//    fn.apply()
+//  };
+
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns

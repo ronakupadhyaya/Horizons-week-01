@@ -91,6 +91,7 @@ var once = function(f) {
     } else {
       return firstCall;
     }
+    return answer;
   }
 }
 

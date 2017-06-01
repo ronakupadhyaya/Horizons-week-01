@@ -5,4 +5,3 @@ describe("Inline exercise", function() {
     expect(true).toBe(true);
   });
 });
- 

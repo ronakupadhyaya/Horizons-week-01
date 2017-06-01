@@ -17,21 +17,23 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === null /* YOUR CODE HERE */;
+  //getThis just returns itself, what is itself? it is window.dis
+  return dis.getThis() === window.dis;
 };
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === null /* YOUR CODE HERE */;
+  return dis.object2.getThis() === dis.object2;
 };
 
 dis.callGetThis = function() {
-  return dis.getThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  return dis.getThis.call(dis.object1) === dis.object1;
 }
 
 // Let's bind getThis to object2
 dis.boundGetThis = dis.getThis.bind(dis.object2);
 
 dis.callBoundGetThis = function() {
-  return dis.boundGetThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  //bind has higher priority than call, so it pulls dis.object2 over object1
+  return dis.boundGetThis.call(dis.object1) === dis.object2;
 }

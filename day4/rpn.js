@@ -29,7 +29,17 @@
 //    - if it's a number, parse it into a number and .push() to stack
 //    - if it's an operator, .pop() two items from the stack and apply the
 //      operator, push the result back
-
+// function BatchRunner () {
+//   this.fns = []
+// }
+// Batchrunner.protoype.addFn = function (fn) {
+//   this.fns.push(fn);
+// }
+// BatchRunner.prototype.run = function () {
+//   for (var i = 0; i < this.fns.length; i++){
+//     this.fns[i]();
+//   }
+// }
 // Write a function that takes an RPN Math expression and returns the value of it.
 // If the expression is not valid you should throw an error.
 //
@@ -41,9 +51,28 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
-window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
-}
+// window.rpnCalculator = function(rpnString) {
+//   var stack = [];
+//   var work = rpnString.split(" ");
+//   var math = {
+//     "+" : function (x,y) {return x + y},
+//     "-" : function (x,y) {return x - y},
+//     "*" : function (x,y) {return x * y},
+//     "/" : function (x,y) {return x / y}
+//   }
+//   for (var i = 0; i < work.length; i++){
+//    if (typeof parseFloat(work[i]) === "number"){
+//      stack.push(parseFloat(work[i]));
+//    }
+//     else if (parseFloat(work[i], 10) === NaN) {
+//       var ans = math[work[i]](stack[work.length-2],stack[work.length-1]);
+//       stack.pop();
+//       stack.pop();
+//       stack.push(ans);
+//     }
+//  }
+//    return stack[0]
+//  }
 
 // This function returns true if given string represents a valid number.
 //

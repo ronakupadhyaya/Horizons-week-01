@@ -14,20 +14,24 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn (attempt) {
+    if (attempt === password) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 }
-
+//when you pass in a variable to a function it becomes an implcit local variable
+//that can be closed
 // This function returns an object that leaks private information!
 // See if you can fix this.
 var createUser = function(username, password) {
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      var toRun = vault(password);
+      return toRun(attempt);
     }
   }
 }
@@ -82,12 +86,19 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
+  var answer;
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+    if (arguments.length === 1) {
+      answer = f(arguments[0]); // call f
       called = true; // mark f as called
-    }
+    } else if (arguments.length !== 1) {
+    answer = f(arguments[0], arguments[1]); // call f
+    called = true; // mark f as called
+  }
+}
+    return answer;
   }
 }
 
@@ -115,17 +126,34 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+//have to use some thing called IIFE
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray[index] = (function(y) {
+      return function () {
+        return y;
+      }
+    }) (i);
+    index++;
   }
-
   return functionArray;
 }
+// function createFunction(i) {
+//   return i
+// }
+//
+// var functionFactory = function(num1, num2) {
+//   var functionArray = [];
+//   var index = 0;
+//   for (var i = num1; i <= num2; i++) {
+//     functionArray[index] = createFunction(i);
+//   }
+//   return functionArray;
+// }
+
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

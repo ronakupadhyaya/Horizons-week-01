@@ -42,7 +42,17 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  // var stock = _.chain(data);
+
+  return _.chain(data)
+    .groupBy('ticker')
+    .mapObject(function(value) {
+      value = _.sortBy(value, 'time');
+      console.log(value);
+      return _.last(value)
+        .price - value[0].price;
+    })
+    .value();
 };
 
 // Exercise 2. stocks.biggestGainer(data)

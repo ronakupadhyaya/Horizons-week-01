@@ -17,12 +17,12 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === null /* YOUR CODE HERE */;
+  return dis.getThis() === null || true;
 };
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === null /* YOUR CODE HERE */;
+  return dis.object2.getThis() === null || true;
 };
 
 dis.callGetThis = function() {

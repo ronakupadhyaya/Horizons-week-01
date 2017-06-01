@@ -11,7 +11,7 @@ window.prototypes = {};
 
 // Exercise 1 prototypes.allKeys()
 // Write a function that receives an object and returns an array of all the keys
-// in that object and on all the objects up its protoype chain.
+// in that object and on all the objects up its prototype chain.
 // In the macbook example:
 
 // var macBook = {
@@ -34,7 +34,19 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
+  var returnArray = [];
+// //1 _.forEach works differently
+//   _.forEach(obj, function(value, key) {
+//     returnArray.push(key);
+//   })
+//   return returnArray;
+//
+// //2
+  for (var key in obj) {
+    returnArray.push(key);
+  }
+  return returnArray;
+
 }
 
 // Exercise 2 prototypes.keys()
@@ -46,5 +58,14 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+  return Object.keys(obj);
+
+  //or
+  // var arr = [];
+  // for (var key in obj){
+  //   if(obj.hasOwnProperty(key)){
+  //     arr.push(key)
+  //   }
+  // }
+  // return arr;
 }

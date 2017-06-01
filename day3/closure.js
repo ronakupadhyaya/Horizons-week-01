@@ -14,7 +14,12 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt) {
+    if (attempt === password) {
+      return true;
+    }
+    return false;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -24,11 +29,8 @@ var createUser = function(username, password) {
     username: username,
     // Delete privatePassword and use vault()
     // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    // privatePassword: password,
+    login: vault(password)
   }
 }
 
@@ -83,11 +85,13 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var result = 0;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      result = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
+    return result;
   }
 }
 
@@ -115,17 +119,55 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  // var temp = num1;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray[i-num1] = (function(i) {
+      return function() {
+        // console.log(i);
+        return i;
+      }
+    })(i);
   }
-
+  // console.log(functionArray);
   return functionArray;
 }
+
+// debugger;
+// var trial = functionFactory(-1, 6);
+
+// var functionFactory = function(num1, num2) {
+//   var functionArray = [];
+//   // var temp = num1;
+//   for (var i = num1; i <= num2; i++) {
+//     function snapShot(current) {
+//       return function() {
+//         return current;
+//       }
+//     }
+//     functionArray.push(snapShot(i));
+//   }
+//   console.log(functionArray);
+//   return functionArray;
+// }
+
+// Original function
+// var functionFactory = function(num1, num2) {
+//   var functionArray = [];
+//   for (var i = num1; i <= num2; i++) {
+//     functionArray[i-num1] = function() {
+//       // function that returns i
+//       console.log(i);
+//       return i;
+//     }
+//   }
+//   console.log(functionArray);
+//   return functionArray;
+// }
+
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

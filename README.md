@@ -30,6 +30,7 @@
     1. **Bonus:** Edit distance
 1. [Day 5](day5/README.md)
     1. Testing
-    1. Exceptions
+
+>>>>>>> master
     1. Recursion
     1. Dinosaur Game

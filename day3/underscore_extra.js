@@ -46,6 +46,9 @@
 //     }
 //   }
 //
+function memoize(func) {
+  // YOUR CODE HERE
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

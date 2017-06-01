@@ -77,6 +77,7 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   var array1=this.listener[eventName]
+  console.log(this)
   for (var i = 0; i < array1.length; i++) {
     array1[i](arg)
   }
@@ -99,7 +100,8 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 
   var array1=this.listener[eventName]
   for (var i = 0; i < array1.length; i++) {
-    array1.splice(i,0)
+    if(array1[i]===fn){
+    array1.splice(i,0)}
   }
 }
 
@@ -117,10 +119,12 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
+
   if (!this.listeners.hasOwnProperty(eventName)){
     this.listeners[eventName] = [fn]
   }
   else{
     this.listeners[eventName].push(fn)
   }
+
 }

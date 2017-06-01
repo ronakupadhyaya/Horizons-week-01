@@ -15,6 +15,12 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+  	if (password === attempt){
+  		return true;
+  	}   return false;
+
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,9 +31,12 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
+   
+    // privatePassword: password,
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      // return this.privatePassword === attempt;
+      var callVault = vault(this.password);
+      return callVault();
     }
   }
 }
@@ -83,11 +92,23 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
+  var answer;
+  return function() {  
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      answer = f.apply(null,arguments); // call f       //takes in as many arguments as given
       called = true; // mark f as called
     }
+    return answer;
+  }
+
+  //this is the code that don't work
+  var called = false; // Let's create a local variable to track if f has been called
+  return function(x,y) {
+    if (! called) { // if f hasn't been called yet
+      var answer = f(x,y); // call f
+      called = true; // mark f as called
+    }
+    return answer; //undefined because answer is not defined for call === true;
   }
 }
 
@@ -115,16 +136,49 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
-var functionFactory = function(num1, num2) {
+var functionFactory = function(num1,num2) {
+  // var functionArray = [];
+  // for (var i = num1; i <= num2; i++) {
+  //   functionArray[i] = function() {
+  //     // function that returns i
+  //     return i;
+  //   }
+  // }
+
+  //working version 1
+  // var functionArray = [];
+  // for (var i = num1; i <= num2; i++) {
+  //      functionArray[i-num1] = (function(i) {
+  //      	return function(){
+  //      		return i;
+  //      	}
+  //      })(i);
+  //      }
+  //return functionArray;
+   
+  //working version 2
+  // var functionArray = [];
+  // for (var i = num1; i <= num2; i++) {
+  // 	   function snapShot(current){
+  // 	   	return function(){
+  // 	   		return current;
+  // 	   	}
+  // 	   }
+  //      functionArray.push (snapShot(i));
+  //  }
+  //return functionArray;
+  
+  //working version 3
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
-
-  return functionArray;
+       functionArray.push (  	   
+       	(function snapShot(current){
+  	   	return function(){
+  	   		return current;
+  	   	}
+  	   })(i))
+   }
+   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION
 //

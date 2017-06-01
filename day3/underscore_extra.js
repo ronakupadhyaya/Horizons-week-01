@@ -31,15 +31,12 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  var mem = {}
+  var obj = {}
   return function memoizedFn(arg) {
-    if (mem[arg] !== undefined) {
-      return mem[arg]
-    } else {
-      var a = func(arg)
-      mem[arg] = a
-      return a
+    if (!obj.hasOwnProperty(arg)) {
+      obj[arg] = func(arg)
     }
+    return obj[arg]
   }
 }
 
@@ -75,7 +72,7 @@ function partial(fn) {
   var args = args.slice(1)
   return function partialFn() {
     var newArgs = [].slice.call(arguments)
-    finalArgs = args.concat(newArgs)
+    var finalArgs = args.concat(newArgs)
     return fn.apply(null,finalArgs)
   }
 }
@@ -116,7 +113,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() {
+    var result1 = fun2.apply(null, arguments)
+    return fun1(result1)
+  }
 }
 
 

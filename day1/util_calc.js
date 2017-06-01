@@ -14,7 +14,7 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, mission operator
+// ex. util.calc('1 2') -> Error, missing operator
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot

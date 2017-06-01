@@ -36,6 +36,8 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +55,8 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg

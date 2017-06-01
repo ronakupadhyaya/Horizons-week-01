@@ -32,7 +32,91 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  //for the object don't have to wrry abut remembering name of function because
+  //that's being called anyway'
+
+  var cache={};
+
+  return function memoizedFn(arg){
+    // console.log(func(arg));
+
+    if(cache.hasOwnProperty(arg)){
+      return cache[arg];
+    } else{
+      cache[arg]=func.call(1e1000, arg);
+      // console.log(this)
+      // console.log("called");
+      return cache[arg];
+
+
+    }
+
+  }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+//the key wasn't working because the key is only the string
+
+//actually use step over in debugging
+  // var obj={};
+  // var index=0;
+  // return function(){
+  //   if (! _.has(obj, func)){
+  //     index++
+  //     // console.log(obj[func]=func.call(this, arguments[0]));
+  //     //argument at index 0 gives you the number of arguments
+  //     obj[func]=func.call(this, arguments[0]);
+  //       //apply only works on arguments if you do the array.prototype.slice
+  //     console.log(obj[func]);
+
+  //     return obj[func];
+  //   } else{
+  //     console.log(obj[func]);
+  //     console.log("called");
+  //     return obj[func];
+  //   }
+  //   return obj[func];
+
+  // }
+
+
+  // var obj={};
+  // var funcResults=[];
+  // var index=0;
+  // if (! _.contains(arr, func)){
+  //   obj[index]=func;
+  //   return funcResults.push((function(x){
+  //     func(x)
+  //   }()), index)
+  // } else{
+  //   return funcResults[]
+  // }
+
+  // var obj=[];
+  // var funcResults=[];
+  // var index=0;
+  // if (! _.contains(arr, func)){
+  //   obj[index]=func;
+  //   return funcResults.push((function(x){
+  //     func(x)
+  //   }()), index)
+  // } else{
+  //   return funcResults[]
+  // }
+
+
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -40,8 +124,8 @@ function memoize(func) {
 // the argumenst that were initially provided to partial().
 //
 // ex.
-// function greaterThan(a, b) {
-//  return a > b;
+// function greaterThan() {
+//  return this.a > b;
 // }
 // var greaterThan2 = partial(greaterThan, 2);
 // greaterThan2(3) // -> true
@@ -60,7 +144,29 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+
 }
+
+
+
+
+
+
+
+  //don't name functions inside functions unless a variable
+
+
+
+
+
+
+
+
+//   arguments[0]=null;
+//   return function (){
+//     fn.apply(this, arguments)
+//   }
+// }
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns
@@ -99,6 +205,13 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+
+  return function composedFN(){
+    console.log(fun2);
+    return fun1(fun2.apply(1e1000, arguments));
+
+    //for .apply the this can be random shit
+  }
 }
 
 

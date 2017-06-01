@@ -43,6 +43,87 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  // console.log(rpnString);
+
+  var arr=rpnString.split(' ');
+  // console.log(arr);
+
+
+  var stack=[];
+  var op = [];
+  var num = [];
+  if(!arr.includes('+')||!arr.includes('-')||!arr.includes('/')||!arr.includes('*'))
+  for (var i = 0; i < arr.length; i++) {
+    // console.log(arr[i]);
+    // console.log(typeof arr[i])
+
+
+    // console.log(parseFloat(arr[i]));
+
+    // console.log(stack);
+    // if(arr[i]==='+'){
+    //   console.log(stack.push(stack.unshift() + stack.unshift()))
+    // } else if(arr[i]==='-'){
+    //   stack.push(stack.unshift() - stack.unshift())
+    // } else if(arr[i]==='*'){
+    //   stack.push(stack.unshift() * stack.unshift())
+    // } else if(arr[i]==='/'){
+    //   stack.push(stack.unshift() / stack.unshift())
+    // } else{
+    //   stack.push(arr[i]);
+    // }
+    // console.log(stack.length).push()
+
+    // console.log(stack);
+    if(arr[i]==='+'){
+      var temp1=stack.pop();
+      var temp2=stack.pop();
+      op.push(arr[i]);
+      stack.push(temp2 + temp1);
+    } else if(arr[i]==='-'){
+      var temp1=stack.pop();
+      var temp2=stack.pop();
+      op.push(arr[i]);
+      stack.push(temp2 - temp1);
+    } else if(arr[i]==='*'){
+      var temp1=stack.pop();
+      var temp2=stack.pop();
+      op.push(arr[i]);
+      stack.push(temp2 * temp1);
+    } else if(arr[i]==='/'){
+      var temp1=stack.pop();
+      var temp2=stack.pop();
+      op.push(arr[i]);
+      stack.push(temp2 / temp1);
+    } else{
+      num.push(arr[i]);
+      stack.push(parseFloat(arr[i]));
+      console.log(num);
+
+    }
+    //console.log(stack.length)
+
+    console.log(stack);
+
+  }
+  console.log(op);
+  console.log(num);
+
+  if(num.length===1 && op.length===0){
+    return stack[0];
+  }
+
+  if(num.length!==op.length+1){
+    throw Error;
+  }
+
+  console.log(stack);
+  //console.log(return[0]);
+  return stack[0];
+
+
+
+
 }
 
 // This function returns true if given string represents a valid number.

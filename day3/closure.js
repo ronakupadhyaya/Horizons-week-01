@@ -15,6 +15,10 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+
+  return function fn(attempt){
+    return password===attempt;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +29,13 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      // var f=vault(password);
+      //   return f(attempt); //ALTERNATIVE WAY
+      return vault(password)(attempt); //also works and cleaner
+
     }
+
   }
 }
 
@@ -83,13 +90,55 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+  // return function() {
+    var callMe;
+
+    return function(){
+      // console.log(x);
+      //here if just called x it would send in the whole array
+      //
+
+      console.log(arguments)
+
+        //could put a for loop and do i
+        //but better way where you do call or i
+              console.log(f(arguments))
+        if (! called) { // if f hasn't been called yet
+            called = true; // mark f as called
+            callMe=f.apply(this, arguments); // call f
+            return callMe;
+
+      //       return f();
+      } else{
+
+          return callMe;
+      //   }
+
+      }
     }
   }
-}
+
+
+
+  // console.log(arguments[0]);
+  // console.log(f(arguments));
+  // var called = false; // Let's create a local variable to track if f has been called
+  // var returnVal;
+  // return function() {
+  //   if (! called) { // if f hasn't been called yet
+  //     called = true; // mark f as called
+  //     returnVal=f(); // call f
+  //     console.log(returnVal+"return val not called")
+  //   }
+  //   if (called){
+  //     console.log(returnVal+"return val called")
+  //   return returnVal;
+  //   }
+
+  // }
+
+
+
 
 // ex. 1.3
 // functionFactory takes in two numbers (num1, num2)
@@ -97,7 +146,7 @@ var once = function(f) {
 // of the array is a function that returns the next
 // number between num1 and num2. Currently this function
 // does not work, use closures to fix it and figure out
-// a way to account for num1 and num2 being negative
+// a way to account for num1 and num2 being neg=ative
 //
 // ex. functionFactory(0,2) -> [
 //   function() -> 0,
@@ -113,19 +162,39 @@ var once = function(f) {
 // ]
 //
 // Use closures to fix this function.
-//
+
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
+  var closeVar=num1-1;
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray.push(function(){
+      closeVar+=1;
+      return closeVar;
+    })
   }
 
   return functionArray;
 }
+
+//for immediately invoked
+
+
+function createFunction()
+var functionFactory = function(num1, num2) {
+  var functionArray = [];
+  var index=0;
+  for (var i = num1; i <= num2; i++) {
+    functionArray[i] = (function(y) {
+      return function(){
+      // function that returns i
+      console.log(i);
+      return y;
+    }
+  })(i);
+
+//   return functionArray;
+// }
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

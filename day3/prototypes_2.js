@@ -18,6 +18,16 @@ window.prototypes = {};
 
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+  var array1=this;
+  console.log(_.difference(array2, array1));
+
+  if(array2.length>array1.length){
+    return _.difference(array2, array1).length===0 ? true : false;
+  } else{
+    return _.difference(array1, array2).length===0 ? true : false;
+  }
+
+
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -32,6 +42,49 @@ Array.prototype.hasEqualContent = function(array2){
 // Hint: use the Array.prototype.hasEqualContent to compare the content of an object,
 // without having to account for the order of elements.
 
-Object.prototype.hasEqualContent = function(array2){
+Object.prototype.hasEqualContent = function(object2){
  // YOUR CODE HERE
+  var object1=this;
+  var arr1=[];
+  var arr2=[];
+  // console.log(arr1);
+
+  //when you do for in there's a prototype chain and it goes all the way up that
+  //and grabs the method you added
+
+
+  // for (var key in object1){
+  //   console.log(key, object1[key]);
+  //   arr1.push([key, object1[key]])
+  // }
+  // for (var key in object2){
+  //   arr2.push([key, object2[key]])
+  // }
+  // console.log(arr1, arr2);
+  // return arr1.hasEqualContent(arr2);
+  var arr1keys=Object.keys(object1);
+  var arr2keys=Object.keys(object2);
+  if(arr1keys.length!==arr2keys.length){
+    return false;
+  } else{
+    for(var i=0; i<arr1keys.length; i++){
+
+      if(object1[arr1keys[i]]!==object2[arr1keys[i]]){
+        return false
+      }
+    }
+    return true;
+  }
+
+  //
+  // for(var i=0; i<Object.keys(object1).length; i++){
+  //   arr1.push([arr1keys[i], object1[arr1keys[i]]]);
+  // }
+  //
+  // for(var i=0; i<Object.keys(object2).length; i++){
+  //   arr2.push([arr2keys[i], object2[arr2keys[i]]])
+  // }
+  // console.log(arr1);
+  // console.log(arr2);
+  // return arr1.hasEqualContent(arr2);
 }

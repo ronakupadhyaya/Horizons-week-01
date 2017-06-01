@@ -35,7 +35,25 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var keyArr=[];
+  //it's a js thing that you can just say key and it will snag the keys
+  for(var key in obj){
+    keyArr.push(key)
+  }
+  return keyArr;
 }
+  // return function(){
+  //   _.mapObject(obj, function(computer){
+  //   computer.forEach(function(feature){
+  //     keyArr.push(feature);
+  //     console.log(feature)
+  //     return keyArr;
+  //
+  //   })
+  //
+  //   })
+
+
 
 // Exercise 2 prototypes.keys()
 // Write a function that receives an object and returns an array of all the keys
@@ -47,4 +65,5 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
+  return(Object.keys(obj));
 }

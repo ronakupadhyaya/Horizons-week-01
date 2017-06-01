@@ -40,6 +40,17 @@ function memoize(func) {
 	}
 };
 
+function memoize(func, hashFunction) {
+	hashFunction = hashFunction || function(x){return x;};
+	var cache = {};
+	return function(){
+		var prop = hashFunction.apply(null, arguments);
+		if(!cache.hasOwnProperty(prop)){
+			cache[prop] = func.apply(null, arguments);
+		}
+		return cache[prop];
+	}
+}
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
@@ -158,5 +169,13 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+	var func_list = Array.prototype.slice.call(arguments);
+	
+	return function() {
+		var ans = func_list[func_list.length - 1].apply(null, arguments);
+		for(var i = func_list.length - 2; i >=0 ; i--){
+			ans = func_list[i](ans);
+		} 
+		return ans;
+	};
 }

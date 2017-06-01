@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function (attempt){
+    return attempt === password
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -117,13 +120,14 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
+  for (var i = num1 ; i <= num2 ; i++) {
+    function coolFunc(item){
+      return function(){
+        return item
+      }
     }
+    functionArray.push(coolFunc(i));
   }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

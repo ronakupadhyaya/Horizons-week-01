@@ -30,8 +30,23 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func,hashFunction) {
   // YOUR CODE HERE
+  var obj = {}
+
+  //arguments[0]
+  return function(){
+    var args = arguments
+    var key = hashFunction.apply(null,args)
+    if (obj.hasOwnProperty(key)){
+      return obj[key]
+    }
+    else{
+      //console.log("obj[hashFunction(args)]: ",obj[hashFunction(args)])
+      obj[key] = func.apply(null,args)
+      return obj[key]
+    }
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +75,24 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  if (!fn){
+    throw "Error"
+  }
+  var oldinputs = []
+  for(var i =1; i<arguments.length; i++){
+    oldinputs.push(arguments[i])
+  }
+  return function inner(){
+    //console.log(fn.apply(null,oldinputs.concat(newinput)))
+    var newinputs = []
+    for(var i =0; i<arguments.length; i++){
+      newinputs.push(arguments[i])
+    }
+    //console.log(oldinputs.concat(newinputs))
+    return fn.apply(null,oldinputs.concat(newinputs))
+  }
+
+
 }
 
 // Exercise 3: composeBasic()
@@ -76,7 +109,7 @@ function partial(fn) {
 // function add1(n) {
 //  return n + 1;
 // }
-// var doubleThenPlus1 = composeBasic(add1, double);
+// var doubleThenPlus1 = (add1, double);
 // doubleThenPlus1(3) // -> 7
 // doubleThenPlus1(0) // -> 1
 //
@@ -99,6 +132,10 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(){
+    var args = arguments
+    return fun1(fun2.apply(null,args))
+  }
 }
 
 
@@ -142,4 +179,14 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var fns = arguments
+  return function composedFn(){
+
+    var answer = fns[fns.length-1].apply(null,arguments)
+    console.log("answer: ",answer)
+    for (var i = fns.length-2; i>=0;i--){
+      answer = fns[i].apply(null,[answer])
+    }
+    return answer
+  }
 }

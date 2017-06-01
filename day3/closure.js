@@ -120,11 +120,18 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0
+
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+    functionArray[index] = (function(y) {
       // function that returns i
-      return i;
-    }
+      return function(){
+        return y;
+      }
+    }(i));
+    
+    index++;
+
   }
 
   return functionArray;

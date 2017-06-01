@@ -30,9 +30,22 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+
+
+var once = function(f) {
+  var ret;
+  var called = false; // Let's create a local variable to track if f has been called
+  return function() {
+    if (! called) { // if f hasn't been called yet
+      ret = f.apply(null, arguments); // call f
+      called = true; // mark f as called
+    }
+    return ret
+  }
 }
+
+
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -60,6 +73,17 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  if(!fn){
+    throw "Error"
+  }
+
+
+  var args1 = Array.prototype.slice.call(arguments).slice(1);
+  return function(){
+    var args2 = Array.prototype.slice.call(arguments);
+    return fn.apply(this, args1.concat(args2))
+  }
+
 }
 
 // Exercise 3: composeBasic()
@@ -97,9 +121,7 @@ function partial(fn) {
 // isSumEven(0, 22) // -> true
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
-function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
-}
+
 
 
 // Bonus Exercise: memoize() with hashFunction
@@ -132,6 +154,34 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
+function memoize(func, hashFunction) {
+  // YOUR CODE HERE
+
+  var obj = {}
+
+  return function(){
+
+    var hashed = hashFunction ? hashFunction.apply(null, arguments) : arguments[0]
+
+    if(! obj.hasOwnProperty(hashed)){
+      obj[hashed] = func.apply(null, arguments)
+    }
+    //console.log(obj)
+    return obj[hashed]
+  }
+
+
+}
+
+
+function composeBasic(fun1, fun2) {
+  // YOUR CODE HERE
+  //console.log(fun1,fun2)
+  return function(){
+    //console.log(arg)
+    return fun1(fun2.apply(null, arguments));
+  }
+}
 
 // Double Bonus Exercise: compose()
 //
@@ -142,4 +192,9 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  return function(){
+    //console.log(arg)
+    return fun1(fun2.apply(null, arguments));
+  }
+
 }

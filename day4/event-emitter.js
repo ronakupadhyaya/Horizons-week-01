@@ -28,6 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -44,6 +45,16 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var called = false;
+  var outer = this;
+  function wrapper() {
+    if (!called) {
+      fn.apply(this, arguments);
+      called = true;
+    }
+    outer.removeListener(eventName, wrapper);
+  }
+  this.on(eventName, wrapper);
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -60,6 +71,11 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (!this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName] = [fn];
+  } else {
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,6 +94,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if (!this.listeners.hasOwnProperty(eventName)) {
+    return; // do nothing
+  }
+  for (var i = 0; i < this.listeners[eventName].length; i++) {
+    this.listeners[eventName][i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -95,6 +117,13 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if (!this.listeners.hasOwnProperty(eventName)) {
+    return;
+  }
+  var index = this.listeners[eventName].indexOf(fn);
+  if (index !== -1) {
+    this.listeners[eventName].splice(index, 1);
+  }
 }
 
 // You do not need to look at code past this line, but you may
@@ -107,7 +136,7 @@ function Observer(name, myEventEmitter) { // object that keeps track of changes
 
 // function that adds message to screen
 Observer.prototype.onSend = function(m) {
-  document.getElementById(this.name).innerHTML += m + `<br/>`;
+  document.getElementById(this.name).innerHTML += m + '<br/>';
 }
 
 var myEventEmitter = new EventEmitter();

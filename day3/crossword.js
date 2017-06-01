@@ -46,5 +46,45 @@
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
-  // YOUR CODE HERE
+  	// YOUR CODE HERE
+  	var word = arguments[0];
+  	var crossword = arguments[1];
+
+  	crossword = crossword.map(function(val){
+  		return val.split(" ");
+  	});
+
+  	if(allHoriz(word, crossword)) return true;
+
+  	var crossword2 = crossword[0].map(function(val, i){
+  		return crossword.map(function(val, ii){
+  			return val[i];
+  		});
+  	});
+
+  	return allHoriz(word, crossword2);
+}
+
+
+function allHoriz(word, crossword){
+	for(var i = 0; i < crossword.length; i ++){
+		var row = crossword[i];
+		var ii = 0;
+		while(ii + word.length <= row.length ){
+			var canFitHere = true;
+	  		if(ii > 0 && row[ii - 1] !== "#"){
+	  			canFitHere = false;
+	  		}
+	  		for(var iii = 0; iii < word.length; iii ++){
+	  			if(row[ii + iii] !== "_" && row[ii + iii] !== word[iii])
+	  				canFitHere = false;
+	  		}
+	  		if(ii + word.length < row.length && row[ii + word.length] !== "#"){
+	  			canFitHere = false;
+	  		}
+			if(canFitHere) return true;
+			ii ++;
+		}
+	}
+	return false;
 }

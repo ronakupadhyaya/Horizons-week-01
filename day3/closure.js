@@ -14,7 +14,11 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  console.log("running");
+  return function fn(attempt){ 
+    console.log(attempt);
+    return (password === attempt);
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -22,12 +26,10 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
+    
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      var check = vault(password);
+      return check(attempt);
     }
   }
 }
@@ -83,11 +85,14 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var ans = null;
   return function() {
+    
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      ans = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
+    return ans;
   }
 }
 
@@ -115,15 +120,28 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+
+
+function createFunction(i) {
+  return function() {
+    return i;
+  }
+}
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+  var num = num1;
+  for (var i = 0; i <= num2 - num1; i++) {
+  //   functionArray[i] = (function(y) {
+  //     return function() {
+  //       console.log(i);
+  //       return y;
+  //     }
+  //   }) (i);
+    functionArray[i] = createFunction(num1 + i);
   }
 
+  
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

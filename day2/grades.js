@@ -27,6 +27,14 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if (arr.length !== 0) {
+  	var sum = _.reduce(arr, function(num1, num2) {
+  		return num1 + num2;
+  	});
+    return (sum)/(arr.length);
+  } else {
+  	return 0;
+  }
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +47,7 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +55,13 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  return _.reduce(data, function(stud1, stud2) {
+  	if (grades.getGPA(stud1) > grades.getGPA(stud2)) {
+  		return stud1;
+  	} else {
+  		return stud2;
+  	}
+  });
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,6 +70,21 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var students = _.groupBy(data, function(stud) {
+    return stud.major;
+  });
+  for (var property in students) {
+    if (students.hasOwnProperty(property)) {
+      var toAverage = [];
+      for (var i = 0; i < students[property].length; i++) {
+        toAverage.push(students[property][i]['grades']['class1']);
+        toAverage.push(students[property][i]['grades']['class2']);
+      }
+      students[property] = grades.average(toAverage);
+    }
+  }
+  var keys = Object.keys(students).map(function (key) { return students[key]; });
+  return _.invert(students)[Math.max.apply(null, keys)];
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -62,4 +93,11 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var class1 = [];
+  var class2 = [];
+  for (var i = 0; i < data.length; i++) {
+    class1.push(data[i].grades['class1']);
+    class2.push(data[i].grades['class2']);
+  }
+  return {'class1': grades.average(class1), 'class2': grades.average(class2)};
 };

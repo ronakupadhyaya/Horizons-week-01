@@ -17,7 +17,16 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+ var returnValue = true; 
+ if(this.length !== array2.length) {
+ 	returnValue = false;
+ }
+ else(this.forEach(function(n){
+ 	console.log(array2.indexOf(n));
+ 	if(array2.indexOf(n) === -1) {
+ 		returnValue = false;
+ 	}}))
+ return returnValue; 
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -33,5 +42,19 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+	var arrayObj1 = _.pairs(this);
+	var arrayObj2 = _.pairs(array2);
+	var counter = 0; 
+	if(arrayObj1.length !== arrayObj2.length) {
+		return false;
+	}
+	else (arrayObj1.forEach(function(n){
+		arrayObj2.forEach(function(m){
+			if(m.hasEqualContent(n)){
+				counter++; 
+			}
+		})
+	}))
+		if(counter === arrayObj1.length){return true;}
+		else if (counter !== arrayObj1.length){ return false;}
 }

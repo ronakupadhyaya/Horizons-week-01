@@ -20,8 +20,22 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
-};
+  var index1 = 0;
+  var index2 = 0;
+  for(var i = 0; i < str.length; i++) {
+    if(str[i] !== " "){
+      index1 = i;
+      break;
+    }
+  }
+  for(var j = str.length - 1; j > 0; j--) {
+    if(str[j] !== " "){
+      index2 = j;
+      break;
+    }
+  }
+  return str.substring(index1, index2 + 1);
+}
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +53,12 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  if(sourceString.indexOf(searchString) !== -1){
+  	return true;
+  }
+  else{
+  	return false;
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -59,7 +78,7 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  return parseInt(str.slice(' ')[0])
 };
 
 // ----------------------------------------------------------------------------

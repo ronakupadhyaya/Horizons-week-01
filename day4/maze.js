@@ -40,7 +40,9 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  return this.maze.map(function(val){
+    return val.join("").replace(/\s/g, "_");
+  }).join("\n");
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,9 +51,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  for(var i = 0; i < this.maze.length; i ++){
+    for (var ii = 0; ii < this.maze[i].length; ii ++){
+      if(this.maze[i][ii] === "S"){
+        return [i, ii];
+      }
+    }
+  }
+  throw "No start!"
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -96,6 +103,31 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
+  if(row < 0 || row >= this.maze.length || column < 0 || column >= this.maze[0].length || this.maze[row][column] === "X")
+    return false;
+
+  switch (direction){
+    case "up":
+      row -= 1;
+      break;
+    case "down":
+      row += 1;
+      break;
+    case "left":
+      column -= 1;
+      break;
+    case "right":
+      column += 1;
+      break;
+    default:
+      throw "Not valid move!";
+  }
+
+  if(row < 0 || row >= this.maze.length || column < 0 || column >= this.maze[0].length || this.maze[row][column] === "X")
+    return false;
+
+  return [row, column];
+
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
@@ -110,5 +142,5 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  
 }

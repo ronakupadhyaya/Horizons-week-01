@@ -46,4 +46,33 @@
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
+  var word = arguments[0];
+  var board = arguments[1];
+  board = board.map(function(e) {
+  	return e.split(" ")
+  })
+
+  function existsInRow(word, rowNum) {
+  	var row = board[rowNum]
+  	var return_val1 = false
+  	console.log(row)
+  	for (var i=0; i<row.length-word.length+1; i++) {
+  		var return_val2 = true
+  	  	for (var j=0; j<word.length; j++) {
+  	  		console.log(row[i+j], word[j])
+  	  		if (row[i+j] != word[j] && row[i+j] != "_") return_val2 = false;
+  	  		if (return_val2) return_val1 = true;
+  	  	}
+  	};
+  	return return_val1;
+  };
+
+  console.log(existsInRow("joy", 0))
+
+  function existsInCol(row, colNum) {
+
+  };
+
+
+
 }

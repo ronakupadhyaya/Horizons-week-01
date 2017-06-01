@@ -42,7 +42,52 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var arr = rpnString.split(' ');
+  var stack = [];
+
+  //iterate through aerray, add nums to stack, replace values after operations
+  for (var i = 0; i<arr.length; i++) {
+    var current = arr[i];
+    var num = parseInt(current);  //either number or NaN
+    //encounters operation
+    if (!num && num !== 0) {
+      if (arr.length <= 2 || stack.length <= 1) {
+        throw "Error, too many operations";
+      }
+
+      var last = stack.pop();
+      var first = stack.pop();
+
+      switch (current) {
+      case "/":
+        stack.push(first/last);
+        break;
+      case "*":
+        stack.push(first*last);
+        break;
+      case "+":
+        stack.push(first+last);
+        break;
+      case "-":
+        stack.push(first-last);
+        break;
+      default:
+        throw "Error invalid operation";
+        break;
+      }
+      //encounters number
+    } else {
+      if (arr.length === 1)   //array size 1 -> return itself
+        return num;
+      if (i === arr.length - 1) {
+        throw "Error, too many numbers";
+      }
+      //add num to stack
+      stack.push(num);
+    }
+  }
+  //stack size 1 --> return value
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

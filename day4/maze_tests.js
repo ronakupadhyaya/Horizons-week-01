@@ -89,9 +89,8 @@ describe('Maze.toString()', function () {
       return row.map(function(pos) {
         if(pos === " ") {
           return '_';
-        }
-        else {
-          console.log(pos);
+        } else {
+          // console.log(pos);
           return pos;
         }
       }).join('')

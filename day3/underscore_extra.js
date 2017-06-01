@@ -30,14 +30,55 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
+function memoize(func, hashFun) {
+  var arr = [];
+  var called = false;
+  if (arguments.length === 1) {
+  	return function memoizedF(num){
+  		if (!called) {
+  			var temp = func(num);
+  			arr.push([num, temp]);
+  			called = true;
+  			return temp;
+  		}
+  		var len = arr.length;
+  		for (var i = 0; i < len; i++) {
+  			console.log(arr);
+  			if (arr[i][0] === num) {
+  				return arr[i][1];
+  			}
+  		}
+  		var temp = func(num);
+  		arr.push([num, temp]);
+  		return temp;
+  	}
+  } else {
+  	return function memoizedF(){
+  		if (!called) {
+  			var temp = func.apply(null, arguments);
+  			arr.push([hashFun.apply(null, arguments), temp]);
+  			called = true;
+  			return temp;
+  		}
+  		var len = arr.length;
+  		for (var i = 0; i < len; i++) {
+  			console.log(arr);
+  			if (arr[i][0] === hashFun.apply(null, arguments)) {
+  				return arr[i][1];
+  			}
+  		}
+  		var temp = func.apply(null, arguments);
+  		arr.push([hashFun.apply(null, arguments), temp]);
+  		called = true;
+  		return temp;
+  	}
+  }
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
-// the argumenst that were initially provided to partial().
+// the arguments that were initially provided to partial().
 //
 // ex.
 // function greaterThan(a, b) {
@@ -59,7 +100,20 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+
+  var args = Array.prototype.slice.call(arguments);
+  if (args.length === 0) {
+  	throw "whooops";
+  }
+  args.shift();
+  //console.log(args);
+  return function partialFn(){
+  	for (var i = 0; i < arguments.length; i++) {
+  		args.push(arguments[i]);
+  	}
+  	//console.log(args);
+  	return fn.apply(null, args);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +152,12 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function() {
+  	var args = Array.prototype.slice.call(arguments);
+  	console.log(args);
+  	var temp = fun2.apply(null, args);
+  	return fun1(temp);
+  }
 }
 
 
@@ -141,15 +200,32 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
-}
+  	var args = Array.prototype.slice.call(arguments);
 
-function recurse(args, val) {
-  var len = args.length
-  if (len === 0) {
-    return val;
-  }
-  val = args[len-1];
-  recurse(args.substring(0, len-1), val);
+  	function recurse(args, val) {
+  		console.log(args, val);
+  		var len = args.length;
+  		if (len === 0) {
+  			console.log("Final",val);
+  			return val;
+  		}
+  		val = args[len - 1](val);
+  		console.log(val);
+  		recurse(args.splice(0, len - 1), val);
+  	}
 
+  	return function() {
+  		//console.log(args);
+  		var len = args.length;
+  		var val = recurse(args.splice(0, len - 1), args[args.length - 1].apply(null, arguments));
+  		return val;
+
+
+  		// args.reduce(function(next, curr) {
+  		// 	return next(curr.apply(null, args));
+  		// })
+
+  		// var temp = fun2.apply(null, args);
+  		// return fun1(temp);
+  	}
 }

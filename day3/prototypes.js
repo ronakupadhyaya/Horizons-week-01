@@ -34,8 +34,34 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
+
+  //Access the obj's values
+  var returnArray = [];
+  // _.each(obj, function(value, key) {
+  //   returnArray.push(value);
+  // });
+
+
+  //console.log(returnArray);
+  // //Find out out to access the prototypes's values
+  // var returnArray = [];
+  // _.each(obj, function(value, key) {
+  //   // console.log(key);
+  //   // if (key === __proto__) {
+  //   //   console.log(__proto__);
+  //   // }
+  //   returnArray.push(obj.__proto__.value);
+  // });
+  //
+  // console.log(returnArray);
+
+  for (var key in obj) {
+    console.log(key);
+    returnArray.push(key);
+  }
+  return returnArray;
 }
+
 
 // Exercise 2 prototypes.keys()
 // Write a function that receives an object and returns an array of all the keys
@@ -46,5 +72,14 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+
+  var returnArray = [];
+
+  for (var key in obj) {
+    //console.log(key);
+    if(obj.hasOwnProperty(key)){
+      returnArray.push(key);
+    }
+  }
+  return returnArray;
 }

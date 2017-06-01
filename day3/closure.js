@@ -14,7 +14,15 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  // this function returns a function
+  return function fn (attempt) {
+    //returns true or false if attempt matches password
+    if (attempt === password) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,7 +33,6 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
     login: function(attempt) {
       return this.privatePassword === attempt;
     }
@@ -52,9 +59,9 @@ var horizons = createUser('horizons', 'horizonites');
 // should reuturn whatever f returned
 // the first time it was called.
 //
-// var square = function(x) {
-//   return x * x;
-// }
+var square = function(x) {
+  return x * x;
+}
 // var cube = function(x) {
 //   return x * x * x;
 // }
@@ -85,7 +92,7 @@ var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      f(num); // call f
       called = true; // mark f as called
     }
   }
@@ -115,13 +122,16 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+var functionCreator = function(i) {
+  return function() {
+    return i;
+  }
+}
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray.push(functionCreator(i));
   }
 
   return functionArray;

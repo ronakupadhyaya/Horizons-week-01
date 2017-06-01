@@ -30,9 +30,23 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-}
+// function memoize(func) {
+// var cacheCatcher = {};
+// return function memoizedFn() {
+//   if (cacheCatcher.hasOwnProperty(arguments[0])) {
+//     // console.log(arguments);
+//     // console.log(cacheCatcher);
+//     return cacheCatcher[arguments[0]];
+//   } else {
+//     cacheCatcher[arguments[0]] = func(arguments[0]);
+//     // console.log("else", arguments);
+//     // console.log("else", cacheCatcher);
+//
+//     return cacheCatcher[arguments[0]];
+//   }
+// };
+// }
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +73,16 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (Array.from(arguments)
+    .length === 0) {
+    throw "Error";
+  }
+
+  var orginalArgs = Array.from(arguments);
+  orginalArgs = orginalArgs.slice(1);
+  return function partialFn() {
+    return fn.apply(null, orginalArgs.concat(Array.from(arguments)));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,9 +121,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() {
+    var resultFun2 = fun2.apply(null, arguments);
+    return fun1(resultFun2);
+  }
 }
-
 
 // Bonus Exercise: memoize() with hashFunction
 //
@@ -131,6 +156,24 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+
+function memoize(func, hash) {
+  var cacheCatcher = {};
+  return function memoizedFn() {
+    var argStr = hash(arguments);
+    if (cacheCatcher.hasOwnProperty(argStr)) {
+      // console.log(arguments);
+      // console.log(cacheCatcher);
+      return cacheCatcher[argStr];
+    } else {
+      cacheCatcher[argStr] = func.apply(null, arguments);
+      // console.log("else", arguments);
+      // console.log("else", cacheCatcher);
+
+      return cacheCatcher[argStr];
+    }
+  };
+}
 
 
 // Double Bonus Exercise: compose()

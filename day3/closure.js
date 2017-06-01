@@ -14,21 +14,22 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function lock(key) {
+    return password === key;
+  }
 }
 
 // This function returns an object that leaks private information!
 // See if you can fix this.
-var createUser = function(username, password) {
+var createUser = function (username, password) {
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
+    bank: vault(password),
+
+    login: function (attempt) {
+      return this.bank(attempt);
     }
+
   }
 }
 
@@ -81,13 +82,16 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
-var once = function(f) {
+var once = function (f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+  var saved = 0;
+  return function () {
+    if (!called) { // if f hasn't been called yet
+      saved = f.apply(this, Array.prototype.slice.call(arguments)); // call f
       called = true; // mark f as called
+      return saved;
     }
+    return saved;
   }
 }
 
@@ -115,15 +119,18 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
-var functionFactory = function(num1, num2) {
+var functionFactory = function (num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+  for (var i = 0; i <= num2 - num1; i++) {
+    var fn = function (save) {
       // function that returns i
-      return i;
-    }
+      return function () {
+        return num1 + save;
+      }
+    };
+    functionArray.push(fn(i));
   }
-
+  console.log(functionArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION
@@ -143,7 +150,7 @@ var counter = function () {
 
   // lets call the functions in the function array
   document.getElementById('numbers').innerHTML = ""; // clear label
-  functionArray.forEach(function(fun) {
+  functionArray.forEach(function (fun) {
     // populate label with return values of the funtions in functionArray
     document.getElementById('numbers').innerHTML += fun() + " ";
   });

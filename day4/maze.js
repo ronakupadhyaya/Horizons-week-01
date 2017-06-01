@@ -40,6 +40,14 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
+  var maze = this.maze;
+  var ret = ''
+  //console.log(maze)
+
+  for(var i = 0; i < maze.length; i ++){
+    ret += maze[i].join();
+    ret += '\n'
+  }
   // Hint: See Array.prototype.join()!
 }
 
@@ -50,6 +58,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  var maze = this.maze;
+  //console.log(maze)
+
+  for(var i = 0; i < maze.length; i ++){
+    for(var j = 0;  j < maze[i].length; j++){
+      if(maze[i][j] === 'S')
+        return [i, j]
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }

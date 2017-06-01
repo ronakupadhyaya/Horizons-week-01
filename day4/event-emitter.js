@@ -85,7 +85,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
-  var functions = 
+
+  var fns = this.listeners[eventName];
+
+  fns.forEach(function(fn){
+    fn(arg)
+  })
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -103,9 +108,17 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var fns = this.listeners[eventName];
+
+  for(var i = 0; i < fns.length; i++){
+    if(fn === fns[i]){
+      fns.splice(i,1);      //removes element at this location
+    }
+  }
+
 }
 
-// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// *Bonus*: Takes in a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
@@ -117,6 +130,15 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
+
+// if(!this.listeners.hasOwnProperty(eventName)){
+//   this.listeners[eventName] = [];
+// }
+//
+// this.listeners[eventName].push(fn);
+
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+
+  
 }

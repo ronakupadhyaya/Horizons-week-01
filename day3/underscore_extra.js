@@ -32,6 +32,13 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var obj = {};
+  return function(arg){
+    if(!obj.hasOwnProperty(arg)){
+      obj[arg] = func(arg);
+    }
+    return obj[arg];
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +67,14 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  if(!fn){
+    throw "Error!";
+  }
+  var args1 = Array.prototype.slice.call(arguments).slice(1);
+  return function(){
+    var args2 = Array.prototype.slice.call(arguments);
+    return fn.apply(this, args1.concat(args2));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +114,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function(args){
+    return fun1(fun2.apply(null, arguments));
+  }
 }
 
 
@@ -131,6 +149,16 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+function memoize(func, hashFunction) {
+  // YOUR CODE HERE
+  var obj = {};
+  return function(arg){
+    if(!obj.hasOwnProperty(arg)){
+      obj[arg] = func(arg);
+    }
+    return obj[arg];
+  }
+}
 
 
 // Double Bonus Exercise: compose()

@@ -30,8 +30,21 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+function memoize(func, hashFunction) {
+	var args = {};
+  return function() {
+  	if (!hashFunction) {
+  		var args2 = Array.prototype.slice.call(arguments).toString(); // convert arguments into a string
+  	}
+  	else {
+  		var args2 = hashFunction.apply(this, arguments);
+  	}
+		if(!args.hasOwnProperty(args2)) { // already computed this input 
+			args[args2] = func.apply(this, arguments);
+			return args[args2];
+		}
+		return args[args2];
+  }
 };
 
 // Exercise 2: partial()
@@ -59,7 +72,18 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+	if (arguments.length === 0) {
+		throw 'Invalid arguments';
+	}
+	var args = Array.prototype.slice.call(arguments); // turn arguments into an array
+	return function() {
+		var innerArgs = Array.prototype.slice.call(arguments); 
+		var funcArgs = args.splice(1).concat(innerArgs);
+		if (funcArgs.length === 0) {
+			return fn.apply(this, args.splice(1));
+		}
+		return fn.apply(this, funcArgs);
+	}	
 }
 
 // Exercise 3: composeBasic()
@@ -98,9 +122,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function() {
+  	return fun1(fun2.apply(this, arguments));
+  }
 }
-
 
 // Bonus Exercise: memoize() with hashFunction
 //
@@ -109,7 +134,8 @@ function composeBasic(fun1, fun2) {
 //
 // memoize() works by caching (i.e. saving) the results of previous function
 // calls in an object. Objects keys are always strings, so if a memoize'd
-// function is called with arguments that are not string, memoize() has to
+// function is called with arguments
+// that are not string, memoize() has to
 // convert them to a string so the result of the computation can be stored in
 // the cache object.
 // 'hashFunction' allows us to specify how memoize() converts arguments into
@@ -121,7 +147,7 @@ function composeBasic(fun1, fun2) {
 //  return Math.max(a, b);
 // }
 // function hashFunction(a, b) {
-//  return a + ',' + b;
+//  return a + '.' + b;
 // }
 //
 // var memoizedMax = memoize(max, hashFunction);
@@ -133,6 +159,19 @@ function composeBasic(fun1, fun2) {
 // See: http://underscorejs.org/#memoize
 
 
+// ===============REVISED MEMOIZE================================
+// function memoize(func, hashFunction) {
+// 	var args = {};
+//   return function() {
+//   	var args2 = hashFunction(arguments); // convert arguments into a string
+// 		if(!args.hasOwnProperty(args2)) { // already computed this input 
+// 			args[args2] = func.apply(this, arguments);
+// 			return args[args2];
+// 		}
+// 		return args[args2];
+//   }
+// };
+//===============================================================
 // Double Bonus Exercise: compose()
 //
 // Write a more powerful version composeBasic() that can take any
@@ -141,5 +180,20 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+	var funcs = arguments;
+	return function() {
+		var last = true;
+		var lastRet;
+		for (var i = funcs.length - 1; i >= 0; i--) {
+			var func = funcs[i];
+			if (last) {
+				lastRet = func.apply(null, arguments);
+				last = false;
+			}
+			else {
+				lastRet = func(lastRet);
+			}
+		}
+		return lastRet;
+	}
 }

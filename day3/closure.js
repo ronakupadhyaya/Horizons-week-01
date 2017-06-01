@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function(attempt){
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,12 +28,10 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
+    login: vault(password)
     }
   }
-}
+
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
@@ -83,11 +84,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var save;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+     save = f.apply(null,arguments);
+       // call f
+      //called = true; // mark f as called
+      called = true
     }
+   return save 
   }
 }
 
@@ -116,14 +121,28 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
+  // var functionArray = [];
+  // for (var i = num1; i <= num2; i++) {
+  //   //console.log(i-num1)
+  //    //console.log(functionArray)
+  //   function inner (snap){
+  //     return function(){
+  //       return snap
+  //     }
+  //   };
+  //   functionArray.push(inner(i))
+
+  // }
+
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
-
+    function inner (snap){
+      return function(){
+        return snap
+      }
+    };
+    functionArray.push(inner(i))
+}
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

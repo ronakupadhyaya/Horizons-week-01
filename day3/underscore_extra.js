@@ -32,8 +32,50 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  //var called = false;
+  var save;
+  var arg = [];
+  var cache = {}
+  return function memoizedFn(x){
+  	if(cache[String(x)]===undefined){
+  	if(arg.indexOf(x)===-1){
+  		save = func(x);
+  		arg.push(x);
+  		cache[String(x)] = save;
+  		//called = true;
+  		
+  	}
+	return save;
+  }else{
+  	return cache[String(x)];
+  }
 }
 
+
+}
+// function memoize(func) {
+//   // YOUR CODE HERE
+//   //var called = false;
+//   var save;
+//   var arg = [];
+//   var cache = {}
+//   return function memoizedFn(x){
+//   	if(cache[String(x)]===undefined){
+//   	if(arg.indexOf(x)===-1){
+//   		save = func(x);
+//   		arg.push(x);
+//   		cache[String(x)] = save;
+//   		//called = true;
+  		
+//   	}
+// 	return save;
+//   }else{
+//   	return cache[String(x)];
+//   }
+// }
+
+
+// }
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
@@ -59,7 +101,26 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+	if(fn === undefined){
+		throw "error";
+	}else if(arguments.length > 1){
+		var argArray = [];
+		for(var i = 1; i < arguments.length;i++){
+			argArray.push(arguments[i]);
+		}
+		return function partialFn(){
+			var retArray = fn.apply(null, arguments);
+			var finalArray = argArray.concat(retArray);
+			// console.log(Array);
+			return finalArray;
+
+	}
+	}
+	return function partialFn(){
+		return fn.apply(null, arguments);
+
+	}
+
 }
 
 // Exercise 3: composeBasic()
@@ -99,7 +160,12 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
-}
+  
+  	return function(){
+  		return fun1(fun2.apply(null,arguments));
+  	}
+  }
+
 
 
 // Bonus Exercise: memoize() with hashFunction
@@ -131,7 +197,44 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+function memoize(func, fun2) {
+  // YOUR CODE HERE
+  //var called = false;
+  if(fun2 === undefined){
+  	var save;
+  var arg = [];
+  var cache = {}
+  return function memoizedFn(x){
+  	if(cache[String(x)]===undefined){
+  	if(arg.indexOf(x)===-1){
+  		save = func(x);
+  		arg.push(x);
+  		cache[String(x)] = save;
+  		//called = true;
+  		
+  	}
+	return save;
+  }else{
+  	return cache[String(x)];
+  }
+}}
+  var save;
+  var arg = [];
+  var cache = {}
+  return function memoizedFn(){
+  	var input = fun2.apply(null,arguments);
+  	if(cache[input]===undefined){
+  		save = func.apply(null,arguments);
+  		cache[input] = save;
+  		//called = true;
+	return save;
+  }else{
+  	return cache[input];
+  }
+}
 
+
+}
 
 // Double Bonus Exercise: compose()
 //
@@ -142,4 +245,16 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var funList = []
+  for(var i = arguments.length -1 ; i >= 0 ; i --){
+  	funList.push(arguments[i]);
+  }
+  	return function(){
+  		var initial = funList[0].apply(null,arguments);
+  		for (var j = 1 ; j < funList.length ; j ++){
+  			var tempFun = funList[j];
+  			initial = tempFun(initial);
+  		}
+  		return initial;
+  	}
 }

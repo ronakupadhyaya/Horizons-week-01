@@ -17,12 +17,12 @@ function getThis() {
 dis.getThis = getThis;
 
 dis.simpleGetThis = function() {
-  return dis.getThis() === window.dis;
+  return dis.getThis() === window.dis /* YOUR CODE HERE */;
 };
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === dis.object2;
+  return dis.object2.getThis() === dis.object2 /* YOUR CODE HERE */;
 };
 
 dis.callGetThis = function() {
@@ -33,5 +33,5 @@ dis.callGetThis = function() {
 dis.boundGetThis = dis.getThis.bind(dis.object2);
 
 dis.callBoundGetThis = function() {
-  return dis.boundGetThis.call(dis.object1) === dis.object2;
+  return dis.boundGetThis.call(dis.object1) === dis.object2 /* YOUR CODE HERE */;
 }

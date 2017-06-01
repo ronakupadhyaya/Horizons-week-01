@@ -1,0 +1,11 @@
+5-31
+
+Difference between return and console.log
+
+- Console.log prints something to the console
+- Return assigns a value to a function
+
+undefined vs. ReferenceError
+
+undefined- refers to something with no value
+ReferenceError- refers to something that was never initialized

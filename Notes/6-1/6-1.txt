@@ -1,0 +1,29 @@
+6-1
+
+IIFE
+
+Takes advantage of how local variables work, executes them right away.
+
+Difference between Object.keys() and for in
+
+The Object.keys() method returns an array of a given object's own enumerable
+properties, in the same order as that provided by a for...in loop
+(the difference being that a for-in loop enumerates properties in the prototype
+chain as well).
+
+Explicit binding
+
+- Bind returns a new copy of a function
+- Does not call any function
+- Allows you to modify a function without affecting original one
+
+Constructor
+
+- convention is to capitalize first word
+- lets people know you're making an object not a function
+
+When calling a constructor, be sure to use 'new', otherwise shit gets messy
+
+Callback is a function you write but someone else invokes
+
+When you throw an exception, it interrupts all the function calls

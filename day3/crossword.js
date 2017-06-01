@@ -44,6 +44,16 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
+function solveCrossword(word, crossword) {
   // YOUR CODE HERE
+  var wordArray = word.split("");
+
+  var crossSplit = crossword[0].split(" ");
+
+  if ((_.intersection(wordArray, crossSplit)).length > 0){
+    console.log(_.intersection(wordArray, crossSplit));
+    console.log("There is an intersection between word and crossword");
+  }
+
+
 }

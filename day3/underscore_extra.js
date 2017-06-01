@@ -220,12 +220,5 @@ function compose() {
   		var val = recurse(args.splice(0, len - 1), args[args.length - 1].apply(null, arguments));
   		return val;
 
-
-  		// args.reduce(function(next, curr) {
-  		// 	return next(curr.apply(null, args));
-  		// })
-
-  		// var temp = fun2.apply(null, args);
-  		// return fun1(temp);
   	}
 }

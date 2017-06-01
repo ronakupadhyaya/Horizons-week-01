@@ -6,6 +6,9 @@
 // emit() all callback functions that are registered
 // for that event type with on() are called.
 //
+// !HINT! We recommend implementing the EventEmitter constructor, .on() and
+// .emit() together !HINT!
+//
 // Once you correctly implement the EventEmitter object you
 // will be able to use the messenger application. Note that if you
 // send a message on one device, it will be available on all
@@ -15,6 +18,11 @@
 // be an object where the keys are names for the event, and values
 // are arrays containing listener functions ("fn"). These functions will
 // run when their corresponding event ("eventName") is emitted.
+//
+// The EventEmitter should contain an object called "listeners"
+// (under this.listeners). This object maps event types to arrays.
+// Each array contains functions that should be called when an event
+// of that type is sent via this.emit().
 //
 // Example.
 // var emitter = new EventEmitter();
@@ -29,6 +37,7 @@
 function EventEmitter() {
   this.listeners = {};
 }
+
 // Takes is a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
 // Adds the listener function to the end of the listeners

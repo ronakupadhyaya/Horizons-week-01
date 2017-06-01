@@ -41,8 +41,32 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+window.help = {
+	'+': function(b,a){return a+b;},
+	'-': function(b,a){return a-b;},
+	'/': function(b,a){return a/b;},
+	'*': function(b,a){return a*b;}
+}
+	
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+	var stack = [];
+	var exp = rpnString.split(' ');
+	console.log("exp:", exp);
+	exp.forEach(function(x){
+		if(!isNumberString(x)){
+			if(stack.length < 2){
+				throw new Error("too many operations");
+			}
+			stack.push(window.help[x](stack.pop(), stack.pop()));	
+		}else{
+			stack.push(parseInt(x));
+		}
+	});
+	if(stack.length != 1){
+		throw new Error("too many numbers");
+	}
+	console.log(stack);
+	return stack.pop();
 }
 
 // This function returns true if given string represents a valid number.

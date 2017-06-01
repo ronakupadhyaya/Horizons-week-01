@@ -42,7 +42,70 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  if (rpnString.length === 1){
+    if (rpnString === "+" || rpnString === "-" ||
+      rpnString === "/"   ||rpnString === "*"){
+      throw "Error";
+    } 
+    console.log(rpnString, +rpnString);
+    return +rpnString;
+  }
+  var arrRpn = rpnString.split(' ');
+  var stack = [];
+  // if (arrRpn.length === 1){
+  //   return arrRpn[0];
+  // }
+  var opCount = 0;
+  var numCount = 0;
+
+  for (var i = 0; i< arrRpn.length; i++){
+    if (arrRpn[i] === "+" || arrRpn[i] === "-" ||
+      arrRpn[i] === "/"   ||arrRpn[i] === "*"){
+      opCount++;
+    }
+    else {
+      numCount++;
+    }
+  }
+  if (numCount > opCount+1){
+    throw "Error";
+  }
+  if (opCount+1 > numCount){
+    throw "Error";
+  }
+  // if (numCount === 0 || opCount === 0){
+  //   throw "Error";
+  // }
+  
+
+
+
+  for (var i = 0; i< arrRpn.length; i++){
+    if (arrRpn[i] === "+"){
+      var val1 = stack.pop();
+      var val2 = stack.pop();
+      stack.push(val1+val2);
+    }
+    else if (arrRpn[i] ==="*"){
+      var val1 = stack.pop();
+      var val2 = stack.pop();
+      stack.push(val1*val2);
+    }
+    else if (arrRpn[i] === "-"){
+      var val1 = stack.pop();
+      var val2 = stack.pop();
+      stack.push(val2 - val1);
+    }
+    else if (arrRpn[i] === "/"){
+      var val1 = stack.pop();
+      var val2 = stack.pop();
+      stack.push(val2/val1);
+    }
+    else{
+      stack.push(+arrRpn[i]);
+    }
+  }
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

@@ -30,14 +30,27 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-};
+
+// function memoize(func) {
+//   // YOUR CODE HERE
+//   var obj1 = {};
+//   //var output = func.apply(this,arguments);
+
+//   return function(){
+//   	if (!(arguments[0] in obj1)){
+//   		obj1[arguments[0]] = func.apply(this, arguments);
+//   		console.log("called");
+ 		
+  		
+//   	}
+//   	return obj1[arguments[0]];
+//   }
+// }
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
-// the argumenst that were initially provided to partial().
+// the arguments that were initially provided to partial().
 //
 // ex.
 // function greaterThan(a, b) {
@@ -59,7 +72,27 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
+
   // YOUR CODE HERE
+  //console.log(fn);
+  if (!fn){
+    throw "Error";
+  }
+  var arg1 = Array.prototype.slice.call(arguments).slice(1);
+  //var arrArgs = [];
+  // for (var i=0; i<arguments.length; i++){
+  //   arrArgs.push(arguments[i]);
+  // }
+  //console.log(arg1);
+  // var arg1 = arguments.shift();
+  // console.log(arg1);
+
+  return function(){
+     var arg2 = Array.prototype.slice.call(arguments);
+     //console.log(arg2);
+    return fn.apply(this, arg1.concat(arg2));
+
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +131,13 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  
+  return function(){
+    var resultFun2 = fun2.apply(this,arguments);
+    //console.log(resultFun2);
+    return fun1.apply(this, [resultFun2]);
+    //return fun1.apply(this, [fun2.apply(this,arguments)])
+  }
 }
 
 
@@ -132,6 +171,23 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
+function memoize(func, func2) {
+  // YOUR CODE HERE
+  var obj1 = {};
+
+  return function(){
+    var hashed = func2(arguments);
+    if (!(hashed in obj1)){
+      obj1[hashed] = func.apply(this, arguments);
+      console.log(obj1[hashed]);
+      return obj1[hashed];
+    }
+    //var returnVal = func.apply(this, arguments);
+    return obj1[hashed];
+
+  }
+}
+
 
 // Double Bonus Exercise: compose()
 //
@@ -140,6 +196,30 @@ function composeBasic(fun1, fun2) {
 //
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
+
 function compose() {
   // YOUR CODE HERE
+  var fs = arguments;
+
+  return function(){
+    var first = true;
+    for (var i= fs.length-1; i>=0; i--){
+      if (first){
+        var result = fs[i].apply(this, arguments);
+        first = false;
+      }
+      else {
+        result = fs[i](result);
+      }
+    }
+    return result;
+
+  }
 }
+
+
+
+
+
+
+

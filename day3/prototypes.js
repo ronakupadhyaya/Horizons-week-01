@@ -34,7 +34,27 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
+
+  //SUPER UGLY. Maybe try again.
+
+  var keys = Object.keys(obj)
+
+  while (!(obj.hasOwnProperty('constructor'))) {
+    obj = obj.__proto__
+    keys.push(Object.keys(obj))
+  }
+
+  //flattens array
+  var merged = [].concat.apply([], keys);
+  var unique = [];
+
+  for (var i = 0; i < merged.length; i++) {
+    if(unique.indexOf(merged[i]) === -1) {
+      unique.push(merged[i])
+    }
+  }
+   return unique
+
 }
 
 // Exercise 2 prototypes.keys()
@@ -46,5 +66,5 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+  return Object.keys(obj)
 }

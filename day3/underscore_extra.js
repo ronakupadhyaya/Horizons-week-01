@@ -31,7 +31,22 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  // var total = 0;
+  // var hashChecker = {}
+  // var prevArgs = []
+  // return function () {
+  //   if(prevArgs.indexOf(arguments[0]) === -1) {
+  //     prevArgs.push(arguments[0])
+  //   } else if (prevArgs.length >= 1) {
+  //     console.log(hashChecker[arguments[0]])
+  //     return hashChecker[arguments[0]]
+  //   }
+  //
+  //   hashChecker[arguments[0]] = func.apply(null, arguments)
+  //   console.log(prevArgs);
+  //   console.log(hashChecker);
+  //   return total;
+  // }
 }
 
 // Exercise 2: partial()
@@ -59,7 +74,7 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+
 }
 
 // Exercise 3: composeBasic()

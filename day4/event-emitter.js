@@ -54,6 +54,7 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  console.log("on", eventName);
   if (this.listeners.hasOwnProperty(eventName)){
     this.listeners[eventName].push(fn);
   } else {
@@ -79,8 +80,16 @@ EventEmitter.prototype.on = function(eventName, fn) {
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
   var arr = this.listeners[eventName];
+  console.log("emit", this.listeners);
   for (var i = 0; i < arr.length; i++){
-    arr[i](arg);
+    if (arr[i].called !== undefined) {
+      if (arr[i].called === false) {
+        arr[i](arg);
+        this.removeListener(eventName, arr[i]);
+      }
+    } else {
+      arr[i](arg);
+  }
   }
 }
 
@@ -99,6 +108,13 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  console.log("remove", eventName);
+  var arr2 = this.listeners[eventName];
+  for (var j = 0; j < arr2.length; j++){
+    if (arr2[j] === fn){
+      arr2.splice(j,1);
+    }
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -115,4 +131,17 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  console.log("once", eventName);
+  var self = this;
+  this.listeners[eventName] = [function newFn(){
+    var called = false;
+    return function(){
+      if (!called){
+        called = true;
+        return fn;
+      } else {
+
+      }
+    }
+  }];
 }

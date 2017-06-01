@@ -46,5 +46,82 @@
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
-  // YOUR CODE HERE
+  var str = arguments[0];
+  var board = arguments[1];
+  board = _.map(board, function(string) {
+    return string.split(" ");
+  });
+  var count = [];
+  var val = 0;
+  var seen = false;
+  var char = "";
+  var newBoard =[];
+
+  //left to right
+  for (var i = 0; i < board.length; i++) {
+    newBoard[i] = [];
+    for (var j = 0; j < board[i].length; j++) {
+      if (j < board.length) {
+        newBoard[i][j] = board[j][i];
+      }
+      char = board[i][j];
+      if (char === "_") {
+        if (!seen) {
+          val++;
+        }
+      } else if (char === "#") {
+        seen = false;
+        count.push(val);
+        val = 0;
+      } else {
+        var index = str.indexOf(char);
+        if (index !== -1 && index === val) {
+          val++;
+        } else {
+          //count.push(val);
+          seen = true;
+          val = 0;
+        }
+      }
+    }
+    count.push(val);
+    if (count.includes(str.length)) {
+      return true;
+    }
+    seen = false;
+  }
+
+  count = [];
+  val = 0;
+  //top-down
+  for (var i = 0; i < newBoard.length; i++) {
+    for (var j = 0; j < newBoard[i].length; j++) {
+      debugger;
+      char = newBoard[i][j];
+      if (char === "_") {
+        if (!seen) {
+          val++;
+        }
+      } else if (char === "#") {
+        seen = false;
+        count.push(val);
+        val = 0;
+      } else {
+        var index = str.indexOf(char);
+        if (index !== -1 && index === val) {
+          val++;
+        } else {
+          //count.push(val);
+          seen = true;
+          val = 0;
+        }
+      }
+    }
+    count.push(val);
+    if (count.includes(str.length)) {
+      return true;
+    }
+    seen = false;
+  }
+  return false;
 }

@@ -36,7 +36,50 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var value = 0;
+  for (var i = 0; i < string.length; i++) {
+    var char = string[i];
+    if (char === "I") {
+      if (string[i+1] === "V") {
+        value += 4;
+        i++;
+      } else if (string[i+1] === "X") {
+        value += 9;
+        i++;
+      } else {
+        value += 1;
+      }
+    } else if (char === "V") {
+      value += 5;
+    } else if (char === "X") {
+      if (string[i+1] === "L") {
+        value += 40;
+        i++;
+      } else if (string[i+1] === "C") {
+        value += 90;
+        i++;
+      } else {
+        value += 10;
+      }
+    } else if (char === "L") {
+      value += 50;
+    } else if (char === "C") {
+      if (string[i+1] === "D") {
+        value += 400;
+        i++;
+      } else if (string[i+1] === "M") {
+        value += 900;
+        i++;
+      } else {
+        value += 100;
+      }
+    } else if (char === "D") {
+      value += 500;
+    } else if (char === "M") {
+      value += 1000;
+    }
+  }
+  return value;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +115,48 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var str = [];
+  while (number > 0) {
+    if (number >= 1000) {
+      str.push("M");
+      number -= 1000;
+    } else if (number >= 900) {
+      str.push("CM");
+      number -= 900;
+    } else if (number >= 500) {
+      str.push("D");
+      number -= 500;
+    } else if (number >= 400) {
+      str.push("CD");
+      number -= 400;
+    } else if (number >= 100) {
+      str.push("C");
+      number -= 100;
+    } else if (number >= 90) {
+      str.push("XC");
+      number -= 90;
+    } else if (number >= 50) {
+      str.push("L");
+      number -= 50;
+    } else if (number >= 40) {
+      str.push("XL");
+      number -= 40;
+    } else if (number >= 10) {
+      str.push("X");
+      number -= 10;
+    } else if (number >= 9) {
+      str.push("IX");
+      number -= 9;
+    } else if (number >= 5) {
+      str.push("V");
+      number -= 5;
+    } else if (number >= 4) {
+      str.push("IV");
+      number -= 4;
+    } else {
+      str.push("I");
+      number -= 1;
+    }
+  }
+  return str.join("");
 };

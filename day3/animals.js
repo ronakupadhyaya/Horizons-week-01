@@ -16,11 +16,11 @@
 
   window.lion = getAnimal();
 
-}());
+})();
 
 (function() {
   function getAnimal() {
     return 'tiger';
   }
   window.tiger = getAnimal();
-}());
+})();

@@ -42,7 +42,35 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var arr1 = rpnString.split(" ");
+  var stack = [];
+  var arr = arr1.map(function(num) {
+    if (isNumberString(num)) {
+      return parseInt(num);
+    }
+    else {
+      return num;
+    }
+  })
+  for (var i = 0; i < arr.length; i++) {
+    if (typeof arr[i] === "number") {
+      stack.push(arr[i]);
+    } else {
+      if (stack.length < 2) {
+        throw "Error";
+      }
+      var a = stack.pop();
+      var b = stack.pop();
+      if (arr[i] === "+") stack.push(b+a);
+      if (arr[i] === "-") stack.push(b-a);
+      if (arr[i] === "*") stack.push(b*a);
+      if (arr[i] === "/") stack.push(b/a);
+    }
+  }
+  if (stack.length > 1) {
+    throw "Error";
+  }
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

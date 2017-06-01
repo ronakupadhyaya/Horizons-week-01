@@ -9,15 +9,19 @@
 //
 // Do not edit, reorder or delete any of the existing code.
 //
+(function first(){
+  function getAnimal() {
+    return 'lion';
+  }
 
-function getAnimal() {
-  return 'lion';
-}
+  window.lion = getAnimal();
+}())
 
-window.lion = getAnimal();
+(function second(){
 
-function getAnimal() {
-  return 'tiger';
-}
+  function getAnimal() {
+    return 'tiger';
+  }
 
-window.tiger = getAnimal();
+  window.tiger = getAnimal();
+}())

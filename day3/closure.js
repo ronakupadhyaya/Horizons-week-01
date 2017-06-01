@@ -1,8 +1,9 @@
 "use strict";
 
 // ex. 1.1 This exercise has a function that creates
-// a bank account for a user. It takes in a username
-// and password. In order to login to your created account
+// a bank account for a user.
+
+// It takes in a username and password. In order to login to your created account
 // the account has a login command. When you have multiple
 // users it is important to note that the passwords for
 // each user must be kept separate (only available in the
@@ -14,21 +15,18 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt){
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
 // See if you can fix this.
 var createUser = function(username, password) {
+  var newAccount = vault(password);
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(newAccount)
   }
 }
 
@@ -83,11 +81,14 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var val;
+
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      val = f(arguments[0], arguments[1]); // call f
       called = true; // mark f as called
     }
+    return val;
   }
 }
 
@@ -117,13 +118,16 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
+  var indexArray = [];
+  var counter = -1;
 
+  for (var i = num1; i <= num2; i++) {
+    indexArray.push(i);
+    functionArray.push(functionArray[counter] = function() {
+      counter++;
+      return indexArray[counter];
+    });
+  }
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

@@ -1,11 +1,6 @@
 # Horizons Week 1 Day 3 Exercises
 This is Ming Rui's Repo
 
-## Inline Exercises
-
-1. [The `this` keyword (warmup)](this.md)
-1. [Object Oriented Programming](oop.md)
-
 ## Pair Programming Exercises
 
 1. Closures<br>

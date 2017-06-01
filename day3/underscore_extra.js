@@ -32,6 +32,15 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+
+  var answer = {};
+  return function memoizedFn(x){
+    if (! answer.hasOwnProperty(x)){
+      answer[x] = func(x);
+    };
+    return parseInt(answer[x]);
+  }
+
 }
 
 // Exercise 2: partial()
@@ -60,7 +69,31 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+    if(args.length === 0){
+        throw "Error";
+    }
+    args.shift();
+    return function(){
+        var args2 = args.concat(Array.prototype.slice.call(arguments));
+        return fn.apply(null, args2);
+    }
 }
+
+//  var argArr = [];
+//  for (var key in arguments){
+//    if (! key){
+//      throw "Where's the function?";
+//    }
+//    if (key !== fn){
+//      argArr.push(arguments[key]);
+//    }
+//    console.log(argArr);
+//  }
+//  return function partialFn(){
+//    fn.apply()
+//  };
+
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns
@@ -99,6 +132,10 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function(x, y){
+    var a = fun2(x, y);
+    return fun1(a);
+  };
 }
 
 

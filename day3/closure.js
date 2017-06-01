@@ -15,6 +15,12 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+    if (attempt === password){
+      return true;
+    }
+    return false;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,7 +31,6 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
     login: function(attempt) {
       return this.privatePassword === attempt;
     }
@@ -82,12 +87,14 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
-  return function() {
+  var called = false;
+  var answer = null; // Let's create a local variable to track if f has been called
+  return function(x, y) {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      answer = f(x, y); // call f
       called = true; // mark f as called
     }
+    return answer;
   }
 }
 
@@ -117,13 +124,16 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+  for (var i = 0; i <= num2 - num1; i++) {
+    var test = num1 + i;
+    functionArray[i] = (function(n) {
       // function that returns i
-      return i;
-    }
+      return function(){
+        return n;
+      }
+    }(test))
   }
-
+  console.log(functionArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

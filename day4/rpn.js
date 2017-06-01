@@ -43,7 +43,42 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
-}
+  rpnString = rpnString.split(" ")
+
+  var operation = {
+    "+": function (x, y) { return x + y },
+    "-": function (x, y) { return x - y },
+    "*": function (x, y) { return x * y },
+    "/": function (x, y) { return x / y },
+    "sqrt": function (x) { return Math.sqrt(x)}
+  };
+
+  var return_val = []
+  while(rpnString.length > 0) {
+    var c = rpnString.shift(1);
+    if (!isNaN(parseInt(c))) {
+      return_val.push(parseInt(c));
+    } else {
+      try {
+        var b = return_val.pop();
+        var a = return_val.pop();
+        // console.log(c, operation[c])
+        if (a === undefined || b === undefined) {
+          throw new Error("too many operators")
+        }
+        return_val.push(operation[c](a, b))
+      } catch(e) {
+        throw new Error("too many operators")
+      };
+    };
+  };
+
+  if (return_val.length > 1) {
+    throw new Error("too many numbers")
+  } else {
+    return return_val.pop()
+  }
+};
 
 // This function returns true if given string represents a valid number.
 //

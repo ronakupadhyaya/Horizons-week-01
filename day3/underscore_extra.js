@@ -143,3 +143,13 @@ function composeBasic(fun1, fun2) {
 function compose() {
   // YOUR CODE HERE
 }
+
+function recurse(args, val) {
+  var len = args.length
+  if (len === 0) {
+    return val;
+  }
+  val = args[len-1];
+  recurse(args.substring(0, len-1), val);
+
+}

@@ -43,6 +43,35 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+   var companies = {};
+   for (var i = 0; i < data.length; i++) {
+   	if (!companies.hasOwnProperty(data[i].ticker)) {
+   		companies[data[i].ticker] = [new Date(data[i].time)];
+   	} else {
+   		companies[data[i].ticker].push(new Date(data[i].time));
+   	}
+   }
+  // console.log(companies);
+   for (var property in companies) {
+   	if (companies.hasOwnProperty(property)){
+   		//find latest and earliest object 
+   		//console.log("Company " + property);
+   		var earliest = new Date(Math.min.apply(null, companies[property]));
+   		//console.log("Earliest date: " + earliest);
+   		var latest = new Date(Math.max.apply(null, companies[property]));
+   		//console.log("Latest date: " + latest);
+   		var earliestPrice = (data.find(function(transaction) {
+   			return ((transaction['ticker'] === property) && (new Date(transaction['time']).getTime() === earliest.getTime()));
+   		}))['price'];
+   		var latestPrice = (data.find(function(transaction) {
+   			return ((transaction['ticker'] === property) && (new Date(transaction['time']).getTime() === latest.getTime()));
+   		}))['price'];
+   		//console.log("Earliest price: " + earliestPrice);
+   		//console.log("Latest price: " + latestPrice);
+   		companies[property] = latestPrice - earliestPrice;
+   	  }
+   }
+	return companies;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +89,10 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var companies = stocks.gainAndLoss(data);
+  var gains = Object.keys(companies).map(function (key) { return companies[key]; });
+  var max = Math.max.apply(null, gains);
+  return _.invert(companies)[max];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +110,10 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var companies = stocks.gainAndLoss(data);
+  var gains = Object.keys(companies).map(function (key) { return companies[key]; });
+  var min = Math.min.apply(null, gains);
+  return _.invert(companies)[min]; 
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +126,23 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var companies = {};
+   for (var i = 0; i < data.length; i++) {
+   	if (!companies.hasOwnProperty(data[i].ticker)) {
+   		companies[data[i].ticker] = [data[i].price];
+   	} else {
+   		companies[data[i].ticker].push(data[i].price);
+   	}
+   }
+  // console.log(companies);
+   for (var property in companies) {
+   	if (companies.hasOwnProperty(property)) {
+   		companies[property] = Math.max.apply(null, companies[property]) - Math.min.apply(null, companies[property]);
+   	}
+   }
+   //console.log(companies);
+   var arr = Object.keys(companies).map(function (key) { return companies[key]; });
+   return _.invert(companies)[Math.max.apply(null, arr)]; 
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +161,48 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var companies = {};
+  var date = new Date(date);
+  var result = 0;
+   for (var i = 0; i < data.length; i++) {
+   	if (!companies.hasOwnProperty(data[i].ticker)) {
+   		companies[data[i].ticker] = [new Date(data[i].time)];
+   	} else {
+   		companies[data[i].ticker].push(new Date(data[i].time));
+   	}
+   }
+  //console.log(companies);
+  for (var property in companies) {
+  	if (portfolio.hasOwnProperty(property)) {
+  		//sort the times
+  		console.log("Company: " + property);
+  		if (companies.hasOwnProperty(property)) {
+  			companies[property].sort(function(a, b) {
+  				return a.getTime() - b.getTime();
+			});
+  		}
+  		var time = null;
+  		for (var i = 1; i < companies[property].length; i++) {
+  			if (date.getTime() >= companies[property][i - 1].getTime() && date.getTime() <= companies[property][i].getTime()) {
+  				console.log(date + " is between " + companies[property][i - 1] + " and " + companies[property][i]);
+  				time = companies[property][i];
+  				break;
+  			}
+  		}
+  		console.log('Time to find price at: ' + time);
+  		console.log("Number of shares: " + portfolio[property]);
+  		var price = (data.find(function(transaction) {
+  			return (new Date(transaction['time'])).getTime() === time.getTime() && transaction['ticker'] === property;
+  		}))['price'];
+  		console.log("Price at this time: " + price);
+  		result += price * portfolio[property];
+  	}
+  }
+ // console.log("Total: " + result);
+ console.log("RESULT: " + result);
+  //console.log("Sorted");
+  //console.log(companies);
+  return result;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

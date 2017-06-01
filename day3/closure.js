@@ -16,7 +16,6 @@
 function vault(password) {
   // YOUR CODE HERE
 }
-
 // This function returns an object that leaks private information!
 // See if you can fix this.
 var createUser = function(username, password) {
@@ -115,13 +114,21 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+function createFunction(i){
+  return function() {
+    return i;
+  }
+}
 var functionFactory = function(num1, num2) {
+
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray[i] = (function(y) {
+      return function() {
+        return y;
+      }
+
+    }(i));
   }
 
   return functionArray;

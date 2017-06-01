@@ -46,5 +46,44 @@
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
-  // YOUR CODE HERE
+  var args = _.toArray(arguments);
+  var word = args[0];
+  var board = args[1];
+  var row = 0;
+  var col = 0;
+
+  var vertical = "";
+  while(row < board.length){
+    var tempWord = word.split("").join(" ");
+    if(board[row].includes(tempWord)){
+      return true;
+    }
+    row++;
+  }
+
+
+    // while(col < board[0].length){
+    //   // if(board[row].includes(tempWord)){
+    //   //   return true;
+    //   // }
+    //
+    //   col++;
+    // }
+
+
+
+    // while(col<board[0].length){
+    //   var spot = board[row][col];
+    //   if(spot === tempWord[0]){
+    //     tempWord = word.slice(1,word.length-1);
+    //   }else if(spot !== "_"){
+    //     col++;
+    //
+    //     continue;
+    //   }
+    //   col++;
+    // }
+    //
+
+
 }

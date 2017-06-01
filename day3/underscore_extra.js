@@ -120,6 +120,7 @@ function composeBasic(fun1, fun2) {
 //  console.log('called');
 //  return Math.max(a, b);
 // }
+
 // function hashFunction(a, b) {
 //  return a + ',' + b;
 // }

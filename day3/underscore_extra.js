@@ -31,7 +31,20 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var input = []
+  var output = []
+  return  function (a){
+  if(input.includes(a)){
+    var i = input.indexOf(a)
+    return output[i]
+  }else {
+    input.push(a)
+    var result = func(a)
+    output.push(result)
+
+    return result;
+  }
+  }
 }
 
 // Exercise 2: partial()
@@ -52,14 +65,24 @@ function memoize(func) {
 // function getArgs() {
 //  return arguments;
 // }
-// var partialGetArgs = partial(getArgs, 'a', 'b', 'c')
-// partialGetArgs() // -> ['a', 'b', 'c']
-// partialGetArgs('x', 'y') // -> ['a', 'b', 'c', 'x', 'y']
+// var n = partial(getArgs, 'a', 'b', 'c')
+//  n() // -> ['a', 'b', 'c']
+//  n('x', 'y') // -> ['a', 'b', 'c', 'x', 'y']
 //
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  var otherArgs = Array.prototype.slice.call(arguments);
+  return fn.bind.apply(fn, otherArgs);
+  //       otherArgs = [fn, a1, a2, a3...]
+  //         var bob = fn.bind(fn, a1, a2, a3)
+  //           bob(b1, b2)
+  //           fn(a1, a2, a3, b1, b2)
+  // }
+  // console.log(partialFn())
+  // console.log('tomato')
+  // return partialFn();
+
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +121,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  fun2.call(arguments)
+  var fun1input = fun2(n)
+  return fun1(fun1input)
 }
 
 
@@ -143,3 +168,14 @@ function composeBasic(fun1, fun2) {
 function compose() {
   // YOUR CODE HERE
 }
+
+//// May 31 Code Along
+
+// freecode.testFun = function (){
+//   console.log("we're in business, baby")
+// }
+//
+// Array.prototype.pad= function (){
+//   this.push('a')
+//   this.unshift('a')
+// }

@@ -9,15 +9,39 @@
 //
 // Do not edit, reorder or delete any of the existing code.
 //
+//
+// function getAnimal() {
+//   return 'lion';
+// }
+//
+// window.lion = getAnimal();
+//
+// (function getAnimal() {
+//   return 'tiger';
+// })()
+//
+// window.tiger = getAnimal();
 
-function getAnimal() {
-  return 'lion';
-}
 
-window.lion = getAnimal();
 
-function getAnimal() {
-  return 'tiger';
-}
+(function () {
+	 function getAnimal() {
+ 		return 'lion';
+	 }
 
-window.tiger = getAnimal();
+	  window.lion = getAnimal();
+
+})();
+
+
+(function() {
+	 function getAnimal() {
+  		return 'tiger';
+	   }
+
+	    window.tiger = getAnimal();
+})();
+
+// does this mean that GetAnimal is a function that's redefined later on
+// and that's why you needed to invoke it immediately
+// why do we need to run the second function immediately

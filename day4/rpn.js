@@ -43,6 +43,80 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+
+
+  var parts = rpnString.split(' ')
+
+
+  var numbers = 0, ops = 0
+
+
+//ERROR CHECKING HERE
+  for(var i = 0; i < parts.length; i++){
+    if( parts[i] === '+' || parts[i] === '-' || parts[i] === '*' || parts[i] === '/'){
+      ops++
+    }else{
+      numbers++
+    }
+  }
+
+  //console.log(numbers, ops)
+
+  if(ops > numbers - 1 || ops === 0 && numbers === 0 || ops === 0 && numbers > 1 ){
+    throw new Error("Error")
+  }
+
+  var stack = []
+
+  parts.forEach(function(element){
+    if("+-*/".indexOf(element) === -1){
+      //its a number so you can push it
+      //console.log(parseInt(element))
+      stack.push(parseInt(element))
+    }else{
+      //its an operator so you can get two and perform operations
+      if(element === '+'){
+        var second = stack.pop()
+        var first = stack.pop()
+        stack.push(first + second)
+
+      }else if(element === '-'){
+        var second = stack.pop()
+        var first = stack.pop()
+        stack.push(first  - second)
+
+      }else if(element === '*'){
+        var second = stack.pop()
+        var first = stack.pop()
+        stack.push(first * second)
+
+      }else if(element === '/'){
+        var second = stack.pop()
+        var first = stack.pop()
+        stack.push(first / second)
+      }
+    }
+  });
+
+  var boop = stack.pop()
+  return boop
+
+
+//OPERATIONS
+
+  // var stack = []
+  //
+  // for(var i = 0; i < parts.length; i++){
+
+  //
+  //   }else if(  isNumberString(parts[i])  ){
+  //     stack.push(parts[i]);
+  //   }else{
+  //     console.log("problem")
+  //   }
+  // }
+
+
 }
 
 // This function returns true if given string represents a valid number.

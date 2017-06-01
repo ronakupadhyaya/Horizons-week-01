@@ -21,7 +21,7 @@ describe("RPN Calculator", function() {
     expect(rpnCalculator("0") ).toBe(0);
   });
   it("rpnCalculator('10') -> 0", function() {
-    expect(rpnCalculator("0") ).toBe(0);
+    expect(rpnCalculator("10") ).toBe(10);
   });
   it("rpnCalculator('-8 8 -') -> -16", function() {
     expect(rpnCalculator('-8 8 -') ).toBe(-16);

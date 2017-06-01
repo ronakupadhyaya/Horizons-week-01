@@ -30,8 +30,23 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func) { // double
   // YOUR CODE HERE
+  var input = []
+var output = []
+return  function (a){ //a = 2
+if(input.includes(a)){
+  // func.apply(null,arguments)
+  var i = input.indexOf(a)
+  return output[i]
+}else {
+  input.push(a)
+  var result = func(a)
+  output.push(result)
+
+  return result;
+}
+}
 };
 
 // Exercise 2: partial()
@@ -142,4 +157,20 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+}
+
+// prototypes
+//padder, addPadder
+//argumentLogger (log all args ever passed)
+// __ = AKA dunder
+//[1].__proto__ === [2].__proto__
+// === same exact copy
+//[1].__proto__ same as Array.prototype (more preferred use) make pad as legit as push
+//[1,2,3].echo() --> log [1,2,3]
+
+
+Array.prototype.pad = function(padItem) {
+  this.unshift(padItem)
+  this.push(padItem)
+  return this; //(act on whole array)
 }

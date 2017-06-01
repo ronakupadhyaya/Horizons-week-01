@@ -15,6 +15,13 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt) {
+    if (attempt  === password) {
+     return true;
+   } else {
+    return false;
+  };
+}
 }
 
 // This function returns an object that leaks private information!
@@ -25,12 +32,10 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
-  }
+    login: vault(password)
+ }
 }
+
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
@@ -81,13 +86,16 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
-var once = function(f) {
+var once = function(f) {  // square
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
+  var result;  // var remembered = null;
+  return function() { // return function(x,y) {
+    //var myArgs = Array.prototype.slice.call(arguments);
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      result = f.apply(null, arguments); // call f //f = squareNum // remembered = f(x,y);
       called = true; // mark f as called
     }
+    return result; // return remembered
   }
 }
 
@@ -115,15 +123,22 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+var myfunction = function(y) {
+  return function() {
+    return y;
+  };
+};
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
+    functionArray.push(myfunction(i))
+      // functionArray[i] = function() {
+      // return function() {
+      // return y;
+    //};
+    // } (i));
     }
-  }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

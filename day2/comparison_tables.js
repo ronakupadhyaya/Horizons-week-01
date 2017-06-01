@@ -48,10 +48,11 @@ var valuesToCheck = function() {
 
 comp.testLooseEquality = function() {
   var arr = [];
-  var vals = valuesToCheck();
-  for (var i = 0; i < vals.length; i++) {
-    for (var j = 0; j < vals.length; j++) {
-      arr.push([vals[i], vals[j]]);
+  var vals1 = valuesToCheck();
+  var vals2 = valuesToCheck()
+  for (var i = 0; i < vals1.length; i++) {
+    for (var j = 0; j < vals1.length; j++) {
+      arr.push([vals1[i], vals2[j]]);
     }
   }
   var obj = {};
@@ -76,10 +77,11 @@ comp.testLooseEquality = function() {
 
 comp.testStrictEquality = function() {
   var arr = [];
-  var vals = valuesToCheck();
-  for (var i = 0; i < vals.length; i++) {
-    for (var j = 0; j < vals.length; j++) {
-      arr.push([vals[i], vals[j]]);
+  var vals1 = valuesToCheck();
+  var vals2 = valuesToCheck()
+  for (var i = 0; i < vals1.length; i++) {
+    for (var j = 0; j < vals1.length; j++) {
+      arr.push([vals1[i], vals2[j]]);
     }
   }
   var obj = {};

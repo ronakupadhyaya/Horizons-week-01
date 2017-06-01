@@ -36,6 +36,9 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   this.listeners = {};
+  var isOnce = false;
+  var onceCalled = false;
+  this.listeners.once = [isOnce, onceCalled];
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -52,12 +55,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  var self = this;
-  var eventList = self.listeners.eventName;
+  var eventList = this.listeners[eventName];
   if (!eventList) {
-    eventList = [fn];
+    this.listeners[eventName] = [fn];
   } else {
-    eventList.push(fn);
+    this.listeners[eventName].push(fn);
   }
 }
 
@@ -76,7 +78,14 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  var obj = this.listeners;
+
+  if (!obj[eventName])
+    return;
+
+  obj[eventName].forEach(function (fn) {
+    fn(arg);
+  })
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -93,7 +102,11 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var obj = this.listeners;
+  if (!obj[eventName] || obj[eventName].indexOf(fn) < 0)
+    return;
+
+  obj[eventName].splice(obj[eventName].indexOf(fn), 1);
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -109,5 +122,11 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var obj = this.listeners;
+  if (!obj[eventName]) {
+    this.listeners[eventName] = [fn];
+  } else {
+    this.listeners[eventName].push(fn);
+  }
+  obj.once = [true, false];
 }

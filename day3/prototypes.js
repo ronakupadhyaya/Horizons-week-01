@@ -34,29 +34,8 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
-	var macBook = {
-	  ram: "8gb",
-	  processor: "i3",
-	}
-	var macBookPro = {
-	  processor: "i5",
-	  color: "Space gray"
-	}
-	var touchBarMacbook = {
-	  extras: "touchBar"
-	};
-
-	macBookPro.__proto__ = macBook;
-	touchBarMacbook.__proto__ = macBookPro;
-
 
   var keys = [];
-  // _.each(obj, function(value, key){
-  // 	if () {
-  // 		keys.push(key);
-  // 	}
-  // });
 
   while (obj != undefined) {
   	_.each(obj, function(value, key) {

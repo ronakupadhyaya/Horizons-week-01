@@ -32,6 +32,18 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var result = 0
+  var call = false
+  var resObj = {}
+  return  function() {
+  //  var arg = arguments[0]
+    if(!call) {
+      call = true
+      result = func(arg)
+      resObj[arg] = result
+    }
+    return resObj[arg];
+  }
 }
 
 // Exercise 2: partial()

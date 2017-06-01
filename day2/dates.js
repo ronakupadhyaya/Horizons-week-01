@@ -10,7 +10,41 @@ window.dates = {};
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
-  // YOUR CODE HERE
+
+  var months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11};
+  var date_bad = dateStr.split(" ");
+  console.log(date_bad);
+
+  if (date_bad.length === 1) {
+    var d = new Date(dateStr);
+    return d;
+  }
+  else {
+
+    var time = date_bad.pop();
+    var split = time.split(":");
+
+    var date = date_bad.concat(split);
+
+    console.log(date);
+
+    var year = parseInt(date[2]);
+    var month = months[date[0]];
+    var day = parseInt(date[1]);
+    var hours = parseInt(date[3]);
+    var minutes = parseInt(date[4]);
+    var seconds = parseInt(date[5]);
+    if (date.length > 6) {
+      var milliseconds = parseInt(date[6]);
+    }
+    else
+      var milliseconds = 0;
+
+    var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+    return d;
+  }
+
+
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -23,7 +57,7 @@ dates.createDate = function(dateStr) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
-  // YOUR CODE HERE
+  return dateObj.toUTCString();
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -34,7 +68,9 @@ dates.getUTCString = function(dateObj) {
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  var day1 = dateObj.getUTCDay();
+  var day2 = otherDateObj.getUTCDay();
+  return (day1 === day2);
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -47,7 +83,7 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  return (dateObj.getHours() === otherDateObj.getHours() && dateObj.getMinutes() === otherDateObj.getMinutes() && dateObj.getSeconds() === otherDateObj.getSeconds());
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -55,7 +91,7 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
-  // YOUR CODE HERE
+  return (dateObj.getTime() > Date.now());
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -65,5 +101,9 @@ dates.isTheFuture = function(dateObj) {
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
-  // YOUR CODE HERE
+  var day = dateObj.getDate();
+  day++;
+  dateObj.setDate(day);
+  return dateObj;
 };
+

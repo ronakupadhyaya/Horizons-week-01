@@ -1,3 +1,5 @@
+"use strict";
+//import Math
 window.util = {};
 
 // Calculator Exercise
@@ -53,6 +55,81 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+
+  if (expression.length === 0) {
+    throw "Error, empty expression.";
+  }
+
+  var exp = expression.split(" ");
+
+  // Support for square root operator
+  while (exp.indexOf('sqrt') != -1) {
+    var new_num = Math.sqrt(exp[exp.indexOf('sqrt') + 1]);
+    exp.splice(exp.indexOf('sqrt'), 2, new_num);
+  };
+
+  // Checking for invalid expressions
+  if (exp.length === 1 && (exp[0] === '-' || exp[0] === '+' || exp[0] === "/" || exp[0] === "*")) {
+    throw "Error, no numbers ";
+  }
+  if (exp.length === 1 && (typeof(parseInt(exp[0])) === "number") ) {
+    return parseInt(exp[0]);
+  }
+
+  // Checking for invalid expressions
+  if (exp.length === 2) {
+    throw "Error, misssing operator ";
+  }
+  if (exp.length % 2 === 0) {
+    throw "Error";
+  }
+
+  var total = parseInt(exp[0]);
+
+  // Support Mult and Div
+  while (exp.indexOf('/') != -1 || exp.indexOf('*') != -1) {
+    for (var i = 2; i < exp.length; i += 2) {
+      if ((exp[i - 1] === '*') || (exp[i - 1] === '/')) {
+        var num = parseFloat(exp[i]);
+        var num1 = parseFloat(exp[i - 2]);
+        var op = exp[i - 1];
+
+
+        if (op === '/') {
+          var new_num = (num1 / num);
+        }
+        else if (op === '*')  {
+          var new_num = (num1 * num);
+        }
+
+        exp.splice(i - 2, 3, new_num);
+        break
+      }
+    }
+  };
+
+  // Support Add and Sub
+  var total = parseFloat(exp[0]);
+  for (var i=2; i<exp.length; i += 2) {
+    var num = parseFloat(exp[i]);
+    if (num === NaN) {
+      throw "Error, operator at the wrong spot";
+    }
+    if (exp[i - 1] === '+') {
+      total += parseFloat(exp[i]);
+    }
+    else if (exp[i - 1] === '-') {
+      total -= parseFloat(exp[i]);
+    }
+    else {
+      throw "Error, too many numbers";
+    }
+  };
+
+  return total;
 };
+
+

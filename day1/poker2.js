@@ -55,33 +55,27 @@ window.sortByValue = function(arr) {
 
 window.determineRank = function(hand) {
 
-  var ranks = {
-    high_card : 1,
-    one_pair : 2,
-    two_pairs : 3,
-    three_of_a_kind : 4,
-    straight : 5,
-    flush : 6,
-    full_house : 7,
-    four_of_a_kind : 8,
-    straight_flush : 9,
-    royal_flush : 10
-  };
+  ranks = {
+    high_card = 1;
+  one_pair = 2;
+  two_pairs = 3;
+  three_of_a_kind = 4;
+  straight = 5;
+  flush = 6;
+  full_house = 7;
+  four_of_a_kind = 8;
+  straight_flush = 9;
+  royal_flush = 10;
+};
 
 
   var values = [];
   var suits = [];
 
-  for (var i = 0; i < hand.length; i++) {
-    if (hand[i].length === 3) {
-      suits.push(hand[i][2]);
-    }
-    else {
-      suits.push(hand[i][1]);
-    }
-    if (hand[i][0] === 'J') {
+  for (var i = 0; i < hand.length, i++) {
+    suits.push(hand[i][1]);
+    if (hand[i][0] === 'J')
       values.push(11);
-    }
     else if (hand[i][0] === 'Q') {
       values.push(12);
     }
@@ -99,19 +93,19 @@ window.determineRank = function(hand) {
 
   var ord_vals = window.sortByValue(values);
 
-  var is_flush = true;
+  var is_flush = true
   var is_straight = true;
 
-  for (var i = 0; i < hand.length - 1; i++) {
-    if ((ord_vals[i + 1] - ord_vals[i - 1]) !== 1) {
+  for (var i = 0; i < hand.length - 1, i++) {
+    if ((ord_vals[i + 1] - ord_vals[i - 1]) != 1) {
       is_straight = false;
     }
-    if (suits[i] !== suits[i + 1]) {
+    if (suits[i] != suits[i + 1]) {
       is_flush = false;
     }
   }
 
-  var is_straight_flush = (is_flush && is_straight);
+  var is_straight_flush = (is_flush && is_straight)
 
   var rank = 1;
 
@@ -138,180 +132,65 @@ window.determineRank = function(hand) {
   }
 
 
+  var rank = 1;
 
   var composition = [];
   var highest_card = ord_vals[ord_vals.length - 1];
 
   // Finding Pairs
-  var counts = {};
-
-  for (var i = 0; i < hand.length; i++) {
+  counts = {}
+  for (var i = 0; i < hand.length, i++) {
     var card = ord_vals[i];
-    if (card in counts) {
-      counts[card] += 1;
-    }
-    else {
+    if (counts.keys.indexOf(card) === -1) {
       counts[card] = 1;
     }
+    else {
+      counts[card] += 1;
+    }
   }
 
-  var keys = Object.keys(counts);
+  var pairs = 0
+  var pair_type = []
 
-  var pairs = 0;
-  var pair_type = [];
-
-  for (var i = 0; i < keys.length; i++) {
-    if (counts[keys[i]] === 4) {
+  for (var i = 0; i < counts.keys.length, i++) {
+    if (counts[counts.keys[i]] === 4) {
       if (8 > rank) {
         rank = 8;
-        composition.push(keys[i]);
+        composition.push(counts.keys[i]);
       }
     }
-    if (counts[keys[i]] === 3) {
+    if (counts[counts.keys[i]] === 3) {
       if (4 > rank) {
         rank = 4;
-        composition.push(keys[i]);
+        composition.push(counts.keys[i]);
       }
     }
-    if (counts[keys[i]] === 2) {
-      pairs++;
-      composition.push(keys[i]);
+    if (counts[counts.keys[i]] === 2) {
+      pairs++
+      pair_type.push(counts.keys[i])
     }
   }
-
 
   if (pairs === 2) {
     if (3 > rank) {
       rank = 3;
+      composition.concat(pair_type)
     }
   }
 
-  if (pairs === 1) {
-    if (2 > rank) {
+  if (pairs == 1) {
+    if (2 > ranks) {
       rank = 2;
-
-      //console.log(composition, "here");
+      composition.concat(pair_type)
     }
   }
 
-  if (rank === 1) {
-    composition.push(highest_card.toString());
-  }
-
-  return [rank,composition,highest_card, ord_vals]
+  return rank;
 };
-
-window.nextBreak = function(results,cards) {
-
-  var rank = results[0];
-  var composition = results[1];
-  var highest_card = 0;
-
-  if (rank > 0) {
-    var inComp = function (item) {
-      return (composition.indexOf(item.toString()) === -1);
-    };
-    var filtered = cards.filter(inComp);
-    console.log(rank, cards, composition, filtered, "bet");
-    var sorted = window.sortByValue(filtered);
-    console.log(rank, sorted, "here");
-    highest_card = sorted[sorted.length - 1];
-  }
-  return parseInt(highest_card);
-};
-
-window.breakTie = function(results1, results2, cards1, cards2) {
-
-  var rank = results1[0];
-  var comp1 = results1[1];
-  var comp2 = results2[1];
-  var highest_card1 = results1[2];
-  var highest_card2 = results2[2];
-
-  if (rank === 1) {
-    //console.log(highest_card1, highest_card2, "yeet");
-    if (highest_card1 > highest_card2) {
-      return 1;
-    }
-    else if (highest_card2 > highest_card1) {
-      return 2;
-    }
-    else {
-      var next_high1 = window.nextBreak(results1, cards1);
-      var next_high2 = window.nextBreak(results2, cards2);
-      if (next_high1 > next_high2) {
-        return 1;
-      }
-      else {
-        return 2;
-      }
-    }
-
-  }
-
-  if (rank === 2 || rank === 3 || rank === 4 || rank === 8) {
-    if (rank === 2) {
-      //console.log(comp1, comp2);
-    }
-    var sum1 = 0;
-    var sum2 = 0;
-    for (var i=0; i <comp1.length; i++) {
-      sum1 += parseInt(comp1[i]);
-      sum2 += parseInt(comp2[i]);
-    }
-    if (sum1 > sum2) {
-      return 1;
-    }
-    else if (sum1 < sum2) {
-      return 2;
-    }
-    else {
-      //console.log(rank, sum1, sum2, highest_card1, highest_card2, "yeet");
-      var next_high1 = nextBreak(results1, cards1);
-      var next_high2 = nextBreak(results2, cards2);
-
-      console.log(rank, sum1, sum2, next_high1, next_high2, "yeet");
-      if (next_high1 > next_high2) {
-        return 1;
-      }
-      else {
-        return 2;
-      }
-
-    }
-  }
-
-  if (rank === 6 || rank === 9 || rank === 10) {
-    if (highest_card1 > highest_card2) {
-      return 1;
-    }
-    else if (highest_card2 > highest_card1) {
-      return 2;
-    }
-  }
-
-  if (rank === 7) {
-    var triple1 =  0;
-    var triple2 = 0;
-
-    for
-  }
-
-
-};
-
 
 window.rankPokerHand = function(hand1, hand2) {
-  var results1 = window.determineRank(hand1);
-  var results2 = window.determineRank(hand2);
-
-  var rank1 = results1[0];
-  var rank2 = results2[0];
-
-  var cards1 = results1[3];
-  var cards2 = results2[3];
-
-  //console.log(rank1, rank2, "bet");
+  var rank1 = window.determineRank(hand1);
+  var rank2 = window.determineRank(hand2);
 
   if (rank1 > rank2) {
     return 1;
@@ -319,7 +198,7 @@ window.rankPokerHand = function(hand1, hand2) {
   else if (rank2 > rank1) {
     return 2;
   }
-  else {
-    return window.breakTie(results1, results2, cards1, cards2);
-  }
 };
+/**
+ * Created by ebadgio on 5/29/17.
+ */

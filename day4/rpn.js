@@ -42,8 +42,80 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
-}
+  var chars = rpnString.split(" ");
+
+  if (chars.length === 1) {
+    if (isNumberString(chars[0])) {
+      return parseInt(chars[0]);
+    }
+    else {
+      throw "Error, too many operators"
+    }
+  }
+
+  if (chars.length === 2) {
+    if (isNumberString(chars.pop())) {
+      throw "Error, too many numbers"
+    }
+    else {
+      throw "Error, too many operators"
+    }
+  }
+
+  while (chars.length > 2) {
+    var pos;
+    var op;
+
+    for (var i = 0; i < chars.length; i++) {
+      if (!(isNumberString(chars[i]))) {
+        op = chars[i];
+        pos = i;
+        break;
+      }
+    }
+
+
+    var front = chars[pos -2];
+    var back = chars[pos -1];
+
+    if (isNumberString(op)) {
+      throw "Error, too many numbers"
+    }
+
+    if (!(isNumberString(front)) || !(isNumberString(back))) {
+      throw "Error, too many operators"
+    }
+
+    var newVal;
+
+    if (op === '*') {
+      newVal = parseFloat(front)*parseFloat(back);
+    }
+    else if (op === '/') {
+      newVal = parseFloat(front) / parseFloat(back);
+    }
+    else if (op === '-') {
+      newVal = parseFloat(front) - parseFloat(back);
+    }
+    else {
+      newVal = parseFloat(front) + parseFloat(back);
+    }
+
+
+    chars.splice(pos - 2, 3, newVal.toString());
+  }
+
+  if (chars.length === 2) {
+    if (isNumberString(chars.pop())) {
+      throw "Error, too many numbers"
+    }
+    else {
+      throw "Error, too many operators"
+    }
+  }
+
+  return parseFloat(chars.pop());
+};
 
 // This function returns true if given string represents a valid number.
 //

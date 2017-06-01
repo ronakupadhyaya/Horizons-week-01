@@ -42,7 +42,9 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a'], 'a') -> true
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
-  // YOUR CODE HERE
+  return _.any(array, function(item1) {
+    return (item1 === item);
+  })
 };
 
 // Exercise 3: learn_underscore.any(array, fun)
@@ -67,7 +69,7 @@ learn_underscore.contains = function(array, item) {
 //
 // We can use _.reduce() to do the same thing:
 //
-//    function add(a, b) {
+//    function add(a, b) {-
 //      return a + b;
 //    }
 //    return _.reduce(array, add)
@@ -103,8 +105,14 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  // YOUR CODE HERE
-}
+  var mapped = _.map(array, function(item) {
+    return fun(item);
+  });
+  var reduced = _.reduce(mapped, function(a,b) {
+    return (a || b);
+  });
+  return reduced;
+};
 
 // Exercise 4: learn_underscore.reduce(array, fun)
 // Write the learn_underscore.reduce() function. reduce() takes two arguments, an array and a
@@ -144,8 +152,12 @@ learn_underscore.any = function(array, fun) {
 //  learn_underscore.reduce([false], and) -> false
 //  learn_underscore.reduce([false, false], and) -> false
 learn_underscore.reduce = function(array, fun) {
-  // YOUR CODE HERE
-}
+  var accumulator = _.reduce(array, function (a,b) {
+    return fun(a,b);
+  });
+  console.log(array, accumulator);
+  return accumulator;
+};
 
 // Exercise 5: learn_underscore.keys(object)
 // Write a function using _.forEach() that takes an object and returns an array with
@@ -161,8 +173,12 @@ learn_underscore.reduce = function(array, fun) {
 // _.forEach({a: 5, b: 11},
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
-  // YOUR CODE HERE
-}
+  var keys = [];
+  _.forEach(object, function (value, key) {
+    keys.push(key);
+  });
+  return keys;
+};
 
 // Exercise 6: learn_underscore.values(object)
 // Write a function using _.forEach() that takes an object and returns an array with
@@ -171,8 +187,12 @@ learn_underscore.keys = function(object) {
 // ex. learn_underscore.values({}) -> []
 // ex. learn_underscore.values({a: 1, hello: 10}) -> [1, 10]
 learn_underscore.values = function(object) {
-  // YOUR CODE HERE
-}
+  var values = [];
+  _.forEach(object, function (value, key) {
+    values.push(value);
+  });
+  return values;
+};
 
 // Exercise 7: learn_underscore.pairs(object)
 // Write a function using _.forEach() that takes an object and returns an array with
@@ -181,7 +201,11 @@ learn_underscore.values = function(object) {
 // ex. learn_underscore.pairs({}) -> []
 // ex. learn_underscore.pairs({a: 1, hello: 10}) -> [['a', 1], ['hello', 10]]
 learn_underscore.pairs = function(object) {
-  // YOUR CODE HERE
+  var items = [];
+  _.forEach(object, function (value, key) {
+    items.push([key, value]);
+  });
+  return items;
 }
 
 // Example 2: groupByState(people)
@@ -228,7 +252,7 @@ learn_underscore.groupByState = function(people) {
   return _.groupBy(people, function(person) {
     return person.state;
   });
-}
+};
 
 // Example 3: learn_underscore.countLetters(string)
 // This is a function that takes a string and returns an object that maps each
@@ -253,7 +277,7 @@ learn_underscore.countLetters = function(string) {
   // Same as function(x) { return x; }
   // When we call countBy with _.identity,
   return _.countBy(stringArray, _.identity);
-}
+};
 
 // Exercise 8: learn_underscore.countBy(array, fun)
 // Implement _.countBy() using _.groupBy()
@@ -268,5 +292,9 @@ learn_underscore.countLetters = function(string) {
 //  }
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
-  // YOUR CODE HERE
-}
+  //var mapped = _.map(array, fun(item));
+  var grouped = _.groupBy(array, fun);
+  return _.mapObject(grouped, function(value,key) {
+    return value.length;
+  })
+};

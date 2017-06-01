@@ -42,7 +42,57 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var splitString = rpnString.split(" ");
+  //console.log(splitString);
+
+  var numCount = 0;
+  var opCount = 0;
+  for(var i = 0; i < splitString.length; i++) {
+    if (isNumberString(splitString[i]))
+      numCount++;
+    else
+      opCount++;
+  }
+
+  if (numCount-opCount !== 1)
+    throw "Ratio of numbers to operators is wrong";
+
+  if (splitString.length === 1)
+    return parseInt(splitString[0]);
+
+  var stack = [];
+  for(var i = 0; i < splitString.length; i++) {
+    if (isNumberString(splitString[i]))
+      stack.push(splitString[i]);
+    else {
+      var num1 = stack.pop();
+      //console.log(num1);
+      var num2 = stack.pop();
+      //console.log(num2);
+
+      var operator = splitString[i];
+
+      var operation = {
+        '+': function(a, b) {
+          return parseFloat(a) + parseFloat(b);
+        },
+        '-': function(a, b) {
+          // return parseFloat(a) - parseFloat(b);
+        },
+        '/': function(a, b) {
+          return parseFloat(a) / parseFloat(b);
+        },
+        '*': function(a, b) {
+          return parseFloat(a) * parseFloat(b);
+        }
+      }
+
+      var num3 = operation[operator](num2, num1);
+      //console.log(num3);
+      stack.push(num3);
+    }
+  }
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

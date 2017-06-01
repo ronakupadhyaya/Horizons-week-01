@@ -30,36 +30,16 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  var returns = {};
-  return function memoizeFn(arg) {
-    if (returns[arg] !== undefined) {
-      return returns[arg];
-    }
-    returns[arg] = func(arg);
-    return returns[arg];
-  }
-  //   var returns = [];
-  // return function memoizeFn(arg) {
-  //   var contains = false;
-  //   for (var i = 0; i < returns.length; i++) {
-  //     if (returns[i][0].length === arguments.length) {
-  //       for (var j = 0; j < arguments.length; j++) {
-  //         if (arguments[j] !== returns[i][0][j]) {
-  //           break;
-  //         } else if (j === arguments.length - 1) {
-  //           contains = true;
-  //         }
-  //       }
-  //       if (contains) {
-  //         return returns[i][1];
-  //       }
-  //     }
-  //   }
-  //   returns.push([arguments, func.apply(this, arguments)]);
-  //   return func.apply(this, arguments);
-  // }
-}
+// function memoize(func) {
+//   var returns = {};
+//   return function memoizeFn(arg) {
+//     if (returns.hasOwnProperty(arg)) {
+//       return returns[arg];
+//     }
+//     returns[arg] = func(arg);
+//     return returns[arg];
+//   }
+// }
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -86,7 +66,19 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (!fn) {
+    throw 'Function Needed';
+  }
+  var currArguments = [];
+  for (var i = 1; i < arguments.length; i++) {
+    currArguments.push(arguments[i]);
+  }
+  return function partialFn() {
+    for (i = 0; i < arguments.length; i++) {
+      currArguments.push(arguments[i]);
+    }
+    return fn.apply(this, currArguments);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -125,7 +117,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() {
+    return fun1(fun2.apply(this, arguments));
+  }
 }
 
 
@@ -158,7 +152,21 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
-
+function memoize(func, hashFunction) {
+  var returns = {};
+  return function memoizeFn() {
+    if (!hashFunction) {
+      var key = arguments[0];
+    } else {
+      var key = hashFunction.apply(this, arguments);
+    }
+    if (returns.hasOwnProperty(key)) {
+      return returns[key];
+    }
+    returns[key] = func.apply(this, arguments);
+    return returns[key];
+  }
+}
 
 // Double Bonus Exercise: compose()
 //
@@ -168,5 +176,16 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var currArguments = [];
+  for (var i = 0; i < arguments.length; i++) {
+    currArguments.push(arguments[i]);
+  }
+  return function composedFn() {
+    //debugger;
+    var last = currArguments[currArguments.length - 1].apply(this, arguments);
+    for (var i = currArguments.length - 2; i >= 0; i--) {
+      last = currArguments[i](last);
+    }
+    return last;
+  }
 }

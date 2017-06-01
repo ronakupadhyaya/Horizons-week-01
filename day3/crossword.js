@@ -45,6 +45,55 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, puzzle) {
+  //horizontal check
+  for (var i = 0; i < puzzle.length; i++) {
+    var row = puzzle[i].split("#");
+    for (var j = 0; j < row.length; j++) {
+      row[j] = row[j].split(' ').join('');
+      if (word.length === row[j].length) {
+        var isEqual = true;
+        for (var k = 0; k < row[j].length; k++) {
+          if (row[j][k] !== word.charAt(k) && row[j][k] !== "_") {
+            isEqual = false;
+          }
+        }
+        if (isEqual) {
+          return true;
+        }
+      }
+    }
+  }
+  //vertical check
+  //transformation 
+  var transformedArr = [];
+  for (var n = 0; n < puzzle.length; n++) {
+    puzzle[n] = puzzle[n].split(' ').join('');
+  }
+
+  for (var l = 0; l < puzzle[0].length; l++) {
+    var str = '';
+    for (var m = 0; m < puzzle.length; m++) {
+      str += puzzle[m][l];
+    }
+    transformedArr.push(str);
+  }
+  puzzle = transformedArr;
+  for (var i = 0; i < puzzle.length; i++) {
+    var row = puzzle[i].split("#");
+    for (var j = 0; j < row.length; j++) {
+      if (word.length === row[j].length) {
+        var isEqual = true;
+        for (var k = 0; k < row[j].length; k++) {
+          if (row[j][k] !== word.charAt(k) && row[j][k] !== "_") {
+            isEqual = false;
+          }
+        }
+        if (isEqual) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }

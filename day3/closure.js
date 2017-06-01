@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,15 +28,17 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
+
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      var f = vault(password);
+      return f(attempt);
     }
   }
 }
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
+
 
 // ex. 1.2 Revisit Once
 // The function below is the answer for the once
@@ -83,11 +88,13 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
+  var result = 0;
+  return function(p, q) {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      result = f(p, q);
       called = true; // mark f as called
     }
+  return result;
   }
 }
 
@@ -115,17 +122,35 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+
+// function myfunc(value) {
+//   return function() {
+//     return value;
+//   }
+// }
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    // functionArray[i] = (function (Value) {
+    //   return function() {
+    //     return Value;
+    //   }
+    // })(i);
+    functionArray[i-(num1-0)] = (function (value) {
+      console.log(i-(num1-0))
+      return function() {
+          return value;
+      }
+    }(i))
   }
 
   return functionArray;
 }
+
+// functionArray[2]() -> 3
+// functionArray[0]() -> 3
+// functionArray[1]() -> 3
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

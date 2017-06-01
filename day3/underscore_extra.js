@@ -30,8 +30,9 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(fn) {
   // YOUR CODE HERE
+  return function memoizedFn(){};
 }
 
 // Exercise 2: partial()
@@ -59,6 +60,14 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
+	var args = (arguments);
+	console.log(args);
+	if (args == ''){
+		throw 'Need an argument';
+	}
+	return function partialFn(){
+		fn(arguments);
+	}
   // YOUR CODE HERE
 }
 

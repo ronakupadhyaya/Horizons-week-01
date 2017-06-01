@@ -3,7 +3,7 @@
 window.builtins = {};
 
 // In this exercise, we'll be recreating some common JavaScript built-in
-// functions such as contains() and trim() using the skills we already know.
+// functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
 // check out this MDN reference:
@@ -20,18 +20,18 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-// start
+  // start
   var newstr = str;
   for (var i = 0; i < str.length; i++) {
     if (str[i] === ' ') {
-      newstr = str.substring(i+1, str.length);
+      newstr = str.substring(i + 1, str.length);
     } else {
       break;
     }
   }
   var finalstr = newstr;
   // end
-  for (var i = newstr.length-1; i >= 0; i--) {
+  for (var i = newstr.length - 1; i >= 0; i--) {
     if (newstr[i] === ' ') {
       finalstr = newstr.substring(0, i);
     } else {
@@ -43,7 +43,7 @@ builtins.trim = function(str) {
 
 // ----------------------------------------------------------------------------
 
-// Exercise 2. contains() using indexOf()
+// Exercise 2. search() using indexOf()
 
 // Write a function that takes a string to be searched and a string to
 // search for, returning true or false as to whether or not the latter
@@ -95,8 +95,8 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   var newarr = [];
-  if (arr.length > 1){
-    for (var i = arr.length-1; i >= 0; i--){
+  if (arr.length > 1) {
+    for (var i = arr.length - 1; i >= 0; i--) {
       newarr.push(arr[i]);
     }
     return newarr;
@@ -172,7 +172,7 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  var compare = function (a,b) {
+  var compare = function(a, b) {
     return a - b;
   }
   return arr.sort(compare);
@@ -193,7 +193,7 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
 
-  var compare = function (a,b){
+  var compare = function(a, b) {
     return a.length - b.length;
   }
   return arr.sort(compare);
@@ -213,6 +213,7 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
+
   var newarr = [];
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < arr[i].length; j++) {
@@ -220,4 +221,5 @@ builtins.flatten = function(arr) {
     }
   }
   return newarr;
+
 };

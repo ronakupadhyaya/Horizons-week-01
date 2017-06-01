@@ -42,8 +42,39 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var splitStr = rpnString.split(' ');
+  var stack = [];
+
+  for (var i = 0; i < splitStr.length; i++) {
+    if (isNaN(splitStr[i]) === false) { // if str == number
+      stack.push(parseInt(splitStr[i]))
+      console.log(stack);
+    } else {
+      var num1 = stack.pop()
+      var num2 = stack.pop()
+      if (num1 === undefined || num2 === undefined) {
+        throw new Error("Error, not enough numbers");
+      }
+      console.log(num1, num2);
+      if (splitStr[i] === "+") {
+        stack.push(num2 + num1);
+      } else if (splitStr[i] === "-") {
+        stack.push(num2 - num1);
+      } else if (splitStr[i] === "*") {
+        stack.push(num2 * num1);
+      } else if (splitStr[i] === "/") {
+        stack.push(num2 / num1);
+      }
+    }
+  }
+  if (stack.length === 1) {
+    return stack[0];
+  } else {
+    throw new Error("Error, not enough operators");
+  }
+
 }
+
 
 // This function returns true if given string represents a valid number.
 //
@@ -54,16 +85,16 @@ window.rpnCalculator = function(rpnString) {
 // ex. isNumberString('0') -> true
 // ex. isNumberString('-0.4') -> true
 function isNumberString(str) {
-  if (! _.isString(str)) {
+  if (!_.isString(str)) {
     return false;
   }
 
-  if (! str.length) {
+  if (!str.length) {
     return false;
   }
 
   // isNaN() is a built-in JavaScript function that stands for is-Not-A-Number()
   // It works on strings too. Read more about it here:
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
-  return ! isNaN(str);
+  return !isNaN(str);
 }

@@ -18,7 +18,22 @@ window.prototypes = {};
 
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+  if (this.length !== array2.length){
+    return false;
+  }
+  var arr1 = this.sort();
+  console.log(arr1)
+  var arr2 = array2.sort();
+  console.log(arr2)
+  var b = true;
+  for (var i = 0; i < arr1.length; i++){
+    if (arr1[i] !== arr2[i]){
+      b = false;
+    }
+  }
+  return b;
 }
+
 
 // You are going to implement a function that compares if two Objects have the same
 // key-value pairs.

@@ -24,6 +24,7 @@ Array.prototype.hasEqualContent = function(array2){
 
   for(var i = 0; i < this.length; i++){
     var hasValue = array2.indexOf(this[i]) !== -1;
+
     if(!hasValue){
       return false;
     }
@@ -49,14 +50,15 @@ Object.prototype.hasEqualContent = function(object2){
 
   var testKeys = Object.keys(this);
   var objKeys2 = Object.keys(object2);
+
   if(testKeys.length !== objKeys2.length){
     return false;
   }
+
   for(var key of testKeys){
     if(this[key] !== object2[key]){
       return false;
     }
-
   }
   return true;
 }

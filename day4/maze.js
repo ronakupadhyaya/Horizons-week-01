@@ -170,46 +170,35 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
 	var visited = [];
-	// visited array
 	for(var i = 0 ; i < this.maze.length ; i++){
 		visited.push([]);
 		for(var j = 0 ; j < this.maze[i].length ; j++){
 			visited[i].push(false);
 		}
 	}
-
 	var s = this.getStartPosition();
-
-	// check if invalid point
 	var m = this;
-
-
 	function recurFind(r,c){
 		if(visited[r][c]){
 			return false;
 		};		
-		
 		visited[r][c] = true;
-
 		if(m.maze[r][c] === "E"){
 			return true;
 		}
-		if(m.tryMove(r,c,"up") != false  && recurFind(r-1,c)){
+		if(m.tryMove(r,c,"up") && recurFind(r-1,c)){
 			return true;
 		}
-		if(m.tryMove(r,c,"down") != false && recurFind(r+1,c)){
+		if(m.tryMove(r,c,"down") && recurFind(r+1,c)){
 			return true;
 		}
-		if(m.tryMove(r,c,"left") != false && recurFind(r,c-1)){
+		if(m.tryMove(r,c,"left") && recurFind(r,c-1)){
 			return true;
 		}
-		if(m.tryMove(r,c,"right") != false && recurFind(r,c+1)){
+		if(m.tryMove(r,c,"right") && recurFind(r,c+1)){
 			return true;
 		}
-
-
 		return false;
 	}
 	return recurFind(s[0],s[1]);	
-
 }

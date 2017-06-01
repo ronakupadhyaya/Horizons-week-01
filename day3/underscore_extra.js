@@ -30,7 +30,47 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+
+
+/*function memoize(func) {
+  var memory = {};
+  var memoizedFn = function () {
+    //console.log(arguments[0]);
+    if (memory.hasOwnProperty(arguments[0])) {
+      //  console.log("im in");
+      return memory[arguments[0]];
+    }
+    var value = func.apply(this, arguments);
+    //  console.log("value", value)
+    memory[arguments[0]] = value;
+    //console.log('called', memory[arguments[0]]);
+    return memory[arguments[0]];
+  }
+  //  console.log(memoizedFn);
+  return memoizedFn;
+  // YOUR CODE HERE
+}*/
+
+
+
+function memoize(func, hash) {
+  var memory = {};
+  var memoizedFn = function () {
+    //console.log(arguments[0]);
+    var hashing = hash(arguments);
+    if (memory.hasOwnProperty(hashing)) {
+      //  console.log("im in");
+      return memory[hashing];
+    }
+    var value = func.apply(this, arguments);
+    //  console.log("value", value)
+    memory[hashing] = value;
+    console.log(memory);
+    //console.log('called', memory[arguments[0]]);
+    return memory[hashing];
+  }
+  //  console.log(memoizedFn);
+  return memoizedFn;
   // YOUR CODE HERE
 }
 
@@ -59,7 +99,7 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  return fn.bind.apply(fn, arguments);
 }
 
 // Exercise 3: composeBasic()
@@ -99,8 +139,12 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  // When 'composedFn' is called it should call 'fun2' with all arguments,
+  // after that it should call 'fun1' with the return value of calling 'fun2'.
+  return function () {
+    return fun1(fun2.apply(this, arguments));
+  }
 }
-
 
 // Bonus Exercise: memoize() with hashFunction
 //
@@ -141,5 +185,13 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
+  var funList = arguments;
+  return function () {
+    var tmp = arguments;
+    for (var i = funList.length - 1; i >= 0; i--) {
+      tmp = [funList[i].apply(this, tmp)];
+    }
+    return tmp[0];
+  }
   // YOUR CODE HERE
 }

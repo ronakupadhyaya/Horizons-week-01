@@ -12,7 +12,7 @@ window.util = {};
 // Part 1. If an invalid expression is given, throw an exception.
 //
 // ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, missing operator
+// ex. util.calc('1 2') -> Error, mission operator
 // ex. util.calc('-') -> Error, no numbers
 // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
@@ -53,96 +53,89 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
+util.calc = function (expression) {
   // YOUR CODE HERE
   var newExpression = expression.split(' ');
 
-  if(newExpression.length < 3){
+  if (newExpression.length < 3) {
 
-    if(newExpression.length === 1 && Number.isInteger(parseInt(newExpression[0])))  {
+    if (newExpression.length === 1 && Number.isInteger(parseInt(newExpression[0]))) {
       return parseInt(newExpression[0]);
-    }
-    else if (newExpression.lastIndexOf('sqrt') !== -1){
+    } else if (newExpression.lastIndexOf('sqrt') !== -1) {
 
-      var  tmpIndex = newExpression.lastIndexOf('sqrt');
-      var insertCalc= Math.sqrt(newExpression[tmpIndex+1]);
+      var tmpIndex = newExpression.lastIndexOf('sqrt');
+      var insertCalc = Math.sqrt(newExpression[tmpIndex + 1]);
       newExpression.splice(tmpIndex, 2, insertCalc);
-    }
-
-    else{
+    } else {
       throw error;
     }
   }
 
-  if(!Number.isInteger(parseInt(newExpression[newExpression.length-1])) ){
+  if (!Number.isInteger(parseInt(newExpression[newExpression.length - 1]))) {
     throw error;
   }
 
   console.log(newExpression);
   var sum = parseInt(newExpression[0]);
-  for(var i = 0; i<newExpression.length-1; i = i+2){
+  for (var i = 0; i < newExpression.length - 1; i = i + 2) {
 
 
     console.log(Number.isInteger(parseInt(newExpression[i])));
-    console.log(Number.isInteger(parseInt(newExpression[i+1])));
+    console.log(Number.isInteger(parseInt(newExpression[i + 1])));
 
-    while(newExpression.lastIndexOf('/') !== -1 || newExpression.lastIndexOf('*') !== -1 || newExpression.lastIndexOf('sqrt') !== -1){
-      var run=1;
-      if(newExpression[1] !== '+' && newExpression[1] !== '-' && run === 1){
+    while (newExpression.lastIndexOf('/') !== -1 || newExpression.lastIndexOf('*') !== -1 || newExpression.lastIndexOf('sqrt') !== -1) {
+      var run = 1;
+      if (newExpression[1] !== '+' && newExpression[1] !== '-' && run === 1) {
         var division = true;
 
-      }
-      else{
+      } else {
         division = false;
       }
       run++;
 
-      if(newExpression.lastIndexOf('sqrt') !== -1){
+      if (newExpression.lastIndexOf('sqrt') !== -1) {
         index = newExpression.lastIndexOf('sqrt');
-        var insertCalc= Math.sqrt(newExpression[index+1]);
+        var insertCalc = Math.sqrt(newExpression[index + 1]);
         newExpression.splice(index, 2, insertCalc);
       }
 
-      if(newExpression.lastIndexOf('/') !== -1){
+      if (newExpression.lastIndexOf('/') !== -1) {
         var index = newExpression.lastIndexOf('/');
-        if(Number.isInteger(parseFloat(newExpression[index+1])) !== true || Number.isInteger(parseFloat(newExpression[index-1])) !== true){
+        if (Number.isInteger(parseFloat(newExpression[index + 1])) !== true || Number.isInteger(parseFloat(newExpression[index - 1])) !== true) {
           throw 'Error';
         }
-        if(parseFloat(newExpression[index+1]) === 0){
-          if(parseFloat(newExpression[index+3]) === 0){
+        if (parseFloat(newExpression[index + 1]) === 0) {
+          if (parseFloat(newExpression[index + 3]) === 0) {
             return NaN;
           }
           return Infinity;
         }
 
-        var insertCalc= parseFloat(newExpression[index-1]) / parseFloat(newExpression[index+1]);
+        var insertCalc = parseFloat(newExpression[index - 1]) / parseFloat(newExpression[index + 1]);
 
-        newExpression.splice(index-1, 3, insertCalc);
+        newExpression.splice(index - 1, 3, insertCalc);
       }
 
-      if(newExpression.lastIndexOf('*') !== -1){
+      if (newExpression.lastIndexOf('*') !== -1) {
         index = newExpression.lastIndexOf('*');
-        var insertCalc= parseFloat(newExpression[index-1]) * parseFloat(newExpression[index+1]);
-        newExpression.splice(index-1, 3, insertCalc);
+        var insertCalc = parseFloat(newExpression[index - 1]) * parseFloat(newExpression[index + 1]);
+        newExpression.splice(index - 1, 3, insertCalc);
       }
     }
-    if(division){
-      sum =parseFloat(newExpression[0]);
+    if (division) {
+      sum = parseFloat(newExpression[0]);
     }
 
 
-    if(Number.isInteger(parseInt(newExpression[i])) !== true || Number.isInteger(parseInt(newExpression[i+1])) === true ){
+    if (Number.isInteger(parseInt(newExpression[i])) !== true || Number.isInteger(parseInt(newExpression[i + 1])) === true) {
       throw 'Error';
-    }
-
-
-    else{
-      if(newExpression[i+1] === '+'){
-        sum = parseFloat(sum) + parseFloat(newExpression[i+2]);
+    } else {
+      if (newExpression[i + 1] === '+') {
+        sum = parseFloat(sum) + parseFloat(newExpression[i + 2]);
       }
 
-      if(newExpression[i+1] === '-'){
-        sum = parseFloat(sum) - parseFloat(newExpression[i+2]);
+      if (newExpression[i + 1] === '-') {
+        sum = parseFloat(sum) - parseFloat(newExpression[i + 2]);
       }
     }
 

@@ -47,4 +47,81 @@
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
+
+  var word = arguments[0];
+  var flag = true;
+  console.log("The word is :", word);
+
+  var board = Array.prototype.slice.call(arguments).slice(1);
+  console.log(board);
+  var Boarda = [];
+  console.log(Boarda);
+  var a = board[0][0];
+  console.log(a);
+  console.log(a.substring(0, 9));
+  console.log(a.length);
+  console.log(board[0]);
+  for (var i = 0; i < board.length; i++) {
+    tmpArray = [];
+    console.log(board[i].length);
+    var a = board[0][0];
+    console.log(a);
+    console.log(a.substring(0, 9));
+    console.log(a.length);
+    for (var j = 0; j < a.length; j++) {
+      tmpArray.push(a.charAt(j));
+      console.log(tmpArray);
+    }
+    Board.push(tmpArray);
+  }
+  console.log(Board);
+  var BoardVerti = Board.slice();
+  console.log(Board.length);
+  console.log("The Board is: ", Board);
+  for (var i = 0; i < Board.length; i++) {
+    var linePadded = padding(Board[i]);
+    var resultPerLine = checkRow(linePadded, word);
+    if (resultPerLien) {
+      return true;
+    }
+  }
+  //checking vertically
+  rotateRight(BoardVerti, BoardVerti.length);
+  console.log(BoardVerti);
+  for (var i = 0; i < BoardVerti.length; i++) {
+    var linePadded = padding(BoardVerti[i]);
+    var resultPerLine = checkRow(linePadded, word);
+    if (resultPerLien) {
+      return true;
+    }
+  }
+  return false;
 }
+
+
+
+
+
+function padding(arr) {
+  if (arr[0] !== '#') {
+    arr.unshift('#');
+  }
+  if (arr[arr.length - 1] !== '#' || arr.length === 1) {
+    arr.push('#');
+  }
+  console.log(arr);
+  return arr;
+}
+
+
+function rotateRight(arr, arrLen) {
+  for (var i = 0; i < arrLen; i++) {
+    for (var j = 0; j < i; j++) {
+      //swap element[i,j] and element[j,i]
+      var temp = arr[i][j];
+      arr[i][j] = arr[j][i];
+      arr[j][i] = temp;
+    }
+  }
+  console.log(arr);
+};

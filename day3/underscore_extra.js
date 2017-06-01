@@ -31,7 +31,17 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var memo = 0;
+  var callNum = 0
+
+  if(callNum === 0){
+    return function memoizedFn(){
+
+      callNum = callNum + 1
+      memo = func(arguments);
+      return memo;
+    }
+  }
 }
 
 // Exercise 2: partial()
@@ -98,7 +108,7 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+
 }
 
 

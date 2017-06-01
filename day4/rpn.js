@@ -43,7 +43,43 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var arr = rpnString.split(" ");
+  var numberCounter = 0;
+  var operatorCounter = 0;
+  var stack = new Array();
+//go through and count number and operators to throw errors
+  for (var i = 0; i < arr.length; i ++){
+    if (isNaN(Number(arr[i]))){
+      operatorCounter++
+    }
+    else {
+      numberCounter++;
+    }
+  }
+  console.log(operatorCounter, numberCounter);
+  //throw errors
+  if (operatorCounter === 0 && numberCounter > 1){
+    throw "error";
+  }
+  if(operatorCounter >= numberCounter + 1){
+  throw "you have too many operators";
 }
+if (numberCounter === operatorCounter){
+  throw "you have no numbers";
+}
+for (var i = 0; i < arr.length; i ++){
+   if (isNaN(Number(arr[i]))){
+     var first = stack.pop();
+     var second = stack.pop();
+     stack.push(eval(second + " " + arr[i] + " " + first));
+   }
+   else {
+     stack.push(Number(arr[i]));
+   }
+ }
+ return stack[0];
+}
+
 
 // This function returns true if given string represents a valid number.
 //

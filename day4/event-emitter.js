@@ -27,9 +27,16 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
-}
+this.listeners = {};
 
+// this.on = function(key, name) {
+//   this.listeners[key] = [name];
+//   if(_.allKeys(this.listeners).indexOf(key) !== -1){
+//     this.listeners[key].push(name);
+//   }
+//   return this.listeners;
+// }
+}
 // Takes is a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this

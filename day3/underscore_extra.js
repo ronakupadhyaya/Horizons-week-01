@@ -39,12 +39,14 @@ function memoize(func) {
   
   return function inner(number){
   		var i = memLog.indexOf(number);
+	  	
 	  	if (i === -1){
 	  		val = func(number);
 			memLog.push(number);
 			ansLog.push(val);
 			return val;	
-	  	} else {
+	  	} 
+	  	else {
 	  		return ansLog[i];
 	  	}
 	  	
@@ -77,6 +79,15 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var argList = Array.from(arguments).slice(1);
+
+  if (typeof fn !== 'function'){
+  	throw 'No function detected.';
+  }
+
+  return function partialFn (...more){
+  	return fn(...argList, ...more);
+  };
 }
 
 // Exercise 3: composeBasic()
@@ -115,7 +126,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+	return function composedFn (...args){
+		return fun1(fun2(...args));
+	}
 }
 
 
@@ -148,7 +161,9 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
-
+function memoize(){
+	
+}
 
 // Double Bonus Exercise: compose()
 //

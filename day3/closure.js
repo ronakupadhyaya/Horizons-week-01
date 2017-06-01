@@ -82,13 +82,21 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var called = false;
+  var save;
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+    if (! called) {
+      called = true;
+      save = f.apply(null, arguments);
     }
-  }
+    return save;
+  };
+};
+
+function littleFun(n1, n2) {
+  console.log('HI!!!!', n1, n2);
+  console.log('this is', this);
+  return n1 + n2;
 }
 
 // ex. 1.3
@@ -116,16 +124,30 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
-  var functionArray = [];
+  var fns = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
+    console.log(i);
+    function inner(snapshot) {
+      // return function() {
+        return snapshot;
+      // };
     }
+    fns.push(inner(i))
+    // fns.push((function inner(snapshot) {
+    //   return function() {
+    //     return snapshot;
+    //   };
+    // })(i));
   }
+  console.log('the value of i at the end', i);
+  return fns;
+};
 
-  return functionArray;
-}
+debugger;
+var fns = functionFactory(-1, 1);
+var fn = fns[0];
+console.log('fn returned', fn());
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

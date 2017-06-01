@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,12 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)){
+    this.listeners[eventName].push(fn);
+  } else {
+    this.listeners[eventName] = [fn];
+  }
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -71,6 +78,10 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var arr = this.listeners[eventName];
+  for (var i = 0; i < arr.length; i++){
+    arr[i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"

@@ -85,13 +85,13 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
   var result = 0
-  return function(args) {
+  return function(args1, args2) {
     if (!called && result === 0) { // if f hasn't been called yet
-      var result = f(args); // call f and store as a variable
-      console.log(results)
+      result = f(args1, args2); // call f and store as a variable
       called = true; // mark f as called
     }
     return result
@@ -124,15 +124,18 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray[index] = (function(y) {
+      return function() {
+        return y;
+      }
+    })(i);
+    index++;
   }
-
   return functionArray;
 }
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

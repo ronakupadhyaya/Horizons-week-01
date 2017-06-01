@@ -30,8 +30,19 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+function memoize(fn) {
+var args = {};
+ return function memoizedFn(arg){
+   var x = _.keys(args)
+    if (x.indexOf(String(arg)) === -1){
+      var ans = fn(arg);
+      args[arg] = ans;
+      return ans;
+    }
+    else {
+      return args[arg];
+    }
+  }
 }
 
 // Exercise 2: partial()
@@ -59,8 +70,25 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+	arguments[0] = null;
+	return fn.bind.apply(fn, arguments)
 }
+
+/*
+	if (!fn) {
+		throw "Error no fn input"
+	}
+	var argss = Array.prototype.slice.call(arguments);
+  	return function partialFn() {
+		var argsss = Array.prototype.slice.call(arguments);
+  		var newArray = argss.concat(argsss)
+  		var myObject = fn.apply(this, newArray)
+  		//console.log(myObject)
+  		myObject.shift()
+  		return myObject;
+  	}
+}
+*/
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns
@@ -98,9 +126,13 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+	return function composedFn(arg, arg2) {
+		var storeFun2 = fun2(arg, arg2)
+		return fun1(storeFun2)
+	}
 }
 
+// 																						How can we accomodate more than 2 arguments?
 
 // Bonus Exercise: memoize() with hashFunction
 //

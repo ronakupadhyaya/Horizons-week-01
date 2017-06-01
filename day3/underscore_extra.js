@@ -32,6 +32,7 @@
 // http://underscorejs.org/#memoize
 function memoize(func, hashFunction) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   var args = {};
   return function(){
   	if(hashFunction === undefined){
@@ -49,11 +50,14 @@ function memoize(func, hashFunction) {
 
   } 
 };
+=======
+}
+>>>>>>> master
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
-// the argumenst that were initially provided to partial().
+// the arguments that were initially provided to partial().
 //
 // ex.
 // function greaterThan(a, b) {

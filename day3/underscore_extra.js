@@ -31,7 +31,22 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var inp =[]
+  var outp=[]
+  return function(p) {
+    if (inp.indexOf(p)===-1) { // if f hasn't been called yet
+
+      var res=func(p);
+      outp.push(res)
+      inp.push(p)
+      return res;
+
+    }else{
+
+      var ind=inp.indexOf(p)
+      return outp[ind]
+    }
+  }
 }
 
 // Exercise 2: partial()
@@ -59,7 +74,20 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+
+  var arg1=Array.prototype.slice.call(arguments)
+  if(arg1.length===0){
+    throw "error"
+  }
+  arg1.splice(0,1)
+
+  return function(){
+    var arg2=Array.prototype.slice.call(arguments)
+
+    var args=arg1.concat(arg2)
+    
+    return fn.apply({},args)
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +126,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function(){
+    var arg= Array.prototype.slice.call(arguments)
+    return fun1(fun2.apply({},arg))
+  }
 }
 
 

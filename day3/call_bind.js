@@ -27,8 +27,10 @@
 // }
 // min.myCall(null, 8, 2) // -> 2
 // min.myCall(null, -13, -88) // -> -88
-Function.prototype.myCall = function(newThis) {
+Function.prototype.myCall = function() {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  return this.apply(args[0],args.slice(1,args.length));
 };
 
 // Bonus exercise: Function.prototype.myBind()
@@ -54,6 +56,16 @@ Function.prototype.myCall = function(newThis) {
 //
 // This is a simplified version of .bind() that only binds 'this'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-Function.prototype.myBind = function(newThis) {
+Function.prototype.myBind = function() {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  var func = this;
+  return function() {
+    var newArgs = Array.prototype.slice.call(arguments);
+    if (newArgs.length === 0) {
+      return args[0];
+    } else {
+      return newArgs;
+    }
+  }
 };

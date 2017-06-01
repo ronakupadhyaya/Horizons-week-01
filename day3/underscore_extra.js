@@ -66,9 +66,9 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  console.log(_.keys(arguments))
+  console.log((arguments))
   return function(){
-    console.log(_.keys(arguments))
+    //console.log(_.keys(arguments))
     return fn(_.keys(arguments))
   }
 }

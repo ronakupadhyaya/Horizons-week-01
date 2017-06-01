@@ -42,7 +42,51 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var splitArr = rpnString.split(' ');
+  var arr = []
+  if(splitArr.length === 2) throw new Error("not enough args")
+  if(splitArr.length === 1 && !isNumberString(splitArr[0])) throw new Error("error!")
+
+  var num = 0;
+  var op = 0;
+
+  //loop to traverse through the array
+  for(var i = 0; i < splitArr.length; i++){
+    //check to see if number or operator
+    if(isNumberString(splitArr[i])){
+      //evaluate for the true scenario
+      num++;
+      arr.push(Number(splitArr[i]))
+    }else{
+      op++;
+      var a = arr.pop()
+      var b = arr.pop()
+
+      switch(splitArr[i]){
+        case "+":
+          arr.push(b+a);
+          break;
+
+        case "-":
+          arr.push(b-a);
+          break;
+
+        case "/":
+          arr.push(b/a);
+          break;
+
+        case "*":
+          arr.push(b*a)
+          break;
+
+        default:
+        throw new Error("operation not found!")
+
+      }
+    }
+  }
+  if(op>=num) throw new Error('Too man operators')
+  return arr[0]
 }
 
 // This function returns true if given string represents a valid number.

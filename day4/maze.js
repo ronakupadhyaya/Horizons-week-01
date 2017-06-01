@@ -41,6 +41,24 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var arr = [];
+  for(var i = 0; i < this.maze.length; i++){
+    var str = ""; //empty string
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === ' '){
+        str = str + '_';
+      }else{
+        str = str + this.maze[i][j];
+      }
+    }
+    if(i === this.maze.length - 1){
+      arr.push(str)
+    }else{
+      arr.push(str + '\n');
+    }
+  }
+  var res = arr.join('');
+  return res
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +67,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === 'S'){
+        return [i, j]
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -99,9 +123,37 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  if(row < 0 || column < 0 || row > this.maze.length - 1 || column > this.maze[0].length - 1){
+    return false
+  }
 
-  // YOUR CODE HERE
+  var newLocation;
+  if(direction === 'up'){
+    newLocation = [row-1, column]
+  } else if (direction === 'down'){
+    newLocation = [row+1, column]
+  } else if (direction === 'left'){
+    newLocation = [row, column-1]
+  } else if (direction === 'right'){
+    newLocation = [row, column+1]
+  }
+
+  row = newLocation[0];
+  column = newLocation[1];
+  console.log(row,this.maze.length - 1, column, this.maze[0].length - 1)
+  if(row < 0 || column < 0 || row > this.maze.length - 1 || column > this.maze[0].length - 1){
+    return false
+  }
+
+  if (this.maze[newLocation[0]][newLocation[1]] === 'X'){
+    return false;
+  }
+  return newLocation;
+
+
 }
+
+
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.
@@ -110,5 +162,5 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+
 }

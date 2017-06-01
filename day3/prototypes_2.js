@@ -12,12 +12,27 @@ window.prototypes = {};
 // [].hasEqualContent([]) -> true]
 // [1, 3, 4].hasEqualContent([1, 3, 4, 5] -> false
 // [1, 2, 4].hasEqualContent([1, 3, 4]) -> false
-
 // Hint: the fisrt thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
 
-Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+Array.prototype.hasEqualContent = function(array2) {
+  if(this.length === array2.length) {
+    this.sort();
+    array2.sort();
+    if (array2.length===0 && this.length === 0) {
+      return true;
+    }
+    for (var i = 0; i < array2.length; i++) {
+      if(this[i] === array2[i]) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -32,6 +47,24 @@ Array.prototype.hasEqualContent = function(array2){
 // Hint: use the Array.prototype.hasEqualContent to compare the content of an object,
 // without having to account for the order of elements.
 
-Object.prototype.hasEqualContent = function(array2){
+Object.prototype.hasEqualContent = function(object2){
  // YOUR CODE HERE
+  var bool = true;
+
+  var arrObj1 = Object.keys(this);
+  var arrObj2 = Object.keys(object2);
+
+
+  if(arrObj1.length !== arrObj2.length) {
+    return false;
+  } else {
+    _.forEach(this, function(value, key) {
+      if(object2.hasOwnProperty(key)) {
+        if(object2[key] !== value) {
+          bool=false;
+        }
+      }
+    });
+  }
+  return bool;
 }

@@ -1,0 +1,14 @@
+//prototypes
+//padder, addPadder
+//argumentLogger (log all args ever passed)
+
+//[1,2,3].pad('a') --> ['a', 1, 2, 3]
+window.freecode = {};
+
+freecode.addPadder = function(padItem) {
+  Array.prototype.pad = function() {
+    this.push(item);
+    this.unshift(item);
+    return this;
+  }
+}

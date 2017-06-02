@@ -59,22 +59,22 @@ When you're done you should see this:
   to be. You'll need to remember use a variable outside the function to remember
   the location of the obstacle so you can recalculate its new location.
 
-  ```javascript
-  game.onReady(function() {
-    var obstacleX = 450;
-    function eventLoop() {
-      obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
-      // clear screen
-      // draw obstacle again
-    }
-  });
-  ```
+    ```javascript
+    game.onReady(function() {
+      var obstacleX = 450;
+      function eventLoop() {
+        obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
+        // clear screen
+        // draw obstacle again
+      }
+    });
+    ```
 
 1. Use`setInterval()` to run this loop run every 100ms (i.e. 10 times/second).
 
-  ```javascript
-  setInterval(eventLoop, 100);
-  ```
+    ```javascript
+    setInterval(eventLoop, 100);
+    ```
 1. Inside `eventLoop()`, when the obstacle reaches the leftmost side of the screen
   (x coordinate of `0`), move it to the rightmost side of the screen (x
   coordinate of `game.width`).
@@ -99,18 +99,18 @@ When you're done you should see this:
   it to 0. Inside `eventLoop()` subtract the value of `dinosaurVelocity` from
   `dinosaurY`. (Y coordinates grow as you go further down the page.)
 
-  ```javascript
-  dinosaurY = dinosaurY - dinosaurVelocity;
-  ```
+    ```javascript
+    dinosaurY = dinosaurY - dinosaurVelocity;
+    ```
 
 1. When the user presses the up arrow, set `dinosaurVelocity` to `10`. Watch
   your dinosaur fly.
 
-  ```javascript
-  game.onUpArrow(function() {
-    dinosaurVelocity = 10;
-  });
-  ```
+    ```javascript
+    game.onUpArrow(function() {
+      dinosaurVelocity = 10;
+    });
+    ```
 
 1. Now bring your dinosaur back to earth. Inside `eventLoop()`, if
   `dinosaurY` is less than `100`, set `dinosaurVelocity` to `-10`.
@@ -134,9 +134,9 @@ When you're done you should see this:
 1. Create a variable and save the return value of the `setInterval()` call
   you made earlier.
 
-  ```javascript
-  var interval = setInterval(eventLoop, 100);
-  ```
+    ```javascript
+    var interval = setInterval(eventLoop, 100);
+    ```
 
 1. Inside `eventLoop()`, if the x, y coordinates of the dinosaur and
   the obstacle are the same, then display a message telling the user
@@ -227,7 +227,7 @@ animations more smooth.
 [This link](http://creativejs.com/resources/requestanimationframe/) explains
 how!
 
-[Live demo](http://s.codepen.io/moose-horizons/debug/pNKjRP)
+[Live demo](https://codepen.io/moose-horizons/full/pNKjRP)
 
 ### Super bonus zone
 

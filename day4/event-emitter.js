@@ -27,7 +27,8 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
+  this.called = {}
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,7 +44,14 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  var self = this;
+  function inner() {
+    fn.apply(this, arguments);
+    self.removeListener(eventName, inner);
+  }
+  this.on(eventName, inner);
+  return this;
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -59,7 +67,8 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -77,7 +86,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  //if (this.called.hasOwnProperty(eventName)) {
+    //if (!this.called[eventName]) // if has not been called
+    for (var i = 0; i < this.listeners[eventName].length; i++) {
+      this.listeners[eventName][i](arg);
+    }
+  //}
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,7 +108,9 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners[eventName] = _.reject(this.listeners[eventName], function(n) {
+    return n.name === fn.name;
+  });
 }
 
 // You do not need to look at code past this line, but you may

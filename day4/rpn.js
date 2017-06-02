@@ -41,8 +41,53 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+
+window.isOperator = function(str) { // return if the content of a string is a number
+  var ops = '+-*/';
+  return ops.indexOf(str) !== -1;
+}
+
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var expr = rpnString.split(' ');
+  var stack = [];
+  for (var i = 0; i < expr.length; i++) { // turn strings into numbers
+    if (expr[i] !== '+' && expr[i] !== '-' && expr[i] !== '*' && expr[i] !== '/' ) {
+      expr[i] = +expr[i];
+    }
+  }
+  while (expr.length !== 0) { // push all characters into the stack
+    var result;
+    var curr = expr.shift(); // first item in expr
+    if (window.isOperator(curr)) {
+      if (stack.length < 2) {
+        throw 'Error';
+      }
+      var right = stack.pop();
+      var left = stack.pop();
+      switch (curr) {
+        case '+':
+          result = left + right;
+          break;
+        case '-':
+          result = left - right;
+          break;
+        case '*':
+          result = left * right;
+          break;
+        case '/':
+          result = left / right;
+          break;
+      }
+      stack.push(result);
+    }
+    else {
+      stack.push(curr); // push number onto stack
+    }
+  }
+  if (stack.length !== 1) {
+    throw 'Error';
+  }
+  return stack[stack.length -1];
 }
 
 // This function returns true if given string represents a valid number.

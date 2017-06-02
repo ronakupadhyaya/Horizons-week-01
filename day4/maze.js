@@ -19,10 +19,13 @@
 //          Each item of the inner array must be a string that represents a valid maze cell
 //          There must be only one starting point and only one ending point.
 //
-// ex. new Maze([['S', 'E']) represents a trivial solvable maze
-// ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
+// ex. new Maze([['S', 'E']]) represents a trivial solvable maze
+// ex. new Maze([['S', 'X', 'E']]) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
+  if (this.constructor !== Maze) {
+    throw new Exception("new was not used");
+  }
   this.maze = maze;
 }
 
@@ -39,8 +42,18 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var mazeStr = "";
+  var mazeArr = Array.prototype.slice.call(this.maze);
+  for (var i = 0; i < mazeArr.length; i++) {
+    for (var j = 0; j < mazeArr[i].length; j++) {
+      mazeStr += mazeArr[i][j];
+    }
+    if (i !== mazeArr.length - 1) {
+      mazeStr += '\n';
+    }
+  }
+  mazeStr = mazeStr.replace(/ /gi, "_");
+  return mazeStr;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,8 +62,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  var mazeArr = Array.prototype.slice.call(this.maze);
+  for (var i = 0; i < mazeArr.length; i++) {
+    for (var j = 0; j < mazeArr[i].length; j++) {
+      if (mazeArr[i][j] === 'S') {
+        return [i, j];
+      }
+    }    
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -99,8 +118,38 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
+  var mazeArr = Array.prototype.slice.call(this.maze);
+  var newRow = row;
+  var newCol = column;
+  if (row >= mazeArr.length || row < 0) {
+    return false;
+  }
+  if (column >= mazeArr[0].length || column < 0) {
+    return false;
+  }
+  switch(direction) {
+    case 'up':
+      newRow--;
+      break;
+    case 'down':
+      newRow++;
+      break;
+    case 'left':
+      newCol--;
+      break;
+    case 'right':
+      newCol++;
+      break;
+  }
+  if (newRow >= mazeArr.length || newRow < 0) {
+    return false;
+  }
+  if (newCol >= mazeArr[0].length || newCol < 0) {
+    return false;
+  }
+  if (mazeArr[newRow][newCol] === 'X')
+    return false;
+  return [newRow, newCol];
 }
 
 // Bonus!
@@ -110,5 +159,34 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var visited = Array.prototype.slice.call(this.maze);
+  var mazeArr = this.maze.slice();
+  for (var i = 0; i < mazeArr.length; i++) {
+    visited[i] = mazeArr[i].slice();
+  }
+  for (var i = 0; i < visited.length; i++) {
+    for (var j = 0; j < visited[i].length; j++) {
+      visited[i][j] = false;
+    }
+  }
+  var self = this;
+  return (function solve(coords) {
+    if (!coords) {
+      return false;
+    }
+    var row = coords[0];
+    var col = coords[1];
+    if (mazeArr[row][col] === 'E') {
+      return true;
+    }
+    if (visited[row][col]) {
+      return false;
+    }
+    visited[row][col] = true;
+    var up = solve(self.tryMove(row, col, 'up'));
+    var down = solve(self.tryMove(row, col, 'down'));
+    var left = solve(self.tryMove(row, col, 'left'));
+    var right = solve(self.tryMove(row, col, 'right'));
+    return up || down || left || right;
+  }(self.getStartPosition()))
 }

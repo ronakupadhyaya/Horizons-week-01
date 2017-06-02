@@ -19,10 +19,11 @@
 //          Each item of the inner array must be a string that represents a valid maze cell
 //          There must be only one starting point and only one ending point.
 //
-// ex. new Maze([['S', 'E']) represents a trivial solvable maze
-// ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
+// ex. new Maze(['S', 'E']) represents a trivial solvable maze
+// ex. new Maze(['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
+  if (!(this.constructor == Maze)) {throw new Exception("Not used as constructor");}
   this.maze = maze;
 }
 
@@ -41,6 +42,17 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var flat = [];
+  var mazeArr = this.maze.slice();
+  console.log(mazeArr);
+  for (let i = 0; i < mazeArr.length; i++) {
+    for (let j = 0; j < mazeArr[i].length; j++) {
+      flat.push(mazeArr[i][j]);
+    }
+    if (i !== mazeArr.length - 1) { flat.push('\n')};
+  }
+  //flat = 
+  return flat.join('').replace(/ /gi, '_');
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +62,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  var mazeArr = this.maze.slice();
+  for (let i = 0; i < mazeArr.length; i++) {
+    for (let j = 0; j < mazeArr[i].length; j++) {
+      if (mazeArr[i][j] === 'S') {
+        return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -101,6 +120,30 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  var mazeArr = this.maze.slice();
+  var pos = [row, column];
+  switch(direction) {
+    case 'up':
+      pos = [row - 1, column];
+      break;
+    case 'down':
+      pos = [row + 1, column];
+      break;
+    case 'left':
+      pos = [row, column - 1];
+      break;
+    case 'right':
+      pos = [row, column + 1];
+      break;
+    }
+  if (pos[0] < 0 || pos[0] >= mazeArr.length) {
+    return false;
+  } else if (pos[1] < 0 || pos[1] >= mazeArr[pos[0]].length) {
+    return false;
+  } else if (mazeArr[pos[0]][pos[1]] === 'X') {
+    return false;
+  }
+  return pos;
 }
 
 // Bonus!
@@ -111,4 +154,65 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  //initialize these vars
+  //debugger;
+    // YOUR CODE HERE
+  /*var visited = {}; // row -> array of columns
+  var found = false;
+  var self = this;
+
+  function DFS(cell) {
+    if (self.maze[cell[0]][cell[1]] === 'E' || found) {
+      found = true;
+      return;
+    }
+
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var ok = self.tryMove(cell[0], cell[1], Maze.validDirections[i]);
+      if (ok) {
+        if (visited[ok[0]] && visited[ok[0]].indexOf(ok[1]) >= 0) { // visited
+          continue;
+        }
+        visited[cell[0]] = visited[cell[0]] || [];
+        visited[cell[0]].push(cell[1]);
+        DFS(ok);
+      }
+    }
+  }
+
+  DFS(this.getStartPosition());
+  return found;*/
+  
+  var self = this;
+  var currMaze = this.maze.slice();
+  var visited = this.maze.slice();
+  for (let i = 0; i < visited.length; i++) {
+    visited[i] = currMaze[i].slice();
+  }
+  for (let i = 0; i < visited.length; i++) {
+    for (let j = 0; j < visited[i].length; j++) {
+      visited[i][j] = false;
+    }
+  }
+
+  return (function solve(coords) {
+    // base case
+    if (!coords) { return false;}
+    if (visited[coords[0]][coords[1]]) {
+      return false;
+    } else if (currMaze[coords[0]][coords[1]] === 'E') {
+      return true;
+    }
+    // mark as visited
+    visited[coords[0]][coords[1]] = true;
+    // recursive case
+    var up = solve(self.tryMove(coords[0], coords[1], 'up'));
+    var down = solve(self.tryMove(coords[0], coords[1], 'down'));
+    var left = solve(self.tryMove(coords[0], coords[1], 'left'));
+    var right = solve(self.tryMove(coords[0], coords[1], 'right'));
+
+
+    return left || right || up || down;
+  }(this.getStartPosition()));
 }
+//if true add that direction to stack, then pop off all stack to get the path

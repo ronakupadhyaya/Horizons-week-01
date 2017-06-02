@@ -16,4 +16,22 @@
 // https://www.4clojure.com/problem/101
 function editDistance(str1, str2) {
   // YOUR CODE HERE
+  
+  return (function getCost(str1, str2) {
+  	var cost;
+  	// base case: empty strings
+  	if (str1.length === 0) { return str2.length; }
+  	if (str2.length === 0) { return str1.length; }
+
+  	// test for matching last chars
+  	if (str1[str1.length - 1] === str2[str2.length- 1]) {// ? cost = 0 : cost = 1;
+  		return getCost(str1.substring(0, str1.length - 1), str2.substring(0, str2.length - 1))
+  	}
+  	// recursive case
+  	return 1 + Math.min(
+  				getCost(str1.substring(0, str1.length - 1), str2), // remove on str1
+  				getCost(str1, str2.substring(0, str2.length - 1)),//add on str1
+  				getCost(str1.substring(0, str1.length - 1), str2.substring(0, str2.length - 1))
+  		   );
+  }(str1, str2));
 }

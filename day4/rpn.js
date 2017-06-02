@@ -43,6 +43,49 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var input = rpnString.split(' ');
+  for (let i = 0; i < input.length; i++) {
+    if (!(input[i] === '+' || input[i] === '-' || input[i] === '*' || input[i] === '/')) {
+      input[i] = +input[i];
+    }
+  }
+  var stack = [];
+
+  var left, right, curr;
+
+  while (input.length !== 0) {
+    curr = input.shift();
+    if (!(curr === '+' || curr === '-' || curr === '*' || curr === '/')) {
+      stack.push(curr);
+    } else {
+      if (stack.length < 2) {
+        throw new Error("Invalid Input");
+      } else {
+        right = stack.pop();
+        left = stack.pop();
+        // evaluate operator
+        switch(curr) {
+          case '+':
+            left = left + right;
+            break;
+          case '-':
+            left = left - right;
+            break;
+          case '*':
+            left = left * right;
+            break;
+          case '/':
+            left = left / right;
+            break;
+        }
+        stack.push(left);
+      }
+    }
+  }
+  if (stack.length !== 1) {
+    throw new Error("Invalid Input");
+  }
+  return stack.pop();
 }
 
 // This function returns true if given string represents a valid number.

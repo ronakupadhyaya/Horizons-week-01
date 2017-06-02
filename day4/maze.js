@@ -192,67 +192,58 @@ Maze.prototype.isSolvable = function() {
   //get current and end position
   var current = this.getStartPosition();
 
-  //console.log(current[0],current[1])
+  //console.log(current)
   var end = this.getEndPosition();
+  //console.log(end)
 
   //stack that holds possible and visited
   var stack = []
   var visited = []
-  //console.log(end)
+  for(var i = 0; i < maze.length; i++){
+    visited[i] = []
+    for(var j = 0; j < maze[i].length; j++){
+      visited[i][j] = false;
+    }
+  }
+
+  //console.log(visited)
 
   //add all possible moves as long as they haven't been visited
   var directions = ['up','down','left','right']
 
-  directions.forEach(function(dir){
-    //console.log(directions)
-
-    var att = self.tryMove(current[0] , current[1] , dir);
-    console.log(att)
-    if(!att){
-
-    }else if(att.equals(end)){
-      console.log('hi')
+  for(var i = 0; i < directions.length; i++){
+    var att = self.tryMove(current[0] , current[1] , directions[i]);
+    //if  it equals the end return true
+    if(att && att[0] === end[0] && att[1] === end[1]){
       return true
-    }else if(visited.indexOf(att) === -1){
+    //otherwise if its not false just push it on stack
+    }else if(att){
       stack.push(att)
     }
-  })
-  //mark the spot you just left as visited
-  visited.push([current[0],current[1]]);
+  }
 
-  //maze[current[0]][current[1]] = 'v'
+  //mark the spot you just left as visited
+  visited[current[0]][current[1]] = true;
 
   var count = 0;
 
   //while the stack isn't empty
   while(stack.length !== 0){
     //pop something off the stack and make that your current
-    //console.log(stack)
     current = stack.pop();
-    //console.log(stack)
 
     //repeat the steps from above to add neighbors and mark current as visited
-
-    directions.forEach(function(direction){
-      var att = self.tryMove(current[0] , current[1] , direction);
-      //console.log(att)
-      if(!att){
-
-      }else if(att === end){
+    for(var i = 0; i < directions.length; i++){
+      var att = self.tryMove(current[0] , current[1] , directions[i]);
+      //if  it equals the end return true
+      if(att && att[0] === end[0] && att[1] === end[1]){
         return true
-      }else if(maze[current[0]][current[1]] !== 'v'){
+      //otherwise if its not false just push it on stack
+      }else if(att && visited[att[0]][att[1]] === false){
         stack.push(att)
       }
-    })
-
-    // count++;
-    // if(count === 5){
-    //   break;
-    // }
+    }
+    visited[current[0]][current[1]] = true
   }
-
-
   return false
-
-
 }

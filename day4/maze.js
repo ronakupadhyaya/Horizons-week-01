@@ -38,8 +38,23 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var ans = [];
+  this.maze.forEach(function(row) {
+    var mazeStr = row;
+    //if row is array, convert to string
+    if (typeof row === "object") {
+      var mazeRow = row.join('');
+      mazeStr = "";
+      for (var i = 0; i<mazeRow.length; i++) {
+        if (mazeRow.substring(i,i+1)===" ")
+          mazeStr += "_";
+        else
+          mazeStr += mazeRow.substring(i,i+1);
+      }
+    }
+    ans.push(mazeStr);
+  });
+  return ans.join("\n");
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -48,8 +63,17 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  var self = this;
+  var position = null;
+  self.maze.forEach(function (row, mIndex) {
+    row.forEach(function (item, rIndex) {
+      if (item === "S"){
+        position = [mIndex, rIndex];
+      }
+    });
+  });
+  if (position !== null)
+    return position;
   throw new Error("Maze has no starting point");
 }
 
@@ -95,11 +119,43 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
+  var self = this.maze;
+  //check validity of direction
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  //check if start position on board
+  if (row > self.length-1 || column > self[0].length-1) {
+    return false;
+  }
+  //get new row and column values
+  var nextR = row;
+  var nextC = column;
 
-  // YOUR CODE HERE
+  switch(direction) {
+  case "left":
+    if (column === 0) return false;
+    nextC--;
+    break;
+  case "right":
+    if (column === self[0].length-1) return false;
+    nextC++;
+    break;
+  case "up":
+    if (row === 0) return false;
+    nextR--;
+    break;
+  case "down":
+    if (row === self.length-1) return false;
+    nextR++;
+    break;
+  default:
+    //nothing
+  }
+  //check move to new row and column
+  if (self[nextR][nextC] === 'X')
+    return false;
+  return [nextR, nextC];
 }
 
 // Bonus!
@@ -109,5 +165,62 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var self = this;
+  function getEndPosition() {
+    var position = null;
+    self.maze.forEach(function (row, mIndex) {
+      row.forEach(function (item, rIndex) {
+        if (item === "E"){
+          position = [mIndex, rIndex];
+        }
+      });
+    });
+    if (position !== null)
+      return position;
+  }
+
+  var start = self.getStartPosition();
+  var end = getEndPosition();
+  //console.log(start, end);
+  var visited = ["false", start.toString()];
+
+  function recurse(start, visited) {
+    if (!start)
+      return false;
+    if (start.toString() === end.toString())
+      return true;
+
+    var left = self.tryMove(start[0],start[1],'left');
+    var right = self.tryMove(start[0],start[1],'right');
+    var down = self.tryMove(start[0],start[1],'down');
+    var up = self.tryMove(start[0],start[1],'up');
+
+    if (visited.indexOf(left.toString()) < 0) {
+      visited.push(left.toString());
+      left = recurse(left, visited);
+    } else {
+      left = false;
+    }
+    if (visited.indexOf(right.toString()) < 0) {
+      visited.push(right.toString());
+      right = recurse(right, visited);
+    } else {
+      right = false;
+    }
+    if (visited.indexOf(down.toString()) < 0) {
+      visited.push(down.toString());
+      down = recurse(down, visited);
+    } else {
+      down = false;
+    }
+    if (visited.indexOf(up.toString()) < 0) {
+      visited.push(up.toString());
+      up = recurse(up, visited);
+    } else {
+      up = false;
+    }
+    return left || right || up || down;
+  }
+
+  return recurse(start, visited);
 }

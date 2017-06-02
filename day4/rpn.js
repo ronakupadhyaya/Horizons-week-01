@@ -42,8 +42,74 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  // Split the string into parts
+  var rpnStrParts = rpnString.split(" ");
+  var operationStack = [];
+  var result = 0;
+
+  // If we have just one number, return it.
+  debugger;
+  if(rpnStrParts.length === 1){
+    if(isNum(rpnStrParts[0])){
+      return Number.parseInt(rpnStrParts[0]);
+    }
+
+    throw new Error("Found only an operator!");
+  }
+
+  // For each element, either push a number, or pop and evaluate an operation
+  //debugger;
+  for(var str of rpnStrParts){
+
+    // If number --> push
+    if(isNum(str)){
+      operationStack.push(str);
+
+    } else if(isOp(str) && operationStack.length > 1){
+      result = performOp(Number.parseInt(operationStack.pop()),
+        str,
+        Number.parseInt(operationStack.pop()));
+
+        operationStack.push(result);
+    } else {
+        throw new Error("Error! Incorrect Format");
+    }
+
+  }
+  if(operationStack.length === 1){
+    console.log(operationStack[0]);
+    return operationStack.pop();
+  }
+
+  throw new Error("The operation stack is not empty!");
+
 }
+
+// Gets an op from a string and performs the correct operation
+function performOp(num1, op, num2){
+  switch(op) {
+  case '*':
+    return num1 * num2;
+  case '/':
+    return num2 / num1;
+  case '+':
+    return num1 + num2;
+  case '-':
+    return num2 - num1;
+  default:
+    return new Error("Invalid op passed to performOp()");
+  }
+}
+
+function isOp(str){
+  return str.length === 1
+    && ["*", "/", "+", "-"].indexOf(str) !== -1
+}
+
+function isNum(str){
+  return !isNaN(str);
+}
+
 
 // This function returns true if given string represents a valid number.
 //

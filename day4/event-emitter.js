@@ -1,3 +1,4 @@
+
 // In this exercise you will create your own EventEmitter class
 // that will listen for & emit events. These events can be used
 // to keep track of actions/changes made by a user.
@@ -33,9 +34,9 @@
 // emitter.on('someEventName', f1);
 // emitter.on('someEventName', f2);
 // emitter.on('otherEventName', f2);
-// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
+// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -52,7 +53,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if(!(this.listeners.hasOwnProperty(eventName))) {
+    this.listeners[eventName] = [fn];
+  } else {
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -70,7 +75,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if(this.listeners.hasOwnProperty(eventName)){
+    var eventArr = this.listeners[eventName];
+    for(var i = 0; i < eventArr.length; i++){
+      eventArr[i](arg);
+    }
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -87,10 +97,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  if(this.listeners.hasOwnProperty(eventName)){
+    var eventArr = this.listeners[eventName]
+    var index = eventArr.indexOf(fn);
+    return eventArr.splice(index, 1);
+  }
 }
 
-// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// *Bonus*: Takes a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
@@ -103,5 +117,11 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  // Add it to the listeners
+  this.prototype.on(evenName, fn);
+
+  
+
+
+
 }

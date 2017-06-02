@@ -39,8 +39,21 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var str = "";
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === ' ') {
+        str = str.concat('_');
+      } else {
+        str = str.concat(this.maze[i][j]);
+      }
+    }
+    if(i < this.maze.length - 1){
+      str = str.concat('\n');
+    }
+
+  }
+  return str;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +62,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  debugger;
+  var test = this.maze[0][0];
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === 'S'){
+        return [i, j];
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -100,8 +121,51 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  // Apply the move direction
+  var newMove = this.applyMoveDirection(row, column, direction);
+
+  // Validate the move is valid (Either still on the board or not on a wall)
+  // Since isOffBoard or isOnWall will return true if the move is invalid,
+  // we have to return the negated expression.
+  if(this.isOffBoard(newMove) || this.isOnWall(newMove) {
+    return false;
+  }
+
+
 }
+
+// Returns true if the new move ends up outside of the board.
+Maze.prototype.isOffBoard = function(newMovement) {
+  return newMovement[0] < 0
+    || newMovement[0] === this.maze.length
+    || newMovement[1] < 0
+    || newMovement[1] === this.maze[0].length;
+}
+
+// Returns true if the new move ends up on a wall of the maze.
+Maze.prototype.isOnWall = function(newMovement) {
+  var row = newMovement[0];
+  var col = newMovement[1];
+  return this.maze[row][col] === 'X';
+}
+
+// Returns an array containing the new coords after the move
+Maze.prototype.applyMoveDirection = function(row, col, moveDirection){
+  switch(moveDirection){
+    case 'up':
+      return [row--, col];
+    case 'down':
+      return [row++, col];
+    case 'left':
+      return [row, col--];
+    case 'right':
+      return [row, col++];
+    default:
+      return;
+  }
+}
+
+
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

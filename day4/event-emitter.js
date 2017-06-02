@@ -56,9 +56,10 @@ function EventEmitter(event) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   if(this.listeners.hasOwnProperty(eventName)) {
-    this.listener[eventName].push(fn)
+    this.listeners[eventName].push(fn)
+  } else {
+    this.listeners[eventName] = [fn]
   }
-  this.listeners[eventName] = [fn]
 
 }
 
@@ -79,7 +80,7 @@ EventEmitter.prototype.on = function(eventName, fn) {
 EventEmitter.prototype.emit = function(eventName, arg) {
   for (var i = 0; i < this.listeners[eventName].length; i++) {
     this.listeners[eventName][i](arg);
-    
+
   }
 }
 
@@ -101,7 +102,7 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
   if(indexRemove !== -1) {
     this.listeners[eventName].splice(indexRemove);
   } else {
-    throw "Error"
+    throw "Hello World"
 
   }
 
@@ -122,11 +123,14 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  var index = this.listeners[eventName].indexOf(fn)
-  if(index !== -1) {
-    // calls function
-    this.removeListener(eventName, fn);
-  } else {
-    this.listener[eventName].push(fn);
+  var boundFun = myFunction.bind(this)
+  console.log();
+  function myFunction(){
+    fn()
+    this.removeListener(eventName, boundFun)
   }
+
+
+  this.on(eventName, boundFun);
+
 }

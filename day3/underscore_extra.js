@@ -30,11 +30,15 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
+function hashFunction() {
+  console.log('Called!');
+  console.log(Array.prototype.slice.call(arguments));
+}
+
 function memoize(func) {
   var keyPair = {};
   var val = 0;
   return function memoizeFn() {
-
     if(keyPair.hasOwnProperty(arguments[0])) {
       return keyPair[arguments[0]];
     } else {
@@ -69,18 +73,16 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  var arr = Array.prototype.slice.call(arguments).splice(1)
-  if(arr.length === 0) {
+  if(arguments.length === 0) {
     throw 'Error'
   }
-  return function partialFn() {
-    console.log(arguments);
-    var returnVals = fn.apply(null, arguments);
-    returnVals.forEach(function(val){
-      arr.push(val)
-    });
+  var arr = Array.prototype.slice.call(arguments).splice(1)
 
-    return arr;
+  return function partialFn() {
+    var arr2 = Array.prototype.slice.call(arguments)
+    var combinedArr = arr.concat(arr2)
+    var returnVals = fn.apply(null, combinedArr);
+    return returnVals;
   }
 
 }
@@ -121,7 +123,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn() {
+    return fun1(fun2.apply(null, arguments))
+  }
 }
 
 
@@ -164,5 +168,5 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  
 }

@@ -1,16 +1,9 @@
 # Horizons Week 1 Day 5 Exercises
 
-## Inline Exercises
-
-1. [sleep2Seconds()](http://codepen.io/moose-horizons/pen/EZyaKr?editors=0010)
-1. [countDown()](http://codepen.io/moose-horizons/pen/PWGozL?editors=0010)
-
 ## Exercises
 
 1. Testing
    Files: `week01/day5/testing.js` and `week01/day5/testing.html`
-1. Exceptions
-   Files: `week01/day5/exception.js` and `week01/day5/exception.html`
 1. Recursion
    Files: `week01/day5/recursion.js` and `week01/day5/recursion.html`
 1. [Dinosaur Game](dinosaur.md)

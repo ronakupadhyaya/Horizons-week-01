@@ -89,9 +89,14 @@ describe('Maze.toString()', function () {
       return row.map(function(pos) {
         if(pos === " ") {
           return '_';
+<<<<<<< HEAD
         }
         else {
           //console.log(pos);
+=======
+        } else {
+          // console.log(pos);
+>>>>>>> 9cd82658bf694fa67ba670afca959f2ca217f93a
           return pos;
         }
       }).join('')

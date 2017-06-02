@@ -39,7 +39,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
+  var arr = [];
+  for (var i = 0; i < this.maze.length; i++) {
+    arr = arr.concat(this.maze[i]);
+    arr.push("\n");
+  }
+  arr.pop();
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === " ") {
+      arr[i] = "_";
+    }
+  }
+  var string = arr.join("");
+  return string;
   // Hint: See Array.prototype.join()!
 }
 
@@ -50,7 +62,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === "S") {
+        return [i,j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -99,8 +117,27 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  if (!this.getStartPosition()) {
+    return false;
+  }
+  if (direction === "right")
+    column++;
+  if (direction === "left")
+    column--;
+  if (direction === "up")
+    row--;
+  if (direction === "down")
+    row++;
 
-  // YOUR CODE HERE
+  if (row < 0 || column < 0 || row >= this.maze.length || column >= this.maze[0].length) {
+    return false;
+  }
+  if (this.maze[row][column] === "X") {
+    return false;
+  }
+
+  return [row,column];
+
 }
 
 // Bonus!
@@ -110,5 +147,43 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var start = this.getStartPosition();
+  var m = this;
+  var positions = [];
+  var found = false;
+
+  function solve(position) {
+    var row = position[0];
+    var col = position[1];
+    positions.push(position.toString());
+    if (found) {
+      return;
+    }
+    if (m.maze[row][col] === "E") {
+      found = true;
+      return;
+    }
+    if ((m.tryMove(row, col, "down")) &&
+      positions.indexOf(m.tryMove(row, col, "down").toString()) === -1) {
+      solve(m.tryMove(row, col, "down"));
+    }
+    if ((m.tryMove(row, col, "up")) &&
+      positions.indexOf(m.tryMove(row, col, "up").toString()) === -1) {
+      solve(m.tryMove(row, col, "up"));
+    }
+    if ((m.tryMove(row, col, "right")) &&
+      positions.indexOf(m.tryMove(row, col, "right").toString()) === -1) {
+      solve(m.tryMove(row, col, "right"));
+    }
+    if ((m.tryMove(row, col, "left")) &&
+      positions.indexOf(m.tryMove(row, col, "left").toString()) === -1) {
+      solve(m.tryMove(row, col, "left"));
+    }
+  }
+
+  solve(start);
+  return found;
+
 }
+
+

@@ -30,49 +30,21 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func,hashFunction) {
   // YOUR CODE HERE
   //var called = false;
-  var save;
-  var arg = [];
   var cache = {}
-  return function memoizedFn(x){
-  	if(cache[String(x)]===undefined){
-  	if(arg.indexOf(x)===-1){
-  		save = func(x);
-  		arg.push(x);
-  		cache[String(x)] = save;
-  		//called = true;
-  		
-  	}
-	return save;
-  }else{
-  	return cache[String(x)];
-  }
+return function(){
+	var hash = hashFunction ? hashFunction.apply(null,arguments) : arguments[0];
+	if(cache.hasOwnProperty(hash)){
+		return cache[hash]
+	}
+	cache[hash] = func.apply(null, arguments);
+	return cache[hash]
+
+	}
 }
 
-
-}
-// function memoize(func) {
-//   // YOUR CODE HERE
-//   //var called = false;
-//   var save;
-//   var arg = [];
-//   var cache = {}
-//   return function memoizedFn(x){
-//   	if(cache[String(x)]===undefined){
-//   	if(arg.indexOf(x)===-1){
-//   		save = func(x);
-//   		arg.push(x);
-//   		cache[String(x)] = save;
-//   		//called = true;
-  		
-//   	}
-// 	return save;
-//   }else{
-//   	return cache[String(x)];
-//   }
-// }
 
 
 // }
@@ -197,44 +169,44 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
-function memoize(func, fun2) {
-  // YOUR CODE HERE
-  //var called = false;
-  if(fun2 === undefined){
-  	var save;
-  var arg = [];
-  var cache = {}
-  return function memoizedFn(x){
-  	if(cache[String(x)]===undefined){
-  	if(arg.indexOf(x)===-1){
-  		save = func(x);
-  		arg.push(x);
-  		cache[String(x)] = save;
-  		//called = true;
+// function memoize(func, fun2) {
+//   // YOUR CODE HERE
+//   //var called = false;
+//   if(fun2 === undefined){
+//   	var save;
+//   var arg = [];
+//   var cache = {}
+//   return function memoizedFn(x){
+//   	if(cache[String(x)]===undefined){
+//   	if(arg.indexOf(x)===-1){
+//   		save = func(x);
+//   		arg.push(x);
+//   		cache[String(x)] = save;
+//   		//called = true;
   		
-  	}
-	return save;
-  }else{
-  	return cache[String(x)];
-  }
-}}
-  var save;
-  var arg = [];
-  var cache = {}
-  return function memoizedFn(){
-  	var input = fun2.apply(null,arguments);
-  	if(cache[input]===undefined){
-  		save = func.apply(null,arguments);
-  		cache[input] = save;
-  		//called = true;
-	return save;
-  }else{
-  	return cache[input];
-  }
-}
+//   	}
+// 	return save;
+//   }else{
+//   	return cache[String(x)];
+//   }
+// }}
+//   var save;
+//   var arg = [];
+//   var cache = {}
+//   return function memoizedFn(){
+//   	var input = fun2.apply(null,arguments);
+//   	if(cache[input]===undefined){
+//   		save = func.apply(null,arguments);
+//   		cache[input] = save;
+//   		//called = true;
+// 	return save;
+//   }else{
+//   	return cache[input];
+//   }
+// }
 
 
-}
+// }
 
 // Double Bonus Exercise: compose()
 //

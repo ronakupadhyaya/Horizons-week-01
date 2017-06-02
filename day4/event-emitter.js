@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName].push(fn);
+  } else {
+    this.listeners[eventName] = [fn];
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -71,6 +77,13 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    var vals = this.listeners[eventName];
+    var func = function(fn){
+      return fn(arg);
+    }
+    func.apply(this, vals);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -88,6 +101,12 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    var vals = this.listeners[eventName];
+    if (vals.indexOf(fn) !==  -1) {
+      return vals.splice(vals.indexOf(fn), 1);
+    }
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -102,6 +121,34 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
+
+/*var once = function(f) {
+  var ret;
+  var called = false; // Let's create a local variable to track if f has been called
+  return function() {
+    if (! called) { // if f hasn't been called yet
+      ret = f.apply(null, arguments);
+      called = true; // mark f as called
+    }
+    return ret;
+  }
+}*/
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var called = false;
+  if (this.listeners.hasOwnProperty(eventName)) {
+    var vals = this.listeners[eventName];
+    if (vals.indexOf(fn) !==  -1) {
+      //return function() {
+      if (!called) {
+        called = true;
+      } else {
+        //vals.remove(vals[vals.indexOf(fn)])
+        var x = vals.splice(vals.indexOf(fn), 1);
+        EventEmitter.emit(eventName, x)
+      }
+    //  }
+      //remove it, save as variable, c
+    }
+  }
 }

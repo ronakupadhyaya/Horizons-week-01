@@ -16,4 +16,21 @@
 // https://www.4clojure.com/problem/101
 function editDistance(str1, str2) {
   // YOUR CODE HERE
+  var n = str1.length;
+  var m = str2.length;
+  if (n === 0) {
+    return m;
+  }
+  if (n === 0) {
+    return m;
+  }
+  var arr = [];
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < m; j++) {
+      arr[i][j] = " ";
+    }
+  }
+  console.log(arr);
+
+
 }

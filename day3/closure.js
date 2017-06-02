@@ -25,13 +25,7 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
-    // Delete privatePassword and use vault()
-    // to implement the login function
-    // YOUR CODE HERE
-    //privatePassword: password,
-    login: function(attempt) {
-      return vault(password);//this.privatePassword === attempt;
-    }
+    login: vault(password)
   }
 }
 
@@ -85,12 +79,16 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var called = false;
+  var returned;
+   // Let's create a local variable to track if f has been called
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+    if (!called) { // if f hasn't been called yet
+      returned = f.apply(this,arguments); // call f
       called = true; // mark f as called
     }
+    //return f();
+    return returned;
   }
 }
 
@@ -120,13 +118,17 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var newIndex = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+    functionArray[newIndex] = (function(inner) {
       // function that returns i
-      return i;
-    }
+      return function() {
+        return inner;
+      }
+    }(i));
+    newIndex++;
   }
-
+  console.log(functionArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

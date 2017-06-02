@@ -41,6 +41,21 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var result = '';
+
+  for(var i=0; i<this.maze.length; i++){
+    for(var j=0; j<this.maze[0].length; j++){
+      if(this.maze[i][j]===' '){
+        result += '_';
+      }else{
+        result += this.maze[i][j];
+      }
+    }
+    if(i!==this.maze.length-1){
+      result += '\n';
+    }
+  }
+  return result;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +65,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for(var i=0; i<this.maze.length; i++){
+    for(var j=0; j<this.maze[0].length; j++){
+      if(this.maze[i][j]==='S'){
+        return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -101,6 +122,37 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  var newRow = row;
+  var newColumn = column
+  if(newRow<0 || newColumn>this.maze[0].length-1 || newColumn<0 || newRow>this.maze.length-1){
+    return false;
+  }
+
+  switch(direction){
+  case 'up':
+    newRow--;
+    break;
+
+  case 'down':
+    newRow++;
+    break;
+
+  case 'left':
+    newColumn--;
+    break;
+
+  case 'right':
+    newColumn++;
+    break;
+  }
+
+  if(newRow<0 || newColumn>this.maze[0].length-1 || newColumn<0 || newRow>this.maze.length-1){
+    return false;
+  }else if(this.maze[newRow][newColumn] === 'X'){
+    return false;
+  }else{
+    return [newRow,newColumn];
+  }
 }
 
 // Bonus!
@@ -111,4 +163,54 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var position = this.getStartPosition();
+  var visited = [];
+  for(var i=0; i<this.maze.length; i++){
+    var temp = [];
+    for(var j=0; j<this.maze[0].length; j++){
+      temp.push(false);
+    }
+    visited.push(temp)
+  }
+  debugger;
+  console.log(visited);
+  console.log(this.toString());
+  if(this.maze[position[0]][position[1]]==='E'){
+    return true;
+  }
+  //debugger;
+  if(this.tryMove(position[0], position[1], 'up')!==false){
+    if(this.maze[position[0]-1][position[1]] === 'E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]] = ' ';
+    this.maze[position[0]-1][position[1]] = 'S';
+    return this.isSolvable();
+  }
+  if(this.tryMove(position[0], position[1], 'down')!==false){
+    if(this.maze[position[0]+1][position[1]] === 'E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]] = ' ';
+    this.maze[position[0]+1][position[1]] = 'S';
+    return this.isSolvable();
+  }
+  if(this.tryMove(position[0], position[1], 'left')!==false){
+    if(this.maze[position[0]][position[1]-1] === 'E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]] = ' ';
+    this.maze[position[0]][position[1]-1] = 'S';
+    return this.isSolvable();
+  }
+  if(this.tryMove(position[0], position[1], 'right')!==false){
+    if(this.maze[position[0]][position[1]+1] === 'E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]] = ' ';
+    this.maze[position[0]][position[1]+1] = 'S';
+    return this.isSolvable();
+  }
+  return false;
+
 }

@@ -1,7 +1,7 @@
 "use strict";
 
 
-(function() {
+(function () {
   function Game() {
     this.width = 550;
     this.height = 250;
@@ -19,74 +19,75 @@
   };
 
   Game.prototype = {
-    attachTo: function() {
+    attachTo: function () {
       this.cv = document.querySelector("#" + this.canvasId);
       this.ctx = this.cv.getContext("2d");
 
       this.cv.width = this.width;
       this.cv.height = this.height;
     },
-    clear: function() {
+    clear: function () {
       this.ctx.fillStyle = "#5873fd";
       this.ctx.fillRect(0, 0, this.width, this.height);
     },
-    drawMessage: function(text) {
+    drawMessage: function (text) {
       this.ctx.fillStyle = "#000";
       this.ctx.font = "36px Helvetica";
       this.ctx.fillText(text, 10, this.height / 2);
     },
-    drawScore: function(score) {
+    drawScore: function (score) {
       this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
-    drawHighScore: function(score) {
+    drawHighScore: function (score) {
       this.ctx.fillStyle = "#000";
       this.ctx.font = "12px Helvetica";
       this.ctx.fillText('High score: ' + score, this.width - 150, 40);
     },
-    drawLine: function(x, y, xp, yp) {
+    drawLine: function (x, y, xp, yp) {
       this.ctx.beginPath();
-      this.ctx.moveTo(x,y);
+      this.ctx.moveTo(x, y);
       this.ctx.lineTo(xp, yp);
       this.ctx.stroke();
     },
-    drawDinosaur: function(x, y) {
+    drawDinosaur: function (x, y) {
       var dino = [this.dinosaurWidth, this.dinosaurHeight, "#e44e44"];
       this.ctx.fillStyle = dino[2];
       this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
-    drawObstacle: function(x, y) {
+    drawObstacle: function (x, y) {
       var obs = [this.obstacleWidth, this.obstacleHeight, "#ccc"];
       this.ctx.fillStyle = obs[2];
       this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
-    onUpArrow: function(fun) {
-      window.addEventListener('keydown', function(evt) {
+    onUpArrow: function (fun) {
+      window.addEventListener('keydown', function (evt) {
         if (evt.which === 38 || evt.keyCode === 38) {
           fun();
         }
       });
     },
-    onReady: function(fun) {
+    onReady: function (fun) {
       document.addEventListener("DOMContentLoaded", fun);
     },
-    saveHighScore: function(score) {
+    saveHighScore: function (score) {
       localStorage.setItem('dinosaurHiScore', score || 0);
     },
-    getHighScore: function() {
+    getHighScore: function () {
       return localStorage.getItem('dinosaurHiScore') || 0;
     },
-    clearHighScore: function() {
+    clearHighScore: function () {
       localStorage.removeItem('dinosaurHiScore');
     }
   };
 
   window.game = new Game();
+  requestAnimationFrame(this.render.bind(this));
 })();

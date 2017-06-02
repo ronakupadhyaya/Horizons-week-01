@@ -11,14 +11,14 @@ window.recursion = {};
 
 //Example 1
 //This function sums the first n numbers from 1 to n (number), inclusive
-recursion.sum = function(number) {
+recursion.sum = function (number) {
   //Base case
-  if(number === 1) {
+  if (number === 1) {
     return 1;
   }
 
   //Recursive case
-  return recursion.sum(number-1) + number;
+  return recursion.sum(number - 1) + number;
 }
 
 
@@ -34,8 +34,10 @@ recursion.sum = function(number) {
 //Write a function that computes the factorial of a given integer
 //Please note that factorial 0 is 1
 //ex. factorial(4) -> 4! -> 4 * 3 * 2 * 1 -> 24
-recursion.factorial = function(number) {
-  //WRITE CODE HERE
+recursion.factorial = function (number) {
+  if (number <= 1)
+    return 1;
+  return recursion.factorial(number - 1) * number;
 }
 
 
@@ -46,6 +48,26 @@ recursion.factorial = function(number) {
 //ex. fibonacci(2) -> 0 + 1 -> 1
 //ex. fibonacci(3) -> 1 + 1 -> 2
 //ex. fibonacci(4) -> 1 + 2 -> 3
-recursion.fibonacci = function(number) {
-  //WRITE CODE HERE
+recursion.fibonacci = function (number) {
+  switch (number) {
+    case number < 1:
+      return 0;
+    default:
+      var answer = 1;
+      var lastAnswer = 0;
+      var tmp;
+
+      var rec = function (number) {
+        if (number <= 1) {
+          return;
+        }
+        rec(number - 1);
+        tmp = answer;
+        answer = lastAnswer + answer;
+        lastAnswer = tmp;
+      }
+
+      rec(number);
+      return answer;
+  }
 }

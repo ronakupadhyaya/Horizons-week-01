@@ -75,6 +75,10 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var func = this.listeners[eventName];
+  func.forEach(function(fn){
+    fn.call(this, arg);
+  });
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -92,6 +96,12 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var func = this.listeners[eventName];
+  func.forEach(function(fn1){
+    if(String(fn1) === String(fn)){
+      func.pop();
+    }
+  });
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -108,4 +118,10 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var captured = this;
+  function inner(arg){
+    fn(arg);
+    captured.removeListener(eventName, inner);
+  }
+  captured.on(eventName, inner);
 }

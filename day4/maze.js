@@ -39,6 +39,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
+  var m = this.maze;
+  var retArr = [];
+  for(var i = 0; i < m.length; i++){
+    for(var j = 0; j < m[i].length; j++){
+      if(m[i][j] === " "){
+        m[i][j] = "_";
+      }
+      retArr.push(m[i][j]);
+    }
+    if(i < m.length-1){
+      retArr.push("\n");
+    }
+  }
+  return retArr.join("");
   // Hint: See Array.prototype.join()!
 }
 
@@ -49,8 +63,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  var m = this.maze;
+  for(var i = 0; i < m.length; i++){
+    for(var j = 0; j < m[i].length; j++){
+      if(m[i][j] === "S"){
+        return [i, j];
+      }
+    }
+  }
+  throw new Error("There is no start position!");
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -98,8 +119,31 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
+  /*if(this.getStartPosition()[0] !== row || this.getStartPosition[1] !== column){
+    return false;
+  }*/
   // YOUR CODE HERE
+  var m = this.maze;
+  var ret = [row, column]
+  if(direction === "up"){
+    ret[0] = row - 1;
+  }
+  if(direction === "down"){
+    ret[0] = row + 1;
+  }
+  if(direction === "left"){
+    ret[1] = column - 1;
+  }
+  if(direction === "right"){
+    ret[1] = column + 1;
+  }
+  if(ret[0] >= m.length || ret[0] < 0 || ret[1] >= m[0].length || ret[1] < 0){
+    return false;
+  }
+  if(m[ret[0]][ret[1]] === "X"){
+    return false;
+  }
+  return ret;
 }
 
 // Bonus!
@@ -110,4 +154,58 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  /*var m = this.maze;
+  var arr = [];
+  var dir = Maze.validDirections;
+  var ret = true;
+  for(var i = 0; i < m.length; i++){
+    for(var j = 0; j < m[0].length; j++){
+      var count = 0;
+      for(var k = 0; k < dir.length; k++){
+        if(!this.tryMove(i, j, dir[k])){
+          //ret = false;
+          count++;
+        }
+        if(count === dir.length){
+          return false;
+        }
+      }
+    }
+  }
+  for(var i = 0; i < m[0].length; i++){
+    for(var j = 0; j < m.length; j++){
+      var count = 0;
+      for(var k = 0; k < dir.length; k++){
+        if(!this.tryMove(i, j, dir[k])){
+          //ret = false;
+          count++;
+        }
+        if(count === dir.length){
+          return false;
+        }
+      }
+    }
+  }
+  return true;*/
+  var maze = this.maze;
+  var self = this;
+  var stack = [self.getStartPosition()];
+  var visited = [];
+  var dir = Maze.validDirections;
+  while(stack.length > 0){
+    var current = stack.pop();
+    if(visited.indexOf([current[0], current[1]].toString()) > 0){
+      continue;
+    }
+    if(maze[current[0]][current[1]] === "E"){
+      return true;
+    }
+    dir.forEach(function(direction){
+      if(self.tryMove(current[0], current[1], direction)){
+        stack.push(self.tryMove(current[0], current[1], direction));
+      }
+    });
+    visited.push(current.toString());
+  }
+  return false;
 }

@@ -45,6 +45,55 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(inputWord, board) {
+  // - It may use empty spaces (underscores).
+  // - It may use but must not conflict with any pre-filled characters.
+  // - It must not use any unusable spaces (hashes).
+  // - There must be no empty spaces (underscores) or extra characters before or
+  //   after the word (the word may be bound by unusable spaces though).
+  // - Characters are not case-sensitive.
+  // - Words may be placed vertically (proceeding top-down only), or horizontally
+  //   (proceeding left-right only).
+  function isAlreadyOnBoard(word) {
+    var spacedWord = "";
+    for(var i = 0; i < word.length-1; i++){
+      spacedWord += word.charAt(i);
+      spacedWord += " ";
+    }
+    spacedWord += word.charAt(word.length-1);
+
+    var boolArr = _.map(board, function(line){
+      return line.includes(spacedWord);
+    });
+    return boolArr.includes(true);
+  }
+
+  function fitsHorizontal(word){
+    debugger;
+    var boolArr = _.map(board, function(line){
+      var counter = 0;
+      var counting = false;
+      for(var i = 0; i < line.length; i+=2){
+        if(line.charAt(i) === '_' ){
+          if(line.charAt(i-2) || line.charAt(i-2) !== '_'){
+            counter = 1;
+            counting = true;
+          } else if(counting){
+            counter++;
+          }
+        } else {
+          if(counting){
+            counting = false;
+            if(counter === word.length){
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+    return boolArr.includes(true);
+  }
+
+  return fitsHorizontal(inputWord);
 }

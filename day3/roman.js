@@ -36,7 +36,29 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var numerals = {'I' : 1, 'V' : 5, 'X' : 10, 'L' : 50, 'C' : 100, 'D' : 500, 'M' : 1000};
+  var exceptions = {'IV' : 4, 'IX' : 9, 'XL' : 40, 'XC' : 90, 'CD' : 400, 'CM' : 900};
+
+  if(string.length === 1){
+    return numerals[string];
+  }
+
+  var sum = 0;
+  for(var i = 1; i <= string.length; i++){
+    var currChar = string.charAt(i-1);
+    var nextChar = string.charAt(i)
+    if(nextChar && exceptions[currChar+nextChar]){
+      sum += exceptions[currChar+nextChar];
+      i++;
+    } else if(i === string.length-1){
+      sum += numerals[currChar];
+      sum += numerals[nextChar];
+      break;
+    } else {
+      sum += numerals[currChar];
+    }
+  }
+  return sum;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +94,35 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var strNum = number.toString();
+  var ones = {"0" : "", "1" : "I", "2" : "II", "3" : "III", "4" : "IV", "5" : "V", "6" : "VI", "7" : "VII", "8" : "VIII", "9" : "IX"};
+  var tens = {"0" : "", "1" : "X", "2" : "XX", "3" : "XXX", "4" : "XL", "5" : "L", "6" : "LX", "7" : "LXX", "8" : "LXXX", "9" : "XC"};
+  var hundreds = {"0" : "", "1" : "C", "2" : "CC", "3" : "CCC", "4" : "CD", "5" : "D", "6" : "DC", "7" : "DCC", "8" : "DCCC", "9" : "CM"};
+  var thousands = {"1" : "M", "2" : "MM", "3" : "MMM", "4" : "MMMM"};
+
+  var onesDigit;
+  var tensDigit;
+  var hundredsDigit;
+  var thousandsDigit;
+
+  var numeral = "";
+  debugger;
+  if(strNum.length > 3){
+    thousandsDigit = strNum[strNum.length-4];
+    numeral += thousands[thousandsDigit];
+  }
+  if(strNum.length > 2){
+    hundredsDigit = strNum[strNum.length-3];
+    numeral += hundreds[hundredsDigit];
+  }
+  if(strNum.length > 1){
+    tensDigit = strNum[strNum.length-2];
+    numeral += tens[tensDigit];
+  }
+  if(strNum.length > 0){
+    onesDigit = strNum[strNum.length-1];
+    numeral += ones[onesDigit];
+  }
+
+  return numeral;
 };

@@ -18,6 +18,20 @@ window.prototypes = {};
 
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+  if (this.length !== array2.length){
+    return false;
+  }
+  var arr1 = this.sort();
+  console.log(arr1)
+  var arr2 = array2.sort();
+  console.log(arr2)
+  var b = true;
+  for (var i = 0; i < arr1.length; i++){
+    if (arr1[i] !== arr2[i]){
+      b = false;
+    }
+  }
+  return b;
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -34,4 +48,54 @@ Array.prototype.hasEqualContent = function(array2){
 
 Object.prototype.hasEqualContent = function(object2){
  // YOUR CODE HERE
+  var arr1 = Object.entries(this);
+  var arr2 = Object.entries(object2);
+
+  if (arr1.length !== arr2.length){
+    return false;
+  }
+  if (arr1.length === 0 && arr2.length ===0){
+    return true;
+  }
+
+  var b = true;
+  for(var i = 0; i < arr1.length; i++){
+    if (arr1[i][0]!== arr2[i][0]){
+      b = false;
+    } else if((arr1[i][1]!== arr2[i][1])){
+      b = false;
+    }
+    return b;
+  }
+
+
+  /*var keys1 = Object.keys(this);
+  var keys2 = Object.keys(object2);
+
+  var val1 = Object.values(this);
+  var val2 = Object.values(object2);
+
+  if (keys1.length !== keys2.length){
+    return false;
+  }
+  var arr1 = keys1.sort();
+  var arr2 = keys2.sort();
+
+  var b = true;
+  for (var i = 0; i < arr1.length; i++){
+    if (arr1[i] !== arr2[i]){
+      b = false;
+    }
+  }
+
+  var arr3 = val1.sort();
+  var arr4 = val2.sort();
+  var a = true;
+  for (var i = 0; i < arr3.length; i++){
+    if (arr3[i] !== arr4[i]){
+      a = false;
+    }
+  }
+
+  return b && a;*/
 }

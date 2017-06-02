@@ -72,4 +72,4 @@ describe("functionFactory()", function() {
       expect(fun()).toEqual(i-5);
     });
   });
-});
+})

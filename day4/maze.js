@@ -41,6 +41,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  console.log(this.maze); 
+  var arr1 = []
+  this.maze.forEach(function(item) {
+    arr1.push(item.join(''))  
+  }); 
+
+  console.log("sub-arrays are strings", arr1)
+  var arr2 = arr1.join('\n');
+  console.log("one big string", arr2);  
+
+  var str2 = arr2.replace(/ /g, '_')
+  console.log("replace spaces with _", str2)
+  return str2;  
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +63,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === 'S') {
+        return [i, j]; 
+        console.log(i, j)
+      } 
+    }
+  } 
   throw new Error("Maze has no starting point");
 }
 
@@ -99,8 +119,48 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
   // YOUR CODE HERE
+  // Getting the new position
+  var startPos = [row, column]
+  var newPos = []
+  if (direction === 'left') {
+    newPos = [row, column-1]
+  }
+
+  if (direction === 'right') {
+    newPos = [row, column+1]
+  }
+
+  if (direction === 'down') {
+    newPos = [row+1, column]
+  }
+
+  if (direction === 'up') {
+    newPos = [row-1, column]
+  }
+  // Invalid moves 
+  for (var i = 0; i < this.maze.length; i++) {
+    
+    // Moves off the board 
+    if (newPos[0] > this.maze.length-1 || newPos[1] > this.maze[i].length-1) {
+      return false; 
+    }
+
+    if (newPos[0] < 0 || newPos[1] < 0){
+      return false; 
+    }
+
+    // Starting position is invalid
+    if (startPos[0] > this.maze.length-1 || startPos[1] > this.maze[i].length-1) {
+      return false; 
+    }
+  }
+
+  // move ends on a cell that's a wall
+  if (this.maze[newPos[0]][newPos[1]] === 'X') {
+    return false; 
+  }
+  return newPos; 
 }
 
 // Bonus!

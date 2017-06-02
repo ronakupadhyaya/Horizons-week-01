@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,12 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+  	this.listeners[eventName].push(fn)
+  }
+  else {
+  	this.listeners[eventName] = [fn]
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -71,9 +78,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  this.listeners[eventName].forEach(function(i) {
+  	i(arg)
+  });
 }
 
-// Takes is a string "eventName" and a callback function "fn"
+// Takes in a string "eventName" and a callback function "fn"
 // Removes the specified listener from the listener array
 // for the event named eventName.
 //
@@ -88,12 +98,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var index = this.listeners[eventName].indexOf(fn); 
+  this.listeners[eventName].splice(index, 1); 
 }
 
-// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// *Bonus*: Takes in a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
-// eventName. The next time eventName is triggered, this
-// listener is removed and then called.
+// eventName. The next time eventName is called, this
+// listener is removed and then this listener is called.
 //
 // Example.
 // var emitter = new EventEmitter();
@@ -104,4 +116,10 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  	var x = function(arg) {
+  		this.removeListener(eventName, fn)
+  		fn(); 
+  	}.bind(this) 
+  	this.on(eventName, x);
 }
+

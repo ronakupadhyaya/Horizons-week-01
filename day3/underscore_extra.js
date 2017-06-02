@@ -32,6 +32,16 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var check = {}
+  var answer = 0
+  return function(arg1) {
+  	if (check.hasOwnProperty(arg1)) {
+  		return check[arg1]
+  	}
+  answer = func(arg1);
+  check[arg1] = answer; 
+  return answer 
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +70,17 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+	var args = Object.values(arguments); 
+	console.log(args)
+	if (args.length === 0) {
+		throw "false"; 
+	}
+	args = args.slice(1)
+	return function partialFn() {
+		var arg2 = Object.values(arguments); 
+		var total = args.concat(arg2); 
+		return fn.apply(this, total); 
+	}
 }
 
 // Exercise 3: composeBasic()

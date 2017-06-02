@@ -33,13 +33,21 @@
 // emitter.on('someEventName', f1);
 // emitter.on('someEventName', f2);
 // emitter.on('otherEventName', f2);
-// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
+// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
+<<<<<<< HEAD
   this.listeners = {};
 }
 
 // Takes a string "eventName" and a callback function "fn"
 // adds a listener to the listeners property in EventEmitter
+=======
+  // YOUR CODE HERE
+}
+
+// Takes is a string "eventName" and a callback function "fn"
+// add a listener to the listeners property in EventEmitter
+>>>>>>> master
 // Adds the listener function to the end of the listeners
 // array (in the listeners property) for the event named eventName.
 //

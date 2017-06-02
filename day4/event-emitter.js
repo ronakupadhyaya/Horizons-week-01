@@ -100,6 +100,19 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if(this.listeners[eventName] === undefined) {
+    return;
+  }
+  else {
+    var array = this.listeners[eventName];
+    array.forEach(function(element) {
+      if (element.toString() === fn.toString()) {
+        array.splice(array.indexOf(element), 1);
+      }
+    })
+    return;
+  }
+
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"

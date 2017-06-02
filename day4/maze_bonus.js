@@ -12,5 +12,8 @@
 // ex. new Maze([['S', 'E']]).getShortestPath() -> ['right']
 // ex. new Maze([['E', ' '], ['X', ' '], ['S', ' ']]).getShortestPath() -> ['right', 'up', 'up', 'left']
 Maze.prototype.getShortestPath = function() {
-  // YOUR CODE HERE
+  if(!this.isSolvable()){
+    return []
+  }
+  
 }

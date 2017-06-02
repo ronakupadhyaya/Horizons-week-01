@@ -140,7 +140,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 
   row = newLocation[0];
   column = newLocation[1];
-  console.log(row,this.maze.length - 1, column, this.maze[0].length - 1)
   if(row < 0 || column < 0 || row > this.maze.length - 1 || column > this.maze[0].length - 1){
     return false
   }
@@ -154,13 +153,55 @@ Maze.prototype.tryMove = function(row, column, direction) {
 }
 
 
-
 // Bonus!
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
-Maze.prototype.isSolvable = function() {
+var path = [];
 
+
+Maze.prototype.isSolvable = function() {
+  // first must determine the starting location to send the function
+  var arg1 = this;
+  var visited = [];
+
+  var row, column;
+  for(var i = 0; i < this.maze.length; i++){
+    var temp = [];
+    for(var j = 0; j < this.maze[0].length; j++){
+      temp.push(false)
+      if(this.maze[i][j] === "S"){
+        row = i;
+        column = j;
+      }
+    }
+    //console.log(temp)
+    visited.push(temp)
+  }
+  //console.log(visited)
+  return solve(row, column);
+
+  function solve (r, c){
+    if(!visited[r][c]){
+      visited[r][c] = true;
+      if(arg1.maze[r][c] === "E") return true
+
+      if(arg1.tryMove(r, c, "up")){
+        if(solve(r-1,c)) return true;
+      }
+      if(arg1.tryMove(r, c, "down")){
+        if(solve(r+1,c)) return true;
+      }
+      if(arg1.tryMove(r, c, "left")){
+        if(solve(r,c-1)) return true;
+      }
+      if(arg1.tryMove(r, c, "right")){
+        if(solve(r,c+1)) return true;
+      }
+
+    }
+    return false;
+  }
 }

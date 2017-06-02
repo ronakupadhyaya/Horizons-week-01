@@ -21,11 +21,16 @@
 //
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
-window.Maze = function (maze) {
-  // TODO throw exception if this is not called with new
-  //if (!(this instanceof Maze)) {
-  //    throw new Error(" mistake");
-  //  }
+window.Maze = function (maze) { <<
+  <<
+  << < HEAD
+  if (!(this instanceof Maze)) {
+    throw new Error('new keyboard is missing');
+  } ===
+  ===
+  = >>>
+  >>>
+  > master
   this.maze = maze;
 }
 
@@ -42,10 +47,22 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function () {
-  // YOUR CODE HERE
-  console.log(Array.prototype(arguments[0]));
-  // Hint: See Array.prototype.join()!
-
+  var self = this.maze;
+  var stringReturn = '';
+  for (var i = 0; i < self.length; i++) {
+    for (var j = 0; j < self[i].length; j++) {
+      if (self[i][j] === ' ') {
+        stringReturn = stringReturn + '_';
+      } else {
+        stringReturn = stringReturn + self[i][j];
+      }
+    }
+    if (!(i === self.length - 1)) {
+      stringReturn = stringReturn + "\n";
+    }
+  }
+  console.log(stringReturn);
+  return stringReturn;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -54,8 +71,14 @@ Maze.prototype.toString = function () {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function () {
-  // YOUR CODE HERE
-
+  var self = this.maze;
+  for (var i = 0; i < self.length; i++) {
+    for (var j = 0; j < self[i].length; j++) {
+      if (self[i][j] === 'S') {
+        return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -68,9 +91,9 @@ Maze.prototype.getStartPosition = function () {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.
@@ -104,11 +127,34 @@ Maze.prototype.tryMove = function (row, column, direction) {
   if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
+  var newPosition = [];
+  switch (direction) {
+  case 'left':
+    newPosition = [row, column - 1];
+    break;
+  case 'right':
+    newPosition = [row, column + 1];
+    break;
+  case 'up':
+    newPosition = [row - 1, column];
+    break;
+  case 'down':
+    newPosition = [row + 1, column];
+    break;
+  }
+  try {
+    this.getStartPosition()
+  } catch (e) {
+    return false
+  };
+  if (newPosition[0] < 0 || newPosition[1] < 0 || newPosition[0] > this.maze.length - 1 || newPosition[1] > this.maze[0].length - 1) {
+    return false;
+  }
+  if (this.maze[newPosition[0]][newPosition[1]] === 'X') {
+    return false;
+  }
+  return newPosition;
 }
-
-
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

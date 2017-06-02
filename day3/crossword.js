@@ -50,57 +50,37 @@ function solveCrossword() {
 
   var word = arguments[0];
   var flag = true;
-  console.log("The word is :", word);
+  //  console.log("The word is :", word);
 
   var board = Array.prototype.slice.call(arguments).slice(1);
-  console.log(board);
-  var Boarda = [];
-  console.log(Boarda);
-  var a = board[0][0];
-  console.log(a);
-  console.log(a.substring(0, 9));
-  console.log(a.length);
-  console.log(board[0]);
-  for (var i = 0; i < board.length; i++) {
-    tmpArray = [];
-    console.log(board[i].length);
-    var a = board[0][0];
-    console.log(a);
-    console.log(a.substring(0, 9));
-    console.log(a.length);
-    for (var j = 0; j < a.length; j++) {
-      tmpArray.push(a.charAt(j));
-      console.log(tmpArray);
-    }
-    Board.push(tmpArray);
+  var boardTmp = [];
+  for (var i = 0; i < board[0].length; i++) {
+    boardTmp.push(board[0][i].split(' '));
   }
-  console.log(Board);
-  var BoardVerti = Board.slice();
-  console.log(Board.length);
-  console.log("The Board is: ", Board);
-  for (var i = 0; i < Board.length; i++) {
-    var linePadded = padding(Board[i]);
+
+  var BoardVerti = boardTmp.slice();
+
+  for (var i = 0; i < boardTmp.length; i++) {
+    var linePadded = padding(boardTmp[i]);
+    console.log("horizontally", linePadded);
     var resultPerLine = checkRow(linePadded, word);
-    if (resultPerLien) {
+
+    if (resultPerLine) {
       return true;
     }
   }
   //checking vertically
-  rotateRight(BoardVerti, BoardVerti.length);
-  console.log(BoardVerti);
+  BoardVerti = rotateRight(BoardVerti);
   for (var i = 0; i < BoardVerti.length; i++) {
     var linePadded = padding(BoardVerti[i]);
+    console.log("vertical", linePadded);
     var resultPerLine = checkRow(linePadded, word);
-    if (resultPerLien) {
+    if (resultPerLine) {
       return true;
     }
   }
   return false;
 }
-
-
-
-
 
 function padding(arr) {
   if (arr[0] !== '#') {
@@ -109,19 +89,70 @@ function padding(arr) {
   if (arr[arr.length - 1] !== '#' || arr.length === 1) {
     arr.push('#');
   }
-  console.log(arr);
+  //  console.log(arr);
   return arr;
 }
 
+// TODO: check rotateRight issue; check when more then 3 lines
+// function rotateRight(arr, arrLen) {
+//   for (var i = 0; i < arrLen; i++) {
+//     for (var j = 0; j < i; j++) {
+//       //swap element[i,j] and element[j,i]
+//       var temp = arr[i][j];
+//       arr[i][j] = arr[j][i];
+//       arr[j][i] = temp;
+//     }
+//   }
+//   //console.log(arr);
+// }
+function rotateRight(arr) {
+  var tmpArr1 = [];
 
-function rotateRight(arr, arrLen) {
-  for (var i = 0; i < arrLen; i++) {
-    for (var j = 0; j < i; j++) {
-      //swap element[i,j] and element[j,i]
-      var temp = arr[i][j];
-      arr[i][j] = arr[j][i];
-      arr[j][i] = temp;
+  for (var i = 0; i < arr[0].length; i++) {
+    var tmpArr = [];
+    for (var j = 0; j < arr.length; j++) {
+      tmpArr.push(arr[j][i]);
+    }
+    tmpArr1.push(tmpArr);
+
+  }
+  return tmpArr1;
+}
+
+
+function checkinBetween(row, word) {
+  if (row.length !== word.length) return false;
+  else {
+    for (var i = 0; i < row.length; i++) {
+      console.log(row[i]);
+      console.log(word[i]);
+      if (word[i] !== row[i] && row[i] !== '_') return false;
     }
   }
-  console.log(arr);
-};
+  return true;
+}
+
+function checkRow(row, word) {
+  if (row.length - 2 < word.length) {
+    console.log("false");
+    return false;
+  }
+  var firsthash = 0;
+  var secondhash = row.indexOf('#', 1);
+  var flag = false;
+  while (secondhash !== -1) {
+    var temp = row.slice(firsthash + 1, secondhash);
+    console.log(temp);
+    flag = checkinBetween(temp, word);
+    if (flag === true) {
+      console.log("true");
+      return true;
+
+    } else {
+      firsthash = secondhash;
+      secondhash = row.indexOf('#', firsthash + 1);
+    }
+  }
+  console.log("false");
+  return false;
+}

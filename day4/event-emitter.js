@@ -35,7 +35,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -51,8 +51,16 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
-EventEmitter.prototype.on = function(eventName, fn) {
+EventEmitter.prototype.on = function (eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName].push(fn);
+  } else {
+    this.listeners[eventName] = [fn];
+  }
+  console.log(eventName);
+  console.log(this);
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -69,8 +77,14 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 1) // -> prints 'called 1'
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
-EventEmitter.prototype.emit = function(eventName, arg) {
+EventEmitter.prototype.emit = function (eventName, arg) {
   // YOUR CODE HERE
+  console.log(this, eventName);
+  console.log(this.listeners[eventName]);
+  for (var i = 0; i < this.listeners[eventName].length; i++) {
+    console.log(this);
+    this.listeners[eventName][i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -86,8 +100,11 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints 'called 1'
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
-EventEmitter.prototype.removeListener = function(eventName, fn) {
+EventEmitter.prototype.removeListener = function (eventName, fn) {
   // YOUR CODE HERE
+  this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1);
+
+
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -102,6 +119,6 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
-EventEmitter.prototype.once = function(eventName, fn) {
+EventEmitter.prototype.once = function (eventName, fn) {
   // YOUR CODE HERE
 }

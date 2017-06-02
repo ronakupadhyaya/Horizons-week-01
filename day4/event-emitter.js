@@ -90,11 +90,14 @@ EventEmitter.prototype.on = function(eventName, fn) {
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
   var EE = this;
-  // console.log(EE, eventName)
   if (EE.listeners[eventName] !== undefined) {
   	var args = Array.prototype.slice.call(arguments).slice(1)
+  	// if (EE.listeners[eventName].length == 0) {
+  	// 	return []
+  	// }
   	return EE.listeners[eventName][0].apply(EE.listeners[eventName][0], args)
   }
+  // console.log(EE.listeners)
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -115,6 +118,7 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
   var EE = this;
   var event_arr = []
   EE.listeners[eventName].forEach(function(f) {
+  	// console.log(f, fn)
   	if (f.toString() !== fn.toString()) {
   		event_arr.push(f)
   	}
@@ -137,21 +141,17 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
-  var EE = this;
-  fn = function(arg) {
-  	// EE.removeListener(eventName)
-  	// return fn(arg)
-  	var called = false;
-  	if (!called) {
-  		return fn(arg)
+  var EE = this
+  console.log(eventName, "once called")
+  if (EE.listeners[eventName] == undefined) {
+  	// add a once eventName fn
+  	function fnOnce() {
+  	  var args = Array.prototype.slice.call(arguments)
+  	  EE.removeListener(eventName, fnOnce)
+  	  return fn.call(fn, args)
   	}
+  	EE.on(eventName, fnOnce)
+  } else {
+  	// TBI
   }
-  (function() {
-	if (EE.listeners[eventName] === undefined) {
-	  EE.listeners[eventName] = [fn]
-	} else {
-	  EE.listeners[eventName].push(fn)
-	}
-  }());
-  console.log(eventName)
 }

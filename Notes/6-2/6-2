@@ -1,0 +1,13 @@
+6-2 Notes : Review Day
+
+JSON is a more strict version of JS object
+
+JSON supports strings, numbers, objects, arrays, null
+
+Every key in a JS object is a string
+
+Falsy-
+false, 0, NaN, undefined, null, ''
+
+
+Arrays, objects, functions compared by reference, not value

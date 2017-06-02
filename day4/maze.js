@@ -159,7 +159,28 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
-  var allPossibleStack = [Maze.getStartPosition()];
+  var startPos = this.maze.getStartPosition();
+  var newPos = startPos;
 
-  for (var i = 0)
+  var allPossibleStack = [startPos];
+
+  for (var i = 0; i<this.maze.length; i++){
+    for (var j = 0; j<this.maze[i].length; j++){
+      _.each(validDirections, function(direction){
+        if (this.maze.tryMove(startPos[0],startPos[1],direction)){
+          newPos = this.maze.tryMove(startPos[0],startPos[1],direction);
+          allPossibleStack.push(newPos);
+        }
+      })
+    }
+  }
+
+  for(var i = 0; i<allPossibleStack.length; i++){
+    if(this.maze[allPossibleStack[i]] === 'E'){
+      return true;
+    }
+  }
+
+  return false;
+
 }

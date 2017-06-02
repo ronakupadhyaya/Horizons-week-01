@@ -39,8 +39,18 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var array = [];
+  for (var i = 0; i < this.maze[i].length; i++) {
+    array.push(this[i].toString())
+    for (var n = 0; n < this.maze[i].length; i++) {
+      if (this.maze[n] === ",") {
+        array[i].splice(n, 1)
+      }
+      if (this.maze[n] === " ") {
+        array[i][n] = "_"
+      }
+    };
+  };
 }
 
 // Return the coordinates of the starting position of the current maze.

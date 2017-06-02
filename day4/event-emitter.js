@@ -28,6 +28,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -43,7 +44,21 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+
+  EventEmitter.prototype.on(eventName, fn); // push to stack
+
+  console.log(thisEvent, eventName);
+  _.each(this.listeners[eventName], function(curFun){
+    if (curFun === fn){
+      EventEmitter.prototype.removeListener(eventName, fn);
+    }
+  })
+  // EventEmitter.prototype.on(eventName, function(arg) {
+  //
+  //   this.emit(eventName, arg);
+  //   this.removeListener(eventName, fn);
+  // })
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -58,8 +73,15 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
-EventEmitter.prototype.on = function(eventName, fn) {
+EventEmitter.prototype.on = function(eventName, fn) { // uses this, not sure if scalable
+
   // YOUR CODE HERE
+  // var theEvent = this['listeners'][eventName];
+  if (!this.listeners[eventName]){
+    this.listeners[eventName] = [];
+  }
+
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,6 +100,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+
+  var fnArray = this.listeners[eventName];
+
+  _.each(fnArray, function(f) {
+    f.call(EventEmitter(), arg);
+  })
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,7 +122,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var fnArray = this.listeners[eventName];
+  _.each(fnArray, function(f) {
+      var i = fnArray.indexOf(f);
+      if (f === fn) {
+        fnArray.splice(i,1);
+      }
+
+  })
 }
 
 // You do not need to look at code past this line, but you may

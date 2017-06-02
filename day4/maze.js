@@ -179,8 +179,26 @@ Maze.prototype.tryMove = function(row, column, direction) {
     return false;
   }
   return [row,column]
-
 }
+//
+// function sum*({
+//   return
+//   Array.prototype.slice.call(arguments).reduce(function(a,b))
+//   {return a+b;})
+// >>>>>>> Stashed changes
+// }
+//
+// bind.apply explained
+// partial(sum,1,2)(2,3) --> sum(1,2,2,3)
+// var boundSum = sum.bind(null,1,2)
+// boundSum(5) --> 8
+//
+// partial (sum,1,2) ---> sum.bind(null,1,2) --> these two should be equal
+// function partial (){
+//   var fn = arguments [0]
+//   arguments[0] = nullreturn
+//   fn.bind.apply (fn, arguments)
+// }
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

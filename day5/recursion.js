@@ -55,6 +55,10 @@ recursion.sum = function(number) {
 // stack. When the function returns, the function (at the top) is removed (popped)
 // from the stack. Your program is said to be done when there is no function on
 // the call stack.
+//f(3)
+// r f(2) + 3  back and say 3+3 = 6 = f(3)
+//    r f(1) + 2  back and say 1+2 = 3 = f(2)
+//       r 1  since f(1) = 1
 
 // Exercise 1:
 // Write a function that computes the factorial of a given integer
@@ -68,7 +72,19 @@ recursion.sum = function(number) {
 // ex. factorial(17) -> 355687428096000
 recursion.factorial = function(number) {
   // WRITE CODE HERE
+  //Base case
+  if(number === 0) {
+    return 0;
+  }
+
+  //Recursive case
+  return recursion.factorial(number-1) * number;
 }
+// f(4)
+// r f(3) *4
+//   r f(2) *3
+//     r (1) * 2
+//       r 1
 
 // Exercise 2:
 // Write a function that calculates the nth fibonacci number.
@@ -90,5 +106,35 @@ recursion.factorial = function(number) {
 // [Run this in your console!]
 // ex. fibonacci(80) -> 23416728348467685
 recursion.fibonacci = function(number) {
-  // YOUR CODE HERE
+  // base
+  if(number === 0) {
+    return 0;
+  }
+
+  return recursion.factorial(number-1) + 1;
+
+  f(0) + 1
+    r (0)
+  //first attempt!
+  // var fibNums = [1,1]
+  // var sum;
+  // var n = 0
+  // var o = n+1
+  //
+  // if(fibNums.length === number) {
+  //   return fibNums[number -1]};
+  //
+  // var Calc = function (i, x) {
+  //   sum = fibNums[i] + fibNums[x]
+  //   fibNums.push(sum)
+  // }
+  // Calc(n, o);
+
+  // run the function that populates this array with fibonacci #s
+  // Base: stop the function when the array includes the nth number you're looking for
+
+
+  //Recursive case
+  n+=1
+  Calc(n, n+1)
 }

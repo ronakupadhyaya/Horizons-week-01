@@ -1,14 +1,3 @@
-// In this exercise you will create your own EventEmitter class
-// that will listen for & emit events. These events can be used
-// to keep track of actions/changes made by a user.
-// EventListener can "broadcast" an event to multiple
-// listeners at a time. When a message arrives via
-// emit() all callback functions that are registered
-// for that event type with on() are called.
-//
-// !HINT! We recommend implementing the EventEmitter constructor, .on() and
-// .emit() together !HINT!
-//
 // Once you correctly implement the EventEmitter object you
 // will be able to use the messenger application. Note that if you
 // send a message on one device, it will be available on all
@@ -33,9 +22,12 @@
 // emitter.on('someEventName', f1);
 // emitter.on('someEventName', f2);
 // emitter.on('otherEventName', f2);
-// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
+// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
-	// YOUR CODE HERE
+  this.listeners = {
+    //keys are names for event
+    //values are array of functions
+  };
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -51,8 +43,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
-EventEmitter.prototype.on = function (eventName, fn) {
-	// YOUR CODE HERE
+EventEmitter.prototype.on = function(eventName, fn) {
+  if (this.listeners.hasOwnProperty(eventName))
+    this.listeners[eventName].push(fn);
+  else
+    this.listeners[eventName] = [fn];
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -69,8 +64,13 @@ EventEmitter.prototype.on = function (eventName, fn) {
 // emitter.emit('someEvent', 1) // -> prints 'called 1'
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
-EventEmitter.prototype.emit = function (eventName, arg) {
-	// YOUR CODE HERE
+EventEmitter.prototype.emit = function(eventName, arg) {
+  if (this.listeners.hasOwnProperty(eventName)) {
+    var fns = this.listeners[eventName];
+    _.forEach(fns, function(fn) {
+      return fn(arg);
+    });
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -86,8 +86,9 @@ EventEmitter.prototype.emit = function (eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints 'called 1'
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
-EventEmitter.prototype.removeListener = function (eventName, fn) {
-	// YOUR CODE HERE
+EventEmitter.prototype.removeListener = function(eventName, fn) {
+  if (this.listeners.hasOwnProperty(eventName))
+    this.listeners[eventName].pop(fn);
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -102,6 +103,6 @@ EventEmitter.prototype.removeListener = function (eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
-EventEmitter.prototype.once = function (eventName, fn) {
-	// YOUR CODE HERE
+EventEmitter.prototype.once = function(eventName, fn) {
+  // YOUR CODE HERE
 }

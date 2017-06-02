@@ -39,8 +39,13 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ')
+        return '_';
+      return cell
+    }).join('')
+  }).join('\n')
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,8 +54,12 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === "S")
+        return [i, j];
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -96,11 +105,52 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  var length = this.maze.length;
+  //console.log(length);
+  var width = this.maze[0].length;
+  //console.log(width);
+
+  if (row > length - 1 || column > width - 1)
+    return false;
+
+  var dir = {
+    'left': function(row, column) {
+      return [row, column - 1];
+    },
+    'right': function(row, column) {
+      return [row, column + 1];
+    },
+    'down': function(row, column) {
+      return [row + 1, column];
+    },
+    'up': function(row, column) {
+      return [row - 1, column];
+    }
+  }
+
+  var update = dir[direction](row, column);
+
+  if (update[0] < 0 || update[1] < 0 || update[0] > length - 1 || update[1] > width - 1)
+    return false;
+
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === "X")
+        var xCoord = [i, j];
+    }
+  }
+
+  if (xCoord) {
+
+    if (update[0] === xCoord[0] && update[1] === xCoord[1])
+      return false;
+  }
+
+  return update;
 }
 
 // Bonus!

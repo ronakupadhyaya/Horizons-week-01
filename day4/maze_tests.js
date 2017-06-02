@@ -68,29 +68,30 @@ describe('Maze.getStartPosition()', function() {
     var found = false;
     m.forEach(function(r, i) {
       r.forEach(function(p, j) {
-        if(p === "S") {
+        if (p === "S") {
           found = true;
           pos = [i, j];
         }
       });
     });
-    if(!found) pos = "Error"
+    if (!found) pos = "Error"
     it("new Maze(" + JSON.stringify(m) + ").getStartPosition() -> " + pos, function() {
-      if(found) expect(maze.getStartPosition()).toEqual(pos);
-      else expect(function() { maze.getStartPosition() }).toThrow();
+      if (found) expect(maze.getStartPosition()).toEqual(pos);
+      else expect(function() {
+        maze.getStartPosition()
+      }).toThrow();
     })
   })
 });
 
-describe('Maze.toString()', function () {
+describe('Maze.toString()', function() {
   allMazes.forEach(function(m) {
     var maze = new Maze(m);
     var ans = m.map(function(row) {
       return row.map(function(pos) {
-        if(pos === " ") {
+        if (pos === " ") {
           return '_';
-        }
-        else {
+        } else {
           console.log(pos);
           return pos;
         }
@@ -104,65 +105,65 @@ describe('Maze.toString()', function () {
 
 describe('Maze.tryMove()', function() {
   it("new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position", function() {
-    expect(new Maze([['S', 'E']]).tryMove(1, 0, 'right') ).toBe(false);
+    expect(new Maze([['S', 'E']]).tryMove(1, 0, 'right')).toBe(false);
   });
   it("new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board", function() {
-    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'left') ).toBe(false);
+    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'left')).toBe(false);
   });
   it("new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board", function() {
-    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'up') ).toBe(false);
+    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'up')).toBe(false);
   });
   it("new Maze([['S', 'E']]).tryMove(0, 0, 'down') -> false, moves off the bottom of the board", function() {
-    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'down') ).toBe(false);
+    expect(new Maze([['S', 'E']]).tryMove(0, 0, 'down')).toBe(false);
   });
   it("new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right') -> false, moves into wall", function() {
-    expect(new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right') ).toBe(false);
+    expect(new Maze([['S', 'X', 'E']]).tryMove(0, 0, 'right')).toBe(false);
   });
   it("new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left') -> false, moves into wall", function() {
-    expect(new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left') ).toBe(false);
+    expect(new Maze([['S', 'X', 'E']]).tryMove(0, 2, 'left')).toBe(false);
   });
   it("new Maze([['S'], ['E']]).tryMove(0, 0, 'right') -> false, moves off right side of the board", function() {
-    expect(new Maze([['S'], ['E']]).tryMove(0, 0, 'right') ).toBe(false);
+    expect(new Maze([['S'], ['E']]).tryMove(0, 0, 'right')).toBe(false);
   });
   it("new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down') -> false, moves into wall", function() {
-    expect(new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down') ).toBe(false);
+    expect(new Maze([['S'], ['X'], ['E']]).tryMove(0, 0, 'down')).toBe(false);
   });
   it("new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') -> false, moves into wall", function() {
-    expect(new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') ).toBe(false);
+    expect(new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up')).toBe(false);
   });
 
   it("new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]", function() {
-    expect(new Maze([['S'], ['E']]).tryMove(0, 0, 'down') ).toEqual([1, 0]);
+    expect(new Maze([['S'], ['E']]).tryMove(0, 0, 'down')).toEqual([1, 0]);
   });
   it("new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]", function() {
-    expect(new Maze([['S'], ['E']]).tryMove(1, 0, 'up') ).toEqual([0, 0]);
+    expect(new Maze([['S'], ['E']]).tryMove(1, 0, 'up')).toEqual([0, 0]);
   });
   it("new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]", function() {
-    expect(new Maze([['S', 'E']]).tryMove(0, 1, 'left') ).toEqual([0, 0]);
+    expect(new Maze([['S', 'E']]).tryMove(0, 1, 'left')).toEqual([0, 0]);
   });
   it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') ).toEqual([0, 0]);
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left')).toEqual([0, 0]);
   });
   it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') ).toEqual([0, 2]);
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right')).toEqual([0, 2]);
   });
   it("new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') ).toEqual([0, 1]);
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right')).toEqual([0, 1]);
   });
   it("new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]", function() {
-    expect(new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') ).toEqual([0, 2]);
+    expect(new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up')).toEqual([0, 2]);
   });
 });
 
 describe("Maze.getStartPosition()", function() {
   it("new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]", function() {
-    expect(new Maze([['S'], ['E']]).getStartPosition() ).toEqual([0, 0]);
+    expect(new Maze([['S'], ['E']]).getStartPosition()).toEqual([0, 0]);
   });
   it("new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]", function() {
-    expect(new Maze([['E'], ['S']]).getStartPosition() ).toEqual([1, 0]);
+    expect(new Maze([['E'], ['S']]).getStartPosition()).toEqual([1, 0]);
   });
   it("new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]", function() {
-    expect(new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() ).toEqual([1, 1]);
+    expect(new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition()).toEqual([1, 1]);
   });
 });
 

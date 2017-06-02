@@ -44,9 +44,22 @@ Maze.prototype.toString = function() {
   //console.log(maze)
 
   for(var i = 0; i < maze.length; i ++){
-    ret += maze[i].join();
-    ret += '\n'
+    for(var j = 0;  j < maze[i].length; j++){
+      if(maze[i][j] === ' ')
+        maze[i][j] = '_'
+    }
   }
+
+  for(var k = 0; k < maze.length; k ++){
+    ret += maze[k].join('');
+    if(k+1 !== maze.length){
+      ret += '\n'
+    }
+
+  }
+
+  return ret
+
   // Hint: See Array.prototype.join()!
 }
 
@@ -63,6 +76,21 @@ Maze.prototype.getStartPosition = function() {
   for(var i = 0; i < maze.length; i ++){
     for(var j = 0;  j < maze[i].length; j++){
       if(maze[i][j] === 'S')
+        return [i, j]
+    }
+  }
+
+  throw new Error("Maze has no starting point");
+}
+
+Maze.prototype.getEndPosition = function() {
+  // YOUR CODE HERE
+  var maze = this.maze;
+  //console.log(maze)
+
+  for(var i = 0; i < maze.length; i ++){
+    for(var j = 0;  j < maze[i].length; j++){
+      if(maze[i][j] === 'E')
         return [i, j]
     }
   }
@@ -116,7 +144,38 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  var maze = this.maze
+
+//NOT ON BOARD TO START
+  if(row < 0 || row >= maze.length || column < 0 || column >= maze[0].length ){
+    return false      //not on the board
+  }
+
+//CALCULATES NEW POSITION
+  var new_location;
+  if(direction === 'up'){
+    new_location = [row - 1, column]
+  }else if(direction === 'down'){
+    new_location = [row + 1, column]
+  }else if (direction === 'left'){
+    new_location = [row, column - 1]
+  }else if(direction === 'right'){
+    new_location = [row, column + 1]
+  }
+
+//MOVES OFF THE BOARD
+  if(new_location[0] < 0 || new_location[0] >= maze.length ||
+    new_location[1] < 0 || new_location[1] >= maze[0].length ){
+    return false
+  }
+
+//MOVES INTO WALL
+  //console.log( maze[ new_location[0] ] [ new_location[1] ] )
+  if(maze[ new_location[0] ] [ new_location[1] ]  === 'X')
+    return false;
+
+  return new_location
+
 }
 
 // Bonus!
@@ -127,4 +186,73 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var maze = this.maze;
+  var self = this;
+
+  //get current and end position
+  var current = this.getStartPosition();
+
+  //console.log(current[0],current[1])
+  var end = this.getEndPosition();
+
+  //stack that holds possible and visited
+  var stack = []
+  var visited = []
+  //console.log(end)
+
+  //add all possible moves as long as they haven't been visited
+  var directions = ['up','down','left','right']
+
+  directions.forEach(function(dir){
+    //console.log(directions)
+
+    var att = self.tryMove(current[0] , current[1] , dir);
+    console.log(att)
+    if(!att){
+
+    }else if(att.equals(end)){
+      console.log('hi')
+      return true
+    }else if(visited.indexOf(att) === -1){
+      stack.push(att)
+    }
+  })
+  //mark the spot you just left as visited
+  visited.push([current[0],current[1]]);
+
+  //maze[current[0]][current[1]] = 'v'
+
+  var count = 0;
+
+  //while the stack isn't empty
+  while(stack.length !== 0){
+    //pop something off the stack and make that your current
+    //console.log(stack)
+    current = stack.pop();
+    //console.log(stack)
+
+    //repeat the steps from above to add neighbors and mark current as visited
+
+    directions.forEach(function(direction){
+      var att = self.tryMove(current[0] , current[1] , direction);
+      //console.log(att)
+      if(!att){
+
+      }else if(att === end){
+        return true
+      }else if(maze[current[0]][current[1]] !== 'v'){
+        stack.push(att)
+      }
+    })
+
+    // count++;
+    // if(count === 5){
+    //   break;
+    // }
+  }
+
+
+  return false
+
+
 }

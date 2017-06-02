@@ -58,7 +58,7 @@ EventEmitter.prototype.on = function(eventName, fn) {
     this.listeners[eventName] = [];
   }
 
-  this.listeners[eventName].push(fn);
+  this.listeners[eventName].push(fn); 
 }
 //
 // var emitter = new EventEmitter();
@@ -140,5 +140,5 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
 
-  
+
 }

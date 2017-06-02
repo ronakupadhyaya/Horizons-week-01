@@ -67,7 +67,15 @@ recursion.sum = function(number) {
 // ex. factorial(5) -> 120
 // ex. factorial(17) -> 355687428096000
 recursion.factorial = function(number) {
-  // WRITE CODE HERE
+	if (number === 0) {
+		return 1;
+	}
+ 	 if (number === 1) {
+    	return 1;
+ 	 }
+
+ 	 // Recursive case
+  	return number * recursion.factorial(number - 1);
 }
 
 // Exercise 2:
@@ -90,5 +98,11 @@ recursion.factorial = function(number) {
 // [Run this in your console!]
 // ex. fibonacci(80) -> 23416728348467685
 recursion.fibonacci = function(number) {
-  // YOUR CODE HERE
-}
+  if (recursion.memo.hasOwnProperty(number)) {
+    return recursion.memo[number];
+  }
+  recursion.memo[number] = (recursion.fibonacci(number - 1) + recursion.fibonacci(number - 2));
+  return recursion.memo[number];
+ }
+
+recursion.memo = {'0' : 0, '1' : 1};

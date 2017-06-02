@@ -66,6 +66,21 @@ Maze.prototype.getStartPosition = function() {
   }
   throw new Error("Maze has no starting point");
 }
+
+Maze.prototype.getEndPosition = function() {
+  // YOUR CODE HERE
+  var mymaze = this.maze;
+
+  for (var row = 0; row < mymaze.length; row++) {
+    for (var col = 0; col < mymaze[0].length; col++) {
+      if(mymaze[row][col] === 'E'){
+        return [row,col];
+      }
+      //console.log(mymaze[row][col]);
+    }
+  }
+  throw new Error("Maze has no starting point");
+}
 //ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
 // ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
 // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
@@ -156,5 +171,29 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var mymaze = this.maze;
+  var obj = this;
+  var wasHere = (function(){ var i=mymaze.length, arr=[]; while(i--) arr.push([]); return arr })();
+  var start = obj.getStartPosition();
+  var end = obj.getEndPosition();
+
+  for (var row = 0; row < mymaze.length; row++){
+    wasHere[row].push([]);
+    for (var col = 0; col < mymaze[row][col][0].length; col++){
+      wasHere[row][col].push('_');
+
+    }
+  }
+  console.log(mymaze[row][col][0].length);
+  console.log(mymaze);
+  console.log(wasHere);
+  var recursive = function(a,b){
+
+
+    if (start[0] === end[0] && start[1] === end[1]){
+      return true;
+    }
+    //console.log(start);
+    //console.log(end);
+  }
 }

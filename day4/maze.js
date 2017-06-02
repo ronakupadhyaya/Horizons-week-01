@@ -38,8 +38,15 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ') {
+        return '_';
+      }
+      return cell;
+    }).join('');
+  }).join('\n');
+
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -48,10 +55,25 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  var arr =[];
+  for (var i =0; i<this.maze.length; i++){
+    for (var j=0; j<this.maze[i].length; j++){
+      if (this.maze[i][j] === 'S'){
+        arr.push(i);
+        console.log(i);
+        arr.push(j);
+        console.log(j);
+      }
 
-  throw new Error("Maze has no starting point");
+      }
+
+    }
+    if (arr.length === 0){
+      throw new Error('no start');
+    }
+  return arr;
 }
+  //throw new Error("Maze has no starting point");
 
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
@@ -98,8 +120,61 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
 
-  // YOUR CODE HERE
+  function isPositionOnTheBoard() {
+    if (row < 0) {
+      return false;
+    }
+
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if position is on the board before move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return [row, column];
 }
 
 // Bonus!

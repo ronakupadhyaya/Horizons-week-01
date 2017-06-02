@@ -35,7 +35,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  var this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"

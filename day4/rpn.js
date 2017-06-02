@@ -62,7 +62,7 @@ window.rpnCalculator =  function(rpnString) {
   rpnString.split(' ').forEach(function(token) {
     if (isNumberString(token)) {
       stack.push(parseFloat(token));
-      console.log(stack);
+      //console.log(stack);
     } else {
       if (! _.has(ops, token)) {
         throw 'Invalid operator: ' + token;
@@ -72,8 +72,11 @@ window.rpnCalculator =  function(rpnString) {
         throw 'Invalid expression. Too few numbers';
       }
       var b = stack.pop();
+      console.log(b);
+
       var a = stack.pop();
       stack.push(op(a, b));
+      //console.log(stack);
     }
   });
 

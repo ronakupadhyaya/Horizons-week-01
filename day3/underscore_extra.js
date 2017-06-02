@@ -123,7 +123,8 @@ function composeBasic(fun1, fun2) {
 // function hashFunction(a, b) {
 //  return a + ',' + b;
 // }
-//
+// {1,10: 10}
+
 // var memoizedMax = memoize(max, hashFunction);
 // memoizedMax(1, 10) // -> returns 10, logs 'called'
 // memoizedMax(1, 10) // -> returns 10, logs nothing

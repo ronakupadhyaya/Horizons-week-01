@@ -22,16 +22,16 @@ dis.simpleGetThis = function() {
 
 dis.assignGetThis = function() {
   dis.object2.getThis = getThis;
-  return dis.object2.getThis() === object2;
+  return dis.object2.getThis() === dis.object2;
 };
 
 dis.callGetThis = function() {
-  return dis.getThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  return dis.getThis.call(dis.object1) === dis.object1;
 }
 
 // Let's bind getThis to object2
 dis.boundGetThis = dis.getThis.bind(dis.object2);
 
 dis.callBoundGetThis = function() {
-  return dis.boundGetThis.call(dis.object1) === null /* YOUR CODE HERE */;
+  return dis.boundGetThis.call(dis.object1) === dis.object2;
 }

@@ -7,6 +7,7 @@ describe("EventEmitter", function() {
     expect(myEventEmitter.listeners['connection']).toEqual([jasmine.any(Function)]);
   });
   it("in once(eventName, fn) when eventName triggered run&remove function - uses emit", function() {
+debugger;
     myEventEmitter.emit('connection', 100)
     expect(myEventEmitter.listeners['connection']).toEqual([])
   });

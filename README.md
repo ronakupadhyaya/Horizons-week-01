@@ -18,8 +18,8 @@
     1. Closures
     1. IIFEs (Immediately Invoked Function Expressions)
     1. Object prototypes
-    1. Function methods: myCall and myBind
     1. Functional programming with Underscore
+    1. **Bonus:** Function methods: myCall and myBind
     1. **Bonus:** Crossword puzzle
     1. **Bonus:** Roman numerals
 1. [Day 4](day4/README.md)
@@ -30,7 +30,5 @@
     1. **Bonus:** Edit distance
 1. [Day 5](day5/README.md)
     1. Testing
-    1. Exceptions
-    1. Queues/Linked lists
     1. Recursion
     1. Dinosaur Game

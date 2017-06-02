@@ -2,7 +2,6 @@
 
 ## Pair Programming Exercises
 
-1. [Variable scoping quiz](https://docs.google.com/a/joinhorizons.com/forms/d/e/1FAIpQLSf3M-nBxxFpoY-I36B2Dr8S69DPw9X8qAV4VJyN4LHxhaIgNg/viewform)
 1. [Date and time in JavaScript](dates.md)
 1. [Learning Underscore.js](learn_underscore.md)
 1. [Student Grades](grades.md)

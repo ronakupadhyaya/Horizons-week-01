@@ -51,28 +51,36 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
-// window.rpnCalculator = function(rpnString) {
-//   var stack = [];
-//   var work = rpnString.split(" ");
-//   var math = {
-//     "+" : function (x,y) {return x + y},
-//     "-" : function (x,y) {return x - y},
-//     "*" : function (x,y) {return x * y},
-//     "/" : function (x,y) {return x / y}
-//   }
-//   for (var i = 0; i < work.length; i++){
-//    if (typeof parseFloat(work[i]) === "number"){
-//      stack.push(parseFloat(work[i]));
-//    }
-//     else if (parseFloat(work[i], 10) === NaN) {
-//       var ans = math[work[i]](stack[work.length-2],stack[work.length-1]);
-//       stack.pop();
-//       stack.pop();
-//       stack.push(ans);
-//     }
-//  }
-//    return stack[0]
-//  }
+window.rpnCalculator = function(rpnString) {
+  var stack = [];
+  var work = rpnString.split(" ");
+  var math = {
+    "+" : function (x,y) {return x + y},
+    "-" : function (x,y) {return x - y},
+    "*" : function (x,y) {return x * y},
+    "/" : function (x,y) {return x / y}
+  }
+  var track = 0;
+  for (var i = 0; i < work.length; i++){
+   if (isNumberString(work[i])){
+     stack.push(parseFloat(work[i]));
+   } else {
+      var p = stack.pop();
+      var q = stack.pop();
+      if(typeof p === "number" &&
+        typeof q === "number") {
+          stack.push(math[work[i]](q, p));
+        } else {
+          throw Error;
+        }
+    }
+ }
+ if (stack.length > 1) {
+   throw Error;
+ } else {
+   return stack[0]
+ }
+ }
 
 // This function returns true if given string represents a valid number.
 //

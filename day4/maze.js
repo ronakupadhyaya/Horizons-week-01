@@ -16,14 +16,20 @@
 // Parameters:
 //  * maze: A 2-dimensional array representing a rectangular maze.
 //          The lengths of the inner arrays must be the same.
-//          Each item of the inner array must be a string that represents a valid maze cell
+//          Each item of the inner array must be a string that represents a
+//          valid maze cell
 //          There must be only one starting point and only one ending point.
 //
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
-  this.maze = maze;
+  // console.log(Array.isArray(maze));
+  if (Array.isArray(maze) == true) {
+    this.maze = maze;
+    // console.log(this);
+  } else {
+    throw new Error("Error, did not use new to create something")
+  }
 }
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
@@ -39,19 +45,51 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
+  // the maze is an array of arrays, so we have to stringify the internal
+  // arrays and then stringify the larger array.
+  console.log('hello');
+
+  var b = _.map(this.maze, function(item) {
+    return _.map(item, function(char) {
+        if (char === ' ') {
+          return '_'
+        }
+        return char
+      })
+      .join("")
+  })
+  console.log(b);
+
+  return b.join("\n")
+
   // Hint: See Array.prototype.join()!
 }
 
 // Return the coordinates of the starting position of the current maze.
 //
-// ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
-// ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
-// ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
+// ex. new Maze([['S'],
+//              ['E']]).getStartPosition() -> [0, 0]
+// ex. new Maze([['E'],
+//              ['S']]).getStartPosition() -> [1, 0]
+// ex. new Maze([[' ', 'E'],
+//               [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
 
-  throw new Error("Maze has no starting point");
+  var maze = this.maze;
+  var column = undefined;
+  var row = undefined;
+
+  for (var i = 0; i < this.maze.length; i++) {
+    if (_.indexOf(this.maze[i], 'S') !== -1) {
+      column = _.indexOf(this.maze[i], 'S');
+      row = i;
+    }
+  }
+  if (row === undefined || column === undefined) {
+    throw new Error("Maze has no starting point");
+  }
+  console.log(row, column);
+  return [row, column];
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -94,13 +132,54 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
+// ex. new Maze([['S', ' ', 'E'],
+//               ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var height = this.maze.length; // row (x)
+  var width = this.maze[0].length; // column (y)
+  console.log(this.maze[0].length);
 
-  // YOUR CODE HERE
+  function checkInBounds(i, j) {
+    if (i >= height || i < 0 || j >= width || j < 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
+  var newRow;
+  var newColumn;
+  // MAKE these what they should be (conditional on direction)
+  if (direction === 'down') {
+    newRow = row + 1;
+    newColumn = column;
+  } else if (direction === 'up') {
+    newRow = row - 1;
+    newColumn = column;
+  } else if (direction === 'left') {
+    newRow = row;
+    newColumn = column - 1;
+  } else if (direction === 'right') {
+    newRow = row;
+    newColumn = column + 1;
+  }
+
+  if (checkInBounds(newRow, newColumn)) {
+    var move = this.maze[newRow][newColumn]
+    if (move === 'X') {
+      return false
+    } else {
+      return [newRow, newColumn];
+    }
+  }
+  return false;
+
+
+  // get height & width check with start po
 }
 
 // Bonus!

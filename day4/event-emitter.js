@@ -35,11 +35,11 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
-// Takes is a string "eventName" and a callback function "fn"
-// add a listener to the listeners property in EventEmitter
+// Takes a string "eventName" and a callback function "fn"
+// adds a listener to the listeners property in EventEmitter
 // Adds the listener function to the end of the listeners
 // array (in the listeners property) for the event named eventName.
 //
@@ -52,7 +52,34 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  // we will receive an input of and eventName and fn, which needs
+  // to be sorted into the listeners{}. First the eventName must be
+  // searched in the listeners{}, and if it does not exsist then
+  // we must create the key for the eventName & push the fn into the value
+  // array. If the eventName key does exist, then ONLY the fn must be pushed
+  // into the value-array.
+
+
+  // 1. SEARCH: First the eventName must be  searched in the listeners{},
+  //     -> if it does not exsist then
+  //            CREATE the key for the eventName
+  //            PUSH the fn into the value array
+  //      -> If the eventName key does exist, then
+  //            PUSH fn into value array
+
+
+  if (!this.listeners.hasOwnProperty(eventName)) {
+    // CREATE, PUSH
+    //this.listeners[eventName] = [];
+    //this.listeners[eventName].push(fn);
+
+    this.listeners[eventName] = [fn];
+
+
+  } else { // event exists
+    // TODO: PUSH fn into array
+    this.listeners[eventName].push(fn)
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -70,7 +97,20 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  // start by searching for the eventName. Then it looks for the listeners in
+  //the eventName and calls them all in order. pass arguments to each
+  //listener. if there is no eventName, do nothing
+  if (this.listeners.hasOwnProperty(eventName)) {
+    // pass arg through an array of functions
+    // console.log(eventName, arg)
+    // console.log(this.listeners[eventName].length)
+    for (var i = 0; i < this.listeners[eventName].length; i++) {
+      var print = this.listeners[eventName][i](arg)
+      // console.log(print)
+    }
+  } else {
+    throw new Error("EventNameError")
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -87,7 +127,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  // SEARCH for eventName and if found then remove the fn from the array
+  if (this.listeners.hasOwnProperty(eventName)) {
+    for (var i = 0; i < this.listeners[eventName].length; i++) {
+      if (this.listeners[eventName][i] === fn) {
+        this.listeners[eventName].splice(this.listeners[eventName][i] - 1, 1)
+      }
+    }
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"

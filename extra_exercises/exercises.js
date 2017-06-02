@@ -276,7 +276,7 @@ var superCPerson = new evenMoreComplexPerson('chloe', 'moon')
 var enc = {
   firstFun: function fun(){
     this.num = 7
-    var internalObj = {
+    this.internalObj = {
       prop1: {
         secondFun: function(){
           //I need you to console.log the value of
@@ -288,7 +288,6 @@ var enc = {
         }
       }
     }
-    this.internalObj = internalObj
     return this
   }
 }

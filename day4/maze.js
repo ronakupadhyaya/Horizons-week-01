@@ -41,6 +41,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var str = "";
+  var test = this.maze;
+  var innerJoin = [];
+  for (var i = 0; i < test.length; i++){
+    for (var j = 0; j < test[i].length; j++){
+      if (test[i][j] === " "){
+        test[i][j] = "_"
+      }
+    }
+  innerJoin.push(test[i].join(""));
+  }
+  var outerJoin = innerJoin.join("\n");
+  console.log(outerJoin);
+  return outerJoin;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +64,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  var test = this.maze;
+  for (var i = 0; i<test.length; i++){
+    for (var j = 0; j<test[i].length; j++){
+      if (test[i][j] === "S"){
+        return [i,j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -101,6 +122,29 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  var test = this.maze;
+  if (row >= test.length || row<0 || column >= test[0].length || column<0){
+    return false;
+  }
+
+  var lMove = [row, column-1];
+  var rMove = [row, column+1];
+  var uMove = [row-1, column];
+  var dMove = [row+1, column];
+  if (direction === "left" && column > 0 && test[row][column-1]!== "X" ){
+    return lMove;
+  } else if (direction === "right" && column < test[0].length-1 && test[row][column+1]!== "X"){
+    return rMove;
+  } else if (direction === "up" && row > 0 && test[row-1][column] !== "X"){
+    return uMove;
+  } else if (direction === "down" && row < test.length-1 && test[row+1][column] !== "X"){
+    return dMove;
+  } else {
+    return false;
+  }
+
+
+
 }
 
 // Bonus!

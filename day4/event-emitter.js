@@ -133,7 +133,7 @@ EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
   console.log("once", eventName);
   var self = this;
-  this.listeners[eventName] = [function newFn(){
+  self.listeners[eventName] = [function newFn(){
     var called = false;
     return function(){
       if (!called){

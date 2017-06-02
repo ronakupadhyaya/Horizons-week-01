@@ -36,6 +36,8 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners={
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,8 +55,13 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  // if(this.listeners.hasOwnProperty(eventName)){
+    // this.listeners[eventName].push(fn);
+  // }else {
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  this.listeners[eventName].push(fn);
+  // }
 }
-
 // Takes is a string "eventName" and a single argument arg
 // It calls each of the listeners registered for the event
 // named eventName, in the order they were registered, passing
@@ -71,6 +78,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  if(this.listeners.hasOwnProperty(eventName)){
+    for(var i=0;i<this.listeners[eventName].length;i++){
+      console.log(this.listeners[eventName][i](arg));
+    }
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -88,6 +100,10 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var x=this.listeners[eventName].indexOf(fn);
+  if(x!==-1){
+    this.listeners[eventName].splice(x,1);
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -104,4 +120,12 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  //this.listeners[eventName]=fn;
+  var self=this;
+  var fn1=function(){
+    fn();
+    self.removeListener(eventName,fn1);
+  }
+  this.on(eventName,fn1);
+
 }

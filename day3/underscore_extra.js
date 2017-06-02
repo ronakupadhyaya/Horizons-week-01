@@ -31,7 +31,18 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  // YOUR CODE HERE //try and use object
+  var cache=[];
+  var calls=[];
+  return function memoizedFn(x){
+    if(cache.indexOf(x)===-1){
+      cache.push(x);
+      var y=func(x);
+      calls.push(y);
+      console.log('called');
+      return y;
+    }  else return calls[cache.indexOf(x)];
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +71,18 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  if(fn===undefined)throw 'Error';
+  var args=[];
+  for(var i=1;i<arguments.length;i++){
+    args.push(arguments[i]);
+  }
+  return function partialFunction(){
+    var allargs=args;
+    for(var j=0;j<arguments.length;j++){
+      allargs.push(arguments[j]);
+    }
+    return fn.apply(null,allargs);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +122,10 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(){
+    var x=fun2.apply(null,arguments);
+    return fun1(x);
+  }
 }
 
 
@@ -132,6 +159,24 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
+// function memoize(func,hash) {
+//   // YOUR CODE HERE
+//   var cache=[];
+//   var calls=[];
+//   return function memoizedFn(){
+//     console.log(arguments);
+//     var hashing=hash(arguments);
+//     console.log(hashing);
+//     if(cache.indexOf(hashing)===-1){
+//       cache.push(hashing);
+//       var y=func(hashing);
+//       calls.push(y);
+//       console.log('called');
+//       return y;
+//     } else return calls[cache.indexOf(hashing)];
+//
+//   }
+// }
 
 // Double Bonus Exercise: compose()
 //
@@ -142,4 +187,12 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var functions=Array.prototype.slice.call(arguments);
+  return function composedFn(){
+    var x=functions[functions.length-1].apply(null,arguments);
+    for(var i=functions.length-2;i>=0;i--){
+      x=functions[i](x);
+    }
+    return x;
+  }
 }

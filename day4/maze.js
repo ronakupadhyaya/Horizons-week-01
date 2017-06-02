@@ -22,7 +22,7 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
+
   this.maze = maze;
 }
 
@@ -41,6 +41,18 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var maze=this.maze;
+  console.log(maze);
+  var result="";
+  for(var i=0;i<maze.length;i++){
+    for(var j=0;j<maze[i].length;j++){
+      if(maze[i][j]==="S" || maze[i][j]==="E" || maze[i][j]==="X")result+=maze[i][j];
+      else if(maze[i][j]===" ")result+='_';
+    }
+    if(i<maze.length-1) result+='\n';
+  }
+  console.log(result);
+  return result;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +62,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  var maze=this.maze;
+  for(var i=0;i<maze.length;i++){
+    for(var j=0;j<maze[i].length;j++){
+      if(maze[i][j]==="S" ){
+        console.log(i,j);
+        return [i,j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -99,8 +119,42 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var maze=this.maze;
 
   // YOUR CODE HERE
+  if(row<0||row>maze.length-1 || column<0 || column>maze[row].length-1){
+    return false;
+  }
+  if(direction==="up"){
+    if(row===0)return false;
+    else {
+      if(maze[row-1][column]!=='X'){
+        return [row-1,column];
+      }else return false;
+    }
+  }else if(direction==="down"){
+    if(row===maze.length-1)return false;
+    else {
+      if(maze[row+1][column]!=='X'){
+        return [row+1,column];
+      }else return false;
+    }
+  }else if(direction==="left"){
+    if(column===0)return false;
+    else{
+      if(maze[row][column-1]!=='X'){
+        return [row,column-1];
+      }else return false;
+    }
+  }else if(direction==="right"){
+    if(column===maze[row].length-1)return false;
+    else{
+      if(maze[row][column+1]!=='X'){
+        return [row,column+1];
+      }else return false;
+    }
+  }
+
 }
 
 // Bonus!

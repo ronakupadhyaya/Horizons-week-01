@@ -41,9 +41,54 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+
+window.result=function(a,b,op){
+  var result=0;
+  switch(op){
+  case "/" :
+    result=a/b;
+    break;
+  case "+" :
+    result=a+b;
+    break;
+  case "-" :
+    result=a-b;
+    break;
+  case "*" :
+    result=a*b;
+    break;
+  }
+  return result;
+
+}
+
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var myStack=[];
+  var myArray=rpnString.split(' ');
+
+  if(myArray.length>1){
+    if(isNumberString(myArray[myArray.length-1]))throw "Error"
+  }
+
+  while(myArray.length!==0){
+    var x=myArray.shift();
+    if(isNumberString(x)){
+      myStack.push(parseInt(x));
+    }else{
+      if(myStack.length<=1)throw "Error";
+      var a=myStack.pop();
+      var b=myStack.pop();
+      var result=window.result(b,a,x);
+      myStack.push(result);
+    }
+  }
+
+  console.log(myStack);
+  return myStack[0];
+
 }
+
 
 // This function returns true if given string represents a valid number.
 //

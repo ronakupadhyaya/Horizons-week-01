@@ -12,7 +12,7 @@ describe("horizons.password()", function() {
 
 describe("once()", function() {
   var square = function(x) {
-    return x * x;
+    return arguments[0] * arguments[0];
   }
   var cube = function(x) {
     return x * x * x;

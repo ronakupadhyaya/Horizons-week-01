@@ -43,6 +43,68 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  //takes RPN Math expression
+  // splite the PRN string (.split())
+  //if number parse it --> store into two sep variables
+
+  //String --> Array
+  var string = rpnString;
+  var array = string.split([" "]);
+  //console.log(array);
+
+  //order Array
+  var numbers = [];
+  var operators = [];
+  for (var i = 0; i < array.length; i++){
+    if (isNumberString(array[i])){
+      numbers.push(array[i])
+    } else{
+      operators.push(array[i])
+    }
+  }
+//  console.log(numbers)
+  //console.log(operators)
+
+  //compare lengths
+  if (numbers.length  !== operators.length+1){
+    throw "error";
+  }
+
+  //calculate
+  var sorted = [];
+  for (var i = 0; i < array.length; i++){
+    if (isNumberString(array[i])){
+      sorted.push(array[i])
+
+    } else{
+        console.log(sorted);
+      var val1 = sorted[sorted.length-2];
+      var val2 = sorted[sorted.length-1];
+      var temp = sorted.slice(sorted.length-2).join(" "+ array[i] + " ");
+      sorted.splice(sorted.length-2,2);
+      console.log(eval(temp));
+      //sorted.splice(0,2);
+      sorted.push(eval(temp));
+
+      //console.log(eval(temp))
+      //sorted.unshift(eval(temp));
+      //console.log(temp);
+      //console.log(eval(temp));
+      //console.log(sorted)
+
+    }
+  }
+
+
+  //return number
+  return Number(sorted);
+  //console.log(sorted)
+
+
+
+  //https://en.wikipedia.org/wiki/Reverse_Polish_notation
+  // look at the example --> need to use index to reference the previosu two numbers befor ethe operator and store those values
+
 }
 
 // This function returns true if given string represents a valid number.

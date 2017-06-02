@@ -41,6 +41,59 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  /*if (this.maze.length === 1){
+    string = this.maze[0].join("");
+  }
+*/
+  var copyMaze = this.maze;
+  for(var k = 0; k < copyMaze.length; k++){
+    for (var l = 0; l <copyMaze[k].length; l++){
+      if(copyMaze[k][l] === " "){
+        copyMaze[k][l] = "_";
+      }
+    }
+  }
+
+
+  var string;
+  for(var i = 0; i < copyMaze.length-1; i++){
+    copyMaze[i][copyMaze[i].length] = "\n";
+    //console.log(this.maze[i])
+  }
+  var rowArr = [];
+  for(var i = 0; i < copyMaze.length; i++){
+    rowArr.push(copyMaze[i].join(''));
+  }
+  //console.log(rowArr);
+  string = rowArr.join("");
+
+  return string;
+  //console.log(string);
+
+
+  /*for(var k = 0; k < this.maze.length; k++){
+    for (var l = 0; l <this.maze[k].length; l++){
+      if(this.maze[k][l] === " "){
+        this.maze[k][l] = "_";
+      }
+    }
+  }
+
+
+  var string;
+  for(var i = 0; i < this.maze.length-1; i++){
+    this.maze[i][this.maze[i].length] = "\n";
+    //console.log(this.maze[i])
+  }
+  var rowArr = [];
+  for(var i = 0; i < this.maze.length; i++){
+    rowArr.push(this.maze[i].join(''));
+  }
+  //console.log(rowArr);
+  string = rowArr.join("");
+
+  return string;
+  //console.log(string);*/
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,6 +103,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  for(var i = 0; i < this.maze.length; i++){
+    for (var j = 0; j <this.maze[i].length; j++){
+      if (this.maze[i][j] === 'S'){
+        return [i,j]
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -99,8 +159,46 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
   // YOUR CODE HERE
+
+  //check if on board
+  if(row >= this.maze.length || column >= this.maze[0].length){
+    return false;
+  }
+  //check if movement remainson board
+  var newRow = row;
+  var newColumn = column;
+
+  if(direction === 'up'){
+    if (newRow === 0){
+      return false;
+    } else{
+      newRow--;
+    }
+  } else if (direction === 'down'){
+    newRow++;
+  } else if (direction === 'right'){
+    newColumn++;
+  } else{
+    if (newColumn === 0){
+      return false;
+    } else{
+      newColumn--;
+    }
+  }
+
+  if(newRow >= this.maze.length || newColumn >= this.maze[0].length){
+    return false;
+  }
+  //check if movement is valid (or on wall)
+  if (this.maze[newRow][newColumn]==='X'){
+    return false;
+  }
+
+  //return new location
+  return [newRow,newColumn];
+
+
 }
 
 // Bonus!

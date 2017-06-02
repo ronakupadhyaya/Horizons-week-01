@@ -68,6 +68,10 @@ recursion.sum = function(number) {
 // ex. factorial(17) -> 355687428096000
 recursion.factorial = function(number) {
   // WRITE CODE HERE
+  if (number === 0) {
+    return 1;
+  }
+  return number * recursion.factorial(number - 1)
 }
 
 // Exercise 2:
@@ -91,4 +95,10 @@ recursion.factorial = function(number) {
 // ex. fibonacci(80) -> 23416728348467685
 recursion.fibonacci = function(number) {
   // YOUR CODE HERE
+  if (number === 0) {
+    return 0;
+  } else if (number === 1) {
+    return 1;
+  }
+  return recursion.fibonacci(number-1) + recursion.fibonacci(number-2);
 }

@@ -22,8 +22,11 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
+  if (this === window) {
+    throw "Error"
+  }
   this.maze = maze;
-}
+};
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
@@ -38,9 +41,30 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
-}
+  var boardBad = this.maze;
+  var board = '';
+  for (var i=0; i < boardBad.length; i++) {
+    var fixed = boardBad[i];
+
+    for (var j=0; j<fixed.length; j++) {
+      if (fixed[j] === " ") {
+        fixed[j] = "_";
+      }
+    }
+
+    var rowString = fixed.join('').trim();
+
+    if (boardBad.length > 1 && i !== (boardBad.length - 1)) {
+      board = board + rowString + '\n';
+    }
+    else {
+      board += rowString;
+    }
+
+  }
+
+  return board;
+};
 
 // Return the coordinates of the starting position of the current maze.
 //
@@ -48,10 +72,24 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  var maze = this.maze;
+  var pos;
 
-  throw new Error("Maze has no starting point");
-}
+  for (var i = 0; i < maze.length; i++) {
+    for (var j = 0; j < maze[i].length; j++) {
+      if (maze[i][j] === 'S') {
+        pos = [i,j];
+      }
+    }
+  }
+
+  if (pos) {
+    return pos;
+  }
+  else {
+    throw new Error("Maze has no starting point");
+  }
+};
 
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
@@ -99,8 +137,34 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
-}
+  var maze = this.maze;
+
+  if (!(maze[row]) || !(maze[row][column])) {
+    return false;
+  }
+
+  var newPos;
+
+  if (direction === 'up') {
+    newPos = [row  - 1, column];
+  }
+  else if (direction === 'down') {
+    newPos = [row + 1, column];
+  }
+  else if (direction === 'right') {
+    newPos = [row, column + 1];
+  }
+  else {
+    newPos = [row, column - 1]
+  }
+
+  if (!(maze[newPos[0]]) || !(maze[newPos[0]][newPos[1]]) || maze[newPos[0]][newPos[1]] === 'X') {
+    return false;
+  }
+
+  return newPos;
+
+};
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.
@@ -108,6 +172,122 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
+
+
+Maze.prototype.buildGraph = function() {
+
+  var maze = this.maze;
+  var graphRep = {};
+
+  for (var i = 0; i < maze.length; i++) {
+    for (var j = 0; j < maze[i].length; j++) {
+
+      var name;
+      if (maze[i][j] === 'S') {
+        name = 'S'
+      }
+      else if (maze[i][j] === 'E') {
+        name = 'E'
+      }
+      else {
+        name = i + ',' + j;
+      }
+
+
+      if (!(graphRep[name])) {
+        graphRep[name] = new Set([]);
+        //console.log(name);
+      }
+
+      var up = [i - 1, j];
+      var down = [i + 1, j];
+      var right = [i, j + 1];
+      var left = [i, j - 1];
+
+      if ((maze[up[0]])) {
+        if ((maze[up[0]][up[1]]) && maze[up[0]][up[1]] !== 'X') {
+          if (maze[up[0]][up[1]] === 'E') {
+            graphRep[name].add(('E'))
+          }
+          else {
+            graphRep[name].add((up[0] + ',' + up[1]))
+          }
+        }
+      }
+
+      if ((maze[down[0]])) {
+        if ((maze[down[0]][down[1]]) && maze[down[0]][down[1]] !== 'X') {
+          if (maze[down[0]][down[1]] === 'E') {
+            graphRep[name].add(('E'))
+          }
+          else {
+            graphRep[name].add((down[0] + ',' + down[1]))
+          }
+        }
+      }
+
+      if ((maze[left[0]])) {
+        if ((maze[left[0]][left[1]]) && maze[left[0]][left[1]] !== 'X') {
+          if (maze[left[0]][left[1]] === 'E') {
+            graphRep[name].add(('E'))
+          }
+          else {
+            graphRep[name].add((left[0] + ',' + left[1]))
+          }
+        }
+      }
+
+      if ((maze[right[0]])) {
+        if ((maze[right[0]][right[1]]) && maze[right[0]][right[1]] !== 'X') {
+          if (maze[right[0]][right[1]] === 'E') {
+            graphRep[name].add(('E'))
+          }
+          else {
+            graphRep[name].add((right[0] + ',' + right[1]))
+          }
+        }
+      }
+      //console.log(graphRep[name]);
+
+    }
+  }
+  console.log(graphRep);
+  return graphRep;
+};
+
+
+
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
-}
+  //var maze = this.maze;
+  var graphRep = this.buildGraph();
+
+  var nodes = Object.keys(graphRep);
+
+  var paths = {};
+
+  nodes.forEach(function(node) {
+    paths[node] = false;
+  });
+
+  paths['S'] = true;
+
+  var Q = [];
+  Q.unshift('S');
+
+  while (Q.length > 0) {
+
+    var j = Q.shift();
+
+    graphRep[j].forEach(function(nbr) {
+      if (paths[nbr] === false) {
+        paths[nbr] = true;
+        Q.push(nbr);
+      }
+    })
+
+  }
+  console.log("here",paths);
+  return paths['E'];
+
+
+};

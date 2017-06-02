@@ -31,7 +31,6 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-<<<<<<< HEAD
   var answer = {};
   var called = false;
   var prevArgs = [];
@@ -49,10 +48,9 @@ function memoize(func) {
     return answer[arguments[0]];
   }
 };
-=======
+
   // YOUR CODE HERE
-}
->>>>>>> master
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

@@ -15,5 +15,27 @@
 // Adapted from 4clojure
 // https://www.4clojure.com/problem/101
 function editDistance(str1, str2) {
-  // YOUR CODE HERE
+	debugger;
+  	var matrix = [];
+  	if (str1.length === 0 || str2.length === 0) {
+  		return Math.max(str1.length, str2.length);
+  	}
+ 	for (var i = 0; i < str1.length + 1; i++) {
+ 		matrix[i] = [];
+ 	 	matrix[i][0] = i;
+ 	}
+  	for (var j = 0; j < str2.length + 1; j++) {
+  		matrix[0][j] = j;
+ 	}
+  	for (var m = 1; m < str2.length + 1; m++) {
+		for (var k = 1; k < str1.length + 1; k++) {
+		  	var min = Math.min(matrix[k][m - 1], matrix[k - 1][m]) + 1;
+		  	var diagCost = 1;
+	 	 	if (str1[k - 1] === str2[m - 1]) {
+	 	 		diagCost = 0;
+	 	 	}
+		 	matrix[k][m] = Math.min(matrix[k - 1][m - 1] + diagCost, min);
+		}
+	}
+	return matrix[str1.length][str2.length];
 }

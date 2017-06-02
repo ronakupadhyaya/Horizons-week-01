@@ -1,5 +1,4 @@
 "use strict";
-
 // New maze constructor. Given a maze layout, construct a new maze.
 //
 // A maze is a rectangular grid of cells. Each cell can either be:
@@ -19,40 +18,57 @@
 //          Each item of the inner array must be a string that represents a valid maze cell
 //          There must be only one starting point and only one ending point.
 //
-// ex. new Maze([['S', 'E']) represents a trivial solvable maze
-// ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
+// ex. new Maze([['S', 'E']]) represents a trivial solvable maze
+// ex. new Maze([['S', 'X', 'E']]) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   this.maze = maze;
 }
-
 Maze.validDirections = ['up', 'down', 'left', 'right'];
-
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
 // and new rows are separated by newlines (\n in a string).
-
 // Use this for your logging purposes!
-
 // ex. new Maze(['S', ' ', 'E']).toString() -> "S_E"
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).toString() -> "_E\n_S"
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
-
-Maze.prototype.toString = function() {
-  // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+Maze.prototype.toString = function() {
+  var stringMaze = ""
+  for (var i = 0; i < this.maze.length; i++) {
+    var inLine=this.maze[i]
+    for (var j = 0; j < inLine.length; j++) {
+      if(inLine[j] === " "){
+        this.maze[i][j]="_"
+      }
+    }
+    if(i!==0){
+      stringMaze = stringMaze+'\n' + this.maze[i].join('')
+    }else{
+      stringMaze = stringMaze + this.maze[i].join('')
+    }
+  }
+  // for (var i = 0; i < stringMaze.length; i++) {
+  //   if (stringMaze[i] === ' '){
+  //     stringMaze[i] = '_'
+  //   }
+  // }
+  return stringMaze
 }
-
 // Return the coordinates of the starting position of the current maze.
 //
 // ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++) {
+    for (var j = 0; j < this.maze[i].length; j++) {
+      if (this.maze[i][j] === 'S'){
+        return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
-
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
 //  - if the move is valid, a new position ([row, column])
@@ -98,10 +114,31 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
+  if (row === 0 && direction === 'up'||
+      row === this.maze.length-1 && direction === 'down'||
+      column === 0 && direction === 'left'||
+      column === this.maze[0].length-1 && direction === 'right' ||
+      row > this.maze.length - 1){
+    return false;
+  }
+  if (direction === 'up'){
+    row--
+  }
+  if (direction === 'down'){
+    row++
+  }
+  if (direction === 'left'){
+    column--
+  }
+  if (direction === 'right'){
+    column++
+  }
+  if (this.maze[row][column] === 'X'){
+    return false
+  } else {
+    return [row, column]
+  }
 }
-
 // Bonus!
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
@@ -109,5 +146,40 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var start = this.getStartPosition()
+  var thisThing = this
+
+//this function will move to a new location (up, down, right, left) if it can
+var tryAndUpdate = function(direct) {
+  // console.log(start[0]);
+  // console.log(start[1]);
+  // console.log(arguments)
+
+  if (!!thisThing.tryMove(start[0], start[1], direct)) {
+    console.log(thisThing.maze[start[0]][start[1]])
+    var move = thisThing.tryMove(start[0], start[1], direct);
+    thisThing.maze[start[0]][start[1]] === "X";
+    console.log(thisThing.maze[start[0]][start[1]])
+    start[0] = move[0];
+    start[1] = move[1];
+
+
+  }
+}
+
+
+var recur = function() {
+  if (thisThing.maze[start[0]][start[1]] === "E"){
+    return true
+  }
+
+  tryAndUpdate('up');
+  tryAndUpdate('down');
+  tryAndUpdate('right');
+  tryAndUpdate('left');
+
+recur();
+}
+
+recur();
 }

@@ -142,5 +142,5 @@ while (arr.indexOf('+') != -1 || arr.indexOf('-') != -1){
 	i += 1;
 	console.log(arr);
 }
-return arr[0];
+return arr[0] + 1;
 };

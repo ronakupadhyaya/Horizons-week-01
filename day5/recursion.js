@@ -61,4 +61,11 @@ recursion.factorial = function(number) {
 //ex. fibonacci(4) -> 1 + 2 -> 3
 recursion.fibonacci = function(number) {
   //WRITE CODE HERE
+  if (number === 0) {
+    return 0;
+  }
+  if (number === 1) {
+    return 1;
+  }
+  return recursion.fibonacci(number - 1) + recursion.fibonacci(number -2);
 }

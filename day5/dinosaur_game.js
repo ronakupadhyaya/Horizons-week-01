@@ -6,11 +6,11 @@
     this.width = 550;
     this.height = 250;
 
-    this.obstacleWidth = 40;
-    this.obstacleHeight = 20;
+    this.obstacleWidth = 90;
+    this.obstacleHeight = 40;
 
     this.dinosaurWidth = 25;
-    this.dinosaurHeight = 50;
+    this.dinosaurHeight = 70;
 
     this.canvasId = "dinosaur-panel";
 
@@ -32,12 +32,12 @@
     },
     drawMessage: function(text) {
       this.ctx.fillStyle = "#000";
-      this.ctx.font = "36px Helvetica";
+      this.ctx.font = "36px Open Sans";
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {
       this.ctx.fillStyle = "#000";
-      this.ctx.font = "12px Helvetica";
+      this.ctx.font = "30px Helvetica";
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
     drawHighScore: function(score) {

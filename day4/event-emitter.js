@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners= {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,14 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  this.listeners[eventName]= [];
+  if (eventName in this.listeners){
+    this.listeners[eventName].push(fn)
+  }
+  else {
+    this.listeners[eventName] = fn;
+  }
+  console.log("called")
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -70,6 +79,9 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
+  _.forEach(this.listeners[eventName], function(fn){
+    fn(arg)
+  })
   // YOUR CODE HERE
 }
 
@@ -88,6 +100,10 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if (eventName in this.listeners) {
+    var togro = this.listeners[eventName].indexOf(fn)
+    this.listeners[eventName].splice(togro, 1)
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -104,4 +120,9 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  function tempperson() {
+    this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn), 1)
+    fn(Array.prototype.splice.call(arguments))
+  }
+  this.on(eventName, tempperson.bind(this))
 }

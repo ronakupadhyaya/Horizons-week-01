@@ -41,6 +41,11 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var stringOfMaze = "";
+_.forEach(this.maze, function(idk){
+  stringOfMaze += idk.join('').split(' ').join('_') + '\n'
+});
+return stringOfMaze.slice(0, stringOfMaze.length-1)
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,10 +54,41 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
 
-  throw new Error("Maze has no starting point");
+//  var strMaze = this.maze.toString()
+//
+//
+// var count = (strMaze.match(/\n/g) || []).length;
+// var sposition = strMaze.indexOf('S')
+// var countcom = (strMaze.match(/,/g) || []).length;
+//
+// console.log(strMaze)
+// console.log(count)
+// console.log(sposition)
+// console.log(countcom)
+//
+//
+//
+// if(count === 0){
+//   if(strMaze.indexOf(',') > strMaze.indexOf('S'))
+//   return [0,sposition]
+//   else{return [0,sposition-1]}
+// }
+//
+// if(count !== 0){
+//   if(strMaze.indexOf(',') > strMaze.indexOf('S'))
+//   return [0,countcom/4]
+//   else{return [0,sposition-1]}
+
+for (var i = 0; i < this.maze.length; i++) {
+  if (this.maze[i].indexOf('S') !== -1) {
+    return [i, this.maze[i].indexOf('S')]
+  }
+
 }
+throw new Error("Maze has no starting point")
+}
+
 
 // Write a method tryMove() that takes a position (row and column parameters)
 // a direction to move, and returns:
@@ -96,11 +132,40 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  if( row > (this.maze.length-1) || column > (this.maze[0].length-1)){
+    return false
+  }
+
+  switch (direction) {
+    case 'up':
+      if (row === 0 || this.maze[row-1][column] === 'X' ) {
+        return false
+      } else {
+        return [row-1, column]
+      }
+    case 'down':
+      if (row === this.maze.length - 1|| this.maze[row+1][column] === 'X') {
+        return false
+      } else {
+        return [row+1, column]
+      }
+    case 'left':
+      if (column === 0 || this.maze[row][column-1] === 'X') {
+        return false
+      } else {
+        return [row, column-1]
+      }
+    case 'right':
+      if (column === this.maze[0].length - 1|| this.maze[row][column+1] === 'X') {
+        return false
+      } else {
+        return [row, column+ 1]
+      }
+  }
 }
 
 // Bonus!

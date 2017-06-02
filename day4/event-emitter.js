@@ -104,7 +104,11 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
   }
 }
 
+
 // *Bonus*: Takes a string "eventName" and a callback function "fn"
+
+// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
@@ -120,7 +124,8 @@ EventEmitter.prototype.once = function(eventName, fn) {
   // Add it to the listeners
   this.prototype.on(evenName, fn);
 
-  
+
+
 
 
 

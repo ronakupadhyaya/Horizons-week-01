@@ -31,6 +31,7 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
+<<<<<<< HEAD
   var save = 0;
   var cache = {};
   return function memoizedFn(n) {
@@ -42,12 +43,19 @@ function memoize(func) {
     // console.log(n, cache);
     return save;
   }
+=======
+  // YOUR CODE HERE
+>>>>>>> master
 }
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
+<<<<<<< HEAD
 // the argument that were initially provided to partial().
+=======
+// the arguments that were initially provided to partial().
+>>>>>>> master
 //
 // ex.
 // function greaterThan(a, b) {

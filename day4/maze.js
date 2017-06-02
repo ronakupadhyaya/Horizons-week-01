@@ -39,8 +39,21 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var ddArr = this.maze;
+  var outer = [];
+  for (var i=0; i<ddArr.length; i++) {
+    for (var j=0; j<ddArr[i].length; j++) {
+      if (ddArr[i][j] === " ") {
+        ddArr[i][j] = "_";
+      }
+    }
+    var inner = ddArr[i].join('');
+    // console.log("inner", inner);
+    outer.push(inner);
+  }
+  var res = outer.join('\n');
+  // console.log("result: ", res);
+  return res;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,9 +62,20 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  var x = -1;
+  var y = -1;
+  var ddArr = this.maze;
+  ddArr.forEach(function(element) {
+    if (element.indexOf('S') > -1) {
+      x = ddArr.indexOf(element);
+      y = element.indexOf('S');
+      // console.log("coords:", x, y);
+    }
+  })
+  if ( x === -1 || y === -1 ) {
+    throw new Error("Maze has no starting point");
+  }
+  return [x, y];
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -96,11 +120,36 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
+  var ddArr = this.maze;
+  console.log(ddArr);
+  if (column < 0 || row < 0 || row > ddArr.length-1 || column > ddArr[0].length-1) {
+    // throw new Error('Invalid starting position');
+    return false;
+  }
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
+  if (direction.indexOf('up') > -1) {
+    row--;
+  }
+  if (direction.indexOf('down') > -1) {
+    row++;
+  }
+  if (direction.indexOf('left') > -1) {
+    column--;
+  }
+  if (direction.indexOf('right') > -1) {
+    column++;
+  }
+  if (column < 0 || row < 0 || row > ddArr.length-1 || column > ddArr[0].length-1) {
+    // throw new Error('Invalid ending position');
+    return false;
+  }
+  if (ddArr[row][column] === 'X') {
+    // throw new Error('Invalid starting position');
+    return false;
+  }
+  return [row, column];
 }
 
 // Bonus!

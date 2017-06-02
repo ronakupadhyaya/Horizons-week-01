@@ -120,18 +120,18 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
+  debugger;
   // Apply the move direction
   var newMove = this.applyMoveDirection(row, column, direction);
 
   // Validate the move is valid (Either still on the board or not on a wall)
   // Since isOffBoard or isOnWall will return true if the move is invalid,
   // we have to return the negated expression.
-  if(this.isOffBoard(newMove) || this.isOnWall(newMove) {
+  if(this.isOffBoard(newMove) || this.isOnWall(newMove)) {
     return false;
   }
 
-
+  return newMove;
 }
 
 // Returns true if the new move ends up outside of the board.
@@ -151,18 +151,27 @@ Maze.prototype.isOnWall = function(newMovement) {
 
 // Returns an array containing the new coords after the move
 Maze.prototype.applyMoveDirection = function(row, col, moveDirection){
-  switch(moveDirection){
-    case 'up':
-      return [row--, col];
-    case 'down':
-      return [row++, col];
-    case 'left':
-      return [row, col--];
-    case 'right':
-      return [row, col++];
-    default:
-      return;
+  if (moveDirection === "up") {
+    row--;
+  } else if (moveDirection === "down") {
+    row++;
+  } else if (moveDirection === "left") {
+    col--;
+  } else {
+    col++;
   }
+  return [row,col];
+  //switch(moveDirection){
+    // case 'up':
+    //   return [row--, col];
+    // case 'down':
+    //   return [row++, col];
+    // case 'left':
+    //   return [row, col--];
+    // case 'right':
+    //   return [row, col++];
+    // default:
+    //   return;
 }
 
 

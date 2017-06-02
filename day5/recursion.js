@@ -35,7 +35,14 @@ recursion.sum = function(number) {
 //Please note that factorial 0 is 1
 //ex. factorial(4) -> 4! -> 4 * 3 * 2 * 1 -> 24
 recursion.factorial = function(number) {
-  //WRITE CODE HERE
+  //Base Case
+  if (number === 0) {
+    return 1;
+  }
+  if (number === 1) {
+    return 1;
+  }
+  return recursion.factorial(number - 1) * number;
 }
 
 
@@ -47,5 +54,22 @@ recursion.factorial = function(number) {
 //ex. fibonacci(3) -> 1 + 1 -> 2
 //ex. fibonacci(4) -> 1 + 2 -> 3
 recursion.fibonacci = function(number) {
-  //WRITE CODE HERE
+  if (number === 0) {
+    return 0;
+  } else if (number === 1) {
+    return 1;
+  }
+  return recursion.fibonacci(number - 1) + recursion.fibonacci(number - 2);
 }
+
+
+
+
+
+
+
+
+
+
+
+

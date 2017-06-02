@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,12 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners[eventName]) {
+  	this.listeners[eventName].push(fn);
+  } else {
+  	this.listeners[eventName] = [];
+  	this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -70,7 +77,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if (this.listeners[eventName]) {
+  	var arrFunc = this.listeners[eventName];
+  	arrFunc.forEach(function(func) {
+  		func(arg)
+  	})
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -88,7 +100,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if (this.listeners[eventName]) {
+  	var funcArr = this.listeners[eventName];
+  	if (funcArr.includes(fn)) {
+  		funcArr.splice(funcArr.indexOf(fn),1);
+  	}
+  }
 }
+
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
@@ -104,4 +123,15 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+    var used = false;
+    var eventEmitter = this;
+    var newFunc = function() {
+  		if (!used) {
+  			used = true;
+  			fn();
+  			console.log(eventEmitter.listeners);
+  			eventEmitter.listeners[eventName].splice(eventEmitter.listeners[eventName].indexOf(newFunc),1);
+  		}
+  	}
+  	this.on(eventName,newFunc);
 }

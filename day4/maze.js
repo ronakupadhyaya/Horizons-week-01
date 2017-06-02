@@ -156,13 +156,22 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
-  // debugger;
-  // this.visited = this.maze.map(function (row){
-  //   return row.map(_.constant(false))
-  // })
-  //
-  // var start = this.getStartPosition(); //[0,0]
-  // // var mazed = {};
+  debugger;
+  this.visited = this.maze.map(function (row){
+    return row.map(_.constant(false))
+  })
+
+  var start = this.getStartPosition(); //[0,0]
+  var mazed = {};
+
+  var callRecursion = function(r, c) {
+    var key = r + "_" + c;
+    if (key in mazed) {
+      return false;
+    }
+  
+      }
+  }
   // var stack = [start];
   // while (stack.length) {
   //   var pos = stack.pop();
@@ -174,21 +183,12 @@ Maze.prototype.isSolvable = function() {
   //   if (col === "E") {
   //     return true;
   //   }
-  //
   //   this.visited[pos[0]]
   // }
-  // var callRecursion = function(r, c) {
-  //   var key = r + "_" + c;
-  //   if (key in mazed) {
-  //     return false;
-  //   }
-  // }
-  //
-  // var up = this.tryMove(row, column, "up");
-  // var down = this.tryMove(row, column, "down");
-  // var left = this.tryMove(row, column, "left");
-  // var right = this.tryMove(row, column, "right");
-  //
+
+
+
+
 
 
 

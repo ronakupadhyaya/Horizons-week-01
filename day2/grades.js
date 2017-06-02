@@ -85,7 +85,7 @@ grades.majorWithHighestGPA = function(data) {
   var cs = [];
 
   //Economic -->
-
+  console.log(majors);
   for (var key in majors) { //loop through keys...Economics, Art History, etc.
 
     if (majors.hasOwnProperty(key)) {

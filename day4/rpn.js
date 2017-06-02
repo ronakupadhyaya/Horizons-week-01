@@ -43,7 +43,64 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var operators = {
+    "+": function(a, b){
+      return a+b
+    },
+    "-": function(a,b) {
+      return a-b
+    },
+    "*": function(a,b){
+      return a*b
+    },
+    "/": function(a,b){
+      return a/b
+    }
+  };
+
+
+  var splitted = rpnString.split(" "); // turns it into an array
+  var finalArr = []; // an array used to store final answers
+
+  /*
+  has_.has(object, key)
+  Does the object contain the given key?
+  Identical to object.hasOwnProperty(key), but uses a safe reference
+  to the hasOwnProperty function, in case it's been overridden accidentally.
+  */
+  splitted.forEach(function(x){ //loop through splitted
+    if(isNumberString(x)) { //if x in the array is a number //uses the function written for us
+      finalArr.push(parseFloat(x));
+      // console.log("NUM: " + finalArr);
+    } else { //it;s an operator
+      //do something here?
+      // if there's not operator?? --> throw Error
+      if (!_.has(operators, x) ){// checks if array contains operators
+        throw "Error: no operator";
+      }
+      var op = operators[x]; // access it
+      if (finalArr.length < 2) {
+        throw "Error: not enought numbers";
+      }
+      var b = finalArr.pop();
+      var a = finalArr.pop();
+      finalArr.push(op(a,b));
+    }
+  });
+  // console.log(finalArr);
+  if (finalArr.length === 1) {
+    return finalArr[0];
+  } else {
+    throw "Error";
+  }
 }
+
+
+
+
+
+
+
 
 // This function returns true if given string represents a valid number.
 //

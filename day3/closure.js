@@ -81,15 +81,21 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+//var called = false;
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var remembered;
+  console.log("called outer");
   return function() {
+    console.log("called inner!");
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      remembered = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
+    return remembered;
   }
 }
+
 
 // ex. 1.3
 // functionFactory takes in two numbers (num1, num2)

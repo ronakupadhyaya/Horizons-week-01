@@ -23,6 +23,9 @@
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
+  if (this === window) {
+    throw "Error";
+  }
   this.maze = maze;
 }
 
@@ -41,6 +44,18 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  for (var i=0; i<this.maze.length; i++) {
+    for (var j=0; j<this.maze[i].length; j++) {
+      if (this.maze[i][j] === " ") {
+        this.maze[i][j] = "_"
+      }
+    }
+  }
+
+  var x = this.maze.map(function(y) {
+    return y.join('');
+  })
+  return x.join('\n');
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,6 +65,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  for (var i=0; i<this.maze.length; i++) {
+    for (var j=0; j<this.maze[i].length; j++) {
+      if (this.maze[i][j] === "S") {
+        return [i,j];
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -99,8 +121,32 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var newPos = [row, column];
+  if (direction === "up") {
+    newPos = [row-1, column];
+  } else if (direction === "down") {
+    newPos = [row+1, column];
+  } else if (direction === "left") {
+    newPos = [row, column-1]
+  } else if (direction === "right") {
+    newPos = [row, column+1]
+  }
+
+
+  var rowlength = this.maze.length -1;
+  var collength = this.maze[0].length -1
+  if (newPos[0] > rowlength
+    || newPos[1] > collength
+    || newPos[0] < 0
+    || newPos[1] < 0 ) {
+    return false
+  } else if (this.maze[newPos[0]][newPos[1]]=== 'X') {
+    return false
+  }
+
 
   // YOUR CODE HERE
+  return newPos
 }
 
 // Bonus!

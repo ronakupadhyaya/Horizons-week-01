@@ -31,6 +31,15 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
+  var returnedValue = {};
+  return function memoizedFn(x) {
+    if (x in returnedValue) {
+      return returnedValue[x];
+    } else {
+      return returnedValue[x] = func(x);
+    }
+  }
+
   // YOUR CODE HERE
 }
 
@@ -52,15 +61,38 @@ function memoize(func) {
 // function getArgs() {
 //  return arguments;
 // }
-// var partialGetArgs = partial(getArgs, 'a', 'b', 'c')
+// var partialGetArgs = partial(getArgs, 'a', 'b', 'c')(x,y)
 // partialGetArgs() // -> ['a', 'b', 'c']
 // partialGetArgs('x', 'y') // -> ['a', 'b', 'c', 'x', 'y']
 //
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (arguments.length === 0) {
+    throw "Invalid";
+  }
+  var arg = []; // creates an array
+  for (var i = 1; i < arguments.length; i++) {
+    arg.push(arguments[i]); //push arguments into an arary
+  }
+  return function partialFn() { //closure
+    for (i = 0; i < arguments.length; i++) {
+      arg.push(arguments[i]);
+    }
+    return fn.apply(this, arg);
+  }
 }
+
+  /*
+  partial(sum, 1,2)(2,3) is equivalent to calling sum(1,2,2,3)
+  partial calls sum with 1 and 2 already bound to it
+  similar to var boundSum = sum.bind(null,1,2), boundSum(2,3)
+  function partial () {
+  var fn = arguments[0]
+   arguments[0] = null
+    return fn.bind.apply(fn,arguments)
+  }
+  */
 
 // Exercise 3: composeBasic()
 // Write a function that takes two functions 'fun1' and 'fun2' and returns
@@ -99,6 +131,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn() {
+    return fun1(fun2.apply(null, arguments))
+  }
 }
 
 

@@ -20,6 +20,10 @@ recursion.sum = function(number) {
   //Recursive case
   return recursion.sum(number-1) + number;
 }
+//f(3)
+// r f(2) + 3  back and say 3+3 = 6 = f(3)
+//    r f(1) + 2  back and say 1+2 = 3 = f(2)
+//       r 1  since f(1) = 1
 
 
 //As such, a function will continue calling itself until the base case is reached
@@ -36,8 +40,17 @@ recursion.sum = function(number) {
 //ex. factorial(4) -> 4! -> 4 * 3 * 2 * 1 -> 24
 recursion.factorial = function(number) {
   //WRITE CODE HERE
+  if(number === 0) {
+    return 1;
+  }
+  return recursion.factorial(number-1) * number;
 }
 
+// f(4)
+//  r f(3) * 4
+//      r f(2) * 3
+//         r f(1) * 2
+//              r f(0) = 1
 
 //Exercise 2
 //Write a function that computes the nth integer of the fibonacci sequence

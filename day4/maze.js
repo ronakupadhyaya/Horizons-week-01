@@ -23,7 +23,13 @@
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
-  this.maze = maze;
+  if (Array.isArray(maze) == true) {
+   this.maze = maze;
+   // console.log(this);
+ } else {
+   throw new Error("Error, did not use new to create something")
+ }
+}
 }
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];

@@ -40,24 +40,6 @@ function EventEmitter() {
 
 // Takes is a string "eventName" and a callback function "fn"
 
-// Adds a one time listener function for the event named
-// eventName. The next time eventName is triggered, this
-// listener is removed and then called.
-//
-// Example.
-// var emitter = new EventEmitter();
-// function log() { console.log('called'); }
-// emitter.once('someEvent', log);
-// emitter.emit('someEvent') // -> prints 'called'
-// emitter.emit('someEvent') // -> prints nothing
-// emitter.emit('someEvent') // -> prints nothing
-EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
-  this.listeners = {};
-}
-
-// Takes is a string "eventName" and a callback function "fn"
-
 // add a listener to the listeners property in EventEmitter
 // Adds the listener function to the end of the listeners
 // array (in the listeners property) for the event named eventName.
@@ -98,7 +80,9 @@ EventEmitter.prototype.on = function(eventName, fn) {
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
   var func = this.listeners[eventName];
-  return 
+  func.forEach(function(fn){
+    fn.call(this, arg);
+  });
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -116,6 +100,13 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var func = this.listeners[eventName];
+  func.forEach(function(fn1){
+    if(String(fn1) === String(fn)){
+      func.pop(fn1);
+    }
+  });
+  this.listeners[eventName] = func;
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -127,9 +118,16 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // var emitter = new EventEmitter();
 // function log() { console.log('called'); }
 // emitter.once('someEvent', log);
+// emitter.on('someEvent', someotherfunction);
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var captured = this;
+  function inner(argFN){
+    fn(argFN);
+    captured.removeListener(eventName, inner);
+  }
+  captured.on(eventName, inner);
 }

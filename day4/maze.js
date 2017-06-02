@@ -39,6 +39,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
+  var temp = [];
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === " "){
+        this.maze[i][j] = "_";
+      }
+      temp.push(this.maze[i][j]);
+    }
+    if(i < this.maze.length - 1){
+      temp.push("\n");
+    }
+    
+  }
+  return temp.join("");
   // Hint: See Array.prototype.join()!
 }
 
@@ -49,7 +63,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === "S"){
+        return [i,j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -98,7 +118,38 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
+  //if(this.getStartPosition()[0] !== row || this.getStartPosition()[1] !== column){
+    //return false;
+  //}
+  var ret = [row, column];
+  //console.log(ret);
+  //console.log(ret);
+  if(direction === "down"){
+    ret[0] = row + 1;
+    //console.log(ret);
+  }
+  if(direction === "up"){
+    ret[0] = row - 1;
+  }
+  if(direction === "right"){
+    ret[1] = column + 1;
+  }
+  if(direction === "left"){
+    ret[1] = column - 1;
+  }
+  
+  //console.log(ret, this.maze.length, this.maze[0].length);
+  if(ret[0] >= this.maze.length || ret[0] < 0){
+    return false;
+  }
+  if(ret[1] >= this.maze[0].length || ret[1] < 0){
+    return false;
+  }
+  if(this.maze[ret[0]][ret[1]] === "X"){
+    return false;
+  }
+  
+  return ret;
   // YOUR CODE HERE
 }
 
@@ -110,4 +161,37 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var self = this;
+  //var dir1 = ['up', 'down', 'left', 'right'];
+  var stack = [this.getStartPosition()];
+  var visited = [];
+  while(stack.length !== 0){
+    var current = stack.pop();
+    if(visited.indexOf([current[0], current[1]].toString()) > 0){
+      continue;
+    }
+   
+    if(this.maze[current[0]][current[1]] === "E"){
+      return true;
+    }
+    if(self.tryMove(current[0], current[1],"up") !== false){
+        stack.push(self.tryMove(current[0], current[1],"up"));
+    }
+    if(self.tryMove(current[0], current[1],"down") !== false){
+        stack.push(self.tryMove(current[0], current[1],"down"));
+    }
+    if(self.tryMove(current[0], current[1],"left") !== false){
+        stack.push(self.tryMove(current[0], current[1],"left"));
+    }
+    if(self.tryMove(current[0], current[1],"right") !== false){
+        stack.push(self.tryMove(current[0], current[1],"right"));
+    }
+    visited.push([current[0], current[1]].toString());
+  }
+  //for(var i = 0; i < arr.length; i++){
+    //if(self.maze[arr[i][0]][arr[i][1]] === 'E'){
+      //return true;
+    //}
+  //}
+  return false;
 }

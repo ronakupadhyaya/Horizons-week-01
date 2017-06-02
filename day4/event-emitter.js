@@ -55,6 +55,7 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  //console.log(this);
   if (this.hasOwnProperty(eventName)){
   	this.listeners[eventName].push(fn);
   }
@@ -120,8 +121,8 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
   var emitter = this;
-  var onceEmitter = function(arg){
-  	fn(arg);
+  var onceEmitter = function(){
+  	fn();
   	emitter.removeListener(eventName, onceEmitter);
   }
   emitter.on(eventName, onceEmitter);

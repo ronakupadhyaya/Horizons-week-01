@@ -183,12 +183,16 @@ Maze.prototype.isSolvable = function() {
   });
 
   var startPos = this.getStartPosition();
+  console.log("startPos: " + startPos);
   var stack = [startPos];
+  console.log("stack: " + stack);
   // While stack is not empty
   while (stack.length) {
     // Get next position to try
     var pos = stack.pop();
+    console.log("pos: " + pos);
     var curCell = this.maze[pos[0]][pos[1]];
+    console.log("curCell: " + curCell);
 
     if (curCell === 'X') {
       throw new Error("Can't move into wall. Position: " + pos);

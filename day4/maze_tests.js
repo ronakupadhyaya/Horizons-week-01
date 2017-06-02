@@ -102,6 +102,7 @@ describe('Maze.toString()', function () {
   });
 });
 
+
 describe('Maze.tryMove()', function() {
   it("new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position", function() {
     expect(new Maze([['S', 'E']]).tryMove(1, 0, 'right') ).toBe(false);

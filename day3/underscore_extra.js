@@ -31,8 +31,18 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var stored = {}
+  var saved = 0;
+  return function(arg1){
+    if (stored.hasOwnProperty(arg1)){
+      return stored[arg1]
+    }
+    saved = func(arg1);
+    stored[arg1] = saved
+    return saved;
+  }
 }
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -59,7 +69,18 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+
+  var argsInital = Object.values(arguments)
+  if(argsInital.length === 0){
+    throw "Error"
+  }
+  argsInital = argsInital.slice(1)
+
+  return function partialFn(){
+    var argsSecond = Object.values(arguments)
+    var total = argsInital.concat(argsSecond)
+    return fn.apply(this, total)
+  }
 }
 
 // Exercise 3: composeBasic()

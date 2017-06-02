@@ -10,7 +10,7 @@ window.prototypes = {};
 // Exercise 1 prototypes.allKeys()
 // Write a function that receives an object and returns an array of all the keys
 // in that object and on all the objects up its protoype chain.
-// In the macbook example:
+// In thgvfge macbook example:
 
 // var macBook = {
 //   ram: "8gb",

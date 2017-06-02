@@ -2,7 +2,7 @@
 
 window.prototypes = {};
 
-// Part 3. Adding methods to collections
+// Part 3. Adding methods to collections uhiuh
 
 // You are going to implement a function that compares if two arrays have the same
 // things, without necessarily having the same order.
@@ -17,7 +17,25 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+
+  if((this.length === array2.length) && this.length === 0){return true}
+
+  if (this.length === array2.length){
+
+    var count = 0
+    this.forEach(function(i){
+      if (array2.indexOf(i)>-1){
+        count +=1
+      }
+    })
+    if (count === this.length){
+      return true
+    }else {
+      return false
+    }
+  }else{
+   return false;
+ }
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -33,5 +51,15 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
+ var arr1 = Object.keys(this)
+ var arr2 = Object.keys(object2)
+ if(!arr1.hasEqualContent(arr2)){
+   return false;
+ }
+ for(var i=0; i< arr1.length; i++){
+   if(this[arr1[i]] !== object2[arr1[i]]){
+     return false;
+   }
+ }
+ return true;
 }

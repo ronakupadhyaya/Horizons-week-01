@@ -54,7 +54,7 @@ describe("Example test suite with one test spec", function() {
 describe("Tests for expectation types", function() {
   // The most basic expectation in Jasmine is toBe(). It compares the expected
   // and actual values with ===.  So expect(x).toBe(y) will fail unless  x === y
-  // is true.
+  // is true.vnjelfn
 
   // We can negate (i.e. flip) Jasmine expectations using 'not.' Insert
   // 'not.' (including the period) before 'toBe(' below.

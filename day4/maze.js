@@ -23,7 +23,8 @@
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
   // TODO throw exception if this is not called with new
-  this.maze = maze;
+  var self = this
+  self.maze = maze;
 }
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
@@ -39,8 +40,33 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var stringedArray = [];
+
+  for(var i = 0; i < this.maze.length; i++){
+
+    for(var n = 0; n < this.maze[i].length; n++){
+      if(this.maze[i][n] === ' '){
+        stringedArray.push('_')
+      }
+      if(this.maze[i][n] === 'S'){
+        stringedArray.push('S')
+      }
+      if(this.maze[i][n] === 'E'){
+        stringedArray.push('E')
+      }
+      if(this.maze[i][n] === 'X'){
+        stringedArray.push('X')
+      }
+    }
+    if(i === this.maze.length - 1){
+      break;
+    }
+    stringedArray.push("\n")
+  }
+  var mazeString = stringedArray.join('');
+  //console.log(mazeString)
+  return mazeString
+  //window.maze.join()
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +75,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  for(var i = 0; i < this.maze.length; i++){
+    for(var n = 0; n < this.maze[i].length; n++){
+      if(this.maze[i][n] === "S"){
+        return [i, n]
+      }
+    }
+  }
+
 
   throw new Error("Maze has no starting point");
 }
@@ -100,8 +133,41 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  if(row > this.maze.length - 1 || (column === 0 && direction === "left") || (row === 0 && direction === "up") || (column === this.maze[0].length - 1 && direction === "right") || (row === this.maze.length - 1 && direction === "down")){
+    console.log('here')
+    return false
+  }
+
+  var columnMove = column;
+  var rowMove = row;
+  console.log(rowMove);
+
+  if(direction === 'up'){
+    rowMove = rowMove - 1;
+  }
+  if(direction === 'down'){
+    rowMove = rowMove + 1
+  }
+  if(direction === 'right'){
+    columnMove += 1
+  }
+  if(direction === 'left'){
+    columnMove -= 1
+  }
+  console.log(rowMove)
+
+  console.log(column);
+  console.log(columnMove)
+  var newCoordinates = [rowMove, columnMove]
+  console.log(newCoordinates)
+  if(this.maze[rowMove][columnMove] === 'X'){
+    return false
+  }
+
+return newCoordinates
 }
+
+
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

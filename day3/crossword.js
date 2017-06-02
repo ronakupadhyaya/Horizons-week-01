@@ -45,6 +45,53 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function findViableSpace (word, space, pad1, pad2) {
+  if (pad1 === "#" && pad2 === "#"){
+    for (var i = 0; i < space.length; i++) {
+      if(space[i] !== "_"){
+
+      }
+    }
+  }
+}
+
+function solveCrossword(word, arr) {
+  // must use the entirety of all spaces left or right
+  // may not use hashes, but hashes act allow you to bind words
+
+  // recreates the arr without spaces
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].split(" ").join("");
+  }
+
+  console.log(arr);
+  var yes = false;
+  //horizontal test
+  if(arr[0].length > word.length){
+    for (var i = 0; i < arr.length; i++) {
+      for (var j = 0; j <= array[0].length - word.length; j++) {
+        var pad1 = arr[i].substring(j-1, j) || "#";
+        var pad2 = arr[i].substring(j + word.length, j + word.length+1) || "#";
+        var space = arr[i].substring(j, j + word.length);
+        if(findViableSpace(word, space, pad1, pad2)) yes = true;
+      }
+    }
+  }
+
+  //vertical test
+  if (arr.length > word.length){
+    for (var j = 0; j < arr[0].length; j++) {
+      for (var i = 0; i <= arr.length - word.length ; i++) {
+        var space = "";
+        var pad1 = arr[i-1][j] || "#";
+        var pad2 = arr[i+word.length][j] || "#"
+        for (var k = i; k < i + word.length; k++) {
+          space += arr[k][j];
+        }
+        if(findViableSpace(word, space, pad1, pad2)) yes = true;
+      }
+    }
+  }
+
+  return yes;
 }

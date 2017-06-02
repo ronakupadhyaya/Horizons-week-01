@@ -22,7 +22,9 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
+  if(this === window){
+    throw new Error("new not used to construct maze");
+  }
   this.maze = maze;
 }
 
@@ -39,7 +41,16 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
+  var mazeStr = "";
+
+  //[[1,2,3],[4,5,6]]
+
+  //Access outer array
+  console.log(this.maze);
+
+  // return a string
+  return mazeStr;
+
   // Hint: See Array.prototype.join()!
 }
 

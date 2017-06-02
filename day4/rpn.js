@@ -41,8 +41,61 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+window.opList = {
+  "+": function (x,y) {
+    return x+y;
+  },
+  "-": function (x,y) {
+    return x-y;
+  },
+  "*": function (x,y) {
+    return x*y;
+  },
+  "/": function (x,y) {
+    return x/y;
+  },
+  "sqrt": function (y) {
+    return Math.sqrt(y);
+  }
+}
+
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  // make array using .split() '1 2 + 8 *' --> [1,2,+,8,*]
+  var rpnArr = rpnString.split(" ");
+
+  // throw if operand is not found
+  // number of numbers should be 1 more than number of operators
+  var numbers = 0;
+  var others = 0;
+  for (var i = 0; i < rpnArr.length; i++) {
+    if(isNaN(Number.parseFloat(rpnArr[i]))){
+      others++;
+    } else {
+      numbers++;
+    }
+  }
+  if(numbers - 1 !== others) throw new Error ("improper number of stuff")
+
+
+  //console.log("rpnArr", rpnArr);
+  var stack = [];
+  // check if number, if number push to stack | stack = [1, 2]
+  for (var i = 0; i < rpnArr.length; i++) {
+    if(isNaN(Number.parseFloat(rpnArr[i]))){
+      var num2 = stack.pop();
+      var num1 = stack.pop();
+      stack.push(window.opList[rpnArr[i]](num1,num2))
+      //console.log("parsefloatworks");
+    } else {
+      stack.push(Number.parseFloat(rpnArr[i]))
+    }
+  }
+  // if it's an operand, pop() 2 numbers from stack and apply operator
+  // rpnArr = [3] --> rpnArr = [3, 8] --> rpnArr = [24]
+
+  // push back result into the stack
+
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

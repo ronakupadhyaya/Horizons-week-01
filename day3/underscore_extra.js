@@ -30,9 +30,36 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+
+
+//code that works already
+function memoize(fn) {
+  var called = false;
+  var pastArgs = {
+    arg1: undefined
+  }
+
+  return function memoizedFn(){
+    if(!pastArgs.hasOwnProperty(arguments[0])){
+      //console.log("called");
+      pastArgs[arguments[0]] = fn.apply(null,arguments);
+    }
+    return pastArgs[arguments[0]];
+  }
 }
+
+//code for BONUS!
+// function memoize(fn, hash) {
+//   var past = {};
+//   return function memoizedFn(){
+//     var code = hash()
+//     if(!past.hasOwnProperty(code)){
+//       past[code] = fn.apply(null, arguments);
+//     }
+//     return past[code];
+//   }
+// }
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -60,6 +87,18 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var outerArgs = _.toArray(arguments);
+  if(outerArgs.length===0){
+    throw "no args passed";
+  }
+  outerArgs.splice(0,1)
+  //console.log(outerArgs);
+  return function partialFn(){
+    var innerArgs = _.toArray(arguments);
+
+    return fn.apply(null,outerArgs.concat(innerArgs));
+
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +138,12 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(){
+    //calls  fun1(fun2())
+    var resultFun2 = fun2.apply(null,arguments);
+    var resultFun1 = fun1(resultFun2);
+    return resultFun1;
+  }
 }
 
 
@@ -141,5 +186,16 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var listOfFun = _.toArray(arguments);
+  console.log(listOfFun);
+  var tempResult;
+  return function composedFn(){
+    var listofArg = _.toArray(arguments);
+    for (var i = listOfFun.length - 1; i > -1; i--) {
+
+      if (i = listOfFun.length - 1) tempResult = listOfFun[i].apply(null, listofArg);
+      else tempResult = listOfFun[i].apply(null, tempResult)
+    }
+    return tempResult;
+  }
 }

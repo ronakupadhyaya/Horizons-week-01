@@ -35,7 +35,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -52,7 +52,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if(!this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName] = [fn];
+  } else {
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -62,7 +66,7 @@ EventEmitter.prototype.on = function(eventName, fn) {
 //
 // Example.
 // var emitter = new EventEmitter();
-// function log(arg) {
+// function log (arg) {
 //  console.log('called', arg);
 // }
 // emitter.on('someEvent', log);
@@ -70,8 +74,15 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)){
+    for (var i = 0; i < this.listeners[eventName].length; i++) {
+      this.listeners[eventName][i](arg);
+    }
+  } else {
+    throw new Error ("no such eventName");
+  }
 }
+
 
 // Takes is a string "eventName" and a callback function "fn"
 // Removes the specified listener from the listener array
@@ -87,7 +98,16 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)){
+    var indOfFn = this.listeners[eventName].indexOf(fn);
+    if(indOfFn > -1){
+      this.listeners[eventName].splice(indOfFn, 1);
+    } else {
+      throw new Error("function not found");
+    }
+  } else {
+    throw new Error ("no such eventName");
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -103,5 +123,13 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var called = false;
+  var self = this;
+  return function inner() {
+    if(!called){
+      self.emit(eventName, fn);
+      self.removeListener(eventName, fn);
+      called = true;
+    }
+  }
 }

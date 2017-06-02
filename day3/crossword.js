@@ -45,6 +45,16 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, tile) {
+  var spaces = [];
+  for(var line = 0; line < tile.length; line ++ ){
+    spaces.push(tile[line].split(""));
+  }
+  for(var char = 0; char < word.length; char++){
+    for(var line = 0; line < spaces.length; line ++ ){
+      if(spaces[line].indexOf(char) !== -1){
+        
+      }
+    }
+  }
 }

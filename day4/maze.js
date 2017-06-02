@@ -22,7 +22,9 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
+  if (this === window) {
+    throw new Error('use new keyword');
+  }
   this.maze = maze;
 }
 
@@ -39,6 +41,15 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
+  var mazeStr = "";
+  for(var row = 0; row < this.maze.length; row++){
+    mazeStr += this.maze[row].join("");
+    if (row !== this.maze.length - 1) {
+      mazeStr += "\n";
+    }
+  }
+  mazeStr = mazeStr.split(' ').join('_');
+  return mazeStr;
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
 }
@@ -49,8 +60,11 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++) {
+    if (this.maze[i].indexOf('S') !== -1) {
+      return [i, this.maze[i].indexOf('S')];
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -100,7 +114,46 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  var check = true;
+  if (row >= this.maze.length || column < 0 || column >= this.maze[0].length || row < 0) {
+    return false; 
+  }
+  var checkForX = function (myColumn, myRow) {
+    if (myRow >= this.maze.length || myColumn < 0 || myColumn >= this.maze[0].length || myRow < 0) {
+      return false; 
+    }
+    if (this.maze[myRow][myColumn] === 'X') {
+      return false;
+    }
+    return true;
+  }.bind(this);
+
+  var myColumn = column;
+  var myRow = row;
+  switch (direction) {
+  case 'up':
+    myRow--;
+    check = checkForX(myColumn, myRow);
+    break;
+  case 'down':
+    myRow++;
+    check = checkForX(myColumn, myRow);
+    break;
+  case 'right':
+    myColumn++;
+    check = checkForX(myColumn, myRow);
+    break;
+  case 'left':
+    myColumn--;
+    check = checkForX(myColumn, myRow);
+    break;
+  default:
+    return;
+  }
+  if (check) {
+    return [myRow, myColumn];
+  }
+  return false;
 }
 
 // Bonus!
@@ -110,5 +163,83 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+
+  var startPosition = this.getStartPosition();
+  var log = {};
+  var maze = this;
+  var recursive = function (row, column) {
+    //check if visited before
+    var key = row + '_' + column;
+    if (log.hasOwnProperty(key)) {
+      return false;
+    }
+
+    //trymove
+    var up = this.tryMove(row, column, 'up');
+    var down = this.tryMove(row, column, 'down');
+    var left = this.tryMove(row, column, 'left');
+    var right = this.tryMove(row, column, 'right');
+
+
+    log[key] = key;
+
+    //call recursive again
+
+    if (up) {
+      if (this.maze[up[0]][up[1]] === 'E') {
+        return true;
+      } else {
+        if(recursive(up[0], up[1])) {
+          return true;
+        }
+      }
+    }
+    if (down) {
+      if (this.maze[down[0]][down[1]] === 'E') {
+        return true;
+      } else {
+        if (recursive(down[0], down[1])) {
+          return true;
+        }
+      }
+    }
+    if (left) {
+      if (this.maze[left[0]][left[1]] === 'E') {
+        return true;
+      } else {
+        if (recursive(left[0], left[1])) {
+          return true;
+        }
+      }
+    }
+    if (right) {
+      if (this.maze[right[0]][right[1]] === 'E') {
+        return true;
+      } else {
+        if (recursive(right[0], right[1])) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }.bind(maze);
+  return recursive(startPosition[0], startPosition[1]);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

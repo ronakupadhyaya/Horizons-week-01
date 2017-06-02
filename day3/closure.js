@@ -29,8 +29,8 @@ var createUser = function(username, password) {
     // to implement the login function
     // YOUR CODE HERE
     login: vault(password)
-    }
   }
+}
 
 
 // create a horizons user with password horizonites
@@ -87,12 +87,12 @@ var once = function(f) {
   var save;
   return function() {
     if (! called) { // if f hasn't been called yet
-     save = f.apply(null,arguments);
+      save = f.apply(null,arguments);
        // call f
       //called = true; // mark f as called
       called = true
     }
-   return save 
+    return save
   }
 }
 
@@ -140,9 +140,9 @@ var functionFactory = function(num1, num2) {
       return function(){
         return snap
       }
-    };
+    }
     functionArray.push(inner(i))
-}
+  }
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

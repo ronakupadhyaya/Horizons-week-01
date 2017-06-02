@@ -43,15 +43,13 @@ function memoize(func) {
   		arg.push(x);
   		cache[String(x)] = save;
   		//called = true;
-  		
+
   	}
-	return save;
+	   return save;
   }else{
   	return cache[String(x)];
   }
-}
-
-
+  }
 }
 // function memoize(func) {
 //   // YOUR CODE HERE
@@ -66,7 +64,7 @@ function memoize(func) {
 //   		arg.push(x);
 //   		cache[String(x)] = save;
 //   		//called = true;
-  		
+
 //   	}
 // 	return save;
 //   }else{
@@ -101,26 +99,23 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-	if(fn === undefined){
-		throw "error";
-	}else if(arguments.length > 1){
-		var argArray = [];
-		for(var i = 1; i < arguments.length;i++){
-			argArray.push(arguments[i]);
-		}
-		return function partialFn(){
-			var retArray = fn.apply(null, arguments);
-			var finalArray = argArray.concat(retArray);
-			// console.log(Array);
-			return finalArray;
-
-	}
-	}
-	return function partialFn(){
-		return fn.apply(null, arguments);
-
-	}
-
+  	if(fn === undefined){
+  		throw "error";
+  	}else if(arguments.length > 1){
+  		var argArray = [];
+  		for(var i = 1; i < arguments.length;i++){
+  			argArray.push(arguments[i]);
+  		}
+  		return function partialFn(){
+  			var retArray = fn.apply(null, arguments);
+  			var finalArray = argArray.concat(retArray);
+  			// console.log(Array);
+  			return finalArray;
+  	}
+  	}
+  	return function partialFn(){
+  		return fn.apply(null, arguments);
+  	}
 }
 
 // Exercise 3: composeBasic()
@@ -159,12 +154,10 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
-  
   	return function(){
   		return fun1(fun2.apply(null,arguments));
   	}
-  }
+}
 
 
 
@@ -202,22 +195,23 @@ function memoize(func, fun2) {
   //var called = false;
   if(fun2 === undefined){
   	var save;
-  var arg = [];
-  var cache = {}
-  return function memoizedFn(x){
+    var arg = [];
+    var cache = {}
+    return function memoizedFn(x){
   	if(cache[String(x)]===undefined){
   	if(arg.indexOf(x)===-1){
   		save = func(x);
   		arg.push(x);
   		cache[String(x)] = save;
   		//called = true;
-  		
+
   	}
-	return save;
+    return save;
   }else{
   	return cache[String(x)];
   }
-}}
+    }
+  }
   var save;
   var arg = [];
   var cache = {}
@@ -227,13 +221,11 @@ function memoize(func, fun2) {
   		save = func.apply(null,arguments);
   		cache[input] = save;
   		//called = true;
-	return save;
+    return save;
   }else{
   	return cache[input];
   }
-}
-
-
+  }
 }
 
 // Double Bonus Exercise: compose()

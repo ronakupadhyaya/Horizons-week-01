@@ -1,64 +1,52 @@
 "use strict";
-/*global game*/
-
-// Wait till the game is ready to run.
-/*game.onReady(function() {
-  // Sample code to clear the screen then draw an obstacle.
-  // Feel free to delete all this.
-  game.clear();
-  game.drawObstacle(450, 200);
-});*/
-
 
 game.onReady(function() {
   var obstacleX = game.width;
   var dinosaurY = 200;
   var dinosaurVelocity = 0;
+  var velocity = 2;
   var score = 0;
+  var speed = 2;
   var interval;
   var highscore = game.getHighScore();
   var up = game.onUpArrow(function() {
-    if(obstacleX === 100 && dinosaurY === 200){
+    if(100 <= obstacleX + 40 &&
+        125 >= obstacleX &&
+        dinosaurY <= 220 &&
+        50 + dinosaurY >= 180){
       obstacleX = game.width;
       dinosaurY = 200;
       dinosaurVelocity = 0;
       score = 0;
-      interval = setInterval(eventLoop, 100);
+      velocity = 2;
+      speed = 2;
+      interval = setInterval(eventLoop, 20);
     } else if(dinosaurY === 200){
-      dinosaurVelocity = 10;
+      dinosaurVelocity = velocity;
     }
   });
-  var dinosaurCurrent = {
-    x: 100,
-    y: dinosaurY,
-    width: 25,
-    height: 50
-  }
-  var obstacleCurrent = {
-    x: obstacleX,
-    y: 200,
-    width: 40,
-    height: 20
-  }
 
   function eventLoop() {
-    obstacleX = obstacleX - 10;
+    obstacleX = obstacleX - speed;
     dinosaurY = dinosaurY - dinosaurVelocity;
     up;
-    if(obstacleX === 0){
+    if(obstacleX < 0){
       game.clear();
       obstacleX = game.width;
     }
-
     if(dinosaurY < 100){
-      dinosaurVelocity = -10;
+      dinosaurVelocity = -velocity;
     }
     if(dinosaurY > 200){
       dinosaurVelocity = 0;
       dinosaurY = 200;
     }
-    console.log(dinosaurCurrent.y);
     score++;
+    if(score > 250){
+      velocity = 3+parseInt(score/250);
+      speed = 3+parseInt(score/250);
+    }
+
     game.clear();
     game.drawObstacle(obstacleX, 200);
     game.drawDinosaur(100, dinosaurY);
@@ -67,7 +55,10 @@ game.onReady(function() {
     if(score > highscore){
       game.saveHighScore(score);
     }
-    if(obstacleX === 100 && dinosaurY === 200){
+    if( 100 < obstacleX + 40 &&
+      125 > obstacleX &&
+      dinosaurY < 240 &&
+      50 + dinosaurY > 220){
       game.drawMessage("You lose!! :(((. Up to restart!");
       clearInterval(interval);
       up;
@@ -76,5 +67,5 @@ game.onReady(function() {
       game.drawScore(score);
     }
   }
-  interval = setInterval(eventLoop, 100);
+  interval = setInterval(eventLoop, 20);
 });

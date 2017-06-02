@@ -33,12 +33,18 @@
 // emitter.on('someEventName', f1);
 // emitter.on('someEventName', f2);
 // emitter.on('otherEventName', f2);
+<<<<<<< HEAD
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 
 //mold for object to be created for new event emitters(i.e. new people sending events)
 function EventEmitter(event) {
   this.listeners = {}
 
+=======
+// emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
+function EventEmitter() {
+  // YOUR CODE HERE
+>>>>>>> master
 }
 
 // Takes is a string "eventName" and a callback function "fn"

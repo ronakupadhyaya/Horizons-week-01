@@ -40,6 +40,8 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
+  
+}
   // Hint: See Array.prototype.join()!
 }
 

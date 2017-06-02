@@ -47,4 +47,73 @@
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
+  var word = arguments[0];
+  var flag = true;
+  //  console.log("The word is :", word);
+
+  var board = Array.prototype.slice.call(arguments).slice(1);
+  var boardTmp = [];
+  for (var i = 0; i < board[0].length; i++) {
+    boardTmp.push(board[0][i].split(' '));
+  }
+
+  var BoardVerti = boardTmp.slice();
+
+  for (var i = 0; i < boardTmp.length; i++) {
+    var linePadded = padding(boardTmp[i]);
+    console.log("horizontally", linePadded);
+    var resultPerLine = checkRow(linePadded, word);
+
+    if (resultPerLine) {
+      return true;
+    }
+  }
+  //checking vertically
+  BoardVerti = rotateRight(BoardVerti);
+  for (var i = 0; i < BoardVerti.length; i++) {
+    var linePadded = padding(BoardVerti[i]);
+    console.log("vertical", linePadded);
+    var resultPerLine = checkRow(linePadded, word);
+    if (resultPerLine) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function padding(arr) {
+  if (arr[0] !== '#') {
+    arr.unshift('#');
+  }
+  if (arr[arr.length - 1] !== '#' || arr.length === 1) {
+    arr.push('#');
+  }
+  //  console.log(arr);
+  return arr;
+}
+
+// TODO: check rotateRight issue; check when more then 3 lines
+// function rotateRight(arr, arrLen) {
+//   for (var i = 0; i < arrLen; i++) {
+//     for (var j = 0; j < i; j++) {
+//       //swap element[i,j] and element[j,i]
+//       var temp = arr[i][j];
+//       arr[i][j] = arr[j][i];
+//       arr[j][i] = temp;
+//     }
+//   }
+//   //console.log(arr);
+// }
+function rotateRight(arr) {
+  var tmpArr1 = [];
+
+  for (var i = 0; i < arr[0].length; i++) {
+    var tmpArr = [];
+    for (var j = 0; j < arr.length; j++) {
+      tmpArr.push(arr[j][i]);
+    }
+    tmpArr1.push(tmpArr);
+
+  }
+  return tmpArr1;
 }

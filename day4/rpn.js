@@ -42,7 +42,54 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var stack = [];
+  var splitter = rpnString.split(" ");
+  //console.log(splitter);
+  if(splitter.length === 1 && isNumberString(splitter[0])){ //checks if singular number
+    return parseFloat(splitter[0]);
+  }
+  if(splitter.length === 1 && !isNumberString(splitter[0])){
+    throw "Error";
+  }
+  if(splitter.length === 2){
+    throw "Error";
+  }
+  var numCount = 0;
+  var opCount = 0;
+  splitter.forEach(function(val){
+    if(isNumberString(val)){
+      numCount ++;
+    } else{
+      opCount ++;
+    }
+  });
+  if(numCount-1 !== opCount){
+    throw "Error";
+  }
+
+  for (var i = 0; i < splitter.length; i++) {
+    if(isNumberString(splitter[i])) {
+      stack.push(parseFloat(splitter[i]));
+    } else{
+      var lastItem2 = stack.pop();
+      var lastItem = stack.pop();
+      if(splitter[i] === "+"){
+        stack.push(lastItem + lastItem2)
+      }
+      if(splitter[i] === "-"){
+        stack.push(lastItem - lastItem2)
+      }
+      if(splitter[i] === "*"){
+        stack.push(lastItem * lastItem2)
+      }
+      if(splitter[i] === "/"){
+        stack.push(lastItem / lastItem2)
+      }
+    }
+  }
+  return stack[0];
+
+
 }
 
 // This function returns true if given string represents a valid number.

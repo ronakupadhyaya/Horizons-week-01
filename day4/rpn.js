@@ -42,7 +42,7 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  var operater = '+ - / *'.split(' ');
+
   var list = rpnString.split(' ');
   var stack = [];
   for (var i = 0; i < list.length; i++) {
@@ -103,8 +103,3 @@ function isNumberString(str) {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
   return !isNaN(str);
 }
-var a = [1, 2, 3, 4, 5];
-a.reduce(function(a, b) {
-  // index++;
-  return a + b;
-})

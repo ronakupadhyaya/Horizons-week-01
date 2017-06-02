@@ -30,7 +30,7 @@ function memoize(func, hashFunction) {
     if (cache.hasOwnProperty(hash)) {
       return cache[hash];
     }
-    cache[hash] = func.apply(null, arguments);
+    cache[hash] = func.apply(null, arguments); /// arguments can be directly used as array
     return cache[hash];
   }
 };

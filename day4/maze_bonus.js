@@ -26,7 +26,7 @@ window.Maze = function(maze) {
   if (this === window) {
     throw "Error"
   }
-  this.maze = maze;
+  this.maze = maze; ///here
 };
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];

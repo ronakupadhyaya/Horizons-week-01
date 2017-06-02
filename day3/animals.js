@@ -17,7 +17,7 @@
 	}
 
 	window.lion = getAnimal();
-})()
+})();
 
 
 
@@ -26,4 +26,4 @@
 }
 
 window.tiger = getAnimal();
-})()
+})();

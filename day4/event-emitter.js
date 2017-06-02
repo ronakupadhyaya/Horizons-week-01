@@ -6,6 +6,9 @@
 // emit() all callback functions that are registered
 // for that event type with on() are called.
 //
+// !HINT! We recommend implementing the EventEmitter constructor, .on() and
+// .emit() together !HINT!
+//
 // Once you correctly implement the EventEmitter object you
 // will be able to use the messenger application. Note that if you
 // send a message on one device, it will be available on all
@@ -15,6 +18,11 @@
 // be an object where the keys are names for the event, and values
 // are arrays containing listener functions ("fn"). These functions will
 // run when their corresponding event ("eventName") is emitted.
+//
+// The EventEmitter should contain an object called "listeners"
+// (under this.listeners). This object maps event types to arrays.
+// Each array contains functions that should be called when an event
+// of that type is sent via this.emit().
 //
 // Example.
 // var emitter = new EventEmitter();
@@ -27,23 +35,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
-}
-
-// Takes is a string "eventName" and a callback function "fn"
-// Adds a one time listener function for the event named
-// eventName. The next time eventName is triggered, this
-// listener is removed and then called.
-//
-// Example.
-// var emitter = new EventEmitter();
-// function log() { console.log('called'); }
-// emitter.once('someEvent', log);
-// emitter.emit('someEvent') // -> prints 'called'
-// emitter.emit('someEvent') // -> prints nothing
-// emitter.emit('someEvent') // -> prints nothing
-EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners = {}
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -55,11 +47,17 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // var emitter = new EventEmitter();
 // function log() { console.log('called'); }
 // emitter.on('someEvent', log);
+// emitter.listeners // -> {someEvent: [log]}
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  var myObj = this
+  if (myObj.hasOwnProperty(eventName)){
+      myObj.listeners[eventName].push(fn)
+  } else {
+      myObj.listeners[eventName] = [fn]
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -77,7 +75,12 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  var myObj = this
+  var arrayFuncs = myObj.listeners[eventName]
+  for (var i = 0; i < arrayFuncs.length; i++) {
+      fn = arrayFuncs[i]
+      fn(arg)
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -94,35 +97,36 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var myObj = this
+  var dex;
+  for (var i = 0; i < myObj.listeners[eventName]; i++) {
+      if (myObj[i] === fn){
+          dex = i
+      }
+  }
+  myObj.listeners[eventName].splice(i)
 }
 
-// You do not need to look at code past this line, but you may
-// if you would like to figure out how your EventEmitter is
-// being used to update the message "msg" on all three devices at once.
-function Observer(name, myEventEmitter) { // object that keeps track of changes
-  this.name = name; this.myEventEmitter = myEventEmitter;
-  this.myEventEmitter.on("send", this.onSend.bind(this));
-}
-
-// function that adds message to screen
-Observer.prototype.onSend = function(m) {
-  document.getElementById(this.name).innerHTML += m + `<br/>`;
-}
-
-var myEventEmitter = new EventEmitter();
-// makes all devices observers
-var observers = [
-  new Observer('iphone', myEventEmitter),
-  new Observer('ipad', myEventEmitter),
-  new Observer('mac', myEventEmitter)
-];
-
-// function that takes in a string "type" (the type of device used to messege)
-// and uses the EventEmitter object "myEventEmitter" to emit the messege "msg"
-// to all observers
-function submitMsg(type) {
-  var msg = document.getElementById(type+"-input").value;
-  if (!msg) return;
-  myEventEmitter.emit('send', msg);
+// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// Adds a one time listener function for the event named
+// eventName. The next time eventName is triggered, this
+// listener is removed and then called.
+//
+// Example.
+// var emitter = new EventEmitter();
+// function log() { console.log('called'); }
+// emitter.once('someEvent', log);
+// emitter.emit('someEvent') // -> prints 'called'
+// emitter.emit('someEvent') // -> prints nothing
+// emitter.emit('someEvent') // -> prints nothing
+EventEmitter.prototype.once = function(eventName, fn) {
+    var myObj = this
+    var seenFlag = false
+    myObj.listeners[eventName] = [function() {
+        if (! seenFlag){
+            seenFlag = true
+            myObj.removeListener(eventName, fn)
+            fn()
+        }
+    }]
 }

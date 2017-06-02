@@ -117,11 +117,17 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var count = num1 - 1;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    functionArray.push(function() {
+      var countIncrement = function(){
+          count += 1;
+          return count
+      }
+      countIncrement();
+      console.log(count)
+      return count;
+    })
   }
 
   return functionArray;

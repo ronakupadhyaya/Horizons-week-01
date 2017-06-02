@@ -45,6 +45,34 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
+
+function checkinBetween(row,word){
+  if(row.length!==word.length)return false;
+  else{
+    for(var i=0;i<word.length;i++){
+      if(word[i]!==row[i] || word[i]!=='_')return false;
+    }
+  }
+  return true;
+}
+
+function checkRow(row,word){
+  if(row.length-2<word.length)return false;
+  var firsthash=0;
+  var secondhash=row.indexOf('#');
+  var flag=false;
+  while(secondhash!==-1 ){
+    var temp=row.slice(firsthash+1,secondhash);
+    flag=checkinBetween(temp,word);
+    if(flag===true)return true;
+    else{
+      firsthash=secondhash;
+      secondhash=row.indexOf('#',firsthash+1);
+    }
+  }
+  return false;
+
+}
 function solveCrossword() {
   // YOUR CODE HERE
 }

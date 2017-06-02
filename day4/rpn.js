@@ -41,8 +41,39 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
-window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+window.rpnCalculator = function (rpnString) {
+
+  var rpnArr = rpnString.split(' ');
+  var sol = 0;
+  var numberStack = [];
+
+  _.forEach(rpnArr, function (nxt) {
+    if (isNumberString(nxt)) {
+      numberStack.push(parseInt(nxt));
+    } else if (numberStack.length > 1) {
+      if (nxt === '+') {
+        numberStack.push(numberStack.pop() + numberStack.pop());
+      }
+      else if (nxt === '*') {
+        numberStack.push(numberStack.pop() * numberStack.pop());
+      }
+      else if (nxt === '-') {
+        var tmp = numberStack.pop();
+        numberStack.push(numberStack.pop() - tmp);
+      }
+      else if (nxt === '/') {
+        var tmp = numberStack.pop();
+        numberStack.push(numberStack.pop() / tmp);
+      }
+    } else { throw "Operand called on nothing"; }
+
+  });
+
+  if (numberStack.length > 1) {
+    throw "Too many operators";
+  }
+
+  return numberStack[0];
 }
 
 // This function returns true if given string represents a valid number.
@@ -54,16 +85,16 @@ window.rpnCalculator = function(rpnString) {
 // ex. isNumberString('0') -> true
 // ex. isNumberString('-0.4') -> true
 function isNumberString(str) {
-  if (! _.isString(str)) {
+  if (!_.isString(str)) {
     return false;
   }
 
-  if (! str.length) {
+  if (!str.length) {
     return false;
   }
 
   // isNaN() is a built-in JavaScript function that stands for is-Not-A-Number()
   // It works on strings too. Read more about it here:
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
-  return ! isNaN(str);
+  return !isNaN(str);
 }

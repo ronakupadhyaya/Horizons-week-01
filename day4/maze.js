@@ -22,10 +22,13 @@
 // ex. new Maze([['S', 'E']]) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']]) represents a trivial unsolvable maze
 window.Maze = function(maze) {
+<<<<<<< HEAD
   // TODO throw exception if this is not called with new
   if (this.constructor !== Maze) {
     throw new Exception("new was not used");
   }
+=======
+>>>>>>> master
   this.maze = maze;
 }
 
@@ -82,9 +85,9 @@ Maze.prototype.getStartPosition = function() {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.

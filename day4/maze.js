@@ -40,6 +40,28 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var str = '';
+  var m = this.maze;
+  for(var i=0;i<m.length;i++){
+    if(i != 0){
+      str += '\n';
+      console.log(str);
+    }
+
+    for(var j = 0; j < m[i].length; j++) {
+
+      if(m[i][j]===' '){
+        str += '_';
+      } else {
+        str += m[i][j]
+      }
+    }
+
+  }
+  console.log(str);
+
+  return str;
+
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +71,25 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  for(var i=0;i<this.maze.length;i++){
+    for(var j=0;j<this.maze[i].length;j++){
+      if(this.maze[i][j]==='S'){
+        return [i, j]
+      }
+    }
+  }
+  throw new Error("Maze has no starting point");
+}
 
+Maze.prototype.getFinishPosition = function() {
+  // YOUR CODE HERE
+  for(var i=0;i<this.maze.length;i++){
+    for(var j=0;j<this.maze[i].length;j++){
+      if(this.maze[i][j]==='E'){
+        return [i, j]
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -98,7 +138,65 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  // console.log(row, column, direction);
+  // console.log(this.maze[0].length);
 
+  // for(var i=0;i<this.maze.length;i++){
+  //
+  //   for(var j=0;j<this.maze[i].length;j++){
+  //     if(i===row && j===column){
+  var i=row;
+  var j=column;
+
+if(!(i>=0 && i<this.maze.length && j>=0 && j<this.maze[0].length)){return false;}
+
+  if(direction==='up'){
+        // console.log(i-1);
+    if( i-1 < 0){
+      return false;
+    }
+    if(this.maze[i-1][j]==='X' || i-1<0){
+
+      return false;
+    } else{
+      return [i-1, j];
+    }
+  }
+  if(direction==='down'){
+    if( i+1 >= this.maze.length){
+      return false;
+    }
+    if(this.maze[i+1][j]==='X' || i>=this.maze.length){
+      return false;
+    } else{
+      return [i+1, j];
+    }
+  }
+  if(direction==='left'){
+    if( j - 1 < 0){
+      return false;
+    }
+    if(this.maze[i][j-1]==='X' || j-1<0){
+      return false;
+    }else{
+      return [i, j-1];
+    }
+  }
+  if(direction==='right'){
+    if(j+1>=this.maze[i].length){
+      return false;
+    }
+    if(this.maze[i][j+1]==='X' || j>=this.maze[i].length){
+      return false;
+    }else{
+      return [i, j+1];
+    }
+         //}
+    //   }
+    //
+    // }
+  }
+  return false;
   // YOUR CODE HERE
 }
 
@@ -109,5 +207,61 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  // YOUR CODE HERE'
+
+  var start=this.getStartPosition();
+  //var finish=this.getFinishPosition();
+
+  console.log(start);
+  // var i=start[0];
+  // var j=start[1];
+  var stack = [];
+  var visited = [];
+  for(var i=0;i<this.maze.length;i++){
+    visited[i]=[];
+    for(var j=0;j<this.maze[i].length;j++){
+      visited[i][j] = false;
+    }
+  }
+console.log(visited);
+
+  stack.push(start);
+  while(stack.length !== 0){
+    var pos = stack[0];
+    //stack.splice(0,1);
+    stack.unshift();
+    if(this.maze[pos[0]][pos[1]] === 'E') {
+
+    // } finish[0] && pos[1]===finish[1]){
+      return true;
+    }
+    //debugger
+console.log(visited)
+for(var i=0;i<Maze.direction;i++){
+var a = this.tryMove(pos[0],pos[1],Maze.direction[i]);
+  if(a && !visited[a[0]][a[1]]){
+    stack.push(a);
+    visited[a[0]][a[1]]=true;
+  }
+}
+    // if(this.tryMove(pos[0],pos[1],"up") && !visited[pos[0]-1][pos[1]]){
+    //     stack.push([pos[0]-1, pos[1]]);
+    //     visited[pos[0]-1][pos[1]] = true;
+    // }
+    // if(this.tryMove(pos[0],pos[1],"down") && !visited[pos[0]+1][pos[1]]){
+    //     stack.push([pos[0]+1, pos[1]]);
+    //     visited[pos[0]+1][pos[1]] = true;
+    // }
+    // if(this.tryMove(pos[0],pos[1],"left") && !visited[pos[0]][pos[1]-1]){
+    //     stack.push([pos[0], pos[1]-1]);
+    //     visited[pos[0]][pos[1]-1] = true;
+    // }
+    // if(this.tryMove(pos[0],pos[1],"right") && !visited[pos[0]][pos[1]+1]){
+    //     stack.push([pos[0], pos[1]+1]);
+    //     visited[pos[0]][pos[1]+1] = true;
+    // }
+
+  }
+return false;
+
 }

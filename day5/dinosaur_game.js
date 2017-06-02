@@ -54,7 +54,11 @@
     drawDinosaur: function(x, y) {
       var dino = [this.dinosaurWidth, this.dinosaurHeight, "#e44e44"];
       this.ctx.fillStyle = dino[2];
-      this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
+      var base_img = new Image();
+      base_img.src = 'img/Drocket.png'
+      //var img = document.getElementById("face");
+      //this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
+      this.ctx.drawImage(base_img,x, y - dino[1], dino[0], dino[1] )
       this.ctx.beginPath();
       this.ctx.arc(x, y, 5, 0,2*Math.PI);
       this.ctx.stroke();

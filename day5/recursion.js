@@ -12,12 +12,9 @@ window.recursion = {};
 //Example 1
 //This function sums the first n numbers from 1 to n (number), inclusive
 recursion.sum = function(number) {
-  //Base case
   if(number === 1) {
     return 1;
   }
-
-  //Recursive case
   return recursion.sum(number-1) + number;
 }
 

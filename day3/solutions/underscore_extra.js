@@ -37,8 +37,19 @@ function memoize(func, hashFunction) {
 
 // Implement _.partial()
 // http://underscorejs.org/#partial
+// function logAll(arg1, arg2, arg3) {
+  // console.log(arg1, arg2, arg3);
+// }
+//partial(logAll, "hello") --> newfunction("my", "frined") --> hello my friend
 function partial(fn) {
   arguments[0] = null;
+  //return fn.bind(null, [])
+  //arguments === null hello
+
+  var bindFunction = fn.bind
+  bindFunction.apply(fn, arguments)
+  //fn.bind(null, hello)
+
   return fn.bind.apply(fn, arguments);
 }
 

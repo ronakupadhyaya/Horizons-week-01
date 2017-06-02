@@ -155,42 +155,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  var args = Array.prototype.slice.call(arguments)
-  var prevPos = args[0] || [null,null]
-  var currentMaze = this
-  var start = currentMaze.getStartPosition()
-  var newMoves = {}
-  for (var direct of Maze.validDirections) {
-    newMoves[direct] = currentMaze.tryMove(start[0],start[1],direct)
-  }
-  for (var move in newMoves) {
-    var pos = newMoves[move]
-    if (pos) {
-      if (currentMaze.maze[pos[0]][pos[1]] === "E") {
-        return true
-      }
-    }
-  }
-  var newMazes = []
-  for (var move in newMoves) {
-    var newStart = newMoves[move]
-    if (!newStart) {continue;}
-    if (newStart[0] !== prevPos[0] && newStart[1] !== prevPos[1]) {
-      var newMaze = new Maze(currentMaze.maze)
-      console.log(newMaze.maze[newStart[0]][newStart[1]])
-      newMaze.maze[newStart[0]][newStart[1]] = "S"
-      newMaze.maze[start[0]][start[1]] = " "
-      newMazes.push(newMaze)
-    }
-  }
-  for (var testMaze of newMazes) {
-    return testMaze.isSolvable(start)
-  }
-  return false
-}
-
-/*
-Maze.prototype.isSolvable = function() {
     var ans = this.recurseSolve(this.getStartPosition()[0], this.getStartPosition()[1])
     return ans
 }
@@ -212,4 +176,3 @@ Maze.prototype.recurseSolve = function(row, column) {
     }
     return false
 }
-*/

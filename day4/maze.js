@@ -22,7 +22,9 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
+  if (this === window.Maze) {
+    throw "error bad scope";
+  }
   this.maze = maze;
 }
 
@@ -39,19 +41,30 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
-}
-
+  return this.maze.map(function(row) {
+      return row.map(function(cell) {
+        if (cell === ' ') {
+          return '_';
+        }
+        return cell;
+      }).join('');
+    }).join('\n');
+  }
 // Return the coordinates of the starting position of the current maze.
 //
 // ex. new Maze([['S'], ['E']]).getStartPosition() -> [0, 0]
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  for (var row = 0; row < this.maze.length; row++) {
+      var curRow = this.maze[row];
+      for (var column = 0; column < curRow.length; column++) {
+        if (curRow[column] === 'S') {
+          return [row, column];
+        }
+      }
+    }
+    throw new Error("Maze has no starting point");
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)

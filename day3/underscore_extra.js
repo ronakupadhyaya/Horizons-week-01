@@ -31,7 +31,9 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var called = false;
+
+  return function 
 }
 
 // Exercise 2: partial()

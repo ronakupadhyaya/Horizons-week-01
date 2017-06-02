@@ -42,7 +42,44 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var splitString = rpnString.split(' ');
+  var stack = [];
+  var countNum = 0;
+  var countOp=0;
+  var result;
+
+  var math = {
+    '+': function(x,y) {return x+y;},
+    '-': function(x,y) {return x-y;},
+    '*': function(x,y) {return x*y;},
+    '/': function(x,y) {return x/y;}
+    }
+
+  for (var i = 0; i < splitString.length; i++) {
+    if(isNaN(splitString[i])) {
+      countOp+=1;
+      var b = stack.pop();
+      var a = stack.pop();
+
+      var operation = function(x, y){
+        result = math[splitString[i]](a, b)
+        stack.push(result);
+        console.log(stack);
+        console.log('hello');
+      }
+      operation();
+
+    } else {
+      var num = parseFloat(splitString[i]);
+      stack.push(num);
+      countNum+=1;
+    }
+  }
+  if(countNum === countOp +1){
+    return stack[0];
+  } else {
+    throw 'Error: inacurrate';
+  }
 }
 
 // This function returns true if given string represents a valid number.

@@ -22,7 +22,6 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
   this.maze = maze;
 }
 
@@ -39,7 +38,41 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
+  // FIRST ATTEMPT!!!
+  // for (var i =0; i<wallPosition.length;i++){
+  //   this.maze.splice(wallPosition[i], 0, '\n')
+  // }
+  // console.log(this.maze)
+
+  // for (var i=0; i<this.maze.length; i++){
+  //   this.maze[i].push("\n")
+  // }
+  // var mazeString = _.map(this.maze,function(item){
+  //                         return _.map(item,function(x){
+  //                           if(x=== ' '){
+  //                             return '_'
+  //                           }else{
+  //                             return x
+  //                           }
+  //                         }).join('')
+  // })
+  // var mazeString2 = mazeString.join('')
+  // console.log(mazeString2);
+  // return mazeString2;
+
+  var mazeString = _.map(this.maze,function(item){
+                          return _.map(item,function(x){
+                            if(x=== ' '){
+                              return '_'
+                            }else{
+                              return x
+                            }
+                          }).join('')
+  })
+  var mazeString2 = mazeString.join('\n')
+  console.log(mazeString2);
+  return mazeString2;
+
   // Hint: See Array.prototype.join()!
 }
 
@@ -49,8 +82,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  var position = [];
+  for (var i =0; i<this.maze.length; i++){
+    for (var j= 0; j< this.maze[i].length; j++){
+      if(this.maze[i][j] === 'S'){
+        return [i,j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -63,9 +102,9 @@ Maze.prototype.getStartPosition = function() {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.
@@ -88,6 +127,15 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S'], ['X'], ['E']]).tryMove(2, 0, 'up') -> false, moves into wall
 //
 //
+
+Maze.prototype.checkinBounds = function (row, column){
+    if(row<this.maze.length && row >=0
+    && column<this.maze[0].length && column >=0){
+      return true;
+    } else {
+      return false;
+    }
+}
 // ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
 // ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
 // ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
@@ -99,8 +147,39 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  //Validity
+  if(!this.checkinBounds(row,column)) {
+    return false;
+  }
+  // Directions
+  var down = function (){row +=1}
+  var up = function (){row -=1}
+  var right = function (){column +=1}
+  var left = function (){column -=1}
 
-  // YOUR CODE HERE
+    if(direction === 'down'){
+      down()
+    }
+    if(direction === 'up'){
+      up()
+    }
+    if(direction === 'right'){
+      right()
+    }
+    if(direction === 'left'){
+      left()
+    }
+
+  // later check if new row,column is in bounds
+  if(!this.checkinBounds(row,column)){
+    return false;
+  }
+
+  if(this.maze[row][column] === 'X'){
+    return false;
+  }
+  return [row,column]
+
 }
 
 // Bonus!

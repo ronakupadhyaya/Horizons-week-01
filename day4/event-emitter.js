@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // In this exercise you will create your own EventEmitter class
 // that will listen for & emit events. These events can be used
 // to keep track of actions/changes made by a user.

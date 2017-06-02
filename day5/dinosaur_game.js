@@ -32,7 +32,7 @@
     },
     drawMessage: function(text) {
       this.ctx.fillStyle = "#000";
-      this.ctx.font = "36px Helvetica";
+      this.ctx.font = "20px Helvetica";
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {
@@ -47,7 +47,7 @@
     },
     drawLine: function(x, y, xp, yp) {
       this.ctx.beginPath();
-      this.ctx.moveTo(x,y);
+      this.ctx.moveTo(x, y);
       this.ctx.lineTo(xp, yp);
       this.ctx.stroke();
     },
@@ -56,7 +56,7 @@
       this.ctx.fillStyle = dino[2];
       this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
     drawObstacle: function(x, y) {
@@ -64,7 +64,7 @@
       this.ctx.fillStyle = obs[2];
       this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
       this.ctx.stroke();
     },
     onUpArrow: function(fun) {

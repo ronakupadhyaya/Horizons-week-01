@@ -22,7 +22,6 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
   this.maze = maze;
 }
 
@@ -39,8 +38,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var mazer = this.maze;
+  var arr2 = [];
+  for (var i = 0; i <mazer.length; i++) {
+    var arr = [];
+    for (var j = 0; j<mazer[0].length; j++) {
+      if (mazer[i][j] === ' '){
+        arr.push('_');
+      }else{
+        arr.push(mazer[i][j]);
+      }
+    }
+    arr2.push(arr.join(''));
+  }
+  return arr2.join('\n');
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,33 +61,19 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  var mymaze = this.maze;
+  for (var row = 0; row < mymaze.length; row++) {
+    for (var col = 0; col < mymaze[0].length; col++) {
+      if(mymaze[row][col] === 'S'){
+        return [row,col];
+      }
+      //console.log(mymaze[row][col]);
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
-// Write a method tryMove() that takes a position (row and column parameters)
-// a direction to move, and returns:
-//  - if the move is valid, a new position ([row, column])
-//  - if the move is invalid, false
-//
-// The position 0, 0 represents the upper left corner of the maze.
-//
-// A move is invalid if any of the following conditions are true:
-//  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
-//  - move results in moving off the board (i.e. moving up from the top row, or
-//    moving left from the leftmost column etc.)
-//
-// Parameters:
-//  - row: row before the move. 0 represents top row.
-//  - column: column before the move. 0 represents leftmost column.
-//  - direction: direction to try to move. Must be one of:
-//    - 'up': Move up i.e. decrement row
-//    - 'down': Move down i.e. increment row
-//    - 'left': Move left i.e. decrement column
-//    - 'right': Move right i.e. increment column
-//
-// ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
+//ex. new Maze([['S', 'E']]).tryMove(0, 0, 'leftright') -> Throws error: 'leftright' is not a valid direction
 // ex. new Maze([['S', 'E']]).tryMove(1, 0, 'right') -> false, invalid starting position
 // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'left') -> false, moves off the left side of board
 // ex. new Maze([['S', 'E']]).tryMove(0, 0, 'up') -> false, moves off the top of the board
@@ -95,12 +92,72 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
+
+// Write a method tryMove() that takes a position (row and column parameters)
+// a direction to move, and returns:
+//  - if the move is valid, a new position ([row, column])
+//  - if the move is invalid, false
+//
+// The position 0, 0 represents the upper left corner of the maze.
+//
+// A move is invalid if any of the following conditions are true:
+//  - starting position is invalid (i.e. not on the board)
+//  - move results in moving off the board (i.e. moving up from the top row, or
+//    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
+//
+// Parameters:
+//  - row: row before the move. 0 represents top row.
+//  - column: column before the move. 0 represents leftmost column.
+//  - direction: direction to try to move. Must be one of:
+//    - 'up': Move up i.e. decrement row
+//    - 'down': Move down i.e. increment row
+//    - 'left': Move left i.e. decrement column
+//    - 'right': Move right i.e. increment column
+//
+
+
 Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var mazeobj = this;
+  var mymaze = this.maze;
+  var maxRow = mymaze.length - 1;
+  var maxCol = mymaze[0].length - 1;
+  var start;
+  try{
+    mazeobj.getStartPosition();
+    //console.log("valid start posotion for",mymaze);
+  } catch(thrownerror) {
+    //console.log("invalid starting position", thrownerror);
+    return false;
+  }
 
-  // YOUR CODE HERE
+  if(maxRow<row || maxCol<column){
+    return false;
+  }
+
+  var desiredPosition;
+  if(direction === "up" && row!==0){
+    desiredPosition = [row-1,column];
+  }else if(direction === "down" && row!== maxRow){
+    desiredPosition = [row+1,column];
+  }else if(direction === "left" && column!==0){
+    desiredPosition = [row,column-1];
+  }else if(direction === "right" && column!==maxCol){
+    desiredPosition = [row,column+1];
+  }else{
+    return false;
+  }
+  //mymaze[row][col];
+  var nextSpot = mymaze[desiredPosition[0]][desiredPosition[1]];
+  if(nextSpot === 'X'){//} || desiredPosition== undefined){
+    //console.log("apparently theres an x in thsi spot fuck")
+    return false;
+  }
+  return desiredPosition;
+
 }
 
 // Bonus!
@@ -109,6 +166,102 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
+
+window.MazeCopy = function(maze) {
+  this.maze = maze;
+}
+
+Maze.prototype.solveMaze = function(mazeobj,mazeC,row,col){
+
+  if(mazeobj == undefined){
+    console.log("maze is undefined, returning false");
+    return false;
+  }
+  var mymaze = mazeobj.maze;
+  var mazecopy = mazeC.maze;
+  var currentRow = mymaze[row];//[col];
+  if(currentRow){
+    var move = mymaze[row][col]
+    //console.log(move);
+  }
+  //console.log(move);
+  if(move == undefined){
+    //console.log("row and column location doesnt exist");
+    console.log("move is undefined, returning false");
+    return false;
+  }
+  //console.log(mymaze[row][col]);
+  if(move === 'E'){
+    return true;
+  } else if(move === 'X'){
+    console.log("reached a wall, returning false");
+    return false;
+  } else if(move === 'S' || move === ' '){
+    //mark spot as visited
+    mazecopy[row][col] = "visited";
+
+
+    var tryup = mazeobj.tryMove(row,col,'up');
+    //console.log("CHECKING FOR VISITED",mazecopy[row+1][col]);
+
+    if(tryup){// && mazecopy[row-1][col] !== "visited"){
+      console.log("up entered");// was not visit4ed");
+      mazecopy[row-1][col] = "visited";
+      var moveUp,moveDown,moveLeft,moveRight;
+      moveUp = mazeobj.solveMaze(mazeobj,mazecopy,tryup[0],tryup[1]);
+    }
+
+
+    var trydown = mazeobj.tryMove(row,col,'down');
+    if(trydown && mazecopy[row+1][col] !== "visited"){
+      console.log("down was not visit4ed");
+      mazecopy[row+1][col] = "visited";
+      moveDown = mazeobj.solveMaze(mazeobj,mazecopy,trydown[0],trydown[1]);//mazeobj.tryMove(row,col,'down');
+    }
+
+
+    var tryleft = mazeobj.tryMove(row,col,'left');
+    if(tryleft && mazecopy[row][col-1] !== "visited"){
+      console.log("left was not visit4ed");
+      mazecopy[row][col-1] = "visited";
+      moveLeft = mazeobj.solveMaze(mazeobj,mazecopy,tryleft[0],tryleft[1]);//mazeobj.tryMove(row,col,'left');
+    }
+
+
+    var tryright = mazeobj.tryMove(row,col,'right');
+    if(tryright && mazecopy[row][col+1] !== "visited"){
+      console.log("right was not visit4ed");
+      mazecopy[row][col+1] = "visited";
+      moveRight = mazeobj.solveMaze(mazeobj,mazecopy,tryright[0],tryright[1]);//mazeobj.tryMove(row,col,'right');
+    }
+
+    //console.log(moveUp,moveDown,moveLeft,moveRight);
+    if(!!moveUp || !!moveDown || !!moveLeft || !!moveRight){
+      return true;
+    }
+  }
+  console.log("reached end of function returning false");
+  return false;
+
+
+}
+
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  var mazeobj = this;
+  var mymaze = this.maze;
+  try{
+    var start = mazeobj.getStartPosition();
+    //console.log(start);
+  } catch(thrownerror) {
+    //console.log("invalid starting position", thrownerror);
+    return false;
+  }
+  var mazecpy = new MazeCopy(mymaze);
+
+  return mazeobj.solveMaze(mazeobj,mazecpy,start[0],start[1]);
+
+
+
+
 }

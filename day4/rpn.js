@@ -43,6 +43,21 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var nums = [];
+  var arr = rpnString.split(' ')
+  var i = 0;
+  while (i< arr.length){
+    if(arr[i] is operand){
+      var x = nums.pop();
+      var y = nums.pop();
+
+      //if x or y are undefined (if there werent enough numebrs on the stack)
+      if(!x || !y){
+        throw "Not enough numbers"
+      }
+      nums.push(operation[ops](x,y))
+    }
+  }
 }
 
 // This function returns true if given string represents a valid number.

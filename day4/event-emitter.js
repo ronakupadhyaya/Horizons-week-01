@@ -35,7 +35,9 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {
+
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +55,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if(!this.listeners.hasOwnProperty(eventName)){
+    this.listeners[eventName] = [fn];
+  }else {
+    this.listeners[eventName].push(fn)
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -71,6 +78,10 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var funcs = this.listeners[eventName];
+  for (var i = 0; i < funcs.length; i++) {
+    funcs[i](arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -88,9 +99,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var i = this.listeners[eventName].indexOf(fn);
+  if(i!=-1){
+    this.listeners[eventName].splice(i,1);
+  }
+
 }
 
-// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// *Bonus*: Takes IN a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
@@ -104,4 +120,24 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var realthis = this;
+  var modifiedfn = function(){
+    var called = false;
+    if (!called){
+      fn();
+      called = true;
+      realthis.removeListener(eventName,modifiedfn);
+    }
+  }
+  this.on(eventName,modifiedfn);
+
+  //console.log(this.listeners[eventName]);
+  // var i = this.listeners[eventName].indexOf(fn);
+  // if(i!=-1){
+  //   var callme = this.listeners[eventName].splice(i,1);
+  //   console.log(callme);
+  //   callme[0]();
+  //   return callme;
+  // }
+
 }

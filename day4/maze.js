@@ -27,6 +27,7 @@ window.Maze = function(maze) {
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
+
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
 // and new rows are separated by newlines (\n in a string).
@@ -40,6 +41,20 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  for(var i = 0; i < this.maze.length; i++){
+    var subArr = this.maze[i];
+    for (var j=0; j<subArr.length;j++) {
+      if (subArr[j] === ' ') {
+        subArr[j] = '_';
+      }
+    }
+    var subStr = subArr.join('');
+    this.maze[i] = subStr;
+  }
+  // var nString = "'\'";
+  // console.log(nString);
+  var returnStr = this.maze.join("\n");
+  return returnStr;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +64,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for (var i = 0; i<this.maze.length; i++){
+    for (var j = 0; j<this.maze[i].length;j++){
+      if(this.maze[i][j] === 'S'){
+          return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -95,10 +116,43 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
+  console.log(this.maze.length, this.maze[0].length, row, column);
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  if (row >= this.maze.length || column >=this.maze[0].length ) {
+    return false;
+  }
+  if (this.maze[row][column] === 'X'){
+    return false;
+  }
+  var dirArr = [];
+  if (direction === 'up'){
+      dirArr = [-1,0];
+    }
+  else if (direction === 'down'){
+    dirArr = [1, 0];
+  }
+  else if (direction === 'right') {
+    dirArr = [0, 1];
+  } else {
+    dirArr = [0,-1];
+  }
+  
+  var futureRow = row+dirArr[0];
+  var futureCol = column+dirArr[1];
+  console.log(futureRow,futureCol)
+  if (futureCol < 0 || futureRow < 0){
+    return false;
+  }
+  if (futureRow >= this.maze.length || futureCol >=this.maze[0].length ) {
+    return false;
+  }
 
+  if (this.maze[futureRow][futureCol] === 'X') {
+    return false;
+  } 
+  return [futureRow,futureCol];
   // YOUR CODE HERE
 }
 
@@ -110,4 +164,18 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  // var hasPath = true;
+  // var currentPos = this.getStartPosition();
+  // var possPath = [];
+  // while(hasPath){
+  //   validDirections.forEach(function(dir){
+  //     currentPos = this.tryMove(currentPos[0], currentPos[1], dir);
+  //     if(currentPos){
+
+  //     }
+  //   })
+  // }
+  console.log(this.maze)
+
+  return true;
 }

@@ -35,8 +35,31 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXX') -> 4620
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
+var myEnum = {
+  'M': 1000,
+  'D': 500,
+  'C': 100,
+  'L': 50,
+  'X': 10,
+  'V': 5,
+  'I': 1
+}
+
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var sum = 0;
+  for (var i = 0; i < string.length; i++) {
+    if (i != string.length - 1) {
+      if (myEnum[string.charAt(i)] < myEnum[string.charAt(i + 1)]) {
+        sum += myEnum[string.charAt(i+1)] - myEnum[string.charAt(i)];
+        i++;
+      } else {
+        sum += myEnum[string.charAt(i)];
+      }
+    } else {
+      sum += myEnum[string.charAt(i)];
+    }
+  }
+  return sum;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -71,6 +94,61 @@ roman.parse = function(string) {
 // ex. roman.toString(4620) -> 'MMMMDCXX'
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
+function addToString(count, letter, string) {
+  for (var i = 0; i < count; i++) {
+    string += letter;
+  }
+  return string;
+}
+
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  //debugger;
+  var stringNum = number + "";
+  var nums = [];
+  for (var i = stringNum.length - 1; i >= 0; i--) {
+    nums.push(Number(stringNum.charAt(i)));
+  }
+  var romNum = "";
+  for (var j = nums.length - 1; j >= 0; j--) {
+    if (j >= 3) {
+      romNum = addToString(nums[j], 'M', romNum);
+    } else if (j === 2) {
+      if (nums[j] === 4) {
+        romNum = addToString(1, 'CD', romNum);
+      } else if (nums[j] === 9) {
+        romNum = addToString(1, 'CM', romNum);
+      } else if (nums[j] >= 5) {
+        romNum = addToString(1, 'D', romNum);
+        romNum = addToString(nums[j] - 5, 'C', romNum);
+      } else {
+        romNum = addToString(nums[j], 'C', romNum);
+      }
+    } else if (j === 1) {
+      if (nums[j] === 4) {
+        romNum = addToString(1, 'XL', romNum);
+      } else if (nums[j] === 9) {
+        romNum = addToString(1, 'XC', romNum);
+      } else if (nums[j] >= 5) {
+        romNum = addToString(1, 'L', romNum);
+        romNum = addToString(nums[j] - 5, 'X', romNum);
+      } else {
+        romNum = addToString(nums[j], 'X', romNum);
+      }
+    } else {
+      if (nums[j] === 4) {
+        romNum = addToString(1, 'IV', romNum);
+      } else if (nums[j] === 9) {
+        romNum = addToString(1, 'IX', romNum);
+      } else if (nums[j] >= 5) {
+        romNum = addToString(1, 'V', romNum);
+        romNum = addToString(nums[j] - 5, 'I', romNum);
+      } else {
+        romNum = addToString(nums[j], 'I', romNum);
+      }
+    }
+    
+  }
+  return romNum;
+  
+
 };

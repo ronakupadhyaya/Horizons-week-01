@@ -22,7 +22,6 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
   this.maze = maze;
 }
 
@@ -39,9 +38,30 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  // this.maze
+  var returnArray = [];
+  var test = this.maze.slice();
+  for (var i = 0; i < test.length; i++) {
+    for (var j = 0; j < test[i].length; j++) {
+      if(test[i][j] === " ") {
+        test[i][j] = "_";
+      }
+    }
+  }
+  //console.log(test);
+  var strtest = test.join("\n");
+  //console.log(strtest);
+  var test = strtest.split(',');
+  //console.log(test);
+  return test.join('')
+
+
+  //return arr.join('')
+  // Hint: See Array.prototype.join()
+
+
 }
+
 
 // Return the coordinates of the starting position of the current maze.
 //
@@ -49,9 +69,24 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
 
-  throw new Error("Maze has no starting point");
+  var test = this.maze.slice();
+  var xIndex;
+  var yIndex;
+  for( var i = 0; i < test.length; i++) {
+    for (var j = 0; j < test[i].length; j++) {
+      if(test[i][j] === 'S') {
+        xIndex = i;
+        yIndex = j;
+      }
+    }
+  }
+  if(typeof xIndex !== "number"){
+    throw new Error("Maze has no starting point");
+  }
+
+  return [xIndex,yIndex];
+
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -63,9 +98,9 @@ Maze.prototype.getStartPosition = function() {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.
@@ -99,8 +134,25 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var test = this.maze.slice();
+  // console.log(this.maze);
+  if(row >= test.length || row < 0 || column >= test[0].length || column < 0){
+    //console.log('break here');
+    return false;
+  }
 
-  // YOUR CODE HERE
+  ///ways to move left
+  if(direction === 'left' && column > 0 && test[row][column-1] !== 'X'){
+    return [row, column-1];
+  } else if(direction === 'right' && column < test[0].length-1 && test[row][column+1] !== 'X'){
+    return [row, column+1];
+  } else if(direction === 'up' && row > 0 && test[row-1][column] !== 'X'){
+    return [row-1, column];
+  } else if (direction === 'down' && row < test.length-1 && test[row+1][column] !=='X'){
+    return [row+1, column];
+  } else{
+    return false;
+  }
 }
 
 // Bonus!
@@ -110,5 +162,5 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+
 }

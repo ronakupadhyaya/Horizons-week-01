@@ -42,12 +42,11 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  debugger;
   var stack = [];
   var splitter = rpnString.split(" ");
   //console.log(splitter);
   if(splitter.length === 1 && isNumberString(splitter[0])){ //checks if singular number
-    return 0;
+    return parseFloat(splitter[0]);
   }
   if(splitter.length === 1 && !isNumberString(splitter[0])){
     throw "Error";
@@ -55,20 +54,40 @@ window.rpnCalculator = function(rpnString) {
   if(splitter.length === 2){
     throw "Error";
   }
+  var numCount = 0;
+  var opCount = 0;
+  splitter.forEach(function(val){
+    if(isNumberString(val)){
+      numCount ++;
+    } else{
+      opCount ++;
+    }
+  });
+  if(numCount-1 !== opCount){
+    throw "Error";
+  }
 
   for (var i = 0; i < splitter.length; i++) {
     if(isNumberString(splitter[i])) {
-      stack.push(parseInt(splitter[i]));
+      stack.push(parseFloat(splitter[i]));
     } else{
-      var lastItem = stack.pop();
       var lastItem2 = stack.pop();
+      var lastItem = stack.pop();
       if(splitter[i] === "+"){
-
+        stack.push(lastItem + lastItem2)
       }
-      var returnValue = lastItem + lastItem2;
-
+      if(splitter[i] === "-"){
+        stack.push(lastItem - lastItem2)
+      }
+      if(splitter[i] === "*"){
+        stack.push(lastItem * lastItem2)
+      }
+      if(splitter[i] === "/"){
+        stack.push(lastItem / lastItem2)
+      }
     }
   }
+  return stack[0];
 
 
 }

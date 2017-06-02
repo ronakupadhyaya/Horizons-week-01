@@ -49,9 +49,7 @@ function solveCrossword() {
     throw "error: invalid input";
 
   function isUsable(char, place) {
-    if (char === place || place === '_')
-      return true;
-    return false;
+    return char === place || place === '_';
   }
 
   function doesFit(word, places) {
@@ -67,20 +65,17 @@ function solveCrossword() {
   var cw = arguments[1];
 
   if (word.length > cw[0].length && word.length > cw.length) {
-    console.log("f bc length")
     return false;
   }
   //check left-right
   //iterate over array
   for (var a = 0; a < cw.length; a++) {
-    var row = cw[a];
-    var newRow = row.split(" ");
-    row = newRow.join("");
+    var row = cw[a].split(" ").join("");
     //iterate over row
     for (var r = 0; r < row.length; r++) {
-      var place = row.substring(r, r+word.length);
+      var place = row.substring(r, r + word.length);
       var test = doesFit(word, place);
-      var next = r+word.length === row.length || row[r+word.length+1] === "#";
+      var next = r + word.length === row.length || row[r + word.length + 1] === "#";
       var prev = r === 0 || row[r-1] === "#";
       if (test && next && prev) {
         return true;
@@ -92,7 +87,7 @@ function solveCrossword() {
   for (c = 0; c < cw[0].length; c++) {
     var col = [];
     //iterate over array to get column
-    for (var a = 0; a<cw.length; a++) {
+    for (var a = 0; a < cw.length; a++) {
       col.push(cw[a][c]);
     }
     var place = col.join("");
@@ -101,6 +96,5 @@ function solveCrossword() {
     }
 
   }
-
   return false;
 }

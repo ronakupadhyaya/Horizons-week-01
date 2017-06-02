@@ -36,8 +36,10 @@ window.prototypes = {};
 prototypes.allKeys = function(obj){
   var a = [];
   while (obj.__proto__ !== null) {
-    _.map(obj, function (val, key) {
-      if (a.indexOf(key) < 0) a.push(key);
+    _.forEach(obj, function (val, key) {
+      if (a.indexOf(key) < 0) {
+        a.push(key);
+      }
     });
     obj = obj.__proto__;
   }
@@ -54,7 +56,7 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   var a = [];
-  _.map(obj, function (val, key) {
+  _.forEach(obj, function (val, key) {
     a.push(key);
   });
   return a;

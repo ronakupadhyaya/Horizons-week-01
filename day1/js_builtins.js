@@ -52,7 +52,7 @@ builtins.search = function(sourceString, searchString) {
   	return true;
   }
 
-  return sourceString.indexOf(searchString) != -1;
+  return sourceString.indexOf(searchString) !== -1;
 };
 
 // ----------------------------------------------------------------------------
@@ -205,12 +205,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   var flat = [];
-  for (var i = 0; i < arr.length; i++) {
-  	var inner = arr[i];
-  	for (var j = 0; j < inner.length; j++) {
-  		flat.push(inner[j]);
-  	}
-  }
+  arr.forEach(function(subArray) {
+    subArray.forEach(function(el) {
+      flat.push(el);
+    })
+  });
   return flat;
 };
 

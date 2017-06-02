@@ -14,9 +14,7 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  console.log("running");
   return function fn(attempt){ 
-    console.log(attempt);
     return (password === attempt);
   }
 }
@@ -26,10 +24,8 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
-    
     login: function(attempt) {
-      var check = vault(password);
-      return check(attempt);
+      return vault(password)(attempt);
     }
   }
 }
@@ -87,8 +83,7 @@ var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
   var ans = null;
   return function() {
-    
-    if (! called) { // if f hasn't been called yet
+    if (!called) { // if f hasn't been called yet
       ans = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
@@ -132,16 +127,9 @@ var functionFactory = function(num1, num2) {
   var functionArray = [];
   var num = num1;
   for (var i = 0; i <= num2 - num1; i++) {
-  //   functionArray[i] = (function(y) {
-  //     return function() {
-  //       console.log(i);
-  //       return y;
-  //     }
-  //   }) (i);
     functionArray[i] = createFunction(num1 + i);
   }
 
-  
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

@@ -69,8 +69,6 @@ grades.majorWithHighestGPA = function(data) {
   	return grades.average(Object.values(_.mapObject(value, grades.getGPA)));
   });
 
-  console.log(groupedGrades);
-
   var maxGPA = 0;
   var GPAName = "";
   _.forEach(groupedGrades, function(value, key) {
@@ -79,7 +77,6 @@ grades.majorWithHighestGPA = function(data) {
   		GPAName = key;
   	}
   });
-
   return GPAName;
 };
 
@@ -97,6 +94,6 @@ grades.avgGPAPerClass = function(data) {
   	class2Grades += value.grades.class2;
   });
 
-  return { "class1": class1Grades / data.length, "class2" : class2Grades / data.length};
+  return {"class1": class1Grades / data.length, "class2" : class2Grades / data.length};
 
 };

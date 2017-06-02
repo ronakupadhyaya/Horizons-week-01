@@ -226,11 +226,7 @@ window.rankPokerHand = function(hand1, hand2) {
    }
 
    if (val1 == 0) {
-   		console.log("i'm here");
    		for (var j = nums1.length - 1; j >= 0; j--) {
-   	 		console.log(j);
-   	 		console.log(nums1[j]);
-   	 		console.log(nums2[j]);
    	 		if (nums1[j] > nums2[j]) {
    	 			return 1;
    	 		}
@@ -263,10 +259,7 @@ window.rankPokerHand = function(hand1, hand2) {
    	 	var highPair2 = 0;
    	 	var pairs1 = getAllIndexes(dups1[1], 2);
    	 	var pairs2 = getAllIndexes(dups2[1], 2);
-   	 	console.log(pairs1);
-   	 	console.log(pairs2);
    	 	for (var i = pairs1.length - 1; i >= 0; i--) {
-   	 		console.log(pairs1[i]>pairs2[i]);
    	 		if (pairs1[i]<pairs2[i]) {
    	 			return 1;
    	 		}

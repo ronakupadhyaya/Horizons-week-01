@@ -36,7 +36,37 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var tot = 0;
+  var add = {
+  	M: 1000,
+  	D: 500,
+  	C: 100,
+  	L: 50,
+  	X: 10,
+  	V: 5,
+  	I: 1
+  };
+
+  var sub = {
+  	CM: -200,
+  	CD: -200,
+  	XL: -20,
+  	IX: -2,
+  	IV: -2
+  };
+
+  for (var i = 0; i < string.length; i++) {
+  	tot += add[string[i]];
+  }
+
+  for (var i = 0; i < string.length - 1; i++) {
+  	var c = sub[string.substring(i, i + 2)];
+  	if (c) {
+  		tot += c;
+  	}
+  }
+
+  return tot;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +102,5 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  
 };

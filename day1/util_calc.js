@@ -106,7 +106,6 @@ var i = 0;
 // console.log("Plus ", arr.indexOf('+'));
 // console.log("Minus ", arr.indexOf('-'));
 // console.log("Condition", arr.indexOf('+') != -1 || arr.indexOf('-') != -1);
-console.log(arr);
 
 while (arr.indexOf('sqrt') != -1) {
 	if (arr[i] == 'sqrt'){
@@ -116,31 +115,24 @@ while (arr.indexOf('sqrt') != -1) {
 		i = 0;
 	}
 	i += 1;
-	console.log(arr);
-}
-while (arr.indexOf('*') != -1 || arr.indexOf('/') != -1) {
-	if (arr[i] == '*' || arr[i] == '/'){
-		var op = arr[i];
-		var fir = arr[i - 1];
-		var sec = arr[i + 1];
-		arr.splice(i - 1, 3, operation[op](fir, sec));
-		i = 0;
-	}
-	i += 1;
-	console.log(arr);
 }
 
-i = 0;
-while (arr.indexOf('+') != -1 || arr.indexOf('-') != -1){
-	if (arr[i] == '+' || arr[i] == '-'){
-		var op = arr[i];
-		var fir = arr[i - 1];
-		var sec = arr[i + 1];
-		arr.splice(i - 1, 3, operation[op](fir, sec));
-		i = 0;
+var splicer = function(arr, op1, op2) {
+	var i = 0;
+	while (arr.indexOf(op1) != -1 || arr.indexOf(op2) != -1) {
+		if (arr[i] == op1 || arr[i] == op2){
+			var op = arr[i];
+			var fir = arr[i - 1];
+			var sec = arr[i + 1];
+			arr.splice(i - 1, 3, operation[op](fir, sec));
+			i = 0;
+		}
+		i += 1;
 	}
-	i += 1;
-	console.log(arr);
 }
-return arr[0] + 1;
+
+splicer(arr, "*", "/");
+splicer(arr, "+", "-");
+
+return arr[0];
 };

@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 // Underscore function functions (aka Functional Underscore)
 //
@@ -153,9 +153,7 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   return function() {
-  	var args = Array.prototype.slice.call(arguments);
-  	console.log(args);
-  	var temp = fun2.apply(null, args);
+  	var temp = fun2.apply(null, arguments);
   	return fun1(temp);
   }
 }
@@ -200,34 +198,21 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  	var args = Array.prototype.slice.call(arguments);
-  	
-  	function recurse(args, val) {
-  		console.log(args, val);
-  		var len = args.length;
-  		if (len === 0) {
-  			console.log("Final",val);
-  			return val;
-  		}
-  		val = args[len - 1](val);
-  		console.log(val);
-  		recurse(args.splice(0, len - 1), val);
-  	}
 
-  	return function() {
-  		//console.log(args);
-  		var len = args.length;
-  		var val = recurse(args.splice(0, len - 1), args[args.length - 1].apply(null, arguments));
-  		return val;
-  		
+  function composeHelper(args, val) {
+    if (args.length === 0) {
+      return val;
+    }
+    val = args.pop()(val);
+    return composeHelper(args, val);
+  }
 
-  		// args.reduce(function(next, curr) {
-  		// 	return next(curr.apply(null, args));
-  		// })
-
-  		// var temp = fun2.apply(null, args);
-  		// return fun1(temp);
-  	}
+  var args = Array.prototype.slice.call(arguments);
+  var last = args.pop();
+  return function() {
+    var val = last.apply(null, arguments);
+    return composeHelper(args, val);
+  }
 }
 
 

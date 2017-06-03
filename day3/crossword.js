@@ -45,6 +45,92 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
+function solveCrossword(word, puzzle) {
   // YOUR CODE HERE
+  puzzle = puzzle.map(function(e) {return e.split(' ');});
+  console.log(puzzle);
+  var numTrue = 0;
+  // check horizontally
+  for (let i = 0; i < puzzle.length; i++) {
+  	for (let k = 0; k <= puzzle[i].length - word.length; k++) {
+  		if (puzzle[i][k] === '#') {
+  			continue;
+  		}
+  		for (let j = 0; j < word.length; j++) {
+  			if (legalPlacement(word[j], [i, k + j], puzzle)) {
+  				numTrue++;
+  			}
+  		}
+  		if (numTrue === word.length) {
+  			console.log('im in')
+  			console.log(k);
+  			console.log(k + word.length);
+  			console.log(puzzle[i].length);
+  			if ((k - 1 < 0 || puzzle[i][k - 1] === '#') && (k + word.length >= puzzle[i].length || puzzle[i][k + word.length] === '#')) {
+  				return true;
+  			}
+
+  		} else {
+  			numTrue = 0;
+  	}
+  	}
+  }
+  // puzzle = transpose(puzzle);
+  // var newpuzzle = [];
+  // for(var i=0;i<puzzle.length;i++){
+  // 	var temp = []
+  // 	for(var j=0;j<puzzle[i].length;j++){
+  // 		temp.push(puzzle[j][i]);
+  // 	}
+  // 	newpuzzle.push(temp);
+  // }
+  // puzzle = newpuzzle;
+  puzzle = transpose(puzzle);
+  var numTrue = 0;
+  // check vertically
+  for (let i = 0; i < puzzle.length; i++) {
+  	for (let k = 0; k <= puzzle[i].length - word.length; k++) {
+  		if (puzzle[i][k] === '#') {
+  			continue;
+  		}
+  		for (let j = 0; j < word.length; j++) {
+  			if (legalPlacement(word[j], [i, k + j], puzzle)) {
+  				numTrue++;
+  			}
+  		}
+  		if (numTrue === word.length) {
+  			console.log('im in')
+  			console.log(k);
+  			console.log(k + word.length);
+  			console.log(puzzle[i].length);
+  			if ((k - 1 < 0 || puzzle[i][k - 1] === '#') && (k + word.length >= puzzle[i].length || puzzle[i][k + word.length] === '#')) {
+  				return true;
+  			}
+
+  		} else {
+  			numTrue = 0;
+  	}
+  	}
+  }
+
+  return false;
+}
+
+// returns true if legal, false otherwise
+function legalPlacement(currLetter, index, puzzle) {
+
+	if (puzzle[index[0]][index[1]] === '#') {
+		return false;
+	} else if (puzzle[index[0]][index[1]] === currLetter) {
+		return true;
+	} else if (puzzle[index[0]][index[1]] === '_') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function transpose(a)
+{
+  return a[0].map(function (_, c) { return a.map(function (r) { return r[c]; }); });
 }

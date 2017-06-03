@@ -29,6 +29,8 @@
     clear: function() {
       this.ctx.fillStyle = "#5873fd";
       this.ctx.fillRect(0, 0, this.width, this.height);
+      this.ctx.fillStyle = '#905010';
+      this.ctx.fillRect(0, 200, this.width, 50)
     },
     drawMessage: function(text) {
       this.ctx.fillStyle = "#000";

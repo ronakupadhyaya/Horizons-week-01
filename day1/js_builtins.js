@@ -218,4 +218,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  var newArr =[];
+  for (var i=0; i<arr.length; i++) {
+    for (var j=0; j<arr[i].length; j++) {
+      newArr.push(arr[i][j])
+    }
+  }
+  return newArr;
 };

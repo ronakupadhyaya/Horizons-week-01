@@ -124,6 +124,7 @@ function partial(fn) {
 //  return (n % 2) === 0;
 // }
 // var isSumEven = composeBasic(isEven, sum);
+// isSumEven(1,1)
 // isSumEven(1, 1) // -> true
 // isSumEven(0, 1) // -> false
 // isSumEven(0, 22) // -> true
@@ -132,7 +133,7 @@ function partial(fn) {
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
   return function composedFn() {
-    return fun1(fun2.apply(null, arguments))
+    return fun1(fun2.apply(null, arguments)) 
   }
 }
 

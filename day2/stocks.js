@@ -157,7 +157,36 @@ stocks.compRanges = function (data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var obj = _.groupBy(data, function(x){
+    return x.ticker;
+  });
+  var comps = _.keys(portfolio);
+  var shares = _.values(portfolio);
+  var shareVals = [];
+
+  for (var key in obj) {
+    if (comps.indexOf(key) != -1) {
+      var arr = obj[key];
+      for (var i = 0; i < arr.length; i++) {
+        var dGivenStr = date.toUTCString();
+        var dTest = new Date(arr[i].time);
+        var dTestStr = dTest.toUTCString();
+        if (dGivenStr === dTestStr) {
+          var price = arr[i].price;
+          var ind = comps.indexOf(arr[i].ticker);
+          var val = shares[ind] * price;
+          shareVals.push(val);
+        }
+      }
+    }
+  }
+
+  var sum =  _.reduce(shareVals, function(a,b) {
+    return a+b;
+  })
+  return sum;
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

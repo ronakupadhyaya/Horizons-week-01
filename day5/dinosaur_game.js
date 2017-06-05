@@ -1,13 +1,9 @@
 "use strict";
 
-
 (function() {
   function Game() {
     this.width = 550;
     this.height = 250;
-
-    this.obstacleWidth = 40;
-    this.obstacleHeight = 20;
 
     this.dinosaurWidth = 25;
     this.dinosaurHeight = 50;
@@ -16,7 +12,14 @@
 
     this.attachTo();
     console.log("Dinosaur game initialized");
-  };
+
+    this.Obstacle = function(x, y, width, height) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+    }
+  }
 
   Game.prototype = {
     attachTo: function() {
@@ -59,12 +62,12 @@
       this.ctx.arc(x, y, 5, 0,2*Math.PI);
       this.ctx.stroke();
     },
-    drawObstacle: function(x, y) {
-      var obs = [this.obstacleWidth, this.obstacleHeight, "#ccc"];
-      this.ctx.fillStyle = obs[2];
-      this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
+    drawObstacle: function(obs) {
+      var color = "#ccc";
+      this.ctx.fillStyle = color;
+      this.ctx.fillRect(obs.x, obs.y - obs.height, obs.width, obs.height);
       this.ctx.beginPath();
-      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.arc(obs.x, obs.y, 5, 0,2*Math.PI);
       this.ctx.stroke();
     },
     onUpArrow: function(fun) {

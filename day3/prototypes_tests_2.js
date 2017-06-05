@@ -2,7 +2,7 @@
 
   describe("Array hasEqualContent", function() {
 
-    it("[3, 2, 1].hasEqualContent([1, 2, 3]) -> true", function() {
+    it("[3, 2, 1].hasEqualContent([1, 2, 3])", function() {
       expect([3, 2, 1].hasEqualContent([1, 2, 3])).toBe(true);
     });
     it("[1, 2, 3].hasEqualContent([1, 2, 3]) -> true", function() {
@@ -21,22 +21,22 @@
 
   describe("Object hasEqualContent", function() {
 
-    it("{a:1, b:2, c:3}.hasEqualContent({a:1, b:2, c:3}) -> true", function() {
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, b:2, c:3} -> true)", function() {
       expect({a:1, b:2, c:3}.hasEqualContent({a:1, b:2, c:3})).toBe(true);
     });
-    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3, b:2}) -> true", function() {
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3, b:2}) -> [] true", function() {
       expect({a:1, b:2, c:3}.hasEqualContent({a:1, c:3, b:2})).toBe(true);
     });
     it("{}.hasEqualContent({}) -> true", function() {
       expect({}.hasEqualContent({})).toBe(true);
     });
-    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3}) -> false", function() {
+    it("{a:1, b:2, c:3}.hasEqualContent({a:1, c:3}) -> [] false", function() {
       expect({a:1, b:2, c:3}.hasEqualContent({a:1, c:3})).toBe(false);
     });
-    it("{a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3}) -> false", function() {
+    it("{a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3}) -> [] false", function() {
       expect({a:3, b:1, c:2}.hasEqualContent({a:1, b:2, c:3})).toBe(false);
     });
-    it("{}.hasEqualContent({a:1, b:2, c:3}) -> false", function() {
+    it("{}.hasEqualContent({a:1, b:2, c:3}) -> [] false", function() {
       expect({}.hasEqualContent({a:1, b:2, c:3})).toBe(false);
     });
 

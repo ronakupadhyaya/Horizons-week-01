@@ -171,85 +171,15 @@ window.MazeCopy = function(maze) {
   this.maze = maze;
 }
 
-Maze.prototype.solveMaze = function(mazeobj,mazeC,row,col){
 
-  if(mazeobj == undefined){
-    console.log("maze is undefined, returning false");
-    return false;
-  }
-  var mymaze = mazeobj.maze;
-  var mazecopy = mazeC.maze;
-  var currentRow = mymaze[row];//[col];
-  if(currentRow){
-    var move = mymaze[row][col]
-    //console.log(move);
-  }
-  //console.log(move);
-  if(move == undefined){
-    //console.log("row and column location doesnt exist");
-    console.log("move is undefined, returning false");
-    return false;
-  }
-  //console.log(mymaze[row][col]);
-  if(move === 'E'){
-    return true;
-  } else if(move === 'X'){
-    console.log("reached a wall, returning false");
-    return false;
-  } else if(move === 'S' || move === ' '){
-    //mark spot as visited
-    mazecopy[row][col] = "visited";
-
-
-    var tryup = mazeobj.tryMove(row,col,'up');
-    //console.log("CHECKING FOR VISITED",mazecopy[row+1][col]);
-
-    if(tryup){// && mazecopy[row-1][col] !== "visited"){
-      console.log("up entered");// was not visit4ed");
-      mazecopy[row-1][col] = "visited";
-      var moveUp,moveDown,moveLeft,moveRight;
-      moveUp = mazeobj.solveMaze(mazeobj,mazecopy,tryup[0],tryup[1]);
-    }
-
-
-    var trydown = mazeobj.tryMove(row,col,'down');
-    if(trydown && mazecopy[row+1][col] !== "visited"){
-      console.log("down was not visit4ed");
-      mazecopy[row+1][col] = "visited";
-      moveDown = mazeobj.solveMaze(mazeobj,mazecopy,trydown[0],trydown[1]);//mazeobj.tryMove(row,col,'down');
-    }
-
-
-    var tryleft = mazeobj.tryMove(row,col,'left');
-    if(tryleft && mazecopy[row][col-1] !== "visited"){
-      console.log("left was not visit4ed");
-      mazecopy[row][col-1] = "visited";
-      moveLeft = mazeobj.solveMaze(mazeobj,mazecopy,tryleft[0],tryleft[1]);//mazeobj.tryMove(row,col,'left');
-    }
-
-
-    var tryright = mazeobj.tryMove(row,col,'right');
-    if(tryright && mazecopy[row][col+1] !== "visited"){
-      console.log("right was not visit4ed");
-      mazecopy[row][col+1] = "visited";
-      moveRight = mazeobj.solveMaze(mazeobj,mazecopy,tryright[0],tryright[1]);//mazeobj.tryMove(row,col,'right');
-    }
-
-    //console.log(moveUp,moveDown,moveLeft,moveRight);
-    if(!!moveUp || !!moveDown || !!moveLeft || !!moveRight){
-      return true;
-    }
-  }
-  console.log("reached end of function returning false");
-  return false;
-
-
-}
 
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
   var mazeobj = this;
   var mymaze = this.maze;
+  var visited =[];
+  var paths = [];
+  var next = [];
   try{
     var start = mazeobj.getStartPosition();
     //console.log(start);
@@ -257,11 +187,134 @@ Maze.prototype.isSolvable = function() {
     //console.log("invalid starting position", thrownerror);
     return false;
   }
-  var mazecpy = new MazeCopy(mymaze);
+  next.push(start);
+  while(next.length>0){
+    var current = next.pop();
+    visited.push(current.toString());
+    //console.log(visited);
+    var currentPosition = mymaze[current[0]][current[1]];
+    if(currentPosition === 'E'){
+      paths.push(1);
+      return true;
+    }else if(currentPosition == 'X'){
+      continue;
+    }
 
-  return mazeobj.solveMaze(mazeobj,mazecpy,start[0],start[1]);
+    var tryup = mazeobj.tryMove(current[0],current[1],'up');
+    //console.log();
+    if(!! tryup && visited.indexOf(tryup.toString())===-1){
+      console.log(tryup);
+      next.push(tryup);
+    }
+    var trydown = mazeobj.tryMove(current[0],current[1],'down');
+    if(!!trydown && visited.indexOf(trydown.toString())===-1){
+      next.push(trydown);
+    }
+
+    var tryleft = mazeobj.tryMove(current[0],current[1],'left');
+    if(!!tryleft && visited.indexOf(tryleft.toString())===-1){
+      next.push(tryleft);
+    }
+
+    var tryright = mazeobj.tryMove(current[0],current[1],'right');
+    if(!!tryright && visited.indexOf(tryright.toString())===-1){
+      next.push(tryright);
+    }
+
+  }
+  return false;
+  //var currentPosition = mymaze[start[0]][start[1]];
 
 
-
+  // var mazecpy = new MazeCopy(mymaze);
+  //
+  // return mazeobj.solveMaze(mazeobj,mazecpy,start[0],start[1]);
 
 }
+
+
+// Maze.prototype.isSolvable = function() {
+//   // YOUR CODE HERE
+//   var mazeobj = this;
+//   var mymaze = this.maze;
+//   try{
+//     var start = mazeobj.getStartPosition();
+//     //console.log(start);
+//   } catch(thrownerror) {
+//     //console.log("invalid starting position", thrownerror);
+//     return false;
+//   }
+//   var mazecpy = new MazeCopy(mymaze);
+//
+//   return mazeobj.solveMaze(mazeobj,mazecpy,start[0],start[1]);
+//
+// }
+// if(mazeobj == undefined){
+//   console.log("maze is undefined, returning false");
+//   return false;
+// }
+// var mymaze = mazeobj.maze;
+// var mazecopy = mazeC.maze;
+// var currentRow = mymaze[row];//[col];
+// if(currentRow){
+//   var move = mymaze[row][col]
+//   //console.log(move);
+// }
+// //console.log(move);
+// if(move == undefined){
+//   //console.log("row and column location doesnt exist");
+//   console.log("move is undefined, returning false");
+//   return false;
+// }
+// //console.log(mymaze[row][col]);
+// if(move === 'E'){
+//   return true;
+// } else if(move === 'X'){
+//   console.log("reached a wall, returning false");
+//   return false;
+// } else if(move === 'S' || move === ' '){
+//   //mark spot as visited
+//   mazecopy[row][col] = "visited";
+//
+//
+//   var tryup = mazeobj.tryMove(row,col,'up');
+//   //console.log("CHECKING FOR VISITED",mazecopy[row+1][col]);
+//
+//   if(tryup){// && mazecopy[row-1][col] !== "visited"){
+//     console.log("up entered");// was not visit4ed");
+//     mazecopy[row-1][col] = "visited";
+//     var moveUp,moveDown,moveLeft,moveRight;
+//     moveUp = mazeobj.solveMaze(mazeobj,mazecopy,tryup[0],tryup[1]);
+//   }
+//
+//
+//   var trydown = mazeobj.tryMove(row,col,'down');
+//   if(trydown && mazecopy[row+1][col] !== "visited"){
+//     console.log("down was not visit4ed");
+//     mazecopy[row+1][col] = "visited";
+//     moveDown = mazeobj.solveMaze(mazeobj,mazecopy,trydown[0],trydown[1]);//mazeobj.tryMove(row,col,'down');
+//   }
+//
+//
+//   var tryleft = mazeobj.tryMove(row,col,'left');
+//   if(tryleft && mazecopy[row][col-1] !== "visited"){
+//     console.log("left was not visit4ed");
+//     mazecopy[row][col-1] = "visited";
+//     moveLeft = mazeobj.solveMaze(mazeobj,mazecopy,tryleft[0],tryleft[1]);//mazeobj.tryMove(row,col,'left');
+//   }
+//
+//
+//   var tryright = mazeobj.tryMove(row,col,'right');
+//   if(tryright && mazecopy[row][col+1] !== "visited"){
+//     console.log("right was not visit4ed");
+//     mazecopy[row][col+1] = "visited";
+//     moveRight = mazeobj.solveMaze(mazeobj,mazecopy,tryright[0],tryright[1]);//mazeobj.tryMove(row,col,'right');
+//   }
+//
+//   //console.log(moveUp,moveDown,moveLeft,moveRight);
+//   if(!!moveUp || !!moveDown || !!moveLeft || !!moveRight){
+//     return true;
+//   }
+// }
+// console.log("reached end of function returning false");
+// return false;

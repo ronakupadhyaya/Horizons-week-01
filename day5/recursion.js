@@ -25,7 +25,6 @@ recursion.sum = function(number) {
   if (number === 1) {
     return 1;
   }
-
   // Recursive case
   return number + recursion.sum(number - 1);
 }
@@ -68,6 +67,10 @@ recursion.sum = function(number) {
 // ex. factorial(17) -> 355687428096000
 recursion.factorial = function(number) {
   // WRITE CODE HERE
+  if(number === 0){
+    return 1;
+  }
+  return number* recursion.factorial(number-1);
 }
 
 // Exercise 2:
@@ -91,4 +94,32 @@ recursion.factorial = function(number) {
 // ex. fibonacci(80) -> 23416728348467685
 recursion.fibonacci = function(number) {
   // YOUR CODE HERE
+  if(number === 0 || number === 1){
+    return number;
+  }
+
+  return recursion.fibonacci(number-1) + recursion.fibonacci(number-2)
+
+}
+
+
+recursion.memoize = function(number) {
+  var called = false;
+  var pastArgs = {}
+
+  var memoizedFib = function(number){
+    if(!pastArgs.hasOwnProperty(number)){
+      if(number === 0 || number === 1){
+        pastArgs[number] = number;
+        return number;
+      }
+      var result = memoizedFib.call(null,number-1) + memoizedFib.call(null,number-2);
+      pastArgs[number] = result;
+      return result;
+
+    }
+    return pastArgs[number];
+  }
+  console.log(pastArgs);
+  return memoizedFib(number);
 }

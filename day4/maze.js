@@ -150,7 +150,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
-  debugger;
   var start = this.getStartPosition();
   var positions = [];
   for (var i = 0; i < this.maze.length; i++) {

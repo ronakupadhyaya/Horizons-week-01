@@ -3,14 +3,14 @@
 
 (function() {
   function Game() {
-    this.width = 550;
-    this.height = 250;
+    this.width = 1000;
+    this.height = 500;
 
     this.obstacleWidth = 40;
     this.obstacleHeight = 20;
 
-    this.dinosaurWidth = 25;
-    this.dinosaurHeight = 50;
+    this.dinosaurWidth = 75;
+    this.dinosaurHeight = 125;
 
     this.canvasId = "dinosaur-panel";
 
@@ -27,8 +27,7 @@
       this.cv.height = this.height;
     },
     clear: function() {
-      this.ctx.fillStyle = "#5873fd";
-      this.ctx.fillRect(0, 0, this.width, this.height);
+      this.ctx.clearRect(0, 0, this.width, this.height);
     },
     drawMessage: function(text) {
       this.ctx.fillStyle = "#000";
@@ -51,13 +50,21 @@
       this.ctx.lineTo(xp, yp);
       this.ctx.stroke();
     },
-    drawDinosaur: function(x, y) {
+    drawP1: function(x, y) {
       var dino = [this.dinosaurWidth, this.dinosaurHeight, "#e44e44"];
       this.ctx.fillStyle = dino[2];
       var base_img = new Image();
-      base_img.src = 'img/Drocket.png'
-      //var img = document.getElementById("face");
-      //this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
+      base_img.src = 'img/drocket.png'
+      this.ctx.drawImage(base_img,x, y - dino[1], dino[0], dino[1] )
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, 5, 0,2*Math.PI);
+      this.ctx.stroke();
+    },
+    drawP2: function(x, y) {
+      var dino = [this.dinosaurWidth, this.dinosaurHeight, "#e44e44"];
+      this.ctx.fillStyle = dino[2];
+      var base_img = new Image();
+      base_img.src = 'img/Arocket.png'
       this.ctx.drawImage(base_img,x, y - dino[1], dino[0], dino[1] )
       this.ctx.beginPath();
       this.ctx.arc(x, y, 5, 0,2*Math.PI);
@@ -71,9 +78,116 @@
       this.ctx.arc(x, y, 5, 0,2*Math.PI);
       this.ctx.stroke();
     },
-    onUpArrow: function(fun) {
+    onW: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 87 || evt.keyCode === 87) {
+          fun();
+        }
+      });
+    },
+    onA: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 65 || evt.keyCode === 65) {
+          fun();
+        }
+      });
+    },
+    onS: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 83 || evt.keyCode === 83) {
+          fun();
+        }
+      });
+    },
+    onD: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 68 || evt.keyCode === 68) {
+          fun();
+        }
+      });
+    },
+
+    onUp: function(fun) {
       window.addEventListener('keydown', function(evt) {
         if (evt.which === 38 || evt.keyCode === 38) {
+          fun();
+        }
+      });
+    },
+    onDown: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 40 || evt.keyCode === 40) {
+          fun();
+        }
+      });
+    },
+    onLeft: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 37 || evt.keyCode === 37) {
+          fun();
+        }
+      });
+    },
+    onRight: function(fun) {
+      window.addEventListener('keydown', function(evt) {
+        if (evt.which === 39 || evt.keyCode === 39) {
+          fun();
+        }
+      });
+    },
+    upW: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 87 || evt.keyCode === 87) {
+          fun();
+        }
+      });
+    },
+    upA: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 65 || evt.keyCode === 65) {
+          fun();
+        }
+      });
+    },
+    upS: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 83 || evt.keyCode === 83) {
+          fun();
+        }
+      });
+    },
+    upD: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 68 || evt.keyCode === 68) {
+          fun();
+        }
+      });
+    },
+
+    upUp: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 38 || evt.keyCode === 38) {
+          fun();
+        }
+      });
+    },
+    upDown: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 40 || evt.keyCode === 40) {
+          fun();
+        }
+      });
+    },
+    upLeft: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 37 || evt.keyCode === 37) {
+          fun();
+        }
+      });
+    },
+    upRight: function(fun) {
+      window.addEventListener('keyup', function(evt) {
+        if (evt.which === 39 || evt.keyCode === 39) {
           fun();
         }
       });

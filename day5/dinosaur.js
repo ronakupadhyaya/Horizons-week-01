@@ -4,77 +4,125 @@
 // Wait till the game is ready to run.
 game.onReady(function() {
   var obstacleX = 450;
-  var obstacleY = game.height*.8;
-  var dinosaurY = 200;
-  var dinosaurX = 100;
-  var dinosaurVelocity = 0;
-  var lastTimestamp = 0;
+  var obstacleY = 100;
+  var p1X = 200;
+  var p1Y = 100;
+  var p2X = 400;
+  var p2Y = 200;
+  var p1XVel = 0;
+  var p1YVel = 0;
+  var p2XVel = 0;
+  var p2YVel = 0;
   var score = 0;
-  var lost = false;
-  var highScore = game.getHighScore();
-  var interval = setInterval(eventLoop, 100);
-  var gid = requestAnimationFrame(step);
-  var framRate = 0;
-  function step(timestamp) {
-    if (lastTimestamp == 0) {
-      lastTimestamp = timestamp;
-    }
-  }
-  function eventLoop() {
-    //frameRate = 0;
-    if (dinosaurX < obstacleX + game.obstacleWidth &&
-   dinosaurX + game.dinosaurHeight > obstacleX &&
-   dinosaurY < obstacleY + game.obstacleHeight &&
-   game.dinosaurWidth + dinosaurY > obstacleY){
-    // if (obstacleX === dinosaurX && dinosaurY === obstacleY){
-    //   console.log('lose');
-      game.drawMessage('You lose :(. Press Up to Restart');
-      lost = true;
-      clearInterval(interval);
-      return;
-    }
-    if (obstacleX === 0){
-      obstacleX = game.width;
-    }else{
-      obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
-    }
-    if (dinosaurY < 100){
-      dinosaurVelocity = -10;
-    }
-    if (dinosaurY > 200){
-      dinosaurVelocity = 0;
-      dinosaurY = 200;
-    }else{
-      dinosaurY = dinosaurY - dinosaurVelocity;
-    }
-    if (dinosaurY<200){
-      dinosaurVelocity--;
-    }
-    if (score > highScore){
-      highScore = score;
-      game.saveHighScore(highScore);
-    }
-    score++;
-    game.clear();
-    game.drawDinosaur(dinosaurX, dinosaurY)
-    game.drawObstacle(obstacleX, obstacleY);
-    game.drawScore(score);
-    game.drawHighScore(highScore);
-    //window.requestAnimationFrame(eventLoop);
-    game.onUpArrow(function() {
-      if (!lost){
-        dinosaurVelocity = 10
-      }else{
-        score = 0;
-        dinosaurVelocity = 0;
-        obstacleX = 450;
-        dinosaurY = 200;
-        lost = false;
-        interval = setInterval(eventLoop, 100);
-        //window.requestAnimationFrame(eventLoop);
-      }
+  var interval;
+  var previousCounter = 0;
+  var counter = 0;
 
-    });
+  function eventLoop() {
+    score++;
+    obstacleX = obstacleX - 10; // move obstacle 10 pixels leftmost
+    game.clear();
+    p1Y = p1Y - p1YVel;
+    p1X = p1X - p1XVel;
+    p2Y = p2Y - p2YVel;
+    p2X = p2X - p2XVel;
+    game.drawP1(p1X, p1Y);
+    game.drawP2(p2X, p2Y);
+    //game.drawDinosaur(dinosaurX + 10, dinosaurY + 10);
+    game.drawObstacle(obstacleX, obstacleY);
+    //game.drawObstacle(obstacleX + 25, obstacleY + 25);
+    //game.drawMessage("Your actions per minute are: " + previousCounter);
+    if (obstacleX === 0) {
+      obstacleX = game.width;
+    }
+
+    if (dinosaurX < obstacleX + game.obstacleWidth &&
+      dinosaurX + game.dinosaurHeight > obstacleX &&
+      dinosaurY < obstacleY + game.obstacleHeight + 100 &&
+      game.dinosaurWidth + dinosaurY > obstacleY){
+      console.log("hello");
+    }
+
+    //console.log(dinosaurX)
+    //console.log(obstacleX)
+    // if ((dinosaurX < obstacleX && dinosaurX + game.dinosaurWidth > obstacleX) ||
+    //     (dinosaurX < obstacleX + game.obstacleWidth && dinosaurX + game.dinosaurWidth > obstacleX)) {
+    //   console.log("hello");
+    // }
   }
-  //window.requestAnimationFrame(eventLoop);
+
+  // function apm() {
+  //   previousCounter = counter * 30;
+  //   counter = 0;
+  // }
+  interval = setInterval(eventLoop, 1e2);
+
+  //var apmTab = setInterval(apm, 2000);
+
+
+  game.onW(function() {
+    p1YVel = 20;
+  });
+
+  game.onS(function() {
+    p1YVel = -20;
+  });
+
+  game.onA(function() {
+    p1XVel = 20;
+  });
+
+  game.onD(function() {
+    p1XVel = -20;
+  });
+
+  game.onUp(function() {
+    p2YVel = 20;
+  });
+
+  game.onDown(function() {
+    p2YVel = -20;
+  });
+
+  game.onLeft(function() {
+    p2XVel = 20;
+  });
+
+  game.onRight(function() {
+    p2XVel = -20;
+  });
+
+///
+  game.upW(function() {
+    p1YVel = 0;
+  });
+
+  game.upS(function() {
+    p1YVel = 0;
+  });
+
+  game.upA(function() {
+    p1XVel = 0;
+  });
+
+  game.upD(function() {
+    p1XVel = 0;
+  });
+
+  game.upUp(function() {
+    p2YVel = 0;
+  });
+
+  game.upDown(function() {
+    p2YVel = 0;
+  });
+
+  game.upLeft(function() {
+    p2XVel = 0;
+  });
+
+  game.upRight(function() {
+    p2XVel = 0;
+  });
+
 });

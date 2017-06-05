@@ -119,7 +119,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn(){
+    var argsInital = Object.values(arguments)
+    var first = fun2.apply(this, argsInital)
+    return fun1.call(this, first)
+  }
 }
 
 
@@ -162,5 +166,14 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var funcs = Object.values(arguments);
+  var first;
+  return function composedFn(){
+    var argsInital = Object.values(arguments);
+    first = funcs[funcs.length -1].apply(this, argsInital);
+    for (var i = funcs.length -2; i >= 0; i--){
+      first = funcs[i].call(this, first);
+    }
+    return first;
+  }
 }

@@ -142,24 +142,45 @@ Maze.prototype.isSolvable = function() {
   //starting position
   var curr = this.getStartPosition();
   var self = this;
+  var marked = [];
+
   return (function recurse(row, col) {
+    debugger;
+    var move = [];
     if(self.maze[row][col] === "E") {
       return true;
     }
+    if (marked.indexOf[row, col] > -1) {
+      return false;
+    } else {
+      marked.push([row, col]);
+    }
     if (self.tryMove(row, col, "up")) {
-      var move = self.tryMove(row, col, "up");
+      if(marked.indexOf[row-1, col] > -1) {
+        return false;
+      }
+      move = self.tryMove(row, col, "up");
       return recurse(move[0], move[1]);
     }
     if (self.tryMove(row, col, "down")) {
-      var move = self.tryMove(row, col, "down");
+      if(marked.indexOf[row+1, col] > -1) {
+        return false;
+      }
+      move = self.tryMove(row, col, "down");
       return recurse(move[0], move[1]);
     }
     if (self.tryMove(row, col, "left")) {
-      var move = self.tryMove(row, col, "left");
+      if(marked.indexOf[row, col-1] > -1) {
+        return false;
+      }
+      move = self.tryMove(row, col, "left");
       return recurse(move[0], move[1]);
     }
     if (self.tryMove(row, col, "right")) {
-      var move = self.tryMove(row, col, "right");
+      if(marked.indexOf[row, col+1] > -1) {
+        return false;
+      }
+      move = self.tryMove(row, col, "right");
       return recurse(move[0], move[1]);
     }
     return false;

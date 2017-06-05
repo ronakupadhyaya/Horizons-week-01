@@ -85,6 +85,16 @@
     },
     clearHighScore: function() {
       localStorage.removeItem('dinosaurHiScore');
+    },
+    isCollision: function(dinoX, dinoY, obsX, obsY) {
+      if (dinoX < obsX + this.obstacleWidth &&
+          dinoX + this.dinosaurWidth > obsX &&
+          dinoY < obsY + this.obstacleHeight &&
+          this.dinosaurHeight + dinoY > obsY) {
+        return true;
+      }
+      return false;
+    // collision detected!
     }
   };
 

@@ -45,6 +45,23 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, crossword) {
+
+  // Turn crossword into a 2D array
+  crossword = crossword.map(function(e) { return e.split(" "); });
+
+  for (var row = 0; row < crossword.length; row++) {
+    for (var col = 0; col < row.length - word.length + 1; col++) {
+      if (crossword[row][col] === "#") { continue; }
+      for (var letter = 0; letter < word.length; letter++) {
+        if (crossword[row][col + letter] !== "_" &&
+            crossword[row][col + letter] !== word.charAt(letter)) {
+            break;
+        }
+        if (letter === word.length - 1) return true; // if all letters match
+      }
+    }
+  }
+  return false;
+
 }

@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function (attempt) {
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +28,7 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password)
   }
 }
 
@@ -82,14 +82,17 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
+  var ret;
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      ret = f.apply(null,arguments); // call f, if you don't know how many arg are there
       called = true; // mark f as called
     }
+    return ret;
   }
 }
+
 
 // ex. 1.3
 // functionFactory takes in two numbers (num1, num2)
@@ -115,14 +118,45 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+
+var functionThatReturnsMeI = function(y) {
+  return function() {
+    return y;
+  }
+}
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    // functionArray[index] = (function(i) {
+    //   // function that returns i
+    //   return function() {
+    //     return i;
+    //   }
+    // }(i));
+    functionArray[index] = (function(y) {
+      return function() {
+        return y;
+      }
+    }(i));
+
+
+    （function(y) {
+      return function() {
+          return y;
+      }
+    })(i);
+
+
+
+
+
+    index ++;
   }
+
+ // [func, func, fun]
+
 
   return functionArray;
 }

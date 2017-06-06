@@ -22,6 +22,7 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
+  // TODO throw exception if this is not called with new
   this.maze = maze;
 }
 
@@ -38,9 +39,16 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  return this.maze.map(function(row) {
+    return row.map(function(cell) {
+      if (cell === ' ') {
+        return '_';
+      }
+      return cell;
+    }).join('');
+  }).join('\n');
 }
+
 
 // Return the coordinates of the starting position of the current maze.
 //
@@ -48,8 +56,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  for (var row = 0; row < this.maze.length; row++) {
+    var curRow = this.maze[row];
+    for (var column = 0; column < curRow.length; column++) {
+      if (curRow[column] === 'S') {
+        return [row, column];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -62,9 +76,9 @@ Maze.prototype.getStartPosition = function() {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
+//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
-//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.
@@ -98,16 +112,113 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var rows = this.maze.length;
+  var cols = this.maze[0].length;
 
-  // YOUR CODE HERE
+  function isPositionOnTheBoard() {
+    if (row < 0) {
+      return false;
+    }
+
+    if (column < 0) {
+      return false;
+    }
+
+    if (row >= rows) {
+      return false;
+    }
+
+    if (column >= cols) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if position is on the board before move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  var moves = {
+    up: function() {
+      row--;
+    },
+    down: function() {
+      row++;
+    },
+    left: function() {
+      column--;
+    },
+    right: function() {
+      column++;
+    }
+  }
+  moves[direction](); // make move
+
+  // Check if position is on the board after the move
+  if (! isPositionOnTheBoard()) {
+    return false;
+  }
+
+  // check for walls
+  if (this.maze[row][column] === 'X') {
+    return false;
+  }
+
+  return [row, column];
 }
 
-// Bonus!
+
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var start = this.getStartPosition();
+  var q = [start];
+
+  // making a lookup array to avoid repeats
+  var height = this.maze.length;
+  var width = this.maze[0].length;
+  // [  [S, , , E], [x, x,  , ]    ]
+
+  var lookupMaze = [];
+  for (var i = 0; i < height; i++) {
+    lookupMaze.push(new Array(width).fill(false));
+  }
+
+  var startRow = start[0];
+  var startCol = start[1];
+  lookupMaze[startRow][startCol] = true;
+
+  var currentNode;
+  while(q.length > 0) {
+    currentNode = q.shift();
+    // [row, column];
+    var currentRow = currentNode[0];
+    var currentCol = currentNode[1];
+    var currentLetter = this.maze[currentRow][currentCol];
+
+    if (currentLetter === 'E') {
+      return true;
+    }
+
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var currentDir = Maze.validDirections[i];
+
+      var move = this.tryMove(currentRow, currentCol, currentDir);
+      var moveRow = move[0];
+      var moveCol = move[1];
+
+
+      if (move !== false && !lookupMaze[moveRow][moveCol] ) {
+        q.push(move);
+        lookupMaze[moveRow][moveCol] = true;
+      }
+    }
+  }
+
+  return false;
 }

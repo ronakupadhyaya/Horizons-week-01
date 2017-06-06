@@ -131,7 +131,7 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
   try{
     start = obj.getStartPosition();
-    console.log(start);
+    //console.log(start);
   } catch(thrownerror) {
     console.log("invalid starting position");
     return false;
@@ -173,27 +173,55 @@ Maze.prototype.tryMove = function(row, column, direction) {
 Maze.prototype.isSolvable = function() {
   var mymaze = this.maze;
   var obj = this;
-  var wasHere = (function(){ var i=mymaze.length, arr=[]; while(i--) arr.push([]); return arr })();
+  //var wasHere = (function(){ var i=mymaze.length, arr=[]; while(i--) arr.push([]); return arr })();
   var start = obj.getStartPosition();
   var end = obj.getEndPosition();
-
-  for (var row = 0; row < mymaze.length; row++){
-    wasHere[row].push([]);
-    for (var col = 0; col < mymaze[row][col][0].length; col++){
-      wasHere[row][col].push('_');
-
+  var bfsStack = [];
+  bfsStack.push(obj.getStartPosition());
+  //console.log(obj.getStartPosition());
+  // for (var row = 0; row < mymaze.length; row++){
+  //   wasHere[row].push([]);
+  //   for (var col = 0; col < mymaze[row][col][0].length; col++){
+  //     wasHere[row][col].push('_');
+  //
+  //   }
+  // }
+  this.wasHere = this.maze.map(function(row) {
+    return row.map(_.constant(false));
+  });
+  //console.log(this.wasHere);
+  //console.log(mymaze[row][col][0].length);
+  //console.log(mymaze);
+  //console.log(wasHere);
+  // var recursive = function(a,b){
+  //
+  //
+  //   if (start[0] === end[0] && start[1] === end[1]){
+  //     return true;
+  //   }
+  //   //console.log(start);
+  //   //console.log(end);
+  // }
+  while (bfsStack.length){
+    var s = bfsStack.pop();
+    //console.log(s);
+    //console.log(this.maze[s[0]][s[1]]);
+    var position = this.maze[s[0]][s[1]];
+    if (position === 'X') {
+      throw new Error("Can't move into wall. Position: " + pos);
     }
-  }
-  console.log(mymaze[row][col][0].length);
-  console.log(mymaze);
-  console.log(wasHere);
-  var recursive = function(a,b){
-
-
-    if (start[0] === end[0] && start[1] === end[1]){
+    if (s[0] === obj.getEndPosition()[0] && s[1] === obj.getEndPosition()[1]) {
       return true;
     }
-    //console.log(start);
-    //console.log(end);
+    this.wasHere[s[0]][s[1]]=true;
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var direction = Maze.validDirections[i];
+      //console.log(direction);
+      var updated = this.tryMove(s[0], s[1], direction);
+      if (updated && ! this.wasHere[updated[0]][updated[1]]) {
+        bfsStack.push(updated);
+      }
+    }
   }
+  return false;
 }

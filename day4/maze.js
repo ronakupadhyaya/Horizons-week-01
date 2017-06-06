@@ -21,9 +21,13 @@
 //
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
+
+
 window.Maze = function(maze) {
   this.maze = maze;
 }
+
+
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
 
@@ -152,12 +156,56 @@ Maze.prototype.tryMove = function(row, column, direction) {
   return update;
 }
 
+
 // Bonus!
 // Write a method that returns true if this maze is solvable.
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
+
+
+//BFS ALGORITHM: start with (0,0), repeatedly take smth out of queue, check it,
+//then add neighbors to list
+//also have to mark the space that we've visited so we don't get caught in a neverending cycle
+//when do we know it's solvable? when we encounter E or when the queue is empty
+
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var start = this.getStartPosition();
+  var q = [start];
+
+  //make a lookup array to avoid repeats
+  var height = this.maze.length;
+  var width = this.maze[0].length; //length of each inner array
+  var lookupMaze = [];
+  for (var i = 0; i < height; i++) {
+    lookupMaze.push(new Array(width).fill(false));
+  }
+  lookupMaze[start[0], start[1]] === true;
+
+
+  var currentNode;
+  while (q.length > 0) {
+    currentNode = q.shift(); //[row, column]
+    var currentRow = currentNode[0];
+    var currentCol = currentNode[1];
+    var currentLetter = this.maze[currentRow][currentCol];
+
+    if (currentLetter === 'E')
+      return true;
+
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var currentDir = Maze.validDirections[i];
+
+      var move = this.tryMove(currentRow, currentCol, currentDir);
+
+      if (move && !lookupMaze[move[0], move[1]]) {
+        q.push(move);
+        lookupMaze[move[0], move[1]] === true;
+      }
+    }
+  }
+
+
+  return false;
 }

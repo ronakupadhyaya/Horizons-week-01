@@ -186,8 +186,8 @@ Maze.prototype.isSolvable = function() {
   //
   //   }
   // }
-  this.wasHere = this.maze.map(function(row) {
-    return row.map(_.constant(false));
+  this.wasHere = this.maze.map(function(row) { //More elegant solution: add new key visited to each node
+    return row.map(_.constant(false)); //can also use new Array(this.maze[0].length).fill(false)
   });
   //console.log(this.wasHere);
   //console.log(mymaze[row][col][0].length);
@@ -202,8 +202,8 @@ Maze.prototype.isSolvable = function() {
   //   //console.log(start);
   //   //console.log(end);
   // }
-  while (bfsStack.length){
-    var s = bfsStack.pop();
+  while (bfsStack.length > 0){
+    var s = bfsStack.shift(); //have to change all keys in array, so is expensive
     //console.log(s);
     //console.log(this.maze[s[0]][s[1]]);
     var position = this.maze[s[0]][s[1]];
@@ -225,3 +225,12 @@ Maze.prototype.isSolvable = function() {
   }
   return false;
 }
+
+//look at surrounding nodes
+//first thing: see if its the end, or a wall
+//BFS - starting node in a list, repeatedly take something out of list, check it, and add
+//neighbors to the list
+//Need to add to make sure you havent visited node before
+//
+//DFS - follow a path entire way through, then backtrack to a point where u can make a different decision
+//

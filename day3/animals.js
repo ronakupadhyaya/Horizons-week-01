@@ -9,6 +9,7 @@
 //
 // Do not edit, reorder or delete any of the existing code.
 //
+<<<<<<< HEAD
 (function () {
 function getAnimal() {
   return 'lion';
@@ -19,5 +20,21 @@ window.lion = getAnimal();
 function getAnimal() {
   return 'tiger';
 }
+=======
 
-window.tiger = getAnimal();
+(function x(){
+  function getAnimal() {
+    return 'lion';
+  }
+
+  window.lion = getAnimal()
+}())
+
+(function y() {
+  function getAnimal() {
+    return 'tiger';
+  }
+>>>>>>> brianfakhoury
+
+  window.tiger = getAnimal();
+}())

@@ -3,7 +3,7 @@
 window.builtins = {};
 
 // In this exercise, we'll be recreating some common JavaScript built-in
-// functions such as search() and trim() using the skills we already know.
+// functions such as contains() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
 // check out this MDN reference:
@@ -20,6 +20,7 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   for(var i = 0; i < str.length; i++){
     if (str[i] != " ") {
@@ -34,11 +35,30 @@ builtins.trim = function(str) {
   }
   var newStr = str.slice(i, j + 1);
   return newStr;
+=======
+  var found1 = false;
+  var found2 = false
+  while(!found1) {
+    if(str[0] !== " ") {
+      found1 = true;
+    } else {
+      str = str.slice(1)
+    }
+  }
+  while(!found2) {
+    if(str[str.length-1] !== " ") {
+      found2 = true;
+    } else {
+      str = str.slice(0,str.length-1)
+    }
+  }
+  return str
+>>>>>>> brianfakhoury
 };
 
 // ----------------------------------------------------------------------------
 
-// Exercise 2. search() using indexOf()
+// Exercise 2. contains() using indexOf()
 
 // Write a function that takes a string to be searched and a string to
 // search for, returning true or false as to whether or not the latter
@@ -52,6 +72,7 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
+<<<<<<< HEAD
 
   if(searchString.length == 0) {
     return true;
@@ -71,6 +92,18 @@ builtins.search = function(sourceString, searchString) {
         return true;
       }
 }
+=======
+  for (var i = 0; i < sourceString.length - (searchString.length - 1); i++) {
+  	var currChar = sourceString[i];
+  	if (currChar === searchString[0]) {
+  		for (var j = 0; j < searchString.length; j++) {
+  			if (searchString[j] !== sourceString[i + j]) {
+  				return false;
+  			}
+  		}
+  		return true;
+  	}
+>>>>>>> brianfakhoury
   }
   return false;
 };
@@ -92,10 +125,16 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   var splitString = str.split(" ");
   var num = parseInt(splitString[0]);
   return num;
+=======
+  var list = str.split()
+  var num = parseInt(list[0])
+  return num
+>>>>>>> brianfakhoury
 };
 
 // ----------------------------------------------------------------------------
@@ -111,12 +150,20 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   var newArr = [];
   for (var i = arr.length - 1; i >= 0; i--) {
     newArr.push(arr[i]);
   }
   return newArr;
+=======
+  var returnArray = [];
+  for (var i = arr.length-1; i >= 0 ; i--) {
+    returnArray.push(arr[i])
+  }
+  return returnArray
+>>>>>>> brianfakhoury
 };
 
 // ----------------------------------------------------------------------------
@@ -134,6 +181,7 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   if (a.length != b.length) {
     return false;
@@ -144,6 +192,17 @@ builtins.isEqual = function(a, b) {
     }
   }
   return true;
+=======
+  if (a.length === b.length) {
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true
+  }
+  return false
+>>>>>>> brianfakhoury
 };
 
 // ----------------------------------------------------------------------------
@@ -160,10 +219,20 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   var newArr = builtins.reverse(arr);
   return builtins.isEqual(arr, newArr);
 
+=======
+  var midway = Math.floor(arr.length/2)
+  for(var i = 0; i <= midway; i++) {
+    if(arr[i] !== arr[arr.length-i-1]) {
+      return false
+    }
+  }
+  return true
+>>>>>>> brianfakhoury
 };
 
 // ----------------------------------------------------------------------------
@@ -183,12 +252,29 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   return arr.sort(function (a, b) {
     return a - b;
   });
+=======
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i] < arr[indexOfSmall]) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
+>>>>>>> brianfakhoury
 };
-
 // ----------------------------------------------------------------------------
 
 // Exercise 8. Sorting a 2D array based on the length of its subarrays.
@@ -203,11 +289,30 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
 return  arr.sort(function (a, b) {
     return a.length - b.length;
   });
 }
+=======
+  var currIndex = 0;
+  var indexOfSmall = 0;
+  while (currIndex < arr.length) {
+  	for (var i = currIndex + 1; i < arr.length; i++) {
+  		if (arr[i].length < arr[indexOfSmall].length) {
+  			indexOfSmall = i;
+  		}
+  	}
+  	var temp = arr[currIndex];
+  	arr[currIndex] = arr[indexOfSmall];
+  	arr[indexOfSmall] = temp;
+  	currIndex++;
+  	indexOfSmall = currIndex;
+  }
+  return arr;
+};
+>>>>>>> brianfakhoury
 
 // ----------------------------------------------------------------------------
 
@@ -221,5 +326,11 @@ return  arr.sort(function (a, b) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
+  var returnArray = []
+  for(var i = 0; i < arr.length; i++) {
+    for (var x of arr[i]) {
+      returnArray.push(x)
+    }
+  }
+  return returnArray
 };

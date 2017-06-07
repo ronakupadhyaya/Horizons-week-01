@@ -14,9 +14,14 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   return function fn(attempt){
     return password == attempt;
+=======
+  return function fn(attempt) {
+    return attempt === password
+>>>>>>> brianfakhoury
   }
 }
 
@@ -25,12 +30,16 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
+<<<<<<< HEAD
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
+=======
+>>>>>>> brianfakhoury
     login: vault(password)
   }
 }
+
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
@@ -82,6 +91,7 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
+<<<<<<< HEAD
   debugger;
   var called = false; // Let's create a local variable to track if f has been called
   var result;
@@ -93,6 +103,16 @@ var once = function(f) {
       called = true; // mark f as called
     }
     return result;
+=======
+  var called = false;
+  var val
+  return function() {
+    if (! called) { // if f hasn't been called yet
+      val = f(arguments[0], arguments[1])
+      called = true; // mark f as called
+    }
+    return val
+>>>>>>> brianfakhoury
   }
 }
 
@@ -121,14 +141,15 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
-  var functionArray = [];
+  var functionArray = []
+  var indexArray = []
+  var count = -1
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+    indexArray.push(i)
+    functionArray.push(function() {
+      count ++; return indexArray[count]
+    })
   }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

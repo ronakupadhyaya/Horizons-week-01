@@ -52,6 +52,7 @@
 var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
+<<<<<<< HEAD
     // YOUR CODE HERE
     Rocketship.coords.y =  Rocketship.coords.y + 1;
     return this;
@@ -70,5 +71,21 @@ var Rocketship = {
     // YOUR CODE HERE
     Rocketship.coords.x =  Rocketship.coords.x + 1;
     return this;
+=======
+    this.coords.y ++
+    return this
+  },
+  down: function() {
+    this.coords.y --
+    return this
+  },
+  left: function() {
+    this.coords.x --
+    return this
+  },
+  right: function() {
+    this.coords.x ++
+    return this
+>>>>>>> brianfakhoury
   },
 };

@@ -17,6 +17,7 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
+<<<<<<< HEAD
  // YOUR CODE HERE
   if (this.length !== array2.length){
     return false;
@@ -32,6 +33,22 @@ Array.prototype.hasEqualContent = function(array2){
     }
   }
   return b;
+=======
+  if (this.length !== array2.length) {
+    return false
+  } else if (this.length === 0) {
+    return true
+  } else {
+    var match = array2.indexOf(this[0])
+    if (match === -1) {
+      return false
+    } else {
+      this.splice(0,1)
+      array2.splice(match,1)
+      return this.hasEqualContent(array2)
+    }
+  }
+>>>>>>> brianfakhoury
 }
 
 
@@ -48,5 +65,14 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
+  var testKeys = Object.keys(this)
+  if (testKeys.length === 0 && Object.keys(object2).length !== 0) {
+    return false
+  }
+  for (var key of testKeys) {
+    if (this[key] !== object2[key]) {
+      return false
+    }
+  }
+  return true
 }

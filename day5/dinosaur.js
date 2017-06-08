@@ -12,7 +12,7 @@ game.onReady(function() {
   var dinosaurVelocity=0;
   var score=0;
   var collided=false;
-  var highscore=0;
+  var highscore=game.getHighScore();
   function eventLoop(){
     obstacleXPos-=10;
     dinosaurY = dinosaurY - dinosaurVelocity;

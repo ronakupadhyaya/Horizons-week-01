@@ -49,8 +49,12 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
-};
+  var sum = 0
+  for (var i = 0; i < arguments.length; i++) {
+    sum += Array.prototype.slice.call(arguments)[i]; 
+  }
+  return sum;
+}
 
 // Exercise 2. varArgs.product(args...)
 // Write a function that takes any number of integers as arguments and computes their product.
@@ -60,8 +64,12 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
-};
+  var product = 1
+  for (var i = 0; i < arguments.length; i++) {
+    product = product * Array.prototype.slice.call(arguments)[i]; 
+  }
+  return product;
+}
 
 // Exercise 3. varArgs.joinWith(args...)
 // Write a function that takes a delimiter as the first argument and any number of
@@ -72,5 +80,13 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
-};
+  if (!Array.prototype.slice.call(arguments)[1]) {
+    return '';
+  }
+  var str = Array.prototype.slice.call(arguments)[1];
+  var d = Array.prototype.slice.call(arguments)[0];
+  for (var i = 2; i < arguments.length; i++) {
+    str = str + d + Array.prototype.slice.call(arguments)[i];
+  }
+  return str 
+}

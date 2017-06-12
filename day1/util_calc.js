@@ -54,5 +54,64 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+	var array = expression.split(' ')
+
+	for (var i = 0; i < array.length; i++) {
+		var root = 0;
+		if (array[i] === 'sqrt') {
+			root = Math.sqrt(array[i + 1])
+			array[i] = root
+			array.splice(i + 1, 1)
+		}
+	}
+
+	if (array.length % 2 !== 1 || expression === '') {
+		throw "Error: invalid number of elements"
+	}
+
+	for (var i = 0; i < array.length; i += 2) {
+		if (typeof parseFloat(array[i]) !== "number") {
+			throw "Error: invalid number"
+		}
+		else if (array[i] === '-') {
+			throw "Error: - is not a number!"
+		}
+		array[i] = parseFloat(array[i])
+	}
+
+	for (var i = 1; i < array.length; i += 2) {
+		if (array[i] !== '+' && array[i] !== '-' &&
+			array[i] !== '*' && array[i] !== '/' &&
+			array[i] !== 'sqrt') {
+			throw "Error: invalid operator"
+		}
+	}
+
+	for (var i = 1; i < array.length; i += 2) {
+		var mdNum = 1;
+		if (array[i] === '*') {
+			mdNum = array[i - 1] * array[i + 1]
+			array[i - 1] = mdNum
+			array.splice(i, 2)
+			i -= 2;
+		}
+		else if (array[i] === '/') {
+			mdNum = array[i - 1] / array[i + 1]
+			array[i - 1] = mdNum
+			array.splice(i, 2)
+			i -= 2;
+		}
+	}
+
+	var total = array[0];
+	for (var i = 1; i < array.length; i += 2) {
+		if (array[i] === '+') {
+			total += array[i + 1]
+		}
+		else if (array[i] === '-') {
+			total -= array[i + 1]
+		}
+	}
+	
+	return total
 };

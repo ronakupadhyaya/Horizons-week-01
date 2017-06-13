@@ -19,6 +19,7 @@ window.util = {};
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
+
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -54,5 +55,72 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if (expression === '') {
+    throw 'Error, empty expression';
+  }
+
+  if (expression.indexOf(' ') != -1)
+    if ((expression.indexOf("+") === -1) && (expression.indexOf("-") === -1) &&
+      (expression.indexOf("*") === -1) && (expression.indexOf("/") === -1) &&
+      (expression.indexOf("sqrt") === -1)) {
+      throw "Error, missing operator";
+    }
+
+  if ((expression.indexOf("0") === -1) && (expression.indexOf("1") === -1) &&
+    (expression.indexOf("2") === -1) && (expression.indexOf("3") === -1) &&
+    (expression.indexOf("4") === -1) && (expression.indexOf("5") === -1) &&
+    (expression.indexOf("6") === -1) && (expression.indexOf("7") === -1) &&
+    (expression.indexOf("8") === -1) && (expression.indexOf("9") === -1)) {
+    throw "Error, missing numbers";
+  }
+
+  if (((expression.indexOf("+") === 1) || (expression.indexOf("-") === 1) ||
+      (expression.indexOf("*") === 1) || (expression.indexOf("/") === 1)) ||
+    ((expression.indexOf("+") === expression.length - 1) ||
+      (expression.indexOf("-") === expression.length - 1) ||
+      (expression.indexOf("*") === expression.length - 1) ||
+      (expression.indexOf("/") === expression.length - 1) ||
+      (expression.indexOf("sqrt") === expression.length - 1))) {
+    throw "Error, operator at the wrong spot";
+  }
+
+  var array = expression.split(' ');
+  var temp = parseFloat(array[0]);
+
+  while (array.indexOf('sqrt') != -1) {
+    var index = array.indexOf('sqrt');
+    temp = Math.sqrt(parseFloat(array[index + 1]));
+    array.splice(index, 2);
+    array.splice(index, 0, temp);
+  }
+
+  while (array.indexOf('/') != -1) {
+    var index = array.indexOf('/');
+    temp = parseFloat(array[index - 1]) / parseFloat(array[index + 1]);
+    array.splice(index - 1, 3);
+    array.splice(index - 1, 0, temp);
+  }
+
+  while (array.indexOf('*') != -1) {
+    var index = array.indexOf('*');
+    temp = parseFloat(array[index - 1]) * parseFloat(array[index + 1]);
+    array.splice(index - 1, 3);
+    array.splice(index - 1, 0, temp);
+  }
+
+  while (array.indexOf('-') != -1) {
+    var index = array.indexOf('-');
+    temp = parseFloat(array[index - 1]) - parseFloat(array[index + 1]);
+    array.splice(index - 1, 3);
+    array.splice(index - 1, 0, temp);
+  }
+
+  while (array.indexOf('+') != -1) {
+    var index = array.indexOf('+');
+    temp = parseFloat(array[index - 1]) + parseFloat(array[index + 1]);
+    array.splice(index - 1, 3);
+    array.splice(index - 1, 0, temp);
+  }
+
+  return temp;
 };

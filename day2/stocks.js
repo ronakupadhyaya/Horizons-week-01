@@ -42,8 +42,37 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
+  _.map(data, function(a) {
+    a.time = new Date(a.time);
+  });
+
+  var grouped = _.groupBy(data, function(a) {
+    return a.ticker
+  });
+
+  var dates = [];
+  var i = 0;
+  for (var company in grouped) {
+    dates[i] = [company, []];
+    for (var d = 0; d < grouped[company].length; d++) {
+      dates[i][1].push([grouped[company][d].time, grouped[company][d].price]);
+    }
+    i++;
+  }
+
+  for (var k = 0; k < dates.length; k++) {
+    dates[k][1] = dates[k][1].sort(function(x, y) {
+      return x[0].getTime() - y[0].getTime();
+    })
+  }
+
+  var return_object = {}
+  for (var k = 0; k < dates.length; k++) {
+    return_object[dates[k][0]] = (dates[k][1][dates[k][1].length - 1][1] - dates[k][1][0][1]);
+  }
+
+  return return_object;
+}
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -59,7 +88,14 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var temp = _.reduce(gains, function(a, b) {
+    if (a > b)
+      return a;
+    return b;
+  });
+
+  return _.invert(gains)[temp];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +112,14 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var losses = stocks.gainAndLoss(data);
+  var temp = _.reduce(losses, function(a, b) {
+    if (a < b)
+      return a;
+    return b;
+  });
+
+  return _.invert(losses)[temp];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +131,14 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var temp = _.reduce(gains, function(a, b) {
+    if (Math.abs(a) > Math.abs(b))
+      return a;
+    return b;
+  });
+
+  return _.invert(gains)[temp];
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)

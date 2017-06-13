@@ -116,7 +116,7 @@ builtins.isEqual = function(a, b) {
   if (a.length != b.length)
     return false;
   for (var k = 0; k < a.length; k++) {
-    if ((a[k] != b[k]) || (typeof a[k] != typeof b[k]))
+    if (a[k] != b[k] || typeof a[k] != typeof b[k])
       return false;
   }
   return true;
@@ -137,7 +137,7 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   for (var k = 0; k < arr.length / 2; k++) {
-    if ((arr[k] != arr[arr.length - k - 1]) || (typeof arr[k] != typeof arr[arr.length - k - 1])) {
+    if (arr[k] != arr[arr.length - k - 1] || typeof arr[k] != typeof arr[arr.length - k - 1]) {
       return false;
     }
   }

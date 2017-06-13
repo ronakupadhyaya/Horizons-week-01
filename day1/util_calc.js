@@ -60,27 +60,27 @@ util.calc = function(expression) {
   }
 
   if (expression.indexOf(' ') != -1)
-    if ((expression.indexOf("+") === -1) && (expression.indexOf("-") === -1) &&
-      (expression.indexOf("*") === -1) && (expression.indexOf("/") === -1) &&
-      (expression.indexOf("sqrt") === -1)) {
+    if (expression.indexOf("+") === -1 && expression.indexOf("-") === -1 &&
+      expression.indexOf("*") === -1 && expression.indexOf("/") === -1 &&
+      expression.indexOf("sqrt") === -1) {
       throw "Error, missing operator";
     }
 
-  if ((expression.indexOf("0") === -1) && (expression.indexOf("1") === -1) &&
-    (expression.indexOf("2") === -1) && (expression.indexOf("3") === -1) &&
-    (expression.indexOf("4") === -1) && (expression.indexOf("5") === -1) &&
-    (expression.indexOf("6") === -1) && (expression.indexOf("7") === -1) &&
-    (expression.indexOf("8") === -1) && (expression.indexOf("9") === -1)) {
+  if (expression.indexOf("0") === -1 && expression.indexOf("1") === -1 &&
+    expression.indexOf("2") === -1 && expression.indexOf("3") === -1 &&
+    expression.indexOf("4") === -1 && expression.indexOf("5") === -1 &&
+    expression.indexOf("6") === -1 && expression.indexOf("7") === -1 &&
+    expression.indexOf("8") === -1 && expression.indexOf("9") === -1) {
     throw "Error, missing numbers";
   }
 
-  if (((expression.indexOf("+") === 1) || (expression.indexOf("-") === 1) ||
-      (expression.indexOf("*") === 1) || (expression.indexOf("/") === 1)) ||
-    ((expression.indexOf("+") === expression.length - 1) ||
-      (expression.indexOf("-") === expression.length - 1) ||
-      (expression.indexOf("*") === expression.length - 1) ||
-      (expression.indexOf("/") === expression.length - 1) ||
-      (expression.indexOf("sqrt") === expression.length - 1))) {
+  if (expression.indexOf("+") === 1 || expression.indexOf("-") === 1 ||
+    expression.indexOf("*") === 1 || expression.indexOf("/") === 1 ||
+    (expression.indexOf("+") === expression.length - 1 ||
+      expression.indexOf("-") === expression.length - 1 ||
+      expression.indexOf("*") === expression.length - 1 ||
+      expression.indexOf("/") === expression.length - 1 ||
+      expression.indexOf("sqrt") === expression.length - 1)) {
     throw "Error, operator at the wrong spot";
   }
 

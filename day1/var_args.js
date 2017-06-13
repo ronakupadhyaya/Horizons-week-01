@@ -85,6 +85,6 @@ varArgs.joinWith = function() {
     return '';
   var temp = arguments[1];
   for (var k = 2; k < arguments.length; k++)
-    temp += (arguments[0] + arguments[k]);
+    temp += arguments[0] + arguments[k];
   return temp;
 };

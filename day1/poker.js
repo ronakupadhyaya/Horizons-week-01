@@ -36,15 +36,7 @@
 // below); if the highest cards tie then the next highest cards are compared,
 // and so on.
 //
-// ex. rankPokerHand(['5H', '5C', '6S', '7S', 'KD'], ['2C', '3S', '8S', '8D', '10D']) -> 2, Pair of 8 vs Pair of 5
-//
-// ex. rankPokerHand(['5D', '8C', '9S', 'JS', 'AC'], ['2C', '5C', '7D', '8S', 'QH']) -> 1, High card Ace vs High card Queen
-//
-// ex. rankPokerHand(['2D', '9C', 'AS', 'AH', 'AC'], ['3D', '6D', '7D', '10D', 'QD']) -> 2, 3 aces vs Diamond flush
-//
-// ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
-//
-// ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
 window.rankPokerHand = function(hand1, hand2) {
   var suit1 = window.suit(hand1);
   var num1 = window.replace(window.num(hand1)).sort(function(a, b) {
@@ -55,14 +47,14 @@ window.rankPokerHand = function(hand1, hand2) {
     return a - b;
   });
 
-  if ((window.royalFlush(num1, suit1) === true) && (window.royalFlush(num2, suit2) === true))
+  if (window.royalFlush(num1, suit1) === true && window.royalFlush(num2, suit2) === true)
     return 0;
   if (window.royalFlush(num1, suit1) === true)
     return 1;
   if (window.royalFlush(num2, suit2) === true)
     return 2;
 
-  if ((window.straightFlush(num1, suit1) === true) && (window.straightFlush(num2, suit2) === true)) {
+  if (window.straightFlush(num1, suit1) === true && window.straightFlush(num2, suit2) === true) {
     if (num1[4] > num2[4])
       return 1;
     else if (num1[4] < num2[4])
@@ -75,10 +67,10 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.straightFlush(num2, suit2) === true)
     return 2;
 
-  if ((window.fourOfAKind(num1) === true) && (window.fourOfAKind(num2)) === true) {
-    if ((num1[4] > num2[4]) || (num1[0] > num2[0]))
+  if (window.fourOfAKind(num1) === true && window.fourOfAKind(num2) === true) {
+    if (num1[4] > num2[4] || num1[0] > num2[0])
       return 1;
-    else if ((num2[4] > num1[4]) || (num2[0] > num1[0]))
+    else if (num2[4] > num1[4] || num2[0] > num1[0])
       return 2;
     else
       return 0;
@@ -88,13 +80,13 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.fourOfAKind(num2) === true)
     return 2;
 
-  if ((window.fullhouse(num1) === true) && (window.fullhouse(num2)) === true) {
+  if (window.fullhouse(num1) === true && window.fullhouse(num2) === true) {
     if (num1[2] > num2[2])
       return 1;
     else if (num1[2] < num2[2])
       return 2;
     else {
-      if ((num1[1] > num2[1]) || (num1[3] > num2[3]))
+      if (num1[1] > num2[1] || num1[3] > num2[3])
         return 1;
       return 2;
     }
@@ -104,7 +96,7 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.fullhouse(num2) === true)
     return 2;
 
-  if ((window.flush(suit1) === true) && (window.flush(suit2)) === true) {
+  if (window.flush(suit1) === true && window.flush(suit2) === true) {
     for (var k = 4; k > 0; k--) {
       if (num1[k] > num2[k]) {
         return 1;
@@ -121,7 +113,7 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.flush(suit2) === true)
     return 2;
 
-  if ((window.straight(num1) === true) && (window.straight(num2)) === true) {
+  if (window.straight(num1) === true && window.straight(num2) === true) {
     if (num1[4] > num2[4])
       return 1;
     else
@@ -132,7 +124,7 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.straight(num2) === true)
     return 2;
 
-  if ((window.threeOfAKind(num1) === true) && (window.threeOfAKind(num2)) === true) {
+  if (window.threeOfAKind(num1) === true && window.threeOfAKind(num2) === true) {
     if (num1[2] > num2[2])
       return 1;
     else
@@ -146,7 +138,7 @@ window.rankPokerHand = function(hand1, hand2) {
   var player1Card;
   var player2Card;
 
-  if ((window.twoPair(num1) === true) && (window.twoPair(num2)) === true) {
+  if (window.twoPair(num1) === true && window.twoPair(num2) === true) {
     if (num1[3] > num2[3])
       return 1;
     else if (num1[3] < num2[3])
@@ -157,7 +149,7 @@ window.rankPokerHand = function(hand1, hand2) {
       else if (num1[1] < num2[1])
         return 2;
       else {
-        if ((num1[0] > num2[0]) || (num1[2] > num2[2]) || (num1[4] > num2[4]))
+        if (num1[0] > num2[0] || num1[2] > num2[2] || num1[4] > num2[4])
           return 1;
         return 2;
       }
@@ -168,7 +160,7 @@ window.rankPokerHand = function(hand1, hand2) {
   if (window.twoPair(num2) === true)
     return 2;
 
-  if ((window.pair(num1) === true) && (window.pair(num2)) === true) {
+  if (window.pair(num1) === true && window.pair(num2) === true) {
     if (num1[4] == num1[3])
       player1Card = num1[2];
     else
@@ -251,7 +243,7 @@ window.royalFlush = function(hand, temp) {
 };
 
 window.straightFlush = function(hand, temp) {
-  if ((window.straight(hand) === true) && (window.flush(temp) === true))
+  if (window.straight(hand) === true && window.flush(temp) === true)
     return true;
   return false;
 };

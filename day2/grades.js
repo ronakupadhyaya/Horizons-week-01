@@ -49,7 +49,15 @@ grades.highestGPA = function(data) {
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
-// Write a function that takes an array of Student objects and returns the major with the highest GPA
+// Write a function that takes an array of Student objects and returns the major with the
+// highest average GPA.
+//
+// Group students by major, calculate their GPAs, then find the average GPA for students
+// with a given major.
+//
+// For example, if all the students that have the "Economics" major
+// average their GPA's together and get 3.4 and all other majors' averages are less than that,
+// then "Economics" would be the return value.
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {

@@ -104,11 +104,10 @@ grades.avgGPAPerClass = function(data) {
 		class2.push(value.grades.class2);
 	})
 
-	var classAvg = {
+	return {
 		'class1': grades.average(class1),
 		'class2': grades.average(class2)
 	}
-	return classAvg
 };
 
 

@@ -46,5 +46,69 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var score1 = 0;
+  var score2 = 0;
+  var repeatArray = function(arr) { // if has repeat elements, return true
+    var copy = arr.slice();
+    for (var thing in copy) { // if has all different, return false
+      var last = copy.pop();
+      if (copy.indexOf(last) !== -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  var royalFlush = 10, starightFlush = 9;
+  var cards = ["2", '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  var hand1Num = [];
+  var hand2Num = [];
+  var hand1Sui = [];
+  var hand2Sui = [];
+  for (var card in hand1) {
+    hand1Num.push(hand1[card].substring(0,hand1[card].length-1));
+  }
+  for (var card in hand2) {
+    hand2Num.push(hand2[card].substring(0,hand2[card].length-1));
+  }
+  hand1Num.sort(function(a, b) {
+    return cards.indexOf(a) - cards.indexOf(b);
+  });
+  for (var card in hand1) {
+    hand1Sui.push(hand1[card][hand1[card].length-1]);
+  }
+  for (var card in hand2) {
+    hand2Sui.push(hand2[card][hand2[card].length-1]);
+  }
+  hand2Num.sort(function(a, b) {
+    return cards.indexOf(a) - cards.indexOf(b);
+  });
+
+
+  // Straight Flush
+  if (cards.indexOf(hand1Num[4]) - cards.indexOf(hand1Num[0]) === 4 &&
+      !repeatArray(hand1Num) && hand1Sui[0] == hand1Sui[1] && hand1Sui[1] == hand1Sui[2] &&
+      hand1Sui[2] == hand1Sui[3] && hand1Sui[3] == hand1Sui[4]) {
+    if (hand1Num[0] === '10') {
+      score1 += 10;
+    } else score1 += 9;
+  }
+  // Four of a Kind
+  else if (hand1Num[4] === hand1Num[1] || hand1Num[3] === hand1Num[0]) {
+    score1 += 8;
+  }
+  if (cards.indexOf(hand2Num[4]) - cards.indexOf(hand2Num[0]) === 4 &&
+      !repeatArray(hand2Num) && hand2Sui[0] == hand2Sui[1] && hand2Sui[1] == hand2Sui[2] &&
+      hand2Sui[2] == hand2Sui[3] && hand2Sui[3] == hand2Sui[4]) {
+    if (hand2Num[0] === '10') {
+      score2 += 10;
+    } else score2 += 9;
+  }
+  // Four of a Kind
+  else if (hand2Num[4] === hand2Num[1] || hand2Num[3] === hand2Num[0]) {
+    score1 += 8;
+  }
+
+  if (score1 > score2) return 1;
+  else return 2;
 }

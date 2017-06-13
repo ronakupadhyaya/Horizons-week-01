@@ -54,5 +54,63 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+  var arrExpression = expression.trim().split(' ');
+
+  while (arrExpression.includes('sqrt')) {
+    var k = arrExpression.indexOf('sqrt');
+    var n = Math.sqrt(parseFloat(arrExpression[k+1]));
+    arrExpression[k]= n;
+    arrExpression.splice(k+1,1);
+  }
+
+  for (var i = 0; i < arrExpression.length; i += 2) {
+    var num = parseFloat(arrExpression[i]);
+    if (isNaN(num)) {
+      throw "Invalid expression";
+    }
+  }
+  for (var j = 1; j < arrExpression.length; j += 2) {
+    var operator = parseFloat(arrExpression[j]);
+    if (!isNaN(operator) || j === arrExpression.length-1) {
+      throw "Invalid expression";
+    }
+  }
+  if (arrExpression.length === 1) {
+    return parseFloat(arrExpression[0]);
+  }
+
+
+  var k = 0;
+  //for (var k = 0; k < arrExpression.length; k++) {
+  while (arrExpression.join().includes('*') || arrExpression.join().includes('/')) {
+    if (arrExpression[k] === "*") {
+      var res = parseFloat(arrExpression[k-1]) * parseFloat(arrExpression[k+1]);
+      arrExpression[k-1] = res;
+      arrExpression.splice(k,2);
+      k=0;
+    } else if (arrExpression[k] === "/") {
+      var res = parseFloat(arrExpression[k-1]) / parseFloat(arrExpression[k+1]);
+      arrExpression[k-1] = res;
+      arrExpression.splice(k,2);
+      k=0;
+    }
+    k++;
+  }
+
+
+  while (arrExpression.length > 1 && ["+", "-"].includes(arrExpression[1])) {
+  //if (true) {
+    if (arrExpression[1] === "+") {
+      var first = parseFloat(arrExpression.shift());
+      arrExpression.shift();
+      var second = parseFloat(arrExpression[0]);
+      arrExpression[0] = first + second;
+    } else if (arrExpression[1] === "-") {
+      var first = parseFloat(arrExpression.shift());
+      arrExpression.shift();
+      var second = parseFloat(arrExpression[0]);
+      arrExpression[0] = first - second;
+    }
+  }
+  return arrExpression[0];
+}

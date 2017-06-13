@@ -19,6 +19,7 @@ window.util = {};
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
+
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -55,4 +56,84 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+  var expArr = expression.split(' ');
+
+  for (var i=0; i<expArr.length; i++){
+    if (expArr[i] == "sqrt"){
+      var substitute = Math.sqrt(parseFloat(expArr[i+1]));
+      expArr[i+1] = substitute;
+      expArr.splice(i, 1);
+    }
+  }
+
+  var numArr = [];
+  var oprArr = [];
+
+  if (expression.length == 0){
+    throw "Error";
+  }
+
+  if (expArr[expArr.length-1] == "+" ||
+      expArr[expArr.length-1] == "-" ||
+      expArr[expArr.length-1] == "*" ||
+      expArr[expArr.length-1] == "/"){
+        throw "Error";
+      }
+
+  for (var i=0; i<expArr.length; i++){
+    if (i%2 == 0){
+      numArr.push(expArr[i]);
+    }
+    if (i%2 == 1){
+      oprArr.push(expArr[i]);
+    }
+  }
+
+  for (var i=0; i<numArr.length; i++){
+    if (numArr[i] === '+' ||
+        numArr[i] === '-' ||
+        numArr[i] === '*' ||
+        numArr[i] === '/') {
+          throw "Error";
+        };
+  }
+  for (var i=0; i<oprArr.length; i++ ){
+    if (!["+",'-','*','/'].includes(oprArr[i])) {
+      throw "Error";
+    }
+  }
+
+  for (var i=0; i<expArr.length; i++){
+    var tempResult = 0;
+    if (expArr[i] == "*"){
+      var substitute = parseFloat(expArr[i-1]) * parseFloat(expArr[i+1]);
+      expArr[i+1] = substitute;
+      expArr.splice(i-1, 2);
+      i = 0;
+    }
+    else if (expArr[i] == "/"){
+      var substitute = parseFloat(expArr[i-1]) / parseFloat(expArr[i+1]);
+      expArr[i+1] = substitute;
+      expArr.splice(i-1, 2);
+      i = 0;
+    }
+  }
+  console.log(expArr);
+
+  var tempResult = parseFloat(expArr[0]);
+  for (var i=0; i<expArr.length; i++){
+    if (expArr[i] == "+"){
+      tempResult = tempResult + parseFloat(expArr[i+1]);
+    }
+
+    if (expArr[i] == "-"){
+      tempResult = tempResult - parseFloat(expArr[i+1]);
+    }
+
+  }
+  return tempResult;
+
+
+
 };

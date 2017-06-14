@@ -14,7 +14,11 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt) {
+    if (attempt === password)
+      return true;
+    return false;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,9 +29,9 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
+    privatePassword: vault(password),
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      return this.privatePassword(attempt);
     }
   }
 }
@@ -82,11 +86,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var called = false;
+  var numCalled; // Let's create a local variable to track if f has been called
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+    if (!called) { // if f hasn't been called yet
       called = true; // mark f as called
+      numCalled = f.apply(null, arguments);
+      return f.apply(null, arguments);
+    } else {
+      return numCalled;
     }
   }
 }
@@ -117,13 +125,15 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
+  var temp = num2 - num1;
+  var index = num1 - 1;
+  for (var i = 0; i <= temp; i++) {
     functionArray[i] = function() {
       // function that returns i
-      return i;
+      index++;
+      return index;
     }
   }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION
@@ -135,7 +145,7 @@ var functionFactory = function(num1, num2) {
 // the numbers in the label.
 //
 // DO NOT CHANGE THIS FUNCTION
-var counter = function () {
+var counter = function() {
   var num1 = parseInt(document.getElementById('num1').value);
   var num2 = parseInt(document.getElementById('num2').value);
 

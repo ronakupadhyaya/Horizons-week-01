@@ -125,10 +125,13 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
+  var temp = num2 - num1;
+  var index = num1 - 1;
+  for (var i = 0; i <= temp; i++) {
     functionArray[i] = function() {
       // function that returns i
-      return i;
+      index++;
+      return index;
     }
   }
   return functionArray;

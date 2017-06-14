@@ -65,7 +65,6 @@ stocks.gainAndLoss = function(data) {
       return x[0].getTime() - y[0].getTime();
     })
   }
-
   var return_object = {}
   for (var k = 0; k < dates.length; k++) {
     return_object[dates[k][0]] = (dates[k][1][dates[k][1].length - 1][1] - dates[k][1][0][1]);
@@ -156,7 +155,19 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  _.map(data, function(a) {
+    a.time = new Date(a.time);
+  });
+  var filtered = _.filter(data, function(obs) {
+    return ((obs.time.getTime() - date.getTime()) == 0)
+  });
+  var portfolio_keys = Object.keys(portfolio);
+
+  return _.reduce(filtered, function(acc, next_obj) {
+    if (portfolio_keys.indexOf(next_obj.ticker) >= 0)
+      return acc + (next_obj.price * (portfolio[next_obj.ticker]))
+    return acc
+  }, 0)
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -177,7 +188,34 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  _.map(data, function(a) {
+    a.time = new Date(a.time);
+  });
+
+  var filtered = _.filter(data, function(obs) {
+    return (obs.ticker === ticker)
+  });
+
+  var get_new_list = _.map(filtered, function(obj) {
+    return [obj.price, obj.time]
+  });
+
+  var sorrted = get_new_list.sort(function(time_price_one, time_price_two) {
+    return time_price_one[1].getTime() - time_price_two[1].getTime()
+  });
+
+  var all_possible_combinations = [];
+  for (var i = 0; i < sorrted.length - 2; i++) {
+    for (var j = i + 1; j < sorrted.length; j++) {
+      all_possible_combinations.push([sorrted[j][0] - sorrted[i][0], sorrted[i][1], sorrted[j][1]])
+    }
+  }
+  var lasstly_sorted = all_possible_combinations.sort(function(x, y) {
+    return x[0] - y[0]
+  });
+
+  var best = all_possible_combinations[all_possible_combinations.length - 1];
+  return [best[1], best[2], best[0]];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -201,5 +239,22 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
-};
+  var grouped = _.groupBy(data, function(a) {
+    return a.ticker
+  });
+
+  var trades = []
+
+  for (var temp in grouped) {
+    trades.push([stocks.bestTrade(data, temp), temp])
+  }
+
+  var sorted = trades.sort(function(a, b) {
+    return a[0][2] - b[0][2];
+  })
+
+  var temp = sorted[sorted.length - 1][0]
+
+  return ([sorted[sorted.length - 1][1], temp[0], temp[1], temp[2]]);
+
+}

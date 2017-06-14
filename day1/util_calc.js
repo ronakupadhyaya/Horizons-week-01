@@ -54,5 +54,105 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var numOfNums = 0;
+  var numOfOps = 0;
+  var result = 0;
+  if (expression.length === 0)
+    throw 'Empty expression.';
+  var expArr = expression.split(' ');
+  debugger;
+  for (var i = 0; i < expArr.length; i++) {
+    if (!isNaN(expArr[i])) {
+      numOfNums++;
+      if (i !== 0 && !isNaN(expArr[i-1]))
+        throw 'Operator in wrong spot.'
+    } else if (expArr[i] === 'sqrt') {
+      continue;
+    } else {
+      numOfOps++;
+    }
+  }
+  if (numOfOps !== numOfNums - 1)
+    throw 'Incorrect number of operators.'
+  if (expArr.length === 1)
+    return parseFloat(expression);
+
+  /*var calcAndReplace = function(oprtn) {
+    while (expArr.indexOf(oprtn) !== -1) {
+      var index = expArr.indexOf(oprtn);
+      switch (oprtn) {
+      case '*':
+        result = expArr[index-1] * expArr[index+1];
+        break;
+      case '/':
+        result = expArr[index-1] / expArr[index+1];
+        break;
+      case '+':
+        result = expArr[index-1] + expArr[index+1];
+        break;
+      case '-':
+        result = expArr[index-1] - expArr[index+1];
+        break;
+      }
+    }
+    expArr.splice(index-1, 3, result);
+  }
+  calcAndReplace('*')
+  calcAndReplace('/')
+  calcAndReplace('+')
+  calcAndReplace('-')
+
+  return expArr[0];*/
+  var sqrt = function(index) {
+    result = Math.sqrt(parseFloat(expArr[index + 1]));
+    expArr.splice(index, 2, result);
+  }
+
+  var multiply = function(index) {
+    result = parseFloat(expArr[index-1]) * parseFloat(expArr[index+1]);
+    expArr.splice(index-1, 3, result);
+  }
+
+  var divide = function(index) {
+    result = parseFloat(expArr[index-1]) / parseFloat(expArr[index+1]);
+    expArr.splice(index-1, 3, result);
+  }
+
+  var add = function(index) {
+    result = parseFloat(expArr[index-1]) + parseFloat(expArr[index+1]);
+    expArr.splice(index-1, 3, result);
+  }
+
+  var subtract = function(index) {
+    result = parseFloat(expArr[index-1]) - parseFloat(expArr[index+1]);
+    expArr.splice(index-1, 3, result);
+  }
+
+  var iter = expArr.slice()
+  debugger;
+  for (var i = 0; i < iter.length; i++) {
+    debugger;
+    if (iter[i] === 'sqrt') {
+      sqrt(expArr.indexOf('sqrt'));
+    }
+  }
+
+  for (var i = 0; i < iter.length; i++) {
+    if (iter[i] === "*") {
+      multiply(expArr.indexOf('*'))
+    } else if (iter[i] === "/") {
+      divide(expArr.indexOf('/'))
+    }
+  }
+
+  for (var i = 0; i < iter.length; i++) {
+    if (iter[i] === "+") {
+      add(expArr.indexOf('+'))
+    } else if (iter[i] === "-") {
+      subtract(expArr.indexOf('-'))
+    }
+  }
+
+  return expArr[0];
+
 };

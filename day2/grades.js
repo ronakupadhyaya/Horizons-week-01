@@ -26,7 +26,11 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length === 0) return 0;
+  var sum = _.reduce(arr, function(a,b) {
+    return a + b;
+  })
+  return sum/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +42,16 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  return _.reduce(data, function(stu1, stu2) {
+    return grades.getGPA(stu1) > grades.getGPA(stu2) ? stu1 : stu2;
+  })
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,13 +59,38 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
-};
+  var grouped = _.groupBy(data, function(person) {
+    return person.major;
+  });
+  var gpa = _.mapObject(grouped, function(val, key) {
+    var gradesInAMajor = _.map(val, function(stu) {
+      return grades.getGPA(stu);
+    })
+    return grades.average(gradesInAMajor);
+  })
+  var maxAv = 0;
+  var maxKey = '';
+  for (var key in gpa) {
+    if (gpa[key] > maxAv) {
+      maxAv = gpa[key];
+      maxKey = key;
+    }
+  }
+  return maxKey;
+}
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var c1Arr = _.map(data, function(stu) {
+    return stu.grades.class1;
+  })
+  var c1 = grades.average(c1Arr);
+  var c2Arr = _.map(data, function(stu) {
+    return stu.grades.class2;
+  })
+  var c2 = grades.average(c2Arr);
+  return { 'class1': c1, 'class2' : c2 };
 };

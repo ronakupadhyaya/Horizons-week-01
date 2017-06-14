@@ -42,7 +42,18 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var res = {};
+  var comps = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  });
+  for (var key in comps) {
+    comps[key].sort(function(trans1, trans2) {
+      return trans1.time.substring(8,10) - trans2.time.substring(8,10);
+    })
+    var comp = comps[key];
+    res[key] = comp[comp.length-1].price - comp[0].price;
+  }
+  return res;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +70,16 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var maxV = -Infinity;
+  var maxC = '';
+  var obj = stocks.gainAndLoss(data);
+  for (var key in obj) {
+    if (obj[key] > maxV) {
+      maxV = obj[key];
+      maxC = key;
+    }
+  }
+  return maxC;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +96,16 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var minV = Infinity;
+  var minC = '';
+  var obj = stocks.gainAndLoss(data);
+  for (var key in obj) {
+    if (obj[key] < minV) {
+      minV = obj[key];
+      minC = key;
+    }
+  }
+  return minC;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +117,25 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var res = {};
+  var comps = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  });
+  for (var key in comps) {
+    comps[key].sort(function(trans1, trans2) {
+      return trans1.price - trans2.price;
+    })
+    var comp = comps[key];
+    res[key] = comp[comp.length-1].price - comp[0].price;
+  }
+  var pairs = [];
+  _.forEach(res, function(value, key) {
+    pairs.push([key,value]);
+  })
+  pairs.sort(function(a, b) {
+    return b[1]-a[1];
+  })
+  return pairs[0][0];
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +153,18 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var res = 0;
+  var timeObj = _.forEach(data, function(trans) {
+    trans['time'] = new Date(trans.time).getTime();
+  })
+  for (var obj in timeObj) {
+    if (date.getTime() === timeObj[obj].time) {
+      if (timeObj[obj].ticker in portfolio) {
+        res += portfolio[timeObj[obj].ticker] * timeObj[obj].price;
+      }
+    }
+  }
+  return res;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +185,26 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var max = 0;
+  var maxI = 0;
+  var maxJ = 0;
+  var compData = _.filter(data, function(trans) {
+    return trans['ticker'] === ticker;
+  })
+  compData.sort(function(a, b) {
+    return new Date(a.time).getTime() - new Date(b.time).getTime();
+  })
+  for (var i = 0; i < compData.length-1; i++) {
+    for (var j = compData.length-1; j > i; j--) {
+      var diff = compData[j].price - compData[i].price;
+      if (diff > max) {
+        maxI = i;
+        maxJ = j;
+        max = diff;
+      }
+    }
+  }
+  return [new Date(compData[maxI].time), new Date(compData[maxJ].time), max];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +228,20 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var bestInfo = [];
+  var max = 0;
+  var maxComp = '';
+  var comps = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  })
+  for (var key in comps) {
+    var best = stocks.bestTrade(data, key);
+    if (best[2] > max) {
+      bestInfo = best;
+      max = best[2];
+      maxComp = key;
+    }
+  }
+  bestInfo.unshift(maxComp);
+  return bestInfo;
 };

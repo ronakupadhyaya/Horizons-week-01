@@ -42,7 +42,19 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+	var groups = _.groupBy(data, function(item) {
+		return item.ticker;
+	})
+	var result = {};
+	for (var key in groups) {
+		var array = groups[key];
+		array.sort(function(a, b) {
+			return a['time'].substring(8, 10) - b['time'].substring(8, 10);
+		})
+
+		result[key] = array[array.length - 1]['price'] - array[0]['price']
+	}
+	return result
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +71,16 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+	var diff = stocks.gainAndLoss(data);
+	var maxPrice = 0;
+	var maxTick = '';
+  	for (var key in diff) {
+  		if (diff[key] > maxPrice) {
+  			maxPrice = diff[key];
+  			maxTick = key;
+  		}
+  	}
+  	return maxTick;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +97,16 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+	var diff = stocks.gainAndLoss(data);
+	var minPrice = Infinity;
+	var minTick = '';
+  	for (var key in diff) {
+  		if (diff[key] < minPrice) {
+  			minPrice = diff[key];
+  			minTick = key;
+  		}
+  	}
+  	return minTick;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +118,29 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+	var groups = _.groupBy(data, function(item) {
+		return item.ticker;
+	})
+	var ranges = {};
+	for (var key in groups) {
+		var array = groups[key];
+		array.sort(function(a, b) {
+			return a['price'] - b['price'];
+		})
+
+		ranges[key] = array[array.length - 1]['price']- array[0]['price']
+	}
+
+	var pairs = [];
+	_.forEach(ranges, function(value, key) {
+		pairs.push([key, value]);
+	})
+
+	pairs.sort(function(a, b) {
+		return b[1] - a[1]
+	})
+
+	return pairs[0][0];	
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +158,16 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+	var value = 0;
+	for (var ticker in portfolio) {
+		for (var item in data) {
+			var ourDate = new Date(data[item]['time']);
+			if (ourDate.getTime() === date.getTime() && data[item]['ticker'] === ticker) {
+				value += (portfolio[ticker] * data[item]['price'])
+			}
+		}
+	}
+	return value;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +188,30 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+	var max = 0;
+	var maxI = 0;
+	var maxJ = 0;
+	var group = _.filter(data, function(item) {
+		return item.ticker === ticker;
+	})
+
+	group.sort(function(a, b) {
+		return new Date(a.time).getTime() - new Date(b.time).getTime();
+	})
+
+	for (var i = 0; i < group.length - 1; i++) {
+		for (var j = group.length - 1; j > i; j--) {
+			var diff = group[j].price - group[i].price;
+			if (diff > max) {
+				maxI = i;
+				maxJ = j;
+				max = diff;
+			}
+		}
+	}
+
+	var best = [new Date(group[maxI]['time']), new Date(group[maxJ]['time']), max];
+	return best;
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -151,5 +235,25 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+	var groups = _.groupBy(data, function(item) {
+		return item.ticker;
+	})
+
+	var bests = [];
+	for (var key in groups) {
+		bests.push([key, stocks.bestTrade(data, key)]);
+	}
+
+	var maxIndex = -1;
+	var maxTrade = 0;
+	for (var i = 0; i < bests.length; i++) {
+		if (bests[i][1][2] > maxTrade) {
+			maxTrade = bests[i][1][2];
+			maxIndex = i;
+		}
+	}
+
+	var best = bests[maxIndex];
+	var bestTrade = [best[0], best[1][0], best[1][1], best[1][2]];
+	return bestTrade;
 };

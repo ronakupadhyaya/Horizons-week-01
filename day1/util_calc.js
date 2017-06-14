@@ -53,6 +53,27 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+//eval function evaluates or executes an argument
+
+//if there are a greater number of operators than numbers, then throw an error
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  if (expression === '') {
+    throw error;
+  }
+  console.log(expression.split(" ")[0]);
+  if (expression.split(" ")[0] === "+" || expression.split(" ")[0] === "-") {
+    throw error;
+  }
+
+  var expArr = expression.split(" ");
+  for (var i = 0; i < expArr.length; i++){
+    if ((i % 2 !== 0 && !isNaN(expArr[i])) || (i % 2 === 0 && isNaN(expArr[i]))){
+      throw error;
+    }
+  }
+
+  var boop = eval(expression)
+  return boop;
 };

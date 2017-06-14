@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -19,9 +19,33 @@ window.builtins = {};
 // ex. builtins.trim('  Horizons  ') -> 'Horizons'
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
-builtins.trim = function(str) {
-  // YOUR CODE HERE
-};
+  builtins.trim = function(str) {
+  //var hippo = str.split("");
+//  return hippo;
+var start = 0;
+var end = str.length-1
+
+for(var i = 0; i < str.length; i++) {
+  if(str[i] === " ") {
+    start += 1;
+    console.log("start is: ", i);
+  }
+  else {
+    break;
+  }
+}
+
+for (var i = str.length-1; i >= 0; i--){
+  if(str[i] === " "){
+    end -= 1;
+  }
+  else{
+    break;
+  }
+}
+
+return str.substring(start, end+1);
+    };
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +63,8 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+    var strawberries =  sourceString.includes(searchString)
+    return strawberries
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +72,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,7 +84,8 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var par = parseInt(str)
+  return par;
 };
 
 // ----------------------------------------------------------------------------
@@ -75,8 +101,12 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  // YOUR CODE HERE
-};
+  var tempArr = [];
+  for (var i = arr.length-1; i >= 0; i-- ) {
+    tempArr.push(arr[i]);
+  }
+  return tempArr;
+ };
 
 // ----------------------------------------------------------------------------
 
@@ -93,7 +123,15 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  // YOUR CODE HERE
+  if (a.length !== b.length) {
+    return false;
+  }
+
+for(var i=0; i < a.length - 1; i++)
+  if (a[i] !== b[i]) {
+    return false;
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -110,7 +148,13 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
+  var a = arr;
+  var b = builtins.reverse(a);
+  for (var i = 0; i < a.length-1; i++)
+   if (a[i] !== b[i]){
+     return false;
+   }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -126,12 +170,15 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
+//built in sort function only looks at the first letters of each, Unicode
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
+  var bear = arr.sort(function(a,b){return a - b});
+  return bear;
 };
+//we redefined sort. Normal sort does not work this way.
 
 // ----------------------------------------------------------------------------
 
@@ -146,9 +193,12 @@ builtins.sortByValue = function(arr) {
 // Hint: Use the same Array sort() function - but think about what you're
 // comparing this time!
 
-builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
+  builtins.sortByLength = function(arr) {
+  var apple = arr.sort(function(a, b){return a.length - b.length});
+    return apple;
 };
+//Don't write lengths in the parameters
+// parameters just name what you are using inside that method, they can pass whatever, they are just the names that you use
 
 // ----------------------------------------------------------------------------
 

@@ -25,9 +25,31 @@ window.grades = {};
 // ex. grades.average([0, 0]) -> 0
 //
 // hint. use _.reduce()
+
+
+// grades.average = function(arr) {
+// if(arr !== []) {
+//   var sum = 0;
+//   for (var i = 0; i < arr.length; i++){
+//     sum += arr[i];
+//   }
+// return (sum/arr.length);
+// }
+// else {
+//   return 0;
+// };
+
 grades.average = function(arr) {
-  // YOUR CODE HERE
+if (arr.length === 0){
+  return 0;
+}
+var sum = arr.reduce(function(a,b){
+  return a + b; }, 0);
+var av = sum/(arr.length);
+return av;
 };
+
+//here we used the reduce function :)
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
 // Write a function that takes an Student object and returns its GPA
@@ -38,14 +60,23 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var gpa = grades.average([student.grades.class1, student.grades.class2]);
+  return gpa;
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
-//
+// what do we want? We
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var highest = 0
+  var apple;
+  for (var i = 0; i < data.length; i++) {
+    if (grades.getGPA(data[i]) > highest) {
+      highest = grades.getGPA(data[i])
+      apple = data[i];
+    }
+  }
+  return apple;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,8 +84,16 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var studentsGroupByMajor {}; //groups their majors
+  var students = data[i]
+    for (var i =0; i < data.length; i++) {
+      studentsGroupByMajor[student.major] = [];
+      studentsGroupByMajor[student.major].push(grades.getGPA(students));
+    }
+    
 };
+// we want to group all the GPAs by majors and then find the average GPA of each major
+
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.

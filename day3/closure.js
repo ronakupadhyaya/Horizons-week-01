@@ -14,8 +14,14 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
-}
+  function fn(str) {
+    var a = "attempt"
+    var password = horizonites
+    if (a === password) {
+      return true;
+    }
+    return fn();
+  }
 
 // This function returns an object that leaks private information!
 // See if you can fix this.

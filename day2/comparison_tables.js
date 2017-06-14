@@ -10,6 +10,7 @@ var valuesToCheck = function() {
 "-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
 }
 
+
 // and you will write the following:
 
 // 1. A function that evaluates the loosely equal (==) truth value of each value 
@@ -46,10 +47,143 @@ var valuesToCheck = function() {
 
 // Good luck!
 
+comp.makePairs = function() {
+	var values = valuesToCheck();
+	var pairs = [];
+	for (var i = 0; i < values.length; i++) {
+		for (var j = 0; j < values.length; j++) {
+			pairs.push([values[i], values[j]]);
+		}
+	}
+	return pairs;
+}
+
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+	var values = valuesToCheck();
+	var pairs = comp.makePairs();
+	var result = {};	
+
+	_.forEach(pairs, function(pair) {
+		var key = pair[0] + "_" + pair[1];
+		var first1 = false;
+		var sec1 = false;
+		var first2 = false;
+
+		if (typeof pair[0] === "string") {
+			key = "\"" + pair[0] + "\"_" + pair[1];
+			first1 = true;
+		}
+		if (typeof pair[1] === "string") {
+			if (first1) {
+				key = "\"" + pair[0] + "\"_\"" + pair[1] + "\"";
+			}
+			else {
+				key = pair[0] + "_\"" + pair[1] + "\"";
+			}
+			sec1 = true;
+		}
+
+		if (typeof pair[0] === 'object' && pair[0] !== null && pair[0] !== undefined) {
+			if (key[0] !== '_') {
+				if (sec1) {
+					key = JSON.stringify(pair[0]) + "_\"" + pair[1] + "\"";
+				}
+				else {
+					key = JSON.stringify(pair[0]) + "_" + pair[1];
+				}
+			}
+			else {
+				key = JSON.stringify(pair[0]) + key;
+			}
+			first2 = true;
+		}
+		if (typeof pair[1] === 'object' && pair[1] !== null && pair[1] !== undefined) {
+			if (key[key.length - 1] !== '_') {
+				if (first1) {
+					key = "\"" + pair[0] + "\"_" + JSON.stringify(pair[1]);
+				}
+				else if (first2) {
+					key = JSON.stringify(pair[0]) + "_" + JSON.stringify(pair[1]);
+				}
+				else {
+					key = pair[0] + "_" + JSON.stringify(pair[1]);
+				}
+			}
+			else {
+				key = key + JSON.stringify(pair[1]);
+			}
+		}
+
+		if (key[0] === '_') {
+			console.log(key + " " + count);
+		}
+		result[key] = pair[0] == pair[1];
+	})
+
+	return result;
 };
 
 comp.testStrictEquality = function() {
-    // YOUR CODE HERE
+	var values = valuesToCheck();
+	var pairs = comp.makePairs();
+	var result = {};
+
+		_.forEach(pairs, function(pair) {
+		var key = pair[0] + "_" + pair[1];
+		var first1 = false;
+		var sec1 = false;
+		var first2 = false;
+
+		if (typeof pair[0] === "string") {
+			key = "\"" + pair[0] + "\"_" + pair[1];
+			first1 = true;
+		}
+		if (typeof pair[1] === "string") {
+			if (first1) {
+				key = "\"" + pair[0] + "\"_\"" + pair[1] + "\"";
+			}
+			else {
+				key = pair[0] + "_\"" + pair[1] + "\"";
+			}
+			sec1 = true;
+		}
+
+		if (typeof pair[0] === 'object' && pair[0] !== null && pair[0] !== undefined) {
+			if (key[0] !== '_') {
+				if (sec1) {
+					key = JSON.stringify(pair[0]) + "_\"" + pair[1] + "\"";
+				}
+				else {
+					key = JSON.stringify(pair[0]) + "_" + pair[1];
+				}
+			}
+			else {
+				key = JSON.stringify(pair[0]) + key;
+			}
+			first2 = true;
+		}
+		if (typeof pair[1] === 'object' && pair[1] !== null && pair[1] !== undefined) {
+			if (key[key.length - 1] !== '_') {
+				if (first1) {
+					key = "\"" + pair[0] + "\"_" + JSON.stringify(pair[1]);
+				}
+				else if (first2) {
+					key = JSON.stringify(pair[0]) + "_" + JSON.stringify(pair[1]);
+				}
+				else {
+					key = pair[0] + "_" + JSON.stringify(pair[1]);
+				}
+			}
+			else {
+				key = key + JSON.stringify(pair[1]);
+			}
+		}
+
+		if (key[0] === '_') {
+			console.log(key + " " + count);
+		}
+		result[key] = pair[0] === pair[1];
+	})
+
+	return result;
 };

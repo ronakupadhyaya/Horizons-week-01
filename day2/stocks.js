@@ -43,6 +43,23 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var returnObj = {};
+  var sortedData = _.groupBy(data, function(obj) {
+    return obj.ticker;
+  });
+  _.mapObject(sortedData, function(arr, ticker) {
+    arr.sort(function(a,b) {
+      return new Date(b.time) - new Date(a.time);
+    });
+  });
+  for (var ticker in sortedData) {
+    if (sortedData.hasOwnProperty(ticker)) {
+      var tickerLength = sortedData[ticker].length;
+      var tickerValue = sortedData[ticker][0].price - sortedData[ticker][tickerLength-1].price;
+      returnObj[ticker] = tickerValue;
+    }
+  }
+  return returnObj;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +77,15 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var maxValue = 0;
+  var maxTicker = 0;
+  _.mapObject(stocks.gainAndLoss(data), function(value, ticker) {
+    if (value > maxValue) {
+      maxTicker = ticker;
+      maxValue = value;
+    }
+  })
+  return maxTicker;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +103,15 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var minValue = 0;
+  var minTicker = 0;
+  _.mapObject(stocks.gainAndLoss(data), function(value, ticker) {
+    if (value < minValue) {
+      minTicker = ticker;
+      minValue = value;
+    }
+  })
+  return minTicker;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +124,7 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  return stocks.biggestGainer(data);
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +143,22 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var totalVal = 0;
+  var day = date.getDate();
+  var sortedData = _.groupBy(data, function(obj) {
+    return obj.ticker;
+  });
+  _.mapObject(sortedData, function(arr, ticker) {
+    arr.sort(function(a,b) {
+      return new Date(a.time) - new Date(b.time);
+    })
+  });
+  for (var ticker in portfolio) {
+    if (sortedData.hasOwnProperty(ticker)) {
+      totalVal += sortedData[ticker][day].price * portfolio[ticker];
+    }
+  }
+  return totalVal;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +180,29 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  var sortedData = _.groupBy(data, function(obj) {
+    return obj.ticker;
+  });
+  var valuesObj = sortedData[ticker].sort(function(a,b) {
+    return new Date(a.time) - new Date(b.time);
+  });
+  var sortedArray = [];
+  _.mapObject(valuesObj, function(object) {
+    sortedArray.push([new Date(object.time), object.price]);
+  });
+  var currentBuyIndex = 0;
+  var currentBestTrade = [0, 1];
+  var currentBestTradeValue = 0;
+  for (var i = 0; i < sortedArray.length; i++) {
+    if (sortedArray[i][1] - sortedArray[currentBuyIndex][1] > currentBestTradeValue) {
+      currentBestTrade = [currentBuyIndex, i];
+      currentBestTradeValue = sortedArray[currentBestTrade[1]][1] - sortedArray[currentBestTrade[0]][1];
+    }
+    if (sortedArray[i][1] < currentBuyIndex) {
+      currentBuyIndex = i;
+    }
+  }
+  return [sortedArray[currentBestTrade[0]][0], sortedArray[currentBestTrade[1]][0], currentBestTradeValue];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

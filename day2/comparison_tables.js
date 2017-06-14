@@ -55,14 +55,23 @@ var valuesToCheck = function() {
 comp.testLooseEquality = function() {
   var vals = valuesToCheck();
   var arr = [];
-  for (var k = 0; k < vals.length - 2; k++) {
-    for (var j = k; j < vals.length; j++) {
-      console.log(j, k);
-      //   arr.push([temp[k]], [temp[j]])
+
+  for (var k = 0; k < vals.length; k++) {
+    for (var j = 0; j < vals.length; j++) {
+      arr.push([vals[k], vals[j]])
     }
   }
 
-  console.log(arr);
+  var obj = {};
+
+  for (var r = 0; r < arr.length; r++) {
+    for (var c = 0; c < arr[0].length; c += 2) {
+      var temp = arr[r][c] + '_' + arr[r][c + 1]
+      obj[temp] = (arr[r][c] == arr[r][c + 1])
+    }
+  }
+  console.log(arr)
+  return obj;
 };
 
 comp.testStrictEquality = function() {

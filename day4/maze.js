@@ -160,56 +160,60 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
+
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
   var position = this.getStartPosition();
-  var visited = [];
-  for(var i=0; i<this.maze.length; i++){
-    var temp = [];
-    for(var j=0; j<this.maze[0].length; j++){
-      temp.push(false);
-    }
-    visited.push(temp)
-  }
-  debugger;
-  console.log(visited);
   console.log(this.toString());
-  if(this.maze[position[0]][position[1]]==='E'){
-    return true;
-  }
-  //debugger;
-  if(this.tryMove(position[0], position[1], 'up')!==false){
-    if(this.maze[position[0]-1][position[1]] === 'E'){
-      return true;
-    }
-    this.maze[position[0]][position[1]] = ' ';
-    this.maze[position[0]-1][position[1]] = 'S';
-    return this.isSolvable();
-  }
-  if(this.tryMove(position[0], position[1], 'down')!==false){
-    if(this.maze[position[0]+1][position[1]] === 'E'){
-      return true;
-    }
-    this.maze[position[0]][position[1]] = ' ';
-    this.maze[position[0]+1][position[1]] = 'S';
-    return this.isSolvable();
-  }
-  if(this.tryMove(position[0], position[1], 'left')!==false){
-    if(this.maze[position[0]][position[1]-1] === 'E'){
-      return true;
-    }
-    this.maze[position[0]][position[1]] = ' ';
-    this.maze[position[0]][position[1]-1] = 'S';
-    return this.isSolvable();
-  }
-  if(this.tryMove(position[0], position[1], 'right')!==false){
-    if(this.maze[position[0]][position[1]+1] === 'E'){
-      return true;
-    }
-    this.maze[position[0]][position[1]] = ' ';
-    this.maze[position[0]][position[1]+1] = 'S';
-    return this.isSolvable();
-  }
-  return false;
 
+  if(this.tryMove(position[0], position[1], 'up')!==false){
+    if(this.maze[position[0]-1][position[1]]==='E'){
+      return true;
+    }
+    this.maze[position[0]-1][position[1]] = 'S';
+    this.maze[position[0]][position[1]] = 'X';
+    console.log("moved up from: ", position[0], position[1]);
+    if(this.isSolvable()){
+      return true;
+    }
+  }
+
+  if(this.tryMove(position[0], position[1], 'down')!==false){
+    if(this.maze[position[0]+1][position[1]]==='E'){
+      return true;
+    }
+    this.maze[position[0]+1][position[1]] = 'S';
+    this.maze[position[0]][position[1]] = 'X';
+    console.log("moved down from: ", position[0], position[1]);
+    if(this.isSolvable()){
+      return true;
+    }
+  }
+
+  if(this.tryMove(position[0], position[1], 'left')!==false){
+    if(this.maze[position[0]][position[1]-1]==='E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]-1] = 'S';
+    this.maze[position[0]][position[1]] = 'X';
+    console.log("moved left from: ", position[0], position[1]);
+    if(this.isSolvable()){
+      return true;
+    }
+  }
+
+  if(this.tryMove(position[0], position[1], 'right')!==false){
+    if(this.maze[position[0]][position[1]+1]==='E'){
+      return true;
+    }
+    this.maze[position[0]][position[1]+1] = 'S';
+    this.maze[position[0]][position[1]] = 'X';
+    console.log("moved right from: ", position[0], position[1]);
+    if(this.isSolvable()){
+      return true;
+    }
+  }
+  //console.log("returned false");
+  this.maze[position[0]][position[1]] = 'X';
+  return false;
 }

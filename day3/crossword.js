@@ -62,7 +62,7 @@ function solveCrossword() {
     for (var k = 0; k < arrHorizontal.length; k++) {
       temp.push(arrHorizontal[k][j])
     }
-    arrVertical.push(temp);
+    arrVertical.push(temp.join(''));
   }
 
   //checks the horizontals for already having the word
@@ -97,20 +97,20 @@ function solveCrossword() {
   }
 
   //checks the verticals for having enough blank spaces for the word
-  var count = 0;
+  cnt = 0;
   for (var k = 0; k < arrVertical.length; k++) {
     for (var j = 0; j < arrVertical[0].length; j++) {
       if (arrVertical[k].charAt(j) === '_')
-        count++;
+        cnt++;
       else
-        count = 0;
-      if (count === word.length) {
+        cnt = 0;
+      if (cnt === word.length) {
         if (word.length === arrVertical[0].length)
           return true;
         if (arrVertical[k].charAt(j + 1) === '' || arrVertical[k].charAt(j + 1) === '#')
           if (arrVertical[k].charAt(j - word.length) === '' || arrVertical[k].charAt(j + 1) === '#')
             return true;
-        count = 0;
+        cnt = 0;
       }
     }
   }

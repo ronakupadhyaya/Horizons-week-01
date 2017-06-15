@@ -30,8 +30,32 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+function memoize(func, hashFunction) {
+  if (arguments[1] === undefined) {
+    var obj = {};
+    return function memoizedFn() {
+      if (!obj.hasOwnProperty(arguments[0])) {
+        var temp = arguments[0];
+        obj[temp] = func(arguments[0]);
+        return obj[temp];
+      } else {
+        var temp = arguments[0];
+        return obj[temp];
+      }
+    }
+  } else {
+    var obj = {};
+    return function memoizedFn() {
+      if (!obj.hasOwnProperty(arguments[0])) {
+        var temp = hashFunction.apply(null, arguments);
+        obj[temp] = func.apply(null, arguments);
+        return obj[temp];
+      } else {
+        var temp = hashFunction.apply(null, arguments);
+        return obj[temp];
+      }
+    }
+  }
 }
 
 // Exercise 2: partial()
@@ -59,7 +83,14 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (arguments.length === 0)
+    throw "Didn't pass any arguments!";
+  var args1 = Array.prototype.slice.call(arguments);
+  args1.splice(0, 1);
+  return function() {
+    var args2 = Array.prototype.slice.call(arguments);
+    return fn.apply(null, args1.concat(args2));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +129,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function() {
+    return fun1(fun2.apply(null, arguments));
+  }
 }
 
 
@@ -141,5 +174,14 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var temp = _.toArray(arguments);
+  return function() {
+    temp.push(_.toArray(arguments));
+    temp = _.reduceRight(temp, function(a, b) {
+      if (typeof a === 'object')
+        return b.apply(null, a);
+      return b(a);
+    });
+    return temp;
+  }
 }

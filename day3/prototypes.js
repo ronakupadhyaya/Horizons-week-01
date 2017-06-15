@@ -1,6 +1,6 @@
 "use strict";
 
-window.prototypes = {};
+window.prototypes = {}
 
 // Part 3: Iteration.
 

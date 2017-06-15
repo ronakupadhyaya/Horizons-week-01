@@ -127,13 +127,29 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  var range = _.range(num1, num2 + 1)
 
+  var range = _.range(num1, num2 + 1)
   range.forEach(function(n) {
     functionArray.push(function() {
       return n
     })
   })
+
+  // for (var i = num1; i <= num2; i++) {
+  //   functionArray.push((function(h) {
+  //     return function() {
+  //       return h;
+  //   }}(i)))
+  // }
+
+  // for (var i = num1; i <= num2; i++) {
+  //   function outer(h) {
+  //     return function() {
+  //       return h;
+  //     }
+  //   }
+  //   functionArray.push(outer(i))
+  // }
 
   return functionArray;
 }

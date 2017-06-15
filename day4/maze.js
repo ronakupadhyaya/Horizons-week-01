@@ -22,11 +22,10 @@
 // ex. new Maze([['S', 'E']) represents a trivial solvable maze
 // ex. new Maze([['S', 'X', 'E']) represents a trivial unsolvable maze
 window.Maze = function(maze) {
-  // TODO throw exception if this is not called with new
   this.maze = maze;
 }
 
-Maze.validDirections = ['up', 'down', 'left', 'right'];
+Maze.validDirections = ['up', 'left', 'down', 'right'];
 
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
@@ -41,6 +40,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var maze = this['maze'].slice();
+  for (var i = 0; i < maze.length; i++) {
+    for (var j = 0; j < maze[i].length; j++) {
+      if (maze[i][j] === ' ') {
+        maze[i][j] = '_';
+      }
+    }
+  }
+  for (var i = 0; i < maze.length; i++) {
+    maze[i] = maze[i].join('');
+  }
+  maze = maze.join('\n');
+  return maze;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -50,7 +62,14 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  var maze = this['maze'].slice();
+  for (var i = 0; i < maze.length; i++) {
+    for (var j = 0; j < maze[i].length; j++) {
+      if (maze[i][j] === 'S') {
+        return [i, j];
+      }
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -63,9 +82,9 @@ Maze.prototype.getStartPosition = function() {
 //
 // A move is invalid if any of the following conditions are true:
 //  - starting position is invalid (i.e. not on the board)
-//  - move ends on a cell that's a wall (represented by 'X')
 //  - move results in moving off the board (i.e. moving up from the top row, or
 //    moving left from the leftmost column etc.)
+//  - move ends on a cell that's a wall (represented by 'X')
 //
 // Parameters:
 //  - row: row before the move. 0 represents top row.
@@ -96,19 +115,79 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var maze = this['maze'].slice();
+  if (maze[row] === undefined) {
+    return false;
+  }
+  switch (direction) {
+    case 'right':
+      column++;
+      break;
+    case 'left':
+      column--;
+      break;
+    case 'up':
+      row--;
+      break;
+    case 'down':
+      row++;
+      break;
+  }
+  if (maze[row] === undefined || maze[row] === 'X') {
+    return false;
+  }
+  if (maze[row][column] === undefined || maze[row][column] === 'X') {
+    return false;
+  }
 
-  // YOUR CODE HERE
+  return [row, column];
 }
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.
-// A maze is solvable if there exists a path from the Starting Point
+// A maze is solvabe if there exists a path from the Starting Point
 // to the Ending Point.
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
+    }
+  }
+  var arrStart = this.getStartPosition();
+  var currRow = arrStart[0];
+  var currCol = arrStart[1];
+  var maze = this['maze'].slice();
+  var counter = 0;
+  var checkAll = function() {
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      if (this.tryMove.call(this, currRow, currCol, Maze.validDirections[i])) {
+        var result = this.tryMove.call(this, currRow, currCol, Maze.validDirections[i]);
+        shuffle(Maze.validDirections);
+        return result;
+      }
+    }
+    return false;
+  }.bind(this);
+
+  while (checkAll() && counter < 1000) {
+    var newCoords = checkAll();
+    currRow = newCoords[0];
+    currCol = newCoords[1];
+    // console.log(this.toString());
+    counter++;
+    if (maze[currRow][currCol] === 'E')
+      return true;
+  }
+  return false;
+
 }

@@ -34,7 +34,25 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
+  var keyList = Object.keys(obj);
+  while (obj.__proto__) {
+  	obj = obj.__proto__;
+  	keyList = keyList.concat(Object.keys(obj))
+  }
+
+  function removeDoubles(arr) {
+  	var newArr = []
+  	arr.forEach(function(item) {
+  		if (! newArr.includes(item)) {
+  			newArr.push(item)
+  		}
+  	})
+
+  	return newArr
+  }
+
+
+  return removeDoubles(keyList);
 }
 
 // Exercise 2 prototypes.keys()
@@ -46,5 +64,5 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+  return Object.keys(obj);
 }

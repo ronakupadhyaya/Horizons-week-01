@@ -35,8 +35,33 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXX') -> 4620
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
+roman.obj = {
+  'I': 1,
+  'V': 5,
+  'X': 10,
+  'L': 50,
+  'C': 100,
+  'D': 500,
+  'M': 1000
+}
+
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var total = 0
+  var romanArr = string.split('')
+
+  while (romanArr.length) {
+    if (roman.obj[romanArr[0]] >= roman.obj[romanArr[1]] || !roman.obj[romanArr[1]]) {
+      //debugger;
+      total = total + roman.obj[romanArr[0]]
+      romanArr.shift()
+    } else {
+      total = total + (roman.obj[romanArr[1]] - roman.obj[romanArr[0]])
+      romanArr.shift()
+      romanArr.shift()
+    }
+  }
+  return total
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -73,4 +98,22 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var numerals = _.pairs(roman.obj)
+  var romanArr = []
+
+  for (var i = numerals.length-1; i >= 0; i--) {
+    debugger;
+    // if (numerals[i+1] && numerals[i+1][1] - numerals[i][1]) {
+    //   romanArr.push(numerals[i][0], numerals[i+1][0])
+    // }
+    if (numerals[i][1] < number) {
+      debugger;
+
+      for (var j = 0; j < Math.floor(number / numerals[i][1]); j++) {
+        romanArr.push(numerals[i][0])
+      }
+      number = number % numerals[i][1]
+    }
+  }
+  return romanArr.join("")
 };

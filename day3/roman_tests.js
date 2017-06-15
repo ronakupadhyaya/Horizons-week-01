@@ -94,6 +94,9 @@ describe("roman.parse()", function() {
 });
 
 describe("roman.toString()", function() {
+  it("roman.toString(19) -> 'XIX'", function() {
+    expect(roman.toString(19) ).toBe('XIX');
+  });
   it("roman.toString(28) -> 'XXVIII'", function() {
     expect(roman.toString(28) ).toBe('XXVIII');
   });

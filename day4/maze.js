@@ -38,8 +38,18 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var arrReturn = [];
+  for (var k = 0; k < this.maze.length; k++) {
+    var temp = [];
+    for (var j = 0; j < this.maze[0].length; j++) {
+      if (this.maze[k][j] === ' ')
+        temp.push('_')
+      else
+        temp.push(this.maze[k][j])
+    }
+    arrReturn.push(temp.join(''))
+  }
+  return arrReturn.join('\n');
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,6 +59,20 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  var row = -1
+  var column = -1
+  for (var r = 0; r < this.maze.length; r++) {
+    for (var c = 0; c < this.maze[r].length; c++) {
+      if (this.maze[r][c] === 'S') {
+        row = r
+        column = c
+      }
+    }
+  }
+
+  if (row >= 0 && column >= 0) {
+    return [row, column]
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -95,11 +119,41 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
+  if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
 
   // YOUR CODE HERE
+  if (row >= this.maze.length || column >= this.maze[0].length || row < 0 || column < 0) {
+    return false
+  }
+  switch (direction) {
+    case 'up':
+      if (row - 1 >= 0 && this.maze[row - 1][column] !== 'X') {
+        return [row - 1, column]
+
+      }
+      break;
+    case 'down':
+      if (row + 1 < this.maze.length && this.maze[row + 1][column] !== 'X') {
+        return [row + 1, column]
+
+      }
+      break;
+    case 'left':
+      if (column - 1 >= 0 && this.maze[row][column - 1] !== 'X') {
+        return [row, column - 1]
+
+      }
+      break;
+    case 'right':
+      if (column + 1 < this.maze[0].length && this.maze[row][column + 1] !== 'X') {
+        return [row, column + 1]
+
+      }
+      break;
+  }
+  return false
 }
 
 // Bonus!
@@ -107,7 +161,55 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // A maze is solvable if there exists a path from the Starting Point
 // to the Ending Point.
 //
+
+Maze.prototype.includesMove = function(moves, coordinates) {
+  for (var k = 0; k < moves.length; k++) {
+    if (coordinates[0] === moves[k][0] && coordinates[1] === moves[k][1])
+      return true;
+  }
+  return false;
+}
+
 // No diagonal moves are allowed.
+Maze.prototype.isSolvablefromPoint = function(row, column, moves) {
+  debugger;
+  if (this.maze[row][column] == 'E')
+    return true;
+  else {
+    var boolean = false;
+    if (this.tryMove(row, column, 'right') && !boolean)
+      if (!this.includesMove(moves, [row, column + 1])) {
+        moves.push([row, column + 1])
+        boolean = this.isSolvablefromPoint(row, column + 1, moves);
+      }
+    if (this.tryMove(row, column, 'left') && !boolean) {
+      if (!this.includesMove(moves, [row, column - 1])) {
+        moves.push([row, column - 1])
+        boolean = this.isSolvablefromPoint(row, column - 1, moves);
+      }
+    }
+    if (this.tryMove(row, column, 'up') && !boolean) {
+      if (!this.includesMove(moves, [row - 1, column])) {
+        moves.push([row - 1, column])
+        boolean = this.isSolvablefromPoint(row - 1, column, moves);
+      }
+    }
+    if (this.tryMove(row, column, 'down') && !boolean) {
+      if (!this.includesMove(moves, [row + 1, column])) {
+        moves.push([row + 1, column])
+        boolean = this.isSolvablefromPoint(row + 1, column, moves);
+      }
+    }
+  }
+  return boolean;
+}
+
+
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var moves = [this.getStartPosition()];
+
+  console.log(moves)
+
+  return this.isSolvablefromPoint(moves[0][0], moves[0][1], moves);
+
 }

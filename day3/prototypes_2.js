@@ -16,7 +16,7 @@ window.prototypes = {};
 // Hint: the first thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
 
-Array.prototype.hasEqualContent = function(array2){
+Array.prototype.hasEqualContent = function(array2) {
   if (this.length !== array2.length)
     return false;
   this.sort(function(a, b) {
@@ -44,7 +44,7 @@ Array.prototype.hasEqualContent = function(array2){
 // Hint: use the Array.prototype.hasEqualContent to compare the content of an object,
 // without having to account for the order of elements.
 
-Object.prototype.hasEqualContent = function(object2){
+Object.prototype.hasEqualContent = function(object2) {
   if (Object.keys(this).length !== Object.keys(object2).length)
     return false;
   var arr1 = [];

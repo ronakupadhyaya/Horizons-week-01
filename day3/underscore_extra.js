@@ -31,7 +31,12 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  return function fun(x) {
+    if (!fun.hasOwnProperty(x)) {
+      fun[x] = func(x);
+    }
+    return fun[x];
+  }
 }
 
 // Exercise 2: partial()
@@ -59,7 +64,13 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  var outerArgs = Array.prototype.slice.call(arguments);
+  if (outerArgs.length === 0) throw "No function.";
+  outerArgs = outerArgs.length > 1 ? outerArgs.slice(1) : [];
+  return function partialFn() {
+    var innerArgs = Array.prototype.slice.call(arguments);
+    return fn.apply(null, outerArgs.concat(innerArgs));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +109,9 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function fun() {
+    return fun1(fun2.apply(null, arguments));
+  }
 }
 
 
@@ -141,5 +154,14 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  return function fun() {
+    var curArg = arguments;
+    var curFunc = function(){};
+    for (var i = args.length-1; i >= 0; i--) {
+      curFunc = args[i];
+      curArg = i === args.length-1 ? curFunc.apply(null, curArg) : curFunc.call(null, curArg);
+    }
+    return curArg;
+  }
 }

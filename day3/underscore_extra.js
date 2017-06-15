@@ -31,15 +31,29 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func, hashFunction) {
-  var arr = [];
-  var arrArgs = [];
-  return function memoizedFn() {
-    if (arrArgs.indexOf(arguments[0]) === -1) {
-      arr.push(func(arguments[0]));
-      arrArgs.push(arguments[0]);
-      return arr[arrArgs.indexOf(arguments[0])];
-    } else {
-      return arr[arrArgs.indexOf(arguments[0])];
+  if (arguments[1] === undefined) {
+    var obj = {};
+    return function memoizedFn() {
+      if (!obj.hasOwnProperty(arguments[0])) {
+        var temp = arguments[0];
+        obj[temp] = func(arguments[0]);
+        return obj[temp];
+      } else {
+        var temp = arguments[0];
+        return obj[temp];
+      }
+    }
+  } else {
+    var obj = {};
+    return function memoizedFn() {
+      if (!obj.hasOwnProperty(arguments[0])) {
+        var temp = hashFunction.apply(null, arguments);
+        obj[temp] = func.apply(null, arguments);
+        return obj[temp];
+      } else {
+        var temp = hashFunction.apply(null, arguments);
+        return obj[temp];
+      }
     }
   }
 }

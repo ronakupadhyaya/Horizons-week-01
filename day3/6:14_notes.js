@@ -247,3 +247,20 @@ console.log(greet.call(darwish, 'Hey', ','));
 console.log(greet.apply(abhi, ['Hello', '.']));
 console.log(greet.apply(darwish, ['Hey', ',']));
 // arguments are in an array
+
+***************************************
+
+functionFactory() notes
+
+var functionFactory = function(num1, num2) {
+  var functionArray = [];
+  for (var i = num1; i <= num2; i++) {
+    functionArray.push(function() {
+      return i
+    }
+  }
+
+  return functionArray
+}
+
+typeof functionFactory(0, 2)

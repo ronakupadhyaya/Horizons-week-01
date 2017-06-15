@@ -119,21 +119,24 @@ function solveCrossword() {
   var cnt = 0;
   for (var k = 0; k < arrHorizontal.length; k++) {
     for (var j = 0; j < arrHorizontal[0].length; j++) {
-      debugger;
       if (word.indexOf(arrHorizontal[k].charAt(j)) !== -1) {
         var works = true;
-        for (var i = j - 1; i > j - 1 - word.indexOf(arrHorizontal[k].charAt(j)); i--) {
-          if (arrHorizontal[k].charAt(i) !== '_') {
-            console.log('77777')
+        for (var i = j - 1; i >= j - 1 - word.indexOf(arrHorizontal[k].charAt(j)); i--) {
+          if (arrHorizontal[k].charAt(i) !== '_' &&
+            arrHorizontal[k].charAt(j - 1 - word.indexOf(arrHorizontal[k].charAt(j))) !== '#' &&
+            arrHorizontal[k].charAt(j - 1 - word.indexOf(arrHorizontal[k].charAt(j))) !== '') {
+            console.log(arrHorizontal[k].charAt(i))
             works = false;
             break;
           }
         }
+
+        debugger;
         var works2 = true;
         if (works) {
           for (var i = j + 1; i < j + word.length - word.indexOf(arrHorizontal[k].charAt(j)); i++) {
-            console.log(arrHorizontal[k].charAt(j + word.length - word.indexOf(arrHorizontal[k].charAt(j))))
-            if (arrHorizontal[k].charAt(i) !== '_' || arrHorizontal[k].charAt(j + 1 + word.length - word.indexOf(arrHorizontal[k].charAt(j))) === '_') {
+            // console.log(arrHorizontal[k].charAt(j + word.length - word.indexOf(arrHorizontal[k].charAt(j))))
+            if (arrHorizontal[k].charAt(j + word.length - word.indexOf(arrHorizontal[k].charAt(j))) === '_' || arrHorizontal[k].charAt(i) !== '_') {
               works2 = false;
               break;
             }

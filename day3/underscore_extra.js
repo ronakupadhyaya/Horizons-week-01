@@ -31,7 +31,20 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+	var called = false;
+	var calls = {};
+
+	var memoizedFn = function() {
+		var args = Array.prototype.slice.call(arguments)
+		if (!(args in calls)) {
+			console.log('called')
+			called = true
+			calls[args] = func.apply(null, args)
+		}
+		return calls[args];
+	}
+
+  	return memoizedFn;
 }
 
 // Exercise 2: partial()
@@ -59,7 +72,17 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments)
+  if (! args.length) {
+  	throw "no arguments!"
+  }
+  var partialFn = function() {
+  	var args2 = Array.prototype.slice.call(arguments)
+  	args = args.concat(args2)
+  	return args[0].apply(null, args.slice(1))
+  }
+
+  return partialFn;
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +121,12 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  var composedFn = function() {
+  	var args = Array.prototype.slice.call(arguments);
+  	return fun1.call(null, (fun2.apply(null, args)));
+  }
+
+  return composedFn;
 }
 
 
@@ -132,6 +160,24 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
+// function memoize(func, hashFunction) {
+// 	var called = false;
+// 	var calls = {};
+
+// 	var memoizedFn = function() {
+// 		var args = Array.prototype.slice.call(arguments)
+// 		var key = hashFunction(args);
+// 		if (!(key in calls)) {
+// 			console.log('called')
+// 			called = true
+// 			calls[key] = func.apply(null, args)
+// 		}
+// 		return calls[key];
+// 	}
+
+//   	return memoizedFn;
+// }
+
 
 // Double Bonus Exercise: compose()
 //
@@ -141,5 +187,16 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var funcs = Array.prototype.slice.call(arguments);
+  console.log(funcs)
+  var composedFn = function() {
+  	var args = Array.prototype.slice.call(arguments);
+  	var value = funcs[funcs.length-1].apply(null, args);
+	for (var i = funcs.length - 2; i > -1; i--) {
+		value = funcs[i].call(null, value);
+	}
+	return value
+  }
+
+  return composedFn;
 }

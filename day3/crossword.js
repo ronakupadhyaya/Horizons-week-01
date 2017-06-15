@@ -44,6 +44,184 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, rows) {
+  //all the rows, all the columns
+  //number of consecutive empty spaces is equal to length of word
+//  console.log("Word: " + word);
+//  console.log("Rows: " + rows);
+
+  //split rows into subarrays
+  for (var i = 0; i < rows.length; i++) {
+    rows[i] = rows[i].split(" ");
+  }
+
+  //create columns array
+  var cols = [];
+  for (var i = 0; i < rows[0].length; i++) {
+    var subCol = [];
+    for (var j = 0; j < rows.length; j++) {
+      subCol.push(rows[j][i]);
+    //  console.log("hi");
+    }
+    cols.push(subCol);
+  }
+
+  //case 1: check if puzzle already has word
+  //loop through the ROWS
+  for (var i = 0; i < rows.length; i++) {
+    var currentWord = "";
+    for (var j = 0; j < rows[i].length; j++) {
+      //make sure to add only consecutive letters
+      //if letter add to current word
+      //else make current word an empty string again
+    //  console.log(rows[i][j]);
+      if (/^[a-z]$/.test(rows[i][j])) {
+        currentWord += rows[i][j];
+      } else {
+        currentWord = "";
+      }
+    //  console.log("Word in row " + (j + 1) + " is " + currentWord);
+      if (currentWord === word) {
+        return true;
+      }
+    }
+  }
+  console.log("Word already in row");
+    //checking if word is already in crossword still
+    //checking all COLUMNS
+  for (var i = 0; i < cols.length; i++) {
+    var currentWord = "";      for (var j = 0; j < cols[i].length; j++) {
+        //make sure to add only consecutive letters
+        //if letter add to current word
+        //else make current word an empty string again
+      //  console.log(cols[i][j]);
+      if (/^[a-z]$/.test(cols[i][j])) {
+        currentWord += cols[i][j];
+      } else {
+        currentWord = "";
+      }
+            //  console.log("Word in column " + (j + 1) + " is " + currentWord);
+      if (currentWord === word) {
+        return true;
+      }
+    }
+  }
+  console.log('Word already in column');
+    //now to actually start checking
+    //look for empty consecutive spaces equal to length of word
+    //cannot be bounded by letters or underscores, hashes are okay
+    //first rows
+  for (var i = 0; i < rows.length; i++) {
+    var frontBound = null; //stuff in front of spaces
+    var backBound = null; //stuff behind the spaces
+    var count = 0; //count for number of consecutive spaces
+    var firstIndex = 0; //index at which the available empty spaces start at
+    for (var j = 0; j < rows[i].length; j++) {
+      if (count === word.length) {
+        break;
+      } else if (count === 0) {
+        firstIndex = j;
+      }
+      if (rows[i][j] === '_') {
+        count++;
+      } else {
+        count = 0;
+      }
+    }
+    frontBound = rows[i].slice(0, firstIndex);
+    backBound = rows[i].slice(firstIndex + count);
+
+    //  console.log("Count is " + count);
+    //  console.log("First index is " + firstIndex);
+    //  console.log("Front bound: " + frontBound);
+    //  console.log("Back bound: " + backBound);
+    if (count < word.length) {
+      continue;
+    } else {
+      console.log("For row, umber of consecutive spaces equals word length");
+        //check bounds in frontBound
+      var frontBoundOkay = true;
+      var index = frontBound.length - 1;
+      while (frontBound[index] !== '#' && index >= 0) {
+        if (frontBound[index] === '_' || /^[a-z]$/.test(frontBound[index])) {
+          frontBoundOkay = false;
+          break;
+        }
+        index--;
+      }
+      //  console.log("Front bound okay: " + frontBoundOkay);
+        //check bounds in backBound
+      var backBoundOkay = true;
+      index = 0;
+      while (backBound[index] !== '#' && index <= backBound.length - 1) {
+        if (backBound[index] === '_' || /^[a-z]$/.test(backBound[index])) {
+          backBoundOkay = false;
+          break;
+        }
+        index++;
+      }
+      //  console.log("Back bound okay: " + backBoundOkay);
+      if (frontBoundOkay && backBoundOkay) {
+        return true;
+      }
+    }
+  }
+  console.log("Available spaces in rows");
+    //now checking for available spaces (no letters) in columns
+  for (var i = 0; i < cols.length; i++) {
+    var frontBound = null; //stuff in front of spaces
+    var backBound = null; //stuff behind the spaces
+    var count = 0; //count for number of consecutive spaces
+    var firstIndex = 0; //index at which the available empty spaces start at
+    for (var j = 0; j < cols[i].length; j++) {
+      if (count === word.length) {
+        break;
+      } else if (count === 0) {
+        firstIndex = j;
+      }
+      if (cols[i][j] === '_') {
+        count++;
+      } else {
+        count = 0;
+      }
+    }
+    frontBound = cols[i].slice(0, firstIndex);
+    backBound = cols[i].slice(firstIndex + count);
+
+    console.log("Count is " + count);
+    console.log("First index is " + firstIndex);
+    console.log("Front bound: " + frontBound);
+    console.log("Back bound: " + backBound);
+    if (count < word.length) {
+      continue;
+    } else {
+      console.log("Number of consecutive spaces equals word length");
+        //check bounds in frontBound
+      var frontBoundOkay = true;
+      var index = frontBound.length - 1;
+      while (frontBound[index] !== '#' && index >= 0) {
+        if (frontBound[index] === '_' || /^[a-z]$/.test(frontBound[index])) {
+          frontBoundOkay = false;
+          break;
+        }
+        index--;
+      }
+      console.log("Front bound okay: " + frontBoundOkay);
+        //check bounds in backBound
+      var backBoundOkay = true;
+      index = 0;
+      while (backBound[index] !== '#' && index <= backBound.length - 1) {
+        if (backBound[index] === '_' || /^[a-z]$/.test(backBound[index])) {
+          backBoundOkay = false;
+          break;
+        }
+        index++;
+      }
+      console.log("Back bound okay: " + backBoundOkay);
+      if (frontBoundOkay && backBoundOkay) {
+        return true;
+      }
+    }
+  }
+
 }

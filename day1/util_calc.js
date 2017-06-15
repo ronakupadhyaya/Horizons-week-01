@@ -107,4 +107,3 @@ util.calc = function(expression) {
   }
   return eval(expression);
 }; 
-

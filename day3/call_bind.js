@@ -57,7 +57,8 @@ Function.prototype.myCall = function(newThis) {
 // This is a simplified version of .bind() that only binds 'this'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 Function.prototype.myBind = function(newThis) {
-  return function boundFn() {
-
+  var func = this;
+  return function() {
+    return func.apply(newThis, arguments);
   }
 };

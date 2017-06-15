@@ -46,5 +46,84 @@
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
-  // YOUR CODE HERE
+  var word = arguments[0];
+  var arr = arguments[1];
+  var arrHorizontal = [];
+  var arrVertical = [];
+
+  //fills the horizontal array
+  for (var k = 0; k < arr.length; k++) {
+    arrHorizontal.push(arr[k].split(' ').join(''));
+  }
+
+  //fills the vertical array
+  for (var j = 0; j < arrHorizontal[0].length; j++) {
+    var temp = [];
+    for (var k = 0; k < arrHorizontal.length; k++) {
+      temp.push(arrHorizontal[k][j])
+    }
+    arrVertical.push(temp);
+  }
+
+  //checks the horizontals for already having the word
+  for (var k = 0; k < arrHorizontal.length; k++) {
+    if (arrHorizontal[k].indexOf(word) !== -1)
+      return true;
+  }
+
+  //checks the verticals for already having the word
+  for (var k = 0; k < arrVertical.length; k++) {
+    if (arrVertical[k].indexOf(word) !== -1)
+      return true;
+  }
+
+  //checks the horizontals for having enough blank spaces for the word
+  var cnt = 0;
+  for (var k = 0; k < arrHorizontal.length; k++) {
+    for (var j = 0; j < arrHorizontal[0].length; j++) {
+      if (arrHorizontal[k].charAt(j) === '_')
+        cnt++;
+      else
+        cnt = 0;
+      if (cnt === word.length) {
+        if (word.length === arrHorizontal[0].length)
+          return true;
+        if (arrHorizontal[k].charAt(j + 1) === '' || arrHorizontal[k].charAt(j + 1) === '#')
+          if (arrHorizontal[k].charAt(j - word.length) === '' || arrHorizontal[k].charAt(j + 1) === '#')
+            return true;
+        cnt = 0;
+      }
+    }
+  }
+
+  //checks the verticals for having enough blank spaces for the word
+  var count = 0;
+  for (var k = 0; k < arrVertical.length; k++) {
+    for (var j = 0; j < arrVertical[0].length; j++) {
+      if (arrVertical[k].charAt(j) === '_')
+        count++;
+      else
+        count = 0;
+      if (count === word.length) {
+        if (word.length === arrVertical[0].length)
+          return true;
+        if (arrVertical[k].charAt(j + 1) === '' || arrVertical[k].charAt(j + 1) === '#')
+          if (arrVertical[k].charAt(j - word.length) === '' || arrVertical[k].charAt(j + 1) === '#')
+            return true;
+        count = 0;
+      }
+    }
+  }
+
+  //checks the horizontals for having enough blank spaces and letters for the word
+  var cnt = 0;
+  for (var k = 0; k < arrHorizontal.length; k++) {
+    for (var j = 0; j < arrHorizontal[0].length; j++) {
+      if (word.indexOf(arrHorizontal[k].charAt(j)) !== -1) {
+
+      }
+    }
+  }
+
+  return false;
 }

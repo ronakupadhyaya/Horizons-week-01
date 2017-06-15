@@ -46,12 +46,11 @@ function memoize(func, hashFunction) {
   } else {
     var obj = {};
     return function memoizedFn() {
-      if (!obj.hasOwnProperty(arguments[0])) {
-        var temp = hashFunction.apply(null, arguments);
+      var temp = hashFunction.apply(null, arguments);
+      if (!obj.hasOwnProperty(temp)) {
         obj[temp] = func.apply(null, arguments);
         return obj[temp];
       } else {
-        var temp = hashFunction.apply(null, arguments);
         return obj[temp];
       }
     }

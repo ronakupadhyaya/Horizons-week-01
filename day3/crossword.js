@@ -45,6 +45,21 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, board) {
+  var newBoard = [];
+  for (var i = 0; i < board.length; i++) {
+  	newBoard.push([])
+  	console.log(board.length)
+  	console.log(board[i].length)
+  	console.log(board[i])
+  	for (var j = 1; j < board[i].length - 1; i++) {
+  		
+  		newBoard[j] = []
+  		newBoard[j].push(board[i][j])
+  		console.log(board[i][j])
+  		}
+	}
+console.log(newBoard)
 }
+
+

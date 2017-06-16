@@ -103,6 +103,7 @@ window.rankPokerHand = function(hand1, hand2) {
 	for (var i = 0; i < 2; i++) {
 		var rank2 = []
 	  	var hand = Array.prototype.slice.call(arguments)[i]
+	  	// converting the non-digits into manageable unicode values
 	  	for (var j = 0; j < hand.length; j++) {
 	  		if (hand[j][0] === "1" && hand[j][1] === "0") {
 	  			hand[j] = hand[j].replace('10', 'B');

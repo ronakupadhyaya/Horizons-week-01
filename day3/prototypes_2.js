@@ -17,9 +17,19 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+  if (this.length !== array2.length) {
+    return false;
+  }
+  this.sort()
+  array2.sort()
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] !== array2[i]) {
+      return false
+    }
+  }
+  return true;
 }
-
+ 
 // You are going to implement a function that compares if two Objects have the same
 // key-value pairs.
 
@@ -32,6 +42,30 @@ Array.prototype.hasEqualContent = function(array2){
 // Hint: use the Array.prototype.hasEqualContent to compare the content of an object,
 // without having to account for the order of elements.
 
+
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
+ 	var pairedobj1 = _.pairs(this)
+ 	var pairedobj2 = _.pairs(object2)
+ 	pairedobj1.sort()
+ 	pairedobj2.sort()
+ 	console.log(pairedobj1)
+ 	console.log("1: ", pairedobj1.length)
+
+ 	console.log("2: ", pairedobj2.length)
+ 	// pairedobj1.prototype.hasEqualContent(pairedobj2)
+ 	if (pairedobj1.length !== pairedobj2.length) {
+ 		return false;
+ 	}
+ 	console.log(pairedobj1[0])
+ 	for (var i = 0; i < pairedobj1.length; i++) {
+    	if (_.isEqual(pairedobj1[i], pairedobj2[i])) {
+     	 	console.log("**", pairedobj1[i], pairedobj2[i])
+    		}
+    	else {
+    		return false
+    	}
+  	}
+  return true;
 }
+
+	

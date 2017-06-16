@@ -30,9 +30,20 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
+var everseen = {}
 function memoize(func) {
-  // YOUR CODE HERE
+  return function() {
+  	if (everseen.hasOwnProperty(Array.prototype.slice.call(arguments[0]))) {
+  		return everseen.arguments
+  	}
+  	else {
+  		var returnvalue = func.apply(null, Array.prototype.slice.call(arguments))
+  		everseen.arguments = returnvalue;
+  		return returnvalue;
+  }
 }
+}
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

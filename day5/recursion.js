@@ -27,7 +27,7 @@ recursion.sum = function(number) {
   }
 
   // Recursive case
-  return number + recursion.sum(number - 1);
+  return number + this.sum(number - 1);
 }
 
 // As such, a function will continue calling itself until the base case is
@@ -67,8 +67,12 @@ recursion.sum = function(number) {
 // ex. factorial(5) -> 120
 // ex. factorial(17) -> 355687428096000
 recursion.factorial = function(number) {
-  // WRITE CODE HERE
-}
+  if (number === 0) {
+  	return 1;
+  }
+  return number * this.factorial(number - 1)
+  }
+
 
 // Exercise 2:
 // Write a function that calculates the nth fibonacci number.
@@ -90,5 +94,13 @@ recursion.factorial = function(number) {
 // [Run this in your console!]
 // ex. fibonacci(80) -> 23416728348467685
 recursion.fibonacci = function(number) {
-  // YOUR CODE HERE
-}
+  if (number === 0) {
+  	return 0;
+  }
+  if (number === 1) {
+  	return 1
+  }
+  return this.fibonacci(number -2) + this.fibonacci(number-1)
+  }
+
+

@@ -42,8 +42,115 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  // var numberarr = []
+  // var operarr = []
+  // var splitstring = rpnString.split('')
+  // console.log(splitstring)
+  // for (var i = 0; i < splitstring.length; i++) {
+  //   if (typeof(splitstring[i]) === 'number') {
+  //     numberarr.push(splitstring[i])
+  //   }
+  //   else {
+  //     operarr.push(splitstring[i])
+  //   }
+  // }
+  // console.log(numberarr)
+  
+  var ops = {
+    '-': function(a, b) {
+      return a - b;
+    },
+    '+': function(a, b) {
+      return a + b;
+    },
+    '*': function(a, b) {
+      return a * b;
+    },
+    '/': function(a, b) {
+      return a / b;
+    }
+  };
+
+  var stack = [];
+  var splitstring = rpnString.split(' ')
+  for (var i = 0; i < splitstring.length; i++) {
+    console.log(stack)
+    console.log(splitstring[i])
+    if (Number(splitstring[i]) === 'number') {
+      stack.push(Number(splitstring[i]));
+    } 
+    else {
+      var op = ops[splitstring[i]];
+      console.log(op)
+      if (stack.length < 2) {
+        throw 'Invalid expression. Too few numbers';
+      }
+      var b = stack.pop();
+      var a = stack.pop();
+      stack.push(op(a, b));
+    }
+  }
+    if (stack.length === 1) {
+      return stack[0];
+    }
 }
+//   throw "Invalid expression.";
+// }
+//   var splitstring = rpnString.split()
+//   var splitstring = splitstring[0].split(' ')
+//   stack = []
+//   for (var i = 0; i < splitstring.length; i++) {
+//     if (typeof(Number(splitstring[i])) === 'number') {
+//       stack.push(Number(splitstring[i]))
+//     }
+//     else {
+//       if (! _.has(ops, )) {
+//         throw 'Invalid operator';
+//       }
+//       var op = ops[];
+//       if (stack.length < 2) {
+//         throw 'Invalid expression. Too few numbers';
+//       }
+//       var b = stack.pop();
+//       var a = stack.pop();
+//       stack.push(op(a, b));
+//   }
+//   // while (splitstring.length !== 1) {
+//   //   a = Number(splitstring[0])
+//   //   b = Number(splitstring[1])
+//   //   for (var i = 0; i < splitstring.length; i++)
+//   //     if (splitstring.[])
+
+//   //   }
+//     if (splitstring[i] === '+') {
+      
+//       splitstring.shift()
+//       splitstring.shift()
+//       console.log(splitstring)
+//       splitstring[0] = returnv
+//     }
+//     else if (splitstring[i] === '-') {
+//       returnv = a - b
+//       splitstring.shift()
+//       splitstring.shift()
+//       splitstring[i] = returnv
+//     }
+//     else if (splitstring[i] === '/') {
+//       returnv = a / b
+//       splitstring.shift()
+//       splitstring.shift()
+//       splitstring[0] = returnv
+//     }
+//     else if (splitstring[i] === '*') {
+//       returnv = a * b
+
+//       splitstring[0] = returnv
+  //   }
+  //     splitstring.shift()
+  //     splitstring.shift()
+  // return returnv
+  // }
+
 
 // This function returns true if given string represents a valid number.
 //

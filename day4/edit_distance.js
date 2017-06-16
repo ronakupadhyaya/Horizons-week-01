@@ -17,6 +17,11 @@
 function editDistance(str1, str2) {
   var arr = [];
 
+  debugger;
+
+  str1 = ' ' + str1;
+  str2 = ' ' + str2;
+
   for (var k = 0; k < str1.length; k++) {
     var temp = [];
     for (var j = 0; j < str2.length; j++) {
@@ -25,14 +30,14 @@ function editDistance(str1, str2) {
     arr.push(temp);
   }
 
-  console.log(arr);
-
-  for (var k = 1; k < str1.lenght; k++) {
+  for (var k = 1; k < str1.length; k++) {
     for (var j = 1; j < str2.length; j++) {
-
+      if (str1.charAt(k) === str2.charAt(j))
+        arr[k][j] = arr[k - 1][j - 1];
+      else
+        arr[k][j] = 1 + Math.min(arr[k - 1][j], arr[k - 1][j - 1], arr[k][j - 1])
     }
   }
 
-
-
+  return arr[str1.length - 1][str2.length - 1]
 }

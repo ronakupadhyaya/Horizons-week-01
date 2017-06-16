@@ -62,11 +62,11 @@ game.onReady(function() {
     game.drawDinosaur(100, dinosaurY);
     if (100 < newX + game.obstacleWidth &&
       100 + game.dinosaurWidth > newX &&
-      dinosaurY - game.dinosaurHeight < 200 + game.obstacleHeight &&
-      game.dinosaurHeight + (dinosaurY - game.dinosaurHeight) > 200 - game.obstacleHeight) {
+      dinosaurY - game.dinosaurHeight + 3 < 200 &&
+      dinosaurY + 3 > 200 - game.obstacleHeight) {
       game.drawMessage('You lose!');
       ended = true;
-      window.cancelAnimationFrame();
+      return;
     }
     window.requestAnimationFrame(eventLoop);
   }

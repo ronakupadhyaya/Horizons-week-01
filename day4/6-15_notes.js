@@ -95,13 +95,3 @@ Product.prototype.isExpensive = function() {
 product1.isExpensive(); // -> ???
 product2.isExpensive(); // -> ???
 product3.isExpensive(); // -> ???
-
-//-------asynch
-setTimeout(func, miliseconds)
-// run func after miliseconds, can still do other things
-setInterval(func, milliseconds)
-//run func every time period
-
-// in these call backs, be careful with "this"
-// because it may refer to something else
-// use .bind to ensure that this is refering to obj

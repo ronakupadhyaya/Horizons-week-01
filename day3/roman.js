@@ -97,23 +97,44 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
-  var numerals = _.pairs(roman.obj)
-  var romanArr = []
+  // Numerals is a 2D array. Each inner array is [numeral, value]
+  var numerals = _.pairs(roman.obj);
+  // return array
+  var romanArr = [];
+  var subtrahend;
 
+  // iterates through numerals greatest to least
   for (var i = numerals.length-1; i >= 0; i--) {
-    debugger;
-    // if (numerals[i+1] && numerals[i+1][1] - numerals[i][1]) {
-    //   romanArr.push(numerals[i][0], numerals[i+1][0])
-    // }
-    if (numerals[i][1] < number) {
-      debugger;
-
+    // checks if the numeral fits inside number
+    if (numerals[i][1] <= number) {
+      // pushes numeral to array as many times as it fits
       for (var j = 0; j < Math.floor(number / numerals[i][1]); j++) {
-        romanArr.push(numerals[i][0])
+        romanArr.push(numerals[i][0]);
       }
-      number = number % numerals[i][1]
+      // updates number to its remainder after being divided by the value
+      number = number % numerals[i][1];
+      // checks if number is zero, breaks if so
+      if (!number) {
+        break
+      }
+    }
+    // if there is a possibility of subtraction
+    if (numerals[i-1]) {
+      // sets subtrahend to value that would be subtracted
+      subtrahend = numerals[i-1]
+      // checks if subtrahend is legal subtraction value, if not, sets it to one
+      if (numerals.indexOf(subtrahend) % 2 === 1) {
+        subtrahend = numerals[i-2]
+      }
+      // checks if difference of subtraction fits into number
+      if (numerals[i][1] - subtrahend[1] <= number) {
+        // adds subtrahend and numeral into array
+        romanArr.push(subtrahend[0], numerals[i][0]);
+        // update number by subtracting the differnce from number
+        number = number - (numerals[i][1] - subtrahend[1]);
+      }
     }
   }
+  // return a subtracting
   return romanArr.join("")
 };

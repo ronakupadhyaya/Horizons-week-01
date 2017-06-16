@@ -1,3 +1,5 @@
+
+
 "use strict";
 
 window.stocks = {};
@@ -179,7 +181,7 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
-  //console.log(_.groupBy(data, ticker))
+  yaga
   date = new Date(date).getTime()
   for (var trans = 0; trans < data.length; trans++) {
     data[trans].time = new Date(data[trans].time).getTime()

@@ -36,7 +36,34 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var arr = string.split('');
+
+  for (var k = 0; k < arr.length; k++) {
+    if (arr[k] === 'M')
+      arr[k] = 1000;
+    else if (arr[k] === 'D')
+      arr[k] = 500;
+    else if (arr[k] === 'C')
+      arr[k] = 100;
+    else if (arr[k] === 'L')
+      arr[k] = 50;
+    else if (arr[k] === 'X')
+      arr[k] = 10;
+    else if (arr[k] === 'V')
+      arr[k] = 5;
+    else
+      arr[k] = 1;
+  }
+
+  for (var k = 0; k < arr.length - 1; k++) {
+    if (arr[k] < arr[k + 1])
+      arr.splice(k, 2, arr[k + 1] - arr[k])
+  }
+
+  arr = arr.reduce(function(a, b) {
+    return a + b;
+  })
+  return arr;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +99,105 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var holder = number;
+  var answer = '';
+
+  debugger;
+
+  var ms = Math.floor(holder / 1000)
+  while (ms > 0) {
+    answer += 'M';
+    ms--;
+  }
+  number %= 1000;
+  holder = number;
+
+  if (Math.floor(holder / 900) > 0)
+    answer += 'CM'
+  number %= 900;
+  holder = number;
+
+  var ds = Math.floor(holder / 500)
+  if (ds < 2) {
+    while (ds > 0) {
+      answer += 'D';
+      ds--;
+    }
+  } else {
+    answer += 'DM';
+  }
+  number %= 500;
+  holder = number;
+
+  var cs = Math.floor(holder / 100)
+  if (cs < 4) {
+    while (cs > 0) {
+      answer += 'C'
+      cs--;
+    }
+  } else {
+    answer += 'CD';
+  }
+  number %= 100;
+  holder = number;
+
+  if (Math.floor(holder / 90) > 0)
+    answer += 'XC'
+  number %= 90;
+  holder = number;
+
+  var ls = Math.floor(holder / 50)
+  if (ls < 2) {
+    while (ls > 0) {
+      answer += 'L';
+      ls--;
+    }
+  } else {
+    answer += 'LC';
+  }
+  number %= 50;
+  holder = number;
+
+  var xs = Math.floor(holder / 10)
+  if (xs < 4) {
+    while (xs > 0) {
+      answer += 'X';
+      xs--;
+    }
+  } else {
+    answer += 'XL';
+  }
+  number %= 10;
+  holder = number;
+
+  if (Math.floor(holder / 9) > 0)
+    answer += 'IX'
+  number %= 9;
+  holder = number;
+
+  var vs = Math.floor(holder / 5)
+  if (vs < 2) {
+    while (vs > 0) {
+      answer += 'V';
+      vs--;
+    }
+  } else {
+    answer += 'VX'
+  }
+  number %= 5;
+  holder = number;
+
+  var is = Math.floor(holder / 1)
+  if (is < 4) {
+    while (is > 0) {
+      answer += 'I';
+      is--;
+    }
+  } else {
+    answer += 'IV';
+  }
+  number %= 1;
+  holder = number;
+
+  return answer;
 };

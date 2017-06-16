@@ -47,19 +47,19 @@ game.onReady(function() {
       counter = 0;
     }
 
-    if (obstacle1X < 100 + game.dinosaurWidth && obstacle1X + game.obstacleWidth > 100 &&
-      obstacleY - game.obstacleHeight < dinosaurY - game.dinosaurHeight + game.dinosaurHeight &&
-      game.obstacleHeight + obstacleY - game.obstacleHeight > dinosaurY - game.dinosaurHeight ||
-      obstacle2X < 100 + game.dinosaurWidth && obstacle2X + game.obstacleWidth > 100 &&
-      obstacleY - game.obstacleHeight < dinosaurY - game.dinosaurHeight + game.dinosaurHeight &&
-      game.obstacleHeight + obstacleY - game.obstacleHeight > dinosaurY - game.dinosaurHeight) {
+    if (obstacle1X < 110 + game.dinosaurWidth && obstacle1X + game.obstacleWidth > 110 &&
+      obstacleY - game.obstacleHeight < dinosaurY &&
+      obstacleY + game.obstacleHeight > dinosaurY - game.dinosaurHeight ||
+      //Separator
+      obstacle2X < 110 + game.dinosaurWidth && obstacle2X + game.obstacleWidth > 110 &&
+      obstacleY - game.obstacleHeight < dinosaurY &&
+      obstacleY + game.obstacleHeight > dinosaurY - game.dinosaurHeight) {
       dead = true;
-      game.drawMessage('You lose :(. Press up to restart');
-      window.cancelAnimationFrame();
+      game.drawMessage('You lose :( Press up to restart');
+      return;
     }
     window.requestAnimationFrame(eventLoop);
   }
-
   window.requestAnimationFrame(eventLoop);
 
   game.onUpArrow(function() {

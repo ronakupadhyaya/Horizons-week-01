@@ -27,22 +27,22 @@
       this.cv.height = this.height;
     },
     clear: function() {
-      this.ctx.fillStyle = "#5873fd";
+      this.ctx.fillStyle = "#000000";
       this.ctx.fillRect(0, 0, this.width, this.height);
     },
     drawMessage: function(text) {
-      this.ctx.fillStyle = "#000";
+      this.ctx.fillStyle = "#0c2190";
       this.ctx.font = "36px Helvetica";
       this.ctx.fillText(text, 10, this.height / 2);
     },
     drawScore: function(score) {
-      this.ctx.fillStyle = "#000";
-      this.ctx.font = "12px Helvetica";
+      this.ctx.fillStyle = "#ffffff";
+      this.ctx.font = "15px Helvetica";
       this.ctx.fillText('Score: ' + score, this.width - 150, 20);
     },
     drawHighScore: function(score) {
-      this.ctx.fillStyle = "#000";
-      this.ctx.font = "12px Helvetica";
+      this.ctx.fillStyle = "#ffffff";
+      this.ctx.font = "15px Helvetica";
       this.ctx.fillText('High score: ' + score, this.width - 150, 40);
     },
     drawLine: function(x, y, xp, yp) {
@@ -52,14 +52,14 @@
       this.ctx.stroke();
     },
     drawDinosaur: function(x, y) {
-      var dino = [this.dinosaurWidth, this.dinosaurHeight, "#e44e44"];
+      var dino = [this.dinosaurWidth, this.dinosaurHeight, "#1532cf"];
       this.ctx.fillStyle = dino[2];
       this.ctx.fillRect(x, y - dino[1], dino[0], dino[1]);
       this.ctx.beginPath();
       this.ctx.stroke();
     },
     drawObstacle: function(x, y) {
-      var obs = [this.obstacleWidth, this.obstacleHeight, "#ccc"];
+      var obs = [this.obstacleWidth, this.obstacleHeight, "#a21212"];
       this.ctx.fillStyle = obs[2];
       this.ctx.fillRect(x, y - obs[1], obs[0], obs[1]);
       this.ctx.beginPath();

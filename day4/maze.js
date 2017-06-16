@@ -122,8 +122,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (!_.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
-  // YOUR CODE HERE
   if (row >= this.maze.length || column >= this.maze[0].length || row < 0 || column < 0) {
     return false
   }

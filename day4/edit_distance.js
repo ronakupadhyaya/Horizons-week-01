@@ -15,5 +15,24 @@
 // Adapted from 4clojure
 // https://www.4clojure.com/problem/101
 function editDistance(str1, str2) {
-  // YOUR CODE HERE
+  var arr = [];
+
+  for (var k = 0; k < str1.length; k++) {
+    var temp = [];
+    for (var j = 0; j < str2.length; j++) {
+      temp.push(j + k)
+    }
+    arr.push(temp);
+  }
+
+  console.log(arr);
+
+  for (var k = 1; k < str1.lenght; k++) {
+    for (var j = 1; j < str2.length; j++) {
+
+    }
+  }
+
+
+
 }

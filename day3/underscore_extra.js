@@ -160,23 +160,23 @@ function composeBasic(fun1, fun2) {
 //
 // See: http://underscorejs.org/#memoize
 
-// function memoize(func, hashFunction) {
-// 	var called = false;
-// 	var calls = {};
+function memoize(func, hashFunction) {
+	var called = false;
+	var calls = {};
 
-// 	var memoizedFn = function() {
-// 		var args = Array.prototype.slice.call(arguments)
-// 		var key = hashFunction(args);
-// 		if (!(key in calls)) {
-// 			console.log('called')
-// 			called = true
-// 			calls[key] = func.apply(null, args)
-// 		}
-// 		return calls[key];
-// 	}
+	var memoizedFn = function() {
+		var args = Array.prototype.slice.call(arguments)
+		var key = hashFunction(args);
+		if (!(key in calls)) {
+			console.log('called')
+			called = true
+			calls[key] = func.apply(null, args)
+		}
+		return calls[key];
+	}
 
-//   	return memoizedFn;
-// }
+  return memoizedFn;
+}
 
 
 // Double Bonus Exercise: compose()

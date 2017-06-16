@@ -38,8 +38,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var rows = [];
+  for (var i = 0; i < this.maze.length; i++) {
+    var currRow = this.maze[i];
+    for (var j = 0; j < currRow.length; j++) {
+      if (currRow[j] === ' ') {
+        currRow[j] = '_';
+      }
+    }
+    rows.push(currRow.join(''));
+    currRow.join('')
+  }
+  rows.push(rows.join('\n'));
+  return rows[rows.length - 1]
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -48,7 +59,24 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
+  var string = this.toString()
+  // var string = Maze.prototype.toString.call(this)
+  // var string = Maze.prototype.toString.bind(this)()
+
+  var countRow = 0;
+  var countColumn = 0;
+  for (var i = 0; i < string.length; i++) {
+    if (string[i] == 'S') {
+      return [countRow, countColumn];
+    }
+    else if (string[i] === '\n') {
+      countRow = countRow + 1;
+      countColumn = 0;
+    }
+    else {
+      countColumn = countColumn + 1;
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -99,7 +127,34 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  var numRows = this.maze.length;
+  var numColumns = this.maze[0].length;
+
+  if (row < 0 || row >= numRows || column < 0 || column >= numColumns) {
+    return false
+  }
+
+  var newRow = row;
+  var newColumn = column;
+  if (direction === 'up') {
+    newRow = newRow - 1;
+  }
+  else if (direction === 'down') {
+    newRow = newRow + 1;
+  }
+  else if (direction === 'left') {
+    newColumn = newColumn - 1;
+  }
+  else {
+    newColumn = newColumn + 1;
+  }
+
+  if (newRow < 0 || newRow >= numRows || newColumn < 0 || newColumn >= numColumns ||
+    this.maze[newRow][newColumn] === 'X') {
+    return false
+  }
+
+  return [newRow, newColumn]
 }
 
 // Bonus!
@@ -109,5 +164,30 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var visited = this.maze.map(function(row) {
+    return row.map(_.constant(false));
+  })
+  var start = this.getStartPosition();
+  var stack = [start]
+
+  while (stack.length) {
+    var currPos = stack.pop()
+    var currCell = this.maze[currPos[0]][currPos[1]]
+
+    if (currCell === 'E') {
+      return true
+    }
+
+    visited[currPos[0]][currPos[1]] = true;
+    
+    for (var i = 0; i < Maze.validDirections.length; i++) {
+      var dir = Maze.validDirections[i];
+      var newPos = this.tryMove(currPos[0], currPos[1], dir);
+      if (newPos && !visited[newPos[0]][newPos[1]]) {
+        stack.push(newPos)
+      }
+    }
+  }
+
+  return false
 }

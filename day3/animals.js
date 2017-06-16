@@ -15,7 +15,7 @@
 	}
 
 	window.lion = getAnimal();
-}())
+}());
 
 (function() {
 	function getAnimal() {

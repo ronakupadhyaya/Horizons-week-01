@@ -47,8 +47,6 @@ Array.prototype.hasEqualContent = function(array2) {
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
-
  var object1 = Object.assign({}, this);
  var same = true;
 

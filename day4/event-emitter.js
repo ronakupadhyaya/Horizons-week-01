@@ -28,6 +28,8 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.onceArr = {};
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -44,6 +46,7 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -60,6 +63,11 @@ EventEmitter.prototype.once = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if (!this.hasOwnProperty(eventName)) {
+    this.listeners[eventName] = [fn];
+  } else {
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -78,6 +86,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var functions = this.listen[eventName];
+  console.log(functions);
+  for (var i = 0; i < functions.length; i++) {
+    functions(arg);
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -95,6 +108,13 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var functions = this.listener[eventName];
+  for (var i = 0; i < functions.length; i++) {
+    if (functions[i].toString() === fn.toString()) {
+      functions.splice(i, 1);
+    }
+  }
+  this.listener[eventName] = functions;
 }
 
 // You do not need to look at code past this line, but you may

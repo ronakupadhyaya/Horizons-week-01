@@ -45,6 +45,65 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, puzzle) {
+  var newPuzzle = {};
+  var output = [];
+
+  for (var i = 0; i < puzzle[0].length; i++) {
+  	for (var j = 0; j < puzzle.length; j++) {
+		if (j === 0) {
+	  		newPuzzle[i] = "";
+	  	}
+		newPuzzle[i] = newPuzzle[i] + puzzle[j][i];
+  	}
+  	output.push(newPuzzle[i]);
+  }
+  
+  var checkRow = solveCrosswordHelp(word, puzzle);
+  var checkCol = solveCrosswordHelp(word, output);
+
+  if (checkRow || checkCol) {
+  	return true;
+  }
+  return false;
+}
+
+function solveCrosswordHelp(word, puzzle) {
+  var wordI = 0;
+  var found = false;
+  var valid = true;
+  for (var i = 0; i < puzzle.length; i++) {
+  	var row = puzzle[i];
+  	for (var j = 0; j < row.length; j++) {
+  		if (row[j] === ' ') {
+  			continue;
+  		}
+	  	if (found && (row[j] === '#')) {
+	  		return true
+	  	}
+
+	  	if (!found && valid && (row[j] === word[wordI] || row[j] === '_')) {
+	  		if (wordI === word.length - 1) {
+	  			found = true;
+	  			if (j === row.length - 1) {
+	  				return true
+	  			}
+	  		}
+	  		wordI = wordI + 1;
+	  		valid = true;
+			continue;
+	  	}
+	  	else if (row[j] !== '#') {
+	  		valid = false;
+	  		wordI = 0;
+	  	}
+	  	else {
+	  		wordI = 0;
+	  	}
+  	}
+  	valid = true;
+  	found = false;
+  }
+
+  return false;
 }

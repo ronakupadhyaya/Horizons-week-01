@@ -1,6 +1,6 @@
 "use strict";
 
-window.roman = {};
+window.roman = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1};
 
 // Write a function that takes a string that represents a roman numeral and
 // returns its value as an integer.
@@ -36,7 +36,19 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var chars = string.split('');
+  var total = 0;
+  for (var i = 0; i < chars.length - 1; i++) {
+  	if (window.roman[chars[i]] >= window.roman[chars[i + 1]]) {
+  		total = total + window.roman[chars[i]];
+  	}
+  	else {
+  		total = total - window.roman[chars[i]];
+  	}
+  }
+  total = total + window.roman[chars[chars.length - 1]]
+
+  return total;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +84,40 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var string = "";
+  var numerals = _.pairs(window.roman);
+  var currNum;
+  var currVal;
+  var subNum;
+  var subVal;
+  console.log(numerals)
+  for (var i = 0; i < numerals.length - 3; i++) {
+  	currNum = numerals[i][0];
+  	currVal = numerals[i][1];
+  	if ((i + 1) % 2 === 0) {
+  		subNum = numerals[i + 1][0];
+  		subVal = numerals[i + 1][1];
+  	}
+  	else {
+  		subNum = numerals[i + 2][0];
+  		subVal = numerals[i + 2][1];
+  	}
+
+  	while (number >= currVal) {
+		string = string + currNum;
+		number = number - currVal;
+  		console.log(string + " " + number)
+  	}
+  	if (number >= currVal - subVal) {
+  		string = string + subNum + currNum;
+  		number = number - (currVal - subVal);
+  	}
+  }
+
+  while (number > 0) {
+  	string = string + 'I';
+  	number = number - 1;
+  }
+
+  return string;
 };

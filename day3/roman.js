@@ -37,6 +37,41 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var result = 0;
+  for (var i = 0; i < string.length; i++) {
+    if (string[i] === 'I' && i !== string.length - 1 && string[i + 1] !== 'V' && string[i + 1] !== 'X' || string[i] === 'I' && i === string.length - 1) {
+      result += 1;
+    } else if (string[i] === 'V' && i !== 0 && string[i - 1] !== 'I' || string[i] === 'V' && i === 0) {
+      result += 5;
+    } else if (string[i] === 'I' && i !== string.length - 1 && string[i + 1] === 'V') {
+      result += 4;
+    } else if (string[i] === 'I' && i !== string.length - 1 && string[i + 1] === 'X') {
+      result += 9;
+    } else if (string[i] === 'X' && i !== string.length - 1 && string[i + 1] !== 'L' && string[i + 1] !== 'C' || string[i] === 'X' && i === string.length - 1 && string[i - 1] !== 'I') {
+      result += 10;
+    } else if (string[i] === 'X' && i !== string.length - 1 && string[i + 1] === 'L') {
+      result += 40;
+    } else if (string[i] === 'X' && i !== string.length - 1 && string[i + 1] === 'C') {
+      result += 90;
+    } else if (string[i] === 'C' && i !== string.length -1 && i !== 0 && string[i - 1] !== 'X' && string[i + 1] !== 'D' && string[i + 1] !== 'M') {
+      result += 100;
+    } else if (string[i] === 'C' && i === 0 && string[i + 1] !== 'D' && string[i + 1] !== 'M') {
+      result += 100;
+    } else if (string[i] === 'C' && i === string.length - 1 && string[i - 1] !== 'X') {
+      result += 100;
+    } else if (string[i] === 'C' && i !== string.length - 1 && string[i + 1] === 'D') {
+      result += 400;
+    } else if (string[i] === 'C' && i !== string.length - 1 && string[i + 1] === 'M') {
+      result += 900;
+    } else if (string[i] === 'L' && i !== 0 && string[i - 1] !== 'X' || string[i] === 'L' && i === 0) {
+      result += 50;
+    } else if (string[i] === 'D' && i !== 0 && string[i - 1] !== 'C' || string[i] === 'D' && i === 0) {
+      result += 500;
+    } else if (string[i] === 'M' && i !== 0 && string[i - 1] !== 'C' || string[i] === 'M' && i === 0) {
+      result += 1000;
+    }
+  }
+  return result;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -73,4 +108,48 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var result = "";
+  while (number >= 0) {
+    if (number % 1000 >= 0) {
+      number = number % 1000;
+      result += 'M';
+    } else if (number % 900 >= 0) {
+      number = number % 900;
+      result += 'CM';
+    } else if (number % 500 >= 0) {
+      number = number % 500;
+      result += 'D';
+    } else if (number % 400 >= 0) {
+      number = number % 400;
+      result += 'CD';
+    } else if (number % 100 >= 0) {
+      number = number % 100;
+      result += 'C';
+    } else if (number % 90 >= 0) {
+      number = number % 90;
+      result += 'XC';
+    } else if (number % 50 >= 0) {
+      number = number % 50;
+      result += 'L';
+    } else if (number % 40 >= 0) {
+      number = number % 40;
+      result += 'XL';
+    } else if (number % 10 >= 0) {
+      number = number % 10;
+      result += 'X';
+    } else if (number % 9 >= 0) {
+      number = number % 9;
+      result += 'IX';
+    } else if (number % 5 >= 0) {
+      number = number % 5;
+      result += 'V';
+    } else if (number % 4 >= 0) {
+      number = number % 4;
+      result += 'IV';
+    } else if (number % 1 >= 0) {
+      number = number % 1;
+      result += 'I';
+    }
+  }
+  return result;
 };

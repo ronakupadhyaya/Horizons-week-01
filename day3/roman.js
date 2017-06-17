@@ -2,6 +2,8 @@
 
 window.roman = {};
 
+
+
 // Write a function that takes a string that represents a roman numeral and
 // returns its value as an integer.
 //
@@ -36,7 +38,22 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var romanArr = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+  var int = [1, 5, 10, 50, 100, 500, 1000];
+  var res = 0;
+  var num1 = 0;
+  var num2 = 0;
+  for (var i = 0; i < string.length-1; i++) {
+    num1 = int[romanArr.indexOf(string[i])];
+    num2 = int[romanArr.indexOf(string[i+1])];
+    if (num1 < num2) {
+      res -= num1;
+    } else {
+      res += num1;
+    }
+  }
+  res += num2;
+  return res;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +89,43 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  // var res = '';
+  // var romanArr = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+  // var int = [1, 5, 10, 50, 100, 500, 1000];
+  // var cur = number % 10;
+  // var check = cur % 5;
+  // if (check < 4) {
+  //   res = (cur - check) / 5 * 'V' + check * 'I';
+  // }
+  // console.log(res);
+  // return res;
+  var res = '';
+  var romanArr = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+  var int = [1, 5, 10, 50, 100, 500, 1000];
+  var num = String(number).split('').reverse().join('');
+  var cur = '';
+  var addS = '';
+  var addL = '';
+  var addNext = '';
+  for (var i = 0; i < num.length; i++) {
+    cur = num[i];
+    addS = romanArr[i*2];
+    addL = romanArr[i*2+1];
+    addNext = romanArr[i*2+2];
+    if (cur === '1') res = addS + res;
+    else if (cur === '2') res = addS + addS + res;
+    else if (cur === '3') res = addS + addS + addS + res;
+    else if (cur === '4') {
+      if (num.length === 4 && i === num.length-1) {
+        res = addS + addS + addS + addS + res;
+      } else {
+        res = addS + addL + res;
+      }
+    } else if (cur === '5') res = addL + res;
+    else if (cur === '6') res = addL + addS + res;
+    else if (cur === '7') res = addL + addS + addS + res;
+    else if (cur === '8') res = addL + addS + addS + addS + res;
+    else if (cur === '9') res = addS + addNext + res;
+  }
+  return res;
 };

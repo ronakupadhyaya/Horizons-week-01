@@ -38,8 +38,14 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var res = [];
+  var args = this.maze;
+  for (var i = 0; i < args.length; i++) {
+    var str = args[i].join('');
+    str = str.replace(/ /g,'_');
+    res.push(str);
+  }
+  return res.join("\n");
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -48,9 +54,25 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  var args = this.maze;
+  for (var i = 0; i < args.length; i++) {
+    for (var j = 0; j < args[i].length; j++)
+      if (args[i][j] === 'S') {
+        return [i, j];
+      }
+  }
   throw new Error("Maze has no starting point");
+}
+
+Maze.prototype.getEndPosition = function() {
+  var args = this.maze;
+  for (var i = 0; i < args.length; i++) {
+    for (var j = 0; j < args[i].length; j++)
+      if (args[i][j] === 'E') {
+        return [i, j];
+      }
+  }
+  throw new Error("Maze has no ending point");
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -98,8 +120,33 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var maze = this.maze;
+  if (row < 0 || column < 0 || row >= maze.length || column >= maze[0].length) {
+    return false;
+  }
 
-  // YOUR CODE HERE
+  if (direction === "up") row--;
+  else if (direction === "down") row++;
+  else if (direction === "left") column--;
+  else column++;
+
+  if (row < 0 || column < 0 || row >= maze.length || column >= maze[0].length) {
+    this.tryMove(row, column, this.reverse(direction));
+    return false;
+  }
+  if (maze[row][column] === "X") {
+    this.tryMove(row, column, this.reverse(direction));
+    return false;
+  }
+  return [row, column];
+}
+
+// Helper function
+Maze.prototype.reverse = function(direction) {
+  if (direction === 'up') return 'down';
+  else if (direction === 'down') return 'up';
+  else if (direction === 'left') return 'right';
+  else return 'left';
 }
 
 // Bonus!
@@ -109,5 +156,56 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+  var record = {};
+  var self = this;
+  var pastMoves = [];
+  var possibleMoves = Maze.validDirections;
+  var curRow = this.getStartPosition()[0];
+  var curCol = this.getStartPosition()[1];
+  var end = this.getEndPosition();
+  var ableToMove = true;
+  var end = false;
+  while (ableToMove || !end) {
+    for (var i = 0; i < possibleMoves.length; i++) {
+      var move = self.tryMove(curRow, curCol, possibleMoves[i]);
+      //console.log(move);
+      if (move !== false) {
+        // if (record[move.join(',')] === false) {
+        //   self.tryMove(curRow, curCol, self.reverse(possibleMoves[i]));
+        // } else {
+        if (record[move.join(',')] === true) {
+          curRow = move[0];
+          curCol = move[1];
+          record[move.join(',')] = false;
+          //console.log(record);
+          pastMoves.push(possibleMoves[i]);
+          //console.log(pastMoves);
+          break;
+        }
+      }
+      if (i === possibleMoves.length-1) {
+        //self.tryMove(curRow, curCol, self.reverse(pastMoves.pop()));
+        var reverse = pastMoves.pop();
+        if (reverse === 'up') curRow++;
+        else if (reverse === 'down') curRow--;
+        else if (reverse === 'left') curCol++;
+        else curCol--;
+        break;
+      }
+    }
+    //if (curRow !== end[0] || curCol !== end[1]) continue;
+    // if (self.tryMove(curRow, curCol, 'up') === false &&
+    //         self.tryMove(curRow, curCol, 'down') === false &&
+    //         self.tryMove(curRow, curCol, 'left') === false &&
+    //         self.tryMove(curRow, curCol, 'right') === false) break;
+  // }
+    //console.log(curRow, curCol);
+    ableToMove = self.tryMove(curRow, curCol, 'up') !== false ||
+            self.tryMove(curRow, curCol, 'down') !== false ||
+            self.tryMove(curRow, curCol, 'left') !== false ||
+            self.tryMove(curRow, curCol, 'right') !== false;
+    end = curRow === end[0] && curCol === end[1];
+  }
+  console.log(1);
+  return !!(curRow === end[0] && curCol === end[1]);
 }

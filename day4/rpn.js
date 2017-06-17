@@ -42,7 +42,21 @@
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+  var stack = [];
+  var rpnArr = rpnString.split(' ');
+  for (var i = 0; i < rpnArr.length; i++) {
+    var ele = rpnArr[i];
+    if (isNumberString(ele)) {
+      stack.push(ele);
+    } else if (["+","-","*","/"].includes(ele)) {
+      var n2 = stack.pop();
+      var n1 = stack.pop();
+      if (!isNumberString(n1) || !isNumberString(n2)) throw "Error";
+      stack.push(String(operate(ele, parseFloat(n1), parseFloat(n2))));
+    } else throw "Error";
+  }
+  if (stack.length !== 1 || !isNumberString(stack[0])) throw "Error";
+  return parseFloat(stack[0]);
 }
 
 // This function returns true if given string represents a valid number.
@@ -53,6 +67,20 @@ window.rpnCalculator = function(rpnString) {
 // ex. isNumberString('-1') -> true
 // ex. isNumberString('0') -> true
 // ex. isNumberString('-0.4') -> true
+
+
+function operate(str, n1, n2) {
+  if (str === "*") {
+    return n1 * n2;
+  } else if (str === "+") {
+    return n1 + n2;
+  } else if (str === "-") {
+    return n1 - n2;
+  } else if (str === "/") {
+    return n1 / n2;
+  }
+}
+
 function isNumberString(str) {
   if (! _.isString(str)) {
     return false;

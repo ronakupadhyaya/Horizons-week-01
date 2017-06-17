@@ -92,4 +92,7 @@ describe("recursion.fibonacci(number)", function() {
   it("recursion.fibonacci(21) -> 10946", function() {
     expect(recursion.fibonacci(21)).toBe(10946);
   });
+  it("recursion.fibonacci(45) -> 10946", function() {
+    expect(recursion.fibonacci(45)).toBe(1134903170);
+  });
 });

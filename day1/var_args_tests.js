@@ -34,7 +34,7 @@ describe("varArgs.sum(...args)", function() {
   it("varArgs.sum() -> 0", function() {
     expect(varArgs.sum()).toBe(0);
   });
-  
+
   it("varArgs.sum(1) -> 1", function() {
     expect(varArgs.sum(1)).toBe(1);
   });
@@ -42,7 +42,7 @@ describe("varArgs.sum(...args)", function() {
   it("varArgs.sum(1, 2, 4) -> 7", function() {
     expect(varArgs.sum(1, 2, 4)).toBe(7);
   });
-  
+
   it("varArgs.sum(1, -2, 4) -> 3", function() {
     expect(varArgs.sum(1, -2, 4)).toBe(3);
   });
@@ -53,15 +53,15 @@ describe("varArgs.product(...args)", function() {
   it("varArgs.product() -> 1", function() {
     expect(varArgs.product()).toBe(1);
   });
-  
+
   it("varArgs.product(1) -> 1", function() {
     expect(varArgs.product(1)).toBe(1);
   });
-  
+
   it("varArgs.product(1, 2, 4) -> 8", function() {
     expect(varArgs.product(1, 2, 4)).toBe(8);
   });
-  
+
   it("varArgs.product(1, -2, 4) -> -8", function() {
     expect(varArgs.product(1, -2, 4)).toBe(-8);
   });
@@ -71,7 +71,7 @@ describe("varArgs.joinWith(...args)", function() {
   it("varArgs.joinWith(',') -> ''", function() {
     expect(varArgs.joinWith(',')).toBe('');
   });
-  
+
   it("varArgs.joinWith(',', 'a', 'b') -> 'a,b'", function() {
     expect(varArgs.joinWith(',', 'a', 'b')).toBe('a,b');
   });

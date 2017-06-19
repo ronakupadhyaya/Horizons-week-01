@@ -15,9 +15,22 @@ window.prototypes = {};
 
 // Hint: the first thing you have to figure out is how to get the first array
 // inside the function. Then you can compare it to array2.
+// macBookPro.__proto__ = macBook;
 
 Array.prototype.hasEqualContent = function(array2){
- // YOUR CODE HERE
+    var value = true;
+    for(var i = 0; i < this.length; i++) {
+        if (!array2.includes(this[i])){
+            value = false;
+        }
+    }
+    for(var j = 0; j < array2.length; j++) {
+        if(!this.includes(array2[j])) {
+            value = false;
+        }
+    }
+    // console.log(value);
+    return value;
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -33,5 +46,15 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
+     var obj1arr = [];
+     for (var i in Object.entries(this)) {
+         obj1arr.push(Object.entries(this)[i].toString())
+     }
+     var obj2arr = [];
+     for (var j in Object.entries(object2)) {
+         obj2arr.push(Object.entries(object2)[j].toString())
+     }
+     console.log(obj1arr);
+     console.log(obj2arr);
+     return obj1arr.hasEqualContent(obj2arr);
 }

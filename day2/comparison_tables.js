@@ -5,14 +5,11 @@ window.comp = {};
 // In this exercise, you are going to take the following array of basic values
 // for all different types - from booleans to numbers to arrays -
 
-var valuesToCheck = function() {
-  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
-"-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
-}
+
 
 // and you will write the following:
 
-// 1. A function that evaluates the loosely equal (==) truth value of each value 
+// 1. A function that evaluates the loosely equal (==) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
 // 2. A function that evaluates the striclty equal (===) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
@@ -26,9 +23,9 @@ var valuesToCheck = function() {
 // ex. comp.testStrictEquality(s) ->
 // {"true_true": true, "true_false": false, "true_1": false, "true_0": false, ...}
 
-// Each property's key value should be formatted as: 
+// Each property's key value should be formatted as:
 // valuesToCheck[someIndex]_valuesToCheck[anotherIndex]
-// such that the return object has all keys of possible combinations of 
+// such that the return object has all keys of possible combinations of
 // valuesToCheck, from true_true to NaN_NaN.
 
 // Note: Allow for redundancies; you should have both true_false and false_true
@@ -46,8 +43,42 @@ var valuesToCheck = function() {
 
 // Good luck!
 
+// var valuesToCheck = function() {
+//   return [true, false, 1, 0, -1, "true", "false", "1", "0",
+// "-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+// }
+
+// var valuesToCheck = function() {
+//   return [true, false, 1, 0, -1, "true", "false", "1", "0",
+// "-1", "", Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+// }
+
+var valuesToCheck = function () {
+    return [[], false];
+}
+
 comp.testLooseEquality = function() {
     // YOUR CODE HERE
+    var master = {};
+    var array = [];
+    var values = valuesToCheck();
+    // values = values.split(", ");
+    console.log(values);
+    // console.log(values[1]);
+    for(var i = 0; i < values.length; i++) {
+        for(var j = 0; j < values.length; j++) {
+            array.push([values[i],values[j]]);
+            // array.push([values[i],values[j]]);
+            // master[array[0]+"_"array[1]] = (array[0] == array[1]);
+        }
+    }
+
+    for(var i = 0; i < array.length; i++) {
+        master[array[i][0].toString() + "_" + array[i][1].toString()] = (array[i][0] == array[i][1]);
+    }
+    // console.log(master);
+    return master;
+// {"true_true": true, "true_false": false, "true_1": false, "true_0": false, ...}
 };
 
 comp.testStrictEquality = function() {

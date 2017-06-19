@@ -54,5 +54,69 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+   var exp = expression.split(' ');
+   var ctrnone = 0;
+   var ctrnum = 0;
+   var ctrsqrt = 0;
+       for(var i = 0; i < exp.length; i++) {
+           if (exp[0] == [""]) {
+               throw "error";
+           }
+           if (exp[i] == "sqrt") {
+               ctrsqrt ++;
+           }
+           else if (isNaN(parseInt(exp[i]))) {
+               ctrnone ++;
+           }
+           else if (parseInt(exp[i]) != NaN) {
+               ctrnum ++;
+           }
+           if (ctrsqrt > 0) {
+           }
+           else if (i%2 == 0 && isNaN(parseInt(exp[i]))) {
+               throw "error";
+           }
+       }
+
+       if (!(ctrnone + 1 == ctrnum)) {
+           throw "error";
+       }
+
+  while(exp.indexOf("sqrt") > -1 || exp.indexOf("*") > -1 || exp.indexOf("/") > -1|| exp.indexOf("+") > -1 || exp.indexOf("-") > -1) {
+      var mult = exp.indexOf("*")
+      var div = exp.indexOf("/")
+      var add = exp.indexOf("+")
+      var sub = exp.indexOf("-")
+      var sqr = exp.indexOf("sqrt")
+      var newValue;
+      var op;
+      if (sqr > -1) {
+          newValue = Math.sqrt(exp[sqr+1]);
+          exp.splice(sqr, 2, newValue.toString());
+      }
+      else if (mult > -1 || div > -1) {
+          if(mult > -1) {
+              newValue = exp[mult-1] * exp[mult+1];
+              op = mult;
+          }
+          if (div > -1) {
+              newValue = exp[div-1] / exp[div+1];
+              op = div;
+          }
+          exp.splice(op-1,3,newValue.toString());
+      }
+      else if (sub > -1 || add > -1) {
+          if (add > -1) {
+              newValue = parseFloat(exp[add-1]) + parseFloat(exp[add+1]);
+              op = add;
+          }
+          if (sub > -1) {
+              newValue = parseFloat(exp[sub-1]) - parseFloat(exp[sub+1]);
+              op = sub;
+          }
+          exp.splice(op-1,3,newValue.toString());
+      };
+  };
+  return parseFloat(exp.pop());
+
 };

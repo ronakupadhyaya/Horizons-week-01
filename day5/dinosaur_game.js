@@ -1,6 +1,5 @@
 "use strict";
 
-
 (function() {
   function Game() {
     this.width = 550;

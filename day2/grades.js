@@ -26,7 +26,15 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+    if (arr.length === 0) {
+        return 0;
+    }
+    else {
+      var sum = _.reduce(arr, function (a, b) {
+          return a + b;
+      });
+    return sum / arr.length;
+  }
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +46,16 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+    return grades.average([student.grades.class1,student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+    return _.max(data, function(student) {
+        return grades.getGPA(student)
+    });
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +63,21 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+    var majors = {};
+
+    _.forEach(data, function(student){
+        if (_.isUndefined(majors[student.major])) {
+            majors[student.major] = [0,0];
+        }
+        majors[student.major][0] += grades.getGPA(student);
+        majors[student.major][1] ++;
+    });
+    majors = _.mapObject(majors, function(val, key) {
+      return val[0] / val[1]; // Average GPA of major
+    });
+    return _.findKey(majors, function(major) {
+      return major === _.max(majors);
+    });
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +85,11 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+    var class1arr = []
+    var class2arr = []
+  for (var i = 0; i < data.length; i++) {
+      class1arr.push(data[i].grades.class1);
+      class2arr.push(data[i].grades.class2);
+  }
+  return {'class1': grades.average(class1arr), 'class2': grades.average(class2arr)}
 };

@@ -45,6 +45,47 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(word, puzzle) {
+  var args = Array.prototype.slice.call(arguments);
+  var word = args.shift().split("");
+  var puzzle = args.shift();
+  var puzzleArr = [];
+  var next = 0;
+  puzzle = puzzle.forEach(function(item) {
+      puzzleArr.push(item.split(" "));
+  });
+  function pass() {
+      for(var i = 0; i < puzzleArr.length; i++) {
+          for(var j = 0; j < puzzleArr[i].length; j++) {
+              console.log(word[next], puzzleArr[i][j]);
+              if (next === word.length - 1) {
+                  if(typeof puzzleArr[i][j+1] === "string" || puzzleArr[i][j+1] === "_") {
+                      next = 0;
+                  }
+                  else {
+                      return true;
+                  }
+              }
+              else if (next === word.length - 1 && i === puzzleArr.length - 1 && j === puzzleArr[i].length) {
+                  return true;
+              }
+              else if (!(next === word.length - 1) && i === puzzleArr.length - 1 && j === puzzleArr[i].length) {
+                  return false;
+              }
+              else if (puzzleArr[i][j] === word[next] || puzzleArr[i][j] === "_") {
+                  if (typeof puzzleArr[i][j-1] === "string") {
+                      return false;
+                  }
+                  else {
+                      next = next + 1;
+                  }
+              }
+              else if (puzzleArr[i][j] === "#") {
+                  next = 0;
+              }
+          }
+      }
+  }
+  console.log(pass());
+  // return pass();
 }

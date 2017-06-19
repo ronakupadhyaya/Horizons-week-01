@@ -30,8 +30,35 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+
+// var memoizedMax = memoize(max, hashFunction);
+// memoizedMax(1, 10) // -> returns 10, logs 'called'
+// memoizedMax(1, 10) // -> returns 10, logs nothing
+// memoizedMax(10, 1) // -> returns 10, logs 'called'
+// memoizedMax(0, -71) // -> returns 0, logs 'called'
+
+function memoize(func, hash) {
+  var cache = {};
+  return function memoizedFn(n) {
+      var args = Array.prototype.slice.call(arguments);
+      if(hash) {
+          var key = hash(args);
+      }
+      else {
+          key = args;
+      }
+      if (key in cache){
+          return cache[key];
+      }
+      else {
+          var value = func.apply(null, args);
+          cache[key] = value;
+          console.log(cache);
+          return value;
+      }
+    //   console.log(cache);
+
+  }
 }
 
 // Exercise 2: partial()
@@ -59,7 +86,20 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  var array;
+  var array = Array.prototype.slice.call(arguments);
+  if(array == "") {
+      throw "Error";
+  }
+  return function partialFn() {
+      var temp = Array.prototype.slice.call(arguments);
+      for(var i = 0; i < temp.length; i++) {
+          array.push(temp[i])
+      }
+      var fxn = array[0];
+      var args = array.splice(1);
+      return fxn.apply(null,args);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +138,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFun() {
+      var args = Array.prototype.slice.call(arguments);
+      console.log();
+      return fun1(fun2.apply(null, args));
+  }
 }
 
 
@@ -141,5 +185,14 @@ function composeBasic(fun1, fun2) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+    var fxns = Array.prototype.slice.call(arguments);
+    console.log(fxns);
+    return function composedFun() {
+        var args = Array.prototype.slice.call(arguments);
+        var newvalue = fxns[fxns.length-1].apply(null,args);
+        for(var i = 0; i < fxns.length-1; i++) {
+            newvalue = fxns[i](newvalue);
+        }
+        return newvalue;
+    }
 }

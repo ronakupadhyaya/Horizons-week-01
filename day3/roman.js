@@ -36,7 +36,64 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var stringArr = [];
+  var number = 0;
+  stringArr = string.split("")
+  for (var i = 0; i < stringArr.length; i++) {
+      if (stringArr[i] === "M") {
+          number = number + 1000;
+      }
+      else if (stringArr[i] === "D") {
+          number = number + 500;
+      }
+      else if (stringArr[i] === "C") {
+          if (stringArr[i+1] === "M") {
+              number = number + 900;
+              stringArr.splice(i+1, 1);
+          }
+          else if (stringArr[i+1] === "D") {
+              number = number + 400;
+              stringArr.splice(i+1, 1);
+          }
+          else {
+              number = number + 100;
+          }
+      }
+      else if (stringArr[i] === "L") {
+          number = number + 50;
+      }
+      else if (stringArr[i] === "X") {
+          if (stringArr[i+1] === "L") {
+              number = number + 40;
+              stringArr.splice(i+1, 1);
+          }
+          else if (stringArr[i+1] === "C") {
+              number = number + 90;
+              stringArr.splice(i+1, 1);
+          }
+          else {
+              number = number + 10;
+          }
+      }
+      else if (stringArr[i] === "V") {
+          number = number + 5;
+      }
+      else if (stringArr[i] === "I") {
+          if (stringArr[i+1] === "X") {
+              number = number + 9;
+              stringArr.splice(i+1, 1);
+          }
+          else if (stringArr[i+1] === "V") {
+              number = number + 4;
+              stringArr.splice(i+1, 1);
+          }
+          else {
+              number = number + 1
+          }
+      }
+  }
+  return number;
+
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +129,81 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var digit = 0;
+  var array = []
+  var number = number;
+  var length;
+  var ctr;
+  var ones = number % 10;
+  var tens = number % 100 - ones;
+  var hundreds = number % 1000 - tens - ones;
+  var thousands = number % 10000 - hundreds - tens - ones;
+  var add = function(num) {
+      length = num.toString().split("").length;
+      if (length === 4) {
+          ctr = num / 1000;
+          while (ctr > 0) {
+              array.push("M")
+              ctr = ctr - 1;
+          }
+      }
+      else if (length === 3) {
+          ctr = num / 100;
+          if (ctr === 9) {
+              array.push("CM")
+              ctr = 0;
+          }
+          else if (ctr >= 5) {
+              array.push("D")
+              ctr = ctr - 5;
+          }
+          else if (ctr === 4) {
+              array.push("CD")
+              ctr = 0;
+          }
+          while (ctr > 0) {
+              array.push("C")
+              ctr = ctr - 1;
+          }
+      }
+      else if (length === 2) {
+          ctr = num / 10;
+          if (ctr >= 5) {
+              array.push("L")
+              ctr = ctr - 5;
+          }
+          else if (ctr === 4) {
+              array.push("XL")
+              ctr = 0;
+          }
+          while (ctr > 0) {
+              array.push("X")
+              ctr = ctr - 1;
+          }
+      }
+      else if (length === 1) {
+          ctr = num / 1;
+          if (ctr === 9) {
+              array.push("IX")
+              ctr = 0;
+          }
+          else if (ctr >= 5) {
+              array.push("V")
+              ctr = ctr - 5;
+          }
+          else if (ctr === 4) {
+              array.push("IV")
+              ctr = 0;
+          }
+          while (ctr > 0) {
+              array.push("I")
+              ctr = ctr - 1;
+          }
+      }
+  }
+  add(thousands);
+  add(hundreds);
+  add(tens);
+  add(ones);
+  return array.join("");
 };

@@ -26,7 +26,14 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0;
+  }
+
+  var newArray = _.reduce(arr, function(a,b) {
+    return a+b;
+  });
+  return newArray/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +45,23 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var newArray = _.reduce(data, function(a,b) {
+    if(grades.getGPA(a)>grades.getGPA(b)){
+      return a;
+    }else{
+      return b;
+    }
+  });
+  console.log(newArray.major);
+  return newArray;
+
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -53,7 +69,44 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var newArray =[];
+  _.forEach(data, function(n) {
+    newArray.push([n.major, grades.getGPA(n)]);
+  });
+  var economicsArray =[];
+  var filmStudiesArray =[];
+  var csArray = [];
+  var artHistoryArray =[];
+  _.forEach(newArray, function(n) {
+    if(n[0] === 'Computer Science'){
+      csArray.push(n[1]);
+    }
+    if(n[0] === 'Film Studies'){
+      filmStudiesArray.push(n[1]);
+    }
+    if(n[0] === 'Art History'){
+      artHistoryArray.push(n[1]);
+    }
+    if(n[0] === 'Economics'){
+      economicsArray.push(n[1]);
+    }
+  });
+  var avgEcon = grades.average(economicsArray);
+  var avgFilm = grades.average(filmStudiesArray);
+  var avgCS = grades.average(csArray);
+  var avgArtHistory = grades.average(artHistoryArray);
+
+  if(avgEcon > avgFilm && avgEcon > avgCS && avgEcon > avgArtHistory){
+    return 'Economics';
+  }
+  if(avgFilm > avgCS && avgFilm > avgArtHistory){
+    return 'Film Studies';
+  }
+  if(avgCS > avgArtHistory){
+    return 'Computer Science';
+  } else {
+    return 'Art History';
+  }
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -61,5 +114,24 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var newArray =[];
+  var newnewArray = [];
+  _.forEach(data, function(n){
+    newArray.push(n.grades.class1);
+    newnewArray.push(n.grades.class2);
+  });
+
+var avgClass1 = grades.average(newArray);
+var avgClass2 = grades.average(newnewArray);
+
+var object = {};
+object.class1 = avgClass1;
+object.class2 = avgClass2;
+
+return object;
+
+/*  _.forEach(newArray, function(grade) {
+    finalArray.push([grade]);
+  });
+*/
 };

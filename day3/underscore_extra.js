@@ -121,9 +121,13 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  fun2.call(arguments)
-  var fun1input = fun2(n)
-  return fun1(fun1input)
+  console.log(arguments)
+  return function (){
+    console.log(arguments)
+    console.log('hi')
+    var fun1input = fun2.apply(null,arguments)
+    return fun1(fun1input);
+  }
 }
 
 
@@ -156,7 +160,9 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+function memoizzz(){
 
+}
 
 // Double Bonus Exercise: compose()
 //

@@ -74,7 +74,7 @@ recursion.factorial = function(number) {
   // WRITE CODE HERE
   //Base case
   if(number === 0) {
-    return 0;
+    return 1;
   }
 
   //Recursive case
@@ -110,11 +110,14 @@ recursion.fibonacci = function(number) {
   if(number === 0) {
     return 0;
   }
+  if(number === 1) {
+    return 1;
+  }
 
-  return recursion.factorial(number-1) + 1;
+  return recursion.fibonacci(number-1) + recursion.fibonacci(number-2);
 
-  f(0) + 1
-    r (0)
+  // f(0) + 1
+  //   r (0)
   //first attempt!
   // var fibNums = [1,1]
   // var sum;
@@ -135,6 +138,6 @@ recursion.fibonacci = function(number) {
 
 
   //Recursive case
-  n+=1
-  Calc(n, n+1)
+  // n+=1
+  // Calc(n, n+1)
 }

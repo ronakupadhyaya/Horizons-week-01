@@ -46,7 +46,7 @@ stocks.gainAndLoss = function(data) {
   return _.chain(data)
     .groupBy('ticker')
     .mapObject(function(val) {
-      val = _.sortBy(val, i => new Date(i.time));
+      val = _.sortBy(val, i = new Date(i.time));
       return _.last(val).price - val[0].price;
     })
     .value();

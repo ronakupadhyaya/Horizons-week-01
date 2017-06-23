@@ -34,69 +34,36 @@ window.stocks = {};
 //
 // Example.
 // stocks.gainAndLoss(data) -> {
-//   GOOG: -32.36,
-//   NFLX: 43.44,
-//   FB: -47.36,
-//   MSFT: -16.21,
-//   AMZN: 299.04,
-//   NVDA: 17.5
+// GOOG: -32.36,
+// NFLX: 43.44,
+// FB: -47.36,
+// MSFT: -16.21,
+// AMZN: 299.04,
+// NVDA: 17.5
 // }
+
 stocks.gainAndLoss = function(data) {
-    var companyGroup = _.groupBy(data, function (company){
-      return company['ticker'];
+  var result= {}
+  var companyGroup = _.groupBy(data, function (company){
+    return company['ticker'];
+  });
+
+  for (var name in companyGroup) {
+    companyGroup[name].forEach(function(trait) {
+      trait.time = new Date(trait.time);
+      trait.time = trait.time.getTime();
     })
-    console.log(companyGroup)
-    // create a new object called companyGroup that groups all objects with the same ticker/company name
-
-    _.mapObject(companyGroup,function(val,key){
-        key['time']=  new Date('time');
-      }
-    )
-    console.log(companyGroup)
-    // take the time key and make it a date object
-    _.sortBy(companyGroup,'time')
-    console.log('is this printing')
-
-    // create a new object called companyGroup that groups all objects with the same ticker/company name
-    // sort each company (which is companyGroup's keys) by time least to greatest
-    // calculate price = companyGroup[array.length-1].price - companyGroup[0].price
-
-
-
-
-
-
-
-
-
-  // var tickerArray =[]
-  // for(var i=0; i<data.length; i++){
-  //   if(tickerArray.includes(data[i]['ticker']) === false){
-  //     tickerArray.push(data[i]['ticker'])
-  //   }
-  //     // loops through data objects and collects all unique tickers in tickerArray
-  //   data[i]['time'] = data[i]['time'.getTime()]
-  // }
-  // for(var i=0; i<data.length; i++){
-  //   max = 0
-  //   min = 14962010872296666666 // asssuming this is the largest time you could make
-  //   for (var j=0; j<tickerArray.length;j++){
-  //     if(data[i]['ticker'] === tickerArray[j]){
-  //       if(data[i]['time']>max){
-  //         max = data[i]['time']
-  //       }
-  //     }
-  //   }// for each unique ticker, replace max only when the time is larger
-  //     for (var j=0; j<tickerArray.length;j++){
-  //       if(data[i]['ticker'] === tickerArray[j]){
-  //         if(data[i]['time']<min){
-  //           min = data[i]['time']
-  //         }
-  //       }
-  //     }// for each unique ticker, replace min only when the time is smaller
-  //
-  // }
-};
+    companyGroup[name].sort(function (a, b) {
+      return a.time - b.time;
+    })
+  }
+  var tickers = Object.keys(companyGroup)
+  for (var i=0; i<tickers.length; i++){
+    result[tickers[i]] = companyGroup[tickers[i]][companyGroup[tickers[i]].length-1].price
+    - companyGroup[tickers[i]][0].price
+  }
+  return result;
+}
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -112,7 +79,14 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var result = stocks.gainAndLoss(data)
+  var bigGain= Object.values(result).sort(function(a,b){
+    return a>b
+  })
+  for (var key in result)
+  if(result[key] === bigGain[bigGain.length-1]){
+    return key;
+  }
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -129,7 +103,14 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var result = stocks.gainAndLoss(data)
+  var bigLoss= Object.values(result).sort(function(a,b){
+    return a>b
+  })
+  for (var key in result)
+  if(result[key] === bigLoss[0]){
+    return key;
+  }
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -141,7 +122,29 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var result = {}
+  var companyGroup = _.groupBy(data, function (company){
+    return company['ticker'];
+  });
+
+  for (var name in companyGroup) {
+    companyGroup[name].sort(function (a, b) {
+      return a.price - b.price;
+    })
+  }
+  var tickers = Object.keys(companyGroup)
+  for (var i=0; i<tickers.length; i++){
+    result[tickers[i]] = companyGroup[tickers[i]][companyGroup[tickers[i]].length-1].price
+    - companyGroup[tickers[i]][0].price
+  }
+
+  var bigVar= Object.values(result).sort(function(a,b){
+    return a>b
+  })
+  for (var key in result)
+  if(result[key] === bigVar[bigVar.length-1]){
+    return key;
+  }
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -159,7 +162,35 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var companyGroup = _.groupBy(data, function (company){
+    return company['ticker'];
+  });
+
+  var price = []
+
+  for (var name in companyGroup) {
+    companyGroup[name].forEach(function(trait) {
+      trait.time = new Date(trait.time);
+      trait.time = trait.time.getTime();
+
+      var tickers = Object.keys(portfolio)
+      var shares = Object.values(portfolio)
+
+      for (var i=0; i< tickers.length; i++){
+        if(name === tickers[i] && trait.time === date.getTime()){
+          price.push(trait.price * shares[i])
+
+        }
+      }
+    })
+  }
+
+  var sum =0;
+  for (var i=0;i<price.length; i++){
+    sum += price[i]
+  }
+  return sum;
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -180,7 +211,33 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  var companyGroup = _.groupBy(data, function (company){
+    return company['ticker'];
+  });
+
+  var result = 0;
+  var resultArray =[]
+  var buyTime;
+  var sellTime;
+
+  for (var name in companyGroup) {
+    companyGroup[name].forEach(function(trait) {
+      trait.time = new Date(trait.time);
+    })
+  }
+  for (var i=0; i<companyGroup[ticker].length; i++){
+    for(var j=0; j<companyGroup[ticker].length; j++){
+      if(companyGroup[ticker][i].time - companyGroup[ticker][j].time >0 &&
+        companyGroup[ticker][i].price - companyGroup[ticker][j].price >result
+      ){
+        result = companyGroup[ticker][i].price - companyGroup[ticker][j].price;
+        buyTime = companyGroup[ticker][j].time
+        sellTime = companyGroup[ticker][i].time
+      }
+    }
+  }
+  resultArray.push(buyTime,sellTime,result)
+  return resultArray
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -204,5 +261,34 @@ stocks.bestTrade = function(data, ticker) {
 //   new Date('2016-06-24:00:00.000Z'),
 //   55.54]
 stocks.bestTradeEver = function(data) {
-  // YOUR CODE HERE
+  var companyGroup = _.groupBy(data, function (company){
+    return company['ticker'];
+  });
+
+  var result = 0;
+  var resultArray =[]
+  var buyTime;
+  var sellTime;
+  var ticker;
+
+  for (var name in companyGroup) {
+    companyGroup[name].forEach(function(trait) {
+      trait.time = new Date(trait.time);
+    })
+
+    for (var i=0; i<companyGroup[name].length; i++){
+      for(var j=0; j<companyGroup[name].length; j++){
+        if(companyGroup[name][i].time - companyGroup[name][j].time >0 &&
+          companyGroup[name][i].price - companyGroup[name][j].price >result
+        ){
+          result = companyGroup[name][i].price - companyGroup[name][j].price;
+          buyTime = companyGroup[name][j].time
+          sellTime = companyGroup[name][i].time
+          ticker = companyGroup[name][i].ticker
+        }
+      }
+    }
+  }
+  resultArray.push(ticker,buyTime,sellTime,result)
+  return resultArray
 };

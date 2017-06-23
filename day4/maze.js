@@ -61,13 +61,13 @@ Maze.prototype.toString = function() {
   // return mazeString2;
 
   var mazeString = _.map(this.maze,function(item){
-                          return _.map(item,function(x){
-                            if(x=== ' '){
-                              return '_'
-                            }else{
-                              return x
-                            }
-                          }).join('')
+    return _.map(item,function(x){
+      if(x=== ' '){
+        return '_'
+      }else{
+        return x
+      }
+    }).join('')
   })
   var mazeString2 = mazeString.join('\n')
   console.log(mazeString2);
@@ -129,33 +129,33 @@ Maze.prototype.getStartPosition = function() {
 //
 
 Maze.prototype.checkinBounds = function (row, column){
-    if(row<this.maze.length && row >=0
+  if(row<this.maze.length && row >=0
     && column<this.maze[0].length && column >=0){
       return true;
     } else {
       return false;
     }
-}
-// ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
-// ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
-// ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
-// ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
-Maze.prototype.tryMove = function(row, column, direction) {
-  if (! _.contains(Maze.validDirections, direction)) {
-    throw new Error('Invalid direction: ' + direction);
   }
-  //Validity
-  if(!this.checkinBounds(row,column)) {
-    return false;
-  }
-  // Directions
-  var down = function (){row +=1}
-  var up = function (){row -=1}
-  var right = function (){column +=1}
-  var left = function (){column -=1}
+  // ex. new Maze([['S'], ['E']]).tryMove(0, 0, 'down') -> [1, 0]
+  // ex. new Maze([['S'], ['E']]).tryMove(1, 0, 'up') -> [0, 0]
+  // ex. new Maze([['S', 'E']]).tryMove(0, 1, 'left') -> [0, 0]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'left') -> [0, 0]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 1, 'right') -> [0, 2]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).tryMove(0, 0, 'right') -> [0, 1]
+  // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
+  Maze.prototype.tryMove = function(row, column, direction) {
+    if (! _.contains(Maze.validDirections, direction)) {
+      throw new Error('Invalid direction: ' + direction);
+    }
+    //Validity
+    if(!this.checkinBounds(row,column)) {
+      return false;
+    }
+    // Directions
+    var down = function (){row +=1}
+    var up = function (){row -=1}
+    var right = function (){column +=1}
+    var left = function (){column -=1}
 
     if(direction === 'down'){
       down()
@@ -170,42 +170,87 @@ Maze.prototype.tryMove = function(row, column, direction) {
       left()
     }
 
-  // later check if new row,column is in bounds
-  if(!this.checkinBounds(row,column)){
-    return false;
-  }
+    // later check if new row,column is in bounds
+    if(!this.checkinBounds(row,column)){
+      return false;
+    }
 
-  if(this.maze[row][column] === 'X'){
-    return false;
+    if(this.maze[row][column] === 'X'){
+      return false;
+    }
+    return [row,column]
   }
-  return [row,column]
-}
-//
-// function sum*({
-//   return
-//   Array.prototype.slice.call(arguments).reduce(function(a,b))
-//   {return a+b;})
-// >>>>>>> Stashed changes
-// }
-//
-// bind.apply explained
-// partial(sum,1,2)(2,3) --> sum(1,2,2,3)
-// var boundSum = sum.bind(null,1,2)
-// boundSum(5) --> 8
-//
-// partial (sum,1,2) ---> sum.bind(null,1,2) --> these two should be equal
-// function partial (){
-//   var fn = arguments [0]
-//   arguments[0] = nullreturn
-//   fn.bind.apply (fn, arguments)
-// }
+  //
+  // function sum*({
+  //   return
+  //   Array.prototype.slice.call(arguments).reduce(function(a,b))
+  //   {return a+b;})
+  // >>>>>>> Stashed changes
+  // }
+  //
+  // bind.apply explained
+  // partial(sum,1,2)(2,3) --> sum(1,2,2,3)
+  // var boundSum = sum.bind(null,1,2)
+  // boundSum(5) --> 8
+  //
+  // partial (sum,1,2) ---> sum.bind(null,1,2) --> these two should be equal
+  // function partial (){
+  //   var fn = arguments [0]
+  //   arguments[0] = nullreturn
+  //   fn.bind.apply (fn, arguments)
+  // }
 
-// Bonus!
-// Write a method that returns true if this maze is solvable.
-// A maze is solvable if there exists a path from the Starting Point
-// to the Ending Point.
-//
-// No diagonal moves are allowed.
-Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
-}
+  // Bonus!
+  // Write a method that returns true if this maze is solvable.
+  // A maze is solvable if there exists a path from the Starting Point
+  // to the Ending Point.
+  //
+  // No diagonal moves are allowed.
+  Maze.prototype.isSolvable = function() {
+    var start = this.getStartPosition();
+    var q = [start];  //queue. put start inside to kick off path
+
+    //making a  lookup array to avoid repeats. 2D array with outer array as row
+    var height = this.maze.length; //this.maze is outer array, #rows
+    var width = this.maze[0].length  //number of columns
+    var lookupMaze=[] //make array of size height, constructor
+    for (var i=0;i<height;i++){
+      lookupMaze.push(new Array(width).fill(false));
+    }
+
+    var startRow= start[0]
+    var startCol = start[1]
+    lookupMaze[startRow][startCol]= true
+
+    var currentNode;
+
+    while (q.length > 0) {  //queue not empty. for any given node
+      //shift takes something out of front and modify array. inefficient
+      //b/c have to modify alll keys to pop something out the front
+      currentNode = q.shift(); //q.pop would make it dfs 
+      // [row,column]; currentNode at all times
+      var currentRow = currentNode[0];
+      var currentCol = currentNode[1];
+      var currentLetter = this.maze[currentRow][currentCol]
+
+      if (currentLetter === "E") {
+        return true;
+      }
+
+      for (var i=0; i<Maze.validDirections.length; i++) {
+        var currentDir = Maze.validDirections[i];  //loop through and check all 4 directions
+
+        var move = this.tryMove(currentRow, currentCol, currentDir); // if false, do nothing
+        var moveRow=[0]
+        var moveCol=[1]
+                                                              //and not add anything to q
+        if (move !== false && !lookupMaze[moveRow][moveCol]) {
+          q.push(move)
+          lookupMaze[moveRow][moveCol] = true;
+        }
+        // now add checking stuff
+        //initialize array with same dimensions as original and start with all falses
+      }
+    }
+    return false; // reached when while completes, dont find E
+  }

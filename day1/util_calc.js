@@ -26,16 +26,17 @@ function checkValid(toCheck){
   //alternates numbers and operators
   // begins and ends with a number
   var tokens = toCheck.split(' ')
-  if (tokens.length % 2 === 0){
+  if (tokens.length % 2 === 0 && tokens.indexOf('sqrt') === -1){
     throw "Even number of arguments"
   }
+
   for(var i=0;i < tokens.length;i++){
-    if(i% 2 === 0){    // for even index
+    if(i% 2 === 0 && tokens.indexOf('sqrt') === -1){    // for even index
       // this should be a number
       if (isNaN(parseFloat(tokens[i]))=== true){
         throw "Expected a number, found " + tokens[i] + " at position " + i;
       }
-    } else {
+    } else if (tokens.indexOf('sqrt') === -1){
       // this should be an operator
       if(!(tokens[i] === '-' ||tokens[i] === '+' || tokens[i]=== '*' || tokens[i]=== '/')){
         throw " Expected an operator, found " + tokens[i] + "at position " + i;
@@ -86,10 +87,10 @@ function multDiv(expression){
       i += 2;
     } else if(tokens[i] === '*') {
       var prod = tokens[i-1] * tokens[i+1]
-      tokens = tokens.slice(0,i-1).concat([prod],tokens.slice(i+2, tokens.length));
+      tokens = tokens.slice(0,i-1).concat(prod,tokens.slice(i+2, tokens.length));
     } else if(tokens [i] ==='/'){
       var quot = tokens[i-1] / tokens[i+1];
-      tokens = tokens.slice(0,i-1).concat([quot],tokens.slice(i+2, tokens.length));
+      tokens = tokens.slice(0,i-1).concat(quot,tokens.slice(i+2, tokens.length));
     }
   }
   return tokens.join(' ');
@@ -108,8 +109,21 @@ function multDiv(expression){
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+function sqrt(expression){
+  var tokens = expression.split(' ');
+
+  for (var i =0; i<tokens.length; i++){
+    if(tokens[i] === 'sqrt'){
+      var result = Math.sqrt(tokens[i+1])
+      tokens = tokens.slice(0,i).concat(result,tokens.slice([i+2],tokens.length))
+      console.log(tokens);
+    }
+  }
+  return tokens.join(' ');
+}
+
 util.calc = function(expression) {
   checkValid(expression);
-  return plusMinus(multDiv(expression));
-  //
+  return plusMinus(multDiv(sqrt(expression)));
+
 };

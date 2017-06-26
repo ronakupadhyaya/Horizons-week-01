@@ -43,7 +43,138 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+// var array = rpnString.split(" ")
+// var numArr = [];
+// var operatorArr = [];
+//
+//
+// array.forEach(function(x){
+//   if(isNumberString(x)){
+//
+//     numArr.push(parseInt(x))
+//   }
+//   else{
+//     operatorArr.push(x)
+//   }
+//
+//
+// });
+//
+//
+//
+// for(var i = 0; i<operatorArr.length; i++){
+//   if(operatorArr[i] === "+"){
+//     var operand1 = numArr.pop()
+//     var operand2 = numArr.pop()
+//     numArr.splice(numArr.length-1, 0,(operand2 + operand1))
+//   }
+//   if(operatorArr[i] === "-"){
+//     var operand1 = numArr.pop()
+//     var operand2 = numArr.pop()
+//     numArr.splice(numArr.length-1, 0,(operand2 - operand1))
+//   }
+//   if(operatorArr[i] === "+"){
+//     var operand1 = numArr.pop()
+//     var operand2 = numArr.pop()
+//     numArr.splice(numArr.length-1, 0,(operand2 * operand1))
+//   }
+//   if(operatorArr[i] === "/"){
+//     var operand1 = numArr.pop()
+//     var operand2 = numArr.pop()
+//     numArr.splice(numArr.length-1, 0,(operand2 / operand1))
+//   }
+//
+//
+// }
+// console.log(numArr)
+// console.log(operatorArr)
+// return numArr[0]
+//
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var rpnArr = rpnString.split(" ")
+  var stack = [];
+  var numArr = []
+var operand1 = 0
+var operand2 = 0
+var operatorArr = [];
+  rpnArr.forEach(function(x){
+    if(isNumberString(x) === true){
+      stack.push(parseInt(x))
+      numArr.push(parseInt(x))
+    }
+    if(isNumberString(x) === false){
+      operatorArr.push(x)
+    }
+    if(x === "+"){
+      operand1 = stack.pop(x)
+      operand2 = stack.pop(x)
+      stack.push(operand1 + operand2)
+
+    }
+    if(x === "-"){
+      operand1 = stack.pop(x)
+      operand2 = stack.pop(x)
+      stack.push(operand2 - operand1)
+
+    }
+    if(x === "*"){
+      operand1 = stack.pop(x)
+      operand2 = stack.pop(x)
+      stack.push(operand1 * operand2)
+
+    }
+    if(x === "/"){
+      operand1 = stack.pop(x)
+      operand2 = stack.pop(x)
+      stack.push(operand2 / operand1)
+
+    }
+
+
+
+
+
+
+//    stack.push(parseInt(rpnArr[i]))
+
+  });
+  console.log(numArr.length , "numArr Length")
+  console.log(operatorArr.length, "operatorArr Length")
+  if(operatorArr.length !== numArr.length - 1){
+    throw "Error"
+  }
+
+  return stack[0]
+
+
+
 }
+
+
+
+
+
 
 // This function returns true if given string represents a valid number.
 //

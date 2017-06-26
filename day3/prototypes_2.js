@@ -18,6 +18,29 @@ window.prototypes = {};
 
 Array.prototype.hasEqualContent = function(array2){
  // YOUR CODE HERE
+
+  var array = this
+  var comparr1 = array.sort();
+  var comparr2 = array2.sort();
+  console.log(comparr2, comparr1)
+  if( comparr1.length !== comparr2.length){
+    return false;
+  }
+  if(comparr1.length === 0 && comparr2.length === 0){
+    return true;
+  }
+  var bool = false
+  for(var i =0; i< comparr1.length; i++){
+
+    if(comparr1[i] === comparr2[i]){
+      bool = true;
+    }
+
+    else{
+      return false
+    }
+  }
+  return bool
 }
 
 // You are going to implement a function that compares if two Objects have the same
@@ -33,5 +56,46 @@ Array.prototype.hasEqualContent = function(array2){
 // without having to account for the order of elements.
 
 Object.prototype.hasEqualContent = function(object2){
- // YOUR CODE HERE
+ // // YOUR CODE HERE
+ // var obj = _.pairs(this)
+ // var objarr2 = _.pairs(object2)
+ // var objarr1 = obj.sort();
+ // var objarr2 = objarr2.sort();
+ // console.log(objarr2, objarr1)
+ var thisArray = _.pairs(this);
+   var object2Array = _.pairs(object2);
+   thisArray.sort(function(a,b){
+     return a[1]-b[1];
+   });
+   object2Array.sort(function(a,b){
+     return a[1] - b[1];
+   });
+   if(thisArray.length !== object2Array.length){
+     return false
+   }
+for(var i =0; i<thisArray.length; i++ ){
+  if(thisArray[i][0] !== object2Array[i][0]){
+    return false
+  }
 }
+return true
+};
+
+ // if( objarr1.length !== objarr2.length){
+ //   return false;
+ // }
+ // if(objarr1.length === 0 && objarr2.length === 0){
+ //   return true;
+ // }
+ // var bool = false
+ // for(var i =0; i< objarr1.length; i++){
+ //
+ //   if(objarr1[i] === objarr2[i]){
+ //     bool = true;
+ //   }
+ //
+ //   else{
+ //     return false
+ //   }
+ // }
+ // return bool

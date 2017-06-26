@@ -43,7 +43,31 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+ var obj =  _.groupBy(data , function(data){
+   return data.ticker
+ })
+ console.log(obj)
+
+ var final = _.mapObject(obj, function(array){
+
+   array = _.sortBy(array, function(item){
+     return new Date(item.time).getTime();
+   })
+
+   var delta = array[29].price - array[0].price
+   return delta
+ })
+
+ console.log(final)
+ return final;
 };
+
+
+
+
+// obj = _.forEach(obj , function(value, key){
+//   return value = value[29] - value[0]
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //
@@ -60,6 +84,15 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var max1 = 0
+  var maxTicker = ""
+  _.forEach(stocks.gainAndLoss(data), function(number, ticker){
+    if(max1 <= number){
+      max1 = number
+      maxTicker = ticker
+    }
+  })
+  return maxTicker
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +110,17 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var lowest1 = 0
+  var lowestTicker = ""
+  _.forEach(stocks.gainAndLoss(data), function(number, ticker){
+    if(lowest1 >= number){
+      lowest1 = number
+      lowestTicker = ticker
+    }
+  })
+  return lowestTicker
+
+
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +133,17 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var max1 = 0
+  var maxTicker = ""
+  _.forEach(stocks.gainAndLoss(data), function(number, ticker){
+    if(max1 <= Math.abs(number)){
+      max1 = Math.abs(number)
+      maxTicker = ticker
+    }
+  })
+  return maxTicker
+
+
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +162,9 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

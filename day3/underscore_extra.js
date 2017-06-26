@@ -32,7 +32,26 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
-}
+  //var called = false; // Let's create a local variable to track if f has been called
+  var count = 0
+  var numArr = []
+
+  return function memoizedFn(number) {
+    for(var i = 0; i <= arugments.length; i++){
+      if(numArr[i] !== number){
+    //if (! called) { // if f hasn't been called yet
+    //var arg = Array.prototype.slice.call(arguments);
+      count = func(number); // call f
+      numArr.push(number)
+      console.log(count)
+      //called = true; // mark f as called
+      console.log("called")
+    }}}
+    return count
+
+
+  }
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

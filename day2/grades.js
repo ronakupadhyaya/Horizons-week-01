@@ -27,6 +27,16 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if(arr.length > 0){
+    var sum = _.reduce(arr, function(a, b){
+      return a + b;
+    }
+    )
+    return sum / arr.length
+  }
+  else{
+    return 0
+  }
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +49,10 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var gradeObj = student.grades
+  return ((gradeObj.class1 + gradeObj.class2) / 2)
+
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +60,15 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var dummy = data[0]
+  for(var i = 1; i<data.length;i++){
+    if(grades.getGPA(data[i]) > grades.getGPA(dummy)){
+      dummy = data[i]
+    }
+
+  }
+  return dummy
+
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -54,7 +77,131 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-};
+var objArr = _.groupBy(data , function(data){
+  return data.major;
+});
+objArr = _.mapObject(objArr, function (arr, majorName){
+  return _.map(arr ,function(student){
+    return grades.getGPA(student);
+  })
+})
+objArr = _.mapObject(objArr , function (arr, majorName){
+  return grades.average(arr);
+})
+  var maxGPA = 0;
+  var maxMajor = "";
+  _.mapObject(objArr, function(GPA, major){
+    if(GPA > maxGPA){
+      maxMajor = major;
+      maxGPA = GPA
+    }
+  });
+  return maxMajor;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var groupByMajorObj = _.groupBy(data, "major");
+// var majorList = Object.keys(groupByMajorObj);
+// var avgGPAMajor = [];
+// for(var i=0; i< majorList.length; i++){
+//   var majorStudentList = groupByMajorOrb[majorList[i]]
+//   var gpa = 0;
+//   for (var j =0; j < majorStudentList.length; j++){
+//     gpa += grades.getGPA(majorStudentList[j]);
+//   }
+//   avgGPAMajor.push( gpa /majorStudentList.length);
+// }
+//
+//   var majorWithHighestGPA = majorList[0];
+//   var gpa = avgGPAMajor[0];
+//   for(var i =1; i<majorList.length; i++){
+//     var temp = avgGPAMajor[i];
+//     if(temp > gpa){
+//       gpa = temp;
+//       majorWithHighestGPA = majorList[i]
+//     }
+// }
+// return majorWithHighestGPA;
+//
+//   }
+
+
+
+
+
+
+
+
+//   var econArr =[];
+//   var artArr = [];
+//   var filmArr = [];
+//   var compArr = [];
+//   var EconSum = 0
+//   var ArtSum = 0
+//   var FilmSum = 0
+//   var CompSum = 0
+//   var averagedData = data.map(function(smeet) {
+//
+//   })
+//   var final = [FilmSum, EconSum, ArtSum, CompSum]
+//   console.log(final)
+//   for(var i=0; i < data.length; i++){
+//     if(data[i]['major'] === "Economics"){
+//       econArr.push(grades.getGPA(data[i]));
+//       EconSum = grades.average(econArr);
+//       console.log(EconSum, "Econ")
+//     }
+//     if(data[i]['major'] === "Art History"){
+//       artArr.push(grades.getGPA(data[i]));
+//       ArtSum = grades.average(artArr);
+//       console.log(ArtSum, "Art")
+//     }
+//     if(data[i]['major'] === "Film Studies"){
+//       filmArr.push(grades.getGPA(data[i]));
+//       FilmSum = grades.average(filmArr);
+//       console.log(FilmSum, "Film")
+//     }
+//     if(data[i]['major'] === "Computer Science"){
+//       compArr.push(grades.getGPA(data[i]));
+//       CompSum = grades.average(compArr);
+//       console.log(CompSum, "Comp")
+//     }
+//   }
+// var dummy = final[0];
+// console.log("***", dummy)
+//   for(var i =0; i< final.length; i++){
+//     if(final[i] > dummy){
+//       dummy = final[i]
+//     }
+//   }
+//   if(dummy === EconSum){
+//     return "Economics"
+//   }
+//   if(dummy === ArtSum){
+//     return "Art History"
+//   }if(dummy === FilmSum){
+//     console.log("***",final)
+//     return "Film Studies"
+//   }if(dummy === CompSum){
+//     return "Computer Science"
+//   }
+
+
+
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
@@ -62,4 +209,18 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+var classOne =[];
+var classTwo =[];
+_.forEach(data , function(value, key){
+  var grade = value.grades;
+  classOne.push(grade.class1);
+  classTwo.push(grade.class2);
+})
+var class1avg = grades.average(classOne);
+var class2avg = grades.average(classTwo);
+var finalObj = {
+  class1: class1avg,
+  class2: class2avg,
+};
+return finalObj
 };

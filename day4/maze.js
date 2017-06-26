@@ -40,6 +40,16 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var mapStr = this.maze.map(function (innerArray){
+    return innerArray.map(function (element){
+      if(element === " "){
+        return "_";
+      }
+      return element;
+    }).join("");
+  }).join("\n");
+
+  return mapStr;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,8 +59,22 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  var coordinates = [];
+  var startsExists = false;
 
-  throw new Error("Maze has no starting point");
+  for(var row=0; row<this.maze.length; row++){
+    for(var column=0; column<this.maze[row].length; column++){
+      if (this.maze[row][column] === "S"){
+        coordinates.push(row);
+        coordinates.push(column);
+        startsExists = true;
+      }
+    }
+  }
+  if (startsExists === false){
+    throw new Error("Maze has no starting point");
+  }
+  return coordinates;
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -98,9 +122,49 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
-
   // YOUR CODE HERE
+  debugger;
+  var retCoor = [];
+  var totalColumn = this.maze.length;
+  var totalRow = this.maze[0].length;
+  var newRow;
+  var newColumn;
+  var returnRow;
+  var returnColumn;
+
+  if(direction === "up"){
+    newColumn = column+1;
+    if (newColumn >= 0 && newColumn < this.maze.length){
+      returnColumn = newColumn;
+    }
+  }
+
+  if(direction === "down"){
+    newColumn = column-1;
+    if (newColumn >= 0 && newColumn < this.maze.length){
+      returnColumn = newColumn;
+  }
 }
+
+  if(direction === "right"){
+    newRow = row-1;
+    if (newRow >= 0 && newRow < this.maze[0].length){
+      returnRow = newRow;
+    }
+  }
+
+  if(direction === "left"){
+    newRow = row+1;
+    if (newRow >= 0 && newRow < this.maze[0].length){
+      returnRow = newRow;
+    }
+  }
+
+  retCoor = [returnRow, returnColumn];
+  console.log(retCoor);
+  return retCoor;
+}
+
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

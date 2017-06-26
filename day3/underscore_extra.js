@@ -32,6 +32,8 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var called = false;
+  func()
 }
 
 // Exercise 2: partial()
@@ -60,6 +62,7 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  // use bind!
 }
 
 // Exercise 3: composeBasic()

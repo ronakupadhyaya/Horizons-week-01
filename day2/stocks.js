@@ -41,8 +41,13 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
+// get the last time and earliest time --> get the price.
+// get 
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  _map(data, function(company){
+    company["price"]
+  })
 };
 
 // Exercise 2. stocks.biggestGainer(data)

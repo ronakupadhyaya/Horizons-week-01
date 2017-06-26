@@ -36,6 +36,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -53,6 +54,10 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if(!(eventName in this.listeners)){
+    this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -71,9 +76,24 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  var getListeners = this.listeners[eventName];
+  if(getListeners.length){
+    getListeners.forEach(function(fn){
+      fn(arg);
+    });
+  }
+  return this;
 }
 
-// Takes is a string "eventName" and a callback function "fn"
+  /*if(this.listeners[eventName].length){
+    this.listeners[eventName].forEach(function(fn){
+      fn(arg);}.bind(this.listeners));
+  }
+  return this.listeners*/
+
+
+
+// Takes in a string "eventName" and a callback function "fn"
 // Removes the specified listener from the listener array
 // for the event named eventName.
 //
@@ -88,6 +108,10 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  if(this.listeners[eventName].length){
+    this.listeners[eventName].splice(this.listeners[eventName][fn], 1)
+  }
+  return this.listeners;
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -104,4 +128,6 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var called = false;
+
 }

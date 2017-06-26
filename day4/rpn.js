@@ -43,6 +43,66 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var calcArr = rpnString.split(" ");
+  var numArr = [];
+  var oprArr = [];
+
+  for (var i=0; i<calcArr.length; i++){
+    if (calcArr[i]==="+" || calcArr[i]==="-" || calcArr[i]==="*" || calcArr[i]==="/"){
+      oprArr.push(calcArr[i]);
+        }
+    else{
+      numArr.push(calcArr[i]);
+    }
+  }
+
+  if (numArr.length !== oprArr.length + 1){
+    throw "Error";
+  }
+  debugger;
+
+  var stack = [];
+  var currentRes;
+  for (var i=0; i<calcArr.length; i++){
+
+    if(calcArr[i]!=="+" && calcArr[i]!=="-" && calcArr[i]!=="*" && calcArr[i]!=="/"){
+      var num = parseInt(calcArr[i]);
+      stack.push(num);
+    }
+
+    else if(calcArr[i]==="+"){
+      var num1 = parseFloat(stack.pop());
+      var num2 = parseFloat(stack.pop());
+      currentRes = num2 + num1;
+      stack.push(currentRes);
+    }
+
+    else if(calcArr[i]==="-"){
+      var num1 = parseFloat(stack.pop());
+      var num2 = parseFloat(stack.pop());
+      currentRes = num2 - num1;
+      stack.push(currentRes);
+    }
+
+    else if(calcArr[i]==="*"){
+      var num1 = parseFloat(stack.pop());
+      var num2 = parseFloat(stack.pop());
+      currentRes = num2 * num1;
+      stack.push(currentRes);
+    }
+
+    else if(calcArr[i]==="/"){
+      var num1 = parseFloat(stack.pop());
+      var num2 = parseFloat(stack.pop());
+      currentRes = num2 / num1;
+      stack.push(currentRes);
+    }
+
+  }
+  if (stack.length !== 1){
+    throw "Error";
+  }
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

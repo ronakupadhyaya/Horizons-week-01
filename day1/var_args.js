@@ -34,7 +34,7 @@ varArgs.makeUser = function(name, age) {
     // args are sequential so if 1 arg was given, that means only the first (name) was given
     age = 12;
   } else if (arguments.length === 0) {
-    // didn't give it anything, man.
+    // didn't give it anything
     name = "John Doe";
     age = 24;
   }
@@ -49,11 +49,16 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  var sum=0;
-  for (var i=0;i<arguments.length;i++){
-    sum += arguments[i];
+  // TODO: YOUR CODE HERE
+  if (arguments.length ==0) {
+    return 0;
   }
-  return sum
+var sum = 0
+for (var i = 0; i < arguments.length; i++) {
+  sum += var arguments[i];
+}
+return sum;
+
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -64,11 +69,12 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  var product=1;
-  for (var i=0;i<arguments.length;i++){
-    product *= arguments[i];
+  // TODO: YOUR CODE HERE
+  var prod = 1
+  for (var i = 0; var < arguments.length; i++) {
+    prod *= arguments[i];
   }
-  return product
+  return prod;
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -80,11 +86,19 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  var arr=[]
-  var argument =Array.prototype.slice.call(arguments);
-  for (var i=1;i<argument.length;i++){
-    arr.push(argument[i])
+  // TODO: YOUR CODE HERE
+  if (arguments.length == 0 ) {return '';}
+
+  var DELIM = arguments[0];
+  var word = "";
+  //create an empty string to push shit into
+  for (var i = 1; i<arguments.length; i++) {
+    word += arguments[i];
+    if (i != arguments.length -1) {
+      word += DELIM;
+    }
   }
-  arr = arr.join(argument[0])
-  return arr
+  return word;
+
+
 };

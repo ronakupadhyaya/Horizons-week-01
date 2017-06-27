@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -19,24 +19,22 @@ window.builtins = {};
 // ex. builtins.trim('  Horizons  ') -> 'Horizons'
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
-builtins.trim = function(str) {
-var x = 0;
-var y = 0;
-	for (var i = 0; i < str.length - 1; i++) {
-		if (str[i] == ' ') {
-			x += 1
-		}
-		else if (typeof(str[i]) == "string") {
-			break;
-		}
-	str = str.substring(x + 1, str.length - 2)
-	};
-	for (var i = 0; i < str.length - 1; i++) {
-		if (str[i] == ' ') {
-			y += 1
-		}
-	}
-return str.substring(0, str.length - y)
+builtins.trim = function(string) {
+  for (var i = 0; i<string.length;) {
+    if (string[i] === " ") {
+      string = string.substring(i+1);
+    } else {
+      break;
+    }
+  }
+  for (var j = string.length - 1; j >= 0; j--) {
+   if (string[j] === " ") {
+  string = string.substring(0, j);
+} else {
+  break;
+}
+}
+return string;
 };
 
 // ----------------------------------------------------------------------------
@@ -55,33 +53,12 @@ return str.substring(0, str.length - y)
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-	if (searchString.length === 1) {
-		for (var i = 0; i < sourceString.length - 1; i++) {
-  			if (sourceString[i] === searchString[0]) {
-  				return true
-  			}
-  		}
-  	}
-  	if (sourceString === '') {
-  		return false
-  	}
-  	if (searchString === '') {
-  		return true
-  	}
-  	for (var i = 0; i < sourceString.length - 1; i++) {
-  		if (sourceString[i] === searchString[0]) {
-  			if (sourceString.substring(i, i + (searchString.length - 1)) === searchString) {
-  				return true
-  			}
-  			else {
-  				return false
-  			}
- 
-  		}
-  		else {
-  			return false
-  		}
-  	};
+  if (sourceString.indexOf(searchString) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+  // YOUR CODE HERE
 };
 
 // ----------------------------------------------------------------------------
@@ -89,7 +66,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -101,8 +78,9 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
- 	return parseInt(str[0])
+  return parseInt(str.split(' ')[0]);
 };
+  // YOUR CODE HERE
 
 // ----------------------------------------------------------------------------
 
@@ -117,14 +95,12 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-	var array = [];
- 	if (arr.length === 1) {
- 		return arr
- 	}
- 	for (var i = 1; i < arr.length + 1; i++) {
- 		array.push(arr[arr.length - i])
- 	};
- 	return array
+  var reversedArr = [];
+  for (var i = 0; i < arr.length; i++) {
+    reversedArr.push(arr[arr.length - i- 1]);
+  }
+  return reversedArr;
+  // YOUR CODE HERE
 };
 
 // ----------------------------------------------------------------------------
@@ -142,23 +118,17 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-	if (a.length === 0 && b.length === 0) {
-			return true
-	}
-	if (a.length === b.length) {
-  		for (var i = 0; i < a.length - 1; i++) {
-  			if ((a[i] === b[i])) {
-  				return true
-		  	}
-		  	else {
-		  		return false
-  			}
-  		};
-  	}
-  	else {
-  		return false
-  	}
-};
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (var i =0; i <a.length; i++) {
+    if(a[i] !== b[i]) {
+      return false;
+    }
+    }
+    return true;
+  };
+  // YOUR CODE HERE
 
 // ----------------------------------------------------------------------------
 
@@ -174,15 +144,10 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  	for (var i = 0; i < arr.length - 1; i++) {
-  		if (arr[i] === arr[arr.length - 1 - i]) {
-  			return true
-  		}
-  		else {
-  			return false
-  		}
-  	};
+return builtins.isEqual(arr, builtins.reverse(arr));
 };
+  // YOUR CODE HERE
+
 
 // ----------------------------------------------------------------------------
 
@@ -197,15 +162,14 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
-builtins.compareNumbers = function(a, b) {
-  return a - b;
-}
-
 builtins.sortByValue = function(arr) {
- 	return arr.sort(builtins.compareNumbers)
+  return arr.sort(function(a,b) {
+    return a - b;
+  });
+  // YOUR CODE HERE
 };
 
 // ----------------------------------------------------------------------------
@@ -221,12 +185,10 @@ builtins.sortByValue = function(arr) {
 // Hint: Use the same Array sort() function - but think about what you're
 // comparing this time!
 
-builtins.compareNumbers2 = function(a, b) {
-  return a.length - b.length;
-}
-
 builtins.sortByLength = function(arr) {
-  	return arr.sort(builtins.compareNumbers2)
+  return arr.sort(function(a,b) {
+    return a.length - b.length;
+  });
 };
 
 // ----------------------------------------------------------------------------

@@ -24,9 +24,11 @@ recursion.sum = function(number) {
 
 //As such, a function will continue calling itself until the base case is reached
 //Then the function returns cascade back to the original call so that it may return too
-//This original call couldn't until then because it had been waiting on the function it called (itself) to return first
+//This original call couldn't until then because it had been waiting on the function it
+// called (itself) to return first
 
-//You could think of this as a stack of plates, each new plate on top representing a new function call made
+//You could think of this as a stack of plates, each new plate on top representing a new
+// function call made
 //You cannot get to the original plate until you first take off (finish) all the ones on top of it
 
 
@@ -35,7 +37,10 @@ recursion.sum = function(number) {
 //Please note that factorial 0 is 1
 //ex. factorial(4) -> 4! -> 4 * 3 * 2 * 1 -> 24
 recursion.factorial = function(number) {
-  //WRITE CODE HERE
+  if (number === 0) {
+    return 1;
+  }
+  return recursion.factorial(number - 1) * number;
 }
 
 
@@ -47,5 +52,8 @@ recursion.factorial = function(number) {
 //ex. fibonacci(3) -> 1 + 1 -> 2
 //ex. fibonacci(4) -> 1 + 2 -> 3
 recursion.fibonacci = function(number) {
-  //WRITE CODE HERE
+  if(number < 2) {
+    return number;
+  }
+  return recursion.fibonacci(number - 1) + this.fibonacci(number-2);
 }

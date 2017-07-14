@@ -35,7 +35,7 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f1]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -52,7 +52,11 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName].push(fn);
+  } else {
+    this.listeners[eventName] = [fn];
+  }
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -70,7 +74,11 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName].forEach(function(func, index) {
+      func(arg);
+    })
+  }
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -87,7 +95,9 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (this.listeners.hasOwnProperty(eventName)) {
+    this.listeners[eventName].splice(this.listeners[eventName].indexOf(fn));
+  }
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"

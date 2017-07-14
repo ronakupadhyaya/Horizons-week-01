@@ -52,15 +52,40 @@
 var Rocketship = {
   coords: {x: 0, y: 0},
   up: function() {
-    // YOUR CODE HERE
+    this.coords.y = this.coords.y + 1;
+    return this;
   },
   down: function() {
-    // YOUR CODE HERE
+    this.coords.y = this.coords.y - 1;
+    return this;
   },
   left: function() {
-    // YOUR CODE HERE
+    this.coords.x = this.coords.x - 1;
+    return this;
   },
   right: function() {
-    // YOUR CODE HERE
+    this.coords.x = this.coords.x + 1;
+    return this;
   },
 };
+
+
+// var Rocketship = {
+//   coords: {x: 0, y: 0},
+//   up: function() {
+//     this.coords.y = this.coords.y + 1;
+//     return this;
+//   },
+//   down: function() {
+//     this.coords.y = this.coords.y - 1;
+//     return this;
+//   },
+//   left: function() {
+//     this.coords.x = this.coords.x - 1;
+//     return this;
+//   },
+//   right: function() {
+//     this.coords.x = this.coords.x + 1;
+//     return this;
+//   },
+// };

@@ -30,9 +30,27 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+
+
+function memoize(fn) {
+  debugger;
+  return function memoizedFn(argument) {
+
+  }
+  var old;
+  var called = false;
+  //if ()
+  return function memoizedFn(argument) {
+    return memoize()
+    if (called === true) {
+      return func(console.log("called");
+    }
+  }
+  return old;
 }
+
+fun.apply(thisArg, [argsArray])
+
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -98,7 +116,7 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return composedFn
 }
 
 

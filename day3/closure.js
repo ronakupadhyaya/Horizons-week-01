@@ -14,7 +14,9 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function fn(attempt) {
+    return attempt === password;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +27,7 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password),
   }
 }
 
@@ -81,15 +80,34 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+
+// var once = function(f) {
+//   var called = false; // Let's create a local variable to track if f has been called
+//   var number = null;
+//   return function(x, y) {
+//     if (! called) { // if f hasn't been called yet
+//       number = f(x, y); // call f
+//       called = true; // mark f as called
+//       return number;
+//     } else {
+//       return number;
+//     }
+//   }
+// }
+
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+  var answer;
+  return function(arg) {
+    var arg = Array.prototype.slice.call(arguments);
+    if (! called) {
+      answer = f.apply(null, arg);
+      called = true;
     }
+    return answer;
   }
 }
+
 
 // ex. 1.3
 // functionFactory takes in two numbers (num1, num2)
@@ -117,11 +135,14 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var iteratingArrayp
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
+    functionArray.push(function() {
+
       // function that returns i
       return i;
-    }
+    })
+
   }
 
   return functionArray;

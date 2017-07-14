@@ -1,7 +1,8 @@
 "use strict";
 
 // "RPN" stands for "Reverse Polish Notation".
-// See http://en.wikipedia.org/wiki/Reverse_Polish_notation for more information on this colorful term
+// See http://en.wikipedia.org/wiki/Reverse_Polish_notation for more information
+// on this colorful term
 //
 // Briefly, in an RPN world, instead of using normal "infix" notation, e.g.
 //     2 + 2
@@ -41,8 +42,62 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+
+function isOp(value) {
+  if (value === '+' || value === '-' || value === '/' || value === '*') {
+    return true;
+  }
+  return false;
+}
+
 window.rpnCalculator = function(rpnString) {
-  // YOUR CODE HERE
+//  debugger;
+  var arr = rpnString.split(' ');
+  var stack = [];
+  var answer = 0;
+  if (isOp(arr[0]) || isOp(arr[1])) {
+    throw new Error("Error, too many operations");
+  }
+  if (arr.length === 2 && ! isOp(arr[0]) && ! isOp(arr[1])) {
+    throw new Error("Error, too many numbers");
+  }
+  for (var i =0; i<arr.length; i++) {
+    console.log("stack: ", stack);
+    if (! isOp(arr[i])) {
+      stack.push(parseFloat(arr[i]));
+      console.log('here', parseFloat(arr[i]));
+    }
+    if (isOp(arr[i])) {
+      if (stack.length < 1) {
+        throw new Error ("too many operations");
+      }
+      var num1 = stack.pop();
+      if (stack.length < 1) {
+        throw new Error ("too many operations");
+      }
+      var num2 = stack.pop();
+      if (arr[i] === '+') {
+        answer = num1 + num2;
+        stack.push(answer);
+      }
+      if (arr[i] === '-') {
+        answer = num2 - num1;
+        stack.push(answer);
+      }
+      if (arr[i] === '/') {
+        answer = num2 / num1;
+        stack.push(answer);
+      }
+      if (arr[i] === '*') {
+        answer = num1 * num2;
+        stack.push(answer);
+      }
+      if (stack.length === 2 && isOp(stack[0]) && isOp(stack[1])) {
+        throw new Error ("too many ops")
+      }
+    }
+  }
+  return stack[0];
 }
 
 // This function returns true if given string represents a valid number.

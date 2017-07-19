@@ -30,50 +30,109 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func, hashFun) {
+
+
+// function memoize(func) {
+//   var arr = [];
+//   return function memoizedF(num) {
+//     for (var i = 0; i < arr.length; i++) {
+//       if (arr[i][0] === num) {
+//         return arr[i][1];
+//       }
+//     }
+//     var res = func(num);
+//     arr.push([res, temp]);
+//     return res;
+//   }
+// }
+
+
+
+function memoize(func) {
   var arr = [];
-  var called = false;
-  if (arguments.length === 1) {
-  	return function memoizedF(num){
-  		if (!called) {
-  			var temp = func(num);
-  			arr.push([num, temp]);
-  			called = true;
-  			return temp;
-  		} 
-  		var len = arr.length;
-  		for (var i = 0; i < len; i++) {
-  			console.log(arr);
-  			if (arr[i][0] === num) {
-  				return arr[i][1];
-  			}
-  		}
-  		var temp = func(num);
-  		arr.push([num, temp]);	
-  		return temp;
-  	} 
-  } else {
-  	return function memoizedF(){
-  		if (!called) {
-  			var temp = func.apply(null, arguments);
-  			arr.push([hashFun.apply(null, arguments), temp]);
-  			called = true;
-  			return temp;
-  		} 
-  		var len = arr.length;
-  		for (var i = 0; i < len; i++) {
-  			console.log(arr);
-  			if (arr[i][0] === hashFun.apply(null, arguments)) {
-  				return arr[i][1];
-  			}
-  		}
-  		var temp = func.apply(null, arguments);
-  		arr.push([hashFun.apply(null, arguments), temp]);
-  		called = true;
-  		return temp;
-  	}
+  return function(num) {
+
+
+    if (arr[num] === undefined) {
+      arr[num] = func(num);
+        //  console.log(arr);
+         console.log(func)
+         console.log(arr[num])
+      return arr[num];
+    } else {
+  //  console.log(arr);
+  console.log(func)
+  console.log(arr[num])
+      return arr[num];
+    }
+
   }
 }
+
+// function memoize(func) {
+//   var arr = [];
+//   return function(num) {
+//     arr.forEach(function(obj) {
+//       if (obj.arg === num) {
+//         return obj.res;
+//       }
+//     });
+//     var res = func(num);
+//     arr.push({
+//       "arg": num,
+//       "res": res
+//     });
+//     return res;
+//   }
+// }
+
+
+
+//
+// function memoize(func, hashFun) {
+//   var arr = [];
+//   var called = false;
+//   if (arguments.length === 1) {
+//   	return function memoizedF(num){
+//   		if (!called) {
+//   			var temp = func(num);
+//   			arr.push([num, temp]);
+//   			called = true;
+//   			return temp;
+//   		}
+//   		var len = arr.length;
+//   		for (var i = 0; i < len; i++) {
+//   			console.log(arr);
+//   			if (arr[i][0] === num) {
+//   				return arr[i][1];
+//   			}
+//   		}
+//   		var temp = func(num);
+//   		arr.push([num, temp]);
+//   		return temp;
+//   	}
+//   } else {
+//   	return function memoizedF(){
+//   		if (!called) {
+//   			var temp = func.apply(null, arguments);
+//   			arr.push([hashFun.apply(null, arguments), temp]);
+//   			called = true;
+//   			return temp;
+//   		}
+//   		var len = arr.length;
+//   		for (var i = 0; i < len; i++) {
+//   			console.log(arr);
+//   			if (arr[i][0] === hashFun.apply(null, arguments)) {
+//   				return arr[i][1];
+//   			}
+//   		}
+//   		var temp = func.apply(null, arguments);
+//   		arr.push([hashFun.apply(null, arguments), temp]);
+//   		called = true;
+//   		return temp;
+//   	}
+//   }
+// }
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -100,7 +159,7 @@ function memoize(func, hashFun) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  
+
   var args = Array.prototype.slice.call(arguments);
   if (args.length === 0) {
   	throw "whooops";
@@ -214,6 +273,3 @@ function compose() {
     return composeHelper(args, val);
   }
 }
-
-
-

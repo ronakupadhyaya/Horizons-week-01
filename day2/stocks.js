@@ -43,6 +43,34 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var groupedCompanies = _.groupBy(data, function(transaction){
+    return transaction.ticker;
+  })
+
+var gainAndLossObj = {};
+
+  _.forEach(groupedCompanies, function(value, key){
+    var max = _.max(value, function(value){
+      var retVal = new Date(value.time);
+      // console.log(retVal);
+      return retVal;
+    })
+
+    var latestPrice = max.price;
+
+    var min = _.min(value, function(value){
+      var retVal = new Date(value.time);
+      return retVal;
+    })
+    var oldestPrice = min.price;
+
+    gainAndLossObj[key] = latestPrice - oldestPrice;
+
+
+  })
+// console.log(gainAndLossObj);
+return gainAndLossObj;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +88,18 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  // console.log(obj);
+  var high = -100000;
+  var highKey = '';
+   _.forEach(obj, function(value, key){
+    if(value > high){
+      high = value;
+      highKey = key;
+    }
+  })
+  return highKey;
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +117,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var obj = stocks.gainAndLoss(data);
+  var low = 10000;
+  var lowKey;
+  _.forEach(obj, function(value, key){
+    if(value < low){
+      low = value;
+      lowKey = key;
+    }
+  })
+  return lowKey;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,7 +139,43 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
-};
+  var groupedCompanies = _.groupBy(data, function(transaction){
+    return transaction.ticker;
+  })
+  // console.log(groupedCompanies);
+var retObj = {};
+  _.forEach(groupedCompanies, function(value, key){
+    var max = _.max(value, function(value){
+      var retVal = value.price;
+      // console.log(retVal);
+      return retVal;
+    })
+
+    var maxPrice = max.price;
+
+    var min = _.min(value, function(value){
+      var retVal = value.price;
+      return retVal;
+    })
+    var minPrice = min.price;
+
+    retObj[key] = maxPrice - minPrice;
+    // console.log(retObj.key);
+    // console.log(key);
+
+});
+
+var high = 0;
+var highKey;
+_.forEach(retObj, function(value, key){
+  if(value > high){
+    high = value;
+    highKey = key;
+  }
+})
+
+return highKey;
+}
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
 // Write a function that calculates the value of a stock portfolio at a given
@@ -107,7 +193,29 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
-};
+
+  var arr = _.filter(data, function(trx){
+    var bool = false;
+    _.forEach(portfolio, function(value, key){
+      if(key === trx.ticker){
+        bool = true;
+      }
+    })
+
+    var trxTime = new Date(trx.time);
+    return trxTime.getTime() === date.getTime() && bool;
+  });
+var total = 0;
+
+  _.forEach(arr, function(value,key){
+    // console.log(key);
+    // console.log(value);
+    total += (value.price * portfolio[value.ticker]);
+  })
+  // console.log(arr);
+
+  return total;
+  }
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
 // Write a function to figure out the best time to buy and sell a given
@@ -128,6 +236,19 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  var arr = _.filter(data, function(trx){
+    return trx.ticker === ticker;
+  })
+  console.log(arr);
+
+  var sorted = _.sortBy(arr, function(trx){
+    return new Date(trx.time);
+  })
+  console.log(sorted);
+
+if()
+
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

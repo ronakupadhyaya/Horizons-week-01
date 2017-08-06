@@ -82,7 +82,7 @@ var functionFactory = function(num1, num2) {
         return i;
       }
     }(i));
-
+console.log(functionArray);
     index++;
   }
 

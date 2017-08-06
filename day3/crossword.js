@@ -47,4 +47,22 @@
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  var word = args.shift();
+  var puzzle = args.shift()
+  console.log(puzzle);
+
+var puzzle2 =[];
+
+if(puzzle.length > 1){
+  for(var i = 0; i < puzzle[0].length; i+=2){
+    var string = "";
+        for(var j = 0; j < puzzle.length; j ++){
+      string += (puzzle[j])[i];
+      string += ' ';
+    }
+    puzzle2.push(string);
+  }
+  console.log(puzzle2);
+}
 }

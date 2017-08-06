@@ -37,7 +37,83 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
-};
+
+  var result = 0;
+
+  for(var i = 0; i < string.length; i++){
+
+    if(string[i] === 'M'){
+      result += 1000;
+    }
+
+    if(string[i] === 'C'){
+      if(string[i+1] && string[i+1] === 'M'){
+        result += 900;
+        i++;
+        continue;
+      } else if (string[i+1] && string[i + 1] === 'D'){
+        result+= 400;
+        i++;
+        continue;
+      } else {
+        result += 100;
+      }
+    }
+
+    if(string[i] === 'D'){
+      result += 500;
+    }
+
+    if(string[i] === 'L'){
+      if(string[i+1] && string[i + 1] === 'D'){
+        result += 450;
+        i++;
+        continue;
+      } else {
+        result += 50;
+      }
+    }
+
+    if(string[i] === 'X'){
+      if(string[i+1] && string[i+1] === 'C'){
+        result += 90;
+        i++;
+        continue;
+      } else if(string[i+1] && string[i+1] === 'L'){
+        result += 40;
+        i++;
+        continue;
+      } else{
+        result += 10;
+      }
+    }
+
+    if(string[i] === 'V'){
+      if(string[i+1] && string[i+1] === 'L'){
+        result+=45;
+        i++;
+        continue;
+      } else{
+        result+=5;
+      }
+    }
+
+    if(string[i] === 'I'){
+      if(string[i+1] && string[i+1] === 'X'){
+        result+=9;
+        i++;
+        continue;
+      } else if(string[i+1] && string[i+1] === 'V'){
+        result+=4;
+        i++;
+        continue;
+      } else{
+        result++;
+      }
+    }
+}
+  return result;
+}
 
 // Write a function that takes an integer and converts it to a roman numeral.
 //
@@ -73,4 +149,90 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var arr = [];
+
+  while(number >= 1000){
+    number = number - 1000;
+    arr.push('M');
+  }
+
+  while(number >= 500){
+    if(number >= 900){
+      arr.push('C');
+      arr.push('M');
+      number = number - 900;
+      continue;
+    }
+
+    number = number - 500;
+    arr.push('D');
+
+  }
+
+  while(number >= 100){
+
+    if(number >= 400){
+      arr.push('C');
+      arr.push('D');
+      number = number - 400;
+      continue;
+    }
+
+    number = number - 100;
+    arr.push('C')
+  }
+
+  while(number >= 50){
+
+    if(number === 40){
+      arr.push('X');
+      arr.push('L');
+      number = number - 40;
+      continue;
+    }
+
+      number = number - 50;
+      arr.push('L');
+  }
+
+  while(number >= 10){
+
+    if(number>=40){
+      arr.push('X');
+      arr.push('L');
+      number = number - 40;
+      continue;
+    }
+
+    number = number - 10;
+    arr.push('X');
+  }
+
+  while(number >= 5){
+
+    if(number === 9){
+      arr.push('I');
+      arr.push('X');
+      number = number - 9;
+      continue;
+    }
+
+    number = number - 5;
+    arr.push('V');
+  }
+
+  while(number >= 1){
+    if(number === 4){
+      arr.push('I');
+      arr.push('V');
+      number = number - 4;
+      continue;
+      }
+
+      number--;
+      arr.push('I');
+  }
+  var str = arr.join('');
+  return str;
+
 };

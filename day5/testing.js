@@ -17,7 +17,7 @@
 // Expectations need to be placed inside test cases. If you write an
 // expectation in Jasmine not in any test spec it will generate an error.
 
-expect(true).toBe(true); // Error! Comment out this line to continue.
+// expect(true).toBe(true); // Error! Comment out this line to continue.
 
 // ----------Test Specs----------
 // Test specs (or test cases) are groups of Expectations.  They are created
@@ -59,7 +59,7 @@ describe("Tests for expectation types", function() {
   // We can negate (i.e. flip) Jasmine expectations using 'not.' Insert
   // 'not.' (including the period) before 'toBe(' below.
   it("true should not be false", function() {
-    expect(true).toBe(false); // Fix this test!
+    expect(true).not.toBe(false); // Fix this test!
   });
 
   // toBe() uses === to compare things. === doesn't work the way we want when

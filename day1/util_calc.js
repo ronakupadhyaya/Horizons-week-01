@@ -55,4 +55,72 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if(expression === ''){
+    throw exception("Hey");
+  }
+
+  var arr = expression.split(' ');
+  // console.log(arr);
+
+  for(var i = 0; i < arr.length; i++){
+    if (arr[i] == 'sqrt') {
+      if (isNaN(arr[i+1])) throw exception("Howdy");
+      else {
+        var ans = Math.sqrt(arr[i+1]);
+        arr[i] = ans;
+        arr.splice(i+1, 1);
+      }
+    }
+  };
+
+  if(arr.length % 2 === 0){
+    throw exception("Hi");
+  }
+
+
+// console.log("check 1");
+  for(var i = 0; i < arr.length; i++){
+
+    var even = parseInt(arr[i]);
+    if(i%2 === 0 && isNaN(even)){
+      throw exception("Hello");
+    }
+    else if(i%2 !== 0 && !isNaN(even)){
+      throw exception("Hola");
+    }
+  }
+
+
+var number;
+  for(var i = 1; i < arr.length; i++){
+    if(i%2 !==0){
+      if(arr[i] === '*'){
+        number = parseFloat(arr[i+1]) * parseFloat(arr[i-1]);
+        arr[i - 1] = number;
+        arr.splice(i, 2);
+        i--;
+      } else if(arr[i] ==='/'){
+         number = parseFloat(arr[i-1]) / parseFloat(arr[i+1]);
+         arr[i - 1] = number;
+         arr.splice(i, 2);
+         i--;
+      }
+    }
+  }
+
+  console.log(arr);
+
+var result = parseFloat(arr[0]);
+  for(var i = 1; i < arr.length; i++){
+    if(i%2 !==0){
+      if(arr[i] === '+'){
+        result += parseFloat(arr[i+1]);
+      } else if(arr[i] ==='-'){
+        result -= parseFloat(arr[i+1]);
+      }
+    }
+  }
+
+  return result;
+
 };

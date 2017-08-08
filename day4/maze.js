@@ -178,7 +178,6 @@ Maze.prototype.isSolvable = function() {
   var mazeobj = this;
   var mymaze = this.maze;
   var visited =[];
-  var paths = [];
   var next = [];
   try{
     var start = mazeobj.getStartPosition();
@@ -203,7 +202,7 @@ Maze.prototype.isSolvable = function() {
     var tryup = mazeobj.tryMove(current[0],current[1],'up');
     //console.log();
     if(!! tryup && visited.indexOf(tryup.toString())===-1){
-      console.log(tryup);
+      //console.log(tryup);
       next.push(tryup);
     }
     var trydown = mazeobj.tryMove(current[0],current[1],'down');

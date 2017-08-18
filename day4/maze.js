@@ -40,16 +40,17 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   var width = this.maze[0].length
-  for (var i = 0 ; i < this.maze.length ; i++){
+  var x = this.maze
+  for (var i = 0 ; i < x.length ; i++){
     for(var j = 0 ; j < width ; j++){
-      if(this.maze[i][j] === " "){
-        this.maze[i][j] = "_"
+      if(x[i][j] === " "){
+        x[i][j] = "_"
       }
     }
-    this.maze[i] = this.maze[i].join("")
+    x[i] = x[i].join("")
   }
   //console.log(this.maze.join("\n"))
-  return (this.maze.join("\n"))
+  return (x.join("\n"))
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -152,43 +153,52 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+var arg = this
+  var visited = [];
 
-// this.visited= this.maze;
-// console.log(this.visited);
- this.visited = this.maze.map(function(x) {
-    return x.map(_.constant(false));
-  });
+  var row, column;
+  for(var i = 0; i < this.maze.length; i++){
+    var temp = [];
+    for(var j = 0; j < this.maze[0].length; j++){
+      temp.push(false)
+      if(this.maze[i][j] === "S"){
+        row = i;
+        column = j;
+      }
+    }
+    //console.log(temp)
+    visited.push(temp)
+  }
 
   var start = this.getStartPosition();
 
-  var stack = [start];
 
+  return solve(start[0],start[1])
 
+function solve (r,c){
+  // debugger;
+    if(!visited[r][c]) {
+      visited[r][c] = true;
 
-  while (stack.length){
-    var pos = stack.pop();
-    var current = this.maze[pos[0]][pos[1]]
+      if(arg.maze[r][c] === "E") return true
 
-    if(current === "X"){
-      throw new Error "Wall";
-    }
-
-    if(current === "E"){
-      return true
-    }
-    this.visited[pos[0]][pos[1]] = true;
-
-    for (var i = 0 ; i < Maze.validDirections.length ; i ++){
-      
-      var direction = Maze.validDirections[i]
-      var move = this.tryMove(pos[0],pos[1],direction)
-
-      if(move && ! this.visited[move[0]][move[1]]){
-        stack.push(move);
+      if(arg.tryMove(r,c,"up")){
+        if(solve(r-1,c)) return true
       }
+      if(arg.tryMove(r,c,"down")){
+        if(solve(r+1,c)) return true
+        }
+      if(arg.tryMove(r,c,"left")){
+        if(solve(r,c-1)) return true
+        }
+      if(arg.tryMove(r,c,"right")){
+        if(solve(r,c+1)) return true
     }
   }
   return false
+}
+
+  
 }
 
 

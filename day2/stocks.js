@@ -85,8 +85,7 @@ stocks.gainAndLoss = function(data) {
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
 
-  var bigGain = stocks.gainAndLoss(data
-    debugger;
+  var bigGain = stocks.gainAndLoss(data)
   var maxgain = _.reduce(bigGain,function(a,b){
   	return Math.max(a,b)
   })
@@ -141,14 +140,10 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
-   var groupped = _.groupBy(data, function(stocks){
-    return stocks.ticker;
-  });
+   var groupped = _.groupBy(data, "ticker");
 
   var sorted = _.map(groupped, function(value,key){
-  	return _.sortBy(value, function(stocks){
-  		return stocks.price;
-  	});
+  	return _.sortBy(value, "price");
   });
 
   var result = {}
@@ -299,7 +294,7 @@ stocks.bestTradeEver = function(data) {
   	ticker_list.push(key)
   })
   var best = stocks.bestTrade(data,'GOOG');
-  var tick = 'AMZN'
+  var tick = ''
   for(var i = 0 ; i < ticker_list.length ; i++){
   	var check = stocks.bestTrade(data,ticker_list[i])
   	//console.log(check[2], best[2])

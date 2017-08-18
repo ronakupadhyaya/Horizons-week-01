@@ -46,13 +46,13 @@ builtins.search = function(sourceString, searchString) {
   	return true
   	}
   var first = sourceString.indexOf(searchString[0])
-  	if (first === -1){
-  		return false;
-  	}
-  	for (var ind = first; ind < searchString.length ; ind++)
-  		{if(sourceString[first+ind] !== searchString[ind]){
-  			return false;
-  		}
+	if (first === -1){
+		return false;
+	}
+	for (var ind = first; ind < searchString.length ; ind++)
+		{if(sourceString[first+ind] !== searchString[ind]){
+			return false;
+		}
   }
   return true;
  };

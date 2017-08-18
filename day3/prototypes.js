@@ -37,7 +37,7 @@ prototypes.allKeys = function(obj){
   // YOUR CODE HERE
   var emp = []
   for(var key in obj){
-  if(key !== emp[0]){
+  if(key !== emp[emp.length-1]){
 		emp.push(key)
 		}
   }

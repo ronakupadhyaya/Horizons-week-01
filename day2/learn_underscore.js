@@ -303,6 +303,7 @@ learn_underscore.countBy = function(array, fun) {
 
   var x = _.groupBy(array, fun)
   var final = {}
+  debugger;
   _.forEach(x, function(values,key){
     final[key] = values.length
   })

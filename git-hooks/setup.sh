@@ -23,6 +23,8 @@ fi
 
 GITDIR=${GITDIR:-.git}
 if [ -d "$GITDIR" ] ; then
-    echo "Update commit hooks in $GITDIR"
+    echo "Updated commit hooks in $GITDIR"
     cp -f pre-commit "$GITDIR/hooks/pre-commit"
 fi
+
+echo "Success!"

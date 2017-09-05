@@ -16,6 +16,7 @@ function functionThatReturnsTrue( {
 // ex. firstWord('abc d  e') -> 'abc'
 function firstWord(string) {
   for (var i = 0; i < string.length; i++) {
+    debugger;
     if (string[0] === ' ') {
       return string.substring(0, i);
     }

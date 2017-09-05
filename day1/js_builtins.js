@@ -21,6 +21,7 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+
 };
 
 // ----------------------------------------------------------------------------
@@ -40,6 +41,7 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  return (sourceString.indexOf(searchString) !== -1)
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +78,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var rev = [];
+  for (var i = arr.length-1; i >= 0; i--){
+  	rev.push(arr[i]);
+  }
+  return rev;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +118,11 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  for (var i = 0; i < arr.length/2; i++){
+	if (arr[i] !== arr[arr.length-1-i])
+		return false;
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -148,6 +160,15 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  var compare = function (a, b){
+  	if (a.length > b.length)
+  		return 1;
+  	else if (a.length < b.length)
+  		return -1;
+  	else
+  		return 0;
+  }
+  return arr.sort(compare);
 };
 
 // ----------------------------------------------------------------------------

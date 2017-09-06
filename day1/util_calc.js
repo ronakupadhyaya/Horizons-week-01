@@ -20,6 +20,7 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -55,4 +56,7 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  if (!(string.includes('+') || string.includes('-') || string.includes('*') || string.includes('/'))) {
+    throw "Error, missing operator"
+  }
 };

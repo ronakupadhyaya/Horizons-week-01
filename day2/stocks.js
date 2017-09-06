@@ -131,6 +131,23 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var tickerGroups = _.groupBy( data, function ( transaction ) {
+    return transaction.ticker;
+  })
+
+  function sortByPrice( t1, t2 ){
+    return t1.price-t2.price;
+  }
+  var widestRange = 0;
+  var ticker = '';
+  for ( var key in tickerGroups) {
+    tickerGroups[key].sort(sortByPrice);
+    if (widestRange < tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price){
+    	widestRange = tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price;
+    	ticker = key;
+    }
+  }
+  return ticker;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -149,6 +166,23 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+
+  var dateValues = _.groupBy( data, function ( transaction ) {
+    return transaction.time;
+  });
+
+  console.log(dateValues);
+
+  var pValue = 0;
+  console.log(date.toISOString());
+  for( var i = 0; i < dateValues[date.toISOString()].length; i++ ){
+    if (dateValues[date.toISOString()][i].ticker in portfolio){
+      pValue += dateValues[date.toISOString()][i].price * portfolio[dateValues[date.toISOString()][i].ticker];
+    }
+  }
+
+  return pValue;
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

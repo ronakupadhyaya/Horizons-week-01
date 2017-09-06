@@ -26,7 +26,13 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length===0){
+    return 0;
+  }
+  var sum = _.reduce(arr, function(a,b){
+    return a+b
+  })
+  return parseFloat(sum/arr.length);
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +44,25 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var total = [];
+  _.forEach(student.grades, function(value, key, list){
+    total.push(value);
+  })
+  return grades.average(total);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+
+  var highestStudent = _.reduce(data, function(a, b){
+    if (grades.getGPA(a)>grades.getGPA(b)){
+      return a;
+    }
+    return b;
+  })
+  return highestStudent;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -61,7 +78,27 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majors = _.groupBy(data, function(student){
+    return student.major;
+  })
+  var gpas = []
+  _.forEach(majors, function(value, key, list){
+    var total = 0;
+    for(var i =0; i < value.length; i++){
+      var studentGrade = grades.getGPA(value[i]);
+      total+= studentGrade;
+    }
+    var average = total/value.length*100;
+
+    gpas.push({'major': key, 'grades': parseFloat(average)})
+  })
+  var highestMajor = _.reduce(gpas, function(a, b){
+    if(a.grades > b.grades){
+      return a;
+    }
+    return b;
+  })
+  return highestMajor.major;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -70,4 +107,11 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var class1_total = 0;
+  var class2_total = 0;
+  data.forEach(function(element, index, array){
+    class1_total += element.grades.class1;
+    class2_total += element.grades.class2;
+  })
+  return {'class1': class1_total/data.length, 'class2': class2_total/data.length};
 };

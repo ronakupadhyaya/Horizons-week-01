@@ -9,16 +9,6 @@ window.util = {};
 // You can assume that each number or operator (i.e. + - / *) is separated by a single
 // space.
 //
-// Part 1. If an invalid expression is given, throw an exception.
-//
-// ex. util.calc('') -> Error, empty expression
-// ex. util.calc('1 2') -> Error, missing operator
-// ex. util.calc('-') -> Error, no numbers
-// ex. util.calc('1 2 +') -> Error, operator at the wrong spot
-// ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
-// ex. util.calc('1 + 55 -2') -> Error, too many numbers
-// ex. util.calc('29 + + 1') -> Error, too many operators
-// ex. util.calc('29 + 1 +') -> Error, too many operators
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -55,4 +45,98 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  // Part 1. If an invalid expression is given, throw an exception.
+  //
+  // ex. util.calc('') -> Error, empty expression
+  // ex. util.calc('1 2') -> Error, missing operator
+  // ex. util.calc('-') -> Error, no numbers
+  // ex. util.calc('1 2 +') -> Error, operator at the wrong spot
+  // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
+  // ex. util.calc('1 + 55 -2') -> Error, too many numbers
+  // ex. util.calc('29 + + 1') -> Error, too many operators
+  // ex. util.calc('29 + 1 +') -> Error, too many operators
+
+  var argArray = expression.split(" ");
+
+  var i = 0;
+  while( i < argArray.length){
+    if( argArray[i] == 'sqrt') {
+      argArray[i] = Math.sqrt(parseInt(argArray[i + 1]));
+      argArray.splice(i + 1, 1);
+    }
+
+    console.log(argArray);
+    i++;
+  }
+
+  if (argArray.length % 2 == 0) throw "Need one more number or one fewer."
+  for(var i = 0; i < argArray.length; i ++){
+    if (i % 2 == 0 && isNaN(parseInt(argArray[i]))){
+
+      throw "Operator misplaced."
+    }
+
+    if (i % 2 == 1 && !isNaN(parseInt(argArray[i]))){
+
+      throw "Number misplaced."
+    }
+  }
+
+  if (argArray.length == 1) return parseInt(argArray[0]);
+
+  if (argArray.length <= 2) throw "You forgot something.";
+
+  for(var h = 0; h < argArray.length; h += 2) argArray[h] = parseFloat(argArray[h]);
+
+  var i = 1;
+
+  while(i < argArray.length){
+    if (argArray[i] == "*"){
+      argArray[i - 1] = argArray[i - 1] * argArray[i + 1];
+      argArray.splice(i, 2);
+      console.log(argArray);
+    } else if (argArray[i] == "/") {
+      argArray[i - 1] = argArray[i - 1] / argArray[i + 1];
+      argArray.splice(i, 2);
+      console.log(argArray);
+
+    } else {
+      i += 2;
+    }
+  }
+
+  while(i < argArray.length){
+    if (argArray[i] == "*"){
+      argArray[i - 1] = argArray[i - 1] * argArray[i + 1];
+      argArray.splice(i, 2);
+      console.log(argArray);
+    } else if (argArray[i] == "/") {
+      argArray[i - 1] = argArray[i - 1] / argArray[i + 1];
+      argArray.splice(i, 2);
+      console.log(argArray);
+
+    } else {
+      i += 2;
+    }
+  }
+
+  var j = 1;
+
+  while(j < argArray.length){
+    if (argArray[j] == "+"){
+      argArray[j - 1] = argArray[j - 1] + argArray[j + 1];
+      argArray.splice(j, 2);
+      console.log(argArray);
+    } else if (argArray[j] == "-") {
+      argArray[j - 1] = argArray[j - 1] - argArray[j + 1];
+      argArray.splice(j, 2);
+      console.log(argArray);
+
+    } else {
+      j += 2;
+    }
+  }
+
+  return argArray[0];
+
 };

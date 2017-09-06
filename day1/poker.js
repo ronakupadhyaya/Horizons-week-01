@@ -45,6 +45,86 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
+var cardRank = {
+  'J': 11,
+  'Q': 12,
+  'K': 13,
+  'A': 14
+}
+// function checkLargestCard(hand){
+//   for(var i =0; i < hand.length; i++){
+//     var maxCardInt = 0;
+//     var maxCardLetter = '';
+//     if (hand[i][0] !== 'K' || hand[i][0] !== 'Q' || hand[i][0] !== 'A' || hand[i][0] !== 'J') {
+//       hand[i][0] = parseInt(hand[i][0]);
+//     } else{
+//       if(maxCardInt )
+//     }
+//   }
+// }
+// function checkFlush(hand, obj){
+//
+//   var countBool = 0;
+//   for(var i =0; i < hand.length; i++){
+//     if(hand[i][1] !== hand[i][1]){
+//       countBool ++;
+//     }
+//   }
+//   if(countBool ===0){
+//
+//   }
+//   return obj;
+// }
+
+
+function checkPair(hand, obj){
+  var placeholderArr = hand;
+  var leftOverArr = [];
+  var returnArr = [];
+  for(var i=0; i < hand.length; i++){
+
+    if(leftOverArr.indexOf(placeholderArr[i][0]) === -1){
+      leftOverArr.push(placeholderArr[i][0]);
+    } else{
+      var number = placeholderArr[i].split('');
+      returnArr.push(parseInt(number[0]));
+    }
+  }
+  obj.pairs = returnArr;
+  return obj;
+}
+
+function comparePair(hand1Obj, hand2Obj){
+  debugger;
+  if(hand1Obj.pairs.length > hand2Obj.pairs.length){
+    return 1
+  }
+  if(hand2Obj.pairs.length > hand1Obj.pairs.length){
+    return 2;
+  }
+
+  for(var i = 0; i<hand1Obj.pairs.length; i++){
+    if(hand1Obj.pairs.length === 1){
+      if(hand1Obj.pairs[0] > hand2Obj.pairs[0]){
+        return 1;
+      } else{
+        return 2;
+      }
+    }  else{
+      if(hand1Obj.pairs[1] > hand2Obj.pairs[1]){
+        return 1;
+      } else{
+        return 2;
+      }
+    }
+  }
+}
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+  var hand1Obj = {};
+  var hand2Obj = {};
+
+  var winner = comparePair(checkPair(hand1, hand1Obj), checkPair(hand2, hand2Obj));
+  return winner;
 }

@@ -23,6 +23,7 @@ describe("Rocketship", function() {
     expect(Rocketship.coords).toEqual({x: -1, y: 0});
   });
   it("object method chaining - up and right", function() {
+
     Rocketship.up()
       .up()
       .up()

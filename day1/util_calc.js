@@ -53,6 +53,107 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+function findMultipleOrDivision(array){
+    var specialArr = [];
+    array.forEach(function(currentValue, index, arr){
+      if(currentValue === '/' || currentValue ==='*'){
+        specialArr.push(index);
+      }
+    })
+    return specialArr;
+  }
+
+
 util.calc = function(expression) {
   // YOUR CODE HERE
+    debugger;
+  var operators = {
+      '+': function(a, b) { return a + b },
+      '-': function(a, b) { return a - b },
+      '*': function(a, b) { return a * b},
+      '/': function(a, b){return a / b},
+      'sqrt': function(a){ return Math.sqrt(a)}
+  };
+  var initArray = expression.split(' ');
+
+  if(initArray[0] === ''){
+    throw("Error, empty expression");
+  }
+  if(initArray.length ===1){
+    if(isNaN(parseFloat(initArray[0]))){
+      throw("Error, no numbers");
+    }
+  }
+  if(initArray.length > 1){
+    if(initArray.indexOf('+') === -1 && initArray.indexOf('-') === -1 && initArray.indexOf('*') === -1 && initArray.indexOf('/') === -1 && initArray.indexOf('sqrt') === -1){
+      throw("Error, missing operator");
+    }
+    if(initArray[0] !== 'sqrt'){
+      if(isNaN(parseFloat(initArray[0])) || isNaN(parseFloat(initArray[initArray.length-1]))){
+        throw("Error, operator at the wrong spot");
+      }
+    }
+
+    for(var i =0; i < initArray.length; i++){
+      if(initArray[i] !== 'sqrt' && initArray[i+1] !=='sqrt'){
+        if(isNaN(parseFloat(initArray[i])) && isNaN(parseFloat(initArray[i+1]))){
+          throw("Error, too many operators");
+        }
+        if(!isNaN(parseFloat(initArray[i])) && !isNaN(parseFloat(initArray[i+1]))){
+          throw("Error, too many numbers");
+        }
+      }
+
+    }
+  }
+
+
+
+
+  if(initArray.length === 1 && !isNaN(parseFloat(initArray[0])) ){
+
+    return parseFloat(initArray[0]);
+  }
+
+
+
+  if(initArray.indexOf('sqrt') > -1){
+    var sqrt = initArray.indexOf('sqrt');
+    var specialVal = operators['sqrt'](initArray[sqrt+1]);
+    initArray.splice(sqrt, 2, specialVal);
+  }
+  if(initArray.indexOf('*') > -1 || initArray.indexOf('/') > -1){
+
+    var specialArr = findMultipleOrDivision(initArray);
+
+    for(var j = 0; j < specialArr.length; j++){
+      var specialVal = operators[initArray[specialArr[j]]](initArray[specialArr[j]-1],initArray[specialArr[j]+1]);
+      if(isNaN(specialVal)){
+        return NaN;
+      }
+      initArray.splice(specialArr[j]-1, 3, specialVal);
+
+      specialArr = specialArr.map(function(value){
+        return value -2;
+      });
+    }
+    var initVal = parseFloat(initArray[0]);
+    for(var i =0; i < initArray.length; i++){
+      if(isNaN(parseFloat(initArray[i]))){
+        initVal = operators[initArray[i]](initVal, parseFloat(initArray[i+1]));
+        i++;
+      }
+    }
+  }else{
+    var initVal = parseFloat(initArray[0]);
+    for(var i =0; i < initArray.length; i++){
+      if(isNaN(parseFloat(initArray[i]))){
+
+        initVal = operators[initArray[i]](initVal, parseFloat(initArray[i+1]));
+        i++;
+      }
+    }
+  }
+
+  return initVal;
 };

@@ -40,7 +40,7 @@ describe("Pair", function() {
 });
 
 describe("Flush", function() {
-  it("rankPokerHand(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) -> 2, flush, ace over king", function() {
+  it("rankPokerHand(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', 'JS']) -> 2, flush, ace over king", function() {
     expect(rankPokerHand(['KD', '2D', '10D', 'JD', 'QD'], ['2S', 'KS', 'QS', 'AS', '9S']) ).toBe(2);
   });
   it("rankPokerHand(['KD', '2D', '10D', 'JD', 'QD'], ['2H', 'KS', 'AS', 'AS', '9S']) -> 1, 1 has flush", function() {

@@ -52,17 +52,142 @@ var cardRank = {
   'K': 13,
   'A': 14
 }
-// function checkLargestCard(hand){
-//   for(var i =0; i < hand.length; i++){
-//     var maxCardInt = 0;
-//     var maxCardLetter = '';
-//     if (hand[i][0] !== 'K' || hand[i][0] !== 'Q' || hand[i][0] !== 'A' || hand[i][0] !== 'J') {
-//       hand[i][0] = parseInt(hand[i][0]);
-//     } else{
-//       if(maxCardInt )
-//     }
-//   }
-// }
+
+function cardValue(card){
+  if(isNaN(parseInt(card))){
+    return cardRank[card[0]];
+  } else{
+    return parseInt(card);
+  }
+}
+
+function checkLargestCard(hand){
+  var maxCardName = '';
+  var maxCardIndex;
+  var maxCard = 0;
+  for(var i =0; i < hand.length; i++){
+    if(isNaN(parseInt(hand[i]))){
+      if(cardRank[hand[i][0]] > maxCard){
+        maxCard = cardRank[hand[i][0]];
+        maxCardIndex = i;
+        maxCardName = hand[i];
+      }
+    } else{
+      if(parseInt(hand[i]) > maxCard){
+        maxCard = parseInt(hand[i]);
+        maxCardName= hand[i];
+        maxCardIndex = i;
+      }
+    }
+  }
+  return maxCardIndex;
+}
+
+function checkStraightFlush(hand){
+  return checkFlush(hand) && checkStraight(hand);
+}
+
+function checkFlush(hand){
+  var emptyString = '';
+  for(var i = 0; i < hand.length; i++){
+    emptyString += hand[i][hand[i].length -1];
+  }
+  return emptyString === emptyString[0].repeat(5);
+}
+
+function compareFunction(a, b){
+  return cardValue(a)- cardValue(b);
+}
+
+function checkStraight(hand){
+
+  hand.sort(compareFunction);
+  for(var i = 1; i < hand.length; i++ ){
+    if(cardValue(hand[i]) - cardValue(hand[i-1]) !== 1){
+      return false;
+    }
+  }
+  return true;
+}
+function createDuplicateObj(hand){
+  var obj = {};
+  for(var i =0; i< hand.length;i++){
+    if(obj[cardValue(hand[i])]){
+      obj[cardValue(hand[i])]++
+    } else{
+      obj[cardValue(hand[i])] = 1;
+    }
+  }
+  return obj;
+}
+
+function checkCardTally(hand, num){
+
+  var emptyObj = createDuplicateObj(hand);
+
+  for(var key in emptyObj){
+    if(emptyObj[key] === num){
+      return true;
+    }
+  }
+  return false;
+}
+function fourOfAKind(hand){
+  return checkCardTally(hand, 4);
+}
+function threeOfAKind(hand){
+  return checkCardTally(hand, 3);
+}
+
+function checkPair(hand){
+  return checkCardTally(hand, 2);
+}
+function checkTwoPair(hand){
+
+  var cardObj = createDuplicateObj(hand);
+  var count = 0;
+  for(var key in cardObj){
+    if(cardObj[key] === 2){
+      count++;
+    }
+  }
+  return count === 2;
+
+}
+
+
+function fullHouse(hand){
+  var cardObj = createDuplicateObj(hand);
+  var count = 0;
+  for(var key in cardObj){
+    if(cardObj[key] === 2){
+      count++;
+    }
+    if(cardObj[key] === 3){
+      count++;
+    }
+  }
+  return count === 2;
+}
+function compareHigher(hand1, hand2){
+  debugger;
+  var largestCardHand1 = checkLargestCard(hand1);
+  var largestCardHand2 = checkLargestCard(hand2);
+  while(cardValue(hand1[largestCardHand1]) == cardValue(hand2[largestCardHand2])){
+
+    hand1.splice(largestCardHand1, 1);
+    hand2.splice(largestCardHand2, 1);
+    largestCardHand1 = checkLargestCard(hand1);
+    largestCardHand2 = checkLargestCard(hand2);
+  }
+  if(cardValue(hand1[largestCardHand1]) > cardValue(hand2[largestCardHand2])){
+    return 1;
+  } else{
+    return 2;
+  }
+
+
+}
 // function checkFlush(hand, obj){
 //
 //   var countBool = 0;
@@ -78,53 +203,65 @@ var cardRank = {
 // }
 
 
-function checkPair(hand, obj){
-  var placeholderArr = hand;
-  var leftOverArr = [];
-  var returnArr = [];
-  for(var i=0; i < hand.length; i++){
-
-    if(leftOverArr.indexOf(placeholderArr[i][0]) === -1){
-      leftOverArr.push(placeholderArr[i][0]);
-    } else{
-      var number = placeholderArr[i].split('');
-      returnArr.push(parseInt(number[0]));
-    }
-  }
-  obj.pairs = returnArr;
-  return obj;
-}
-
-function comparePair(hand1Obj, hand2Obj){
-  debugger;
-  if(hand1Obj.pairs.length > hand2Obj.pairs.length){
-    return 1
-  }
-  if(hand2Obj.pairs.length > hand1Obj.pairs.length){
-    return 2;
-  }
-
-  for(var i = 0; i<hand1Obj.pairs.length; i++){
-    if(hand1Obj.pairs.length === 1){
-      if(hand1Obj.pairs[0] > hand2Obj.pairs[0]){
-        return 1;
-      } else{
-        return 2;
-      }
-    }  else{
-      if(hand1Obj.pairs[1] > hand2Obj.pairs[1]){
-        return 1;
-      } else{
-        return 2;
-      }
-    }
-  }
-}
+// function checkPair(hand, obj){
+//   var placeholderArr = hand;
+//   var leftOverArr = [];
+//   var returnArr = [];
+//   for(var i=0; i < hand.length; i++){
+//
+//     if(leftOverArr.indexOf(placeholderArr[i][0]) === -1){
+//       leftOverArr.push(placeholderArr[i][0]);
+//     } else{
+//       var number = placeholderArr[i].split('');
+//       returnArr.push(parseInt(number[0]));
+//     }
+//   }
+//   obj.pairs = returnArr;
+//   return obj;
+// }
+//
+// function comparePair(hand1Obj, hand2Obj){
+//   debugger;
+//   if(hand1Obj.pairs.length > hand2Obj.pairs.length){
+//     return 1
+//   }
+//   if(hand2Obj.pairs.length > hand1Obj.pairs.length){
+//     return 2;
+//   }
+//
+//   for(var i = 0; i<hand1Obj.pairs.length; i++){
+//     if(hand1Obj.pairs.length === 1){
+//       if(hand1Obj.pairs[0] > hand2Obj.pairs[0]){
+//         return 1;
+//       } else{
+//         return 2;
+//       }
+//     }  else{
+//       if(hand1Obj.pairs[1] > hand2Obj.pairs[1]){
+//         return 1;
+//       } else{
+//         return 2;
+//       }
+//     }
+//   }
+// }
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
-  var hand1Obj = {};
-  var hand2Obj = {};
+  var functionArrays = [checkStraightFlush, fourOfAKind, fullHouse, checkFlush, checkStraight, threeOfAKind, checkTwoPair, checkPair];
+  for(var i =0; i < functionArrays.length; i++){
+    var fun = functionArrays[i];
 
-  var winner = comparePair(checkPair(hand1, hand1Obj), checkPair(hand2, hand2Obj));
-  return winner;
+    if(!fun(hand1) && !fun(hand2)){
+      continue;
+    }
+    else if(fun(hand1) && !fun(hand2)){
+      return 1;
+    }
+    else if(!fun(hand1) && fun(hand2)){
+      return 2;
+    }
+    else{
+      return compareHigher(hand1, hand2);
+    }
+  }
 }

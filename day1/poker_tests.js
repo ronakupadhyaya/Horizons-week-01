@@ -101,7 +101,7 @@ describe("Two Pair", function() {
     expect(rankPokerHand(['2D', '2S', '4H', '8H', '8H'], ['3D', '3S', '4C', '4C', '2C']) ).toBe(1);
   });
   it("rankPokerHand(['2D', '2S', '4H', '8H', '8H'], ['2D', '2S', '8C', '9C', '8C']) -> 2, same two pairs, 1 has higher card", function() {
-    expect(rankPokerHand(['2D', '2S', '4H', '8H', '8H'], ['2D', '2S', '8C', '9C', '8C']) ).toBe(2);
+    expect(rankPokerHand(['2D', '2S', '4H', '8H', '8S'], ['2D', '2S', '8C', '9C', '8C']) ).toBe(2);
   });
 });
 

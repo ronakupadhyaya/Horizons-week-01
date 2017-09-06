@@ -55,4 +55,14 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var parsed = expression.split(' ');
+  for(var i = 0; i < parsed.length; i++){
+  //   if(!isNaN(parseInt(parsed[i]))){
+  //     parseInt(parsed[i], 10);
+  //   }
+  // }
+    parseInt(parsed[i], 10);
+  }
+  console.log(parsed);
+  return parsed;
 };

@@ -55,4 +55,77 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+  var arr = expression.split(' ')
+  if(isNaN(parseFloat(arr[0]))){
+    throw 'error'
+  }
+  if(isNaN(parseFloat(arr[arr.length - 1]))){
+    throw 'error'
+  }
+
+  for(var i = 0; i < arr.length; i += 2){
+    if(isNaN(parseFloat(arr[i]))){
+      throw 'error'
+    }
+  }
+
+  for(var i = 1; i < arr.length; i += 2){
+    if(isNaN(parseFloat(arr[i])) === false){
+      throw 'error'
+    }
+  }
+
+  if(arr.length === 1){
+    return parseFloat(arr[0]);
+  }
+
+  var result = parseFloat(arr[0]);
+  var multiplicationCount = 0;
+
+  for(var i = 1; i < arr.length; i += 2){
+
+    if(arr[i] === '*'){
+      result = parseFloat(arr[i - 1]) * parseFloat(arr[i + 1])
+      arr.splice(i - 1, 3, result)
+      i -= 2
+    } else if(arr[i] === '/'){
+      result = parseFloat(arr[i - 1]) / parseFloat(arr[i + 1])
+      arr.splice(i - 1, 3, result)
+      i -= 2
+    }
+
+    console.log(arr);
+  }
+
+
+  result = parseFloat(arr[0])
+  for(var i = 1; i < arr.length; i += 2){
+    if (arr[i] === '+'){
+      result += parseFloat(arr[i + 1])
+    } else if (arr[i] === '-'){
+      result -= parseFloat(arr[i + 1])
+    }
+  }
+  return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };

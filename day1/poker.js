@@ -127,10 +127,10 @@ function checkCardTally(hand, num){
 
   for(var key in emptyObj){
     if(emptyObj[key] === num){
-      return true;
+      return parseInt(key);
     }
   }
-  return false;
+  return -1;
 }
 function fourOfAKind(hand){
   return checkCardTally(hand, 4);
@@ -261,6 +261,14 @@ window.rankPokerHand = function(hand1, hand2) {
       return 2;
     }
     else{
+      if(fun === checkPair || fun === threeOfAKind || fun === fourOfAKind){
+        if(fun(hand1) > fun(hand2)){
+          return 1;
+        }
+        if(fun(hand2) > fun(hand1)){
+          return 2;
+        }
+      }
       return compareHigher(hand1, hand2);
     }
   }

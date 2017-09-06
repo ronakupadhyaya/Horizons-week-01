@@ -109,6 +109,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var gainAndLoss = stocks.gainAndLoss(data);
+  var minGain = 1000000000;
+  var minGainName = '';
+  for (var key in gainAndLoss){
+  	if (gainAndLoss[key] < minGain){
+  		minGain = gainAndLoss[key];
+  		minGainName = key;
+  	}
+  }
+  return minGainName;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -121,6 +131,23 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var tickerGroups = _.groupBy( data, function ( transaction ) {
+    return transaction.ticker;
+  })
+
+  function sortByPrice( t1, t2 ){
+    return t1.price-t2.price;
+  }
+  var widestRange = 0;
+  var ticker = '';
+  for ( var key in tickerGroups) {
+    tickerGroups[key].sort(sortByPrice);
+    if (widestRange < tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price){
+    	widestRange = tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price;
+    	ticker = key;
+    }
+  }
+  return ticker;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)

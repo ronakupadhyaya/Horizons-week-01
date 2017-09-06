@@ -93,23 +93,16 @@ util.calc = function(expression) {
   }
   if (array.length === 1)
   	return parseInt(expression);
-  console.log(parsedArray);
   for (var i = 0; i < 2; i++){
   	for (var j = 0; j < parsedArray.length; j++){
   		var operator = operators[i].indexOf(parsedArray[j]);
   		if (operator !== -1){
-  			 console.log(parsedArray[j-1]);
-  			 console.log(parsedArray[j]);
-  			 console.log(parsedArray[j+1]);
   			parsedArray[j+1] = calculate(parsedArray[j-1], parsedArray[j+1], operators[i][operator]);
   			parsedArray[j-1] = '';
   			parsedArray[j] = '';
-  			console.log(parsedArray[j+1]);
   		}
   	}
-  console.log(parsedArray);
   trimArray();
-  console.log(parsedArray);
   }
   trimArray();
   return parsedArray[0];

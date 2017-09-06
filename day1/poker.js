@@ -269,6 +269,7 @@ window.rankPokerHand = function(hand1, hand2) {
           return 2;
         }
       }
+      console.log(compareHigher(hand1, hand2))
       return compareHigher(hand1, hand2);
     }
   }

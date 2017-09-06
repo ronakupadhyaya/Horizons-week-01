@@ -43,6 +43,32 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+
+  var tickerPrice = {};
+  var tickerGroups = _.groupBy( data, function ( transaction ) {
+    return transaction.ticker;
+  })
+
+  function sortByTime( t1, t2 ){
+    var date1 = new Date(t1.time);
+    var date2 = new Date(t2.time);
+
+    if (date1 > date2) return 1;
+    else if (date2 > date1) return -1;
+    else return 0;
+  }
+
+  for ( var key in tickerGroups) {
+    tickerGroups[key].sort(sortByTime);
+    tickerPrice[key] = tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price;
+  }
+
+  console.log(tickerPrice);
+
+
+
+  return tickerPrice;
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)

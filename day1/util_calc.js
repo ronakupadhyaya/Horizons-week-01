@@ -54,9 +54,67 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
+util.calc = function(string) {
   // YOUR CODE HERE
-  if (!(string.includes('+') || string.includes('-') || string.includes('*') || string.includes('/'))) {
-    throw "Error, missing operator"
+//   if (string.length === 0) {
+//     throw "Error, empty expression"
+//   } else if (string[0] === NaN) {
+//     throw "Error, no numbers"
+//   } else if (!(string.includes('+') || string.includes('-') || string.includes('*') || string.includes('/'))) {
+//     throw "Error, missing operator"
+//   }
+// };
+  var newString = string.split(" ");
+  var throwAway = [];
+  var arrNum = [];
+  var arrOp = [];
+  var arrOpTest = [];
+  var total = 0
+
+  for (var i = 0; i < newString.length; i+=2){
+    throwAway.push(newString[i]);
   }
+
+  //Array full of integers ready to do some math below
+  for (var i = 0; i < throwAway.length; i++){
+    arrNum.push(parseInt(throwAway[i]))
+  }
+  for (var i = 1; i < newString.length; i+=2){
+    arrOp.push(newString[i]);
+  }
+
+  for (var i = 0; i < arrOp.length; i++){
+    arrOpTest.push(parseInt(arrOp[i]))
+  }
+
+  var estimate = arrNum.length - arrOp.length
+
+  if (string.length === 0) {
+    throw "Error, empty expression";
+  } else if (isNaN(arrNum[0])) {
+    throw "Error, no numbers"
+  } else if (arrNum.includes(NaN)) {
+    throw "Error, operator at the wrong spot"
+  } else if (estimate > 1) {
+    throw "Error, too many numbers";
+  } else if (estimate === 0) {
+    throw "Error, too many operators"
+  }
+
+  if (arrNum.length === 1 && arrOp.length === 0) {
+    total += arrNum[0]
+    return total
+  } else {
+    total += arrNum[0]
+  }
+
+// where I define these functions
+  for (var i = 0; i < arrOp.length; i++) {
+    if (arrOp[i] == "+"){
+      total += arrNum[i + 1]
+    } else if (arrOp[i] == "-"){
+      total -= arrNum[i + 1]
+    }
+  }
+  return total
 };

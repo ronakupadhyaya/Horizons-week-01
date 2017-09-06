@@ -63,10 +63,6 @@ stocks.gainAndLoss = function(data) {
     tickerPrice[key] = tickerGroups[key][tickerGroups[key].length - 1].price - tickerGroups[key][0].price;
   }
 
-  console.log(tickerPrice);
-
-
-
   return tickerPrice;
 
 };
@@ -86,6 +82,16 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var gainAndLoss = stocks.gainAndLoss(data);
+  var maxGain = 0;
+  var maxGainName = '';
+  for (var key in gainAndLoss){
+  	if (gainAndLoss[key] > maxGain){
+  		maxGain = gainAndLoss[key];
+  		maxGainName = key;
+  	}
+  }
+  return maxGainName;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -103,6 +109,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var gainAndLoss = stocks.gainAndLoss(data);
+  var minGain = 1000000000;
+  var minGainName = '';
+  for (var key in gainAndLoss){
+  	if (gainAndLoss[key] < minGain){
+  		minGain = gainAndLoss[key];
+  		minGainName = key;
+  	}
+  }
+  return minGainName;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)

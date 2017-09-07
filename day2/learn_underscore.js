@@ -43,7 +43,7 @@ learn_underscore.hasZeros = function(array) {
 // ex. learn_underscore.contains(['a', 'b', 'c'], 1) -> false
 learn_underscore.contains = function(array, item) {
   // YOUR CODE HERE
-};
+}
 
 // Exercise 3: learn_underscore.any(array, fun)
 // Write your own version of _.any() using _.reduce() and _.map();
@@ -103,7 +103,16 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
-  // YOUR CODE HERE
+   var arrMap = array.map(fun);
+   arrMap.reduce(function findTrue(a,b) {
+     if (a === true || b === true) {
+       return true;
+     }
+     else {
+       return false;
+     }
+   }, []);
+   return arrMap;
 }
 
 // Exercise 4: learn_underscore.reduce(array, fun)
@@ -162,6 +171,7 @@ learn_underscore.reduce = function(array, fun) {
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
   // YOUR CODE HERE
+
 }
 
 // Exercise 6: learn_underscore.values(object)
@@ -266,7 +276,10 @@ learn_underscore.countLetters = function(string) {
 //  function wordLength(word) {
 //    return word.length;
 //  }
+//'hello' : 5
 //  learn_underscore.countBy(words, wordLength) -> {4: 1, 5: 3, 2: 1}
 learn_underscore.countBy = function(array, fun) {
   // YOUR CODE HERE
+  return _.mapObject(_.groupBy(array, fun), function(val, key){
+    return val.length});
 }

@@ -53,6 +53,72 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+
+//+2 operator testing
+//functions for testing
+//f: if it's operator -- if it's a number -- change to an integer -- pemdas
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var newExpression = expression.split(" ");
+
+  for (var x = 0; x < newExpression.length; x++){
+    if (newExpression[x] != "+"
+    && newExpression[x] != "-"
+    && newExpression[x] != "*"
+    && newExpression[x] != "/"
+    && newExpression[x] != "sqrt") {
+      newExpression[x] = parseFloat(newExpression[x]);
+    }
+  }
+
+  // //EXCEPTIONS
+  if (!newExpression[0] || typeof newExpression[0] != "number" && newExpression[0] != "sqrt"){
+    throw "Invalid";
+  }
+  for (var i = 0; i < newExpression.length; i ++){
+    if (typeof newExpression[i] === typeof newExpression [i + 1]
+    && newExpression[i+1] != "sqrt") {
+      throw "Invalid";
+    }
+  }
+  if (typeof newExpression[newExpression.length-1] != "number"){
+    throw "Invalid";
+  }
+
+//SQUARE ROOT
+  for (var u = 0; u < newExpression.length; u++){
+    if (newExpression[u] === "sqrt"){
+      newExpression[u+1] = Math.sqrt(newExpression[u+1]);
+      newExpression.splice(u, 1);
+    }
+  }
+
+  //MULTIPLICATION - DIVISION
+  for (var q = 1; q < newExpression.length; q += 2) {
+    if (newExpression[q] === "*") {
+      newExpression[q-1] *= newExpression[q+1];
+      newExpression.splice(q, 2);
+      q -= 2;
+    } else if (newExpression[q] === "/") {
+      newExpression[q-1] /= newExpression[q+1];
+      newExpression.splice(q, 2);
+      q -= 2;
+    }
+  }
+
+  //ADDITION - SUBTRACTION
+  for (var j = 1; j < newExpression.length; j += 2) {
+    if (newExpression[j] === "+") {
+      newExpression[j-1] += newExpression[j+1];
+      newExpression.splice(j, 2);
+      j -= 2;
+
+    } else if (newExpression[j] === "-") {
+      newExpression[j-1] -= newExpression[j+1];
+      newExpression.splice(j, 2);
+      j -= 2;
+    }
+  }
+
+  return newExpression[0];
 };

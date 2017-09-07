@@ -43,6 +43,37 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+
+  //"GOOG" : ["time":"x", "price":"x"],
+
+  var byCompany = _.groupBy(data, function(currTrans){
+	  return currTrans["ticker"];
+  });
+
+
+
+  var finalObject = _.mapObject(byCompany, function(val, key){
+	  var earliest = new Date;
+	  var latest = new Date;
+	 // debugger;
+	  earliest = val[0].time;
+	  latest = val[0].time;
+	  var latestPrice = val[0].price;
+	  var earliestPrice = val[0].price;
+
+	  for(var i = 0; i < val.length; i++){
+		  if(val[i].time > latest){
+			  latest = val[i].time;
+			  latestPrice = val[i].price;
+		  } else if(val[i].time < earliest){
+			  earliest = val[i].time;
+			  earliestPrice = val[i].price;
+		  }
+	  }
+	  return latestPrice - earliestPrice;
+  });
+
+  return finalObject;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -128,6 +159,7 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

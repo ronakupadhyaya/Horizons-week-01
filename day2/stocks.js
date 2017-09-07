@@ -43,6 +43,30 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var bob = _.groupBy(data, function(space){
+    return space.ticker
+  })
+  var couple = _.pairs(bob)
+  // console.log(couple);
+  for(var i = 0; i < couple.length; i++){
+    couple[i][1] = couple[i][1].sort(function(time1, time2){
+      if (time1.time > time2.time) {
+        return -1
+      }
+      return 1
+    })
+  }
+  console.log(couple);
+  var obj = {}
+
+  for(var i = 0; i < couple.length; i++){
+    var key = couple[i][0];
+    var value = couple[i][1][0].price - couple[i][1][29].price;
+    obj[key]= value
+  }
+  return obj
+
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +84,15 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var something = stocks.gainAndLoss(data)
+  var somethingBetterThanSomething = _.pairs(something)
+  var somethingEvenBetter = somethingBetterThanSomething.sort(function(t1, t2){
+    if(t1[1] > t2[1]){
+      return -1
+    }
+    return 1
+  })
+  return somethingEvenBetter[0][0]
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +110,15 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var something = stocks.gainAndLoss(data)
+  var somethingBetterThanSomething = _.pairs(something)
+  var somethingEvenBetter = somethingBetterThanSomething.sort(function(t1, t2){
+    if(t1[1] > t2[1]){
+      return -1
+    }
+    return 1
+  })
+  return somethingEvenBetter[5][0]
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +131,15 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var something = stocks.gainAndLoss(data)
+  var somethingBetterThanSomething = _.pairs(something)
+  var somethingEvenBetter = somethingBetterThanSomething.sort(function(t1, t2){
+    if(Math.abs(t1[1]) > Math.abs(t2[1])){
+      return -1
+    }
+    return 1
+  })
+  return somethingEvenBetter[0][0]
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +158,53 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  var bob = _.groupBy(data, function(space){
+    return space.ticker
+  })
+
+  var couple = _.pairs(bob)
+
+  for(var i = 0; i < couple.length; i++){
+    couple[i][1] = couple[i][1].sort(function(time1, time2){
+      if (time1.time < time2.time) {
+        return -1
+      }
+      return 1
+    })
+  }
+
+  function grabValue(ticker,day) {
+    var index = 0
+
+    for(var i = 0; i < couple.length; i++){
+      if(couple[i][0] === ticker){
+        index = i
+      }
+    }
+    // console.log(index);
+    var day = date.getDate();
+    var val = couple[index][1][day].price
+    return val
+  }
+  // console.log(index);
+
+  var portfolio2 = _.pairs(portfolio);
+  for (var i = 0; i < portfolio2.length; i++) {
+    var ticker = portfolio2[i][0]
+    var numStocks = portfolio2[i][1]
+    portfolio2[i][2] = grabValue(ticker,day) * numStocks
+  }
+  // console.log(portfolio2);
+
+  var day = date.getDate();
+  var sum = 0
+
+
+  for(var i = 0; i < portfolio2.length; i++){
+    sum += portfolio2[i][2]
+  }
+  // console.log(sum);
+  return sum
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +226,7 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

@@ -20,7 +20,16 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var i = 0;
+  var j = str.length - 1;
+  while(str[i] === ' ') {
+  	i++;
+  }
+  while(str[j] === ' ') {
+  	j--''
+  }
+  var newString = str.substring(i, j+1);
+  return newString;
 };
 
 // ----------------------------------------------------------------------------

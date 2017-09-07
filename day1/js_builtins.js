@@ -21,6 +21,19 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var splitUp = str.split(' ');
+  console.log('splitUp', splitUp);
+  console.log('index', index);
+  for (var i=0; i < splitUp.length + 5; i++) {
+  	  var index = splitUp.indexOf('');
+	  if (index > -1) {
+	  	splitUp.splice(index, 1);
+	  }
+  }
+  console.log('second split up', splitUp);
+  var returnString = splitUp.join(' ');
+  console.log('post join', returnString);
+  return returnString; 
 };
 
 // ----------------------------------------------------------------------------
@@ -40,6 +53,7 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  return sourceString.includes(searchString); 
 };
 
 // ----------------------------------------------------------------------------
@@ -60,6 +74,9 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var splitArray = str.split(' ');
+  console.log('splitArray', splitArray);
+  return parseInt(splitArray[0]); 
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +93,13 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var reverseArray = [];
+  console.log('got here');
+  for (var i=arr.length-1; i>=0; i--) {
+  	reverseArray.push(arr[i]); 
+  	console.log('reverseArray', reverseArray);
+  }
+  return reverseArray;
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +118,19 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if (a.length != b.length) {
+  	return false; 
+  }
+  for (var i=0; i<a.length; i++) {
+  	console.log('gets inside loop');
+  	if (a[i] === b[i]) {
+  		console.log('comparing?')
+  		continue; 
+  	} else {
+  		return false;
+  	}
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +148,17 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  var bool = true; 
+  for (var i=0; i<arr.length; i++) {
+  	console.log(bool);
+  	if (!(arr[i] === arr[arr.length - 1 - i])
+  		|| !(typeof arr[i] === typeof arr[arr.length - 1 - i])
+  		) {
+  		console.log('noooo!');
+  		bool = false;
+  	}
+  }
+  return bool;
 };
 
 // ----------------------------------------------------------------------------
@@ -129,8 +177,32 @@ builtins.isPalindrome = function(arr) {
 // behavior). See: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
+[2, 4, 5, 3, 6, 1]
+
+
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  // debugger;
+  // var replaceIndex = 0; 
+  // for (var j=0; j<arr.length; j++) {
+  // 	  var smallest = arr[j];
+	 //  for (var i=0; i<arr.length; i++) {
+	 //  	  if (smallest > arr[i]) {
+	 //  	  	smallest = arr[i];
+	 //  	  	replaceIndex = i;  
+	 //  	  }
+	 //   }
+	 //   arr[replaceIndex] = arr[j]; 
+	 //   arr[j] = smallest;
+	 //   console.log(arr); 
+  // }
+
+  	var mergeSort = function(A, p, r) {
+  		
+  	}
+
+
+  
 };
 
 // ----------------------------------------------------------------------------

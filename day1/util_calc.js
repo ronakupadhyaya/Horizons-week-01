@@ -55,4 +55,78 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+
+  if (expression == "") {
+  	throw 'Error, empty expression'
+  }
+  if (!(expression.includes('+') || expression.includes('-') || 
+   		expression.includes('*') || expression.includes('/')) 
+  		&& expression.includes(' ')) {
+	throw 'Error';
+  }
+  var bool = true;
+  for (var i=0; i < expression.length; i++) {
+  	bool &= isNaN(expression.charAt(i)); 
+  } 
+  if (bool) {
+  	throw 'no numbers here'; 
+  }
+
+  var exp = expression.split(' ');
+
+  if (exp.length % 2 == 0) {
+  	throw 'Error, too many numbers';
+  }
+  //know it's odd
+  for (var j=0; j < exp.length; j += 2) {
+  	exp[j] = parseFloat(exp[j]); 
+  	if (isNaN(exp[j])) {
+  		throw 'One of your ideas is not a number.'; 
+  	}
+  }
+
+  for (var k=1; k < exp.length; k += 2) {
+  	var operatorString = '+-*/';
+  	if (!operatorString.includes(exp[k])) {
+  		throw 'Sorry, use valid operators.';
+  }
+}
+
+
+
+
+  // part 3
+
+  for (var x=1; x < exp.length; x += 2) {
+  	if (exp[x] == '*') {
+  		exp = exp.slice(0, x-1).concat([exp[x-1] * exp[x+1]]).concat(exp.slice(x+2)); 
+  		x -= 2; 
+  	}
+  	if (exp[x] == '/') {
+  		exp = exp.slice(0, x-1).concat([exp[x-1] / exp[x+1]]).concat(exp.slice(x+2)); 
+  		x -= 2; 
+  	}
+  }
+
+
+
+  // part 2
+
+  var result = exp[0]; 
+
+  for (var y=1; y < exp.length; y += 2) {
+  	if (exp[y] == '+') {
+  		result += exp[y + 1]; 
+  	}  
+  	if (exp[y] == '-') {
+  		result -= exp[y + 1]; 
+  	} 
+  }
+  return result;
+
+
+  
+
+
+
 };

@@ -41,10 +41,23 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
-stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
-};
 
+stocks.getTime = function(transaction){
+ return new Date(transaction.time).getTime();
+};
+stocks.Pricedifference = function(transaction){
+ var max = _.max(transaction, stocks.getTime);
+ var min = _.min(transaction, stocks.getTime);
+ return max.price - min.price;
+};
+stocks.gainAndLoss = function(data) {
+ var companygroups = _.groupBy(data, function(stock){
+   return stock.ticker;
+ });
+ var price = _.mapObject(companygroups, stocks.Pricedifference);
+ return price;
+
+};
 // Exercise 2. stocks.biggestGainer(data)
 //
 // Write a function that finds the stock that went up in price the most
@@ -58,8 +71,27 @@ stocks.gainAndLoss = function(data) {
 // stocks.biggestGainer(stockData) -> 'AMZN'
 //
 // You can use stocks.gainAndLoss() in your answer.
+
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+ 
+  var max = _.max(stocks.gainAndLoss(data), function(largest) {
+  	return largest; 
+  }); 
+
+  var biggest;
+
+  var key = _.mapObject(stocks.gainAndLoss(data), function(val,key){
+  	if (val === max) {
+  		biggest = key; 
+  	}
+  }); 
+
+  console.log('biggest', biggest); 
+
+  return biggest; 
+
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)

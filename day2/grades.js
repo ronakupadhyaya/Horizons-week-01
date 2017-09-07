@@ -95,24 +95,39 @@ grades.majorWithHighestGPA = function(data) {
   var sorted = _.groupBy(data, function(student){
     return student.major;
   });
-  for(var major in sorted){
-    var totalGPA = 0;
-    console.log(sorted[major]);
-    for(var student in major[sorted]){
-      console.log(major[sorted].student);
+  var geekSquadGPA = 0;
+  var geekSquad = null;
+  _.forEach(sorted, function(val, key){
+    var averages = [];
+    val.forEach(function (student){
+      var studentGrades = [student.grades.class1, student.grades.class2];
+      averages.push(grades.average(studentGrades));
+    });
+    val = grades.average(averages);
+    if(val > geekSquadGPA){
+      geekSquadGPA = val;
+      geekSquad = key;
     }
-  }
-  // for(var major in sorted){
-  //   for(var )
-  //   var GPAs = [];
-  //   console.log(major[s])
-  // }
+  });
+  return geekSquad;
 }
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
-// Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
+// Write a function that takes an array of Student objects and returns
+//an object with two keys, `class1` and `class2`, with values that correspond
+//to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var class1grades = [];
+  var class2grades = [];
+  data.forEach(function (student){
+    class1grades.push(student.grades.class1);
+    class2grades.push(student.grades.class2);
+  });
+  var class1mean = grades.average(class1grades);
+  var class2mean = grades.average(class2grades);
+
+  return {class1: class1mean, class2: class2mean};
 };

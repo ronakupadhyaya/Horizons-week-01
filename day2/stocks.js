@@ -43,6 +43,30 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  //console.log(data);
+  var sorted = _.groupBy(data, function(company){
+    return company.ticker;
+  });
+  //console.log(sorted);
+  function findEarliest(company){
+    return company.reduce(function (earliest, current){
+      if(earliest.time < current.time){
+        return earliest
+      }
+      return current
+    });
+  }
+  function findLatest(company){
+    return company.reduce(function (latest, current){
+      if(latest.time > current.time){
+        return latest
+      }
+      return current
+    });
+  }
+  return _.mapObject(sorted, function(val, key){
+    return findLatest(val).price - findEarliest(val).price;
+  })
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +84,16 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var organized = stocks.gainAndLoss(data);
+  var gains = 0;
+  var bigGaines = data[0].ticker;
+  _.forEach(organized, function(val, key){
+    if(val > gains){
+      gains = val;
+      bigGaines = key;
+    }
+  })
+  return bigGaines;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +111,16 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var organized = stocks.gainAndLoss(data);
+  var losses = 0;
+  var biglosses = data[0].ticker;
+  _.forEach(organized, function(val, key){
+    if(val < losses){
+      losses = val;
+      biglosses = key;
+    }
+  })
+  return biglosses;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,7 +133,38 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
-};
+  var group = _.groupBy(data, function(company){
+    return company.ticker;
+  })
+  function findCheapest(company){
+    return company.reduce(function (earliest, current){
+      if(earliest.price < current.price){
+        return earliest
+      }
+      return current
+    });
+  }
+  function findExpensive(company){
+    return company.reduce(function (latest, current){
+      if(latest.price > current.price){
+        return latest
+      }
+      return current
+    });
+  }
+  var variants = _.mapObject(group, function(val, key){
+    return findExpensive(val).price - findCheapest(val).price;
+  });
+  var largestRange = 0;
+  var rangeCompany = '';
+  _.forEach(variants, function(val, key){
+    if(val > largestRange){
+      largestRange = val;
+      rangeCompany = key;
+    }
+  });
+  return rangeCompany;
+}
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
 // Write a function that calculates the value of a stock portfolio at a given

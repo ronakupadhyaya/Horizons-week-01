@@ -166,6 +166,23 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+
+  var dateValues = _.groupBy( data, function ( transaction ) {
+    return transaction.time;
+  });
+
+  console.log(dateValues);
+
+  var pValue = 0;
+  console.log(date.toISOString());
+  for( var i = 0; i < dateValues[date.toISOString()].length; i++ ){
+    if (dateValues[date.toISOString()][i].ticker in portfolio){
+      pValue += dateValues[date.toISOString()][i].price * portfolio[dateValues[date.toISOString()][i].ticker];
+    }
+  }
+
+  return pValue;
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -187,6 +204,37 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  var tickerGroups = _.groupBy( data, function ( transaction ) {
+    return transaction.ticker;
+  })
+
+  function sortByTime( t1, t2 ){
+    var date1 = new Date(t1.time);
+    var date2 = new Date(t2.time);
+
+    if (date1 > date2) return 1;
+    else if (date2 > date1) return -1;
+    else return 0;
+  }
+  var maxDiff = 0;
+  var buyDate = '';
+  var sellDate = '';
+
+  tickerGroups[ticker].sort(sortByTime);
+  console.log(tickerGroups);
+
+  for (var i = 0; i < tickerGroups[ticker].length; i++){
+  	for (var j = i+1; j < tickerGroups[ticker].length; j++){
+  		if (tickerGroups[ticker][j].price - tickerGroups[ticker][i].price > maxDiff){
+  			maxDiff = tickerGroups[ticker][j].price - tickerGroups[ticker][i].price;
+  			buyDate = tickerGroups[ticker][i].time;
+  			sellDate = tickerGroups[ticker][j].time;
+  		}
+  	}
+  }
+  console.log(maxDiff);
+  return [new Date(buyDate), new Date(sellDate), maxDiff];
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -211,4 +259,19 @@ stocks.bestTrade = function(data, ticker) {
 //   55.54]
 stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
+  var tickerGroups = _.groupBy( data, function ( transaction ) {
+    return transaction.ticker;
+  })
+  var array = [];
+  for (var key in tickerGroups){
+  	var temp = stocks.bestTrade(data, key);
+  	array.push([key, temp[0], temp[1], temp[2]]);
+  }
+  console.log(array);
+  var bestTrade = array[0];
+  for (var i = 0; i < array.length; i++){
+  	if (array[i][3] > bestTrade[3])
+  		bestTrade = array[i];
+  }
+  return bestTrade;
 };

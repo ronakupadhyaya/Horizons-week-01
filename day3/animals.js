@@ -10,9 +10,9 @@
 // Do not edit, reorder or delete any of the existing code.
 //
 
-function getAnimal() {
+(function getAnimal() {
   return 'lion';
-}
+})
 
 window.lion = getAnimal();
 

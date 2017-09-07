@@ -15,16 +15,16 @@
 // In the card game poker, a hand consists of five cards and are ranked, from
 // lowest to highest, in the following way:
 //
-//   - High Card: Highest value card.
-//   - One Pair: Two cards of the same value.
-//   - Two Pairs: Two different pairs.
-//   - Three of a Kind: Three cards of the same value.
-//   - Straight: All cards are consecutive values.
-//   - Flush: All cards of the same suit.
-//   - Full House: Three of a kind and a pair.
-//   - Four of a Kind: Four cards of the same value.
-//   - Straight Flush: All cards are consecutive values of same suit.
-//   - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+//   0 - High Card: Highest value card.
+//   1 - One Pair: Two cards of the same value.
+//   2 - Two Pairs: Two different pairs.
+//   3 - Three of a Kind: Three cards of the same value.
+//   4 - Straight: All cards are consecutive values.
+//   5 - Flush: All cards of the same suit.
+//   6 - Full House: Three of a kind and a pair.
+//   7 - Four of a Kind: Four cards of the same value.
+//   8 - Straight Flush: All cards are consecutive values of same suit.
+//   9 - Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
 //
 // The cards are valued in the order:
 // 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, Ace.
@@ -46,5 +46,35 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  checkFlush(hand1);
+}
+var numberOrder = '2345678910JQKA';
+var rankHand = function(hand) {
+  //takes a hand and returns (value of hand)
+}
+
+var checkFlush = function(hand) {
+  var suits = {
+    D: 0,
+    C: 0,
+    H: 0,
+    S: 0
+  };
+  for (var i = 0; i < hand.length; i++) {
+    suits[hand[i].slice(1,2)] += 1;
+  }
+  console.log(suits);
+
+}
+
+var checkStraight = function(hand) {
+
+}
+
+var checkHighestQuantity = function(hand) {
+
+}
+
+var checkHighCard = function(hand) {
+
 }

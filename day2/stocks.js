@@ -42,7 +42,44 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  var companyStocks = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  });
+  var companies = _.keys(companyStocks);
+  var companyHistory = {}; //key: companyName, value: array of transactions for that company
+  _.forEach(companies, function(company) {
+    companyHistory[company] = companyStocks[company];
+  });
+
+  // finds earliest transaction from array of transactions "history"
+  var early = function(history) {
+    var earliest = _.reduce(history, function(trans1, trans2) {
+      if (trans1.time < trans2.time) { // trans1 is earlier in this case
+        return trans1;
+      }
+      return trans2;
+    });
+    return earliest;
+  }
+
+  // finds latest transaction from array of transactions "history"
+  var late = function(history) {
+    var latest = _.reduce(history, function(trans1, trans2) {
+      if (trans1.time > trans2.time) { // trans1 is later in this case
+        return trans1;
+      }
+      return trans2;
+    });
+    return latest;
+  }
+
+  var ret = {};
+
+  _.forEach(companies, function(company) {
+    ret[company] = late(companyHistory[company]).price - early(companyHistory[company]).price;
+  });
+
+  return ret;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +96,19 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  var stockChanges = stocks.gainAndLoss(data);
+  var companies = _.keys(stockChanges);
+  var companyChanges = []; // will contain {name: 'Company', change: #}
+  _.forEach(companies, function(company) {
+    companyChanges.push( {name: company, change: stockChanges[company]} );
+  });
+  var bigGain = _.reduce(companyChanges, function(ticker1, ticker2) {
+    if(ticker1.change > ticker2.change) {
+      return ticker1;
+    }
+    return ticker2;
+  });
+  return bigGain.name;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +125,19 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  var stockChanges = stocks.gainAndLoss(data);
+  var companies = _.keys(stockChanges);
+  var companyChanges = []; // will contain {name: 'Company', change: #}
+  _.forEach(companies, function(company) {
+    companyChanges.push( {name: company, change: stockChanges[company]} );
+  });
+  var bigLoss = _.reduce(companyChanges, function(ticker1, ticker2) {
+    if(ticker1.change < ticker2.change) {
+      return ticker1;
+    }
+    return ticker2;
+  });
+  return bigLoss.name;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +149,56 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  var companyStocks = _.groupBy(data, function(trans) {
+    return trans.ticker;
+  });
+  var companies = _.keys(companyStocks);
+  var companyHistory = {}; //key: companyName, value: array of transactions for that company
+  _.forEach(companies, function(company) {
+    companyHistory[company] = companyStocks[company];
+  });
+
+  // finds lowest value transaction from array of transactions "history"
+  var lower = function(history) {
+    var lowest = _.reduce(history, function(trans1, trans2) {
+      if (trans1.price < trans2.price) { // trans1 is lower in value in this case
+        return trans1;
+      }
+      return trans2;
+    });
+    return lowest;
+  }
+
+  // finds highest value transaction from array of transactions "history"
+  var higher = function(history) {
+    var highest = _.reduce(history, function(trans1, trans2) {
+      if (trans1.price > trans2.price) { // trans1 is higher in value in this case
+        return trans1;
+      }
+      return trans2;
+    });
+    return highest;
+  }
+
+  var ret = {};
+
+  _.forEach(companies, function(company) {
+    ret[company] = higher(companyHistory[company]).price - lower(companyHistory[company]).price;
+  });
+
+  var stockChanges = ret;
+  var companies = _.keys(stockChanges);
+  var companyChanges = []; // will contain {name: 'Company', change: #}
+  _.forEach(companies, function(company) {
+    companyChanges.push( {name: company, change: stockChanges[company]} );
+  });
+  var volatile = _.reduce(companyChanges, function(ticker1, ticker2) {
+    if(ticker1.change > ticker2.change) {
+      return ticker1;
+    }
+    return ticker2;
+  });
+  return volatile.name;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +216,21 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var convertedDate = date.toISOString();
+  var dayValue = _.filter(data, function(trans) { //array of transactions for that day
+    return trans.time === convertedDate;
+  });
+  debugger;
+  var tickerPrices = {}; // { 'ticker': price }
+  _.forEach(dayValue, function(trans) {
+    tickerPrices[trans.ticker] = trans.price;
+  });
+  var portTickers = _.keys(portfolio); //tickers from the portfolio
+  var totalWorth = 0;
+  _.forEach(portTickers, function(ticker) {
+    totalWorth += tickerPrices[ticker] * portfolio[ticker];
+  });
+  return totalWorth;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -127,7 +251,11 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   new Date('2016-06-28T00:00:00.000Z'),
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
-  // YOUR CODE HERE
+  // filter data to only include ticker
+
+
+  // sort transactions by time
+
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)

@@ -32,11 +32,11 @@ varArgs.makeUser = function(name, age) {
   // Lookie here
   if (arguments.length == 1) {
     // args are sequential so if 1 arg was given, that means only the first (name) was given
-    age = 12;
+    var age = 12;
   } else if (arguments.length === 0) {
     // didn't give it anything, man.
-    name = "John Doe";
-    age = 24;
+    var name = "John Doe";
+    var age = 24;
   }
   return { 'name': name, 'age': age };
 };
@@ -49,7 +49,11 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
+  var ret = 0;
+  for(var i = 0; i < arguments.length; i++) {
+    ret += arguments[i];
+  }
+  return ret;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -60,7 +64,11 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
+  var ret = 1;
+  for(var i = 0; i < arguments.length; i++) {
+    ret *= arguments[i];
+  }
+  return ret;
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -71,6 +79,15 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',') -> ''
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
-varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
+varArgs.joinWith = function(delimit) {
+  var ret = '';
+  for(var i = 1; i < arguments.length; i++) {
+    if(i == arguments.length - 1) {
+      ret += arguments[i];
+      break;
+    }
+    ret += arguments[i] + delimit;
+  }
+  console.log(ret);
+  return ret;
 };

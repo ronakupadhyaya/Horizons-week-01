@@ -14,7 +14,14 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  var userPass = password;
+  function returnFunction(attempt) {
+    if(attempt === userPass) {
+      return true;
+    }
+    return false;
+  }
+  return returnFunction;
 }
 
 // This function returns an object that leaks private information!

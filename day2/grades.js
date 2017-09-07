@@ -26,6 +26,13 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
+  if (arr.length === 0) {
+    return 0;
+  }
+  var temp1 = _.reduce(arr, function(a, b) {
+    return a + b
+  })
+  return temp1 / arr.length;
   // YOUR CODE HERE
 };
 
@@ -38,13 +45,26 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
+  var empty1 = student.grades.class1;
+  var empty2 = student.grades.class2;
+  return (empty1 + empty2) /2
   // YOUR CODE HERE
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
+  var highestGPA = grades.getGPA(data[0]);
+
+  for (var i = 1; i < data.length; i++) {
+    if (grades.getGPA(data[i]) > highestGPA) {
+      highestGPA = grades.getGPA(data[i])
+      var d = data[i]
+    }
+  }
+  return d;
   // YOUR CODE HERE
 }
 
@@ -61,13 +81,55 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+
+
+var simple1 = _.groupBy(data, function(student) {
+  return student.major
+});
+console.log("This is simple1", simple1)
+
+function lovely (studentarray) {
+  var what = _.map(studentarray, grades.getGPA);
+  return _.map(studentarray, grades.getGPA);
+}
+
+var simple2 = _.mapObject(simple1, function(val, key) {
+  return lovely(val);
+})
+console.log("This is simple2", simple2)
+var simple3 = _.mapObject(simple2, grades.average)
+console.log("This is simple3", simple3)
+var major = "";
+var gpa = 0;
+for (var property in simple3) {
+  if (gpa < simple3[property]) {
+    gpa = simple3[property];
+    major = property
+  }
+}
+return major;
+
 };
+
+  // YOUR CODE HERE
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var c1 = 0;
+  var c2 = 0;
+
+  _.forEach(data, function(student) {
+    c1 += student.grades.class1;
+    console.log(c1);
+    c2 += student.grades.class2;
+  });
+
+
+  c1 = c1 / data.length;
+  c2 = c2 / data.length;
+console.log(c1, c2);
+  return { "class1" : c1, "class2" : c2 };
 };

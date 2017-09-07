@@ -41,9 +41,45 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
-stocks.gainAndLoss = function(data) {
+stocks.gainAndLoss = function(data)  {
   // YOUR CODE HERE
+var byTicker = _.groupBy(data, function(data1){
+  return data1.ticker;
+})
+console.log("by ", byTicker);
+// var bob = _.pairs(byTicker); //
+// console.log(bob);  //
+
+
+// function lovely (studentarray) {
+//   var what = _.map(studentarray, function() {});
+//   return _.map(studentarray, grades.getGPA);
+
+var sum =0
+var byTicker2 = _.mapObject(byTicker, function(val, key) {
+  console.log(student, "word");
+  return sum += student.price;
+
+});
+console.log("this wont work?", byTicker2);
+
+
+// function forPrice (item) {
+//   var sum = 0;
+//   return sum += byTicker.price
+// }
+// //     return sum += _.map(obj, grades.getGPA);
+// //
+// // }
+// //
+// var byPricefirst = .map(byTicker, function)
+// var byPrice = _.mapObject(byPricefirst, forPrice);
+// console.log(byPrice);
+
+
 };
+
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //

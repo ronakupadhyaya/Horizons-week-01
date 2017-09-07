@@ -30,8 +30,22 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func, hashFunction) {
   // YOUR CODE HERE
+  var stored = {};
+  return function() {
+    var hash = true;
+    if (hashFunction){ //hash function shows if its stored
+      hash = hashFunction.apply(null, arguments);
+    } else {
+      hash = arguments[0];
+    }
+    if (stored.hasOwnProperty(hash)) {  // pick up the value of the hash key
+      return stored[hash];
+    }
+    stored[hash] = func.apply(null, arguments); //put it in the hash table using key
+    return stored[hash];
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +74,9 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var array = fn.bind.apply(fn, arguments); //bind turns list inro an array
+  //console.log(array);
+  return array;
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +116,10 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  //console.log(fn());
+  return function fn(){
+    return fun1(fun2.apply(null,arguments));
+  }
 }
 
 
@@ -142,4 +163,6 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  
+  }
 }

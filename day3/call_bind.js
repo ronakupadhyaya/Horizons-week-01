@@ -29,6 +29,8 @@
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
   // YOUR CODE HERE
+  // return a < b ? a : b; --> if (a < b) {return a} else {return b}
+  return newThis.apply(arguments);
 };
 
 // Bonus exercise: Function.prototype.myBind()

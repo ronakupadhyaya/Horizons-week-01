@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -21,7 +21,23 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var temp = [];
+  for (var i = 0; i < str.length; i++){
+    if (str[i] !== ' '){
+      temp = str.substring(i, str.length);
+       break;
+    }
+  }
+  for (var j = temp.length - 1; j > 0; j--){
+    if (temp[j] !== ' '){
+      return temp = temp.substring(0, j+1);
+    }
+  }
+
+  return temp;
+
 };
+
 
 // ----------------------------------------------------------------------------
 
@@ -40,6 +56,10 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  if (sourceString.indexOf(searchString) !== -1){
+    return true;}
+  else {return false;
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +67,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -60,6 +80,7 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  return parseInt(str.split(' ')[0]);
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +97,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var temp = [];
+  for (var i = 0; i < arr.length; i++){
+    temp.push(arr[arr.length - i - 1]);
+  }
+  return temp;
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +120,16 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+//  var temp = true;
+ if (a.length == 0 && b.length !== 0){
+   return false;
+ }
+  for(var i = 0; i < a.length; i++){
+    if(a[i] !== b[i]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +147,12 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  for (var i = 0; i < arr.length; i++){
+    if(arr[i] !== arr[arr.length - i -1]){
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +168,14 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  return arr.sort(function(a, b){
+    return a - b
+  })
 };
 
 // ----------------------------------------------------------------------------
@@ -148,6 +193,9 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  return arr.sort(function(a, b){
+    return a.length - b.length
+  })
 };
 
 // ----------------------------------------------------------------------------
@@ -163,4 +211,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  var returnArray = [];
+  for (var i = 0; i < arr.length; i++){
+    for(var j = 0; j < arr[i].length; j++){
+      returnArray.push(arr[i][j])
+    }
+  }
+  return returnArray;
 };

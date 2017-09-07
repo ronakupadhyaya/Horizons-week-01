@@ -20,6 +20,25 @@ window.util = {};
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
 //
+//util.calc = function(inputString){
+  //var isValid = true;
+//  var newArray = inputString.split(' ');
+//  if (newArray.length !== 3){
+//    throw "error";
+//  }
+
+//  if (typeof parseInt(newArray[0]) !== "number" ||
+//  typeof parseInt(newArray[2]) !== "number"){
+//    throw "error";
+//  }
+//  else{
+//    return newArray
+//  }
+//}
+
+
+
+
 // Part 2. Implement support for addition and subtraction.
 //
 // ex. util.calc('1') -> 1
@@ -55,4 +74,30 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
-};
+  var result = 0
+  function isValid(expression){
+    var newArray2 = expression.split(' ');
+    console.log(newArray2);
+    for(var i = 0; i < newArray2.length; i+=2){
+      if (isNaN(parseInt(newArray2[i])) === true){
+        throw "error";
+      }
+      for (var i = 1; i < newArray2.length;i+=2){
+        if (newArray2.length[i] !== '+' || newArray2.length[i] !== '-'
+      || newArray2.length[i] !== '*' || newArray2.length[i] !== '/'){
+          throw "error";
+        }
+      }
+    }
+  }
+
+    isValid(expression);
+    var newArray3 = expression.split(' ');
+    if (newArray3.length === 1){
+      result = parseInt(newArray3[0]);
+      return result;
+    }
+
+
+
+  }

@@ -43,6 +43,20 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var returnObj = {};
+  // get list of objects, update earliest price and the latest price of the company
+  var newArray = _.groupby(data, function(stocks){
+    return stocks.ticker;
+  })
+for (var i = 0; i < )
+newArray.forEach(function(stock){
+  var earlyPrice = 0
+  var latePrice = 0
+  var earlyTime = stock[0].time;
+  var lateTime = stock[0].time;
+  if()
+})
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)

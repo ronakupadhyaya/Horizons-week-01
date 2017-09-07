@@ -43,6 +43,37 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+
+  // group by company
+
+  var byCompany = _.groupBy(data, function(currTrans){
+	  return currTrans["ticker"];
+  });
+
+
+
+  var Idonthaveafavoritecolor= _.mapObject(byCompany, function(val, key){
+	  var earliest = new Date;
+	  var latest = new Date;
+	 // debugger;
+	  earliest = val[0].time;
+	  latest = val[0].time;
+	  var latestPrice = val[0].price;
+	  var earliestPrice = val[0].price;
+
+	  for(var i = 0; i < val.length; i++){
+		  if(val[i].time > latest){
+			  latest = val[i].time;
+			  latestPrice = val[i].price;
+		  } else if(val[i].time < earliest){
+			  earliest = val[i].time;
+			  earliestPrice = val[i].price;
+		  }
+	  }
+	  return latestPrice - earliestPrice;
+  });
+
+  return Idonthaveafavoritecolor;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +91,19 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var values = stocks.gainAndLoss(data);
+  var biggestGain = values["GOOG"];
+  var biggestComp = '';
+  var gainTrain = _.mapObject(values, function(val, key){
+	  if(val > biggestGain){
+		  biggestGain = val;
+		  biggestComp = key;
+	  }
+
+	  return val;
+  });
+
+  return biggestComp;
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +121,19 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var values = stocks.gainAndLoss(data);
+  var biggestLoss = values["GOOG"];
+  var biggestComp = '';
+  var gainTrain = _.mapObject(values, function(val, key){
+	 if(val < biggestLoss){
+		 biggestLoss = val;
+		 biggestComp = key;
+	 }
+
+	 return val;
+  });
+
+  return biggestComp;
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +146,39 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var groupCompany = _.groupBy(data, function(company){
+	  return company["ticker"];
+  });
+
+
+  var finalCompanies = _.mapObject(groupCompany, function(val, key){
+	  var highestPrice = val[0].price;
+	  var lowestPrice = val[0].price;
+
+	  for(var i = 0; i < val.length; i++){
+		  if(val[i].price < lowestPrice){
+			  lowestPrice = val[i].price;
+		  }  else if(val[i].price > highestPrice){
+			  highestPrice = val[i].price;
+		  }
+	  }
+
+	  return highestPrice - lowestPrice;
+  });
+
+  var widestRange = finalCompanies["GOOG"];
+  var companyName = "";
+
+  var myFavoriteColorIsRed = _.mapObject(finalCompanies, function(val, key){
+	  if(val > widestRange){
+		  widestRange = val;
+		  companyName = key;
+	  }
+
+	  return companyName;
+  });
+
+  return companyName;
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +196,31 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var dateGroup = _.groupBy(data, function(d){
+	  return d["time"];
+  }); //dateGroup is an object (keys: date strings, values: array of transaction objects)
+  var convertedDate = date.toISOString();
+  var allDates = dateGroup[convertedDate];
+
+  // find the companies that are in the portolio and find the price of each of the companies and multipluong by
+  // the number of shares that they have
+
+  var companiesInPortfolio = _.mapObject(portfolio, function(val, key){
+	  for(var i = 0; i < allDates.length; i++){
+		  if(allDates[i]["ticker"] === key){
+			  var amount = allDates[i]["price"] * val;
+			  return amount;
+		  }
+	  }
+  });
+
+  var total = 0;
+
+var itDoesntMatter = _.mapObject(companiesInPortfolio, function(val, key){
+	total += val;
+});
+
+  return total;
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

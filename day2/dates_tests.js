@@ -6,7 +6,7 @@ describe("dates.createDate(dateStr)", function() {
   });
 
   it("should create dates from properly-formatted date strings", function() {
-    expect(dates.createDate('May 17, 2016 9:00:00')).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0));
+    expect(dates.createDate('May 17, 2016 9:00:00')).toEqual(new Date(2016, 4, 17, 9, 0, 0, 0, 0));
 
     expect(dates.createDate('2015-03-25')).toEqual(new Date('2015-03-25'));
 

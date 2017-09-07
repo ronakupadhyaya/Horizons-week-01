@@ -2,6 +2,7 @@
 
 ## Pair Programming Exercises
 
+1. [Object prototypes](prototypes.md)
 1. RPN Calculator <br>
    Files: `week01/day4/rpn.js` and `week01/day4/rpn.html`
 1. Event Emitter <br>

@@ -124,8 +124,8 @@ function createDuplicateObj(hand){
 function checkCardTally(hand, num){
 
   var emptyObj = createDuplicateObj(hand);
-
   for(var key in emptyObj){
+
     if(emptyObj[key] === num){
       return parseInt(key);
     }
@@ -143,15 +143,22 @@ function checkPair(hand){
   return checkCardTally(hand, 2);
 }
 function checkTwoPair(hand){
-
+  console.log("HI");
   var cardObj = createDuplicateObj(hand);
   var count = 0;
+  var twoPairKey = 0;
+  var emptyArr = [];
   for(var key in cardObj){
     if(cardObj[key] === 2){
       count++;
+      emptyArr.push(parseInt(key));
     }
   }
-  return count === 2;
+
+  if(count===2){
+    return emptyArr[0] > emptyArr[1] ? emptyArr[0] : emptyArr[1];
+  }
+  return false;
 
 }
 
@@ -159,18 +166,23 @@ function checkTwoPair(hand){
 function fullHouse(hand){
   var cardObj = createDuplicateObj(hand);
   var count = 0;
+  var fullHouseThreeOfAKind = 0;
   for(var key in cardObj){
     if(cardObj[key] === 2){
       count++;
     }
     if(cardObj[key] === 3){
       count++;
+      fullHouseThreeOfAKind = parseInt(key);
     }
   }
-  return count === 2;
+  if(count===2){
+    return fullHouseThreeOfAKind;
+  }
+  return 0;
 }
 function compareHigher(hand1, hand2){
-  debugger;
+
   var largestCardHand1 = checkLargestCard(hand1);
   var largestCardHand2 = checkLargestCard(hand2);
   while(cardValue(hand1[largestCardHand1]) == cardValue(hand2[largestCardHand2])){
@@ -188,70 +200,14 @@ function compareHigher(hand1, hand2){
 
 
 }
-// function checkFlush(hand, obj){
-//
-//   var countBool = 0;
-//   for(var i =0; i < hand.length; i++){
-//     if(hand[i][1] !== hand[i][1]){
-//       countBool ++;
-//     }
-//   }
-//   if(countBool ===0){
-//
-//   }
-//   return obj;
-// }
 
-
-// function checkPair(hand, obj){
-//   var placeholderArr = hand;
-//   var leftOverArr = [];
-//   var returnArr = [];
-//   for(var i=0; i < hand.length; i++){
-//
-//     if(leftOverArr.indexOf(placeholderArr[i][0]) === -1){
-//       leftOverArr.push(placeholderArr[i][0]);
-//     } else{
-//       var number = placeholderArr[i].split('');
-//       returnArr.push(parseInt(number[0]));
-//     }
-//   }
-//   obj.pairs = returnArr;
-//   return obj;
-// }
-//
-// function comparePair(hand1Obj, hand2Obj){
-//   debugger;
-//   if(hand1Obj.pairs.length > hand2Obj.pairs.length){
-//     return 1
-//   }
-//   if(hand2Obj.pairs.length > hand1Obj.pairs.length){
-//     return 2;
-//   }
-//
-//   for(var i = 0; i<hand1Obj.pairs.length; i++){
-//     if(hand1Obj.pairs.length === 1){
-//       if(hand1Obj.pairs[0] > hand2Obj.pairs[0]){
-//         return 1;
-//       } else{
-//         return 2;
-//       }
-//     }  else{
-//       if(hand1Obj.pairs[1] > hand2Obj.pairs[1]){
-//         return 1;
-//       } else{
-//         return 2;
-//       }
-//     }
-//   }
-// }
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
-  var functionArrays = [checkStraightFlush, fourOfAKind, fullHouse, checkFlush, checkStraight, threeOfAKind, checkTwoPair, checkPair];
+  // YOUR CODE HEREd
+  var functionArrays = [checkStraightFlush, fourOfAKind, fullHouse, checkFlush, checkStraight, threeOfAKind, checkTwoPair, checkPair, checkLargestCard];
   for(var i =0; i < functionArrays.length; i++){
     var fun = functionArrays[i];
 
-    if(!fun(hand1) && !fun(hand2)){
+    if((!fun(hand1) && !fun(hand2)) || (fun(hand1)=== -1 && fun(hand2) === -1) ){
       continue;
     }
     else if(fun(hand1) && !fun(hand2)){
@@ -261,15 +217,12 @@ window.rankPokerHand = function(hand1, hand2) {
       return 2;
     }
     else{
-      if(fun === checkPair || fun === threeOfAKind || fun === fourOfAKind){
-        if(fun(hand1) > fun(hand2)){
-          return 1;
-        }
-        if(fun(hand2) > fun(hand1)){
-          return 2;
-        }
+      if(fun(hand1) > fun(hand2)){
+        return 1;
       }
-      console.log(compareHigher(hand1, hand2))
+      if(fun(hand2) > fun(hand1)){
+        return 2;
+      }
       return compareHigher(hand1, hand2);
     }
   }

@@ -86,43 +86,48 @@ grades.majorWithHighestGPA = function(data) {
   //group students by major, get average GPA, get GPA of the student
  //debugger;
  //Object of arrays of objects
- var groupbyMajor = _.groupBy(data, function(student) {
-   return student.major;
- });
- //debugger;
+ //group students by major, get average GPA, get GPA of the student
+   debugger;
+   //Object of arrays of objects
+   var groupbyMajor = _.groupBy(data, function(student) {
+     return student.major;
+   });
+   //debugger;
 
-var highestGPA = _.mapObject(groupbyMajor, function(val,key){
-   var sumGPA = 0;
-   var c1 = 0;
-   var c2 = 0;
-   for (var i = 0; i < val.length; i++){
-     c1 = val[i].grades["class1"];
-     c2 = val[i].grades["class2"];
-     sumGPA += (c1 + c2)/2 ;
+  var highestGPA = _.mapObject(groupbyMajor, function(val,key){
+     var sumGPA = 0;
+     var c1 = 0;
+     var c2 = 0;
+     for (var i = 0; i < val.length; i++){
+       c1 += val[i].grades["class1"];
+       c2 += val[i].grades["class2"];
+       sumGPA += (c1 + c2)/2 ;
+     }
+     return sumGPA/val.length;
+   });
+
+ var  emptyArray= [];
+ _.forEach(highestGPA, function(val,key){
+   var temp = [];
+   temp.push(key);
+   temp.push(val);
+   emptyArray.push(temp);
+ })
+
+ var index = 0;
+ var highest = 0;
+ for(var j = 0; j < emptyArray.length; j++){
+   if(emptyArray[j][1] > highest){
+     highest = emptyArray[j][1];
+     index = j
    }
-   return sumGPA/val.length;
- });
- return highestGPA
-
-//console.log(highestGPA)
-var  emptyArray= [];
-_.forEach(highestGPA, function(val,key){
- var temp = [];
- temp.push(key);
- temp.push(val);
- emptyArray.push(temp);
-})
-
-var index = 0;
-var highest = 0;
-for(var j = 0; j < emptyArray.length; j++){
- if(emptyArray[j][1] > highest){
-   highest = emptyArray[j][1];
-   index = j
  }
-}
- return emptyArray[index][0];
-r//eturn _.mapObject(groupbyMajor,function(val,key){return ()
+   return emptyArray[index][0];
+ //return _.mapObject(groupbyMajor,function(val,key){return ()
+
+ // create highest variable/
+ // loop through highestGPA
+//return _.mapObject(groupbyMajor,function(val,key){return ()
 
 // create highest variable/
 // loop through highestGPA

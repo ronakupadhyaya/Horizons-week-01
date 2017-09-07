@@ -498,7 +498,7 @@ function compare(lol){
   for (var i = 0; i < array.length; i++){
     for (var j = 0; j < array.length; j++){
       var temp = [];
-      if (_.isEqual(array[i], []) || _.isEqual(array[i], [[]]) || _.isEqual(array[i], [0]) || _.isEqual(array[i], [1]))
+      if (Array.isArray(array[i]))
         temp.push(array[i].slice());
       else if (_.isEqual(array[i], {}))
         temp.push({});
@@ -513,7 +513,7 @@ function compare(lol){
       twoD.push(temp);
     }
   }
-  console.log(twoD);
+
 
   var obj = {};
 

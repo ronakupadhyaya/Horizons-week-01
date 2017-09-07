@@ -11,7 +11,7 @@ var valuesToCheck = function() {
 }
 
 // Good luck!
-function compare(type){
+function compare(comparisonType){
   // YOUR CODE HERE
   var twoD = [];
   var array = valuesToCheck();
@@ -80,7 +80,7 @@ function compare(type){
     }
     else
        s += twoD[i][1];
-    if (type === '==')
+    if (comparisonType === '==')
       obj[s] = twoD[i][0] == twoD[i][1];
     else {
       obj[s] = twoD[i][0] === twoD[i][1];

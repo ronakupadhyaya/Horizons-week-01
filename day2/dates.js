@@ -66,4 +66,6 @@ dates.isTheFuture = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
+  var newDate = dateObj.setDay + 1
+  return newDate
 };

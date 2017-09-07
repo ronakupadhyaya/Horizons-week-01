@@ -42,7 +42,17 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+
+  var tickerList = _.groupBy(data, function(stock) {
+    return data.ticker;
+  });
+
+  tickerList.date.sort(function(a, b) {
+    return Date.parse('01/01/1970' + a) - Date.parse('01/01/1970' + b);
+  })
+
+
+
 };
 
 // Exercise 2. stocks.biggestGainer(data)

@@ -242,9 +242,9 @@ learn_underscore.pairs = function(object) {
 //
 //  learn_underscore.groupByState(people) ->
 //      {
-//        "GA": [
-//          { "name": "Darwish", "state": "GA" },
-//          { "name": "Abhi", "state": "GA" }
+//        "GOOG": [
+//          { "ticker": "GOOG", "major": "Economics", "grades": {class1: 3, class2: 4 } },
+//          { "name": "Abhi", "major": "Economics", "grades": {class1: 2, class2: 3 } }
 //        ],
 //        "CA": [
 //          { "name": "Moose", "state": "CA" },

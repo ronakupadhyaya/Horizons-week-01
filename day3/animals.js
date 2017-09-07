@@ -11,6 +11,9 @@
 //
 
 function getAnimal() {
+  (function(){
+    return 'lion';
+  })();
   return 'lion';
 }
 

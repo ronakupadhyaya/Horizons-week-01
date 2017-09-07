@@ -77,10 +77,13 @@ grades.highestGPA = function(data) {
 // then "Economics" would be the return value.
 //
 // hint. you can use highestGPA if you'd like.
+
+
 grades.majorWithHighestGPA = function(data) {
   var majors = _.groupBy(data, function(student){
     return student.major;
   })
+  console.log(majors);
   var gpas = []
   _.forEach(majors, function(value, key, list){
     var total = 0;

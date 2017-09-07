@@ -27,6 +27,19 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+
+  var emptyArr = 0;
+  function sum(a,b) {
+    return a+b;
+}
+if (arr.length === 0) {
+  return 0;
+}
+
+
+return _.reduce(arr, sum) / arr.length;
+
+
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +52,10 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  var gradesArr = Object.values(student.grades)
+
+  return grades.average(gradesArr);
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,7 +63,28 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var gpaArray = [];
+  // var student = {};
+  function max(a,b) {
+    if(a>=b) {
+      return a;
+    }
+    return b;
+  }
+
+  for (var i=0; i<data.length; i++) {
+  gpaArray.push(grades.getGPA(data[i]))
 }
+
+  var highestGPA = _.reduce(gpaArray, max);
+
+  for (var i=0; i<data.length; i++) {
+    if (highestGPA === grades.getGPA(data[i])) {
+      return data[i];
+    }
+  }
+}
+
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the
@@ -62,6 +100,14 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var majorArray = [];
+  var majorGroup = _.groupBy(student, "major") ,
+  // _.mapObject(), _.forEach()
+
+  for (var i=0; i<data.length; i++) {
+    for (var i=0; i<data.length; i++) {
+
+  majorArray.push(grades.highestGPA(data[i])
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)

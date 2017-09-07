@@ -19,6 +19,9 @@ window.util = {};
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
+
+
+
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -28,6 +31,9 @@ window.util = {};
 // ex. util.calc('3 + 8 + 2 + 1    ') -> 14
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
+
+
+
 //
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
@@ -55,4 +61,51 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+var diffExpression = expression.split(" ");
+
+for (var i=0; i<diffExpression.length; i++) {
+  if (diffExpression[i] != "+" &&
+      diffExpression[i] != "-" &&
+      diffExpression[i] != "*" &&
+      diffExpression[i] != "/" ) {
+        diffExpression[i] = parseFloat(diffExpression[i]);
+        if  (isNaN(diffExpression[i])) {
+           throw "Error";
+         }
+
+       }
+}
+
+  for (var i=1; i<expression.length; i+=2) {
+      if (diffExpression[i] === "*") {
+        diffExpression[i-1] *= diffExpression[i+1];
+      diffExpression.splice(i,2);
+      i-=2;
+    } //End of multiplication
+
+      if (diffExpression[i] === "/") {
+        diffExpression[i-1] /= diffExpression[i+1];
+      diffExpression.splice(i,2);
+      i-=2;
+    }
+  } //End of division
+
+
+for (var i=1; i<expression.length; i+=2) {
+  if (diffExpression[i] === "+") {
+    diffExpression[i-1] += diffExpression[i+1];
+  diffExpression.splice(i,2);
+  i-=2;
+} //End of addition
+
+  if (diffExpression[i] === "-") {
+    diffExpression[i-1] -= diffExpression[i+1];
+  diffExpression.splice(i,2);
+  i-=2;
+} //End of subtraction
+}
+// if (diffExpression !== NaN) {return exception;}
+
+return diffExpression[0];
+
 };

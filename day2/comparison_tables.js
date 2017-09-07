@@ -10,6 +10,10 @@ var valuesToCheck = function() {
 "-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
 }
 
+var valuesToCheck2 = function() {
+  return [{}, []];
+}
+
 // and you will write the following:
 
 // 1. A function that evaluates the loosely equal (==) truth value of each value 
@@ -48,8 +52,132 @@ var valuesToCheck = function() {
 
 comp.testLooseEquality = function() {
     // YOUR CODE HERE
+    var twoD = [];
+    var array = valuesToCheck();
+    for (var i = 0; i < array.length; i++){
+    	for (var j = 0; j < array.length; j++){
+    		twoD.push([array[i], array[j]]);
+    	}
+    }
+
+    var obj = {};
+
+    for (var i = 0; i < twoD.length; i++){
+    	var s = '';
+    	if (typeof twoD[i][0] === "string"){
+    		s += "\"" + twoD[i][0] + "\"";
+    	}
+    	else if (_.isEqual(twoD[i][0], [])){
+    		s += "[]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [[]])){
+    		s += "[[]]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [0])){
+    		s += "[0]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [1])){
+    		s += "[1]"
+    	}
+    	else if (_.isEqual(twoD[i][0], {})){
+    		s += "{}"
+    	}
+    	else
+			s += String(twoD[i][0]);
+		s += '_'
+		if (typeof twoD[i][1] === "string"){
+    		s += "\"" + twoD[i][1] + "\"";
+    	}
+    	else if (_.isEqual(twoD[i][1], [])){
+    		s += "[]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [[]])){
+    		s += "[[]]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [0])){
+    		s += "[0]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [1])){
+    		s += "[1]"
+    	}
+    	else if (_.isEqual(twoD[i][1], {})){
+    		s += "{}"
+    	}
+    	else
+			s += twoD[i][1];
+		if (_.isEqual(twoD[i][0], {}) && _.isEqual(twoD[i][1], {}))
+    		obj[s] = false;
+    	else if (_.isEqual(twoD[i][0], []) && _.isEqual(twoD[i][1], []))
+    		obj[s] = false;
+    	else
+    		obj[s] = twoD[i][0] == twoD[i][1];
+    }
+    
+    return obj;
 };
 
 comp.testStrictEquality = function() {
     // YOUR CODE HERE
+    var twoD = [];
+    var array = valuesToCheck();
+    for (var i = 0; i < array.length; i++){
+    	for (var j = 0; j < array.length; j++){
+    		twoD.push([array[i], array[j]]);
+    	}
+    }
+
+    var obj = {};
+
+    for (var i = 0; i < twoD.length; i++){
+    	var s = '';
+    	if (typeof twoD[i][0] === "string"){
+    		s += "\"" + twoD[i][0] + "\"";
+    	}
+    	else if (_.isEqual(twoD[i][0], [])){
+    		s += "[]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [[]])){
+    		s += "[[]]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [0])){
+    		s += "[0]"
+    	}
+    	else if (_.isEqual(twoD[i][0], [1])){
+    		s += "[1]"
+    	}
+    	else if (_.isEqual(twoD[i][0], {})){
+    		s += "{}"
+    	}
+    	else
+			s += String(twoD[i][0]);
+		s += '_'
+		if (typeof twoD[i][1] === "string"){
+    		s += "\"" + twoD[i][1] + "\"";
+    	}
+    	else if (_.isEqual(twoD[i][1], [])){
+    		s += "[]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [[]])){
+    		s += "[[]]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [0])){
+    		s += "[0]"
+    	}
+    	else if (_.isEqual(twoD[i][1], [1])){
+    		s += "[1]"
+    	}
+    	else if (_.isEqual(twoD[i][1], {})){
+    		s += "{}"
+    	}
+    	else
+			s += twoD[i][1];
+		if (_.isEqual(twoD[i][0], {}) && _.isEqual(twoD[i][1], {}))
+    		obj[s] = false;
+    	else if (_.isEqual(twoD[i][0], []) && _.isEqual(twoD[i][1], []))
+    		obj[s] = false;
+    	else
+    		obj[s] = twoD[i][0] === twoD[i][1];
+    }
+    
+    return obj;
 };

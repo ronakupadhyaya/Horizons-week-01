@@ -27,6 +27,14 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if(arr.length === 0){
+    return 0;
+  }
+  function sum(a,b){
+    return a + b;
+  }
+  var total = _.reduce(arr, sum)
+  return total/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +47,13 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  //console.log(student.grades)
+  var studentGrades = [];
+  _.forEach(student.grades, function(grade){
+    studentGrades.push(grade);
+  });
+  return grades.average(studentGrades);
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +61,21 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  //console.log(data);
+  //console.log(data[0]);
+  var nerd = data[0].name;
+  var nerdGPA = grades.getGPA(data[0]);
+  //console.log(nerdGPA);
+  //console.log(nerd);
+  _.forEach(data, function(student){
+    //console.log(student.grades);
+    //console.log(grades.getGPA(student));
+    if(nerdGPA < grades.getGPA(student)){
+      nerdGPA = grades.getGPA(student);
+      nerd = student
+    }
+  });
+  return nerd;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -62,7 +92,22 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
-};
+  var sorted = _.groupBy(data, function(student){
+    return student.major;
+  });
+  for(var major in sorted){
+    var totalGPA = 0;
+    console.log(sorted[major]);
+    for(var student in major[sorted]){
+      console.log(major[sorted].student);
+    }
+  }
+  // for(var major in sorted){
+  //   for(var )
+  //   var GPAs = [];
+  //   console.log(major[s])
+  // }
+}
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.

@@ -43,6 +43,20 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  var groups = _.groupBy(data, function(stock) {
+    return stock.ticker;
+  })
+  var result = {}
+  _.forEach(groups, function(company) {
+    var minTPT = company.reduce(function(prevObj, nextObj) {
+      return prevObj.time < nextObj.time ? prevObj : nextObj;
+    })
+    var maxTPT = company.reduce(function(prevObj, nextObj) {
+      return prevObj.time > nextObj.time ? prevObj : nextObj;
+    })
+    result[company[1].ticker] = maxTPT.price - minTPT.price;
+  })
+  return result;
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +74,11 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var winner = Object.keys(gains).reduce(function(prevComp, nextComp) {
+    return gains[prevComp] > gains[nextComp] ? prevComp : nextComp;
+  })
+  return winner
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +96,11 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+  var gains = stocks.gainAndLoss(data);
+  var loser = Object.keys(gains).reduce(function(prevComp, nextComp) {
+    return gains[prevComp] < gains[nextComp] ? prevComp : nextComp;
+  })
+  return loser
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +113,22 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  var groups = _.groupBy(data, function(stock) {
+    return stock.ticker;
+  })
+  var result = {}
+  _.forEach(groups, function(company) {
+    var minTPT = company.reduce(function(prevObj, nextObj) {
+      return prevObj.price < nextObj.price ? prevObj : nextObj;
+    })
+    var maxTPT = company.reduce(function(prevObj, nextObj) {
+      return prevObj.price > nextObj.price ? prevObj : nextObj;
+    })
+    result[company[1].ticker] = maxTPT.price - minTPT.price;
+  })
+  return Object.keys(result).reduce(function(prevComp, nextComp) {
+    return result[prevComp] > result[nextComp] ? prevComp : nextComp;
+  });
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +147,22 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  // console.log(data);
+  var priceAtTime = data.filter( x => new Date(x.time).getTime() === date.getTime() );
+  var prices = priceAtTime.reduce((priceArr, x) => add(priceArr, x.ticker, x.price), {})
+
+  function add(obj, comp, price){
+    obj[comp] = price
+    return obj
+  }
+  var portVal = 0;
+  _.forEach(portfolio, function(val, key) {
+    portVal += val * prices[key]
+  })
+  return portVal;
+
+
+
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +184,36 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  // debugger;
+  var groups = _.filter(data, function(stock) {
+    return ticker === stock.ticker;
+  });
+
+  var followPriceLog = [];
+  groups.forEach(function(elementToday) {
+    var priceToday = elementToday.price;
+    var maxFP = priceToday;
+    var today = elementToday.time;
+    var maxFPD = today;
+
+    groups.forEach(function(elementTomorrow) {
+      var tomorrow = elementTomorrow.time;
+      var priceTomorrow = elementTomorrow.price;
+      if (tomorrow > today && priceTomorrow > maxFP) {
+        maxFP = priceTomorrow;
+        maxFPD = tomorrow;
+      }
+    })
+
+    var trade = maxFP - priceToday;
+    followPriceLog.push([new Date(today), new Date(maxFPD), trade])
+  })
+
+  var result = followPriceLog.reduce(function(prevObj, nextObj) {
+    return prevObj[2] > nextObj[2] ? prevObj : nextObj;
+  })
+
+  return result;
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -152,4 +238,18 @@ stocks.bestTrade = function(data, ticker) {
 //   55.54]
 stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
+  var groups = _.groupBy(data, function(stock) {
+    return stock.ticker;
+  });
+
+  var bestTrades = [];
+  _.forEach(groups, function(value, key) {
+      bestTrades.push([String(key)].concat(stocks.bestTrade(data, key)))
+  })
+
+  var result = bestTrades.reduce(function(prevObj, nextObj) {
+    return prevObj[3] > nextObj[3] ? prevObj : nextObj;
+  })
+
+  return result
 };

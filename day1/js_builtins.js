@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -21,6 +21,16 @@ window.builtins = {};
 
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var start_index = 0;
+  var end_index = str.length;
+
+  while (str[start_index] === " "){
+    start_index++;
+  }
+  while (str[end_index - 1] === " "){
+    end_index--;
+  }
+  return str.slice(start_index, end_index)
 };
 
 // ----------------------------------------------------------------------------
@@ -40,6 +50,7 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  return sourceString.indexOf(searchString) > -1;
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +58,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -60,6 +71,8 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var quantities = str.split();
+  return parseInt(quantities[0]);
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +89,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var result = [];
+  for (var i = arr.length-1; i >= 0; i--) {
+    result.push(arr[i]);
+  }
+  return result;
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +112,17 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  for (var i = 0; i < b.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +140,7 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  return builtins.isEqual(arr, builtins.reverse(arr));
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +156,22 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  return arr.sort(function(a, b) {
+    if (a < b) {
+      return -1
+    }
+    else if (a > b) {
+      return 1
+    }
+    else {
+      return 0;
+    }
+  });
 };
 
 // ----------------------------------------------------------------------------
@@ -148,6 +189,17 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+  return arr.sort(function(a, b) {
+    if (a.length < b.length) {
+      return -1
+    }
+    else if (a.length > b.length) {
+      return 1
+    }
+    else {
+      return 0;
+    }
+  });
 };
 
 // ----------------------------------------------------------------------------
@@ -163,4 +215,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  var result = [];
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr[i].length; j++) {
+      result.push(arr[i][j]);
+    }
+  }
+  return builtins.sortByValue(result);
 };

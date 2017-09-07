@@ -6,13 +6,13 @@ window.comp = {};
 // for all different types - from booleans to numbers to arrays -
 
 var valuesToCheck = function() {
-  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
-"-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+  return [null, [],true, false, 1, 0, -1, "true", "false", "1", "0",
+"-1", "", undefined, Infinity, -Infinity, {}, [[]], [0], [1], NaN];
 }
 
 // and you will write the following:
 
-// 1. A function that evaluates the loosely equal (==) truth value of each value 
+// 1. A function that evaluates the loosely equal (==) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
 // 2. A function that evaluates the striclty equal (===) truth value of each value
 // in valuesToCheck with every other value in valuesToCheck
@@ -26,9 +26,9 @@ var valuesToCheck = function() {
 // ex. comp.testStrictEquality(s) ->
 // {"true_true": true, "true_false": false, "true_1": false, "true_0": false, ...}
 
-// Each property's key value should be formatted as: 
+// Each property's key value should be formatted as:
 // valuesToCheck[someIndex]_valuesToCheck[anotherIndex]
-// such that the return object has all keys of possible combinations of 
+// such that the return object has all keys of possible combinations of
 // valuesToCheck, from true_true to NaN_NaN.
 
 // Note: Allow for redundancies; you should have both true_false and false_true
@@ -47,9 +47,58 @@ var valuesToCheck = function() {
 // Good luck!
 
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+  debugger;
+  var arr1 = valuesToCheck();
+  var arr2 = valuesToCheck();
+
+  var results = {}
+  for (var i = 0; i < arr1.length; i++) {
+    for (var j = 0; j < arr2.length; j++) {
+
+      if (typeof arr1[i] === 'string') var char1 = "\"" + arr1[i] + "\""
+      else if (arr1[i] instanceof Array && arr1[i].length === 0) var char1 = "[]"
+      else if (typeof(arr1[i]) == 'object' && String(arr1[i]) === 'null') var char1 = String(null);
+      else if (typeof(arr1[i]) == 'object') var char1 = "{}"
+      else var char1 = arr1[i]
+
+      if (typeof arr2[j] === 'string') var char2 = "\"" + arr2[j] + "\""
+      else if (arr2[j] instanceof Array && arr2[j].length === 0) var char2 = "[]"
+      else if (typeof(arr2[j]) == 'object' && String(arr2[j]) === 'null') var char2 = String(null);
+      else if (typeof(arr2[j]) == 'object') var char2 = "{}"
+      else var char2 = arr2[j]
+
+      var line = char1 + "_" + char2;
+      results[line] = (arr1[i] == arr2[j]);
+    }
+  }
+  console.log(results);
+  return results
 };
 
 comp.testStrictEquality = function() {
-    // YOUR CODE HERE
+  var arr1 = valuesToCheck();
+  var arr2 = valuesToCheck();
+
+  var results = {}
+  for (var i = 0; i < arr1.length; i++) {
+    for (var j = 0; j < arr2.length; j++) {
+
+      if (typeof arr1[i] === 'string') var char1 = "\"" + arr1[i] + "\""
+      else if (arr1[i] instanceof Array && arr1[i].length === 0) var char1 = "[]"
+      else if (typeof(arr1[i]) == 'object' && String(arr1[i]) === 'null') var char1 = String(null);
+      else if (typeof(arr1[i]) == 'object') var char1 = "{}"
+      else var char1 = arr1[i]
+
+      if (typeof arr2[j] === 'string') var char2 = "\"" + arr2[j] + "\""
+      else if (arr2[j] instanceof Array && arr2[j].length === 0) var char2 = "[]"
+      else if (typeof(arr2[j]) == 'object' && String(arr2[j]) === 'null') var char2 = String(null);
+      else if (typeof(arr2[j]) == 'object') var char2 = "{}"
+      else var char2 = arr2[j]
+
+      var line = char1 + "_" + char2;
+      results[line] = (arr1[i] === arr2[j]);
+    }
+  }
+  console.log(results);
+  return results
 };

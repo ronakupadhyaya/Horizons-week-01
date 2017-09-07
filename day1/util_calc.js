@@ -18,7 +18,7 @@ window.util = {};
 // ex. util.calc('+ 1 -18') -> Error, operator at the wrong spot
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
-// ex. util.calc('29 + 1 +') -> Error, too many operators
+// ex. util.calc('29 + 1 +') -> Error, too many operators\
 //
 // Part 2. Implement support for addition and subtraction.
 //
@@ -53,6 +53,107 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var exp = expression.split(" ");
+  var numCount = 0;
+  var operatorCount = 0;
+
+  // is valid
+
+  if (expression == "") {
+    throw "too smol";
+  }
+
+
+  var countSqrt = 0;
+  for (var i = 0; i < exp.length; i++) {
+    if (exp[i] == "sqrt") {
+      countSqrt++;
+    }
+  }
+
+  while (countSqrt > 0) {
+    for (var i = 0; i < exp.length; i++) {
+      if (exp[i] == "sqrt") {
+        if (isNaN(exp[i+1])) {
+          throw "no sqrt for you"
+        }
+        var temp = String(Math.sqrt(Number(exp[i+1])));
+        var secondHalf = exp.slice(i + 2);
+        var firstHalf = exp.slice(0, i);
+        exp = firstHalf.concat(temp).concat(secondHalf);
+        countSqrt--;
+      }
+    }
+  }
+
+  for (var i = 0; i < exp.length; i += 2) {
+    if (isNaN(exp[i])) {
+      throw "error";
+    }
+    numCount++;
+  }
+
+  for (var i = 1; i < exp.length; i += 2) {
+    var symbol = exp[i];
+    if ( (symbol != "+") && (symbol != "-") && (symbol != "/") && (symbol != "*") ) {
+      throw "error";
+    }
+    operatorCount++;
+  }
+
+  if (numCount != operatorCount + 1) throw "mismatch";
+
+
+  // addition and subtraction
+
+  for (var i = 0; i < exp.length; i += 2) {
+    exp[i] = Number(exp[i]);
+  }
+
+  var countMult = 0;
+  var countDiv = 0;
+  for (var i = 0; i < exp.length; i++) {
+    if (exp[i] == "*") {
+      countMult++;
+    }
+    if (exp[i] == "/") {
+      countDiv++;
+    }
+  }
+
+  while(countMult > 0 || countDiv > 0) {
+    for (var i = 0; i < exp.length; i++) {
+      if (exp[i] == "*") {
+        var temp = [exp[i - 1] * exp[i +1]];
+        var secondHalf = exp.slice(i + 2);
+        var firstHalf = exp.slice(0, i - 1);
+        exp = firstHalf.concat(temp).concat(secondHalf);
+        countMult--;
+      }
+      else if (exp[i] == "/") {
+        var temp = [exp[i - 1] / exp[i +1]];
+        var secondHalf = exp.slice(i + 2);
+        var firstHalf = exp.slice(0, i - 1);
+        exp = firstHalf.concat(temp).concat(secondHalf);
+        countDiv--;
+      }
+    }
+  }
+
+  var result = exp[0];
+  for (var i = 1; i < exp.length; i += 2) {
+      if (exp[i] == "+") {
+        result += exp[i + 1];
+      }
+      else if (exp[i] == "-") {
+        result -= exp[i + 1];
+      }
+  }
+
+
+  return result;
 };

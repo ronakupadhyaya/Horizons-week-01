@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -18,9 +18,17 @@ window.builtins = {};
 
 // ex. builtins.trim('  Horizons  ') -> 'Horizons'
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
-
+// 1. find the first index which isnt a space and then start pushing the letters
 builtins.trim = function(str) {
   // YOUR CODE HERE
+  var arr1 = str.split(" ")
+  var arr2 = [];
+  for (var i = 0; i < arr1.length; i++) {
+    if ( arr1[i].length>0) {
+      arr2.push(arr1[i]);
+    }
+  }
+  return arr2.join(" ");
 };
 
 // ----------------------------------------------------------------------------
@@ -38,8 +46,20 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', '') -> true
 // ex. builtins.search('Horizons', 'h') -> false
 
+// 1. find length of searchString
+// 2. in the sourceString go to indexof index[0] of searchstring
+// 3. slice seachString.length from SourceString
+// 4. put the slice in another array and compare to searchstring
+// 5. if they compare, true. if not, false.
+// 6. Why won't this work? duplicate letters
+
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+  if (sourceString.indexOf(searchString) > -1) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +67,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -60,6 +80,8 @@ builtins.search = function(sourceString, searchString) {
 
 builtins.parseQuantity = function(str) {
   // YOUR CODE HERE
+  var arr1 = str.split(" ")
+  return parseInt(arr1[0], 10)
 };
 
 // ----------------------------------------------------------------------------
@@ -76,6 +98,11 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+  var arr1 = [];
+  for (var i = arr.length - 1; i >= 0; i--){
+    arr1.push(arr[i])
+  }
+  return arr1
 };
 
 // ----------------------------------------------------------------------------
@@ -94,6 +121,19 @@ builtins.reverse = function(arr) {
 
 builtins.isEqual = function(a, b) {
   // YOUR CODE HERE
+  if ( a.length !== b.length) {
+    return false;
+  }
+  if (a.length === 0 && b.length ===0) {
+    return true;
+  }
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] === b[i]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 };
 
 // ----------------------------------------------------------------------------
@@ -111,6 +151,8 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+  var arr2 = builtins.reverse(arr);
+  return builtins.isEqual(arr, arr2);
 };
 
 // ----------------------------------------------------------------------------
@@ -126,11 +168,15 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
   // YOUR CODE HERE
+  arr.sort(function(a , b) {
+    return a - b
+  })
+  return arr;
 };
 
 // ----------------------------------------------------------------------------
@@ -148,7 +194,32 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
-};
+
+  arr.sort(function(a , b) {
+    return a.length - b.length
+  })
+  return arr;
+
+  // var arr1 = [];
+  // for (var i = 0; i< arr.length; i++) {
+  //   arr1.push(arr[i].length);
+  //   builtins.sortByValue(arr1);
+  //   console.log(arr1);
+  // }
+//   var arr1 = [];
+//   var arr2 = [];
+//   for (var i = 0; i < arr.length; i++){
+//     arr1.push(arr[i].length)
+//     for (var j = 0; j <= Math.max(arr1); j++){
+//       if (arr[i].length <= j) {
+//         arr2.push(arr[i])
+//       }
+//     }
+//   }
+//
+//   return arr2
+// }
+}
 
 // ----------------------------------------------------------------------------
 
@@ -163,4 +234,11 @@ builtins.sortByLength = function(arr) {
 
 builtins.flatten = function(arr) {
   // YOUR CODE HERE
+  var arr1 = [];
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr[i].length; j++) {
+      arr1.push(arr[i][j])
+    }
+  }
+  return arr1;
 };

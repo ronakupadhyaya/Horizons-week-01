@@ -18,7 +18,7 @@ window.grades = {};
 // ex. grades.average([1, 2, 4, 1]) -> 2
 // ex. grades.average([]) -> 0
 // ex. grades.average([0, 0]) -> 0
-// 
+//
 // hint. use _.fold()
 grades.average = function(arr) {
   // YOUR CODE HERE
@@ -37,7 +37,7 @@ grades.average = function(arr) {
 //
 // ex. grades.getGPA() -> 1.5
 // ex. grades.getGPA([0, 0]) -> 0
-// 
+//
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
@@ -94,14 +94,14 @@ grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
   var c1 = 0;
   var c2 = 0;
-  
+
   _.forEach(data, function(student) {
     c1 += student.grades.class1;
     c2 += student.grades.class2;
   });
-  
+
   c1 = c1 / data.length;
   c2 = c2 / data.length;
-  
+
   return { "class1" : c1, "class2" : c2 };
 };

@@ -26,7 +26,12 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if(arr.length===0){return 0;}
+  var sumFunction = function(a,b){
+    return a + b;
+  };
+  var sum = arr.reduce(sumFunction);
+  return 1.0*sum/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,14 +43,24 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  var studentGrades = student.grades;
+  var scores = [studentGrades.class1,studentGrades.class2];
+  return grades.average(scores);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var higherGrade = function(a,b){
+    if(grades.getGPA(a)>grades.getGPA(b)){
+      return a;
+    }
+    else{
+      return b;
+    }
+  };
+  return _.reduce(data,higherGrade);
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -61,7 +76,21 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var groups = _.groupBy(data,function(student){return student.major;});
+  var computeMajorAverage = function(students){
+    var gpas = students.map(grades.getGPA);
+    return grades.average(gpas);
+  }
+  var averageScores = _.mapObject(groups,computeMajorAverage);
+  var highestScore = 0;
+  var highestKey = "";
+  for(var key in averageScores){
+    if(averageScores[key] >= highestScore){
+      highestKey = key;
+      highestScore = averageScores[key];
+    }
+  }
+  return highestKey;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -69,5 +98,12 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var grades1 = data.map(function(student){return student.grades.class1;});
+  var grades2 = data.map(function(student){return student.grades.class2;});
+  var avg1 = grades.average(grades1);
+  var avg2 = grades.average(grades2);
+  var gradeObject = new Object();
+  gradeObject.class1 = avg1;
+  gradeObject.class2 = avg2;
+  return gradeObject;
 };

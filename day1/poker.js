@@ -46,5 +46,83 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  var h1 = findRank(hand1);
+  var h2 = findRank(hand2);
+  if (h1 > h2) {
+    return 1;
+  }
+  if (h2 > h1) {
+    return 2;
+  }
+}
+
+//returns an int 0-9 representing high card - royal flush
+window.findRank = function(hand) {
+  if (isFlush(hand)) {
+    if (isStraight(hand)) {
+      if (acquireNums(hand)[0] == 10) {
+        return 9;
+      } else {
+        return 8;
+      }
+    } else {
+      return 5;
+    }
+  }
+  if (isStright(hand)) {
+    return 4;
+  }
+}
+
+// returns true if the hand contains all one suit
+window.isFlush = function(hand) {
+  var suits = acquireSuits(hand);
+  return suits == 'CCCCC' || suits == 'SSSSS'
+  || suits == 'DDDDD' || suits == 'HHHHH';
+}
+
+//returns true if hand contains consecutive numbers
+window.isStraight = function(hand) {
+  var nums = acquireNums(hand);
+  var bool = true;
+  while (nums.length > 1) {
+    bool &= nums.shift() + 1 == nums[0];
+  }
+  return bool;
+}
+
+//returns an array of 5 numbers correlating to the hand
+window.acquireNums = function(hand) {
+  var output = [];
+  hand.forEach(function(val) {
+    switch (val.slice(0, 1)) {
+      case 'J':
+        output.push(11);
+        break;
+      case 'Q':
+        output.push(12);
+        break;
+      case 'K':
+        output.push(13);
+        break;
+      case 'A':
+        output.push(14);
+        break;
+      default:
+        output.push(parseInt(val, 10));
+    }
+  })
+  output.sort(function(a, b) {
+    return a - b;
+  })
+  return output;
+}
+
+// returns a string of length 5 that contains the suit for each card
+window.acquireSuits = function(hand) {
+  var output = ''
+  hand.forEach(function(val) {
+    output += val.slice(1);
+  })
+  return output;
 }

@@ -54,5 +54,70 @@ window.util = {};
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
-  // YOUR CODE HERE
+
+  //part 1
+  if (expression == '') {
+    throw "Error, empty expression";
+  }
+  if (!(expression.includes('+') || expression.includes('-')
+  || expression.includes('*') || expression.includes('/')
+  || expression.includes('sqrt')) && expression.includes(' ')) {
+    throw "Error, missing operator";
+  }
+  var bool = true;
+  for (var i = 0; i < expression.length; i++) {
+    bool &= isNaN(expression.charAt(i));
+  }
+  if (bool) {
+    throw "Error, no numbers";
+  }
+  var exp = expression.split(' ');
+
+  //part 4
+  while (exp.includes('sqrt')) {
+    var ind = exp.indexOf('sqrt');
+    exp = exp.slice(0, ind).concat(Math.sqrt(exp[ind+1])).concat(exp.slice(ind+2));
+  }
+
+  //back to part 1
+  if (exp.length % 2 == 0) {
+    throw "Error, too many numbers or operators";
+  }
+  for (var j = 0; j < exp.length; j += 2) {
+    exp[j] = parseFloat(exp[j]);
+    if (isNaN(exp[j])) {
+      throw "Error, operator at wront spot";
+    }
+  }
+  for (var k = 1; k < exp.length; k += 2) {
+    if (!"+-*/".includes(exp[k])) {
+      throw "Error, too many numbers"
+    }
+  }
+
+  //part 3
+  for (var x = 1; x < exp.length; x += 2) {
+    //debugger;
+    if (exp[x] == '*') {
+      exp = exp.slice(0, x - 1).concat([exp[x-1] * exp[x+1]]).concat(exp.slice(x + 2));
+      x -= 2;
+    }
+    if (exp[x] == '/') {
+      exp = exp.slice(0, x - 1).concat([exp[x-1] / exp[x+1]]).concat(exp.slice(x + 2));
+      x -= 2;
+    }
+  }
+
+  //part 2
+  var result = exp[0];
+  for (var y = 1; y < exp.length; y += 2) {
+    if (exp[y] == '+') {
+      result += exp[y + 1];
+    }
+    if (exp[y] == '-') {
+      result -= exp[y + 1];
+    }
+  }
+
+  return result;
 };

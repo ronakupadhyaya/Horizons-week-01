@@ -94,11 +94,10 @@ util.calc = function(expression) {
     if (argArray[i] == "*"){
       argArray[i - 1] = argArray[i - 1] * argArray[i + 1];
       argArray.splice(i, 2);
-      console.log(argArray);
+
     } else if (argArray[i] == "/") {
       argArray[i - 1] = argArray[i - 1] / argArray[i + 1];
       argArray.splice(i, 2);
-      console.log(argArray);
 
     } else {
       i += 2;

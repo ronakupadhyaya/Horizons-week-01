@@ -47,4 +47,53 @@
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE
+
+  var flush1 = true;
+  var flush2 = true;
+
+  var suit1 = hand1[0].charAt(hand1[0].length - 1);
+  console.log(suit1);
+
+  for(var i = 0; i < hand1.length; i++){
+    if(suit1 != hand1[i].charAt(hand1[0].length - 1)){
+      flush1 = false;
+    }
+
+    hand1[i] = hand1[i].slice(0, hand1[i].length - 1);
+
+    if(hand1[i] == 'J') hand1[i] = 11;
+    if(hand1[i] == 'Q') hand1[i] = 12;
+    if(hand1[i] == 'K') hand1[i] = 13;
+    if(hand1[i] == 'A') hand1[i] = 14;
+
+    hand1[i] = parseInt(hand1[i]);
+  }
+
+
+  var suit2 = hand2[0].charAt(hand2[0].length - 1);
+  console.log(suit2);
+  var suit2 = " ";
+
+  for(var i = 0; i < hand2.length; i++){
+    if(suit2 != hand2[i].charAt(hand2[0].length - 1)){
+      flush2 = false;
+    }
+
+    hand2[i] = hand2[i].slice(0, hand2[i].length - 1);
+
+    if(hand2[i] == 'J') hand2[i] = 11;
+    if(hand2[i] == 'Q') hand2[i] = 12;
+    if(hand2[i] == 'K') hand2[i] = 13;
+    if(hand2[i] == 'A') hand2[i] = 14;
+
+    hand2[i] = parseInt(hand2[i]);
+  }
+
+  hand2.sort();
+  hand1.sort();
+
+  console.log(hand1);
+  console.log(hand2);
+
+
 }

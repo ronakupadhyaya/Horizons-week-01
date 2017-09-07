@@ -27,6 +27,15 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if( arr.length === 0) return 0;
+
+  var sum = 0;
+  arr.forEach( function( value, index) {
+    sum += value;
+  });
+
+  return sum/arr.length;
+
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +48,9 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+
+  return grades.average([student.grades.class1, student.grades.class2]);
+
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +58,15 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+
+  var highestGPA = data[0];
+  for( var i = 1; i < data.length; i++){
+    if(grades.getGPA(data[i]) > grades.getGPA(highestGPA)){
+      highestGPA = data[i];
+    }
+  }
+  return highestGPA;
+
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -62,6 +83,34 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+
+  var majorGroups = _.groupBy( data, function ( student ) {
+    return student.major;
+  })
+
+  function sum( a , b ) {
+    return a + b;
+  }
+
+ //Array of average GPA
+  var avgGPAs = _.mapObject( majorGroups, function( value, key) {
+
+    var sumGPA = 0;
+    for( var i = 0; i < majorGroups[key].length; i++){
+      sumGPA += grades.getGPA(majorGroups[key][i]);
+    }
+    return sumGPA/majorGroups[key].length;
+
+  });
+  var maxGPA = 0;
+  var bestMajor = '';
+  for( var key in avgGPAs) {
+    if (avgGPAs[key] > maxGPA){
+      maxGPA = avgGPAs[key];
+      bestMajor = key;
+    }
+  }
+  return bestMajor;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -70,4 +119,20 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+
+  var gpas = {
+    class1 : 0,
+    class2 : 0
+  };
+
+  var class1sum = 0;
+  var class2sum = 0;
+  for( var i = 0; i < data.length; i++){
+    class1sum += data[i].grades.class1;
+    class2sum += data[i].grades.class2;
+  }
+  gpas.class1 = class1sum/data.length;
+  gpas.class2 = class2sum/data.length;
+
+  return gpas;
 };

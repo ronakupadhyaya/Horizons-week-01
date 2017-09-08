@@ -17,16 +17,16 @@
 1. [Day 3](day3/README.md)
     1. Closures
     1. IIFEs (Immediately Invoked Function Expressions)
-    1. Object prototypes
     1. Functional programming with Underscore
     1. **Bonus:** Function methods: myCall and myBind
     1. **Bonus:** Crossword puzzle
     1. **Bonus:** Roman numerals
 1. [Day 4](day4/README.md)
-    1. RPN (Reverse Polish Notation) Calculator
+    1. Object prototypes
     1. Event Emitter
     1. Maze Solver
     1. **Bonus:** Maze.getShortestPath()
+    1. **Bonus:** RPN (Reverse Polish Notation) Calculator
     1. **Bonus:** Edit distance
 1. [Day 5](day5/README.md)
     1. Testing

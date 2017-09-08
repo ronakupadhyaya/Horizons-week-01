@@ -2,7 +2,7 @@
 
 window.prototypes = {};
 
-// Part 3. Adding methods to collections
+// Part 2. Adding methods to collections
 
 // You are going to implement a function that compares if two arrays have the same
 // things, without necessarily having the same order.

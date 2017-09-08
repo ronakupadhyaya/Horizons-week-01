@@ -2,9 +2,9 @@
 
 window.prototypes = {};
 
-// Part 3: Iteration.
+// Part 1: Iteration.
 
-// *To go to part 4: -> week01/day3/prototypes_2.html
+// *To go to part 2: -> week01/day4/prototypes_2.html
 
 // In this exercise, you will be implementing functions that will allow you to
 // iterate through objects keys.

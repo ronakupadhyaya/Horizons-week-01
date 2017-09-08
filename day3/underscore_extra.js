@@ -33,8 +33,10 @@
 function memoize(func) {
   var cache = [];
 
+
   return function memoizedFn(arg){
-    console.log(cache);
+
+
     for (var i = 0; i < cache.length; i++){
       if (arg===cache[i].number){
         return cache[i].result;
@@ -172,4 +174,15 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+
+  for (i = 0; i < args.length; i++){
+    var inArgs = Array.prototype.slice.call(arguments);
+    
+  }
+  return function composedFN(){
+    var args = Array.prototype.slice.call(arguments);
+    var fun2result = fun2.apply(null, args);
+    //return fun1(fun2result);
+  }
 }

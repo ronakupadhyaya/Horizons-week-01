@@ -36,7 +36,23 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  var number = 0;
+  var allNum = [['I',1],['V', 5], ['X', 10], ['L',50], ['C', 100], ['D', 500], ['M', 1000]];
+  var allNumerals = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+  var allValues = [1,5,10,50,100,500,1000]
+  var totalCount = [0,0,0,0,0,0,0]
+  for (var i =0; i < string.length; i++){
+    if (allNumerals.indexOf(string[i]) < allNumerals.indexOf(string[i+1])){
+      totalCount[allNumerals.indexOf(string[i])] = totalCount[allNumerals.indexOf(string[i])]-1;
+    }else{
+      totalCount[allNumerals.indexOf(string[i])]= totalCount[allNumerals.indexOf(string[i])]+1;
+    }
+  }
+  for (var i = 0; i < totalCount.length; i++){
+    number += allValues[i]*totalCount[i];
+  }
+  console.log(totalCount);
+  return number;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +88,23 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var remaining = number;
+  var asString = '';
+  var allNumerals = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+  var allValues = [1,5,10,50,100,500,1000]
+  var totalCount = [0,0,0,0,0,0,0];
+  var subVal = [4,9,40,90,400,900];
+  var subLet = ['IV', 'IX', 'XL', 'XC', 'CD', 'CM'];
+  for (var i = allValues.length-1; i>=0; i--){
+    if (subVal.indexOf(remaining)!== -1){
+      asString += subLet[subVal.indexOf(remaining)];
+      i = -1;
+    }
+    while (allValues[i]>=remaining){
+      remaining -= allValues[i];
+      asString += allNumerals[i];
+    }
+  }
+  return asString;
+
 };

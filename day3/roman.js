@@ -35,8 +35,30 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXX') -> 4620
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
+var numeralToNumber = {
+  I : 1,
+  V : 5,
+  X: 10,
+  L: 50,
+  C: 100,
+  D: 500,
+  M: 1000
+}
+var rank = ["I", "V", "X", "L", "C", "D", "M"];
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var total = 0;
+  for(var i = 0; i < string.length; i++){
+
+
+    if(rank.indexOf(string[i+1]) > rank.indexOf(string[i])){
+      total -= numeralToNumber[string[i]];
+    } else{
+      total+= numeralToNumber[string[i]];
+    }
+  }
+
+  return total;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -71,6 +93,16 @@ roman.parse = function(string) {
 // ex. roman.toString(4620) -> 'MMMMDCXX'
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
+
 roman.toString = function(number) {
   // YOUR CODE HERE
+var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+var roman = '';
+ for ( var i in lookup ) {
+   while ( number >= lookup[i] ) {
+     roman += i;
+     number -= lookup[i];
+   }
+ }
+ return roman;
 };

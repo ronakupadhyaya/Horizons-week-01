@@ -164,5 +164,4 @@ function composeBasic(fun1, fun2) {
 function compose() {
   // YOUR CODE HERE
   
-  }
 }

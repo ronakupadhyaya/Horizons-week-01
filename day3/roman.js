@@ -37,8 +37,51 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
-  string = string.split('');
-  console.log(string);
+  var romanArray = string.split('');
+  console.log(romanArray[3]);
+  function roman(char){
+    if(char = 'M'){
+      return 1000;
+    }
+    if(char = 'D'){
+      return 500;
+    }
+    if(char = 'C'){
+      return 100;
+    }
+    if(char = 'L'){
+      return 50;
+    }
+    if(char = 'X'){
+      return 10;
+    }
+    if(char = 'V'){
+      return 5;
+    }
+    if(char = 'I'){
+      return 1;
+    }
+  }
+  function subtract(a, b){
+    if(a.length > 1){
+      a = a.length * roman(a);
+    }
+    if(roman(a) < roman(b)){
+      return roman(b) - roman(a);
+    }
+    return false;
+  }
+  var total = 0;
+  for(var i = 0; i < romanArray.length; i++){
+    var subtotal = 0
+    if(subtract){
+      subtotal += subtract(romanArray[i-1], romanArray[i]);
+    } else {
+      subtotal += roman(stringArray[i]);
+    }
+    total += subtotal
+  }
+  return total;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.

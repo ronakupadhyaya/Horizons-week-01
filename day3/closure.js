@@ -1,6 +1,5 @@
 "use strict";
-
-// ex. 1.1 This exercise has a function that creates
+// Exercise. 1.1 This exercise has a function that creates
 // a bank account for a user. It takes in a username
 // and password. In order to login to your created account
 // the account has a login command. When you have multiple
@@ -15,8 +14,10 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function(attempt){
+      return attempt === password;
+  }
 }
-
 // This function returns an object that leaks private information!
 // See if you can fix this.
 var createUser = function(username, password) {
@@ -25,17 +26,12 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
+    login: vault(password)
     }
-  }
-}
-
+ }
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
-
-// ex. 1.2 Revisit Once
+// Exercise. 1.2 Revisit Once
 // The function below is the answer for the once
 // function exercise in the toolbox in your prepwork.
 // You have to modify it to make the following tests
@@ -65,6 +61,7 @@ var horizons = createUser('horizons', 'horizonites');
 //   return Math.pow(x,y);
 // }
 // var squareNum = once(square);
+//var squareNum = once(square);
 // var cubeNum = once(cube);
 // var multiplyNum = once(multiply);
 // var exponentiateNum = once(exponentiate);
@@ -82,16 +79,23 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
-  return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+    var called = false; // Let's create a local variable to track if f has been called
+    var firstR = 0;
+    return function(){
+        if(called === false){
+            firstR = f.apply(null, arguments);
+            called = true;
+        }
+        return firstR;
     }
-  }
+  // return function() {
+  //   if (! called) { // if f hasn't been called yet
+  //     f(); // call f
+  //     called = true; // mark f as called
+  //   }
+  // }
 }
-
-// ex. 1.3
+// (Bonus) Exercise 1.3
 // functionFactory takes in two numbers (num1, num2)
 // and returns an array of functions where each index
 // of the array is a function that returns the next
@@ -115,15 +119,31 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+function getNumberReturner(n) {
+    return function() {
+        return n;
+    }
+}
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
-
+ // debugger;
+  var index = 0;
+  var currNum = num1 - 1;
+  return (function(){
+      debugger;
+      for (var i = num1; i <= num2; i++) {
+          index++;
+          currNum++;
+          functionArray[index - 1] = getNumberReturner(currNum)
+          (function(copy) {
+              return function() {
+                  return copy
+              };
+          })(currNum);
+      }
+      return functionArray;
+  })();
+  console.log(functionArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION
@@ -138,9 +158,7 @@ var functionFactory = function(num1, num2) {
 var counter = function () {
   var num1 = parseInt(document.getElementById('num1').value);
   var num2 = parseInt(document.getElementById('num2').value);
-
   var functionArray = functionFactory(num1, num2);
-
   // lets call the functions in the function array
   document.getElementById('numbers').innerHTML = ""; // clear label
   functionArray.forEach(function(fun) {

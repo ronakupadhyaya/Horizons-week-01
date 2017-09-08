@@ -31,9 +31,23 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
-}
 
+  var cache = {};
+
+  return function memoizedFn() {
+    var args = Array.prototype.slice.call(arguments);
+    if(cache.hasOwnProperty(args)){
+      console.log(cache);
+      return cache[args];
+    }
+    else {
+      cache[args] = func.apply(null, args);
+      console.log(cache);
+      return cache[args];
+    }
+
+  }
+}
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
 // and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
@@ -59,16 +73,31 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  //YOUR CODE HERE
+//  debugger;
+  var arg = [];
+  var emptyArr = [];
+  arg = Array.prototype.slice.call(arguments);
+
+  if (arg.length === 0){
+    throw "No args!";
+  }
+
+  arg.splice(0,1);
+
+  return function partialFn() {
+    var insideArg = Array.prototype.slice.call(arguments);
+    for(var i = 0; i < insideArg.length; i++){
+      arg.push(insideArg[i]);
+    }
+    return fn.apply(null, arg);
+  }
 }
 
+
+
 // Exercise 3: composeBasic()
-// Write a function that takes two functions 'fun1' and 'fun2' and returns
-// a new function 'composedFn' that calls fun1(fun2()).
-//
-// When 'composedFn' is called it should call 'fun2' with all arguments,
-// after that it should call 'fun1' with the return value of calling 'fun2'.
-//
+// W
 // ex.
 // function double(n) {
 //  return n * 2;
@@ -99,6 +128,20 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  //write a function that takes two functions 'fun1' and 'fun2' and returns
+  // a new function 'composedFn' that calls fun1(fun2()).
+  //
+  // When 'composedFn' is called it should call 'fun2' with all arguments,
+  // after that it should call 'fun1' with the return value of calling 'fun2'.
+  //
+
+  return function composedFn(){
+    var res2 = fun2.apply(null, arguments);
+    console.log("res2 " + res2);
+    var resFinal = fun1.call(null, res2);
+    return resFinal;
+  }
+
 }
 
 
@@ -142,4 +185,25 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var functs = Array.prototype.slice.call(arguments);
+//  functs.slice(0,1);
+  var result = 0;
+  debugger;
+
+
+
+     return function composedFn(){
+       for (var i= functs.length-1; i>0; i--) {
+         debugger;
+         var res2 = functs[i].apply(null, arguments);
+         result = res2;
+       }
+       return result;
+
+    };
+
+}
+
+
+
 }

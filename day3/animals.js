@@ -8,7 +8,6 @@
 // use IIFEs to create new namespaces.
 //
 // Do not edit, reorder or delete any of the existing code.
-//
 
 var getAnimal = (function(){
   function returnLion(){
@@ -20,7 +19,7 @@ var getAnimal = (function(){
 function getAnimal() {
 
   return 'lion';
-}
+};
 
 
 window.lion = getAnimal();
@@ -37,3 +36,5 @@ function getAnimal() {
 }
 
 window.tiger = getAnimal();
+}
+());

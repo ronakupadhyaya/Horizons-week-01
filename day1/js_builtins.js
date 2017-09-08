@@ -55,11 +55,15 @@ builtins.trim = function(str) {
 
 builtins.search = function(sourceString, searchString) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   if (sourceString.indexOf(searchString) > -1) {
     return true;
   } else {
     return false;
   }
+=======
+  return (sourceString.indexOf(searchString) !== -1)
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -79,9 +83,14 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   var arr1 = str.split(" ")
   return parseInt(arr1[0], 10)
+=======
+  var array = str.split(' ');
+  return parseInt(array[0]);
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -98,11 +107,19 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   var arr1 = [];
   for (var i = arr.length - 1; i >= 0; i--){
     arr1.push(arr[i])
   }
   return arr1
+=======
+  var rev = [];
+  for (var i = arr.length-1; i >= 0; i--){
+  	rev.push(arr[i]);
+  }
+  return rev;
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -120,6 +137,7 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   if ( a.length !== b.length) {
     return false;
@@ -134,6 +152,17 @@ builtins.isEqual = function(a, b) {
       return false;
     }
   }
+=======
+  if (a.length!==b.length){
+    return false;
+  }
+  for (var i= 0; i< a.length; i++){
+    if (a[i]!==b[i]){
+      return false;
+    }
+  }
+  return true;
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -151,8 +180,16 @@ builtins.isEqual = function(a, b) {
 
 builtins.isPalindrome = function(arr) {
   // YOUR CODE HERE
+<<<<<<< HEAD
   var arr2 = builtins.reverse(arr);
   return builtins.isEqual(arr, arr2);
+=======
+  for (var i = 0; i < arr.length/2; i++){
+	if (arr[i] !== arr[arr.length-1-i])
+		return false;
+  }
+  return true;
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -172,11 +209,24 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   arr.sort(function(a , b) {
     return a - b
   })
   return arr;
+=======
+  var compare = function(a,b){
+    if (a> b)
+    return 1;
+    else if (a<b)
+    return -1;
+    else {
+      return 0;
+    }
+  }
+  return arr.sort(compare);
+>>>>>>> origin/obadiar
 };
 
 // ----------------------------------------------------------------------------
@@ -194,6 +244,7 @@ builtins.sortByValue = function(arr) {
 
 builtins.sortByLength = function(arr) {
   // YOUR CODE HERE
+<<<<<<< HEAD
 
   arr.sort(function(a , b) {
     return a.length - b.length
@@ -220,6 +271,18 @@ builtins.sortByLength = function(arr) {
 //   return arr2
 // }
 }
+=======
+  var compare = function (a, b){
+  	if (a.length > b.length)
+  		return 1;
+  	else if (a.length < b.length)
+  		return -1;
+  	else
+  		return 0;
+  }
+  return arr.sort(compare);
+};
+>>>>>>> origin/obadiar
 
 // ----------------------------------------------------------------------------
 
@@ -233,6 +296,7 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
+<<<<<<< HEAD
   // YOUR CODE HERE
   var arr1 = [];
   for (var i = 0; i < arr.length; i++) {
@@ -241,4 +305,13 @@ builtins.flatten = function(arr) {
     }
   }
   return arr1;
+=======
+  var flat = [];
+  for (var i = 0; i< arr.length; i++){
+    for (var j = 0; j < arr[i].length;j++){
+      flat.push(arr[i][j]);
+    }
+  }
+  return flat;
+>>>>>>> origin/obadiar
 };

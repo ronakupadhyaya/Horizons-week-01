@@ -35,8 +35,41 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXX') -> 4620
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
+
+var map = {
+	M: 1000,
+	D: 500,
+	C: 100,
+	L: 50,
+	X: 10,
+	V: 5, 
+	I: 1
+};
+
+var letters = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+var values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+
+function toInt(s){
+	if (s.length > 1)
+		throw "Error, you may only pass 1 letter at a time";
+	else
+		return parseInt(map[s]);
+}
+
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var int = 0;
+  for (var i = 0; i < string.length; i++){
+  	var addValue = toInt(string[i]);
+  	if (i !== string.length-1){
+	  	if (toInt(string[i+1]) > toInt(string[i])){
+	  		addValue = (toInt(string[i+1]) - toInt(string[i]));
+	  		i++;
+	  	}
+  	}
+  	int += addValue;
+  }
+  return int;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -73,4 +106,19 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var s = '';
+  var i = 0;
+  var currVal;
+  while (number > 0){
+  	currVal = values[i];
+  	if (number >= currVal){
+  		number -= currVal;
+  		s += letters[i];
+  	}
+  	else if (i != letters.length-1)
+  		i++;
+  	else
+  		return s;
+  }
+  return s;
 };

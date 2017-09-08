@@ -27,6 +27,12 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if (arr.length === 0)
+  	return 0;
+  var sum = function(a, b){
+  	return a + b;
+  }
+  return arr.reduce(sum)/arr.length;
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +45,7 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  return grades.average([student.grades.class1, student.grades.class2]);
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +53,12 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  var highestGPA = data[0];
+  for (var i = 1; i < data.length; i++){
+  	if (grades.getGPA(data[i]) > grades.getGPA(highestGPA))
+  		highestGPA = data[i];
+  }
+  return highestGPA;
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -62,6 +75,26 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  var fun = function(student){
+  	return student.major;
+  }
+  var obj = _.groupBy(data, fun);  
+  var newObj = _.mapObject(obj, function(value, key){
+  	var nums = [];
+  	for (var i = 0; i < value.length; i++){
+  		nums.push(grades.getGPA(value[i]));
+  	}
+  	return grades.average(nums);
+  });
+  var maxGPA = 0;
+  var major = '';
+  for (var key in newObj){
+  	if (parseFloat(newObj[key]) > maxGPA){
+  		maxGPA = parseFloat(newObj[key])
+  		major = key;
+  	}
+  }
+  return major;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -70,4 +103,11 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  var class1Array = [];
+  var class2Array = [];
+  for (var i = 0; i < data.length; i++){
+  	class1Array.push(data[i].grades.class1);
+  	class2Array.push(data[i].grades.class2);
+  }
+  return {'class1': grades.average(class1Array), 'class2': grades.average(class2Array)};
 };

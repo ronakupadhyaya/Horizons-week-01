@@ -53,6 +53,9 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+1 + 2 * 3
+
 util.calc = function(expression) {
   // YOUR CODE HERE
   if (! expression) {

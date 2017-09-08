@@ -37,6 +37,7 @@ var createUser = function(username, password) {
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
+console.log(horizons);
 
 // Exercise. 1.2 Revisit Once
 // The function below is the answer for the once
@@ -96,6 +97,7 @@ var once = function(f) {
     } else{
       return firstVal;
     }
+    return returnVal;
   }
 }
 
@@ -105,7 +107,7 @@ var once = function(f) {
 // of the array is a function that returns the next
 // number between num1 and num2. Currently this function
 // does not work, use closures to fix it and figure out
-// a way to account for num1 and num2 being negative
+// a way to account for num1 and num2 being negativ
 //
 // ex. functionFactory(0,2) -> [
 //   function() -> 0,

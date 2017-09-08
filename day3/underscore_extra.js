@@ -31,7 +31,20 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var cache = [];
+
+  return function memoizedFn(arg){
+    console.log(cache);
+    for (var i = 0; i < cache.length; i++){
+      if (arg===cache[i].number){
+        return cache[i].result;
+      }
+    }
+    var result = func(arg)
+    var record = {"number": arg, "result": result}
+    cache.push(record);
+    return result;
+  }
 }
 
 // Exercise 2: partial()
@@ -60,6 +73,17 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var oldArgs = Array.prototype.slice.call(arguments);
+  if (oldArgs.length ===0){
+    throw error;
+  }
+  oldArgs.shift();
+
+  return function partialFN(){
+    var newArgs = Array.prototype.slice.call(arguments);
+    var args = oldArgs.concat(newArgs);
+    return fn.apply(null,args);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +123,12 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+
+  return function composedFN(){
+    var args = Array.prototype.slice.call(arguments);
+    var fun2result = fun2.apply(null, args);
+    return fun1(fun2result);
+  }
 }
 
 

@@ -45,6 +45,35 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+function solveCrossword(guess, board) {
+  if(board.length === 0) {
+    throw "Empty gameboard!";
+  }
+
+  var convertedBoard = [];
+  board.forEach(function(rowString) {
+    var convertedRow = rowString.split(' ');
+    convertedBoard.push(convertedRow);
+  });
+  var boardWidth = board[0].length;
+  var boardHeight = board.length;
+  var guessLength = guess.length;
+
+  //check if the word can possibly fit on the board
+  if(guessLength > Math.max(boardWidth, boardHeight)) {
+    return false;
+  }
+  var currChar = guess.charAt(0); //current character of the guess being checked
+  var currPosition; //current board[i][j] character on board
+  var remainingChar = guess.length;
+  //start by checking if the word can fit horizontally
+  for(var i = 0; i < boardHeight; i++) { //i being the current row
+    for(var j = 0; j < boardWidth - guessLength + 1; j++) { // j being current column
+      // look for possible start locations ( _ or guess.charAt(0))
+      // if is one, update currChar to the next and continue comparing
+      // if remainingChar === 0, return true
+      currPosition = convertedBoard[i][j];
+      if()
+    }
+  }
 }

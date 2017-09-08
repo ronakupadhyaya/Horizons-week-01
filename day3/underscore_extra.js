@@ -30,8 +30,21 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
+function memoize(func, hashFunction) {
+  hashFunction = hashFunction || _.identity;
+  var cache = {};
+  function returnedFunction() {
+    var args = Array.prototype.slice.call(arguments);
+    var hashedKey = hashFunction(args);
+
+    if(!cache.hasOwnProperty(hashedKey)) {
+      console.log('called');
+      var value = func.apply(null, arguments);
+      cache[hashedKey] = value;
+    }
+    return cache[hashedKey];
+  }
+  return returnedFunction;
 }
 
 // Exercise 2: partial()
@@ -59,7 +72,16 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if(typeof fn !== 'function') {
+    throw "expected function as first argument";
+  }
+  var args = Array.prototype.slice.call(arguments, 1);
+  var partialFn = function() {
+    var newArgs = Array.prototype.slice.call(arguments);
+    var totalArgs = args.concat(newArgs);
+    return fn.apply(null, totalArgs);
+  };
+  return partialFn;
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +120,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  function returnedFunction() {
+    var passInValue = fun2.apply(null, arguments);
+    return fun1(passInValue);
+  }
+  return returnedFunction;
 }
 
 
@@ -140,6 +166,33 @@ function composeBasic(fun1, fun2) {
 //
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
+/* non-recursive implementation
 function compose() {
-  // YOUR CODE HERE
+  var numFunctions = arguments.length;
+  var functions = Array.prototype.slice.call(arguments);
+  return function() {
+    var finalValue;
+    for(var i = 0; i < numFunctions; i++) {
+      debugger;
+      if(i === 0) {
+        finalValue = functions[numFunctions - 1 - i].apply(null, arguments);
+      } else {
+        finalValue = functions[numFunctions - 1 - i](finalValue);
+      }
+    }
+    return finalValue;
+  }
+}
+*/
+
+function compose() { // takes in functions in list format
+  var allFunctions = Array.prototype.slice.call(arguments);
+  return composition() {
+    var args = Array.prototype.slice.call(arguments);
+    return composeHelper(allFunctions, args, 0);
+  }
+}
+
+function composeHelper() { // takes in (functionList, args, recursionLevel)
+
 }

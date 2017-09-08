@@ -1,3 +1,4 @@
+"use strict";
 //
 // IMPORTANT -- PLEASE READ BEFORE YOU BEGIN
 //
@@ -9,12 +10,24 @@
 //
 // Do not edit, reorder or delete any of the existing code.
 //
+/*
+getAnimal = (function makeGetAnimal() {
+  var counter = 0;
+  var animals = ['lion', 'tiger'];
+  return function() {
+    var currentAnimal = animals[counter];
+    counter += 1;
+    return currentAnimal;
+  }
+}());
+*/
+(function() {
+  function getAnimal() {
+    return 'lion';
+  }
 
-function getAnimal() {
-  return 'lion';
-}
-
-window.lion = getAnimal();
+  window.lion = getAnimal();
+}())
 
 function getAnimal() {
   return 'tiger';

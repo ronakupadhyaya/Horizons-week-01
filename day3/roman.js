@@ -37,6 +37,26 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
+  var romNum = {
+    "M" : 1000,
+    "D" : 500,
+    "C" : 100,
+    "L" : 50,
+    "X" : 10,
+    "V" : 5,
+    "I" : 1
+  };
+  var total = 0;
+  for(var i = 0; i < string.length; i++){
+    if (romNum[string[i+1]] === undefined){
+      total += romNum[string[i]];
+    } else if (romNum[string[i+1]] > romNum[string[i]]){
+      total -= romNum[string[i]];
+    } else if ( romNum[string[i+1]] <= romNum[string[i]] ){
+      total += romNum[string[i]];
+    }
+  }
+  return total;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -73,4 +93,32 @@ roman.parse = function(string) {
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
   // YOUR CODE HERE
+  var romDig = [1000, 500, 100, 50, 10, 5, 1];
+  var romNum = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+
+  var romString = ""
+
+  while(number > 0){
+
+    for(var i = 0; i < romDig.length; i++){
+      if(number >= romDig[i]){
+        number -= romDig[i];
+        romString += romNum[i];
+        break;
+      } else if( i % 2 === 0 && number >= romDig[i] - romDig[i+2]){
+        number -= (romDig[i] - romDig[i+2]);
+        romString += romNum[i+2] + romNum[i];
+        break;
+      } else if( i % 2 === 1 && number >= romDig[i] - romDig[i+1]){
+        number -= (romDig[i] - romDig[i+1]);
+        romString += romNum[i+1] + romNum[i];
+      }
+    }
+  }
+
+
+
+
+  return romString;
+
 };

@@ -32,19 +32,21 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
-  var argArray = [];
+  var arg_array = [];
   var retValues = [];
 
-  return function memoizedFn() {
-
-    argArray.push(arguments);
-    retValues.push(func.apply(this, arguments));
-
-
-
-  }
-
-}
+  return function memoizedfn(){
+    for (var i = 0; i < arg_array.length; i++){
+      if (arg_array[i] === arguments[0]){
+        return retValues[i];
+      };
+    };
+    arg_array.push(arguments[0]);
+    var value = func(arguments[0]);
+    retValues.push(value);
+    return value;
+  };
+};
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments
@@ -72,6 +74,15 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+  var array = Array.prototype.slice.call(arguments);
+  if (array.length === 0){
+    throw "bad!"
+  }
+  return function partialFn(){
+    var new_array = Array.prototype.slice.call(arguments);
+    console.log(array);
+    return fn.apply(this, array.slice(1).concat(new_array));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -111,6 +122,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(){
+    return fun1(fun2.apply(this, (arguments)));
+  }
 }
 
 
@@ -155,25 +169,17 @@ function composeBasic(fun1, fun2) {
 function compose() {
   // YOUR CODE HERE
   var array = Array.prototype.slice.call(arguments);
-  console.log(array);
 
   return function composedFn(){
-    console.log("Inside composedFn");
     array.push( Array.prototype.slice.call(arguments) );
-    console.log(array);
 
     function recurse (x) {
       if( x === array.length - 2){
-        console.log("Reached end case");
         return array[x].apply(this, array[x+1]);
       } else {
-        console.log("recurse" + x);
         return array[x]( recurse(x+1) );
       }
     }
     return recurse(0);
   }
-
-
-
 }

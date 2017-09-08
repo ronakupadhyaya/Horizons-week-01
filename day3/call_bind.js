@@ -29,6 +29,10 @@
 // min.myCall(null, -13, -88) // -> -88
 Function.prototype.myCall = function(newThis) {
   // YOUR CODE HERE
+
+  var argArr = Array.prototype.slice.call(arguments);
+  argArr = argArr.slice(1);
+  return this.apply(newThis, argArr);
 };
 
 // Bonus exercise: Function.prototype.myBind()
@@ -56,4 +60,7 @@ Function.prototype.myCall = function(newThis) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 Function.prototype.myBind = function(newThis) {
   // YOUR CODE HERE
+  return function boundFn () {
+    this.call(newThis, "wut");
+  };
 };

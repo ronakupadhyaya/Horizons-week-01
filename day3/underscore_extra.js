@@ -31,7 +31,25 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  // takes a function 'fn'
+  // returns memoizedFn
+  // memoized Fn caches previously computed return values
+  // so when you call memoizedFn with new arguments or parameters
+  // it should call through to fn and save the result of that call
+  // if memozeidFn is called with the same argument, return the previously 
+  // saved value without calling fn
+ var cache = {};
+
+ return function() {
+      var input = Array.prototype.slice.call(arguments);
+      var alreadySeenVal = cache.hasOwnProperty(input[0]);
+        if (alreadySeenVal) {
+          return cache[input[0]];
+        } else {
+          cache[input[0]] = func.apply(null, input);
+          return cache[input[0]]
+        }
+	}
 }
 
 // Exercise 2: partial()
@@ -59,7 +77,15 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (!fn) {
+  	throw 'Error'
+  }
+  var initialArgs = Array.prototype.slice.call(arguments).slice(1);
+  return function() {
+  	var fnArgs = Array.prototype.slice.call(arguments)
+  	var totalArgs = initialArgs.concat(fnArgs);
+  	return fn.apply(null, totalArgs);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -76,7 +102,7 @@ function partial(fn) {
 // function add1(n) {
 //  return n + 1;
 // }
-// var doubleThenPlus1 = composeBasic(add1, double);
+// var doubsleThenPlus1 = compoeBasic(add1, double);
 // doubleThenPlus1(3) // -> 7
 // doubleThenPlus1(0) // -> 1
 //
@@ -98,7 +124,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function() {
+  var fun2Args = Array.prototype.slice.call(arguments)
+  var returnValue2 = fun2.apply(null, fun2Args);
+  return fun1(returnValue2);
+   }
 }
 
 

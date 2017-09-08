@@ -10,14 +10,22 @@
 // Do not edit, reorder or delete any of the existing code.
 //
 
+//IIFE's are useful bc they are functions
+//Sometimes I want to use code multiple times,
+//But sometimes I want to use functions to use own variables
+//and IIFE's are faster way to do it
+
+(function() {
 function getAnimal() {
   return 'lion';
-}
+};
 
 window.lion = getAnimal();
+})();
+
 
 function getAnimal() {
   return 'tiger';
-}
+};
 
 window.tiger = getAnimal();

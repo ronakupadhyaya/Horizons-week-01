@@ -30,13 +30,28 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
-  // YOUR CODE HERE
-}
+// function memoize(func) {
+//   var ans = [];
+//   var called = [];
+//   return function memoizedFn(arg){
+//     if(!called.includes(arg)){
+//       console.log("called.");
+//       called.push(arg);
+//       var answer = func(arg);
+//       ans.push(answer);
+//       return answer;
+//     }else{
+//       return ans[called.indexOf(arg)];
+//     }
+//
+//   }
+// }
 
 // Exercise 2: partial()
-// Write a function that takes a function 'fn', followed by an arbitrary number of arguments
-// and returns a function 'partialFn'. When 'partialFn' is called it should call 'fn' with
+// Write a function that takes a function 'fn', followed by an arbitrary number
+// of arguments
+// and returns a function 'partialFn'. When 'partialFn' is called it should
+// call 'fn' with
 // the arguments that were initially provided to partial().
 //
 // ex.
@@ -59,7 +74,15 @@ function memoize(func) {
 // This is _.partial() from underscore
 // http://underscorejs.org/#partial
 function partial(fn) {
-  // YOUR CODE HERE
+  if (!fn) throw "No function";
+
+  var arg = Array.prototype.slice.call(arguments).slice(1);
+
+  return function funfunction(){
+    var arg1 = Array.prototype.slice.call(arguments);
+    var ultimate = arg.concat(arg1);
+    return fn.apply(this,ultimate);
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -98,7 +121,11 @@ function partial(fn) {
 // isSumEven(8, 11) // -> false
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
-  // YOUR CODE HERE
+  return function composedFn(){
+    var arg = Array.prototype.slice.call(arguments);
+    var passArg = fun2.apply(this, arg);
+    return fun1(passArg);
+  }
 }
 
 
@@ -131,6 +158,28 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
+function hashy(arg){
+  console.log("got here.");
+  return arg;
+}
+function memoize(func, hashy) {
+  var ans = [];
+  var called = [];
+  return function memoizedFn(){
+    var arg = [].slice.call(arguments);
+    if(!called.includes(arg)){
+      console.log("called");
+      called.push(hashy(arg));
+      var answer = func.apply(this, arg);
+      ans.push(answer);
+      console.log("Made it");
+      return answer;
+    }else{
+      return ans[called.indexOf(arg)];
+    }
+
+  }
+}
 
 
 // Double Bonus Exercise: compose()

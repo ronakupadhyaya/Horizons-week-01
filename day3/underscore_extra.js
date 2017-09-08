@@ -30,22 +30,21 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-// function memoize(func) {
-//   var ans = [];
-//   var called = [];
-//   return function memoizedFn(arg){
-//     if(!called.includes(arg)){
-//       console.log("called.");
-//       called.push(arg);
-//       var answer = func(arg);
-//       ans.push(answer);
-//       return answer;
-//     }else{
-//       return ans[called.indexOf(arg)];
-//     }
-//
-//   }
-// }
+function memoize(func) {
+  var called = {};
+  return function memoizedFn(){
+    var arg = Array.prototype.slice.call(arguments);
+    if(!called.hasOwnProperty(arg[0])){
+      console.log("called.");
+      called[arg[0]] = func.apply(this,arg);
+      //called[arg] = func(arg);
+      return called[arg[0]];
+    }else{
+      return called[arg[0]];
+    }
+
+  }
+}
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number
@@ -147,9 +146,9 @@ function composeBasic(fun1, fun2) {
 //  console.log('called');
 //  return Math.max(a, b);
 // }
-// function hashFunction(a, b) {
-//  return a + ',' + b;
-// }
+function hashFunction(a, b) {
+  return a + ',' + b;
+}
 //
 // var memoizedMax = memoize(max, hashFunction);
 // memoizedMax(1, 10) // -> returns 10, logs 'called'
@@ -158,28 +157,22 @@ function composeBasic(fun1, fun2) {
 // memoizedMax(0, -71) // -> returns 0, logs 'called'
 //
 // See: http://underscorejs.org/#memoize
-function hashy(arg){
-  console.log("got here.");
-  return arg;
-}
-function memoize(func, hashy) {
-  var ans = [];
-  var called = [];
-  return function memoizedFn(){
-    var arg = [].slice.call(arguments);
-    if(!called.includes(arg)){
-      console.log("called");
-      called.push(hashy(arg));
-      var answer = func.apply(this, arg);
-      ans.push(answer);
-      console.log("Made it");
-      return answer;
-    }else{
-      return ans[called.indexOf(arg)];
-    }
 
-  }
-}
+// function memoize(func, hashy) {
+//   var called = {};
+//   return function memoizedFn(){
+//     var arg = Array.prototype.slice.call(arguments);
+//     var test = hashy.apply(this, arg);
+//     if(!called.hasOwnProperty(test)){
+//       called[test] = func.apply(this, arg);
+//       console.log("called");
+//       return called[test];
+//     }else{
+//       return called[test];
+//     }
+//
+//   }
+//}
 
 
 // Double Bonus Exercise: compose()
@@ -190,5 +183,13 @@ function memoize(func, hashy) {
 // This is _.compose() from underscore
 // http://underscorejs.org/#compose
 function compose() {
-  // YOUR CODE HERE
+  var argFunc = Array.prototype.slice.call(arguments);
+  return function composedFn(){
+    var arg = Array.prototype.slice.call(arguments);
+    var begin = argFunc[argFunc.length-1].apply(this, arg);
+    for(var i = argFunc.length-2; i >= 0; i--){
+      begin = argFunc[i](begin);
+    }
+    return begin;
+  }
 }

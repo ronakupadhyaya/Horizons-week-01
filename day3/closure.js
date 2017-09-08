@@ -14,7 +14,9 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  // YOUR CODE HERE
+  return function(attempt) {
+    return attempt === password;
+  };
 }
 
 // This function returns an object that leaks private information!
@@ -24,12 +26,8 @@ var createUser = function(username, password) {
     username: username,
     // Delete privatePassword and use vault()
     // to implement the login function
-    // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
-  }
+    login: vault(password)
+  };
 }
 
 // create a horizons user with password horizonites
@@ -49,7 +47,7 @@ var horizons = createUser('horizons', 'horizonites');
 // return value in order to keep returning it
 // in all subsequent calls.
 // Repeated calls to the return function
-// should reuturn whatever f returned
+// should return whatever f returned
 // the first time it was called.
 //
 // var square = function(x) {
@@ -82,13 +80,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
+  var r;
   var called = false; // Let's create a local variable to track if f has been called
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
+    if (!called) { // if f hasn't been called yet
+      r = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
-  }
+    return r;
+  };
 }
 
 // ex. 1.3
@@ -116,15 +116,15 @@ var once = function(f) {
 //
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
-  var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
+  var functionArray = []; // set the functionArray to empty initially
+  for (var j = num1; j <= num2; j++) {
+    functionArray.push((function outer(x) {
+      return function inner() {
+        return x; // function that returns x
+      };
+    })(j));
   }
-
-  return functionArray;
+  return functionArray; // return the function to complete the problem
 }
 // DO NOT CHANGE THIS FUNCTION
 //

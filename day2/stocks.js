@@ -42,7 +42,13 @@ window.stocks = {};
 //   NVDA: 17.5
 // }
 stocks.gainAndLoss = function(data) {
-  // YOUR CODE HERE
+  return _.chain(data)
+    .groupBy('ticker')
+    .mapObject(function(val) {
+      val = _.sortBy(val, i => new Date(i.time));
+      return _.last(val).price - val[0].price;
+    })
+    .value();
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -59,7 +65,11 @@ stocks.gainAndLoss = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
-  // YOUR CODE HERE
+  return _.chain(stocks.gainAndLoss(data))
+    .pairs()
+    .sortBy(1)
+    .last()
+    .value()[0];
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -76,7 +86,11 @@ stocks.biggestGainer = function(data) {
 //
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
-  // YOUR CODE HERE
+  return _.chain(stocks.gainAndLoss(data))
+    .pairs()
+    .sortBy(1)
+    .first()
+    .value()[0];
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -88,7 +102,17 @@ stocks.biggestLoser = function(data) {
 // Example.
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
-  // YOUR CODE HERE
+  return _.chain(data)
+    .groupBy('ticker')
+    .mapObject(function(txns,t) {
+      var min = _.chain(txns).map('price').min().value();
+      var max = _.chain(txns).map('price').max().value();
+      return Math.abs(max - min)
+    })
+    .pairs()
+    .sortBy(1)
+    .last()
+    .value()[0];
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -106,7 +130,22 @@ stocks.widestTradingRange = function(data) {
 //                            {NFLX: 1, GOOG: 10})
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
-  // YOUR CODE HERE
+  var stockPrices = _.chain(data)
+    .filter(function(txn) {
+      return new Date(txn.time).getTime() === date.getTime();
+    })
+    .groupBy('ticker')
+    .mapObject(function(v, k) {
+      return v[0].price;
+    })
+    .value();
+  return _.chain(portfolio)
+    .mapObject(function(shares, ticker) {
+      return stockPrices[ticker] * shares;
+    })
+    .values()
+    .reduce((a, b) => (a + b))
+    .value();
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)

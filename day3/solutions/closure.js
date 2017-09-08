@@ -81,8 +81,7 @@ var functionFactory = function(num1, num2) {
         // function that returns i
         return i;
       }
-    }(i));
-
+    })(i);
     index++;
   }
 

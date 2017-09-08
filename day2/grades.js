@@ -26,7 +26,14 @@ window.grades = {};
 //
 // hint. use _.reduce()
 grades.average = function(arr) {
-  // YOUR CODE HERE
+  if (arr.length !== 0){
+    var test = _.reduce(arr, function(x,y){
+      return x + y;
+    });
+    return test / arr.length;
+  } else {
+    return 0;
+  }
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -38,15 +45,24 @@ grades.average = function(arr) {
 //
 // hint. use grades.average
 grades.getGPA = function(student) {
-  // YOUR CODE HERE
+  return grades.average(_.values(student.grades));
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the Student object with the highest GPA
 //
 grades.highestGPA = function(data) {
-  // YOUR CODE HERE
+  var highestAverage = 0;
+  var bestStudent;
+  _.forEach(data, function(student){
+    if (grades.getGPA(student) > highestAverage) {
+      highestAverage = grades.getGPA(student);
+      bestStudent = student;
+    }
+  });
+    return bestStudent;
 }
+
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
 // Write a function that takes an array of Student objects and returns the major with the
@@ -61,7 +77,19 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+  var majorList = _.groupBy(data,function(student){
+    return student.major;
+  });
+  var highestAverage = 0;
+  var bestMajor;
+  _.forEach(majorList, function(students, major){
+    var currentAverage = grades.average(_.map(students, grades.getGPA));
+    if (currentAverage > highestAverage) {
+      highestAverage = currentAverage;
+      bestMajor = major;
+    }
+  });
+  return bestMajor;
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -69,5 +97,15 @@ grades.majorWithHighestGPA = function(data) {
 // It should look like: { 'class1': 2, 'class2' : 2 }
 //
 grades.avgGPAPerClass = function(data) {
-  // YOUR CODE HERE
+  var firstClass = 0;
+  var secondClass = 0;
+  _.forEach(data, function(student) {
+    firstClass += student.grades.class1;
+    secondClass += student.grades.class2;
+  });
+
+  firstClass = firstClass / data.length;
+  secondClass = secondClass / data.length;
+
+  return {"class1":firstClass,"class2":secondClass};
 };

@@ -4,13 +4,13 @@ window.dates = {};
 
 // Exercise 1. dates.createDate(dateStr)
 // Write a function that takes a properly-formatted date string and returns a JS Date Object from a properly formatted date string.
-// ex. dates.createDate('May 17, 2016 9:00:00') -> Date(2016, 4, 17, 9, 0, 0, 0)
+// ex. dates.createDate('May 17, 2016 9:00:00') -> Date(2016, 5, 17, 9, 0, 0, 0)
 // ex. dates.createDate('2015-03-25') -> Date('2015-03-25')
 // ex. dates.createDate('2015-03-25T12:00:00') -> Date('2015-03-25T12:00:00')
 //
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
-  // YOUR CODE HERE
+  return new Date(dateStr);
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -23,7 +23,7 @@ dates.createDate = function(dateStr) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
-  // YOUR CODE HERE
+  return dateObj.toUTCString();
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -34,7 +34,7 @@ dates.getUTCString = function(dateObj) {
 //
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  return dateObj.getDay() === otherDateObj.getDay();
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -47,7 +47,7 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. don't worry about milliseconds!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
-  // YOUR CODE HERE
+  return dateObj.getHours() === otherDateObj.getHours();
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -55,7 +55,8 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 //
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
-  // YOUR CODE HERE
+  var today = new Date();
+  return dateObj > today;
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -65,5 +66,6 @@ dates.isTheFuture = function(dateObj) {
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
-  // YOUR CODE HERE
+  dateObj.setDate(dateObj.getDate() + 1);
+  return dateObj;
 };

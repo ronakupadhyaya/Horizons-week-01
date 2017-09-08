@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt){
+    return password === attempt;
+  }
 }
 
 // This function returns an object that leaks private information!
@@ -25,9 +28,9 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
+    //privatePassword: password,
     login: function(attempt) {
-      return this.privatePassword === attempt;
+      return vault(password)(attempt);
     }
   }
 }
@@ -52,18 +55,18 @@ var horizons = createUser('horizons', 'horizonites');
 // should reuturn whatever f returned
 // the first time it was called.
 //
-// var square = function(x) {
-//   return x * x;
-// }
-// var cube = function(x) {
-//   return x * x * x;
-// }
-// var multiply = function(a, b) {
-//   return a * b;
-// }
-// var exponentiate = function(x, y) {
-//   return Math.pow(x,y);
-// }
+var square = function(x) {
+   return x * x;
+ }
+ var cube = function(x) {
+   return x * x * x;
+ }
+ var multiply = function(a, b) {
+   return a * b;
+ }
+ var exponentiate = function(x, y) {
+   return Math.pow(x,y);
+ }
 // var squareNum = once(square);
 // var cubeNum = once(cube);
 // var multiplyNum = once(multiply);
@@ -82,12 +85,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var called = false;
+  var result; // Let's create a local variable to track if f has been called
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      var input = Array.prototype.slice.call(arguments);
+      result = f.apply(f,input);
       called = true; // mark f as called
     }
+    return result;
   }
 }
 
@@ -117,13 +123,18 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var iArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
+    functionArray[i - num1] = function() {
+      return i
     }
+   functionArray[i-num1] = (function(i){
+     return function(){
+       return i}
+   }(i));
   }
-
+  console.log(functionArray);
+  console.log(iArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

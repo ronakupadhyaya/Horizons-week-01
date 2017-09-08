@@ -37,7 +37,42 @@ window.roman = {};
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
   // YOUR CODE HERE
-};
+  var newObj= [];
+  var rS = string.split('');
+  for (var i = 0; i < rS.length; i++){
+    if (rS[i] === 'I'){rS[i] = 1};
+    if (rS[i] === 'V'){rS[i] = 5};
+    if (rS[i] === 'X'){rS[i] = 10};
+    if (rS[i] === 'L') {rS[i] = 50}
+    if (rS[i] === 'C') {rS[i] = 100}
+    if (rS[i] === 'D') {rS[i] = 500}
+    if (rS[i] === 'M') {rS[i] = 1000}
+  }
+  console.log(rS);
+
+for(var j = 0; j < rS.length; j++){
+  var testArray = rS.slice(j+1,rS.length);
+  while (testArray.length > 0 ){
+    if(rS[j] < testArray[0]){
+      rS[j] = - rS[j];
+      break
+    }else{
+      testArray.shift();
+    }
+  }
+}
+console.log(rS);
+
+var Sum = 0
+for (var m = 0; m < rS.length; m++){
+  Sum = Sum + rS[m];
+}
+
+return Sum;
+}
+
+
+  ;
 
 // Write a function that takes an integer and converts it to a roman numeral.
 //

@@ -32,6 +32,18 @@
 // http://underscorejs.org/#memoize
 function memoize(func) {
   // YOUR CODE HERE
+  var argArray = [];
+  var retValues = [];
+
+  return function memoizedFn() {
+
+    argArray.push(arguments);
+    retValues.push(func.apply(this, arguments));
+
+
+
+  }
+
 }
 
 // Exercise 2: partial()
@@ -142,4 +154,26 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var array = Array.prototype.slice.call(arguments);
+  console.log(array);
+
+  return function composedFn(){
+    console.log("Inside composedFn");
+    array.push( Array.prototype.slice.call(arguments) );
+    console.log(array);
+
+    function recurse (x) {
+      if( x === array.length - 2){
+        console.log("Reached end case");
+        return array[x].apply(this, array[x+1]);
+      } else {
+        console.log("recurse" + x);
+        return array[x]( recurse(x+1) );
+      }
+    }
+    return recurse(0);
+  }
+
+
+
 }

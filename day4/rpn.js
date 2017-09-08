@@ -43,6 +43,25 @@
 // ex. rpnCalculator('1 *') -> Error, too many operations
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var numberStack = [];
+  var operators = {
+      '+': function(a, b) { return a + b },
+      '-': function(a, b) { return a - b },
+      '*': function(a, b) { return a * b},
+      '/': function(a, b){return a / b},
+      'sqrt': function(a){ return Math.sqrt(a)}
+  };
+  var parseString = rpnString.split(' ');
+  parseString.forEach(function(value, index, array){
+    if(!isNaN(parseInt(value))){
+      numberStack.push(value);
+    } else{
+      var elementOne = numberStack.pop();
+      var elementTwo = numberStack.pop();
+      numberStack.push(operators[value](elementOne, elementTwo))
+    }
+  });
+  return numberStack[0]
 }
 
 // This function returns true if given string represents a valid number.

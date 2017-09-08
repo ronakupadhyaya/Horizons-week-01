@@ -35,6 +35,14 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var returnArray = [];
+  for(var key in obj){
+    if(key === '__proto__'){
+    } else{
+      returnArray.push(key);
+    }
+  }
+  return returnArray;
 }
 
 // Exercise 2 prototypes.keys()
@@ -47,4 +55,12 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
+  var returnArray = [];
+  for(var key in obj){
+    if(obj.hasOwnProperty(key)){
+      returnArray.push(key);
+    }
+  }
+
+  return returnArray
 }

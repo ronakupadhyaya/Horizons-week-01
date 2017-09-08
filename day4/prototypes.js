@@ -34,7 +34,7 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
-  // YOUR CODE HERE
+  return Object.keys(obj);
 }
 
 // Exercise 2 prototypes.keys()

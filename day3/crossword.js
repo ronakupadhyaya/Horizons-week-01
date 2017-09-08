@@ -246,7 +246,7 @@ function solveCrossword() {
   if(checkWordOnBoard(arguments[0], arguments[1])){
     return true;
   } else{
-    return checkLetterCombination(arguments[0], arguments[1]);
+    return checkSpace(arguments[0], arguments[1]) || checkLetterCombination(arguments[0], arguments[1]);
   }
 
 

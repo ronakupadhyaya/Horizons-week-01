@@ -17,7 +17,7 @@ function vault(password) {
   // YOUR CODE HERE
   return function(attempt){
     return attempt === password;
-  }
+  };
 }
 
 // This function returns an object that leaks private information!
@@ -29,13 +29,14 @@ var createUser = function(username, password) {
     // to implement the login function
     // YOUR CODE HERE
     login: function(attempt) {
-      return vault(password);
+      return vault(password)(attempt);
     }
   }
 }
 
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
+console.log(horizons);
 
 // Exercise. 1.2 Revisit Once
 // The function below is the answer for the once
@@ -84,12 +85,15 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
-  var called = false; // Let's create a local variable to track if f has been called
+  var functionName = null; // Let's create a local variable to track if f has been called
+  var returnVal;
   return function() {
-    if (! called) { // if f hasn't been called yet
-      f(); // call f
-      called = true; // mark f as called
+    var args = Array.prototype.slice.call(arguments);
+    if (functionName == null) { // if f hasn't been called yet
+      functionName = f; // mark f as called
+      returnVal = f.apply(this, args); // call f
     }
+    return returnVal;
   }
 }
 
@@ -99,7 +103,7 @@ var once = function(f) {
 // of the array is a function that returns the next
 // number between num1 and num2. Currently this function
 // does not work, use closures to fix it and figure out
-// a way to account for num1 and num2 being negative
+// a way to account for num1 and num2 being negativ
 //
 // ex. functionFactory(0,2) -> [
 //   function() -> 0,
@@ -120,12 +124,14 @@ var once = function(f) {
 var functionFactory = function(num1, num2) {
   var functionArray = [];
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
+    var x = function (){
+      var y = i;
+      return function(){
+        return y;
+      }
     }
+    functionArray.push(x());
   }
-
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

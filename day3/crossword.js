@@ -47,4 +47,101 @@
 //                            "f _ # _ _"]) -> true
 function solveCrossword() {
   // YOUR CODE HERE
+  var word = arguments[0];
+  var strings = arguments[1];
+  var board = [];
+  for (var i = 0; i < strings.length; i++){
+  	board.push(strings[i].split(" "));
+  }
+  var width = board[0].length;
+  var height = board.length;
+
+  var words = [];
+  var hWords = function(){
+  	for (var i = 0; i < height; i++){
+  	var word = '';	
+  		for (var j = 0; j < width; j++){
+  			word+=board[i][j];
+  		}
+  		words.push(word);
+  	}
+  };
+  var vWords = function(){
+  	for (var i = 0; i < width; i++){
+  	var word = '';	
+  		for (var j = 0; j < height; j++){
+  			word+=board[j][i];
+  		}
+  		words.push(word);
+  	}
+  };
+
+  hWords();
+  vWords();
+
+  var findWord = function(word, mode){
+  	for (var i = 0; i < words.length; i++){
+	  	if (words[i].indexOf('#') !== -1){
+	  		if (mode === 'strict'){
+	  			if (words[i] === word)
+	  				return true;
+	  		}
+	  		else{
+	  			if (words[i].indexOf(word) !== -1){
+	  				return true;
+	  			}
+	  		}
+	  	}
+	}
+  	return false;
+  }
+
+  //'the'  _ _ e
+
+  var numSpaces = function(s){
+  	var count = 0;
+  	for (var i = 0; i < s.length; i++){
+  		if (s[i] === '_')
+  			count++;
+  	}
+  	return count;
+  };
+
+  var canFit = function (word, space){
+  	// console.log('does ' + word + ' fit in', space);
+  	if (word.length > space.length)
+  		return false;
+  	var fits = true;
+  	var done = false;
+  	for (var i = 0, j = 0; i < space.length && j < word.length; i++, j++){
+  		// console.log(word[j] + ' <--> ' + space[i]);
+  		if (space[i] === '#'){
+  			// console.log('found a #, quitting.');
+  			j = -1;
+  			continue;
+  		}
+  		else if (word[j] !== space[i] && space[i] !== '_'){
+  			fits = false;
+  		}
+  		else if (j === word.length-1 && i === space.length-1)
+  			done = true;
+  	}
+  	if (!done)
+  		fits = false;
+  	// console.log('returning', fits, '!');
+  	return fits;
+  };
+  var checkFit = function(){
+  	for (var i = 0; i < words.length; i++){
+  		if (canFit(word, words[i]))
+  			return true;
+  	}
+  	return false;
+  };
+  
+  if (findWord(word, 'simple') || findWord('_'.repeat(word.length), 'strict') || checkFit()){
+  	return true;
+  }
+  else
+  	return false;
 }

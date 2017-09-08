@@ -36,7 +36,19 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  debugger;
+  var lets = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+  var nums = [1000, 500, 100, 50, 10, 5, 1];
+  var sum = 0;
+  var i;
+  while (string.length > 1) {
+    i = lets.indexOf(string.charAt(0));
+    if (lets.indexOf(string.charAt(1)) < i) { sum -= nums[i]; }
+    else { sum += nums[i] }
+    string = string.slice(1);
+  }
+  sum += nums[lets.indexOf(string)];
+  return sum;
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.
@@ -72,5 +84,33 @@ roman.parse = function(string) {
 // ex. roman.toString(4626) -> 'MMMMDCXXVI'
 // ex. roman.toString(4864) -> 'MMMMDCCCLXIV'
 roman.toString = function(number) {
-  // YOUR CODE HERE
+  var ans = "";
+  var lets = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+  var nums = [1000, 500, 100, 50, 10, 5, 1];
+  while (number > 0) {
+    for (var i = 1; i <= number/nums[0]; i++) {
+      ans += lets[0];
+    }
+    number %= nums[0];
+    for (var j = nums.length - 1; j > 1; j--) {
+      if (number += nums[j] > nums[0]) {
+        ans += lets[j]; ans += lets[0];
+        break;
+      }
+    }
+    nums.shift();
+    lets.shift();
+    if (number >= nums[0]) { ans += nums[0] }
+    else {
+      for (var j = nums.length - 1; j > 1; j--) {
+        if (number += nums[j] > nums[0]) {
+          ans += lets[j]; ans += lets[0];
+          break;
+        }
+      }
+    }
+    nums.shift()
+    lets.shift()
+  }
+  return ans;
 };

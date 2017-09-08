@@ -9,15 +9,16 @@
 //
 // Do not edit, reorder or delete any of the existing code.
 //
-
+//debugger;
 function getAnimal() {
   return 'lion';
 }
-
+//console.log("first", getAnimal);
 window.lion = getAnimal();
 
-function getAnimal() {
+(function () {function getAnimal() {
   return 'tiger';
 }
-
+//console.log("second", getAnimal);
 window.tiger = getAnimal();
+})();

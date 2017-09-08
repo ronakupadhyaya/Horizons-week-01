@@ -43,7 +43,11 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
-};
+var byCompany = ._groupBy(data, function(currTrans){
+  return currTrans['ticker'];
+});
+
+
 
 // Exercise 2. stocks.biggestGainer(data)
 //

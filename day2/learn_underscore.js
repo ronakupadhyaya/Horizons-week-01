@@ -103,6 +103,10 @@ learn_underscore.contains = function(array, item) {
 //   learn_underscore.any([0, 1, 0], isTruthy) -> true
 //   learn_underscore.any([1], isTruthy) -> true
 learn_underscore.any = function(array, fun) {
+  return_.map(array,function(item){
+
+  });
+  return_.reduce(array);
   // YOUR CODE HERE
 }
 
@@ -162,6 +166,8 @@ learn_underscore.reduce = function(array, fun) {
 //           function(value, key) { console.log(value, key) }) -> outputs "5 a" then "11 b"
 learn_underscore.keys = function(object) {
   // YOUR CODE HERE
+
+  return _.forEach(array, object)
 }
 
 // Exercise 6: learn_underscore.values(object)

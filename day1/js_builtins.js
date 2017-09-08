@@ -6,7 +6,7 @@ window.builtins = {};
 // functions such as search() and trim() using the skills we already know.
 
 // For a reference to all JavaScript built-in objects and functions,
-// check out this MDN reference: 
+// check out this MDN reference:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 // ----------------------------------------------------------------------------
@@ -20,8 +20,11 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  // YOUR CODE HERE
+  var newString =[];
+  newString = str.trim(str);
+  return newString
 };
+
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +42,13 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  // YOUR CODE HERE
+  var stringValue = [];
+  if (sourceString.indexOf(searchString) >= 0) {
+    stringValue = true
+  } else {
+    stringValue = false
+  }
+  return stringValue
 };
 
 // ----------------------------------------------------------------------------
@@ -47,7 +56,7 @@ builtins.search = function(sourceString, searchString) {
 // Exercise 3. Parsing the first number of a string
 
 // Write a function that takes a string of format 'n [nouns]' and returns
-// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string) 
+// the parsed number of n. Hint: use parseInt(n) to convert 'n' (a string)
 // to n (a number).
 
 // ex. builtins.parseQuantity('1 tool') -> 1
@@ -59,7 +68,15 @@ builtins.search = function(sourceString, searchString) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
 
 builtins.parseQuantity = function(str) {
-  // YOUR CODE HERE
+  var array = [];
+  array = str.split(' ')
+  var i = 0
+  while (i < array.length) {
+    var result =[];
+    result = Number.parseInt(array[0]);
+    break;
+  }
+  return result
 };
 
 // ----------------------------------------------------------------------------
@@ -74,9 +91,14 @@ builtins.parseQuantity = function(str) {
 // ex. builtins.reverse([]) -> []
 // ex. builtins.reverse([123]) -> [123]
 
-builtins.reverse = function(arr) {
-  // YOUR CODE HERE
+builtins.reverse = function(content) {
+  var array =[];
+  var i = 0
+  while (i < array.length) {
+  var  x = array.pop
+    array.push(x)
 };
+
 
 // ----------------------------------------------------------------------------
 
@@ -93,6 +115,8 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
+  if (array(a)) = array(b))
+
   // YOUR CODE HERE
 };
 
@@ -126,7 +150,7 @@ builtins.isPalindrome = function(arr) {
 
 // Hint: Use the built-in Array sort() function with a compare function
 // to sort by numerical value instead of by Unicode point value (the default
-// behavior). See: 
+// behavior). See:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {

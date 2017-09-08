@@ -40,6 +40,19 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var rows = [];
+  for (var i = 0; i < this.maze.length; i++){
+      rows.push(this.maze[i].join(''));
+  }
+  rows = rows.join('\n');
+  var s = '';
+  for (var i = 0; i < rows.length; i++){
+    if (rows[i] === ' ')
+      s+= '_';
+    else
+      s+=rows[i]
+  }
+  return s;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,7 +62,12 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
+  for (var i = 0; i < this.maze.length; i++){
+    for (var j = 0; j < this.maze[0].length; j++){
+      if (this.maze[i][j] === 'S')
+        return [i, j];
+    }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -98,8 +116,43 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  var maze = this.maze;
 
   // YOUR CODE HERE
+  var startingPosition = [row, column];
+
+  var isOnBoard = function(position){
+    return !(position[0] < 0 || position[0] >= maze.length || position[1] < 0 || position[1] >= maze[0].length)
+  }
+
+  var makeMove = function(startingPosition, direction){
+    var r = startingPosition[0];
+    var c = startingPosition[1];
+    switch(direction){
+      case 'up':    r--;
+                    break;
+      case 'down':  r++;
+                    break;
+      case 'right': c++;
+                    break;
+      case 'left':  c--;
+                    break;
+      default:      break;
+    }
+    return [r, c];
+  };
+
+  var isWall = function(position){
+    return (maze[position[0]][position[1]] === 'X');
+  }
+
+  var newPosition = makeMove(startingPosition, direction);
+
+
+  if(!isOnBoard(startingPosition) || !isOnBoard(newPosition) || isWall(newPosition))
+    return false;
+  else
+    return newPosition;
 }
 
 // Bonus!

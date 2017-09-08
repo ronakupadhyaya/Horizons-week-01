@@ -25,7 +25,7 @@ window.prototypes = {};
 // var touchBarMacbook = {
 //   extras: "touchBar"
 // };
-//
+
 // macBookPro.__proto__ = macBook;
 // touchBarMacbook.__proto__ = macBookPro;
 
@@ -35,6 +35,10 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var array = [];
+  for (var key in obj)
+  	array.push(key);
+  return array;
 }
 
 // Exercise 2 prototypes.keys()
@@ -46,5 +50,5 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
-  // YOUR CODE HERE
+  return Object.keys(obj);
 }

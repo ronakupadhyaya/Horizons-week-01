@@ -1,11 +1,17 @@
 // In this exercise you will create your own EventEmitter class
-// that will listen for & emit events. These events can be used
-// to keep track of actions/changes made by a user.
-// EventListener can "broadcast" an event to multiple
-// listeners at a time. When a message arrives via
-// emit() all callback functions that are registered
-// for that event type with on() are called.
+// that will listen for & emit events.
 //
+// Think of EventEmitter as a subscription service.
+// Listeners subscribe to events using .on() and .once().
+// And publishers publish events using .emit().
+// When an event is emitted, everyone who has subscribed to the event is
+// notified by calling the callback functions they have provided.
+//
+// The EventEmitter should contain an object called "listeners"
+// (under this.listeners). This object maps event types to arrays.
+// Each array contains functions that should be called when an event
+// of that type is sent via this.emit().
+
 // !HINT! We recommend implementing the EventEmitter constructor, .on() and
 // .emit() together !HINT!
 //
@@ -19,10 +25,6 @@
 // are arrays containing listener functions ("fn"). These functions will
 // run when their corresponding event ("eventName") is emitted.
 //
-// The EventEmitter should contain an object called "listeners"
-// (under this.listeners). This object maps event types to arrays.
-// Each array contains functions that should be called when an event
-// of that type is sent via this.emit().
 //
 // Example.
 // var emitter = new EventEmitter();

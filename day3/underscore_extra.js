@@ -72,6 +72,7 @@ function partial(fn) {
   if(arguments.length === 0){
     throw 'error'
   }
+
   var yes = Array.prototype.slice.call(arguments)
   yes.splice(0, 1)
   var array = []
@@ -124,11 +125,10 @@ function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
   return function (){
     var arr = Array.prototype.slice.call(arguments)
-    var secondArr = []
+    // var secondArr = []
     var first = fun2.apply(null, arr);
-    secondArr.push(first);
-    console.log(secondArr);
-    var second = fun1.apply(null, secondArr);
+    // secondArr.push(first);
+    var second = fun1.call(null, first);
     return second;
 
   }

@@ -137,7 +137,7 @@ describe('composeBasic()', function() {
   });
 });
 
-describe("Bonus: memoize() with hashFunction", function() {
+describe("Bonus: memoize2() with hashFunction", function() {
   var called;
   var hashCalled;
   var memoizedSum;
@@ -145,7 +145,7 @@ describe("Bonus: memoize() with hashFunction", function() {
   beforeEach(function() {
     called = 0;
     hashCalled = 0;
-    memoizedSum = memoize(sum, hash);
+    memoizedSum = memoize2(sum, hash);
   });
 
   function sum() {

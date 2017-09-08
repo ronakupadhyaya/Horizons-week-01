@@ -35,8 +35,26 @@ window.roman = {};
 // ex. roman.parse('MMMMDCXX') -> 4620
 // ex. roman.parse('MMMMDCXXVI') -> 4626
 // ex. roman.parse('MMMMDCCCLXIV') -> 4864
+
+char_to_int = function(char) {
+  switch (char) {
+  case ‘I’: return 1;
+  case ‘V’: return 5;
+  case ‘X’: return 10;
+  case ‘L’: return 50;
+  case ‘C’: return 100;
+  case ‘D’: return 500;
+  case ‘M’: return 1000;
+  default: return -1;
+  }
+};
+
+
+
 roman.parse = function(string) {
-  // YOUR CODE HERE
+  debugger;
+  var numeralArr = string.split("");
+  var numArr = numeralAll.map(char_to_int);
 };
 
 // Write a function that takes an integer and converts it to a roman numeral.

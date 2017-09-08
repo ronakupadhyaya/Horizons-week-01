@@ -45,6 +45,67 @@
 // ex. solveCrossword("joy", ["_ # j o y",
 //                            "o _ # _ _",
 //                            "f _ # _ _"]) -> true
-function solveCrossword() {
-  // YOUR CODE HERE
+
+
+
+function removeSpaces(aString){
+  var chars = aString.split("");
+  var index = chars.indexOf(" ");
+  while(index>=0){
+    chars.splice(index,1);
+    index = chars.indexOf(" ");
+  }
+  return chars;
+}
+
+function checkSpot(spot,word){
+  if(word.length !== spot.length){
+    return false;
+  }
+  for(var i = 0; i<word.length;i++)
+  {
+    if(spot[i]==="_"){
+      continue;
+    }
+    if(spot[i]!==word[i]){
+      return false;
+    }
+  }
+  return true;
+}
+
+
+function checkRow(row, word){
+    word = word.split("");
+    row = row.split("#");
+    for(var spot in row){
+      row[spot] = removeSpaces(row[spot]);
+      if(checkSpot(row[spot],word)){
+        return true;
+      }
+    }
+    return false;
+}
+
+function findCol(index,board){
+  var col = "";
+  col += board[0][index];
+  for(var i = 1; i<board.length; i++){
+    col += " " + board[i][index];
+  }
+  return col;
+}
+
+function solveCrossword(word, board) {
+  for(var i = 0; i<board.length;i++){
+    if(checkRow(board[i],word)){
+      return true;
+    }
+  }
+  for(var i = 0; i<board[0].length;i++){
+    if(checkRow(findCol(i,board),word)){
+      return true;
+    }
+  }
+  return false;
 }

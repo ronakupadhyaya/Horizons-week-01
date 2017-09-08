@@ -115,10 +115,6 @@ roman.toString = function(number) {
   		number -= currVal;
   		s += letters[i];
   	}
-  	// else if (number >= (values[i] - values[i+1])){
-  	// 	number-= (values[i]-values[i+1]);
-  	// 	s += letters[i+1] + letters[i];
-  	// }
   	else if (i != letters.length-1)
   		i++;
   	else

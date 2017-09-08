@@ -85,7 +85,6 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  var empty = "";
   var emptyArr = [];
   for (var i = 1; i < arguments.length; i++) {
     emptyArr.push(arguments[i]);

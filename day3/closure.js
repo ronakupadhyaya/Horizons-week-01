@@ -14,7 +14,7 @@
 // based on whether the attempt matches password. The purpose of
 // this function is to hide the password from prying eyes.
 function vault(password) {
-  function fn (attempt) {
+  return function fn (attempt) {
     return attempt === password;
   }
   // YOUR CODE HERE
@@ -83,11 +83,13 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. exponentiateNum(6, 5) -> 3125
 var once = function(f) {
   var called = false; // Let's create a local variable to track if f has been called
+  var empty_value;
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+    empty_value = f.apply(null, arguments) // call f
       called = true; // mark f as called
     }
+      return empty_value;
   }
 }
 
@@ -99,7 +101,7 @@ var once = function(f) {
 // does not work, use closures to fix it and figure out
 // a way to account for num1 and num2 being negative
 //
-// ex. functionFactory(0,2) -> [
+// ex. functionFactory(1,3) -> [
 //   function() -> 0,
 //   function() -> 1,
 //   function() -> 2
@@ -117,15 +119,36 @@ var once = function(f) {
 // functionFactory(0,2) -> [function, function, function]
 var functionFactory = function(num1, num2) {
   var functionArray = [];
+  var index = 0;
   for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
+    console.log(i);
+    functionArray[index] = (function(i) {
+      return function () {
       return i;
-    }
-  }
+      }
+    }(i))
 
-  return functionArray;
+    index++
+  }
+return functionArray;
 }
+
+// var functionFactory = function(num1, num2) {
+//   var functionArray = [];
+//   var index = 0;
+//   for (var i = num1; i <= num2; i++) {
+//     console.log(i);
+//     functionArray[index] = function(i) {
+//       return function () {
+//       return i;
+//       }
+//     }
+//     index++
+//   }
+//   return functionArray;
+// }
+
+
 // DO NOT CHANGE THIS FUNCTION
 //
 // This function takes in numbers from the two labels

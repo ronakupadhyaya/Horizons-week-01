@@ -62,9 +62,7 @@ util.calc = function(expression) {
     }
   }
    for (i = 1; i < emptyArray.length; i+=2) {
-
     if (emptyArray[i] == "+" || emptyArray[i] == "-" || emptyArray[i] == "*" || emptyArray[i] == "/") {
-
     } else {
       throw "error";
     }
@@ -77,7 +75,7 @@ for(i=1; i< emptyArray.length; i+=2) {
   if(emptyArray[i] == "*"){
   result = parseFloat(emptyArray[i-1]) * parseFloat(emptyArray[i+1])
   emptyArray.splice(i-1, 3, result);
-  i -=2; 
+  i -=2;
   }
   if (emptyArray[i] == "/") {
     result = parseFloat(emptyArray[i-1]) / parseFloat(emptyArray[i+1])

@@ -49,7 +49,7 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
 };
-
+  e
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
 // Write a function that takes a Date object as an argument and returns true if it specifies a date in the future or false if it is a time that has already passed
 //
@@ -65,5 +65,7 @@ dates.isTheFuture = function(dateObj) {
 // hint. don't worry about overflow!
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
-  // YOUR CODE HERE
+  var day = dateObj.getDate()
+  dateObj.setDate(day + 1);
+  return dateObj;
 };

@@ -38,6 +38,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -54,7 +55,8 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  if (!(eventName in this.listeners)) this.listeners[eventName] = [];
+  this.listeners[eventName].push(fn);
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -72,7 +74,10 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  var listeners = this.listeners[eventName];
+  if (listeners && listeners.length) listeners.forEach(function (val) {
+    val.call(this,arg);
+  });
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -89,10 +94,13 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  var listener = this.listeners[eventName];
+  listener.forEach(function(val, ind, arr) {
+    if (val === fn) listener.splice(ind,1);
+  });
 }
 
-// *Bonus*: Takes is a string "eventName" and a callback function "fn"
+// *Bonus*: Takes in a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
 // listener is removed and then called.
@@ -105,5 +113,9 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  var newFunc = function() {
+    this.removeListener(eventName,newFunc);
+    fn.apply(this,arguments);
+  }.bind(this);
+  this.on(eventName,newFunc);
 }

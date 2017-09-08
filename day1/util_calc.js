@@ -5,7 +5,16 @@ window.util = {};
 // Write a function calc() that takes a string that represents an arithmetic
 // operation (such as "3 + 2") and returns the numerical result of the
 // operation.
-//
+
+util.calc = function(string) { // string = (" 3 + 1 ")
+  var trimmed = string.trim(); // trimmed = ("3 + 1")
+  var split = trimmed.split(" "); // split = ['3', '+', '1']
+  // if (string === '') {
+  //   throw "Error, empty expression";
+  // }
+for (var i = 0; i < split.length; i ++) {
+  
+}
 // You can assume that each number or operator (i.e. + - / *) is separated by a single
 // space.
 //
@@ -19,16 +28,18 @@ window.util = {};
 // ex. util.calc('1 + 55 -2') -> Error, too many numbers
 // ex. util.calc('29 + + 1') -> Error, too many operators
 // ex. util.calc('29 + 1 +') -> Error, too many operators
-//
+
 // Part 2. Implement support for addition and subtraction.
-//
+
 // ex. util.calc('1') -> 1
 // ex. util.calc('-12') -> -12
 // ex. util.calc('3 + 2') -> 5
 // ex. util.calc('3 + 8 + 2 + 1    ') -> 14
 // ex. util.calc('2 - 1 + 5 + 6') -> 12
 // ex. util.calc('-1 + 3 - 2 + 5') -> 5
-//
+
+parseInt(split, 10)
+
 // Part 3. Implement support for multiplication and division.
 // Note that the order of operations matters. Multiplication and division needs
 // to be perfomed before addition and subtraction.
@@ -53,6 +64,4 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
-  // YOUR CODE HERE
-};
+}

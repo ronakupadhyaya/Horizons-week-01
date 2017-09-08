@@ -43,6 +43,44 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+
+var groupedData = _.groupBy(data,'ticker'); // groupBy according to ticker
+var tickerArr = [];
+var diffArr = [];
+  for (var ticker in groupedData) {
+    groupedData[ticker].sort(compare);
+    console.log(groupedData[ticker])
+    var difference = groupedData[ticker][groupedData[ticker].length - 1].price - groupedData[ticker][0].price;
+    diffArr.push(difference)
+
+    tickerArr.push(ticker);
+  }
+
+console.log(diffArr)
+console.log(tickerArr)
+
+  function compare(a,b){
+    var date1 = new Date(a.time);
+    var date2 = new Date(b.time);
+    if (date1 > date2) {
+      return 1;
+    }
+    else if (date2 > date1) {
+      return -1;
+    }
+    else {
+      return 0;
+    }
+  };
+
+  var finalObj = {}
+for (var i = 0; i < diffArr.length; i ++) {
+  finalObj[tickerArr[i]] = diffArr[i];
+}
+
+  return finalObj;
+
+  // for each group subtract: last price - first
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +98,7 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+  stocks.gainAndLoss(data)
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -89,6 +128,7 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  //
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -144,6 +184,12 @@ stocks.bestTrade = function(data, ticker) {
 //  3. sell date (a Date object)
 //  4. amount of money made in trade i.e. selling price minus buying price (a number)
 //
+
+ // SEARCH EACH BY (HIGHEST - LOWEST PRICE), CONSTRAINED FOR WHEN DATE.HIGHEST IS BEFORE DATE.LOWEST
+ // RETURN TICKER WITH GREATEST DIFFERENCE
+ // RETURN DATE OF HIGHEST PRICE AND DATE OF LOWEST PRICE
+//RETURN DIFFERENCE
+
 // Example.
 // stocks.bestTradeEver(data) ->
 //  ['AMZN',

@@ -15,6 +15,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function fn(attempt) {
+    return attempt === password;
+  };
 }
 
 // This function returns an object that leaks private information!
@@ -25,10 +28,7 @@ var createUser = function(username, password) {
     // Delete privatePassword and use vault()
     // to implement the login function
     // YOUR CODE HERE
-    privatePassword: password,
-    login: function(attempt) {
-      return this.privatePassword === attempt;
-    }
+    login: vault(password)
   }
 }
 
@@ -81,17 +81,24 @@ var horizons = createUser('horizons', 'horizonites');
 // ex. multiplyNum(6, 7) -> 30
 // ex. exponentiateNum(5, 5) -> 3125
 // ex. exponentiateNum(6, 5) -> 3125
+
+
+
 var once = function(f) {
+  var retVar;
   var called = false; // Let's create a local variable to track if f has been called
+
   return function() {
     if (! called) { // if f hasn't been called yet
-      f(); // call f
+      retVar = f.apply(null, arguments); // call f
       called = true; // mark f as called
     }
-  }
+    return retVar;
+  };
 }
 
 // ex. 1.3
+//return an array of functions, where each function returns a number
 // functionFactory takes in two numbers (num1, num2)
 // and returns an array of functions where each index
 // of the array is a function that returns the next
@@ -115,15 +122,34 @@ var once = function(f) {
 // Use closures to fix this function.
 //
 // functionFactory(0,2) -> [function, function, function]
+
+
+
 var functionFactory = function(num1, num2) {
   var functionArray = [];
-  for (var i = num1; i <= num2; i++) {
-    functionArray[i] = function() {
-      // function that returns i
-      return i;
-    }
-  }
 
+  for (var i = num1; i <= num2; i++) {
+
+    // var myOuterFunction = function outer(x) {
+    //   // function that returns i
+    //   return function inner(){
+    //     return x;
+    //   }
+    // }
+    // var resultOfOuter = myOuterFunction()
+    // console.log('resultOfOuter', resultOfOuter)
+    //
+    // var resultOfInner = resultOfOuter()
+    // console.log('resultOfInner', resultOfInner);
+
+    functionArray.push(function outer(x) {
+      // function that returns i
+      return function inner(){
+        return x;
+      }
+    }(i));
+  }
+  console.log(functionArray);
   return functionArray;
 }
 // DO NOT CHANGE THIS FUNCTION

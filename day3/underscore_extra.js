@@ -8,7 +8,7 @@
 
 // Exercise 1: memoize()
 // Write a function called 'memoize' that takes a function 'fn' and returns
-// a new function 'memoizedFn' that caches previously computed return values.
+// a new function 'memoizedFn'** that caches previously computed return values.
 //
 // When 'memoizedFn' is called with a new argument/parameter value, call
 // through to 'fn' and save the result of that call. If 'memoizedFn' is
@@ -30,8 +30,17 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
-function memoize(func) {
+function memoize(func, hashFunction) {
   // YOUR CODE HERE
+  var cache = {};
+  var funObj = {arguments}
+  return function memoizedFn(key) {
+    if (key in cache) {
+      return cache[key];
+    }
+    cache[key] = func.apply(null,arguments);
+    return cache[key];
+  };
 }
 
 // Exercise 2: partial()
@@ -60,6 +69,16 @@ function memoize(func) {
 // http://underscorejs.org/#partial
 function partial(fn) {
   // YOUR CODE HERE
+if (!fn) {
+  throw "Error";
+}
+var argsOuter = Array.prototype.slice.call(arguments);
+argsOuter.shift();
+
+  return function partialFn() {
+    var argsInner = Array.prototype.slice.call(arguments);
+    return fn.apply(null, argsOuter.concat(argsInner));
+  }
 }
 
 // Exercise 3: composeBasic()
@@ -99,6 +118,9 @@ function partial(fn) {
 // isSumEven(71, 387) // -> true
 function composeBasic(fun1, fun2) {
   // YOUR CODE HERE
+  return function composedFn(key) {
+    return fun1(fun2.apply(null, arguments));
+  }
 }
 
 
@@ -142,4 +164,11 @@ function composeBasic(fun1, fun2) {
 // http://underscorejs.org/#compose
 function compose() {
   // YOUR CODE HERE
+  var funArr = Array.prototype.slice.call(arguments); //will contain arb number of functions
+  return function composedFn() {
+    for (var i = 0; i < funArr.length; i++) {
+      return funArr[i](funArr[i+1].apply(null, arguments))
+    }
+    return
+  }
 }

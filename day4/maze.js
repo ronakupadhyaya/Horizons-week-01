@@ -40,6 +40,21 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  var result = []
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === ' '){
+        result.push("_")
+      } else {
+        result.push(this.maze[i][j])
+      }
+    }
+    if(i !== this.maze.length - 1){
+      result.push("\n")
+    }
+
+  }
+  return result.join("")
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,6 +64,15 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  var arr = this.maze;
+
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr[i].length; j++) {
+      if (arr[i][j].indexOf("S") > -1) {
+        return [i,j]
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -100,6 +124,45 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  var maze = this.maze
+
+  if(maze[row] === undefined){
+    return false
+  }
+  if (maze[row][column] === undefined){
+    return false
+  }
+//puj's baby. don't mess.
+  function change(){
+    if(direction === 'down'){
+      row++
+    }
+
+    if(direction === 'up'){
+      row--
+    }
+
+    if(direction === 'right'){
+      column++
+    }
+
+    if(direction === 'left'){
+      column--
+    }
+  }
+  change()
+  if (maze[row] === undefined){
+    return false
+  }
+  if (maze[row][column] === undefined){
+    return false
+  }
+  if (maze[row][column] === 'X'){
+    return false
+  }
+
+
+  return [row, column]
 }
 
 // Bonus!
@@ -110,4 +173,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  
+
 }

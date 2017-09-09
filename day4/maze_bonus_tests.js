@@ -1,6 +1,7 @@
 "use strict";
 
 var paths = [
+
 {
   maze: [['S', 'E']],
   solution: ['right']
@@ -19,6 +20,7 @@ var paths = [
          ['S', ' ']],
   solution: ['right', 'up', 'up', 'left']
 },
+
 {
   maze: [[" ", "E", " ", "X", " ", " ", " "],
          [" ", " ", " ", " ", " ", " ", " "],

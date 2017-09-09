@@ -39,6 +39,8 @@ var paths = [
 }
 ];
 
+
+
 describe("Maze.getShortestPath()", function() {
   paths.forEach(function(path) {
     var actual = new Maze(path.maze).getShortestPath();

@@ -26,7 +26,6 @@ window.Maze = function(maze) {
 }
 
 Maze.validDirections = ['up', 'down', 'left', 'right'];
-Maze.prototype.validDirections = ['up', 'down', 'left', 'right'];
 
 // Return a string representation of the current maze.
 // Empty spaces are represented by underscores '_',
@@ -157,95 +156,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
   return [newRow,newCol];
 }
-
-// Bonus!
-// Write a method that returns true if this maze is solvable.
-// A maze is solvable if there exists a path from the Starting Point
-// to the Ending Point.
-//
-// No diagonal moves are allowed.
-Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
-}
-
-// Write a method (i.e. a function) that returns the shortest path through a
-// maze. This function should return an array of strings containing 'right',
-// 'left', 'up' or 'down'.  If there is no path through the maze it should
-// return empty array.
-//
-// There may be multiple shortest paths in a maze, you only need to find one of
-// them.
-//
-// ex. new Maze([['S', 'X', 'E']]).getShortestPath() -> [], not solvable
-// ex. new Maze([['S', 'E']]).getShortestPath() -> ['right']
-// ex. new Maze([['E', ' '], ['X', ' '], ['S', ' ']]).getShortestPath() -> ['right', 'up', 'up', 'left']
-
-function Queue(){
-  this.moves = [];
-}
-
-Queue.prototype.enqueue = function(item) {
-  this.moves.push(item);
-}
-
-Queue.prototype.dequeue = function() {
-  return this.moves.shift();
-}
-
-Queue.prototype.isEmpty = function(){
-    return this.moves.length===0;
-}
-
-Maze.prototype.positionString = function(arr){
-  return "(" + arr[0] + "," + arr[1] +")";
-}
-
-Maze.prototype.tryDirections = function(position){ //up, down, left, right
-  var self = this;
-  var i = position[0];
-  var j = position[1];
-  var ret = [];
-  self.validDirections.forEach(function(direction){
-    var testMove = self.tryMove(i,j,direction);
-    if(testMove!=false){
-      ret.push([testMove[0],testMove[1],self.positionString([testMove[0],testMove[1]]),direction,self.positionString(position)]);
-    }
-  });
-  return ret;
-}
-
-Maze.prototype.getShortestPath = function() {
-  var self = this;
-  var plan = new Queue();
-  var record = {}; // Record stores keys: '(i,j)', value array of moves that is the fastest way to get to
-  var prevPosition;
-  var prevPositionString;
-  var currPosition = self.getStartPosition();
-  var currPositionString = self.positionString(currPosition);
-  record[currPositionString] = [];
-  var currChar = self.maze[currPosition[0]][currPosition[1]];
-  while(currChar !== 'E'){
-    var futurePaths = self.tryDirections(currPosition); //array of arrays like [i,j,'(i,j)','direction']
-    for(var i = 0; i < futurePaths.length;i++){
-      if(record.hasOwnProperty(futurePaths[i][2])){ //if the move puts us where we've already been, don't add to record.
-        continue;
-      }
-      plan.enqueue(futurePaths[i]); //adding array like [i,j,'(i,j)','direction'] to queue
-    }
-    if(plan.isEmpty()){return [];}
-    prevPosition = currPosition;
-    prevPositionString = currPositionString;
-    var currMove = plan.dequeue();  //move to a new position
-    currPosition = [currMove[0],currMove[1]];
-    currChar = self.maze[currPosition[0]][currPosition[1]];
-    currPositionString = currMove[2];
-    debugger;
-    record[currPositionString] = record[currMove[4]].slice();
-    record[currPositionString].push(currMove[3]);
-  }
-  return record[currPositionString];
-}
-
 
 // Bonus!
 // Write a method that returns true if this maze is solvable.

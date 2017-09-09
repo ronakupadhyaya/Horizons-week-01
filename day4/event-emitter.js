@@ -35,9 +35,8 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
-  // YOUR CODE HERE
+  this.listeners = {};
 }
-
 // Takes is a string "eventName" and a callback function "fn"
 // add a listener to the listeners property in EventEmitter
 // Adds the listener function to the end of the listeners
@@ -52,10 +51,10 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  this.listeners[eventName].push(fn);
 }
-
-// Takes is a string "eventName" and a single argument arg
+// Takes in a string "eventName" and a single argument arg
 // It calls each of the listeners registered for the event
 // named eventName, in the order they were registered, passing
 // the supplied arguments to each.
@@ -70,10 +69,15 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
-  // YOUR CODE HERE
+  if(!this.listeners.hasOwnProperty(eventName)) {
+    return;
+  }
+  var functionsToCall = this.listeners[eventName];
+  functionsToCall.forEach(function(fun) {
+    fun(arg);
+  });
 }
-
-// Takes is a string "eventName" and a callback function "fn"
+// Takes in a string "eventName" and a callback function "fn"
 // Removes the specified listener from the listener array
 // for the event named eventName.
 //
@@ -87,9 +91,19 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
-  // YOUR CODE HERE
+  //assuming fn is the same referenced function
+  if(!this.listeners.hasOwnProperty(eventName)) {
+    return;
+  }
+  debugger;
+  var listeners = this.listeners[eventName];
+  //var foundFn = false;
+  var fnIndex = listeners.indexOf(fn);
+  if(fnIndex === -1) {
+    throw "Given fn was not found in listeners for " + eventName + ".";
+  }
+  listeners.splice(fnIndex, 1);
 }
-
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
 // Adds a one time listener function for the event named
 // eventName. The next time eventName is triggered, this
@@ -103,5 +117,10 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  this.on(eventName, newFunction);
+  var self = this;
+  function newFunction(arg) {
+    self.removeListener(eventName, newFunction);
+    fn(arg);
+  }
 }

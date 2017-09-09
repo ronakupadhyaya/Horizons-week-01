@@ -38,8 +38,12 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
-  // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  if (typeof this.maze[0] === 'string') { return this.maze.join(''); }
+  else {
+    var ans = '';
+    this.maze.forEach(function(row) { ans += row.join('') + '\n'; })
+    return ans.slice(0, ans.length-1).replace(/ /g, '_');
+  }
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -48,8 +52,10 @@ Maze.prototype.toString = function() {
 // ex. new Maze([['E'], ['S']]).getStartPosition() -> [1, 0]
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
-  // YOUR CODE HERE
-
+  for (var y in this.maze) {
+    var x = this.maze[y].indexOf('S');
+    if (x >= 0) { return [parseInt(y, 10), x]; }
+  }
   throw new Error("Maze has no starting point");
 }
 
@@ -98,8 +104,30 @@ Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
     throw new Error('Invalid direction: ' + direction);
   }
+  debugger;
 
-  // YOUR CODE HERE
+  var next = [];
+  switch (direction) {
+    case 'up':
+      next = [row - 1, column];
+      break;
+    case 'down':
+      next = [row + 1, column];
+      break;
+    case 'left':
+      next = [row, column - 1];
+      break;
+    case 'right':
+      next = [row, column + 1];
+      break;
+  }
+  var m = this.maze;
+  if (row < 0 || column < 0 || next[0] < 0 || next[1] < 0
+    || row > m.length - 1 || column > m[0].length - 1
+    || next[0] > m.length - 1 || next[1] > m[0].length - 1
+    || m[next[0]][next[1]] === 'X') { return false; }
+
+  return next;
 }
 
 // Bonus!
@@ -109,5 +137,24 @@ Maze.prototype.tryMove = function(row, column, direction) {
 //
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
-  // YOUR CODE HERE
+
+
+}
+
+Maze.prototype.isSolvRecur = function(row, column, prevCoord) {
+  if (this.maze[row][column] === 'E') { return true; }
+  var up = this.tryMove(row, column, 'up');
+  var down = this.tryMove(row, column, 'down');
+  var left = this.tryMove(row, column, 'left');
+  var right = this.tryMove(row, column, 'right');
+  switch (prevCoord) {
+    case up:
+      break;
+    case down:
+      break;
+    case left:
+      break;
+    case right:
+      break;
+  }
 }

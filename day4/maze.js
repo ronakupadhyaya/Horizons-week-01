@@ -38,6 +38,8 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', 'X']]).toString -> "S_E\nXXX"
 
 Maze.prototype.toString = function() {
+this.join();
+
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
 }

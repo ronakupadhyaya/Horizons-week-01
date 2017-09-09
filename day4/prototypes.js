@@ -34,6 +34,13 @@ window.prototypes = {};
 // allKeys(macBook) should return ["processor", "ram"])
 
 prototypes.allKeys = function(obj){
+  var empty_Array = [];
+  for (var key in obj) {
+    empty_Array.push(key);
+
+  }
+  return empty_Array;
+
   // YOUR CODE HERE
 }
 
@@ -46,5 +53,14 @@ prototypes.allKeys = function(obj){
 // keys(macBook)) -> ["ram", "processor"];
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
+  var empty_Array = [];
+  for (var key in obj) {
+if (obj.hasOwnProperty(key)) {
+
+    empty_Array.push(key);
+    }
+
+  }
+  return empty_Array;
   // YOUR CODE HERE
 }

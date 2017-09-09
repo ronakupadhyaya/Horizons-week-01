@@ -37,6 +37,9 @@
 // emitter.on('otherEventName', f2);
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
+this.listeners = {};
+
+
   // YOUR CODE HERE
 }
 
@@ -54,6 +57,15 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
+
+if (this.listeners[eventName]) {
+this.listeners[eventName].push(fn);
+}
+else {
+  this.listeners[eventName] = [fn]
+}
+
+
   // YOUR CODE HERE
 }
 
@@ -72,6 +84,16 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 2) // -> prints 'called 2'
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
+if (this.listeners[eventName]) {
+  for (var i= 0; i < this.listeners[eventName].length; i++) {
+  this.listeners[eventName][i](arg)
+  }
+}
+if(!thislisteners[eventName]) {
+  throw "error"
+}
+
+
   // YOUR CODE HERE
 }
 
@@ -89,6 +111,8 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.removeListener('someEvent', log)
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
+
+  this.listeners[eventName].pop(fn)
   // YOUR CODE HERE
 }
 
@@ -105,5 +129,19 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
 EventEmitter.prototype.once = function(eventName, fn) {
-  // YOUR CODE HERE
+  function replace(arg) {
+fn(arg);
+this.removeListener(eventName, fn)
+  }
+  this.on(eventName, replace.bind(this))
+
+  //OR
+  // var self = this;
+  // function replace(arg) {
+  // fn(arg);
+  // self.removeListener(eventName, fn)
+  // }
+  // this.on(eventName, replace)
+  //OR
+
 }

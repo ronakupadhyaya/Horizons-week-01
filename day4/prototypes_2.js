@@ -17,6 +17,19 @@ window.prototypes = {};
 // inside the function. Then you can compare it to array2.
 
 Array.prototype.hasEqualContent = function(array2){
+  var empty_Array = [];
+  if (this.length !== array2.length) {
+    return false;
+  }
+for (var i=0; i <array2.length; i++) {
+  if (this.includes(array2[i])) {
+    empty_Array.push(array2[i]);
+  }
+}
+if (empty_Array.length === this.length) {
+  return true
+}
+return false;
  // YOUR CODE HERE
 }
 
@@ -34,4 +47,23 @@ Array.prototype.hasEqualContent = function(array2){
 
 Object.prototype.hasEqualContent = function(object2){
  // YOUR CODE HERE
+//  var trippy = true
+//  if (Object.keys(this).length !== Object.keys(object2).length) {
+//    return false;
+//  }
+// for (var key in object2) {
+//   if (this.hasOwnProperty[key] && object2.hasOwnProperty[key]) {
+//     trippy = true
+//   }
+// if (this[key] !== object2[key]) {
+//   return false
+// }
+//
+//
+//  }
+//  return trippy;
+
+ var arr1 = Object.keys(this);
+ var arr2 = Object.keys(object2);
+ return arr1.hasEqualContent(arr2);
 }

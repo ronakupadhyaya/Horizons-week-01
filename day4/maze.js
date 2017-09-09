@@ -40,6 +40,22 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
   // Hint: See Array.prototype.join()!
+  //var mazeString = this.maze.join();
+  var stringMaze = this.maze;
+  var joined = "";
+  for(var i = 0; i < stringMaze.length; i++){
+    if(i > 0){
+      joined += '\n';
+    }
+    for(var j = 0; j < stringMaze[i].length; j++){
+      if(stringMaze[i][j] === ' '){
+        stringMaze[i][j] = '_';
+      }
+    }
+    joined += stringMaze[i].join('');
+  }
+  console.log(joined);
+  return joined;
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,6 +65,13 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
+  for(var i = 0; i < this.maze.length; i++){
+    for(var j = 0; j < this.maze[i].length; j++){
+      if(this.maze[i][j] === 'S'){
+        return [i,j];
+      }
+    }
+  }
 
   throw new Error("Maze has no starting point");
 }
@@ -96,7 +119,40 @@ Maze.prototype.getStartPosition = function() {
 // ex. new Maze([['S', ' ', 'E'], ['X', 'X', ' ']]).tryMove(1, 2, 'up') -> [0, 2]
 Maze.prototype.tryMove = function(row, column, direction) {
   if (! _.contains(Maze.validDirections, direction)) {
+    //return false;
     throw new Error('Invalid direction: ' + direction);
+  }
+
+  if(row++ >= this.maze.length || row-- < 0 || column++ >= this.maze[row].length
+      || column-- < 0){
+    return false;
+  }
+
+  switch(direction){
+  case 'up':
+    row--;
+    if(row < 0 || this.maze[row][column] === 'X'){
+      return false;
+    }
+    return [row, column];
+  case 'down':
+    row++;
+    if(row >= this.maze.length || this.maze[row][column] === 'X'){
+      return false;
+    }
+    return [row, column];
+  case 'left':
+    column--;
+    if(this.maze[row][column] === 'X' || column < 0){
+      return false;
+    }
+    return [row, column];
+  case 'right':
+    column++;
+    if(this.maze[row][column] === 'X' || column >= this.maze[row].length){
+      return false;
+    }
+    return [row, column];
   }
 
   // YOUR CODE HERE

@@ -1,4 +1,8 @@
 "use strict";
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 // Exercise. 1.1 This exercise has a function that creates
 // a bank account for a user. It takes in a username
 // and password. In order to login to your created account
@@ -31,6 +35,10 @@ var createUser = function(username, password) {
  }
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 // Exercise. 1.2 Revisit Once
 // The function below is the answer for the once
 // function exercise in the toolbox in your prepwork.
@@ -95,6 +103,10 @@ var once = function(f) {
   //   }
   // }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 // (Bonus) Exercise 1.3
 // functionFactory takes in two numbers (num1, num2)
 // and returns an array of functions where each index

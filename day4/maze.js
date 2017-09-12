@@ -100,6 +100,45 @@ Maze.prototype.tryMove = function(row, column, direction) {
   }
 
   // YOUR CODE HERE
+  var maze = this.maze
+
+  if(maze[row] === undefined){
+    return false
+  }
+  if (maze[row][column] === undefined){
+    return false
+  }
+//puj's baby. don't mess.
+  function change(){
+    if(direction === 'down'){
+      row++
+    }
+
+    if(direction === 'up'){
+      row--
+    }
+
+    if(direction === 'right'){
+      column++
+    }
+
+    if(direction === 'left'){
+      column--
+    }
+  }
+  change()
+  if (maze[row] === undefined){
+    return false
+  }
+  if (maze[row][column] === undefined){
+    return false
+  }
+  if (maze[row][column] === 'X'){
+    return false
+  }
+
+
+  return [row, column]
 }
 
 // Bonus!

@@ -211,7 +211,7 @@ builtins.flatten = function(arr) {
   // YOUR CODE HERE
   var newArr = [];
   for (var i=0; i< arr.length; i++) {
-    if (newArr = newArr.concat(arr[i])); 
+    if (newArr = newArr.concat(arr[i]));
   }
   return newArr;
 }

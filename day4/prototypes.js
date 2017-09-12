@@ -2,9 +2,9 @@
 
 window.prototypes = {};
 
-// Part 3: Iteration.
+// Part 1: Iteration.
 
-// *To go to part 4: -> week01/day3/prototypes_2.html
+// *To go to part 2: -> week01/day4/prototypes_2.html
 
 // In this exercise, you will be implementing functions that will allow you to
 // iterate through objects keys.
@@ -35,6 +35,11 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
+  var arr = [];
+  for (var key in obj) {
+    arr.push(key);
+  }
+  return arr;
 }
 
 // Exercise 2 prototypes.keys()
@@ -47,4 +52,14 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
+  // return Object.keys(obj);
+
+  var arr = [];
+  for (var key in obj) {
+    if(obj.hasOwnProperty(key)) {
+      arr.push(key)
+
+    }
+}
+return arr;
 }

@@ -30,9 +30,33 @@
 //
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
+// do this
 function memoize(func) {
-  // YOUR CODE HERE
-}
+  var cache = {} // make an empty object to store values and returnvalues
+  return function memoizedFn(number){ // make function to check if number is in cache
+    if (cache.hasOwnProperty(number)){ // if the number is a key in object
+      return (cache[number]);
+      //return cache.number  // return the stored value of that key
+    } else { // if number is NOT key in object
+      var called = func(number)
+      cache[number] = called // cache.number creates a property in object with name of given number, value is the result of calling func(number)
+      return called // then returns the value of running that function (can I say return cache.number?)
+      }
+    }
+  }
+
+// see https://taylodl.wordpress.com/2012/06/13/functional-javascript-memoization-part-i/
+  /*function memoize(f) {
+      var fn = function(x) { // return function fn (x) doesn't work
+         if (fn.memoizer.values[x] == null) { // fn function contains property "memoizer"which contains returned values
+            fn.memoizer.values[x] = f.call(f,x);
+         }
+         return fn.memoizer.values[x];
+      };
+
+      fn.memoizer = { values : [] };
+      return fn;
+   }*/
 
 // Exercise 2: partial()
 // Write a function that takes a function 'fn', followed by an arbitrary number of arguments

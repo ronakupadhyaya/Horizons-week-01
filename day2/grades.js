@@ -48,7 +48,7 @@ grades.average = function(arr) {
 grades.getGPA = function(student) {
   var gradesObject = student.grades
   var actualNumbers = Object.values(student.grades)
-  console.log (grades.average(actualNumbers), student)
+
   //console.log (Math.max(grades.average(actualNumbers)), student)
   return grades.average(actualNumbers)
 };
@@ -85,8 +85,46 @@ grades.highestGPA = function(data) {
 //
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
-  // YOUR CODE HERE
+    var groups = _.groupBy(data, function(student){
+      return (student.major);
+    })
+
+    //console.log(Object.keys(groups));
+    //console.log(groupedGPA)
+// change each key by using _.map
+var newUnknown = _.mapObject(groups, function(subject){ // subject is an array that contains students with student details, all same subject. There are 4 arrays, one for each subject
+  var studentGPAs = _.map(subject, grades.getGPA)
+  return studentGPAs
+})
+
+var evenNewer = _.mapObject(newUnknown, grades.average)
+
+
+
+var arrayMajorNames = Object.keys(evenNewer);
+var biggestVal = -1;
+var biggestMajor
+for (var i = 0; i < arrayMajorNames.length; i++) {
+  var currentMajor = arrayMajorNames[i];
+  evenNewer[currentMajor]
+  if (evenNewer[currentMajor]<=biggestVal){
+    continue
+  } else {
+    biggestVal = evenNewer[currentMajor]
+    biggestMajor = currentMajor
+  }
+}
+return biggestMajor
+
 };
+
+//  console.log (gradesObject)
+
+
+  //console.log (grades.getGPA(groups))
+
+  // YOUR CODE HERE
+
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
 // Write a function that takes an array of Student objects and returns an object with two keys, `class1` and `class2`, with values that correspond to the average GPA of the students taking that class.

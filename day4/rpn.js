@@ -54,13 +54,19 @@ window.rpnCalculator = function(rpnString) {
   var parseString = rpnString.split(' ');
   parseString.forEach(function(value, index, array){
     if(!isNaN(parseInt(value))){
-      numberStack.push(value);
+      numberStack.push(parseInt(value));
     } else{
       var elementOne = numberStack.pop();
+
       var elementTwo = numberStack.pop();
-      numberStack.push(operators[value](elementOne, elementTwo))
+      numberStack.push(operators[value](elementTwo, elementOne))
     }
   });
+  console.log(numberStack);
+  //checkerrors
+  if(numberStack.length !== 1 || isNaN(numberStack[0])){
+    throw("Error")
+  }
   return numberStack[0]
 }
 

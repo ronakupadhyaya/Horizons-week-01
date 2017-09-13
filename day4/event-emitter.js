@@ -38,6 +38,7 @@
 // emitter.listeners // -> {someEventName: [f1,f2], otherEventName: [f2]}
 function EventEmitter() {
   // YOUR CODE HERE
+  this.listeners = {};
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -55,6 +56,12 @@ function EventEmitter() {
 // emitter.emit('someEvent') // -> prints 'called'
 EventEmitter.prototype.on = function(eventName, fn) {
   // YOUR CODE HERE
+  if(this.listeners[eventName]){
+    this.listeners[eventName].push(fn);
+  } else{
+    this.listeners[eventName] = [fn];
+  }
+
 }
 
 // Takes is a string "eventName" and a single argument arg
@@ -73,6 +80,16 @@ EventEmitter.prototype.on = function(eventName, fn) {
 // emitter.emit('someEvent', 'x') // -> prints 'called x'
 EventEmitter.prototype.emit = function(eventName, arg) {
   // YOUR CODE HERE
+  // debugger;
+  // var event = this.listeners[eventName];
+  // console.log(event);
+  this.listeners[eventName].forEach(function(value){
+    // debugger;
+    value.call(this, arg);
+  })
+
+
+
 }
 
 // Takes is a string "eventName" and a callback function "fn"
@@ -90,6 +107,14 @@ EventEmitter.prototype.emit = function(eventName, arg) {
 // emitter.emit('someEvent', 1) // -> prints nothing
 EventEmitter.prototype.removeListener = function(eventName, fn) {
   // YOUR CODE HERE
+  var listener = this.listeners[eventName];
+
+  listener.forEach(function(value, index, array){
+    if(value === fn){
+      listener.splice(index, 1);
+    }
+  });
+
 }
 
 // *Bonus*: Takes is a string "eventName" and a callback function "fn"
@@ -104,6 +129,22 @@ EventEmitter.prototype.removeListener = function(eventName, fn) {
 // emitter.emit('someEvent') // -> prints 'called'
 // emitter.emit('someEvent') // -> prints nothing
 // emitter.emit('someEvent') // -> prints nothing
+// .once()
+//emitter.emit('someEvent')
+//
+
+//
+
+//
+//
 EventEmitter.prototype.once = function(eventName, fn) {
   // YOUR CODE HERE
+  var newFunc = function(arg){
+    // console.log(arguments);
+    this.removeListener(eventName, newFunc);
+    fn.call(this, arg);
+  }.bind(this);
+
+  this.on(eventName, newFunc);
+
 }

@@ -37,10 +37,8 @@ prototypes.allKeys = function(obj){
   // YOUR CODE HERE
   var returnArray = [];
   for(var key in obj){
-    if(key === '__proto__'){
-    } else{
+
       returnArray.push(key);
-    }
   }
   return returnArray;
 }

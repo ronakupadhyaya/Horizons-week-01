@@ -53,6 +53,24 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
-util.calc = function(expression) {
+util.calc = function(str) {
   // YOUR CODE HERE
+  const arr = str.split(' ')
+  if (str.indexOf('sqrt') === -1) {
+    if (str === '') throw 'Error, empty expression'
+    if (str.length === 1 && isNaN(parseInt(str))) throw "Error, no numbers"
+    if (isNaN(parseInt(str[str.length-1]))) throw "Can't end with an operator"
+
+    for (var i = 0; i < arr.length; i++) {
+      if ( (i % 2 === 0) && (isNaN(parseInt(arr[i]))) )
+        throw "Error"
+      if ( (i % 2 === 1) && (!isNaN(parseInt(arr[i]))) )
+        throw "Error"
+    }
+    return (eval(str))
+  }
+  const idxOf = arr.indexOf('sqrt')
+  const sqrt = Math.sqrt(arr[idxOf+1])
+  const newArr = [...arr.slice(0, idxOf), sqrt, ...arr.slice(idxOf+2)]
+  return eval(newArr.join(' '))
 };

@@ -50,6 +50,8 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  const arr = [].slice.call(arguments)
+  return arr.reduce((acc, x) => (acc + x), 0)
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -61,6 +63,8 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  const arr = [].slice.call(arguments)
+  return arr.reduce((acc, x) => (acc * x), 1)
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -73,4 +77,8 @@ varArgs.product = function() {
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
+  const arr = [].slice.call(arguments, 1)
+  const joiner = [].slice.call(arguments)[0]
+  let reduce = arr.reduce((acc, x) => (acc + x + joiner), '')
+  return reduce.slice(0, reduce.length-1)
 };

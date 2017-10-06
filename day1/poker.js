@@ -46,5 +46,49 @@
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
 window.rankPokerHand = function(hand1, hand2) {
-  // YOUR CODE HERE
+  // YOUR CODE HERE {Hearts, Clubs, Diamonds, Spades}
+  // search for high card, pairs (single and double), triples, straights, etc.
+  let [split1, split2] = [[], []]
+  for (var i = 0; i < 5; i++) {
+    const [last1, last2] = [hand1[i].length - 1, hand2[i].length - 1]
+    split1.push( [hand1[i].slice(0, last1), hand1[i].slice(last1)] )
+    split2.push( [hand2[i].slice(0, last2), hand2[i].slice(last2)] )
+  }
+  for (var i = 0; i < 5; i++) {
+    switch (split1[i][0]) {
+      case 'J':
+        split1[i][0] = 11
+        break;
+      case 'Q':
+        split1[i][0] = 12
+        break;
+      case 'K':
+        split1[i][0] = 13
+        break;
+      case 'A':
+        split1[i][0] = 14
+        break;
+    }
+    split1[i][0] = parseInt(split1[i][0])
+  }
+  for (var i = 0; i < 5; i++) {
+    switch (split2[i][0]) {
+      case 'J':
+        split2[i][0] = 11
+        break;
+      case 'Q':
+        split2[i][0] = 12
+        break;
+      case 'K':
+        split2[i][0] = 13
+        break;
+      case 'A':
+        split2[i][0] = 14
+        break;
+    }
+    split2[i][0] = parseInt(split2[i][0])
+  }
+  let highcard1, highcard2
+  for (var i = 0; i < 5; i++) {
+  }
 }

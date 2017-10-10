@@ -45,6 +45,7 @@
 // ex. rankPokerHand(['4D', '6S', '9H', 'QH', 'QC'] ['3D', '6D', '7H', 'QD', 'QS']) -> 1, Pair of Q with high 9, Pair of Q with high 7
 //
 // ex. rankPokerHand(['2H', '2D', '4C', '4D', '4S'], ['3C', '3D', '3S', '9S', '9D']) -> 1, Full house with 3 4s, Full house with 3 3s
+
 window.rankPokerHand = function(hand1, hand2) {
   // YOUR CODE HERE {Hearts, Clubs, Diamonds, Spades}
   // search for high card, pairs (single and double), triples, straights, etc.
@@ -54,41 +55,187 @@ window.rankPokerHand = function(hand1, hand2) {
     split1.push( [hand1[i].slice(0, last1), hand1[i].slice(last1)] )
     split2.push( [hand2[i].slice(0, last2), hand2[i].slice(last2)] )
   }
+
+  // v1: convert values to integers - switch case
+  /* for (var i = 0; i < 5; i++) { */
+  /*   switch (split1[i][0]) { */
+  /*     case 'J': */
+  /*       split1[i][0] = 11 */
+  /*       break; */
+  /*     case 'Q': */
+  /*       split1[i][0] = 12 */
+  /*       break; */
+  /*     case 'K': */
+  /*       split1[i][0] = 13 */
+  /*       break; */
+  /*     case 'A': */
+  /*       split1[i][0] = 14 */
+  /*       break; */
+  /*   } */
+  /*   split1[i][0] = parseInt(split1[i][0]) */
+  /* } */
+  /* for (var i = 0; i < 5; i++) { */
+  /*   switch (split2[i][0]) { */
+  /*     case 'J': */
+  /*       split2[i][0] = 11 */
+  /*       break; */
+  /*     case 'Q': */
+  /*       split2[i][0] = 12 */
+  /*       break; */
+  /*     case 'K': */
+  /*       split2[i][0] = 13 */
+  /*       break; */
+  /*     case 'A': */
+  /*       split2[i][0] = 14 */
+  /*       break; */
+  /*   } */
+  /*   split2[i][0] = parseInt(split2[i][0]) */
+  /* } */
+
+
+  // v2: convert values to integers - ternary magic
   for (var i = 0; i < 5; i++) {
-    switch (split1[i][0]) {
-      case 'J':
-        split1[i][0] = 11
-        break;
-      case 'Q':
-        split1[i][0] = 12
-        break;
-      case 'K':
-        split1[i][0] = 13
-        break;
-      case 'A':
-        split1[i][0] = 14
-        break;
+    split1[i][0] = 
+        split1[i][0] === 'A' ? 14
+      : split1[i][0] === 'K' ? 13
+      : split1[i][0] === 'Q' ? 12
+      : split1[i][0] === 'J' ? 11
+      :                        parseInt(split1[i][0])
+    split2[i][0] = 
+        split2[i][0] === 'A' ? 14
+      : split2[i][0] === 'K' ? 13
+      : split2[i][0] === 'Q' ? 12
+      : split2[i][0] === 'J' ? 11
+      :                        parseInt(split2[i][0])
+  }
+
+  let [play1, play2] = [{}, {}]
+
+  play1.sorted = split1.sort((a, b) => b[0] - a[0])
+  play2.sorted = split2.sort((a, b) => b[0] - a[0])
+  
+
+  // not as useful as I thought - see last "Four of a Kind" with "9 kicker"
+  /* play1.highCard = play1.sorted[0][0] */
+  /* play2.highCard = play2.sorted[0][0] */
+
+  let [count1, count2] = [{}, {}]
+  play1.sorted.forEach((item) => count1[item[0]] = count1[item[0]] + 1 || 1)
+  play2.sorted.forEach((item) => count2[item[0]] = count2[item[0]] + 1 || 1)
+
+  /* console.log(count1, count2) */
+
+  /* play1.pairs = [] */
+  /* play2.pairs = [] */
+  // ternary is not always betta
+  /* for (var key in count1) { */
+  /*   count1[key] === 4 ? play1.fourOfAKind = key */ 
+  /*   : count1[key] === 3 ? play1.threeOfAKind = key */
+  /*   : count1[key] === 2 ? */ 
+  /*     play1.pairs ? = [...play1.pairs, key] : play1.pairs = [key] */
+  /*   :                     null */
+  /*   /1* console.log(key, count1[key]) *1/ */
+  /* } */
+  
+
+
+
+  /* FOUROFAKIND THREEOFAKIND PAIRS *//* FOUROFAKIND THREEOFAKIND PAIRS *//* FOUROFAKIND THREEOFAKIND PAIRS */
+  for (var key in count1) {
+    if (count1[key] === 4)
+      play1.fourOfAKind = key
+    if (count1[key] === 3)
+      play1.threeOfAKind = key
+    if (count1[key] === 2)
+      play1.pairs = play1.pairs ? [...play1.pairs, key] : [key]
+  }
+
+  for (var key in count2) {
+    count2[key] === 4 ? play2.fourOfAKind = key 
+    : count2[key] === 3 ? play2.threeOfAKind = key
+    : count2[key] === 2 ? play2.pairs = play2.pairs ? [...play2.pairs, key] : [key]
+    :                     null
+  }
+
+  /* console.log(play1, play2) */
+
+
+  /* FLUSH *//* FLUSH *//* FLUSH *//* FLUSH */
+  let ctr = 0
+  let suit;
+  for (var idx in play1.sorted) {
+    if (!suit) suit = play1.sorted[idx][1]
+    if (play1.sorted[idx][1] === suit) ctr++
+    if (ctr === 5) play1.flush = true
+  }
+
+  ctr = 0
+  suit = null;
+  for (var idx in play2.sorted) {
+    if (!suit) suit = play2.sorted[idx][1]
+    if (play2.sorted[idx][1] === suit) ctr++
+    if (ctr === 5) play2.flush = true
+  }
+
+  /* console.log(play1, play2) */
+
+  /* STRAIGHT *//* STRAIGHT *//* STRAIGHT *//* STRAIGHT *//* STRAIGHT */
+
+  var s1 = play1.sorted.reduce((acc, curr, idx) => {
+    if (curr[0] === acc[0] - 1) {
+      if (idx === 4) {
+        play1.straight = true;
+      }
     }
-    split1[i][0] = parseInt(split1[i][0])
-  }
-  for (var i = 0; i < 5; i++) {
-    switch (split2[i][0]) {
-      case 'J':
-        split2[i][0] = 11
-        break;
-      case 'Q':
-        split2[i][0] = 12
-        break;
-      case 'K':
-        split2[i][0] = 13
-        break;
-      case 'A':
-        split2[i][0] = 14
-        break;
+    return curr
+  })
+
+  var s2 = play2.sorted.reduce((acc, curr, idx) => {
+    if (curr[0] === acc[0] - 1) {
+      if (idx === 4) {
+        play2.straight = true;
+      }
     }
-    split2[i][0] = parseInt(split2[i][0])
+    return curr
+  })
+
+
+  /* console.log(play1, play2) */
+
+  /* WINNER DETERMINATIONS *//* WINNER DETERMINATIONS *//* WINNER DETERMINATIONS */
+  // Royal Flush
+
+  const arr = ['index 0', play1, play2]
+
+  let [high1, high2] = [play1.sorted[0][0], play2.sorted[0][0]]
+  let winner;
+
+  if (play1.straight && play1.flush || play2.straight && play2.flush) {
+    if (play1.straight && play1.flush && play2.straight && play2.flush) {
+      winner = high1 > high2 ? 1 : 2
+    }
+    else {
+      winner = play1.straight && play1.flush ? 1 : 2
+    }
   }
-  let highcard1, highcard2
-  for (var i = 0; i < 5; i++) {
+  
+  if (play1.fourOfAKind || play2.fourOfAKind) {
+    if (play1.fourOfAKind && play2.fourOfAKind) {
+      winner = high1 > high2 ? 1 : 2
+    }
+    else {
+      winner = play1.fourOfAKind ? 1 : 2
+    }
   }
+
+  if (play1.threeOfAKind || play2.threeOfAkind) {
+    if (play1.threeOfAKind && play2.threeOfAkind) {
+      if (play1.threeOfAKind === play2.threeOfAKind) {
+
+      }
+    }
+  }
+
+  console.log('winner', winner)
+
 }

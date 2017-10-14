@@ -5,11 +5,6 @@ window.comp = {};
 // In this exercise, you are going to take the following array of basic values
 // for all different types - from booleans to numbers to arrays -
 
-var valuesToCheck = function() {
-  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
-"-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
-}
-
 // and you will write the following:
 
 // 1. A function that evaluates the loosely equal (==) truth value of each value 
@@ -46,10 +41,163 @@ var valuesToCheck = function() {
 
 // Good luck!
 
+var valuesToCheck = function() {
+  return [true, false, 1, 0, -1, "true", "false", "1", "0", 
+    "-1", "", null, undefined, Infinity, -Infinity, [], {}, [[]], [0], [1], NaN];
+}
+
+var twoD = valuesToCheck().map(item1 => {
+  return valuesToCheck().map(item2 => {
+    return [item1, item2];
+  })
+});
+/* console.log(twoD); */
+
+var obj1 = {};
+twoD.forEach(item1 => {
+  item1.forEach(item2 => {
+    /* console.log(item2[0], item2[1]) */
+    /* console.log(item2.join('_')); */
+    /* obj[item2.join('_')] = item2[0] == item2[1]; */
+
+    var str1, str2;
+
+    if (Object.prototype.toString.call(item2[0]) === '[object Array]') {
+      str1 = '[]';
+    }
+    else if (Object.prototype.toString.call(item2[0]) === '[object Object]') {
+      str1 = '{}';
+    }
+    else if (item2[0] === "true") {
+      str1 = '"true"';
+    }
+    else if (item2[0] === "false") {
+      str1 = '"false"';
+    }
+    else if (item2[0] === "") {
+      str1 = '""';
+    }
+    else if (item2[0] === "0") {
+      str1 = '"0"';
+    }
+    else if (item2[0] === "-1") {
+      str1 = '"-1"';
+    }
+    else {
+      str1 = item2[0] + '';
+    }
+
+    if (Object.prototype.toString.call(item2[1]) === '[object Array]') {
+      str2 = '[]';
+    }
+    else if (Object.prototype.toString.call(item2[1]) === '[object Object]') {
+      str2 = '{}';
+    }
+    else if (item2[1] === "true") {
+      str2 = '"true"';
+    }
+    else if (item2[1] === "false") {
+      str2 = '"false"';
+    }
+    else if (item2[1] === "0") {
+      str2 = '"0"';
+    }
+    else if (item2[1] === "") {
+      str2 = '""';
+    }
+    else if (item2[1] === "-1") {
+      str2 = '"-1"';
+    }
+    else {
+      str2 = item2[1] + '';
+    }
+
+    var joined = [str1, str2].join('_');
+
+
+    if (joined === '[]_false') {
+      if (_.isEqual(item2[0], [])) {
+        obj1[joined] = item2[0] == item2[1];
+      }
+    }
+    else {
+      obj1[joined] = item2[0] == item2[1]
+    }
+  })
+});
+
+var obj2 = {};
+twoD.forEach(item1 => {
+  item1.forEach(item2 => {
+    var str1, str2;
+    if (Object.prototype.toString.call(item2[0]) === '[object Array]') {
+      str1 = '[]';
+    }
+    else if (Object.prototype.toString.call(item2[0]) === '[object Object]') {
+      str1 = '{}';
+    }
+    else if (item2[0] === "true") {
+      str1 = '"true"';
+    }
+    else if (item2[0] === "false") {
+      str1 = '"false"';
+    }
+    else if (item2[0] === "") {
+      str1 = '""';
+    }
+    else if (item2[0] === "0") {
+      str1 = '"0"';
+    }
+    else if (item2[0] === "-1") {
+      str1 = '"-1"';
+    }
+    else {
+      str1 = item2[0] + '';
+    }
+
+    if (Object.prototype.toString.call(item2[1]) === '[object Array]') {
+      str2 = '[]';
+    }
+    else if (Object.prototype.toString.call(item2[1]) === '[object Object]') {
+      str2 = '{}';
+    }
+    else if (item2[1] === "true") {
+      str2 = '"true"';
+    }
+    else if (item2[1] === "false") {
+      str2 = '"false"';
+    }
+    else if (item2[1] === "0") {
+      str2 = '"0"';
+    }
+    else if (item2[1] === "") {
+      str2 = '""';
+    }
+    else if (item2[1] === "-1") {
+      str2 = '"-1"';
+    }
+    else {
+      str2 = item2[1] + '';
+    }
+
+    var joined = [str1, str2].join('_');
+
+
+    if (joined === '[]_false') {
+      if (_.isEqual(item2[0], [])) {
+        obj2[joined] = item2[0] === item2[1];
+      }
+    }
+    else {
+      obj2[joined] = item2[0] === item2[1]
+    }
+  })
+});
 comp.testLooseEquality = function() {
-    // YOUR CODE HERE
+  return obj1
 };
 
 comp.testStrictEquality = function() {
-    // YOUR CODE HERE
+  return obj2
+  // YOUR CODE HERE
 };

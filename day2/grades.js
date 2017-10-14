@@ -27,6 +27,11 @@ window.grades = {};
 // hint. use _.reduce()
 grades.average = function(arr) {
   // YOUR CODE HERE
+  if (!arr.length) return 0
+  let ret =  _.reduce(arr, (acc, item) => {
+    return acc + item
+  }, 0)
+  return ret/arr.length
 };
 
 // [Helper] Exercise 0.B grades.getGPA(student<Object>)
@@ -39,6 +44,11 @@ grades.average = function(arr) {
 // hint. use grades.average
 grades.getGPA = function(student) {
   // YOUR CODE HERE
+  let sum = 0;
+  for (var key in student.grades) {
+    sum += student.grades[key]
+  }
+  return (sum/Object.keys(student.grades).length)
 };
 
 // Exercise 1. grades.highestGPA(data<Student[]>)
@@ -46,6 +56,12 @@ grades.getGPA = function(student) {
 //
 grades.highestGPA = function(data) {
   // YOUR CODE HERE
+  let dup = {...data}
+  const dupGPA = _.each(dup, (student) => {
+    student.GPA = grades.getGPA(student)
+  })
+  const sorted = _.sortBy(dupGPA, 'GPA')
+  return sorted.pop()
 }
 
 // Exercise 2. grades.majorWithHighestGPA(data<Student[]>)
@@ -62,6 +78,20 @@ grades.highestGPA = function(data) {
 // hint. you can use highestGPA if you'd like.
 grades.majorWithHighestGPA = function(data) {
   // YOUR CODE HERE
+  const dup = {...data}
+  const majors = _.groupBy(dup, 'major')
+  let avgs = [];
+  const tmp = _.each(majors, (mjr) => {
+    const gpas = _.each(mjr, (student) => {
+      student.GPA = grades.getGPA(student)
+    })
+    const avg = _.reduce(gpas, (acc, student) => {
+      return acc + student.GPA
+    }, 0)/mjr.length
+    avgs = [...avgs, {major: mjr[0].major, avg}]
+  })
+  const sorted = _.sortBy(avgs, 'avg')
+  return sorted.pop().major
 };
 
 // Exercise 3. grades.avgGPAPerClass(data<Student[]>)
@@ -70,4 +100,11 @@ grades.majorWithHighestGPA = function(data) {
 //
 grades.avgGPAPerClass = function(data) {
   // YOUR CODE HERE
+  const sum1 = _.reduce(data, (acc, student) => {
+    return acc + student.grades.class1
+  }, 0)
+  const sum2 = _.reduce(data, (acc, student) => {
+    return acc + student.grades.class2
+  }, 0)
+  return {class1: sum1/data.length, class2: sum2/data.length}
 };

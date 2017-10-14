@@ -43,6 +43,13 @@ window.stocks = {};
 // }
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  const grouped = _.groupBy(data, 'ticker')
+  let ret = {};
+  const tmp = _.each(grouped, (comp) => {
+    const sorted = _.sortBy(comp, 'time')
+      ret[sorted[0].ticker] = sorted[sorted.length - 1].price - sorted[0].price
+  })
+  return (ret)
 };
 
 // Exercise 2. stocks.biggestGainer(data)
@@ -60,6 +67,20 @@ stocks.gainAndLoss = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestGainer = function(data) {
   // YOUR CODE HERE
+
+  const diffs = (stocks.gainAndLoss(data))
+  const descending = Object.values(diffs).sort((a, b) => {
+    return b - a
+  })
+  const highest = descending.shift();
+  let ret;
+  let tmp = _.each(diffs, (value, key) => {
+    if (highest === value) {
+      ret = {key, value}
+    }
+  })
+  return ret.key
+
 };
 
 // Exercise 3. stocks.biggestLoser(data)
@@ -77,6 +98,20 @@ stocks.biggestGainer = function(data) {
 // You can use stocks.gainAndLoss() in your answer.
 stocks.biggestLoser = function(data) {
   // YOUR CODE HERE
+
+  const diffs = (stocks.gainAndLoss(data))
+  const descending = Object.values(diffs).sort((a, b) => {
+    return b - a
+  })
+  const lowest = descending.pop();
+  let ret;
+  let tmp = _.each(diffs, (value, key) => {
+    if (lowest === value) {
+      ret = {key, value}
+    }
+  })
+  return ret.key
+
 };
 
 // Exercise 4. stocks.widestTradingRange(data)
@@ -89,6 +124,19 @@ stocks.biggestLoser = function(data) {
 // stocks.widestTradingRange(data) -> 'AMZN'
 stocks.widestTradingRange = function(data) {
   // YOUR CODE HERE
+  let objs = []
+  const grouped = _.groupBy(data, 'ticker')
+  let tmp = _.each(grouped, (group) => {
+    let maxTrans = _.max(group, (item) => {
+      return item.price
+    })
+    let minTrans = _.min(group, (item) => {
+      return item.price
+    })
+    objs.push({ticker: maxTrans.ticker, delta: maxTrans.price - minTrans.price})
+  })
+  const sorted = _.sortBy(objs, 'delta')
+  return sorted.pop().ticker
 };
 
 // Exercise 5. stocks.portfolioValue(data, date, portfolio)
@@ -107,6 +155,18 @@ stocks.widestTradingRange = function(data) {
 //    -> 513.31
 stocks.portfolioValue = function(data, date, portfolio) {
   // YOUR CODE HERE
+  let sum = 0
+  let msecs = date.getTime();
+  let format = _.each(data, (item) => {
+    item.msecs = new Date(item.time).getTime()
+    if (item.msecs === msecs && item.ticker in portfolio)
+      for (var key in portfolio)
+        if (key === item.ticker)
+          sum += portfolio[key] * item.price
+    
+  })
+  /* console.log(sum) */
+  return sum
 };
 
 // [Bonus] Exercise 6. stocks.bestTrade(data, ticker)
@@ -128,6 +188,13 @@ stocks.portfolioValue = function(data, date, portfolio) {
 //   55.54]
 stocks.bestTrade = function(data, ticker) {
   // YOUR CODE HERE
+  const grouped = _.groupBy(data, 'ticker');
+  const sorted = _.sortBy(grouped[ticker], 'price');
+  const buying = sorted[0];
+  const selling = sorted[sorted.length - 1];
+  const money = selling.price - buying.price;
+  /* console.log( [new Date(buying.time), new Date(selling.time), money] ); */
+  return [new Date(buying.time), new Date(selling.time), money];
 };
 
 // [Super Bonus] Exercise 8. stocks.bestTradeEver(data)
@@ -152,4 +219,8 @@ stocks.bestTrade = function(data, ticker) {
 //   55.54]
 stocks.bestTradeEver = function(data) {
   // YOUR CODE HERE
+  const widest = stocks.widestTradingRange(data);
+  const best = stocks.bestTrade(data, widest);
+  console.log(best);
+  return [widest, ...best];
 };

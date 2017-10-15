@@ -1,3 +1,5 @@
+"use strict";
+/* globals util: true */
 window.util = {};
 
 // Calculator Exercise
@@ -55,4 +57,32 @@ window.util = {};
 // ex. util.calc('10 * sqrt 81') -> 90
 util.calc = function(expression) {
   // YOUR CODE HERE
+  var expressArr = expression.split(' ');
+  // var acc = 0;
+  var truthArr = [];
+  var shouldArr = [];
+  // console.log ( arr );
+  for (var i = 0; i < expressArr.length; i++) {
+    // sequence of expression[i], expression[n]... must follow order of num-operator-num...
+    truthArr.push(parseInt(expressArr[i]));
+
+    if ( i % 2 === 0 ) {
+      shouldArr.push(true);
+    } else {
+      shouldArr.push(false);
+    }
+    // console.log( truthArr, shouldArr );
+    if (! (!!truthArr[i] === shouldArr[i]) ) {
+    console.log( truthArr, shouldArr );
+      throw "Error: order of num-operator-num is not followed.";
+    }
+  }
+  if ( (!!truthArr[0] === false) || (!!truthArr[truthArr.length-1] === false) ) {
+    throw "Error: first or last item is not a num.";
+  }
+  // console.log( truthArr, shouldArr );
+  // var sqrtIdx = expression.indexOf('sqrt');
+  // if (sqrtIdx > -1) {
+  // }
+  return ( eval(expression ) );
 };

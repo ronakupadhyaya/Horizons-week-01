@@ -41,8 +41,50 @@
 // ex. rpnCalculator('0 1') -> Error, too many numbers
 // ex. rpnCalculator('*') -> Error, too many operations
 // ex. rpnCalculator('1 *') -> Error, too many operations
+
 window.rpnCalculator = function(rpnString) {
   // YOUR CODE HERE
+  var split = rpnString.split(' ');
+  var stack = [];
+
+  var parseMap = _.map(split, function(x) {
+    return parseInt(x);
+  })
+
+  var ctrNaN = 0;
+  var ctrNum = 0;
+  parseMap.forEach(function(item) {
+    if (isNaN(item)) {
+      ctrNaN += 1;
+    }
+    else {
+      ctrNum += 1;
+    }
+  })
+  if (ctrNaN !== (ctrNum - 1)) {
+    throw "Error";
+  }
+
+  if (split.length === 1) {
+    if (isNaN(parseInt(split[0]))) {
+      throw "Error: too many operations"
+    }
+    return parseInt(split[0]);
+  }
+
+  for (var i in split) {
+    if (! isNaN(parseInt(split[i]))) {
+      stack.push(split[i]);
+    }
+    else {
+      var rightNum = stack.pop();
+      var leftNum = stack.pop();
+      var expr = leftNum + ' ' + split[i] + ' ' + rightNum;
+      var evalExpr = eval(expr);
+      stack.push(evalExpr);
+    }
+  }
+  return evalExpr;
 }
 
 // This function returns true if given string represents a valid number.

@@ -39,7 +39,14 @@ Maze.validDirections = ['up', 'down', 'left', 'right'];
 
 Maze.prototype.toString = function() {
   // YOUR CODE HERE
-  // Hint: See Array.prototype.join()!
+  var acc = '';
+  this.maze.forEach(function(row) {
+    acc += (row.join(''));
+    acc += '\n';
+  })
+  var unders = acc.replace(/ /g, '_')
+  var ret = unders.slice(0, unders.length - 1)
+  return (ret);
 }
 
 // Return the coordinates of the starting position of the current maze.
@@ -49,8 +56,18 @@ Maze.prototype.toString = function() {
 // ex. new Maze([[' ', 'E'], [' ', 'S']]).getStartPosition() -> [1, 1]
 Maze.prototype.getStartPosition = function() {
   // YOUR CODE HERE
-
-  throw new Error("Maze has no starting point");
+  var startCoord = [];
+  for (var col in this.maze) {
+    for (var row in this.maze[col]) {
+      if (this.maze[col][row] === 'S') {
+        startCoord = [parseInt(col), parseInt(row)]
+      }
+    }
+  }
+  if (startCoord.length === 0) {
+    throw new Error("Maze has no starting point");
+  }
+  return startCoord;
 }
 
 // Write a method tryMove() that takes a position (row and column parameters)
@@ -99,7 +116,31 @@ Maze.prototype.tryMove = function(row, column, direction) {
     throw new Error('Invalid direction: ' + direction);
   }
 
-  // YOUR CODE HERE
+  var next;
+  switch (direction) {
+    case 'up':
+      next = [row-1, column];
+      break;
+    case 'down':
+      next = [row+1, column];
+      break;
+    case 'left':
+      next = [row, column-1];
+      break;
+    case 'right':
+      next = [row, column+1];
+      break;
+  }
+
+  var m = this.maze;
+  if (row < 0 || column < 0 || next[0] < 0 || next[1] < 0
+      || row > m.length - 1 || column > m[0].length - 1
+      || next[0] > m.length - 1 || next[1] > m[0].length - 1
+      || m[next[0]][next[1]] === 'X') {
+    return false;
+  }
+
+  return next;
 }
 
 // Bonus!
@@ -110,4 +151,6 @@ Maze.prototype.tryMove = function(row, column, direction) {
 // No diagonal moves are allowed.
 Maze.prototype.isSolvable = function() {
   // YOUR CODE HERE
+  
+
 }

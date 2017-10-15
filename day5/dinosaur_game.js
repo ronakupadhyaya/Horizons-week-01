@@ -12,6 +12,9 @@
     this.dinosaurWidth = 25;
     this.dinosaurHeight = 50;
 
+    this.dinosaurX = 100;
+    this.obstacleY = 200;
+
     this.canvasId = "dinosaur-panel";
 
     this.attachTo();

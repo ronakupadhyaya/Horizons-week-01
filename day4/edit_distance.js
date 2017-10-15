@@ -16,4 +16,28 @@
 // https://www.4clojure.com/problem/101
 function editDistance(str1, str2) {
   // YOUR CODE HERE
+
+  if (str1.length === str2.length) {
+    var truthArr = [];
+    var ctr = 0;
+    var mapArr = _.map(str1, function(x, idx) {
+      if (x !== str2[idx]) {
+        ctr += 1
+      }
+      return (x === str2[idx])
+    })
+    return ctr;
+  }
+
+  ctr = 0;
+  var newStr1 = str1.slice();
+  for (var s in str2) {
+    // console.log(str2[s], newStr1[s], str2[s] === str1[s], newStr1, str2, s)
+    if (str2[s] !== newStr1[s]) {
+      newStr1 = newStr1.slice(0,s) + str2[s] + newStr1.slice(s);
+      ctr += 1
+    }
+  }
+  // console.log(newStr1, ctr);
+  return ctr;
 }

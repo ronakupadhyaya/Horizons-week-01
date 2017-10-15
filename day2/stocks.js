@@ -41,8 +41,31 @@ window.stocks = {};
 //   AMZN: 299.04,
 //   NVDA: 17.5
 // }
+
+// example_data = [{"ticker":"GOOG","price":69.27,"time":"2016-06-01T00:00:00.000Z"}, ...]
+
+function getMaxOfArray(numArray) {
+  // Helper
+  return Math.max.apply(null, numArray);
+}
+
 stocks.gainAndLoss = function(data) {
   // YOUR CODE HERE
+  // * get keys
+  // * for each key:
+    // * gainAndLoss = latestValue - earliestValue
+  var tickerGroups = _.groupBy(data, function(obj) {
+    return obj.ticker;
+  });
+  // console.log(tickerGroups);
+  _.each(tickerGroups, function(item) {
+    // console.log(item);
+    _.each(item, function(obj) {
+      var intTime = new Date(obj['time']).getTime();
+      // console.log(obj['ticker'], intTime);
+      getMaxOfArray
+    });
+  });
 };
 
 // Exercise 2. stocks.biggestGainer(data)

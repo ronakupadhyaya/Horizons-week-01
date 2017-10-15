@@ -1,4 +1,5 @@
 "use strict";
+/* globals varArgs: true */
 
 window.varArgs = {};
 
@@ -30,7 +31,7 @@ varArgs.numArgs = function() {
 // Look at test case 2 and 3. Huh? Describe what's happening there.
 varArgs.makeUser = function(name, age) {
   // Lookie here
-  if (arguments.length == 1) {
+  if (arguments.length === 1) {
     // args are sequential so if 1 arg was given, that means only the first (name) was given
     age = 12;
   } else if (arguments.length === 0) {
@@ -50,6 +51,12 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
   // TODO: YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  var ret = 0;
+  args.forEach(function(elem) {
+    ret += elem;
+  });
+  return ret;
 };
 
 // Exercise 2. varArgs.product(args...)
@@ -61,6 +68,12 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
+  var args = Array.prototype.slice.call(arguments);
+  var ret = 1;
+  args.forEach(function(elem) {
+    ret *= elem;
+  });
+  return ret;
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -73,4 +86,13 @@ varArgs.product = function() {
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
   // TODO: YOUR CODE HERE
+  var joiner = arguments[0];
+  var args = Array.prototype.slice.call(arguments, 1);
+  var ret = '';
+  var tmp = '';
+  args.forEach(function(elem) {
+    tmp += elem + joiner;
+  });
+  ret = ( String.prototype.slice.call(tmp, 0, tmp.length-1));
+  return ret;
 };

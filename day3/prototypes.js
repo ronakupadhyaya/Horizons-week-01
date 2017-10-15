@@ -25,8 +25,7 @@ window.prototypes = {};
 // var touchBarMacbook = {
 //   extras: "touchBar"
 // };
-
-// macBook.__proto__ = Object;
+//
 // macBookPro.__proto__ = macBook;
 // touchBarMacbook.__proto__ = macBookPro;
 
@@ -36,15 +35,6 @@ window.prototypes = {};
 
 prototypes.allKeys = function(obj){
   // YOUR CODE HERE
-  var keyArr = [];
-  // console.log(obj);
-  for (var key in obj) {
-    // console.log(key);
-    if (key.__proto__ !== Object) {
-      keyArr.push(key);
-    }
-  }
-  return keyArr;
 }
 
 // Exercise 2 prototypes.keys()
@@ -57,6 +47,4 @@ prototypes.allKeys = function(obj){
 // keys(macBookPro) -> ["processor", "color"];
 prototypes.keys = function(obj){
   // YOUR CODE HERE
-  // console.log(obj);
-  return Object.keys(obj);
 }

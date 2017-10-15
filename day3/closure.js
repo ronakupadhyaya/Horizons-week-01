@@ -1,6 +1,7 @@
 "use strict";
+/* globals vault: true */
 
-// Exercise. 1.1 This exercise has a function that creates
+// ex. 1.1 This exercise has a function that creates
 // a bank account for a user. It takes in a username
 // and password. In order to login to your created account
 // the account has a login command. When you have multiple
@@ -15,6 +16,9 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
+  return function(str) {
+    return (str === password);
+  };
 }
 
 // This function returns an object that leaks private information!
@@ -35,7 +39,7 @@ var createUser = function(username, password) {
 // create a horizons user with password horizonites
 var horizons = createUser('horizons', 'horizonites');
 
-// Exercise. 1.2 Revisit Once
+// ex. 1.2 Revisit Once
 // The function below is the answer for the once
 // function exercise in the toolbox in your prepwork.
 // You have to modify it to make the following tests
@@ -91,7 +95,7 @@ var once = function(f) {
   }
 }
 
-// (Bonus) Exercise 1.3
+// ex. 1.3
 // functionFactory takes in two numbers (num1, num2)
 // and returns an array of functions where each index
 // of the array is a function that returns the next

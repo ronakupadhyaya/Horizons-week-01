@@ -1,4 +1,5 @@
 "use strict";
+/* globals dates: true */
 
 window.dates = {};
 
@@ -11,6 +12,8 @@ window.dates = {};
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.createDate = function(dateStr) {
   // YOUR CODE HERE
+  var ret = new Date(dateStr);
+  return ret;
 };
 
 // Exercise 2. dates.getUTCString(dateObj<Date>)
@@ -24,6 +27,8 @@ dates.createDate = function(dateStr) {
 // hint. see http://www.w3schools.com/js/js_dates.asp
 dates.getUTCString = function(dateObj) {
   // YOUR CODE HERE
+  var ret = new Date(dateObj).toUTCString();
+  return ret;
 };
 
 // Exercise 3.A dates.isSameDayOfWeek(dateObj<Date>, otherDateObj<Date>)
@@ -35,6 +40,7 @@ dates.getUTCString = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay
 dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  return (dateObj.getDay() === otherDateObj.getDay() );
 };
 
 // Exercise 3.B dates.isSameTimeOfDay(dateObj<Date>, otherDateObj<Date>)
@@ -48,6 +54,11 @@ dates.isSameDayOfWeek = function(dateObj, otherDateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours
 dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
   // YOUR CODE HERE
+  var hoursEqual = (dateObj.getHours() === otherDateObj.getHours() );
+  var minutesEqual = (dateObj.getMinutes() === otherDateObj.getMinutes() );
+  var secondsEqual = (dateObj.getSeconds() === otherDateObj.getSeconds() );
+  // console.log( hoursEqual, minutesEqual, secondsEqual);
+  return ( hoursEqual && minutesEqual && secondsEqual );
 };
 
 // Exercise 3.C dates.isTheFuture(dateObj<Date>)
@@ -56,6 +67,11 @@ dates.isSameTimeOfDay = function(dateObj, otherDateObj) {
 // hint. how do you check if something is 'bigger than' something else?
 dates.isTheFuture = function(dateObj) {
   // YOUR CODE HERE
+  var currentDate = new Date();
+  var currentDateInt = currentDate.getTime();
+  var dateObjInt = dateObj.getTime();
+  // console.log( currentDateInt );
+  return ( dateObjInt > currentDateInt );
 };
 
 // Exercise 4. dates.incrementDay(dateObj<Date>)
@@ -66,4 +82,12 @@ dates.isTheFuture = function(dateObj) {
 // hint. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate
 dates.incrementDay = function(dateObj) {
   // YOUR CODE HERE
+  // var newDate = dateObj;
+  var newDate = new Date(dateObj);
+  var newNum = newDate.getDate() + 1;
+  // var ret = newDate.setDate( newNum );
+  var ret = new Date(newDate.setDate( newNum ));
+  console.log( newDate, newNum, ret);
+  // console.log( retDate.setDate() );
+  return ret;
 };

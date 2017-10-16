@@ -31,7 +31,17 @@
 // This is a simplified version of _.memoize() without hashFunction
 // http://underscorejs.org/#memoize
 function memoize(func) {
-  // YOUR CODE HERE
+  var cache = {};
+  return function() {
+    var args = [].slice.call(arguments);
+    if (! cache[args]) {
+      cache[args]= func.apply(null, args);
+      return cache[args];
+    } else {
+      return cache[args];
+    }
+  }
+  
 }
 
 // Exercise 2: partial()

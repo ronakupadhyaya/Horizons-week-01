@@ -56,50 +56,44 @@ window.util = {};
 util.calc = function(expression) {
   var emptyArray = expression.split(" ");
 
-  for (i = 0; i < emptyArray.length; i+= 2) {
-    if(isNaN(parseInt(emptyArray[i]))) {
-      throw "error";
-    }
+  for (i = 0; i < emptyArray.length; i += 2) {
+    if (isNaN(parseInt(emptyArray[i]))) throw "error";
   }
 
-  for (i = 1; i < emptyArray.length; i+=2) {
-    if (!(emptyArray[i] == "+" || emptyArray[i] == "-" || emptyArray[i] == "*" || emptyArray[i] == "/")) {
-      throw error;
-    }
+  for (i = 1; i < emptyArray.length; i += 2) {
+    if (!(emptyArray[i] === "+" || emptyArray[i] === "-" || emptyArray[i] === "*" || emptyArray[i] === "/")) throw error;
   }
 
-  if(isNaN(parseInt(emptyArray[emptyArray.length-1]))) {
-    throw "error";
-  }
+  if (isNaN(parseInt(emptyArray[emptyArray.length - 1]))) throw "error";
 
-  var result = null;
+  var result;
 
-  for(i=1; i< emptyArray.length; i+=2) {
-    if(emptyArray[i] == "*") {
-      result = parseFloat(emptyArray[i-1]) * parseFloat(emptyArray[i+1])
-      emptyArray.splice(i-1, 3, result);
-      i -=2;
+  for(i = 1; i < emptyArray.length; i += 2) {
+    if (emptyArray[i] === "*") {
+      result = parseFloat(emptyArray[i - 1]) * parseFloat(emptyArray[i + 1])
+      emptyArray.splice(i - 1, 3, result);
+      i -= 2;
     }
 
-    if (emptyArray[i] == "/") {
-      result = parseFloat(emptyArray[i-1]) / parseFloat(emptyArray[i+1])
-      emptyArray.splice(i-1, 3, result);
+    if (emptyArray[i] === "/") {
+      result = parseFloat(emptyArray[i - 1]) / parseFloat(emptyArray[i + 1])
+      emptyArray.splice(i - 1, 3, result);
       i -= 2;
     }
   }
 
   var tally = parseFloat(emptyArray[0]);
 
-  for (var j=1; j < emptyArray.length; j+=2) {
+  for (var j = 1; j < emptyArray.length; j += 2) {
     switch (emptyArray[j]) {
       case "+":
-        tally += parseFloat(emptyArray[j+1]);
+        tally += parseFloat(emptyArray[j + 1]);
         break;
       case "-":
-        tally -=  parseFloat(emptyArray[j+1]);
+        tally -=  parseFloat(emptyArray[j + 1]);
         break;
     }
   }
-  
-return tally;
+
+  return tally;
 }

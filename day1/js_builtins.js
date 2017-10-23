@@ -22,9 +22,7 @@ window.builtins = {};
 builtins.trim = function(str) {
   var retStr = "";
   for (var i = 0; i < str.length - 1; i++) {
-    if (str[i] !== " " || str[i-1] !== " " && str[i] == " " && str[i+1] !== " ") {
-      retStr += str[i];
-    }
+    if (str[i] !== " " || str[i-1] !== " " && str[i] == " " && str[i+1] !== " ") retStr += str[i];
   }
   return retStr;
 };
@@ -45,11 +43,7 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  if (sourceString.includes(searchString)) {
-    return true;
-  } else {
-    return false;
-  }
+  return sourceString.includes(searchString);
 };
 
 // ----------------------------------------------------------------------------
@@ -86,7 +80,7 @@ builtins.parseQuantity = function(str) {
 
 builtins.reverse = function(arr) {
   var retArray = [];
-  for(var i = arr.length - 1; i >= 0; i--){
+  for (var i = arr.length - 1; i >= 0; i--) {
     retArray.push(arr[i]);
   }
   return retArray;
@@ -107,16 +101,10 @@ builtins.reverse = function(arr) {
 // ex. builtins.isEqual([], []) -> true
 
 builtins.isEqual = function(a, b) {
-  if (a.length !== b.length) {
-    return false;
-  }
-
+  return !(a.length !== b.length);
   for (var i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return false;
-    }
+    return !(a[i] !== b[i]);
   }
-
   return true;
 };
 
@@ -134,14 +122,9 @@ builtins.isEqual = function(a, b) {
 // ex. builtins.isPalindrome('racecar'.split('')) -> true
 
 builtins.isPalindrome = function(arr) {
-  // YOUR CODE HERE
   var reversed = builtins.reverse(arr);
   for (var i = 0; i < arr.length; i++) {
-    if (reversed[i] !== arr[i]) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(reversed[i] !== arr[i]);
   }
 };
 
@@ -162,10 +145,9 @@ builtins.isPalindrome = function(arr) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 builtins.sortByValue = function(arr) {
-  // YOUR CODE HERE
-  arr.sort(function(num1,num2){
+  arr.sort(function(num1, num2) {
     return num1 - num2;
-  })
+  });
   return arr;
 };
 
@@ -183,10 +165,9 @@ builtins.sortByValue = function(arr) {
 // comparing this time!
 
 builtins.sortByLength = function(arr) {
-  // YOUR CODE HERE
-  arr.sort(function(arr1,arr2){
+  arr.sort(function(arr1, arr2) {
     return arr1.length - arr2.length;
-  })
+  });
   return arr;
 };
 
@@ -202,7 +183,6 @@ builtins.sortByLength = function(arr) {
 // ex. builtins.flatten([]) -> []
 
 builtins.flatten = function(arr) {
-  // YOUR CODE HERE
   var newArray = [];
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < arr[i].length; j++) {

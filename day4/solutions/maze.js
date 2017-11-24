@@ -64,6 +64,7 @@ Maze.prototype.getStartPosition = function() {
       }
     }
   }
+  
   throw new Error("Maze has no starting point");
 }
 

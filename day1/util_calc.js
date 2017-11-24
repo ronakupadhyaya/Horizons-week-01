@@ -53,6 +53,72 @@ window.util = {};
 // ex. util.calc('-1 * sqrt 4 - 3') -> -5
 // ex. util.calc('sqrt 9 - 3 * 10') -> -27
 // ex. util.calc('10 * sqrt 81') -> 90
+
+function checkValid(exp) {
+  // 1. empty
+  // 2. alternate number, operator
+  // 3. length odd
+
+  if (exp.length === 0 || exp.length % 2 === 0) {
+    throw "invalid length";
+  }
+  var ops = ["+", "-", "*", "/"]
+  for(var i = 0; i < exp.length; i++){
+
+    if(i % 2 && !ops.includes(exp[i])) {
+        throw "Non operator in wrong place"
+    } else if (i % 2 === 0 && isNaN(parseFloat(exp[i]))) {
+        throw "non number found in wrong place"
+    }
+  }
+}
+
+function addSubtract(exp) {
+  //left to right
+  //var resultSoFar
+  //start with first thing
+  //resultSoFar updates from operator number (+1 or -6)
+  //to the end
+
+  var result = parseFloat(exp[0]);
+  for (var i = 1; i < exp.length; i+=2) {
+    if(exp[i] === '+'){
+      result += parseFloat(exp[i+1]);
+    } else if (exp[i] === '-') {
+      result -= parseFloat(exp[i+1]);
+    }
+  }
+
+  return result;
+}
+
+function multdiv(exp) {
+// left to right on operators
+// only do stuff for mult division
+// do action on left and right
+// replace <left self right> with <result>
+//continue finding operators
+//done when reach the end
+
+for (var i = 1; i < exp.length; i+=2){
+  if(exp[i] === '*') {
+    var mult = parseFloat(exp[i-1]) * parseFloat(exp[i+1]);
+    exp.splice(i-1, 3, mult);
+    i-=2;
+  } else if(exp[i] === '/'){
+    var divi = parseFloat(exp[i-1]) / parseFloat(exp[i+1]);
+    exp.splice(i-1, 3, divi);
+    i-=2;
+  }
+}
+  console.log(exp);
+  return exp;
+}
+
 util.calc = function(expression) {
-  // YOUR CODE HERE
+  var exp = expression.trim().split(' ');
+  checkValid(exp);
+  return addSubtract(multdiv(exp));
+
+
 };

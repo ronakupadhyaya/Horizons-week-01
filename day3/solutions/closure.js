@@ -15,8 +15,11 @@
 // this function is to hide the password from prying eyes.
 function vault(password) {
   // YOUR CODE HERE
-  return function(attempt) {
-    return attempt === password;
+  return function fn(attempt){
+    if(attempt===password){
+      return true
+    }
+    return false;
   }
 }
 
@@ -24,6 +27,10 @@ function vault(password) {
 var createUser = function(username, password) {
   return {
     username: username,
+    // Delete privatePassword and use vault()
+    // to implement the login function
+    // YOUR CODE HERE
+
     login: vault(password)
   }
 }

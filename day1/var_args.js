@@ -49,8 +49,17 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
 varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
+  var args = [].slice.call(arguments);
+  if (args.length !== 0) {
+    return args.reduce(function(a, b) {
+      return a + b;
+    }, 0);
+  }
+  else if (arguments.length == 0) {
+    return 0;
+  }
 };
+
 
 // Exercise 2. varArgs.product(args...)
 // Write a function that takes any number of integers as arguments and computes their product.
@@ -60,7 +69,15 @@ varArgs.sum = function() {
 // ex. varArgs.product(1, -2, 4) -> -8
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
-  // TODO: YOUR CODE HERE
+  var args = [].slice.call(arguments);
+  if (args.length !== 0) {
+    return args.reduce(function(a, b) {
+      return a * b;
+    }, 1);
+  }
+  else {
+    return 1;
+  }
 };
 
 // Exercise 3. varArgs.joinWith(args...)
@@ -72,5 +89,14 @@ varArgs.product = function() {
 // ex. varArgs.joinWith(',', 'a', 'b') -> 'a,b'
 // ex. varArgs.joinWith('.', '192', '168', '1', '1') -> '192.168.1.1'
 varArgs.joinWith = function() {
-  // TODO: YOUR CODE HERE
+  let args = [].slice.call(arguments);
+  if (args.length > 1) {
+    var delimeter = args.shift();
+    return args.reduce(function(a, b) {
+      return a + delimeter + b;
+    })
+  } else {
+    return '';
+  }
+
 };

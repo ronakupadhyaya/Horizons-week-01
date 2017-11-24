@@ -46,19 +46,24 @@ varArgs.makeUser = function(name, age) {
 // ex. varArgs.sum(1) -> 1
 // ex. varArgs.sum(1, 2, 4) -> 7
 // ex. varArgs.sum(1, -2, 4) -> 3
-varArgs.sum = function() {
-  // TODO: YOUR CODE HERE
-  if (arguments.length == 0) {
+varArgs.sum = function(arguments) {
+  var args = [].slice.call(arguments);
+  if (args.length !== 0) {
+    return args.reduce(function(a, b) {
+      return a + b;
+    }, 0);
+  }
+  else if (arguments.length == 0) {
     return 0;
   }
-  
+
   // 1. iterative
-  var sum = 0;
-  for (var i = 0; i < arguments.length; i++) {
-    sum += arguments[i];
-  }
-  return sum;
-  
+  // var sum = 0;
+  // for (var i = 0; i < arguments.length; i++) {
+  //   sum += arguments[i];
+  // }
+  // return sum;
+
   // 2. functional-ish
   // return Array.prototype.slice.call(arguments).reduce(function(a, b) {
   //   return a + b;
@@ -74,14 +79,14 @@ varArgs.sum = function() {
 // ex. varArgs.product() -> 1
 varArgs.product = function() {
   // TODO: YOUR CODE HERE
-  
+
   // 1. iterative
   var prod = 1;
   for (var i = 0; i < arguments.length; i++) {
     prod *= arguments[i];
   }
   return prod;
-  
+
   // 2. functional-ish
   // return Array.prototype.slice.call(arguments).reduce(function(a, b) {
   //   return a * b;
@@ -101,7 +106,7 @@ varArgs.joinWith = function() {
   if (arguments.length == 0) {
     return '';
   }
-  
+
   // 1. iterative
   var delimiter = arguments[0];
   var word = "";
@@ -112,7 +117,7 @@ varArgs.joinWith = function() {
     }
   }
   return word;
-  
+
   // 3. functional-ish
   // var args = Array.prototype.slice.call(arguments);
   // var delim = args[0];
